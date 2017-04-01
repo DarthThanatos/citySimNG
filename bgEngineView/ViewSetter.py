@@ -31,10 +31,12 @@ class MyFrame(wx.Frame):
 app = wx.PySimpleApp()
 screenDims = wx.GetDisplaySize()
 
-pygame.mixer.init()
-pygame.mixer.music.load("TwoMandolins.mp3")
-pygame.mixer.music.play()
-
+try:
+    pygame.mixer.init()
+    pygame.mixer.music.load("TwoMandolins.mp3")
+    pygame.mixer.music.play()
+except Exception:
+    print "problem with music"
 
 frame = MyFrame(None, wx.ID_ANY, "SDL Frame", screenDims)
 frame.Show()
