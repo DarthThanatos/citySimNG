@@ -1,13 +1,33 @@
 import wx
 
 class MenuView(wx.Panel):
-    def __init__(self, parent, size, name):
+    def __init__(self, parent, size, name, musicPath = "TwoMandolins.mp3"):
         wx.Panel.__init__(self, size = size, parent=parent)
+        self.Bind(wx.EVT_SHOW, self.onShow, self)
         self.parent = parent
         self.name = name
         self.size = size
+        self.musicPath = musicPath
         self.initButtons()
 
+
+    def onShow(self, event):
+        #print "Menu on show"
+        global pygame
+        if event.GetShow(): 
+                #print "menu: setting up music"
+                import pygame   
+                pygame.init()
+                pygame.mixer.init()
+                pygame.mixer.music.load(self.musicPath)
+                pygame.mixer.music.play()
+        else:
+            try:
+                #print "Menu, quitting"
+                pygame.quit()
+            except Exception:
+                #print "menu: problem with pygame quit"
+                pass
 
     def initButtons(self):
         buttonsSizer = wx.BoxSizer(wx.VERTICAL)

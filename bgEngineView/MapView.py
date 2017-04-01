@@ -1,19 +1,33 @@
 import wx
 import os
 
+
 class MapViewCenterPart(wx.Panel):
-    def __init__(self,parent,ID,tplSize):
+    def __init__(self,parent,ID,tplSize,  musicPath = "TwoMandolins.mp3"):
         self.parent = parent
         self.ID = ID 
         self.tplSize = tplSize
+        self.musicPath = musicPath
         wx.Panel.__init__(self, self.parent, self.ID, size=self.tplSize)
 
     def onShow(self, event):
         if event.GetShow():
             print "shown map"
             self.initView()
+            try:        
+                pygame.mixer.init()
+                pygame.mixer.music.load(self.musicPath)
+                pygame.mixer.music.play()
+            except Exception:
+                print "Problem with music"
+        else:
+            try:
+                pygame.quit()
+            except Exception:
+                print "first appearance of MapView: pygame not initialized in map"
 
     def initView(self):
+        print "Map: initview"
         global pygame
         os.environ['SDL_WINDOWID'] = str(self.GetHandle())
         os.environ['SDL_VIDEODRIVER'] = 'windib'
@@ -25,15 +39,16 @@ class MapViewCenterPart(wx.Panel):
         self.rect = (10,10,100,100)
         window.fill(self.color,self.rect)
         pygame.display.flip()
+        pygame.display.update()
 
 class MapView(wx.Panel):
     def __init__(self, parent, size, name):  
-        wx.Panel.__init__(self, parent=parent, size = size)   
+        wx.Panel.__init__(self, parent=parent, size = size) 
         self.name = name
         self.parent = parent
-        self.center = MapViewCenterPart(self, -1, (300,300))
 
         self.initButtons()
+        self.center = MapViewCenterPart(self, -1, (300,300))
         self.Bind(wx.EVT_SHOW, self.center.onShow, self)
         #self.initMenuBar()
 

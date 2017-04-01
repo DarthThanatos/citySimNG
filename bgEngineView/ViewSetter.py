@@ -1,29 +1,38 @@
+import os
 import wx
-import pygame
-from bgCreatorView.CreatorView import CreatorView
+from CreatorView import CreatorView
 from MenuView import MenuView
 from ExchangeView import ExchangeView
 from MapView import MapView
+import pygame
 
 class MyFrame(wx.Frame):
     def __init__(self, parent, ID, strTitle, tplSize):
         wx.Frame.__init__(self, parent, ID, strTitle, size = tplSize)
+
         self.views = {
-            "Menu": MenuView(self,tplSize,"Menu"),
+            "Menu": MenuView(self,tplSize,"Menu", "GoT_intro.mp3"),
             "Creator": CreatorView(self,tplSize,"Creator"), 
             "Exchange": ExchangeView(self,tplSize, "Exchange"),
             "Map": MapView(self,tplSize,"Map")
         }
-        self.setView("Menu")
+
+        for name in self.views: self.views[name].Hide() 
+        # ^ hideing every view, so they will react on Show() later 
+        # (otherwise the first view to run will be inactive, i.e. no
+        # EVT_SHOW event shall be triggered for the first view to  be seen)
         self.ShowFullScreen(True)
+        self.setView("Exchange")
 
 
     def setView(self, viewName):
+        objToRun = None
         for name in self.views:
             if name == viewName:    
-                self.views[name].Show()
+                objToRun = self.views[name]
             else:
                 self.views[name].Hide()
+        objToRun.Show()
 
     def closeWindow(self,event):
         self.Destroy()
@@ -31,16 +40,8 @@ class MyFrame(wx.Frame):
 app = wx.PySimpleApp()
 screenDims = wx.GetDisplaySize()
 
-try:
-    pygame.mixer.init()
-    pygame.mixer.music.load("TwoMandolins.mp3")
-    pygame.mixer.music.play()
-except Exception:
-    print "problem with music"
-
 frame = MyFrame(None, wx.ID_ANY, "SDL Frame", screenDims)
 frame.Show()
-print "showing app"
 app.MainLoop()
 
 
