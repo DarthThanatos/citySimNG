@@ -15,14 +15,23 @@ class CreatorView(wx.Panel):
         self.centerSizer = wx.BoxSizer(wx.HORIZONTAL) 
 
         choiceList = ["Resources", "Buildings", "Dwellers"]
-        modes = wx.ComboBox(self,choices = choiceList, value = "--select--", style = wx.CB_READONLY)
+        modes = wx.ComboBox(self,choices = choiceList, value = "Buildings", style = wx.CB_READONLY)
         modes.Bind(wx.EVT_COMBOBOX, self.OnCombo) 
         topSizer.Add(modes)
 
-        resourcesColumnsNames = ["Resource\nName", "Buildings\nassigned", "Dwellers\nassigned", "Predecessor", "Successor", "Description", "Ico path", "Type"]
-        dwellersColumnsNames = ["Dweller\nName", "Dwellers\n amount", "Resources", "Predecessor", "Successor", "Description", "Consumes", "Ico path"]
-        buildingsColumnsNames = ["Building\nName", "Dweller\nName", "Dwellers\n amount", "Resources", "Predecessor", "Successor", "Description", "Produces", "Consumes", "Texture path", "Ico path", "Type"]
+        resourcesColumnsNames = ["Resource\nName", "Predecessor", "Successor", "Description", "Ico path"]
+        resourcesInfo = "Resource name identifies this object; must be unique throughout this dependency set.\nPredecessor is the name of a resource that this object requiers\nSuccessor is the name of a resource next in the hierarchy\nDescription goes to the tutorial module\nIco is the path to a file that contains image representing this object"
+        dwellersColumnsNames = ["Dweller\nName", "Predecessor", "Successor", "Description", "Consumes", "Consume Rate", "Ico path"]
+        dwellersInfo =\
+            "Dweller name identifies this object; must be unique throughout this dependency set.\nPredecessor is the name of a dweller that this object requiers to exist\nSuccessor is the name of a dweller next in the hierarchy\nDescription goes to the tutorial module\nIco is the path to a file that contains image representing this object\n" +\
+            ">>Consumes<< is a list of resource identifiers that this dweller consumes, whose items are separated via semi-colons;\n >>ConsumeRate<< is a rate at which resources listed in >>Consumes<< are removed from the stock pile; those are semi-colon separated float values, each representing a resource at the same position in >>Cnosumes<< list"
+        buildingsColumnsNames = ["Building\nName", "Dweller\nName", "Dwellers\namount", "Predecessor", "Successor", "Description", "Produces", "Consumes", "Consume Rate", "Produce Rate","Texture path", "Ico path", "Type"]
+        buildingsInfo =\
+            "Building name identifies this object; must be unique throughout this dependency set.\nDweller is a name existing in Dwellers list\nPredecessor is the name of a dweller that this object requiers\nSuccessor is the name of a dweller next in the hierarchy\nDescription goes to the tutorial module\nIco is the path to a file that contains image representing this object\n" +\
+            ">>Produces<< is a semi-colon separated sequence of items existing at the resources list that this building produces;\n Same rule applies for >>Consumes<< list\n>>Consume<< and >>Produce<< rates ar metrics indicating pace at which building consumes a resource or produces it, respectively\nType can be either domastic or industrial\n texture path is a path to a file containing an image to be loaded at play-time and displayed on the map\n"
         
+        self.infos = {"Resources":resourcesInfo, "Buildings":buildingsInfo, "Dwellers": dwellersInfo}        
+
         buildingsGrid = gridlib.Grid(self)
         buildingsGrid.CreateGrid(25, len(buildingsColumnsNames))
         for i,name in enumerate(buildingsColumnsNames):
@@ -43,13 +52,12 @@ class CreatorView(wx.Panel):
 
         self.tables = {"Resources":resourcesGrid, "Dwellers":dwellersGrid, "Buildings":buildingsGrid}
 
-        ctrlMsgField = wx.StaticText(self, label = "This is the place for control messages")
         self.centerSizer.Add(buildingsGrid)
         self.centerSizer.Add(resourcesGrid)
         self.centerSizer.Add(dwellersGrid)
         self.currentGrid = "Buildings"
-        self.centerSizer.Add(ctrlMsgField, 0 , wx.EXPAND, 5)
-
+        self.ctrlMsgField = wx.StaticText(self, label = self.infos[self.currentGrid])
+        self.centerSizer.Add(self.ctrlMsgField, 0 , wx.EXPAND, 5)
 
         menu_btn = wx.Button(self,  label="Menu")
         self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
@@ -72,6 +80,7 @@ class CreatorView(wx.Panel):
         self.tables[self.currentGrid].Hide()
         self.tables[event.GetString()].Show()
         self.currentGrid = event.GetString()
+        self.ctrlMsgField.SetLabel(self.infos[self.currentGrid])
         self.centerSizer.Layout()
 
     def onShow(self, event):
