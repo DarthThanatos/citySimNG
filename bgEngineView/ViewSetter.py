@@ -11,8 +11,8 @@ class MyFrame(wx.Frame):
         wx.Frame.__init__(self, parent, ID, strTitle, size = tplSize)
 
         self.views = {
-            "Menu": MenuView(self,tplSize,"Menu", "GoT_intro.mp3"),
-            "Creator": CreatorView(self,tplSize,"Creator"), 
+            "Menu": MenuView(self,tplSize,"Menu", "NWN2.mp3"),
+            "Creator": CreatorView(self,tplSize,"Creator", "Ret Xed OST.mp3"), 
             "Exchange": ExchangeView(self,tplSize, "Exchange"),
             "Map": MapView(self,tplSize,"Map")
         }
@@ -22,7 +22,7 @@ class MyFrame(wx.Frame):
         # (otherwise the first view to run will be inactive, i.e. no
         # EVT_SHOW event shall be triggered for the first view to  be seen)
         self.ShowFullScreen(True)
-        self.setView("Exchange")
+        self.setView("Menu")
 
 
     def setView(self, viewName):
