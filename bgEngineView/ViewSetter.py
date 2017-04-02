@@ -21,6 +21,7 @@ class MyFrame(wx.Frame):
         # ^ hideing every view, so they will react on Show() later 
         # (otherwise the first view to run will be inactive, i.e. no
         # EVT_SHOW event shall be triggered for the first view to  be seen)
+        
         self.ShowFullScreen(True)
         self.setView("Menu")
 

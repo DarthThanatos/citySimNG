@@ -8,7 +8,8 @@ class MenuView(wx.Panel):
         self.name = name
         self.size = size
         self.musicPath = musicPath
-        self.initButtons()
+        self.initMenu()
+        self.SetBackgroundColour((255,255,255))
 
 
     def onShow(self, event):
@@ -29,8 +30,19 @@ class MenuView(wx.Panel):
                 #print "menu: problem with pygame quit"
                 pass
 
-    def initButtons(self):
+    def initMenu(self):
         buttonsSizer = wx.BoxSizer(wx.VERTICAL)
+        
+        with open("header.txt","r+") as headerFile:
+            headerTxt = headerFile.read()
+            print headerTxt
+
+        headerSizer= wx.BoxSizer(wx.HORIZONTAL)
+        headerImage = wx.Image("header.jpg", wx.BITMAP_TYPE_JPEG)
+        headerBmp = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(headerImage))
+        headerSizer.Add(headerBmp)
+        buttonsSizer.Add (headerSizer, 0, wx.CENTER)
+
         newgame_btn = wx.Button(self, label = "New Game")
         creator_btn = wx.Button(self,label="Creator")
         tutorial_btn = wx.Button(self,label="Tutorial")
@@ -38,7 +50,7 @@ class MenuView(wx.Panel):
         load_btn = wx.Button(self,label="Load")
         save_btn = wx.Button(self,label="Save")
         exit_btn = wx.Button(self, label="Exit")
-        buttonsSizer.AddSpacer(self.size[1]/3)
+        buttonsSizer.AddSpacer(50)
         buttonsSizer.Add(newgame_btn, 0, wx.CENTER | wx.ALL, 5)
         buttonsSizer.Add(creator_btn, 0, wx.CENTER | wx.ALL)
         buttonsSizer.Add(tutorial_btn, 0, wx.CENTER)
