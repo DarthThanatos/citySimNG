@@ -9,7 +9,7 @@ import pylab
 
 
 class ExchangeViewCenterPart(wx.Panel):
-    def __init__(self,parent,ID,tplSize,  musicPath = "TwoMandolins.mp3"):
+    def __init__(self, parent, ID, tplSize, musicPath="TwoMandolins.mp3"):
         self.parent = parent
         self.ID = ID 
         self.tplSize = tplSize
@@ -37,17 +37,17 @@ class ExchangeViewCenterPart(wx.Panel):
         global pygame
         os.environ['SDL_WINDOWID'] = str(self.GetHandle())
         os.environ['SDL_VIDEODRIVER'] = 'windib'
-        import pygame # this has to happen after setting the environment variables.
+        import pygame   # this has to happen after setting the environment variables.
         pygame.init()
         pygame.display.init()
         window = pygame.display.set_mode(self.tplSize)
-        print "exch: tplsize",self.tplSize
-        self.color = (255,0,0)
-        self.rect = (10,10,100,100)
-        window.fill(self.color,self.rect)
+        print "exch: tplsize", self.tplSize
+        self.color = (255, 0, 0)
+        self.rect = (10, 10, 100, 100)
+        window.fill(self.color, self.rect)
         pygame.display.flip()
 
-        fig = pylab.figure(dpi = 100, figsize = [3,3])
+        fig = pylab.figure(dpi=100, figsize=[3, 3])
         ax = fig.gca()
         ax.plot([1, 2, 4])
         canvas = agg.FigureCanvasAgg(fig)
@@ -59,19 +59,20 @@ class ExchangeViewCenterPart(wx.Panel):
         window.blit(surf, (0,0))
         pygame.display.flip()
 
+
 class ExchangeView(wx.Panel):
     def __init__(self, parent, size, name):  
-        wx.Panel.__init__(self, parent=parent, size = size)
+        wx.Panel.__init__(self, parent=parent, size=size)
         self.name = name
         self.parent = parent
-        self.center = ExchangeViewCenterPart(self, -1, (300,300))
+        self.center = ExchangeViewCenterPart(self, -1, (300, 300))
 
         self.initButtons()
         self.Bind(wx.EVT_SHOW, self.center.onShow, self)
         #self.initMenuBar()
 
     def initButtons(self):
-        menu_btn = wx.Button(self, label="Menu", pos=(300,10), size=(60,30))
+        menu_btn = wx.Button(self, label="Menu", pos=(300, 10), size=(60, 30))
         self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
 
     def retToMenu(self, event):
@@ -87,7 +88,7 @@ class ExchangeView(wx.Panel):
         first.Append(wx.NewId(), "New window", "This is a new Window")
         first.Append(wx.NewId(), "Open...", "This will open a new Window")
         
-        menuBar.Append(first,"File")
+        menuBar.Append(first, "File")
         menuBar.Append(second, "Edit")
         
         self.SetMenuBar(menuBar)
