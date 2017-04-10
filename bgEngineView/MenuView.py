@@ -12,12 +12,11 @@ class MenuView(wx.Panel):
         self.initMenu()
         self.SetBackgroundColour((255, 255, 255))
 
-
     def onShow(self, event):
-        #print "Menu on show"
+        # print "Menu on show"
         global pygame
         if event.GetShow(): 
-                #print "menu: setting up music"
+                # print "menu: setting up music"
                 import pygame   
                 pygame.init()
                 pygame.mixer.init()
@@ -25,10 +24,10 @@ class MenuView(wx.Panel):
                 pygame.mixer.music.play()
         else:
             try:
-                #print "Menu, quitting"
+                # print "Menu, quitting"
                 pygame.quit()
             except Exception:
-                #print "menu: problem with pygame quit"
+                # print "menu: problem with pygame quit"
                 pass
 
     def initMenu(self):
@@ -38,12 +37,14 @@ class MenuView(wx.Panel):
             headerTxt = headerFile.read()
             print headerTxt
 
-        headerSizer= wx.BoxSizer(wx.HORIZONTAL)
+        # Load, add and set position for header
+        headerSizer = wx.BoxSizer(wx.HORIZONTAL)
         headerImage = wx.Image("header.jpg", wx.BITMAP_TYPE_JPEG)
         headerBmp = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(headerImage))
         headerSizer.Add(headerBmp)
-        buttonsSizer.Add (headerSizer, 0, wx.CENTER)
+        buttonsSizer.Add(headerSizer, 0, wx.CENTER)
 
+        # Create buttons
         newgame_btn = wx.Button(self, label="New Game")
         creator_btn = wx.Button(self, label="Creator")
         tutorial_btn = wx.Button(self, label="Tutorial")
@@ -51,7 +52,11 @@ class MenuView(wx.Panel):
         load_btn = wx.Button(self, label="Load")
         save_btn = wx.Button(self, label="Save")
         exit_btn = wx.Button(self, label="Exit")
+
+        # Set space between header and buttons
         buttonsSizer.AddSpacer(50)
+
+        # Set buttons positions
         buttonsSizer.Add(newgame_btn, 0, wx.CENTER | wx.ALL, 5)
         buttonsSizer.Add(creator_btn, 0, wx.CENTER | wx.ALL)
         buttonsSizer.Add(tutorial_btn, 0, wx.CENTER)
@@ -59,10 +64,13 @@ class MenuView(wx.Panel):
         buttonsSizer.Add(load_btn, 0, wx.CENTER)
         buttonsSizer.Add(save_btn, 0, wx.CENTER)
         buttonsSizer.Add(exit_btn, 0, wx.CENTER | wx.ALL, 5)
+
+        # Add logic to buttons
         self.Bind(wx.EVT_BUTTON, self.closeButton, exit_btn)
         self.Bind(wx.EVT_BUTTON, self.moveToCreator, creator_btn)
         self.Bind(wx.EVT_BUTTON, self.moveToExchange, exchange_btn)
         self.Bind(wx.EVT_BUTTON, self.moveToNewGame, newgame_btn)
+
         self.SetSizer(buttonsSizer)
         buttonsSizer.SetDimension(0, 0, self.size[0], self.size[1])
 
