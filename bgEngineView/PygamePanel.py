@@ -3,12 +3,13 @@ import os
 import thread
 global pygame # when we import it, let's keep its proper name!
 
+
 class SDLThread:
-    def __init__(self,screen):
+    def __init__(self, screen):
         self.m_bKeepGoing = self.m_bRunning = False
         self.screen = screen
-        self.color = (255,0,0)
-        self.rect = (10,10,100,100)
+        self.color = (255, 0, 0)
+        self.rect = (10, 10, 100, 100)
 
     def Start(self):
         self.m_bKeepGoing = self.m_bRunning = True
@@ -24,22 +25,23 @@ class SDLThread:
         while self.m_bKeepGoing:
             e = pygame.event.poll()
             if e.type == pygame.MOUSEBUTTONDOWN:
-                self.color = (255,0,128)
+                self.color = (255, 0, 128)
                 self.rect = (e.pos[0], e.pos[1], 100, 100)
                 print e.pos
-            self.screen.fill((0,0,0))
-            self.screen.fill(self.color,self.rect)
+            self.screen.fill((0, 0, 0))
+            self.screen.fill(self.color, self.rect)
             pygame.display.flip()
-        self.m_bRunning = False;
+        self.m_bRunning = False
+
 
 class SDLPanel(wx.Panel):
-    def __init__(self,parent,ID,tplSize):
+    def __init__(self, parent, ID, tplSize):
         global pygame
         wx.Panel.__init__(self, parent, ID, size=tplSize)
         self.Fit()
         os.environ['SDL_WINDOWID'] = str(self.GetHandle())
         os.environ['SDL_VIDEODRIVER'] = 'windib'
-        import pygame # this has to happen after setting the environment variables.
+        import pygame   # this has to happen after setting the environment variables.
         pygame.display.init()
         window = pygame.display.set_mode(tplSize)
         self.thread = SDLThread(window)
@@ -48,12 +50,13 @@ class SDLPanel(wx.Panel):
     def __del__(self):
         self.thread.Stop()
 
+
 class MyFrame(wx.Frame):
     def __init__(self, parent, ID, strTitle, tplSize):
         wx.Frame.__init__(self, parent, ID, strTitle, size=tplSize)
         #panel = wx.Panel(self)
         self.pnlSDL = SDLPanel(self, -1, (300,300))
-        button = wx.Button(self.pnlSDL,label="exit", pos=(300,10), size=(60,60))
+        button = wx.Button(self.pnlSDL, label="exit", pos=(300, 10), size=(60, 60))
         self.Bind(wx.EVT_BUTTON, self.closeButton, button)
         self.Bind(wx.EVT_CLOSE, self.closeWindow)
         status = self.CreateStatusBar()
@@ -62,17 +65,17 @@ class MyFrame(wx.Frame):
         second = wx.Menu()
         first.Append(wx.NewId(), "New window", "This is a new Window")
         first.Append(wx.NewId(), "Open...", "This will open a new Window")
-        menuBar.Append(first,"File")
+        menuBar.Append(first, "File")
         menuBar.Append(second, "Edit")
         self.SetMenuBar(menuBar)
 
-    def closeWindow(self,event):
+    def closeWindow(self, event):
         self.Destroy()
 
     def closeButton(self, event):
         self.Close(True)
 
 app = wx.PySimpleApp()
-frame = MyFrame(None, wx.ID_ANY, "SDL Frame", (640,480))
+frame = MyFrame(None, wx.ID_ANY, "SDL Frame", (640, 480))
 frame.Show()
 app.MainLoop()
