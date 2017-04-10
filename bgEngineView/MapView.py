@@ -3,7 +3,7 @@ import os
 
 
 class MapViewCenterPart(wx.Panel):
-    def __init__(self,parent,ID,tplSize,  musicPath = "TwoMandolins.mp3"):
+    def __init__(self, parent, ID, tplSize, musicPath="TwoMandolins.mp3"):
         self.parent = parent
         self.ID = ID 
         self.tplSize = tplSize
@@ -35,25 +35,26 @@ class MapViewCenterPart(wx.Panel):
         pygame.init()
         pygame.display.init()
         window = pygame.display.set_mode(self.tplSize)
-        self.color = (255,0,0)
-        self.rect = (10,10,100,100)
-        window.fill(self.color,self.rect)
+        self.color = (255, 0, 0)
+        self.rect = (10, 10, 100, 100)
+        window.fill(self.color, self.rect)
         pygame.display.flip()
         pygame.display.update()
 
+
 class MapView(wx.Panel):
     def __init__(self, parent, size, name):  
-        wx.Panel.__init__(self, parent=parent, size = size) 
+        wx.Panel.__init__(self, parent=parent, size=size)
         self.name = name
         self.parent = parent
 
         self.initButtons()
-        self.center = MapViewCenterPart(self, -1, (300,300))
+        self.center = MapViewCenterPart(self, -1, (300, 300))
         self.Bind(wx.EVT_SHOW, self.center.onShow, self)
         #self.initMenuBar()
 
     def initButtons(self):
-        menu_btn = wx.Button(self, label="Menu", pos=(300,10), size=(60,30))
+        menu_btn = wx.Button(self, label="Menu", pos=(300, 10), size=(60, 30))
         self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
 
     def retToMenu(self, event):
@@ -69,7 +70,7 @@ class MapView(wx.Panel):
         first.Append(wx.NewId(), "New window", "This is a new Window")
         first.Append(wx.NewId(), "Open...", "This will open a new Window")
         
-        menuBar.Append(first,"File")
+        menuBar.Append(first, "File")
         menuBar.Append(second, "Edit")
         
         self.SetMenuBar(menuBar)
