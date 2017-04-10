@@ -12,7 +12,7 @@ try:
     print >>sys.stderr, 'waiting to receive'
     data, server = sock.recvfrom(1234)
     print >>sys.stderr, 'received "%s"' % data
-    sock.sendto("Got msg", ("127.0.0.1",1234))
+    sock.sendto("Got msg", ("127.0.0.1", 1234))
     msg = json.loads(data)
     print msg["pageInfo"]
 finally:
