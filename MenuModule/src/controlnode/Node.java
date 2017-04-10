@@ -2,6 +2,7 @@ package controlnode;
 
 import java.util.*;
 
+//* This class represents an action in action graph */ 
 public abstract class Node {
 	
 	private Node parent;
