@@ -56,7 +56,7 @@ class ExchangeViewCenterPart(wx.Panel):
         raw_data = renderer.tostring_rgb()
         size = canvas.get_width_height()
         surf = pygame.image.fromstring(raw_data, size, "RGB")
-        window.blit(surf, (0,0))
+        window.blit(surf, (0, 0))
         pygame.display.flip()
 
 

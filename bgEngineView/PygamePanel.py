@@ -55,7 +55,7 @@ class MyFrame(wx.Frame):
     def __init__(self, parent, ID, strTitle, tplSize):
         wx.Frame.__init__(self, parent, ID, strTitle, size=tplSize)
         #panel = wx.Panel(self)
-        self.pnlSDL = SDLPanel(self, -1, (300,300))
+        self.pnlSDL = SDLPanel(self, -1, (300, 300))
         button = wx.Button(self.pnlSDL, label="exit", pos=(300, 10), size=(60, 60))
         self.Bind(wx.EVT_BUTTON, self.closeButton, button)
         self.Bind(wx.EVT_CLOSE, self.closeWindow)

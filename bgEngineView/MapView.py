@@ -31,7 +31,7 @@ class MapViewCenterPart(wx.Panel):
         global pygame
         os.environ['SDL_WINDOWID'] = str(self.GetHandle())
         os.environ['SDL_VIDEODRIVER'] = 'windib'
-        import pygame # this has to happen after setting the environment variables.
+        import pygame   # this has to happen after setting the environment variables.
         pygame.init()
         pygame.display.init()
         window = pygame.display.set_mode(self.tplSize)
