@@ -1,15 +1,16 @@
 import wx
 
+
 class MenuView(wx.Panel):
-    def __init__(self, parent, size, name, musicPath = "TwoMandolins.mp3"):
-        wx.Panel.__init__(self, size = size, parent=parent)
+    def __init__(self, parent, size, name, musicPath="TwoMandolins.mp3"):
+        wx.Panel.__init__(self, size=size, parent=parent)
         self.Bind(wx.EVT_SHOW, self.onShow, self)
         self.parent = parent
         self.name = name
         self.size = size
         self.musicPath = musicPath
         self.initMenu()
-        self.SetBackgroundColour((255,255,255))
+        self.SetBackgroundColour((255, 255, 255))
 
 
     def onShow(self, event):
@@ -33,7 +34,7 @@ class MenuView(wx.Panel):
     def initMenu(self):
         buttonsSizer = wx.BoxSizer(wx.VERTICAL)
         
-        with open("header.txt","r+") as headerFile:
+        with open("header.txt", "r+") as headerFile:
             headerTxt = headerFile.read()
             print headerTxt
 
@@ -43,12 +44,12 @@ class MenuView(wx.Panel):
         headerSizer.Add(headerBmp)
         buttonsSizer.Add (headerSizer, 0, wx.CENTER)
 
-        newgame_btn = wx.Button(self, label = "New Game")
-        creator_btn = wx.Button(self,label="Creator")
-        tutorial_btn = wx.Button(self,label="Tutorial")
-        exchange_btn = wx.Button(self,label="Exchange")
-        load_btn = wx.Button(self,label="Load")
-        save_btn = wx.Button(self,label="Save")
+        newgame_btn = wx.Button(self, label="New Game")
+        creator_btn = wx.Button(self, label="Creator")
+        tutorial_btn = wx.Button(self, label="Tutorial")
+        exchange_btn = wx.Button(self, label="Exchange")
+        load_btn = wx.Button(self, label="Load")
+        save_btn = wx.Button(self, label="Save")
         exit_btn = wx.Button(self, label="Exit")
         buttonsSizer.AddSpacer(50)
         buttonsSizer.Add(newgame_btn, 0, wx.CENTER | wx.ALL, 5)
@@ -63,7 +64,7 @@ class MenuView(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self.moveToExchange, exchange_btn)
         self.Bind(wx.EVT_BUTTON, self.moveToNewGame, newgame_btn)
         self.SetSizer(buttonsSizer)
-        buttonsSizer.SetDimension(0,0,self.size[0], self.size[1])
+        buttonsSizer.SetDimension(0, 0, self.size[0], self.size[1])
 
     def closeButton(self, event):
         self.Close(True)
@@ -75,8 +76,5 @@ class MenuView(wx.Panel):
     def moveToCreator(self, event):
         self.parent.setView("Creator")
 
-    def moveToExchange(self,event):
+    def moveToExchange(self, event):
         self.parent.setView("Exchange")
-
-
-
