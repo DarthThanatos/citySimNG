@@ -38,6 +38,15 @@ class MapViewCenterPart(wx.Panel):
         self.color = (255, 0, 0)
         self.rect = (10, 10, 100, 100)
         window.fill(self.color, self.rect)
+        self.color = (0, 255, 0)
+        self.rect = (120, 10, 100, 100)
+        window.fill(self.color, self.rect)
+        self.color = (0, 0, 255)
+        self.rect = (10, 120, 100, 100)
+        window.fill(self.color, self.rect)
+        self.color = (255, 255, 0)
+        self.rect = (120, 120, 100, 100)
+        window.fill(self.color, self.rect)
         pygame.display.flip()
         pygame.display.update()
 
@@ -54,6 +63,7 @@ class MapView(wx.Panel):
         #self.initMenuBar()
 
     def initButtons(self):
+        # Add menu button
         menu_btn = wx.Button(self, label="Menu", pos=(300, 10), size=(60, 30))
         self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
 
