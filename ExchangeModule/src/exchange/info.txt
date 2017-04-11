@@ -1,0 +1,7 @@
+This is stock market simulator for testing purposes. Independent from the rest of the project.
+Functionality:
+- adding goods
+- adding prices
+- real-time price simulation
+- printing product info
+- printing date of last price update
