@@ -9,7 +9,7 @@ class TutorialViewCenterPart(wx.Panel):
         self.tplSize = tplSize
         self.musicPath = musicPath
         wx.Panel.__init__(self, self.parent, self.ID, size=self.tplSize)
-
+        self.SetBackgroundColour((255, 255, 0))
         tutorial_info = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu sapien non felis mattis\n " \
                         "luctus. Nulla sed sapien neque. Mauris vitae urna ac tellus cursus efficitur et egestas turpis.\n" \
                         " Etiam vel justo scelerisque, tincidunt dui ac, iaculis felis. In hac habitasse platea dictum\n" \
@@ -61,9 +61,10 @@ class TutorialViewCenterPart(wx.Panel):
 class TutorialView(wx.Panel):
     def __init__(self, parent, size, name):
         wx.Panel.__init__(self, parent=parent, size=size)
+        self.SetBackgroundColour((255, 255, 255))
         self.name = name
         self.parent = parent
-        self.center = TutorialViewCenterPart(self, -1, (1000, 300))
+        self.center = TutorialViewCenterPart(self, -1, (508, 195))
 
         self.initButtons()
         self.Bind(wx.EVT_SHOW, self.center.onShow, self)
@@ -72,8 +73,20 @@ class TutorialView(wx.Panel):
     def initButtons(self):
         """ This function creates buttons, sets theirs positions and size and
             binds logic to them."""
-        menu_btn = wx.Button(self, label="Menu", pos=(130, 300), size=(60, 30))
+        menu_btn = wx.Button(self, label="Menu", pos=(130, 225), size=(60, 30))
+        next_btn = wx.Button(self, label="Next", pos=(100, 195), size=(60, 30))
+        prev_btn = wx.Button(self, label="Prev", pos=(160, 195), size=(60, 30))
         self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
+        self.Bind(wx.EVT_BUTTON, self.nextPage, next_btn)
+        self.Bind(wx.EVT_BUTTON, self.prevPage, prev_btn)
+
+    def nextPage(self, event):
+        """ This function displays next page of tutorial """
+        pass
+
+    def prevPage(self, event):
+        """ This function displays previous page of tutorial """
+        pass
 
     def retToMenu(self, event):
         """ This function returns to Menu view """
