@@ -72,11 +72,24 @@ class ExchangeView(wx.Panel):
         #self.initMenuBar()
 
     def initButtons(self):
+        """ This function creates buttons, sets theirs positions and size and
+            binds logic to them."""
         menu_btn = wx.Button(self, label="Menu", pos=(300, 10), size=(60, 30))
+        buy_btn = wx.Button(self, label="Buy", pos=(100, 300), size=(60, 30))
+        sell_btn = wx.Button(self, label="Sell", pos=(160, 300), size=(60, 30))
         self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
+        self.Bind(wx.EVT_BUTTON, self.buyGoods, buy_btn)
+        self.Bind(wx.EVT_BUTTON, self.sellGoods, sell_btn)
 
     def retToMenu(self, event):
+        """ This function returns to Menu view """
         self.parent.setView("Menu")
+
+    def buyGoods(self, event):
+        pass
+
+    def sellGoods(self, event):
+        pass
 
     def initMenuBar(self):
         status = self.CreateStatusBar()
