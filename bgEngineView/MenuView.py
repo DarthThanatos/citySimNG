@@ -73,6 +73,7 @@ class MenuView(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self.moveToCreator, creator_btn)
         self.Bind(wx.EVT_BUTTON, self.moveToExchange, exchange_btn)
         self.Bind(wx.EVT_BUTTON, self.moveToNewGame, newgame_btn)
+        self.Bind(wx.EVT_BUTTON, self.moveToTutorial, tutorial_btn)
 
         self.SetSizer(buttonsSizer)
         buttonsSizer.SetDimension(0, 0, self.size[0], self.size[1])
@@ -93,3 +94,7 @@ class MenuView(wx.Panel):
     def moveToExchange(self, event):
         """ This function switches to exchange view """
         self.parent.setView("Exchange")
+
+    def moveToTutorial(self, event):
+        """ This function switches to tutorial view """
+        self.parent.setView("Tutorial")

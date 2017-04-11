@@ -4,6 +4,7 @@ from CreatorView import CreatorView
 from MenuView import MenuView
 from ExchangeView import ExchangeView
 from MapView import MapView
+from TutorialView import TutorialView
 import pygame
 
 
@@ -15,7 +16,8 @@ class MyFrame(wx.Frame):
             "Menu": MenuView(self, tplSize, "Menu", "NWN2.mp3"),
             "Creator": CreatorView(self, tplSize, "Creator", "Ret Xed OST.mp3"),
             "Exchange": ExchangeView(self, tplSize, "Exchange"),
-            "Map": MapView(self, tplSize, "Map")
+            "Map": MapView(self, tplSize, "Map"),
+            "Tutorial": TutorialView(self, tplSize, "Tutorial")
         }
 
         for name in self.views:
