@@ -38,13 +38,13 @@ public class MarketDataModel extends AbstractTableModel implements Runnable {
 	public Object getValueAt(int r, int c) {
 		switch (c) {
 		case 0:
-			return stocks[r].symbol;
+			return stocks[r].getSymbol();
 		case 1:
-			return new Double(stocks[r].price);
+			return new Double(stocks[r].getPrice());
 		case 2:
-			return new Double(stocks[r].delta);
+			return new Double(stocks[r].getDelta());
 		case 3:
-			return stocks[r].lastUpdate;
+			return stocks[r].getLastUpdate();
 		}
 		throw new IllegalArgumentException("Bad cell (" + r + ", " + c + ")");
 	}
