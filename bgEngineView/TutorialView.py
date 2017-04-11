@@ -10,6 +10,24 @@ class TutorialViewCenterPart(wx.Panel):
         self.musicPath = musicPath
         wx.Panel.__init__(self, self.parent, self.ID, size=self.tplSize)
 
+        tutorial_info = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu sapien non felis mattis\n " \
+                        "luctus. Nulla sed sapien neque. Mauris vitae urna ac tellus cursus efficitur et egestas turpis.\n" \
+                        " Etiam vel justo scelerisque, tincidunt dui ac, iaculis felis. In hac habitasse platea dictum\n" \
+                        "st. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut \n" \
+                        "ante metus, vestibulum nec commodo ac, eleifend porta tortor. Etiam diam orci, luctus ac alique\n" \
+                        "t at, porttitor nec risus. Fusce fermentum lacinia mauris, eu hendrerit ligula convallis non. \n" \
+                        "Quisque faucibus tellus ac lacus fringilla malesuada. Nulla id neque eget nisi vulputate accum\n" \
+                        "san. Quisque euismod metus pretium justo imperdiet iaculis. Cras a ante nisi. Aliquam erat vol\n" \
+                        "utpat. Nulla rutrum ut velit a placerat. Maecenas laoreet ornare lacinia. Cras ultrices mi nis\n" \
+                        "i. Etiam euismod et magna ac mattis. Cras et quam dictum, lobortis mauris eget, pretium metus\n" \
+                        ". Integer pulvinar, sem non suscipit congue, erat ipsum tincidunt mi, et aliquam lectus leo eu\n" \
+                        " mi. Fusce blandit metus at odio consequat, a suscipit urna pharetra. Sed ullamcorper orci id \n" \
+                        "lacinia bibendum."
+
+        self.centerSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.ctrlMsgField = wx.StaticText(self, label=tutorial_info)
+        self.centerSizer.Add(self.ctrlMsgField, 0, wx.EXPAND, 5)
+
     def onShow(self, event):
         if event.GetShow():
             print "shown tutorial"
@@ -22,10 +40,10 @@ class TutorialViewCenterPart(wx.Panel):
                 print "Problem with music"
         else:
             try:
-                print "exch: quitting"
+                print "tutorial: quitting"
                 pygame.quit()
             except Exception:
-                print "first appearance of Tuturial: pygame not initialized in exch"
+                print "first appearance of Tutorial: pygame not initialized in tutorial"
 
     def initView(self):
         print "Tutorial: initview"
@@ -45,7 +63,7 @@ class TutorialView(wx.Panel):
         wx.Panel.__init__(self, parent=parent, size=size)
         self.name = name
         self.parent = parent
-        self.center = TutorialViewCenterPart(self, -1, (300, 300))
+        self.center = TutorialViewCenterPart(self, -1, (1000, 300))
 
         self.initButtons()
         self.Bind(wx.EVT_SHOW, self.center.onShow, self)
@@ -54,7 +72,7 @@ class TutorialView(wx.Panel):
     def initButtons(self):
         """ This function creates buttons, sets theirs positions and size and
             binds logic to them."""
-        menu_btn = wx.Button(self, label="Menu", pos=(300, 10), size=(60, 30))
+        menu_btn = wx.Button(self, label="Menu", pos=(130, 300), size=(60, 30))
         self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
 
     def retToMenu(self, event):

@@ -70,7 +70,7 @@ class CreatorView(wx.Panel):
 
         dwellersGrid = gridlib.Grid(self)
         dwellersGrid.CreateGrid(25, len(dwellersColumnsNames))
-        for i,name in enumerate(dwellersColumnsNames):
+        for i, name in enumerate(dwellersColumnsNames):
             dwellersGrid.SetColLabelValue(i, name)
         dwellersGrid.Hide()
 
