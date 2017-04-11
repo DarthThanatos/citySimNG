@@ -8,9 +8,10 @@ class TutorialViewCenterPart(wx.Panel):
         self.ID = ID
         self.tplSize = tplSize
         self.musicPath = musicPath
+        self.pageID = 0
         wx.Panel.__init__(self, self.parent, self.ID, size=self.tplSize)
         self.SetBackgroundColour((255, 255, 0))
-        tutorial_info = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu sapien non felis mattis\n " \
+        self.tutorial_info = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu sapien non felis mattis\n " \
                         "luctus. Nulla sed sapien neque. Mauris vitae urna ac tellus cursus efficitur et egestas turpis.\n" \
                         " Etiam vel justo scelerisque, tincidunt dui ac, iaculis felis. In hac habitasse platea dictum\n" \
                         "st. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut \n" \
@@ -22,10 +23,17 @@ class TutorialViewCenterPart(wx.Panel):
                         "i. Etiam euismod et magna ac mattis. Cras et quam dictum, lobortis mauris eget, pretium metus\n" \
                         ". Integer pulvinar, sem non suscipit congue, erat ipsum tincidunt mi, et aliquam lectus leo eu\n" \
                         " mi. Fusce blandit metus at odio consequat, a suscipit urna pharetra. Sed ullamcorper orci id \n" \
-                        "lacinia bibendum."
+                        "lacinia bibendum.",
+                        "Suspendisse accumsan tincidunt sagittis. Etiam tempor lacus id ante interdum, vitae faucibus \n"
+                        "nulla aliquet. Donec enim risus, tincidunt eu est nec, suscipit imperdiet nisi. Quisque \n"
+                        "laoreet magna consectetur porta gravida. Nullam id felis sapien. Suspendisse orci mi, commodo\n"
+                        " in lorem quis, tincidunt vehicula metus. Morbi laoreet, lectus eu blandit pharetra, tortor\n"
+                        " ante gravida turpis, quis mollis nisi mi vitae massa. Duis tincidunt nisi a nisi luctus tempus.\n"
+                        " Vivamus euismod a tortor at tempus."
+                         ]
 
         self.centerSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self.ctrlMsgField = wx.StaticText(self, label=tutorial_info)
+        self.ctrlMsgField = wx.StaticText(self, label=self.tutorial_info[self.pageID])
         self.centerSizer.Add(self.ctrlMsgField, 0, wx.EXPAND, 5)
 
     def onShow(self, event):
@@ -82,11 +90,14 @@ class TutorialView(wx.Panel):
 
     def nextPage(self, event):
         """ This function displays next page of tutorial """
-        pass
+        if self.center.pageID + 1 < self.center.tutorial_info.__len__():
+            self.center.pageID += 1
+
 
     def prevPage(self, event):
         """ This function displays previous page of tutorial """
-        pass
+        if self.center.pageID > 0:
+            self.center.pageID -= 1
 
     def retToMenu(self, event):
         """ This function returns to Menu view """
