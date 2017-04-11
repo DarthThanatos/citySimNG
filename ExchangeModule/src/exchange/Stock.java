@@ -13,11 +13,51 @@ public class Stock {
 		this.price = d;
 	}
 
-	public String symbol;
-	public double price;
-	public double delta;
-	public String lastUpdate;
-	DateFormat date;
+	private String symbol;
+	private double price;
+	private double delta;
+	private String lastUpdate;
+	private DateFormat date;
+
+	public String getSymbol() {
+		return symbol;
+	}
+
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public double getDelta() {
+		return delta;
+	}
+
+	public void setDelta(double delta) {
+		this.delta = delta;
+	}
+
+	public String getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(String lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
+	public DateFormat getDate() {
+		return date;
+	}
+
+	public void setDate(DateFormat date) {
+		this.date = date;
+	}
 
 	public void print() {
 		System.out.println(this);
