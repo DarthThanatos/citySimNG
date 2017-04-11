@@ -31,6 +31,9 @@ class MenuView(wx.Panel):
                 pass
 
     def initMenu(self):
+        """ This function creates view for menu.
+            It creates and sets position for header.
+            It creates, binds and sets position for buttons."""
         buttonsSizer = wx.BoxSizer(wx.VERTICAL)
         
         with open("header.txt", "r+") as headerFile:
@@ -75,14 +78,18 @@ class MenuView(wx.Panel):
         buttonsSizer.SetDimension(0, 0, self.size[0], self.size[1])
 
     def closeButton(self, event):
+        """ This function defines logic for exit button. """
         self.Close(True)
         self.parent.closeWindow(None)
 
     def moveToNewGame(self, event):
+        """ This function switches to map view """
         self.parent.setView("Map")
 
     def moveToCreator(self, event):
+        """ This function switches to creator view """
         self.parent.setView("Creator")
 
     def moveToExchange(self, event):
+        """ This function switches to exchange view """
         self.parent.setView("Exchange")
