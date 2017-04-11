@@ -60,7 +60,7 @@ public class MyStockTest extends JFrame implements Runnable {
 	public String[] getSymbols() {
 		String[] symbols = new String[market.length];
 		for (int i = 0; i < market.length; i++) {
-			symbols[i] = market[i].symbol;
+			symbols[i] = market[i].getSymbol();
 		}
 		return symbols;
 	}
