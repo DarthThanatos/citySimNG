@@ -18,50 +18,15 @@ public class Mediator {
 
 	private static DatagramSocket udpServer = null;
 	private static int port = 1234;
+	private static StreamReceiver activeNodeStreamReceiver = null;
 	
-	static class Receiver extends Thread{
-				
-		public void run(){
-			while (true){
-				byte[] content = new byte[1024];
-				DatagramPacket p = new DatagramPacket(content, content.length);
-				try {
-					udpServer.receive(p);
-					System.out.println(new String(p.getData(), 0, p.getLength()));
-					udpServer.close();
-					break;
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+	public Mediator(StreamReceiver activeNodeStreamReceiver){
+		this.activeNodeStreamReceiver = activeNodeStreamReceiver;
 	}
 	
 	
-	class Sender extends Thread{
-		String jsonPath;
-		
-		public Sender(String jsonPath){
-			this.jsonPath = jsonPath;
-		}
-		
-		public void run(){
-			try {
-				BufferedReader br = new BufferedReader(new FileReader(new File(jsonPath)));
-				String line, res = "";
-				while ((line = br.readLine())!= null){
-					res += line;
-				}
-				res += "\n";
-				InetAddress address = InetAddress.getByName("127.0.0.1");
-				DatagramPacket packet = new DatagramPacket(res.getBytes(), res.length(), address, 12345);
-				udpServer.send(packet);
-				br.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+	
+	
 	
 	public void send(String jsonPath){
 		Sender sender = new Sender(jsonPath);
