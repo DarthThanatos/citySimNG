@@ -65,8 +65,8 @@ class TutorialView(wx.Panel):
         """ This function creates buttons, sets theirs positions and size and
             binds logic to them."""
         menu_btn = wx.Button(self, label="Menu", pos=(130, 225), size=(60, 30))
-        next_btn = wx.Button(self, label="Next", pos=(100, 195), size=(60, 30))
-        prev_btn = wx.Button(self, label="Prev", pos=(160, 195), size=(60, 30))
+        next_btn = wx.Button(self, label="Next", pos=(160, 195), size=(60, 30))
+        prev_btn = wx.Button(self, label="Prev", pos=(100, 195), size=(60, 30))
         self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
         self.Bind(wx.EVT_BUTTON, self.nextPage, next_btn)
         self.Bind(wx.EVT_BUTTON, self.prevPage, prev_btn)
