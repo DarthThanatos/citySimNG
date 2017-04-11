@@ -1,67 +1,81 @@
 package exchange;
+
 import javax.swing.table.*;
 import javax.swing.*;
 
-public class MarketDataModel extends AbstractTableModel
-implements Runnable {
+/** Logic data model for exchange module */
 
-  Thread runner;
-  MyStockTest market;
-  int delay;
+public class MarketDataModel extends AbstractTableModel implements Runnable {
 
-  public MarketDataModel(int initialDelay) {
-    market = new MyStockTest();
-    delay = initialDelay * 1000;
-    Thread runner = new Thread(this);
-    runner.start();
-  }
+	private static final long serialVersionUID = 1L;
+	Thread runner;
+	MyStockTest market;
+	int delay;
 
-  Stock[] stocks = new Stock[0];
-  int[] stockIndices = new int[0];
-  String[] headers = {"Symbol", "Price", "Change", "Last updated"};
+	public MarketDataModel(int initialDelay) {
+		market = new MyStockTest();
+		delay = initialDelay * 1000;
+		Thread runner = new Thread(this);
+		runner.start();
+	}
 
-  public int getRowCount() { return stocks.length; }
-  public int getColumnCount() { return headers.length; }
+	Stock[] stocks = new Stock[0];
+	int[] stockIndices = new int[0];
+	String[] headers = { "Symbol", "Price", "Change", "Last updated" };
 
-  public String getColumnName(int c) { return headers[c]; }
+	public int getRowCount() {
+		return stocks.length;
+	}
 
-  public Object getValueAt(int r, int c) {
-    switch(c) {
-    case 0:
-      return stocks[r].symbol;
-    case 1:
-      return new Double(stocks[r].price);
-    case 2:
-      return new Double(stocks[r].delta);
-    case 3:
-      return stocks[r].lastUpdate;
-    }
-    throw new IllegalArgumentException("Bad cell (" + r + ", " + c +")");
-  }
+	public int getColumnCount() {
+		return headers.length;
+	}
 
-  public void setDelay(int seconds) { delay = seconds * 1000; }
-  public void setStocks(int[] indices) {
-    stockIndices = indices;
-    updateStocks();
-    fireTableDataChanged();
-  }
+	public String getColumnName(int c) {
+		return headers[c];
+	}
 
-  public void updateStocks() {
-    stocks = new Stock[stockIndices.length];
-    for (int i = 0; i < stocks.length; i++) {
-      stocks[i] = market.getQuote(stockIndices[i]);
-    }
-  }
+	public Object getValueAt(int r, int c) {
+		switch (c) {
+		case 0:
+			return stocks[r].symbol;
+		case 1:
+			return new Double(stocks[r].price);
+		case 2:
+			return new Double(stocks[r].delta);
+		case 3:
+			return stocks[r].lastUpdate;
+		}
+		throw new IllegalArgumentException("Bad cell (" + r + ", " + c + ")");
+	}
 
-  public void run() {
-    while(true) {
+	public void setDelay(int seconds) {
+		delay = seconds * 1000;
+	}
 
-      updateStocks();
+	public void setStocks(int[] indices) {
+		stockIndices = indices;
+		updateStocks();
+		fireTableDataChanged();
+	}
 
+	public void updateStocks() {
+		stocks = new Stock[stockIndices.length];
+		for (int i = 0; i < stocks.length; i++) {
+			stocks[i] = market.getQuote(stockIndices[i]);
+		}
+	}
 
-      fireTableRowsUpdated(0, stocks.length - 1);
-      try { Thread.sleep(delay); }
-      catch(InterruptedException ie) {}
-    }
-  }
+	public void run() {
+		while (true) {
+
+			updateStocks();
+
+			fireTableRowsUpdated(0, stocks.length - 1);
+			try {
+				Thread.sleep(delay);
+			} catch (InterruptedException ie) {
+			}
+		}
+	}
 }
