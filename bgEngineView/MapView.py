@@ -35,20 +35,17 @@ class MapViewCenterPart(wx.Panel):
         pygame.init()
         pygame.display.init()
         window = pygame.display.set_mode(self.tplSize)
-        self.color = (255, 0, 0)
-        self.rect = (10, 10, 100, 100)
-        window.fill(self.color, self.rect)
-        self.color = (0, 255, 0)
-        self.rect = (120, 10, 100, 100)
-        window.fill(self.color, self.rect)
-        self.color = (0, 0, 255)
-        self.rect = (10, 120, 100, 100)
-        window.fill(self.color, self.rect)
-        self.color = (255, 255, 0)
-        self.rect = (120, 120, 100, 100)
-        window.fill(self.color, self.rect)
+        self.addRect(window, (255, 0, 0), (10, 10, 100, 100))
+        self.addRect(window, (0, 255, 0), (120, 10, 100, 100))
+        self.addRect(window, (0, 0, 255), (10, 120, 100, 100))
+        self.addRect(window, (255, 255, 0), (120, 120, 100, 100))
         pygame.display.flip()
         pygame.display.update()
+
+    def addRect(self, window, color, position):
+        self.color = color
+        self.rect = position
+        window.fill(self.color, self.rect)
 
 
 class MapView(wx.Panel):
