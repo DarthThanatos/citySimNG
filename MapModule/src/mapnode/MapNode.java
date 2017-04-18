@@ -1,18 +1,19 @@
-//* Init class responsible for creating new games with given parameters. Will be implemented in future. */ 
+package mapnode;
 
-package creatorcontroller;
 import model.DependenciesRepresenter;
 import controlnode.Node;
 import controlnode.SocketNode;
 
-public class CreatorNode extends SocketNode{
-	
-	public CreatorNode(Node parent, DependenciesRepresenter dr) {
+public class MapNode extends SocketNode{
+
+	public MapNode(Node parent, DependenciesRepresenter dr) {
 		super(parent, dr);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void createChildren() {
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -20,6 +21,6 @@ public class CreatorNode extends SocketNode{
 	public String parseCommand(String command, String[] streamArgs) {
 		// TODO Auto-generated method stub
 		return null;
-	}
+	} 
 
 }

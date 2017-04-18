@@ -1,13 +1,15 @@
 import wx
-
+import os
 
 class MenuView(wx.Panel):
-    def __init__(self, parent, size, name, musicPath="TwoMandolins.mp3"):
+    def __init__(self, parent, size, name, musicPath="TwoMandolins.mp3", sender = None):
         wx.Panel.__init__(self, size=size, parent=parent)
         self.Bind(wx.EVT_SHOW, self.onShow, self)
         self.parent = parent
         self.name = name
         self.size = size
+        self.sender = sender
+
         self.musicPath = musicPath
         self.initMenu()
         self.SetBackgroundColour((255, 255, 255))
@@ -17,10 +19,11 @@ class MenuView(wx.Panel):
         global pygame
         if event.GetShow(): 
                 # print "menu: setting up music"
-                import pygame   
+                import pygame
+                print "Menu:", os.path.dirname(os.path.abspath(__file__))
                 pygame.init()
                 pygame.mixer.init()
-                pygame.mixer.music.load(self.musicPath)
+                pygame.mixer.music.load(os.path.dirname(os.path.abspath(__file__)) + "\\" + self.musicPath)
                 pygame.mixer.music.play()
         else:
             try:
@@ -98,3 +101,6 @@ class MenuView(wx.Panel):
     def moveToTutorial(self, event):
         """ This function switches to tutorial view """
         self.parent.setView("Tutorial")
+
+    def readMsg(self, msg):
+        print "Menu view got msg", msg

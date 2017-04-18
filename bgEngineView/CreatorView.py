@@ -1,14 +1,17 @@
 import wx
 import wx.grid as gridlib
 import wx.combo
-
+from pprint import PrettyPrinter
+import json
+import os
 
 class CreatorView(wx.Panel):
-    def __init__(self, parent, size, name,  musicPath="TwoMandolins.mp3"):
+    def __init__(self, parent, size, name,  musicPath="TwoMandolins.mp3", sender = None):
         wx.Panel.__init__(self,  size=size,  parent=parent)
         self.name = name
         self.parent = parent
         self.musicPath = musicPath
+        self.sender = sender
 
         rootSizer = wx.BoxSizer(wx.VERTICAL)
         topSizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -16,18 +19,28 @@ class CreatorView(wx.Panel):
         self.centerSizer = wx.BoxSizer(wx.HORIZONTAL) 
 
         choiceList = ["Resources", "Buildings", "Dwellers"]
-        modes = wx.ComboBox(self, choices=choiceList, value="Buildings", style=wx.CB_READONLY)
-        modes.Bind(wx.EVT_COMBOBOX, self.OnCombo) 
-        topSizer.Add(modes)
+        self.modes = wx.ComboBox(self, choices=choiceList, value="Buildings", style=wx.CB_READONLY)
+        self.modes.Bind(wx.EVT_COMBOBOX, self.OnCombo)
+        topSizer.Add(self.modes)
+
+        self.dependenciesHeaders = {}
+        # ^ list of type [[resourcesColumnsNames[0]...],[buildingsColumnsnames[0]...], [dwellersColumnsNames[0]...]]
+        # needed at the time of creating dependencies via Create button
 
         resourcesColumnsNames = ["Resource\nName", "Predecessor", "Successor", "Description", "Ico path"]
+        self.dependenciesHeaders["Resources"] = resourcesColumnsNames
+
         resourcesInfo = "Resource name identifies this object; must be unique throughout this dependency set.\n" \
                         "Predecessor is the name of a resource that this object requires\n" \
                         "Successor is the name of a resource next in the hierarchy\n" \
                         "Description goes to the tutorial module\n" \
                         "Ico is the path to a file that contains image representing this object"
+
+
         dwellersColumnsNames = ["Dweller\nName", "Predecessor", "Successor", "Description", "Consumes",
                                 "Consume Rate", "Ico path"]
+        self.dependenciesHeaders["Dwellers"] = dwellersColumnsNames
+
         dwellersInfo =\
             "Dweller name identifies this object; must be unique throughout this dependency set.\n" \
             "Predecessor is the name of a dweller that this object requires to exist\n" \
@@ -38,9 +51,12 @@ class CreatorView(wx.Panel):
             " via semi-colons;\n >>ConsumeRate<< is a rate at which resources listed in >>Consumes<< are removed" \
             " from the stock pile; those are semi-colon separated float values, each representing a resource at the" \
             " same position in >>Consumes<< list"
+
         buildingsColumnsNames = ["Building\nName", "Dweller\nName", "Dwellers\namount", "Predecessor", "Successor",
                                  "Description", "Produces", "Consumes", "Consume Rate", "Produce Rate", "Texture path",
                                  "Ico path", "Type"]
+        self.dependenciesHeaders["Buildings"]  = buildingsColumnsNames
+
         buildingsInfo =\
             "Building name identifies this object; must be unique throughout this dependency set.\n" \
             "Dweller is a name existing in Dwellers list\n" \
@@ -57,19 +73,19 @@ class CreatorView(wx.Panel):
         self.infos = {"Resources": resourcesInfo, "Buildings": buildingsInfo, "Dwellers": dwellersInfo}
 
         buildingsGrid = gridlib.Grid(self)
-        buildingsGrid.CreateGrid(25, len(buildingsColumnsNames))
+        buildingsGrid.CreateGrid(1, len(buildingsColumnsNames))
         for i, name in enumerate(buildingsColumnsNames):
             buildingsGrid.SetColLabelValue(i, name)
         buildingsGrid.Show()
 
         resourcesGrid = gridlib.Grid(self)
-        resourcesGrid.CreateGrid(25, len(resourcesColumnsNames))
+        resourcesGrid.CreateGrid(1, len(resourcesColumnsNames))
         for i, name in enumerate(resourcesColumnsNames):
             resourcesGrid.SetColLabelValue(i, name)
         resourcesGrid.Hide()
 
         dwellersGrid = gridlib.Grid(self)
-        dwellersGrid.CreateGrid(25, len(dwellersColumnsNames))
+        dwellersGrid.CreateGrid(1, len(dwellersColumnsNames))
         for i, name in enumerate(dwellersColumnsNames):
             dwellersGrid.SetColLabelValue(i, name)
         dwellersGrid.Hide()
@@ -83,6 +99,10 @@ class CreatorView(wx.Panel):
         self.ctrlMsgField = wx.StaticText(self, label=self.infos[self.currentGrid])
         self.centerSizer.Add(self.ctrlMsgField, 0, wx.EXPAND, 5)
 
+        load_btn = wx.Button(self, label="Load Created dependencies")
+        self.Bind(wx.EVT_BUTTON, self.loadDependencies, load_btn)
+        buttonsSizer.Add(load_btn, 0, wx.EXPAND, 5)
+
         menu_btn = wx.Button(self,  label="Menu")
         self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
         buttonsSizer.Add(menu_btn, 0, wx.ALL | wx.EXPAND, 5)
@@ -90,7 +110,24 @@ class CreatorView(wx.Panel):
         create_btn = wx.Button(self, label="Create")
         self.Bind(wx.EVT_BUTTON, self.createDependencies, create_btn)
         buttonsSizer.Add(create_btn, 0, wx.EXPAND, 5)
-        
+
+        add_row_btn = wx.Button(self, label="Add row")
+        self.Bind(wx.EVT_BUTTON, self.addRow, add_row_btn)
+        buttonsSizer.Add(add_row_btn, 0, wx.EXPAND, 5)
+
+        delete_row_btn = wx.Button(self, label= "Delete Row")
+        self.Bind(wx.EVT_BUTTON, self.deleteRow, delete_row_btn)
+        buttonsSizer.Add(delete_row_btn, 0, wx.EXPAND, 5)
+
+        self.errorMsgField = wx.StaticText(self, label=self.infos[self.currentGrid])
+        self.defaultErrorFieldMsg = "Be careful when deleting rows;" +\
+                                    "\nclick on one of the cells in a row you want to delete;"+\
+                                    "\nthen press delete button;"+\
+                                    "\nBefore creating dependencies, all cells must be filled;"+\
+                                    "\nOtherwise we cannot procced"
+        self.errorMsgField.SetLabelText(self.defaultErrorFieldMsg)
+        buttonsSizer.Add(self.errorMsgField, 0, wx.EXPAND, 5)
+
         rootSizer.Add(topSizer, 0, wx.CENTER)
         rootSizer.Add(self.centerSizer, 0, wx.EXPAND, 5)
         rootSizer.Add(buttonsSizer, 0, wx.CENTER)
@@ -109,12 +146,13 @@ class CreatorView(wx.Panel):
 
     def onShow(self, event):
         global pygame
-        if event.GetShow(): 
+        if event.GetShow():
+            self.resetView() # true means that one empty row is always present in each grid after reset
             try:        
                 import pygame
                 pygame.init()
                 pygame.mixer.init()
-                pygame.mixer.music.load(self.musicPath)
+                pygame.mixer.music.load(os.path.dirname(os.path.abspath(__file__)) + "\\" + self.musicPath)
                 pygame.mixer.music.play()
             except Exception:
                 print "Problem with music"
@@ -127,5 +165,137 @@ class CreatorView(wx.Panel):
     def retToMenu(self, event):
         self.parent.setView("Menu")
 
+    def getGridsContent(self):
+        gridNamesList = ["Resources", "Buildings", "Dwellers"]
+        dependencies = {} #initialize empty lists for each grid; lists will be of dict type
+
+        for gridName in gridNamesList:
+            grid = self.tables[gridName]
+            gridRowsNum, gridColsNum = grid.GetNumberRows(), grid.GetNumberCols()
+            dependencies[gridName] = [
+                {
+                    self.dependenciesHeaders[gridName][j] : grid.GetCellValue(i,j) for j in range(gridColsNum)
+                } for i in range(gridRowsNum)
+            ]
+        # ^ here we have a dictionary representing an entire dependency set;
+        # each key holds textual representation of each grid's content;
+        # that representation is a list of rows in a grid;
+        # each row content is described via a dictonary mapping the column name to its value in a particular row
+        return dependencies
+
     def createDependencies(self, event):
-        print "Dependencies created"
+        gridNamesList = ["Resources", "Buildings", "Dwellers"]
+        dependencies = self.getGridsContent()
+
+        pp = PrettyPrinter()
+        pp.pprint(dependencies)
+
+        #check if each cell has content (is not empty)
+        for gridName in gridNamesList:
+            tableTextRepresentation = dependencies[gridName]
+            for row_index, row in enumerate(tableTextRepresentation):
+                for columnName, value in row.items():
+                    if value == "":
+                        errorMsg =  "Dependencies not created: empty cell\nat: " + gridName + "\nrow: " + str(row_index) +  "\ncolumn name: " + columnName
+                        print errorMsg
+                        self.errorMsgField.SetLabelText(errorMsg)
+                        return
+
+        msg = "Dependencies sent to further processing to creator controller"
+        print msg
+        self.errorMsgField.SetLabelText(msg)
+
+        stream = "parse " + json.dumps(dependencies)
+        print stream
+        #self.sender.send(stream)
+
+    def addRow(self, event):
+        self.tables[self.currentGrid].AppendRows()
+        self.centerSizer.Layout()
+        pos = self.tables[self.currentGrid].GetGridCursorRow()
+        msg = "row added to " + self.currentGrid + " current pos:" + str(pos)
+        print msg
+        self.errorMsgField.SetLabelText(msg)
+
+    def deleteRow(self, event):
+        pos = self.tables[self.currentGrid].GetGridCursorRow()
+        self.tables[self.currentGrid].DeleteRows(pos)
+        msg = "Row removed from " + self.currentGrid +  " at: " + str(pos)
+        print msg
+        self.errorMsgField.SetLabelText(msg)
+
+
+    def readMsg(self, msg):
+        print "Creator view got msg", msg
+
+
+    def dependencyLoadFail(self):
+        errorMsg = "Not a valid file format, need a .dep file"
+        print errorMsg
+        self.errorMsgField.SetLabelText(errorMsg)
+
+    def resetGrids(self, addStartRow = False):
+        gridNamesList = ["Resources", "Buildings", "Dwellers"]
+        for gridName in gridNamesList:
+            grid = self.tables[gridName]
+            rowsNum = grid.GetNumberRows()
+            for i in range(rowsNum):
+                grid.DeleteRows()
+            if addStartRow: grid.AppendRows()
+        self.centerSizer.Layout()
+
+    def resetView(self):
+        self.resetGrids(True)
+        self.errorMsgField.SetLabelText(self.defaultErrorFieldMsg)
+        self.tables[self.currentGrid].Hide()
+        self.tables["Buildings"].Show()
+        self.currentGrid = "Buildings"
+        self.ctrlMsgField.SetLabel(self.infos[self.currentGrid])
+        self.modes.SetStringSelection("Buildings")
+        self.centerSizer.Layout()
+
+    def fillGridsWithContent(self, content_dict):
+        self.resetGrids()
+        try:
+            gridNamesList = ["Resources", "Buildings", "Dwellers"]
+            for gridName in gridNamesList:
+                tableTextRepresentation = content_dict[gridName]
+                for row_index, row in enumerate(tableTextRepresentation):
+                    self.tables[gridName].AppendRows(1)
+                    for columnName, value in row.items():
+                        j = self.dependenciesHeaders[gridName].index(columnName)
+                        self.tables[gridName].SetCellValue(row_index,j, value)
+        except Exception:
+            return False
+        self.centerSizer.Layout()
+        return True
+
+    def loadDependencies(self, event):
+        dlg = wx.FileDialog(
+            self,
+            message = "Choose a file",
+            style = wx.FD_OPEN | wx.FD_MULTIPLE | wx.FD_CHANGE_DIR
+        )
+        if dlg.ShowModal() == wx.ID_OK:
+            path = dlg.GetPath()
+            print "You chose the following file:", path
+            if path.endswith(".dep"):
+                with open (path, "r+") as dependency_file:
+                    dependency_content = dependency_file.read().replace("u'","'").replace("'","\"")
+                    print dependency_content
+                    try:
+                        dependency_dict = json.loads(dependency_content)
+                        grids_copy = self.getGridsContent() #if sth goes wrong, we can restore previous state
+                        if not self.fillGridsWithContent(dependency_dict):
+                            errorMsg = "Error while loading file"
+                            print errorMsg
+                            self.errorMsgField.SetLabelText(errorMsg)
+                            self.fillGridsWithContent(grids_copy) #here we restore previous state of grids
+                        else:
+                            msg = "Dependencies loaded successfully!"
+                            print msg
+                            self.errorMsgField.SetLabelText(msg)
+                    except Exception:
+                        self.dependencyLoadFail()
+            else:
+                self.dependencyLoadFail()

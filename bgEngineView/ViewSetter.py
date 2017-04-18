@@ -9,15 +9,15 @@ import pygame
 
 
 class MyFrame(wx.Frame):
-    def __init__(self, parent, ID, strTitle, tplSize):
+    def __init__(self, parent, ID, strTitle, tplSize, sender):
         wx.Frame.__init__(self, parent, ID, strTitle, size=tplSize)
 
         self.views = {
-            "Menu": MenuView(self, tplSize, "Menu", "NWN2.mp3"),
-            "Creator": CreatorView(self, tplSize, "Creator", "Ret Xed OST.mp3"),
-            "Exchange": ExchangeView(self, tplSize, "Exchange"),
-            "Map": MapView(self, tplSize, "Map"),
-            "Tutorial": TutorialView(self, tplSize, "Tutorial")
+            "Menu": MenuView(self, tplSize, "Menu", "NWN2.mp3", sender),
+            "Creator": CreatorView(self, tplSize, "Creator", "Ret Xed OST.mp3", sender),
+            "Exchange": ExchangeView(self, tplSize, "Exchange", sender),
+            "Map": MapView(self, tplSize, "Map", sender),
+            "Tutorial": TutorialView(self, tplSize, "Tutorial", sender = sender)
         }
 
         for name in self.views:
@@ -27,7 +27,11 @@ class MyFrame(wx.Frame):
         # EVT_SHOW event shall be triggered for the first view to  be seen)
         
         self.ShowFullScreen(True)
+        self.currentViewName = "Menu"
         self.setView("Menu")
+
+    def passMsgToCurrentView(self, msg):
+        self.views[self.currentViewName].readMsg(msg)
 
     def setView(self, viewName):
         objToRun = None
@@ -41,11 +45,5 @@ class MyFrame(wx.Frame):
     def closeWindow(self, event):
         self.Destroy()
 
-app = wx.PySimpleApp()
-screenDims = wx.GetDisplaySize()
-
-frame = MyFrame(None, wx.ID_ANY, "SDL Frame", screenDims)
-frame.Show()
-app.MainLoop()
 
 

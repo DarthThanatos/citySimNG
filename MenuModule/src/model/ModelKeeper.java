@@ -6,11 +6,11 @@ import java.util.*;
 //* Management class for Model */
 public  class ModelKeeper {
 
-	private HashMap<String, Model> models;
+	private HashMap<String, DependenciesRepresenter> models;
 	
 	
 	
-	public Model fetchData(String key){
+	public DependenciesRepresenter fetchData(String key){
 		return models.get(key);
 	}
 	

@@ -3,11 +3,13 @@ import os
 
 
 class TutorialView(wx.Panel):
-    def __init__(self, parent, size, name, musicPath="TwoMandolins.mp3"):
+    def __init__(self, parent, size, name, musicPath="TwoMandolins.mp3", sender = None):
         wx.Panel.__init__(self, size=size, parent=parent)
         self.Bind(wx.EVT_SHOW, self.onShow, self)
         self.parent = parent
         self.name = name
+        self.sender = sender
+
         self.size = size
         self.musicPath = musicPath
         self.initButtons()
@@ -51,7 +53,7 @@ class TutorialView(wx.Panel):
             import pygame
             pygame.init()
             pygame.mixer.init()
-            pygame.mixer.music.load(self.musicPath)
+            pygame.mixer.music.load(os.path.dirname(os.path.abspath(__file__)) + "\\" + self.musicPath)
             pygame.mixer.music.play()
         else:
             try:
@@ -110,3 +112,6 @@ class TutorialView(wx.Panel):
         menuBar.Append(second, "Edit")
 
         self.SetMenuBar(menuBar)
+
+    def readMsg(self, msg):
+        print "Tutorial view got msg", msg

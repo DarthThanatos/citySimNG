@@ -16,31 +16,15 @@ import java.net.SocketException;
 
 public class Mediator {
 
-	private static DatagramSocket udpServer = null;
-	private static int port = 1234;
-	private static StreamReceiver activeNodeStreamReceiver = null;
+	private static SocketStreamReceiver activeNodeStreamReceiver = null;
 	
-	public Mediator(StreamReceiver activeNodeStreamReceiver){
+	public Mediator(SocketStreamReceiver activeNodeStreamReceiver){
 		this.activeNodeStreamReceiver = activeNodeStreamReceiver;
 	}
 	
 	
-	
-	
-	
-	public void send(String jsonPath){
-		Sender sender = new Sender(jsonPath);
-		sender.start();
-	}
-	
 	public static void main(String [] args){
-		try {
-			udpServer = new DatagramSocket(port);
-			new Receiver().start();
-			new Mediator().send("file.json");
-		} catch (SocketException e) {
-			e.printStackTrace();
-		}
+		
 	}
 	
 }

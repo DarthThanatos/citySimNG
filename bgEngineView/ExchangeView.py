@@ -22,7 +22,7 @@ class ExchangeViewCenterPart(wx.Panel):
             self.initView()
             try:        
                 pygame.mixer.init()
-                pygame.mixer.music.load(self.musicPath)
+                pygame.mixer.music.load(os.path.dirname(os.path.abspath(__file__))+ "\\" + self.musicPath)
                 pygame.mixer.music.play()
             except Exception:
                 print "Problem with music"
@@ -61,10 +61,11 @@ class ExchangeViewCenterPart(wx.Panel):
 
 
 class ExchangeView(wx.Panel):
-    def __init__(self, parent, size, name):  
+    def __init__(self, parent, size, name, sender):
         wx.Panel.__init__(self, parent=parent, size=size)
         self.name = name
         self.parent = parent
+        self.sender = sender
         self.center = ExchangeViewCenterPart(self, -1, (300, 300))
 
         self.initButtons()
@@ -105,3 +106,6 @@ class ExchangeView(wx.Panel):
         menuBar.Append(second, "Edit")
         
         self.SetMenuBar(menuBar)
+
+    def readMsg(self, msg):
+        print "Exchange view got msg", msg
