@@ -6,7 +6,7 @@ public class RepresenterMock {
 	private double money;
 	private HashMap<String, Double> playerResources = new HashMap<>();
 
-	RepresenterMock(List<String> resources) {
+	public RepresenterMock(List<String> resources) {
 		for(String res: resources) {
 			playerResources.put(res, 1000.0);
 		}
