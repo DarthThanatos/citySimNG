@@ -83,24 +83,29 @@ class MenuView(wx.Panel):
 
     def closeButton(self, event):
         """ This function defines logic for exit button. """
+        self.sender.send("MenuNode@Exit")
         self.Close(True)
         self.parent.closeWindow(None)
 
     def moveToNewGame(self, event):
         """ This function switches to map view """
-        self.parent.setView("Map")
+        #self.parent.setView("Map")
+        self.sender.send("MenuNode@MoveTo@MapNode")
 
     def moveToCreator(self, event):
         """ This function switches to creator view """
-        self.parent.setView("Creator")
+        #self.parent.setView("Creator")
+        self.sender.send("MenuNode@MoveTo@CreatorNode")
 
     def moveToExchange(self, event):
         """ This function switches to exchange view """
-        self.parent.setView("Exchange")
+        #self.parent.setView("Exchange")
+        self.sender.send("MenuNode@MoveTo@ExchangeNode")
 
     def moveToTutorial(self, event):
         """ This function switches to tutorial view """
-        self.parent.setView("Tutorial")
+        #self.parent.setView("Tutorial")
+        self.sender.send("MenuNode@MoveTo@TutorialNode")
 
     def readMsg(self, msg):
         print "Menu view got msg", msg

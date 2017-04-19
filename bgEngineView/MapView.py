@@ -66,7 +66,8 @@ class MapView(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
 
     def retToMenu(self, event):
-        self.parent.setView("Menu")
+        #self.parent.setView("Menu")
+        self.sender.send("MapNode@MoveTo@MenuNode")
 
     def initMenuBar(self):
         status = self.CreateStatusBar()

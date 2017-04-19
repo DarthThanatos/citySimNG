@@ -11,18 +11,18 @@ import exchange.StockTable;
 
 public class ExchangeNode implements Node{
 
-	public ExchangeNode(Node parent, DependenciesRepresenter dr){
-		
+	private Node parent;
+	private HashMap<String, Node> neighbors;
+	
+	public ExchangeNode(DependenciesRepresenter dr){
+		System.out.println("Created Exchange Node");
+		neighbors = new HashMap<String, Node>();
 	}
 	
+	
+	
 	@Override
-	public void createChildren() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void nodeLoop() {		
+	public Node nodeLoop() {		
 		Scanner input = new Scanner(System.in);
 		String line = "";
 		List<String> resourcesNames = new ArrayList<>();
@@ -50,6 +50,23 @@ public class ExchangeNode implements Node{
 		 		stockTable.setVisible(true);
 			}
 		}
-		input.close();	
+		input.close();
+		return null;
+	}
+
+
+
+	@Override
+	public void setParent(String parentName, Node parent) {
+		// TODO Auto-generated method stub
+		this.parent = parent;
+	}
+
+
+
+	@Override
+	public void addNeighbour(String hashKey, Node neighbor) {
+		// TODO Auto-generated method stub
+		neighbors.put(hashKey, neighbor);
 	}
 }

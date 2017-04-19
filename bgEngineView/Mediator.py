@@ -15,8 +15,11 @@ def receiver_func(viewSetter):
     while True:
         # Receive response
         print >> sys.stderr, 'waiting to receive'
-        data, server = sock.recvfrom(1234)
-        print >> sys.stderr, 'received sth'
+        try:
+            data, server = sock.recvfrom(1234)
+        except Exception:
+            print "Hold on, Jesus, not so fast"
+        print >> sys.stderr, 'receiver: received sth:',data
         #msg = json.loads(data)
         viewSetter.passMsgToCurrentView(data)
 
@@ -27,6 +30,7 @@ class Sender:
 
     def send(self, msg):
         self.sock.sendto(msg, ("127.0.0.1", 1234))
+        print "Sender: sent",msg
 
 
 

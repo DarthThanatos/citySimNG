@@ -13,9 +13,11 @@ public class SocketStreamSender extends Thread{
 	private String stream = "";
 	private DatagramSocket udpServer = null;
 	private boolean shouldContinue = true;
+	private String nodeName;
 	
-	public SocketStreamSender() throws Exception{
-		udpServer = new DatagramSocket();
+	public SocketStreamSender(String nodeName) throws Exception{
+		udpServer = new DatagramSocket();//udpServer;
+		this.nodeName = nodeName;
 	}
 	
 	public void setStream(String stream){
@@ -38,25 +40,34 @@ public class SocketStreamSender extends Thread{
 			InetAddress address = InetAddress.getByName("127.0.0.1");
 			DatagramPacket packet = new DatagramPacket(stream.getBytes(), stream.length(), address, 12345);
 			udpServer.send(packet);
+			System.out.println(nodeName + ": sent " + stream);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public void stopThread(){
+		System.out.println(nodeName + ": Stopping sender thread");
 		shouldContinue = false;
-		this.notify();
+		synchronized(this){
+			this.notify();
+		}
 	}
 	
 	public void run() {
-		while(shouldContinue){
+		System.out.println(nodeName + ": Sender started");
+		while(true){
 			try {
-				this.wait();
-				send();
+				synchronized(this){
+					this.wait();
+				}
+				if(shouldContinue) send();
+				else break;
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+		System.out.println(nodeName + ": Sender: out");
 		udpServer.close();
 	}
 }

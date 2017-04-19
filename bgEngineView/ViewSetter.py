@@ -26,12 +26,19 @@ class MyFrame(wx.Frame):
         # (otherwise the first view to run will be inactive, i.e. no
         # EVT_SHOW event shall be triggered for the first view to  be seen)
         
-        self.ShowFullScreen(True)
+        #self.ShowFullScreen(True)
         self.currentViewName = "Menu"
         self.setView("Menu")
 
     def passMsgToCurrentView(self, msg):
-        self.views[self.currentViewName].readMsg(msg)
+        msgParts = msg.split("@")
+        # ^ here we use split() methid having "@" separator, because arguments in the message may be texts containing spaces
+        if msg.startswith("SetView"):
+            self.setView(msgParts[1])
+            # ^ controller told us explicitely to change the current view
+        else:
+            # msg is in the form: ViewName@Params
+            self.views[msgParts[0]].readMsg("@".join(msgParts[1:]))
 
     def setView(self, viewName):
         objToRun = None

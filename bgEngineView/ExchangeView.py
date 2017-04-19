@@ -84,7 +84,8 @@ class ExchangeView(wx.Panel):
 
     def retToMenu(self, event):
         """ This function returns to Menu view """
-        self.parent.setView("Menu")
+        #self.parent.setView("Menu")
+        self.sender.send("ExchangeNode@MoveTo@MenuNode")
 
     def buyGoods(self, event):
         pass

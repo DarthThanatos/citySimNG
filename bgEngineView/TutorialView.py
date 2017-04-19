@@ -96,7 +96,8 @@ class TutorialView(wx.Panel):
 
     def retToMenu(self, event):
         """ This function returns to Menu view """
-        self.parent.setView("Menu")
+        #self.parent.setView("Menu")
+        self.sender.send("TutorialNode@MoveTo@MenuNode")
 
     def initMenuBar(self):
         status = self.CreateStatusBar()

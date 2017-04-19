@@ -1,20 +1,16 @@
-package totorialnode;
+package tutorialnode;
 
 import model.DependenciesRepresenter;
 import controlnode.SocketNode;
 
 public class TutorialNode extends SocketNode{
 
-	public TutorialNode(SocketNode parent, DependenciesRepresenter dr) {
-		super(parent, dr);
+	public TutorialNode(DependenciesRepresenter dr) {
+		super(dr);
+		System.out.println("Created Tutorial Node");
+		nodeName = "TutorialNode";
 	}
 
-	@Override
-	public void createChildren() {
-		/*
-		 * this node has no children; skipping...
-		 */
-	}
 
 	/*
 	 * (non-Javadoc)

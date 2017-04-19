@@ -160,10 +160,11 @@ class CreatorView(wx.Panel):
             try:
                 pygame.quit()
             except Exception:
-                print "menu: problem with pygame quit"
+                print "creator: problem with pygame quit"
 
     def retToMenu(self, event):
-        self.parent.setView("Menu")
+        #self.parent.setView("Menu")
+        self.sender.send("CreatorNode@MoveTo@MenuNode")
 
     def getGridsContent(self):
         gridNamesList = ["Resources", "Buildings", "Dwellers"]
@@ -201,13 +202,24 @@ class CreatorView(wx.Panel):
                         self.errorMsgField.SetLabelText(errorMsg)
                         return
 
-        msg = "Dependencies sent to further processing to creator controller"
-        print msg
-        self.errorMsgField.SetLabelText(msg)
+        dlg = wx.FileDialog(
+            self,
+            message = "Choose a file to save",
+            wildcard = "*.dep",
+            style = wx.FD_SAVE | wx.FD_CHANGE_DIR
+        )
+        if dlg.ShowModal() == wx.ID_OK:
+            path = dlg.GetPath()
 
-        stream = "parse " + json.dumps(dependencies)
-        print stream
-        #self.sender.send(stream)
+            msg = "Dependencies sent to further processing to creator controller"
+            print msg
+            self.errorMsgField.SetLabelText(msg)
+
+            stream = "CreatorNode@Parse@" + json.dumps(dependencies)+"@"+path
+            self.sender.send(stream)
+            print stream
+            with open(path, "wb+") as f:
+                f.write(json.dumps(dependencies).replace(",",",\n"))
 
     def addRow(self, event):
         self.tables[self.currentGrid].AppendRows()
@@ -274,6 +286,7 @@ class CreatorView(wx.Panel):
         dlg = wx.FileDialog(
             self,
             message = "Choose a file",
+            wildcard="*.dep",
             style = wx.FD_OPEN | wx.FD_MULTIPLE | wx.FD_CHANGE_DIR
         )
         if dlg.ShowModal() == wx.ID_OK:
