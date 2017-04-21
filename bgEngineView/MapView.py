@@ -1,5 +1,11 @@
 import wx
 import os
+import re
+
+RESOURCES_PANEL_POSITION = (0, 400)
+RESOURCES_PANEL_SIZE = (300, 100)
+RESOURCES_PANEL_COLOUR = (255, 255, 0)
+RESOURCES_EXAMPLE = ["rock", "0", "gold", "0", "wood", "0"]
 
 
 class MapViewCenterPart(wx.Panel):
@@ -52,25 +58,28 @@ class MapViewCenterPart(wx.Panel):
 
 
 class MapViewResourcesPanel(wx.Panel):
-    def __init__(self, parent, ID, tplSize, musicPath="TwoMandolins.mp3"):
+    def __init__(self, parent, ID, panelPos, panelSize, musicPath="TwoMandolins.mp3"):
         self.parent = parent
-        self.tplSize = tplSize
+        self.panelSize = panelSize
         self.musicPath = musicPath
-        wx.Panel.__init__(self, self.parent, size=self.tplSize, pos=(0, 400))
-        self.SetBackgroundColour((255, 255, 0))
-        self.resourcesValues = ["rock", "0", "gold", "0", "wood", "0"]
+        self.ID = ID
+
+        # resources
+        self.resourcesValues = RESOURCES_EXAMPLE
         self.resourcesInfo = " ".join(self.resourcesValues)
 
+        # create panel for resources
+        wx.Panel.__init__(self, self.parent, self.ID, size=self.panelSize, pos=panelPos)
+        self.SetBackgroundColour(RESOURCES_PANEL_COLOUR)
+
+        # display information about resources
         self.centerSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self.ctrlMsgField = wx.StaticText(self, label=self.resourcesInfo + "\n")
-        self.centerSizer.Add(self.ctrlMsgField, 0, wx.EXPAND, 5)
+        self.resourcesField = wx.StaticText(self, label=self.resourcesInfo)
+        self.centerSizer.Add(self.resourcesField, 0, wx.EXPAND, 5)
 
     def updateResources(self, info):
-        self.ctrlMsgField.Destroy()
-        self.Refresh()
-        self.centerSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self.ctrlMsgField = wx.StaticText(self, label=info)
-        self.centerSizer.Add(self.ctrlMsgField, 0, wx.EXPAND, 5)
+        self.resourcesField = wx.StaticText(self, label=info)
+        self.centerSizer.Add(self.resourcesField, 0, wx.EXPAND, 5)
         self.Update()
 
 
@@ -90,7 +99,8 @@ class MapView(wx.Panel):
         self.center.Show()
 
         # add resources panel
-        self.resourcesPanel = MapViewResourcesPanel(self, 1, (300, 300))
+        self.resourcesPanel = MapViewResourcesPanel(self, -1, RESOURCES_PANEL_POSITION,
+                                                    RESOURCES_PANEL_SIZE)
         self.resourcesPanel.Show()
 
     def initButtons(self):
