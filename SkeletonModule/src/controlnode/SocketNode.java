@@ -21,7 +21,7 @@ public abstract class SocketNode implements Node{
 	protected DependenciesRepresenter dr;
 	
 	private SocketStreamReceiver receiver = null;
-	private SocketStreamSender sender = null;
+	protected SocketStreamSender sender = null;
 		
 	public SocketNode(DependenciesRepresenter dr){
 		this.dr = dr;

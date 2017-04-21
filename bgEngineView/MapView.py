@@ -3,19 +3,17 @@ import os
 
 
 class MapViewCenterPart(wx.Panel):
-    
     def __init__(self, parent, ID, tplSize, musicPath="TwoMandolins.mp3"):
         self.parent = parent
-        self.ID = ID 
         self.tplSize = tplSize
         self.musicPath = musicPath
-        wx.Panel.__init__(self, self.parent, self.ID, size=self.tplSize)
+        wx.Panel.__init__(self, self.parent, size=self.tplSize)
 
     def onShow(self, event):
         if event.GetShow():
             print "shown map"
             self.initView()
-            try:        
+            try:
                 pygame.mixer.init()
                 pygame.mixer.music.load(os.path.dirname(os.path.abspath(__file__)) + "\\" + self.musicPath)
                 pygame.mixer.music.play()
@@ -48,6 +46,33 @@ class MapViewCenterPart(wx.Panel):
         self.rect = position
         window.fill(self.color, self.rect)
 
+    def updateView(self):
+        pygame.display.flip()
+        pygame.display.update()
+
+
+class MapViewResourcesPanel(wx.Panel):
+    def __init__(self, parent, ID, tplSize, musicPath="TwoMandolins.mp3"):
+        self.parent = parent
+        self.tplSize = tplSize
+        self.musicPath = musicPath
+        wx.Panel.__init__(self, self.parent, size=self.tplSize, pos=(0, 400))
+        self.SetBackgroundColour((255, 255, 0))
+        self.resourcesValues = ["rock", "0", "gold", "0", "wood", "0"]
+        self.resourcesInfo = " ".join(self.resourcesValues)
+
+        self.centerSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.ctrlMsgField = wx.StaticText(self, label=self.resourcesInfo + "\n")
+        self.centerSizer.Add(self.ctrlMsgField, 0, wx.EXPAND, 5)
+
+    def updateResources(self, info):
+        self.ctrlMsgField.Destroy()
+        self.Refresh()
+        self.centerSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.ctrlMsgField = wx.StaticText(self, label=info)
+        self.centerSizer.Add(self.ctrlMsgField, 0, wx.EXPAND, 5)
+        self.Update()
+
 
 class MapView(wx.Panel):
     def __init__(self, parent, size, name, sender):
@@ -56,18 +81,25 @@ class MapView(wx.Panel):
         self.parent = parent
         self.sender = sender
 
+        # add buttons
         self.initButtons()
+
+        # add center part
         self.center = MapViewCenterPart(self, -1, (300, 300))
         self.Bind(wx.EVT_SHOW, self.center.onShow, self)
-        #self.initMenuBar()
+        self.center.Show()
+
+        # add resources panel
+        self.resourcesPanel = MapViewResourcesPanel(self, 1, (300, 300))
+        self.resourcesPanel.Show()
 
     def initButtons(self):
-        # Add menu button
-        menu_btn = wx.Button(self, label="Menu", pos=(300, 10), size=(60, 30))
+        """ Function adding buttons """
+        menu_btn = wx.Button(self, label="Menu", pos=(300, 500), size=(60, 30))
         self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
 
     def retToMenu(self, event):
-        #self.parent.setView("Menu")
+        """ Menu button logic """
         self.sender.send("MapNode@MoveTo@MenuNode")
 
     def initMenuBar(self):
@@ -87,3 +119,12 @@ class MapView(wx.Panel):
 
     def readMsg(self, msg):
         print "Map view got msg", msg
+        values = msg
+        import re
+        values = re.split(',|{|}|=', values)
+        values = [x for x in values if len(x) > 0]
+        info = " ".join(values)
+        self.resourcesPanel.updateResources(info)
+
+
+
