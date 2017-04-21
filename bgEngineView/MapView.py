@@ -5,6 +5,9 @@ import re
 RESOURCES_PANEL_POSITION = (0, 400)
 RESOURCES_PANEL_SIZE = (300, 100)
 RESOURCES_PANEL_COLOUR = (255, 255, 0)
+BUILDINGS_PANEL_POSITION = (400, 0)
+BUILDINGS_PANEL_SIZE = (100, 300)
+BUILDINGS_PANEL_COLOUR = (255, 0, 255)
 RESOURCES_EXAMPLE = ["rock", "0", "gold", "0", "wood", "0"]
 
 
@@ -57,11 +60,21 @@ class MapViewCenterPart(wx.Panel):
         pygame.display.update()
 
 
-class MapViewResourcesPanel(wx.Panel):
-    def __init__(self, parent, ID, panelPos, panelSize, musicPath="TwoMandolins.mp3"):
+class MapViewBuildingsPanel(wx.Panel):
+    def __init__(self, parent, ID, panelPos, panelSize):
         self.parent = parent
         self.panelSize = panelSize
-        self.musicPath = musicPath
+        self.ID = ID
+
+        # create panel for resources
+        wx.Panel.__init__(self, self.parent, self.ID, size=self.panelSize, pos=panelPos)
+        self.SetBackgroundColour(BUILDINGS_PANEL_COLOUR)
+
+
+class MapViewResourcesPanel(wx.Panel):
+    def __init__(self, parent, ID, panelPos, panelSize):
+        self.parent = parent
+        self.panelSize = panelSize
         self.ID = ID
 
         # resources
@@ -102,6 +115,10 @@ class MapView(wx.Panel):
         self.resourcesPanel = MapViewResourcesPanel(self, -1, RESOURCES_PANEL_POSITION,
                                                     RESOURCES_PANEL_SIZE)
         self.resourcesPanel.Show()
+
+        self.buildingsPanel = MapViewBuildingsPanel(self, -1, BUILDINGS_PANEL_POSITION,
+                                                    BUILDINGS_PANEL_SIZE)
+        self.buildingsPanel.Show()
 
     def initButtons(self):
         """ Function adding buttons """
