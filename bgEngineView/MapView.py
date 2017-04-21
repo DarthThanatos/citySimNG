@@ -3,6 +3,7 @@ import os
 
 
 class MapViewCenterPart(wx.Panel):
+    
     def __init__(self, parent, ID, tplSize, musicPath="TwoMandolins.mp3"):
         self.parent = parent
         self.ID = ID 
