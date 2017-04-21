@@ -2,6 +2,7 @@ import wx
 import os
 import re
 import thread
+import json
 
 
 RESOURCES_PANEL_POSITION = (0, 400)
@@ -40,6 +41,7 @@ class MapViewResourcesPanel(wx.Panel):
 
 class MapView(wx.Panel):
     sprites = []
+
     def __init__(self, parent, size, name, sender, musicPath="TwoMandolins.mp3"):
         wx.Panel.__init__(self, parent=parent, size=size)
         self.name = name
@@ -79,10 +81,11 @@ class MapView(wx.Panel):
 
     def readMsg(self, msg):
         print "Map view got msg", msg
-        values = msg
-        values = re.split(',|{|}|=', values)
-        values = [x for x in values if len(x) > 0]
-        info = " ".join(values)
+        print msg
+        dict = json.loads(msg)
+        info = ""
+        for (key, value) in dict.iteritems():
+            info += key + " " + str(value) + " "
         self.resourcesPanel.updateResources(info)
 
     def onShow(self, event):
@@ -129,9 +132,7 @@ class MapView(wx.Panel):
     def addBuildingsToBuildingsPanel(self, window):
         self.sprites.append(Building(window, self))
 
-
 import pygame
-
 
 class Building(pygame.sprite.Sprite):
     def __init__(self, window, mapView):

@@ -23,6 +23,9 @@ public class MapNode extends SocketNode{
 		sender = new SocketStreamSender(nodeName);
 		sender.start();
 		}catch(Exception e){}
+		
+		
+		
 		Runnable resourcesThread = new Runnable() {
 			public void run() {
 				new Resources(sender).updateResources();

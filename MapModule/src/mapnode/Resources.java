@@ -5,7 +5,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import org.json.JSONObject.*;
+import org.json.JSONObject;
 import controlnode.SocketStreamSender;
 
 public class Resources {
@@ -31,8 +32,10 @@ public class Resources {
 			for(String resource : resources){
 				actualValues.put(resource, actualValues.get(resource) + incomes.get(resource));
 			}
+			JSONObject json = new JSONObject(actualValues);
+			System.out.println(json);
 			synchronized(sender){
-			sender.setStream("Map@" + actualValues.toString());
+			sender.setStream("Map@" + json);
 			sender.notify();
 			}
 			try{
