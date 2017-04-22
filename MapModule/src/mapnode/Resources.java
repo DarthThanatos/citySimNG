@@ -33,8 +33,8 @@ public class Resources {
 		}
 		JSONObject json = new JSONObject(actualValues);
 		System.out.println(json);
+		sender.setStream("Map@" + json);
 		synchronized(sender){
-			sender.setStream("Map@" + json);
 			sender.notify();
 		}
 	}

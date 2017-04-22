@@ -2,18 +2,13 @@ package mapnode;
 
 import model.DependenciesRepresenter;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 import org.json.JSONObject;
 
-import controlnode.Node;
 import controlnode.SocketNode;
-import controlnode.SocketStreamReceiver;
-import controlnode.SocketStreamSender;
+
 
 public class MapNode extends SocketNode{
-	Runnable resourcesThread;
+	Thread resourcesThread;
 	public boolean update = true;
 	public Buildings buildings;
 	Resources resources = new Resources(sender);
@@ -27,17 +22,23 @@ public class MapNode extends SocketNode{
 
 	@Override
 	public String parseCommand(String command, String[] streamArgs) {
-		if(command.equals("PlaceBuilding")){
-			String arg = streamArgs[0].replace(",", ",\n");
-			Boolean c =buildings.placeBuilding(arg, resources);
-			JSONObject json = new JSONObject("{can:" + c.toString() + "}");
-			synchronized(sender){
-			sender.setStream("Map@" + json);
-			sender.notify();
-			System.out.println("Sent: Map@" + json);
-			}
-		}
-		return "Map@Msg received successfully";
+		//if(command.equals("PlaceBuilding")){
+			// parse arguments
+		//	String buildingName = streamArgs[0].replace(",", ",\n");
+		//	System.out.println(buildingName);
+			
+			// check if player can afford to build building
+			// Boolean canAfford = buildings.placeBuilding(buildingName, resources);
+			
+			// create and send reply to view
+//			JSONObject json = new JSONObject();
+//			synchronized(sender){
+//				sender.setStream("Map@" + json);
+//				sender.notify();
+//				System.out.println("Sent: Map@" + json);
+//			}
+		//}
+		return "Map@{}";
 	}
 
 	@Override
@@ -45,7 +46,7 @@ public class MapNode extends SocketNode{
 		resources = new Resources(sender);
 		buildings = new Buildings(sender);
 		buildings.sendBuildingsInfo();
-		resourcesThread = new Runnable() {
+		resourcesThread = new Thread() {
 			public void run() {
 				while(update){
 					resources.updateResources();
@@ -55,7 +56,7 @@ public class MapNode extends SocketNode{
 				}
 			}
 		};
-		resourcesThread.run();
+		resourcesThread.start();
 	}
 
 	@Override

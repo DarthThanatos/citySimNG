@@ -3,6 +3,7 @@ import os
 import re
 import thread
 import json
+import uuid
 
 
 RESOURCES_PANEL_POSITION = (0, 400)
@@ -40,6 +41,7 @@ class MapViewResourcesPanel(wx.Panel):
         self.Update()
 
 import pygame
+
 
 class MapView(wx.Panel):
     sprites = []
@@ -108,13 +110,16 @@ class MapView(wx.Panel):
 
     def place_building(self, building, pos):
         # Create sprite for new building
-        new_building = Building(building.name, -1, building.sizeX, building.sizeY, self, pos)
+        new_building = Building(building.name, uuid.uuid4(), building.sizeX,
+                                building.sizeY, self, False, pos)
         if self.check_buildings_collision(new_building):
-            print "Collision detected"
+            print "Collision detected. Can't place building here."
         else:
             # Send request to model to check if we can afford for this building
-            self.sender.send("MapNode@PlaceBuilding@" + new_building.name)
-            self.addRect(RESOURCES_PANEL_COLOUR, (pos[0], pos[1], new_building.sizeX, new_building.sizeY))
+            stream = "MapNode@PlaceBuilding@{},{}".format(new_building.name, new_building.id)
+            self.sender.send(stream)
+            self.addRect(RESOURCES_PANEL_COLOUR,
+                         (pos[0], pos[1], new_building.sizeX, new_building.sizeY))
             self.buildings_sprites.add(new_building)
         pygame.display.update()
 
@@ -129,17 +134,18 @@ class MapView(wx.Panel):
 
     def readMsg(self, msg):
         print "Map view got msg", msg
-        print msg
-        dict = json.loads(msg)
-        if "Buildings" in dict:
-            self.buildings = dict["Buildings"]
+        msg_as_dict = json.loads(msg)
+        if "Buildings" in msg_as_dict:
+            # fill buildings panel
+            self.buildings = msg_as_dict["Buildings"]
             self.addBuildingsToBuildingsPanel()
         elif False:
-            # case for building checking
+            # we can draw building with given id
             pass
         else:
+            # update resources values
             info = ""
-            for (key, value) in dict.iteritems():
+            for (key, value) in msg_as_dict.iteritems():
                 info += key + " " + str(value) + " "
             self.resourcesPanel.updateResources(info)
 
@@ -184,11 +190,10 @@ class MapView(wx.Panel):
         self.addRect(BUILDINGS_PANEL_COLOUR, BUILDINGS_PANEL_SIZE)
 
     def addBuildingsToBuildingsPanel(self):
-        for (i, b) in enumerate(self.buildings):
-            # self.sprites.append(Building(b["name"], i, b["sizeX"], b["sizeY"], self))
-            b_sprite = Building(b["name"], i, b["sizeX"], b["sizeY"], self)
-            self.buildings_sprites.add(b_sprite)
-            # b_sprite.draw()
+        for (pos, building) in enumerate(self.buildings):
+            building_sprite = Building(building["name"], uuid.uuid4(),
+                                       building["sizeX"], building["sizeY"], self, pos=pos)
+            self.buildings_sprites.add(building_sprite)
         pygame.display.update()
 
 
@@ -197,19 +202,20 @@ import pygame
 
 class Building(pygame.sprite.Sprite):
 
-    def __init__(self, name, id, sizeX, sizeY, mapView, pos=()):
+    def __init__(self, name, id, sizeX, sizeY, mapView, panel_building=True, pos=()):
         pygame.sprite.Sprite.__init__(self)
         self.name = name
         self.id = id
         self.sizeX = sizeX
         self.sizeY = sizeY
-        if len(pos) == 0:
+
+        # This is only building icon i buildings panel
+        if panel_building:
             self.image = pygame.Surface([sizeX, sizeY])
-            # self.image.fill(RESOURCES_PANEL_COLOUR)
-            mapView.window.fill(RESOURCES_PANEL_COLOUR, (400 + id % 2 * 60, 10 + id / 2 * 60, sizeX, sizeY))
-            self.rect = self.image.get_rect(topleft=(400 + id % 2 * 60, 10 + id / 2 * 60))
-            # mapView.addRect(RESOURCES_PANEL_COLOUR, (400 + id % 2 * 60, 10 + id / 2 * 60, sizeX, sizeY))
-        if len(pos) > 0:
+            mapView.window.fill(RESOURCES_PANEL_COLOUR, (400 + pos % 2 * 60, 10 + pos / 2 * 60, sizeX, sizeY))
+            self.rect = self.image.get_rect(topleft=(400 + pos % 2 * 60, 10 + pos / 2 * 60))
+        # This is user building, before we draw it we have to check conditions
+        else:
             self.image = pygame.Surface([sizeX, sizeY])
             self.rect = self.image.get_rect(topleft=(pos[0], pos[1]))
 
