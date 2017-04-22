@@ -22,4 +22,18 @@ public class TutorialNode extends SocketNode{
 		return "pass";
 	}
 
+
+	@Override
+	public void atStart() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void atExit() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

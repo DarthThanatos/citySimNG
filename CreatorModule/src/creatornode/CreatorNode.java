@@ -22,4 +22,16 @@ public class CreatorNode extends SocketNode{
 		return "Creator@Msg received successfully";
 	}
 
+	@Override
+	public void atStart() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void atExit() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

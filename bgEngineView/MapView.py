@@ -39,10 +39,11 @@ class MapViewResourcesPanel(wx.Panel):
         self.centerSizer.Add(self.resourcesField, 0, wx.EXPAND, 5)
         self.Update()
 
+import pygame
 
 class MapView(wx.Panel):
     sprites = []
-    all_sprites =
+    buildings_sprites = pygame.sprite.Group()
     buildings = []
 
     def __init__(self, parent, size, name, sender, musicPath="TwoMandolins.mp3"):
@@ -69,21 +70,29 @@ class MapView(wx.Panel):
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
                 pos = pygame.mouse.get_pos()
                 print "You pressed the left mouse button"
-                clicked_sprites = [s for s in self.sprites if s.rect.collidepoint(pos)]
+                clicked_sprites = [s for s in self.buildings_sprites if s.rect.collidepoint(pos)]
                 for sprite in clicked_sprites:
                     print "Clicked sprite " + sprite.name
                 if len(clicked_sprites) > 0:
+                    #background = pygame.Surface(self.window.get_size())
+                    #background.fill((122, 0, 0))
                     sprite_is_chosen = True
                     building = clicked_sprites[0]
-                    shadow = Building(building.name, -1, building.sizeX, building.sizeY, self, pos)
-                    shadow_pos = pos
-                    shadow.update_position(shadow_pos, pos, self)
-                    pygame.display.update()
+                    # shadow = Building(building.name, -1, building.sizeX, building.sizeY, self, pos)
+                    # shadow_sprite = pygame.sprite.Group(shadow)
+                    # shadow_sprite.draw(self.window)
+                    # shadow_pos = pos
+                    # shadow.update_position(shadow_pos, pos, self)
+                    # shadow_sprite.update()
+                    # pygame.display.update()
                     while sprite_is_chosen:
                         event = pygame.event.poll()
-                        pos = pygame.mouse.get_pos()
-                        shadow_pos = shadow.update_position(shadow_pos, pos, self)
-                        pygame.display.update()
+                        # pos = pygame.mouse.get_pos()
+                        # shadow_pos = shadow.update_position(shadow_pos, pos, self)
+                        # shadow_sprite.clear(self.window, background)
+                        # shadow_sprite.update()
+                        # shadow_sprite.draw(self.window)
+                        # pygame.display.update()
                         if event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
                             pos = pygame.mouse.get_pos()
                             print "Mouse pos " + str(pos[0]) + " " + str(pos[1])
@@ -91,22 +100,23 @@ class MapView(wx.Panel):
                             sprite_is_chosen = False
 
     def check_buildings_collision(self, new_building):
-        print "SPRITES"
-        print len(self.sprites)
-        for b in self.sprites:
+        """ Check if new building collides with some other one """
+        for b in self.buildings_sprites.sprites():
             if pygame.sprite.collide_rect(b, new_building):
                 return True
         return False
 
     def place_building(self, building, pos):
+        # Create sprite for new building
         new_building = Building(building.name, -1, building.sizeX, building.sizeY, self, pos)
         if self.check_buildings_collision(new_building):
-            print "Collision"
+            print "Collision detected"
         else:
+            # Send request to model to check if we can afford for this building
+            self.sender.send("MapNode@PlaceBuilding@" + new_building.name)
             self.addRect(RESOURCES_PANEL_COLOUR, (pos[0], pos[1], new_building.sizeX, new_building.sizeY))
-            self.sprites.append(new_building)
+            self.buildings_sprites.add(new_building)
         pygame.display.update()
-
 
     def initButtons(self):
         """ Function adding buttons """
@@ -124,6 +134,9 @@ class MapView(wx.Panel):
         if "Buildings" in dict:
             self.buildings = dict["Buildings"]
             self.addBuildingsToBuildingsPanel()
+        elif False:
+            # case for building checking
+            pass
         else:
             info = ""
             for (key, value) in dict.iteritems():
@@ -172,7 +185,10 @@ class MapView(wx.Panel):
 
     def addBuildingsToBuildingsPanel(self):
         for (i, b) in enumerate(self.buildings):
-            self.sprites.append(Building(b["name"], i, b["sizeX"], b["sizeY"], self))
+            # self.sprites.append(Building(b["name"], i, b["sizeX"], b["sizeY"], self))
+            b_sprite = Building(b["name"], i, b["sizeX"], b["sizeY"], self)
+            self.buildings_sprites.add(b_sprite)
+            # b_sprite.draw()
         pygame.display.update()
 
 
@@ -198,6 +214,5 @@ class Building(pygame.sprite.Sprite):
             self.rect = self.image.get_rect(topleft=(pos[0], pos[1]))
 
     def update_position(self, pos, mouse_pos, mapView):
-        mapView.window.blit(self.image, (mouse_pos[0] - pos[0] * 0.9, mouse_pos[1] - pos[1] * 0.9))
-        pygame.display.update()
-        return (mouse_pos[0] - pos[0] * 0.9, mouse_pos[1] - pos[1] * 0.9)
+        self.rect = self.image.get_rect(topleft=(mouse_pos[0], mouse_pos[1] ))
+        return mouse_pos[0], mouse_pos[1]

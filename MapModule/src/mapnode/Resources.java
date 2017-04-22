@@ -28,21 +28,18 @@ public class Resources {
 	}
 	
 	public void updateResources(){
-		while(true){
-			for(String resource : resources){
-				actualValues.put(resource, actualValues.get(resource) + incomes.get(resource));
-			}
-			JSONObject json = new JSONObject(actualValues);
-			System.out.println(json);
-			synchronized(sender){
+		for(String resource : resources){
+			actualValues.put(resource, actualValues.get(resource) + incomes.get(resource));
+		}
+		JSONObject json = new JSONObject(actualValues);
+		System.out.println(json);
+		synchronized(sender){
 			sender.setStream("Map@" + json);
 			sender.notify();
-			}
-			try{
-				Thread.sleep(3000);
-			}catch(InterruptedException ie){
-				// TODO
-			}
 		}
+	}
+	
+	public Map<String, Integer> getActualValues(){
+		return this.actualValues;
 	}
 }

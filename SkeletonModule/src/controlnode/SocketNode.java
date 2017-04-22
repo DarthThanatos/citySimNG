@@ -20,7 +20,7 @@ public abstract class SocketNode implements Node{
 	private HashMap<String, Node> neighbors;
 	protected DependenciesRepresenter dr;
 	
-	private SocketStreamReceiver receiver = null;
+	protected SocketStreamReceiver receiver = null;
 	protected SocketStreamSender sender = null;
 		
 	public SocketNode(DependenciesRepresenter dr){
@@ -48,6 +48,8 @@ public abstract class SocketNode implements Node{
 	 */
 	public abstract String parseCommand(String command, String[] streamArgs);
 	
+	public abstract void atStart();
+	public abstract void atExit();
 		
 	public Node nodeLoop(){
 		String nextNode = ""; //key of the node; it is expected to come from the view layer 
@@ -62,6 +64,8 @@ public abstract class SocketNode implements Node{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		atStart();
 		
 		while(true){
 			try {
@@ -109,6 +113,7 @@ public abstract class SocketNode implements Node{
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		atExit();
 		return neighbors.get(nextNode);
 	}
 	

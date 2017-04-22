@@ -57,7 +57,28 @@ public class Buildings {
 		} 
 	}
 	
-	public void placeBuilding(){
-		
+	public boolean placeBuilding(String buildingsName, Resources resources){
+		Map<String, Integer> actualValues = resources.getActualValues();
+		Building b = null;
+		for(Building building : allBuildings){
+			if(building.getName().equals(buildingsName)){
+				b = building;
+				break;
+			}
+		}
+		for(Map.Entry<String, Integer> entry : b.getResourcesCost().entrySet()) {
+		    String resource = entry.getKey();
+		    Integer cost = entry.getValue();
+		    if(actualValues.get(resource) < cost){
+		    	System.out.println("Can't afford");
+		    	return false;
+		    }
+		}
+		for(Map.Entry<String, Integer> entry : b.getResourcesCost().entrySet()) {
+		    String resource = entry.getKey();
+		    Integer cost = entry.getValue();
+		    actualValues.put(resource, actualValues.get(resource) - cost);
+		}
+		return true;
 	}
 }
