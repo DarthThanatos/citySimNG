@@ -2,6 +2,8 @@ package mapnode;
 
 import model.DependenciesRepresenter;
 
+import java.util.List;
+
 import org.json.JSONObject;
 
 import controlnode.SocketNode;
@@ -22,13 +24,12 @@ public class MapNode extends SocketNode{
 
 	@Override
 	public String parseCommand(String command, String[] streamArgs) {
-		//if(command.equals("PlaceBuilding")){
+		if(command.equals("PlaceBuilding")){
 			// parse arguments
-		//	String buildingName = streamArgs[0].replace(",", ",\n");
-		//	System.out.println(buildingName);
+			String[] argsList = streamArgs[0].split(",");
 			
 			// check if player can afford to build building
-			// Boolean canAfford = buildings.placeBuilding(buildingName, resources);
+			Boolean canAfford = buildings.placeBuilding(argsList[0], resources);
 			
 			// create and send reply to view
 //			JSONObject json = new JSONObject();
@@ -37,7 +38,7 @@ public class MapNode extends SocketNode{
 //				sender.notify();
 //				System.out.println("Sent: Map@" + json);
 //			}
-		//}
+		}
 		return "Map@{}";
 	}
 

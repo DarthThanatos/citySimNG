@@ -71,7 +71,6 @@ class MapView(wx.Panel):
             event = pygame.event.poll()
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
                 pos = pygame.mouse.get_pos()
-                print "You pressed the left mouse button"
                 clicked_sprites = [s for s in self.buildings_sprites if s.rect.collidepoint(pos)]
                 for sprite in clicked_sprites:
                     print "Clicked sprite " + sprite.name
