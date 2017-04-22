@@ -12,6 +12,7 @@ BUILDINGS_PANEL_SIZE = (400, 0, 100, 300)
 BUILDINGS_PANEL_COLOUR = (255, 0, 255)
 RESOURCES_EXAMPLE = ["rock", "0", "gold", "0", "wood", "0"]
 LEFT = 1
+RIGHT = 3
 
 
 class MapViewResourcesPanel(wx.Panel):
@@ -41,6 +42,8 @@ class MapViewResourcesPanel(wx.Panel):
 
 class MapView(wx.Panel):
     sprites = []
+    all_sprites =
+    buildings = []
 
     def __init__(self, parent, size, name, sender, musicPath="TwoMandolins.mp3"):
         wx.Panel.__init__(self, parent=parent, size=size)
@@ -68,7 +71,42 @@ class MapView(wx.Panel):
                 print "You pressed the left mouse button"
                 clicked_sprites = [s for s in self.sprites if s.rect.collidepoint(pos)]
                 for sprite in clicked_sprites:
-                    print "Clicked sprite " + sprite.to_string()
+                    print "Clicked sprite " + sprite.name
+                if len(clicked_sprites) > 0:
+                    sprite_is_chosen = True
+                    building = clicked_sprites[0]
+                    shadow = Building(building.name, -1, building.sizeX, building.sizeY, self, pos)
+                    shadow_pos = pos
+                    shadow.update_position(shadow_pos, pos, self)
+                    pygame.display.update()
+                    while sprite_is_chosen:
+                        event = pygame.event.poll()
+                        pos = pygame.mouse.get_pos()
+                        shadow_pos = shadow.update_position(shadow_pos, pos, self)
+                        pygame.display.update()
+                        if event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
+                            pos = pygame.mouse.get_pos()
+                            print "Mouse pos " + str(pos[0]) + " " + str(pos[1])
+                            self.place_building(clicked_sprites[0], pos)
+                            sprite_is_chosen = False
+
+    def check_buildings_collision(self, new_building):
+        print "SPRITES"
+        print len(self.sprites)
+        for b in self.sprites:
+            if pygame.sprite.collide_rect(b, new_building):
+                return True
+        return False
+
+    def place_building(self, building, pos):
+        new_building = Building(building.name, -1, building.sizeX, building.sizeY, self, pos)
+        if self.check_buildings_collision(new_building):
+            print "Collision"
+        else:
+            self.addRect(RESOURCES_PANEL_COLOUR, (pos[0], pos[1], new_building.sizeX, new_building.sizeY))
+            self.sprites.append(new_building)
+        pygame.display.update()
+
 
     def initButtons(self):
         """ Function adding buttons """
@@ -83,10 +121,14 @@ class MapView(wx.Panel):
         print "Map view got msg", msg
         print msg
         dict = json.loads(msg)
-        info = ""
-        for (key, value) in dict.iteritems():
-            info += key + " " + str(value) + " "
-        self.resourcesPanel.updateResources(info)
+        if "Buildings" in dict:
+            self.buildings = dict["Buildings"]
+            self.addBuildingsToBuildingsPanel()
+        else:
+            info = ""
+            for (key, value) in dict.iteritems():
+                info += key + " " + str(value) + " "
+            self.resourcesPanel.updateResources(info)
 
     def onShow(self, event):
         if event.GetShow():
@@ -112,33 +154,50 @@ class MapView(wx.Panel):
         import pygame  # this has to happen after setting the environment variables.
         pygame.init()
         pygame.display.init()
-        window = pygame.display.set_mode(self.size)
-        self.addRect(window, (255, 0, 0), (10, 10, 100, 100))
-        self.addRect(window, (0, 255, 0), (120, 10, 100, 100))
-        self.addRect(window, (0, 0, 255), (10, 120, 100, 100))
-        self.addRect(window, (255, 255, 0), (120, 120, 100, 100))
-        self.addBuildingsPanel(window)
-        self.addBuildingsToBuildingsPanel(window)
+        self.window = pygame.display.set_mode(self.size)
+        self.addRect((255, 0, 0), (10, 10, 100, 100))
+        self.addRect((0, 255, 0), (120, 10, 100, 100))
+        self.addRect((0, 0, 255), (10, 120, 100, 100))
+        self.addRect((255, 255, 0), (120, 120, 100, 100))
+        self.addBuildingsPanel()
         pygame.display.flip()
         pygame.display.update()
         thread.start_new_thread(self.mouseListener, ())
 
-    def addRect(self, window, color, position):
-        window.fill(color, position)
+    def addRect(self, color, position):
+        self.window.fill(color, position)
 
-    def addBuildingsPanel(self, window):
-        self.addRect(window, BUILDINGS_PANEL_COLOUR, BUILDINGS_PANEL_SIZE)
+    def addBuildingsPanel(self):
+        self.addRect(BUILDINGS_PANEL_COLOUR, BUILDINGS_PANEL_SIZE)
 
-    def addBuildingsToBuildingsPanel(self, window):
-        self.sprites.append(Building(window, self))
+    def addBuildingsToBuildingsPanel(self):
+        for (i, b) in enumerate(self.buildings):
+            self.sprites.append(Building(b["name"], i, b["sizeX"], b["sizeY"], self))
+        pygame.display.update()
+
 
 import pygame
 
-class Building(pygame.sprite.Sprite):
-    def __init__(self, window, mapView):
-        super(pygame.sprite.Sprite).__init__(pygame.sprite.Sprite)
-        self.rect = pygame.Surface([50, 50]).get_rect(topleft=(400, 10))
-        mapView.addRect(window, RESOURCES_PANEL_COLOUR, (400, 10, 50, 50))
 
-    def to_string(self):
-        return "ala ma kota"
+class Building(pygame.sprite.Sprite):
+
+    def __init__(self, name, id, sizeX, sizeY, mapView, pos=()):
+        pygame.sprite.Sprite.__init__(self)
+        self.name = name
+        self.id = id
+        self.sizeX = sizeX
+        self.sizeY = sizeY
+        if len(pos) == 0:
+            self.image = pygame.Surface([sizeX, sizeY])
+            # self.image.fill(RESOURCES_PANEL_COLOUR)
+            mapView.window.fill(RESOURCES_PANEL_COLOUR, (400 + id % 2 * 60, 10 + id / 2 * 60, sizeX, sizeY))
+            self.rect = self.image.get_rect(topleft=(400 + id % 2 * 60, 10 + id / 2 * 60))
+            # mapView.addRect(RESOURCES_PANEL_COLOUR, (400 + id % 2 * 60, 10 + id / 2 * 60, sizeX, sizeY))
+        if len(pos) > 0:
+            self.image = pygame.Surface([sizeX, sizeY])
+            self.rect = self.image.get_rect(topleft=(pos[0], pos[1]))
+
+    def update_position(self, pos, mouse_pos, mapView):
+        mapView.window.blit(self.image, (mouse_pos[0] - pos[0] * 0.9, mouse_pos[1] - pos[1] * 0.9))
+        pygame.display.update()
+        return (mouse_pos[0] - pos[0] * 0.9, mouse_pos[1] - pos[1] * 0.9)
