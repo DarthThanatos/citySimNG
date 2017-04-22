@@ -23,4 +23,18 @@ public class MenuNode extends SocketNode{
 	}
 
 
+	@Override
+	public void atStart() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void atExit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }
