@@ -64,7 +64,20 @@ public abstract class SocketNode implements Node{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
+		try{
+			Thread.sleep(10);
+			// ^ giving sender enough time to send its message, this may need optimizing in the future
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		sender.setStream("SetView@" + nodeName.replace("Node", "")); 
+		// ^ we must remember that we get a node instance name adequate for a controller node, which has "Node" suffix;
+		// to translate it to the form understandable to the view layer, we just have to cut off the "Node" part
+		synchronized (sender){
+			sender.notify();
+		}
 		atStart();
 		
 		while(true){
@@ -84,14 +97,6 @@ public abstract class SocketNode implements Node{
 				if(command.equals("MoveTo")){
 					//expecting only one argument- Node instance name to pass control to
 					nextNode = args[0];
-					sender.setStream("SetView@" + nextNode.replace("Node", "")); 
-					// ^ we must remember that we get a node instance name adequate for a controller node, which has "Node" suffix;
-					// to translate it to the form understandable to the view layer, we just have to cut off the "Node" part
-					synchronized (sender){
-						sender.notify();
-					}
-					Thread.sleep(500); 
-					// ^ giving sender enough time to send its message, this may need optimizing in the future
 					break;
 				}
 				else{ 
@@ -109,7 +114,7 @@ public abstract class SocketNode implements Node{
 		sender.stopThread();
 		receiver.stopThread();
 		try{
-			Thread.sleep(500); 
+			Thread.sleep(10); 
 		}catch(Exception e){
 			e.printStackTrace();
 		}

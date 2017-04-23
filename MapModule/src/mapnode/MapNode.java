@@ -55,6 +55,7 @@ public class MapNode extends SocketNode{
 						Thread.sleep(3000);
 					}catch(Exception e){}
 				}
+				System.out.println("Map timer exited while loop");
 			}
 		};
 		resourcesThread.start();

@@ -13,10 +13,12 @@ public class ExchangeNode implements Node{
 
 	private Node parent;
 	private HashMap<String, Node> neighbors;
+	private DependenciesRepresenter dr;
 	
 	public ExchangeNode(DependenciesRepresenter dr){
 		System.out.println("Created Exchange Node");
 		neighbors = new HashMap<String, Node>();
+		this.dr = dr;
 	}
 	
 	
@@ -32,41 +34,27 @@ public class ExchangeNode implements Node{
 		Stock stock = new Stock();
 		stock.init(resourcesNames);
 	
-		Runnable stockThread = new Runnable() {
-			public void run() {
-				new StockAlgorithm().simulate(stock);
-			}
-		};
-	
 		RepresenterMock player = new RepresenterMock(resourcesNames);
-		new Thread(stockThread).start();
 		StockTable stockTable = new StockTable(stock);
-		while(!line.startsWith("exit")) {
-			System.out.println("Type 'stack' to open stack module");
-			line = input.nextLine();
-			if(line.startsWith("stack")) {
-				stock.setWorking(false);
-				stock.setPlayer(player);
-		 		stockTable.setVisible(true);
-			}
-		}
+		stock.setPlayer(player);
+ 		stockTable.setVisible(true);
+ 		new StockAlgorithm().simulate(stock);
 		input.close();
-		return null;
+		return parent;
 	}
 
 
 
 	@Override
 	public void setParent(String parentName, Node parent) {
-		// TODO Auto-generated method stub
 		this.parent = parent;
+		neighbors.put(parentName, parent);
 	}
 
 
 
 	@Override
 	public void addNeighbour(String hashKey, Node neighbor) {
-		// TODO Auto-generated method stub
 		neighbors.put(hashKey, neighbor);
 	}
 }

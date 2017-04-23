@@ -24,19 +24,22 @@ public class StockTable extends JFrame {
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 		Font font = new Font("Verdana", Font.BOLD, 20);
 		this.setFont(font);
-
+		
+		JFrame me = this;
 		WindowListener exitListener = new WindowAdapter() {
 
 		    @Override
 		    public void windowClosing(WindowEvent e) {
+		    	me.setAlwaysOnTop(false);
 		        int confirm = JOptionPane.showOptionDialog(
 		             null, "Are you sure to close stock?",
 		             "Closing confirmation", JOptionPane.YES_NO_OPTION,
 		             JOptionPane.QUESTION_MESSAGE, null, null, null);
 		        if (confirm == 0) {
 		        	setVisible(false);
-		            stock.setWorking(true);
+		            stock.setWorking(false);
 		        }
+		    	me.setAlwaysOnTop(false);
 		    }
 		};
 		this.addWindowListener(exitListener);
@@ -67,7 +70,9 @@ public class StockTable extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String resourceName = (String)resourceList.getSelectedItem();
 				double amount =  Double.parseDouble(textField.getText());
+				me.setAlwaysOnTop(false);
 				stock.stockOperation(resourceName, amount, "sell");
+				me.setAlwaysOnTop(true);
 			}
 		} );
 
@@ -77,7 +82,9 @@ public class StockTable extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String resourceName = (String)resourceList.getSelectedItem();
 				double amount =  Double.parseDouble(textField.getText());
+				me.setAlwaysOnTop(false);
 				stock.stockOperation(resourceName, amount, "buy");
+				me.setAlwaysOnTop(true);
 			}
 		} );
 
@@ -86,6 +93,7 @@ public class StockTable extends JFrame {
 		getContentPane().add(resourceList, BorderLayout.LINE_START);
 		getContentPane().add(textField, BorderLayout.CENTER);
 		getContentPane().add(buttons, BorderLayout.LINE_END);
+		this.setAlwaysOnTop(true);
 
 	}
 }
