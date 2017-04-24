@@ -9,7 +9,7 @@ import uuid
 RESOURCES_PANEL_POSITION = (0, 400)
 RESOURCES_PANEL_SIZE = 0.2
 RESOURCES_PANEL_COLOUR = (255, 255, 0)
-BUILDINGS_PANEL_SIZE = (400, 0, 100, 300)
+BUILDINGS_PANEL_SIZE = 0.3
 BUILDINGS_PANEL_COLOUR = (255, 0, 255)
 RESOURCES_EXAMPLE = ["rock", "0", "gold", "0", "wood", "0"]
 LEFT = 1
@@ -194,12 +194,15 @@ class MapView(wx.Panel):
         self.window.fill(color, position)
 
     def addBuildingsPanel(self):
-        self.addRect(BUILDINGS_PANEL_COLOUR, BUILDINGS_PANEL_SIZE)
+        self.addRect(BUILDINGS_PANEL_COLOUR, (self.size[0] - BUILDINGS_PANEL_SIZE * self.size[0], 0,
+                                              BUILDINGS_PANEL_SIZE * self.size[0], self.size[1]))
 
     def addBuildingsToBuildingsPanel(self):
         for (pos, building) in enumerate(self.buildings):
             building_sprite = Building(building["name"], uuid.uuid4(),
-                                       building["sizeX"], building["sizeY"], self, pos=pos)
+                                       building["sizeX"], building["sizeY"], self,
+                                       pos=(self.size[0] - BUILDINGS_PANEL_SIZE * self.size[0] + 60 * (pos % 2),
+                                            60 * (pos / 2)))
             self.buildings_sprites.add(building_sprite)
         pygame.display.update()
 
@@ -219,8 +222,8 @@ class Building(pygame.sprite.Sprite):
         # This is only building icon i buildings panel
         if panel_building:
             self.image = pygame.Surface([sizeX, sizeY])
-            mapView.window.fill(RESOURCES_PANEL_COLOUR, (400 + pos % 2 * 60, 10 + pos / 2 * 60, sizeX, sizeY))
-            self.rect = self.image.get_rect(topleft=(400 + pos % 2 * 60, 10 + pos / 2 * 60))
+            mapView.window.fill(RESOURCES_PANEL_COLOUR, (pos[0], pos[1], sizeX, sizeY))
+            self.rect = self.image.get_rect(topleft=(pos[0], pos[1]))
         # This is user building, before we draw it we have to check conditions
         else:
             self.image = pygame.Surface([sizeX, sizeY])
