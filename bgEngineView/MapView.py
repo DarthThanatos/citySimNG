@@ -7,7 +7,7 @@ import uuid
 
 
 RESOURCES_PANEL_POSITION = (0, 400)
-RESOURCES_PANEL_SIZE = (300, 100)
+RESOURCES_PANEL_SIZE = 0.2
 RESOURCES_PANEL_COLOUR = (255, 255, 0)
 BUILDINGS_PANEL_SIZE = (400, 0, 100, 300)
 BUILDINGS_PANEL_COLOUR = (255, 0, 255)
@@ -62,12 +62,15 @@ class MapView(wx.Panel):
         self.initButtons()
 
         # add resources panel
-        self.resourcesPanel = MapViewResourcesPanel(self, -1, RESOURCES_PANEL_POSITION,
-                                                    RESOURCES_PANEL_SIZE)
+        self.resourcesPanel = MapViewResourcesPanel(self, -1, (0, size[1] - RESOURCES_PANEL_SIZE * float(size[1])),
+                                                    (size[0], RESOURCES_PANEL_SIZE * float(size[1])))
+        print str()
         self.resourcesPanel.Show()
 
     def mouseListener(self):
-        while True:
+        clock = pygame.time.Clock()
+        FPS = 60
+        while self.event_thread_continue:
             event = pygame.event.poll()
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
                 pos = pygame.mouse.get_pos()
@@ -99,6 +102,10 @@ class MapView(wx.Panel):
                             print "Mouse pos " + str(pos[0]) + " " + str(pos[1])
                             self.place_building(clicked_sprites[0], pos)
                             sprite_is_chosen = False
+            pygame.display.set_caption(str(FPS))
+            pygame.display.flip()
+            clock.tick(FPS)
+        print "GERE"
 
     def check_buildings_collision(self, new_building):
         """ Check if new building collides with some other one """
@@ -120,7 +127,6 @@ class MapView(wx.Panel):
             self.addRect(RESOURCES_PANEL_COLOUR,
                          (pos[0], pos[1], new_building.sizeX, new_building.sizeY))
             self.buildings_sprites.add(new_building)
-        pygame.display.update()
 
     def initButtons(self):
         """ Function adding buttons """
@@ -129,6 +135,7 @@ class MapView(wx.Panel):
 
     def retToMenu(self, event):
         """ Menu button logic """
+        self.event_thread_continue = False
         self.sender.send("MapNode@MoveTo@MenuNode")
 
     def readMsg(self, msg):
@@ -173,14 +180,15 @@ class MapView(wx.Panel):
         pygame.init()
         pygame.display.init()
         self.window = pygame.display.set_mode(self.size)
-        self.addRect((255, 0, 0), (10, 10, 100, 100))
-        self.addRect((0, 255, 0), (120, 10, 100, 100))
-        self.addRect((0, 0, 255), (10, 120, 100, 100))
-        self.addRect((255, 255, 0), (120, 120, 100, 100))
+        # self.addRect((255, 0, 0), (10, 10, 100, 100))
+        # self.addRect((0, 255, 0), (120, 10, 100, 100))
+        # self.addRect((0, 0, 255), (10, 120, 100, 100))
+        # self.addRect((255, 255, 0), (120, 120, 100, 100))
         self.addBuildingsPanel()
         pygame.display.flip()
         pygame.display.update()
         thread.start_new_thread(self.mouseListener, ())
+        self.event_thread_continue = True
 
     def addRect(self, color, position):
         self.window.fill(color, position)
