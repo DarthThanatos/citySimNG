@@ -17,6 +17,8 @@ public class StockTable extends JFrame {
 
 	public StockTable(Stock stock) {
 		super("Stock Data");
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		this.setUndecorated(true);
 		setSize(300, 210);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	//	setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -88,8 +90,20 @@ public class StockTable extends JFrame {
 			}
 		} );
 
+		Button exitButton = new Button("EXIT");
+		exitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+		    	me.setAlwaysOnTop(false);
+		        setVisible(false);
+		        stock.setWorking(true);
+		    	me.setAlwaysOnTop(false);
+			}
+		} );
+
 		buttons.add(sellButton);
 		buttons.add(buyButton);
+		buttons.add(exitButton);
 		getContentPane().add(resourceList, BorderLayout.LINE_START);
 		getContentPane().add(textField, BorderLayout.CENTER);
 		getContentPane().add(buttons, BorderLayout.LINE_END);
