@@ -17,7 +17,8 @@ class MenuView(wx.Panel):
     def onShow(self, event):
         # print "Menu on show"
         global pygame
-        if event.GetShow(): 
+        if event.GetShow():
+                print "menu shown"
                 # print "menu: setting up music"
                 import pygame
                 print "Menu:", os.path.dirname(os.path.abspath(__file__))
@@ -26,6 +27,7 @@ class MenuView(wx.Panel):
                 pygame.mixer.music.load(os.path.dirname(os.path.abspath(__file__)) + "\\" + self.musicPath)
                 pygame.mixer.music.play()
         else:
+            print "menu hidden"
             try:
                 # print "Menu, quitting"
                 pygame.quit()

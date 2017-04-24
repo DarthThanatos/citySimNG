@@ -25,10 +25,12 @@ public class StockTable extends JFrame {
 		Font font = new Font("Verdana", Font.BOLD, 20);
 		this.setFont(font);
 
+		JFrame me = this;
 		WindowListener exitListener = new WindowAdapter() {
 
 		    @Override
 		    public void windowClosing(WindowEvent e) {
+		    	me.setAlwaysOnTop(false);
 		        int confirm = JOptionPane.showOptionDialog(
 		             null, "Are you sure to close stock?",
 		             "Closing confirmation", JOptionPane.YES_NO_OPTION,
@@ -37,20 +39,21 @@ public class StockTable extends JFrame {
 		        	setVisible(false);
 		            stock.setWorking(true);
 		        }
+		    	me.setAlwaysOnTop(false);
 		    }
 		};
 		this.addWindowListener(exitListener);
 
 		StockTableModel stockModel = new StockTableModel(stock.getResources());
 		JTable table = new JTable(stockModel);
-		
+
 		table.setFont(font);
 		table.setRowHeight(30);
 		TableColumn col0 = table.getColumnModel().getColumn(0);
 		col0.setPreferredWidth(125);
 		TableColumn col1 = table.getColumnModel().getColumn(1);
 		col1.setPreferredWidth(125);
-		
+
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(300, 130));
 		panel.add(table.getTableHeader(), BorderLayout.NORTH);
@@ -59,7 +62,7 @@ public class StockTable extends JFrame {
 
 		JComboBox<String> resourceList = new JComboBox<String>(stock.getNames());
 		JTextField textField = new JTextField("0");
-		
+
 		JPanel buttons = new JPanel();
 		Button sellButton = new Button("SELL");
 		sellButton.addActionListener(new ActionListener() {
@@ -67,7 +70,9 @@ public class StockTable extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String resourceName = (String)resourceList.getSelectedItem();
 				double amount =  Double.parseDouble(textField.getText());
+				me.setAlwaysOnTop(false);
 				stock.stockOperation(resourceName, amount, "sell");
+				me.setAlwaysOnTop(true);
 			}
 		} );
 
@@ -77,7 +82,9 @@ public class StockTable extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String resourceName = (String)resourceList.getSelectedItem();
 				double amount =  Double.parseDouble(textField.getText());
+				me.setAlwaysOnTop(false);
 				stock.stockOperation(resourceName, amount, "buy");
+				me.setAlwaysOnTop(true);
 			}
 		} );
 
@@ -86,6 +93,7 @@ public class StockTable extends JFrame {
 		getContentPane().add(resourceList, BorderLayout.LINE_START);
 		getContentPane().add(textField, BorderLayout.CENTER);
 		getContentPane().add(buttons, BorderLayout.LINE_END);
+		this.setAlwaysOnTop(true);
 
 	}
 }

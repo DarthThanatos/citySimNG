@@ -59,9 +59,10 @@ public class Resource {
 	public void update(double delta) {
 		this.oldprice = this.price;
 		this.price = this.price + this.price * delta;
-		printChange();
+		// printChange();
 	}
 
+	// method for debugging purposes
 	public void printChange() {
 		System.out.println(this.name+": old price = "+this.oldprice+", new price = "+this.price);
 	}

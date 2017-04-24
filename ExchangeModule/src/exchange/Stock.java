@@ -11,7 +11,7 @@ public class Stock {
 	private boolean working;
 
 	public Stock() {
-		working = true;
+		this.setWorking(true);
 	}
 
 	public List<Resource> getResources() {
@@ -23,6 +23,12 @@ public class Stock {
 	}
 
 	public void setWorking(boolean working) {
+		if(working == true) {
+			System.out.println("Stock is working");
+		}
+		else {
+			System.out.println("Stock is stopped");
+		}
 		this.working = working;
 	}
 

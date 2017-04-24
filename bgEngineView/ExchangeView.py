@@ -66,10 +66,10 @@ class ExchangeView(wx.Panel):
         self.name = name
         self.parent = parent
         self.sender = sender
-        self.center = ExchangeViewCenterPart(self, -1, (300, 300))
+        #self.center = ExchangeViewCenterPart(self, -1, (300, 300))
 
         self.initButtons()
-        self.Bind(wx.EVT_SHOW, self.center.onShow, self)
+        #self.Bind(wx.EVT_SHOW, self.center.onShow, self)
         #self.initMenuBar()
 
     def initButtons(self):
