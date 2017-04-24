@@ -32,12 +32,17 @@ public class MapNode extends SocketNode{
 			Boolean canAfford = buildings.placeBuilding(argsList[0], resources);
 			
 			// create and send reply to view
-//			JSONObject json = new JSONObject();
-//			synchronized(sender){
-//				sender.setStream("Map@" + json);
-//				sender.notify();
-//				System.out.println("Sent: Map@" + json);
-//			}
+			JSONObject json = new JSONObject();
+			json.put("BuildingID", argsList[1]);
+			json.put("CanAfford", canAfford);
+			json.put("actualRes", resources.getActualValues());
+			sender.setStream("Map@" + json);
+			synchronized(sender){
+				sender.notify();
+			}
+			
+			System.out.println("Sent after built: Map@" + json);
+			return "Map@" + json.toString();
 		}
 		return "Map@{}";
 	}
