@@ -14,35 +14,32 @@ public class ExchangeNode implements Node{
 	private Node parent;
 	private HashMap<String, Node> neighbors;
 	private DependenciesRepresenter dr;
-	
+	StockTable stockTable;
+	Stock stock;
+
 	public ExchangeNode(DependenciesRepresenter dr){
 		System.out.println("Created Exchange Node");
 		neighbors = new HashMap<String, Node>();
 		this.dr = dr;
-	}
-	
-	
-	
-	@Override
-	public Node nodeLoop() {		
-		Scanner input = new Scanner(System.in);
-		String line = "";
 		List<String> resourcesNames = new ArrayList<>();
 		resourcesNames.add("gold");
 		resourcesNames.add("silver");
 		resourcesNames.add("copper");
-		Stock stock = new Stock();
+		stock = new Stock();
 		stock.init(resourcesNames);
-	
 		RepresenterMock player = new RepresenterMock(resourcesNames);
-		StockTable stockTable = new StockTable(stock);
+		stockTable = new StockTable(stock);
 		stock.setPlayer(player);
- 		stockTable.setVisible(true);
- 		new StockAlgorithm().simulate(stock);
-		input.close();
-		return parent;
 	}
 
+
+	@Override
+	public Node nodeLoop() {
+		stock.setWorking(true);;
+ 		stockTable.setVisible(true);
+ 		new StockAlgorithm().simulate(stock);
+		return parent;
+	}
 
 
 	@Override
@@ -50,7 +47,6 @@ public class ExchangeNode implements Node{
 		this.parent = parent;
 		neighbors.put(parentName, parent);
 	}
-
 
 
 	@Override
