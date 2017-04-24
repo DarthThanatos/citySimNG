@@ -4,6 +4,9 @@ import re
 import thread
 import json
 import uuid
+import time
+
+import pygame
 
 FPS = 60
 GREEN = (0, 150, 0)
@@ -43,8 +46,6 @@ class MapViewResourcesPanel(wx.Panel):
         self.centerSizer.Add(self.resourcesField, 0, wx.EXPAND, 5)
         self.Update()
 
-import pygame
-
 
 class MapView(wx.Panel):
     sprites = []
@@ -71,9 +72,9 @@ class MapView(wx.Panel):
         self.initButtons()
 
         # add resources panel
-        self.resourcesPanel = MapViewResourcesPanel(self, -1, (0, self.size_y - RESOURCES_PANEL_SIZE * self.size_y),
-                                                    (self.size_x, RESOURCES_PANEL_SIZE * self.size_y))
-        self.resourcesPanel.Show()
+        # self.resourcesPanel = MapViewResourcesPanel(self, -1, (0, self.size_y - RESOURCES_PANEL_SIZE * self.size_y),
+                          #                           (self.size_x, RESOURCES_PANEL_SIZE * self.size_y))
+        # self.resourcesPanel.Show()
 
     def mes(self, msg, color, x, y):
         font = pygame.font.SysFont(None, 25)
@@ -100,6 +101,9 @@ class MapView(wx.Panel):
             self.mes("FPS: " + str(FPS), GREEN, 0, 0)
             pygame.display.flip()
             clock.tick(FPS)
+        print "Thread is ending"
+
+        return
 
     # background = pygame.Surface(self.window.get_size())
     # background.fill((122, 0, 0))
@@ -157,13 +161,16 @@ class MapView(wx.Panel):
             self.addBuildingsToBuildingsPanel()
         elif False:
             # we can draw building with given id
-            pass
+            info = ""
+            for (key, value) in msg_as_dict.iteritems():
+                info += key + " " + str(value) + " "
+            self.updateResources(info)
         else:
             # update resources values
             info = ""
             for (key, value) in msg_as_dict.iteritems():
                 info += key + " " + str(value) + " "
-            self.resourcesPanel.updateResources(info)
+            self.updateResources(info)
 
     def onShow(self, event):
         if event.GetShow():
@@ -173,6 +180,7 @@ class MapView(wx.Panel):
                 pygame.mixer.init()
                 pygame.mixer.music.load(os.path.dirname(os.path.abspath(__file__)) + "\\" + self.musicPath)
                 pygame.mixer.music.play()
+
             except Exception:
                 print "Problem with music"
         else:
@@ -191,10 +199,13 @@ class MapView(wx.Panel):
         pygame.display.init()
         self.window = pygame.display.set_mode((self.size_x, self.size_y))
         self.addBuildingsPanel()
+        self.addResourcesPanel()
         pygame.display.flip()
         # pygame.display.update()
         # start new thread, that will be listening for player events
         thread.start_new_thread(self.mouseListener, ())
+
+
 
     def addRect(self, color, position):
         self.window.fill(color, position)
@@ -203,6 +214,14 @@ class MapView(wx.Panel):
         self.window.fill(BUILDINGS_PANEL_COLOUR,
                          (self.size_x - BUILDINGS_PANEL_SIZE * self.size_x, 0,
                           BUILDINGS_PANEL_SIZE * self.size_x, self.size_y))
+
+    def addResourcesPanel(self):
+        self.window.fill(RESOURCES_PANEL_COLOUR,
+                         (0, self.size_y - RESOURCES_PANEL_SIZE * self.size_y,
+                          self.size_x, RESOURCES_PANEL_SIZE * self.size_y))
+        resourcesValues = RESOURCES_EXAMPLE
+        resourcesInfo = " ".join(resourcesValues)
+        self.mes("Resources: " + resourcesInfo, GREEN, 0, self.size_y - RESOURCES_PANEL_SIZE * self.size_y)
 
     def addBuildingsToBuildingsPanel(self):
         for (pos, building) in enumerate(self.buildings):
@@ -213,8 +232,12 @@ class MapView(wx.Panel):
             self.buildings_sprites.add(building_sprite)
         pygame.display.update()
 
-
-import pygame
+    def updateResources(self, info):
+        self.window.fill(RESOURCES_PANEL_COLOUR,
+                         (0, self.size_y - RESOURCES_PANEL_SIZE * self.size_y,
+                          self.size_x, RESOURCES_PANEL_SIZE * self.size_y))
+        self.mes("Resources: " + info, GREEN, 0, self.size_y - RESOURCES_PANEL_SIZE * self.size_y)
+        pygame.display.update()
 
 
 class Building(pygame.sprite.Sprite):
