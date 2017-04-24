@@ -17,8 +17,6 @@ public class StockTable extends JFrame {
 
 	public StockTable(Stock stock) {
 		super("Stock Data");
-		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		this.setUndecorated(true);
 		setSize(300, 210);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	//	setDefaultCloseOperation(EXIT_ON_CLOSE);
