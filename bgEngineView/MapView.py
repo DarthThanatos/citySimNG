@@ -4,13 +4,19 @@ import re
 import thread
 import json
 import uuid
+import time
 
+import pygame
 
+FPS = 60
+GREEN = (0, 150, 0)
+YELLOW = (200, 200, 0)
+PURPLE = (200, 0, 200)
 RESOURCES_PANEL_POSITION = (0, 400)
-RESOURCES_PANEL_SIZE = (300, 100)
-RESOURCES_PANEL_COLOUR = (255, 255, 0)
-BUILDINGS_PANEL_SIZE = (400, 0, 100, 300)
-BUILDINGS_PANEL_COLOUR = (255, 0, 255)
+RESOURCES_PANEL_SIZE = 0.2
+RESOURCES_PANEL_COLOUR = YELLOW
+BUILDINGS_PANEL_SIZE = 0.3
+BUILDINGS_PANEL_COLOUR = PURPLE
 RESOURCES_EXAMPLE = ["rock", "0", "gold", "0", "wood", "0"]
 LEFT = 1
 RIGHT = 3
@@ -19,8 +25,8 @@ RIGHT = 3
 class MapViewResourcesPanel(wx.Panel):
     def __init__(self, parent, ID, panelPos, panelSize):
         self.parent = parent
-        self.panelSize = panelSize
         self.ID = ID
+        self.panelSize = panelSize
 
         # resources
         self.resourcesValues = RESOURCES_EXAMPLE
@@ -40,8 +46,6 @@ class MapViewResourcesPanel(wx.Panel):
         self.centerSizer.Add(self.resourcesField, 0, wx.EXPAND, 5)
         self.Update()
 
-import pygame
-
 
 class MapView(wx.Panel):
     sprites = []
@@ -49,56 +53,73 @@ class MapView(wx.Panel):
     buildings = []
 
     def __init__(self, parent, size, name, sender, musicPath="TwoMandolins.mp3"):
+        # call base class constructor
         wx.Panel.__init__(self, parent=parent, size=size)
-        self.name = name
+
+        # set class fields
         self.parent = parent
+        self.size_x = size[0]
+        self.size_y = size[1]
+        self.name = name
         self.sender = sender
         self.musicPath = musicPath
-        self.size = size
+        self.game_on = True
 
+        # bind EVT_SHOW to onShow() function
         self.Bind(wx.EVT_SHOW, self.onShow, self)
 
         # add buttons
         self.initButtons()
 
         # add resources panel
-        self.resourcesPanel = MapViewResourcesPanel(self, -1, RESOURCES_PANEL_POSITION,
-                                                    RESOURCES_PANEL_SIZE)
-        self.resourcesPanel.Show()
+        # self.resourcesPanel = MapViewResourcesPanel(self, -1, (0, self.size_y - RESOURCES_PANEL_SIZE * self.size_y),
+                          #                           (self.size_x, RESOURCES_PANEL_SIZE * self.size_y))
+        # self.resourcesPanel.Show()
+
+    def mes(self, msg, color, x, y):
+        font = pygame.font.SysFont(None, 25)
+        screen_text = font.render(msg, True, color)
+        self.window.blit(screen_text, [x, y])
 
     def mouseListener(self):
-        while True:
-            event = pygame.event.poll()
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
-                pos = pygame.mouse.get_pos()
-                clicked_sprites = [s for s in self.buildings_sprites if s.rect.collidepoint(pos)]
-                for sprite in clicked_sprites:
-                    print "Clicked sprite " + sprite.name
-                if len(clicked_sprites) > 0:
-                    #background = pygame.Surface(self.window.get_size())
-                    #background.fill((122, 0, 0))
-                    sprite_is_chosen = True
-                    building = clicked_sprites[0]
-                    # shadow = Building(building.name, -1, building.sizeX, building.sizeY, self, pos)
-                    # shadow_sprite = pygame.sprite.Group(shadow)
-                    # shadow_sprite.draw(self.window)
-                    # shadow_pos = pos
-                    # shadow.update_position(shadow_pos, pos, self)
-                    # shadow_sprite.update()
-                    # pygame.display.update()
-                    while sprite_is_chosen:
-                        event = pygame.event.poll()
-                        # pos = pygame.mouse.get_pos()
-                        # shadow_pos = shadow.update_position(shadow_pos, pos, self)
-                        # shadow_sprite.clear(self.window, background)
-                        # shadow_sprite.update()
-                        # shadow_sprite.draw(self.window)
-                        # pygame.display.update()
-                        if event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
-                            pos = pygame.mouse.get_pos()
-                            print "Mouse pos " + str(pos[0]) + " " + str(pos[1])
-                            self.place_building(clicked_sprites[0], pos)
-                            sprite_is_chosen = False
+        sprite_is_chosen = False
+        building = None
+        clock = pygame.time.Clock()
+        while self.game_on:
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
+                    if sprite_is_chosen:
+                        pos = pygame.mouse.get_pos()
+                        self.place_building(building, pos)
+                        sprite_is_chosen = False
+                    else:
+                        pos = pygame.mouse.get_pos()
+                        clicked_sprites = [s for s in self.buildings_sprites if s.rect.collidepoint(pos)]
+                        if len(clicked_sprites) == 1:
+                            sprite_is_chosen = True
+                            building = clicked_sprites[0]
+            self.mes("FPS: " + str(FPS), GREEN, 0, 0)
+            pygame.display.flip()
+            clock.tick(FPS)
+        print "Thread is ending"
+
+        return
+
+    # background = pygame.Surface(self.window.get_size())
+    # background.fill((122, 0, 0))
+    # shadow = Building(building.name, -1, building.sizeX, building.sizeY, self, pos)
+    # shadow_sprite = pygame.sprite.Group(shadow)
+    # shadow_sprite.draw(self.window)
+    # shadow_pos = pos
+    # shadow.update_position(shadow_pos, pos, self)
+    # shadow_sprite.update()
+    # pygame.display.update()
+    # pos = pygame.mouse.get_pos()
+    # shadow_pos = shadow.update_position(shadow_pos, pos, self)
+    # shadow_sprite.clear(self.window, background)
+    # shadow_sprite.update()
+    # shadow_sprite.draw(self.window)
+    # pygame.display.update()
 
     def check_buildings_collision(self, new_building):
         """ Check if new building collides with some other one """
@@ -120,7 +141,6 @@ class MapView(wx.Panel):
             self.addRect(RESOURCES_PANEL_COLOUR,
                          (pos[0], pos[1], new_building.sizeX, new_building.sizeY))
             self.buildings_sprites.add(new_building)
-        pygame.display.update()
 
     def initButtons(self):
         """ Function adding buttons """
@@ -129,6 +149,7 @@ class MapView(wx.Panel):
 
     def retToMenu(self, event):
         """ Menu button logic """
+        self.game_on = False
         self.sender.send("MapNode@MoveTo@MenuNode")
 
     def readMsg(self, msg):
@@ -140,13 +161,16 @@ class MapView(wx.Panel):
             self.addBuildingsToBuildingsPanel()
         elif False:
             # we can draw building with given id
-            pass
+            info = ""
+            for (key, value) in msg_as_dict.iteritems():
+                info += key + " " + str(value) + " "
+            self.updateResources(info)
         else:
             # update resources values
             info = ""
             for (key, value) in msg_as_dict.iteritems():
                 info += key + " " + str(value) + " "
-            self.resourcesPanel.updateResources(info)
+            self.updateResources(info)
 
     def onShow(self, event):
         if event.GetShow():
@@ -156,6 +180,7 @@ class MapView(wx.Panel):
                 pygame.mixer.init()
                 pygame.mixer.music.load(os.path.dirname(os.path.abspath(__file__)) + "\\" + self.musicPath)
                 pygame.mixer.music.play()
+
             except Exception:
                 print "Problem with music"
         else:
@@ -172,31 +197,47 @@ class MapView(wx.Panel):
         import pygame  # this has to happen after setting the environment variables.
         pygame.init()
         pygame.display.init()
-        self.window = pygame.display.set_mode(self.size)
-        self.addRect((255, 0, 0), (10, 10, 100, 100))
-        self.addRect((0, 255, 0), (120, 10, 100, 100))
-        self.addRect((0, 0, 255), (10, 120, 100, 100))
-        self.addRect((255, 255, 0), (120, 120, 100, 100))
+        self.window = pygame.display.set_mode((self.size_x, self.size_y))
         self.addBuildingsPanel()
+        self.addResourcesPanel()
         pygame.display.flip()
-        pygame.display.update()
+        # pygame.display.update()
+        # start new thread, that will be listening for player events
         thread.start_new_thread(self.mouseListener, ())
+
+
 
     def addRect(self, color, position):
         self.window.fill(color, position)
 
     def addBuildingsPanel(self):
-        self.addRect(BUILDINGS_PANEL_COLOUR, BUILDINGS_PANEL_SIZE)
+        self.window.fill(BUILDINGS_PANEL_COLOUR,
+                         (self.size_x - BUILDINGS_PANEL_SIZE * self.size_x, 0,
+                          BUILDINGS_PANEL_SIZE * self.size_x, self.size_y))
+
+    def addResourcesPanel(self):
+        self.window.fill(RESOURCES_PANEL_COLOUR,
+                         (0, self.size_y - RESOURCES_PANEL_SIZE * self.size_y,
+                          self.size_x, RESOURCES_PANEL_SIZE * self.size_y))
+        resourcesValues = RESOURCES_EXAMPLE
+        resourcesInfo = " ".join(resourcesValues)
+        self.mes("Resources: " + resourcesInfo, GREEN, 0, self.size_y - RESOURCES_PANEL_SIZE * self.size_y)
 
     def addBuildingsToBuildingsPanel(self):
         for (pos, building) in enumerate(self.buildings):
             building_sprite = Building(building["name"], uuid.uuid4(),
-                                       building["sizeX"], building["sizeY"], self, pos=pos)
+                                       building["sizeX"], building["sizeY"], self,
+                                       pos=(self.size_x - BUILDINGS_PANEL_SIZE * self.size_x + 60 * (pos % 2),
+                                            60 * (pos / 2)))
             self.buildings_sprites.add(building_sprite)
         pygame.display.update()
 
-
-import pygame
+    def updateResources(self, info):
+        self.window.fill(RESOURCES_PANEL_COLOUR,
+                         (0, self.size_y - RESOURCES_PANEL_SIZE * self.size_y,
+                          self.size_x, RESOURCES_PANEL_SIZE * self.size_y))
+        self.mes("Resources: " + info, GREEN, 0, self.size_y - RESOURCES_PANEL_SIZE * self.size_y)
+        pygame.display.update()
 
 
 class Building(pygame.sprite.Sprite):
@@ -211,8 +252,8 @@ class Building(pygame.sprite.Sprite):
         # This is only building icon i buildings panel
         if panel_building:
             self.image = pygame.Surface([sizeX, sizeY])
-            mapView.window.fill(RESOURCES_PANEL_COLOUR, (400 + pos % 2 * 60, 10 + pos / 2 * 60, sizeX, sizeY))
-            self.rect = self.image.get_rect(topleft=(400 + pos % 2 * 60, 10 + pos / 2 * 60))
+            mapView.window.fill(RESOURCES_PANEL_COLOUR, (pos[0], pos[1], sizeX, sizeY))
+            self.rect = self.image.get_rect(topleft=(pos[0], pos[1]))
         # This is user building, before we draw it we have to check conditions
         else:
             self.image = pygame.Surface([sizeX, sizeY])

@@ -53,7 +53,9 @@ public class MapNode extends SocketNode{
 					resources.updateResources();
 					try{
 						Thread.sleep(3000);
-					}catch(Exception e){}
+					}catch(Exception e){
+						return;
+					}
 				}
 				System.out.println("Map timer exited while loop");
 			}
@@ -63,7 +65,7 @@ public class MapNode extends SocketNode{
 
 	@Override
 	public void atExit() {
-		update = false;
+		this.update = false;
 	}
 
 
