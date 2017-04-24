@@ -30,17 +30,22 @@ public class ExchangeNode implements Node{
 		RepresenterMock player = new RepresenterMock(resourcesNames);
 		stockTable = new StockTable(stock);
 		stock.setPlayer(player);
-	}
 
+		// this thread simulates stock's price changes in the background
+		Runnable stockThread = new Runnable() {
+			public void run() {
+				new StockAlgorithm().simulate(stock);
+			}
+		};
+		new Thread(stockThread).start();
+	}
 
 	@Override
 	public Node nodeLoop() {
-		stock.setWorking(true);;
+		stock.setWorking(false);
  		stockTable.setVisible(true);
- 		new StockAlgorithm().simulate(stock);
 		return parent;
 	}
-
 
 	@Override
 	public void setParent(String parentName, Node parent) {
@@ -48,9 +53,9 @@ public class ExchangeNode implements Node{
 		neighbors.put(parentName, parent);
 	}
 
-
 	@Override
 	public void addNeighbour(String hashKey, Node neighbor) {
 		neighbors.put(hashKey, neighbor);
 	}
+
 }

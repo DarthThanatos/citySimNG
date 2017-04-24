@@ -24,7 +24,7 @@ public class StockTable extends JFrame {
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 		Font font = new Font("Verdana", Font.BOLD, 20);
 		this.setFont(font);
-		
+
 		JFrame me = this;
 		WindowListener exitListener = new WindowAdapter() {
 
@@ -37,7 +37,7 @@ public class StockTable extends JFrame {
 		             JOptionPane.QUESTION_MESSAGE, null, null, null);
 		        if (confirm == 0) {
 		        	setVisible(false);
-		            stock.setWorking(false);
+		            stock.setWorking(true);
 		        }
 		    	me.setAlwaysOnTop(false);
 		    }
@@ -46,14 +46,14 @@ public class StockTable extends JFrame {
 
 		StockTableModel stockModel = new StockTableModel(stock.getResources());
 		JTable table = new JTable(stockModel);
-		
+
 		table.setFont(font);
 		table.setRowHeight(30);
 		TableColumn col0 = table.getColumnModel().getColumn(0);
 		col0.setPreferredWidth(125);
 		TableColumn col1 = table.getColumnModel().getColumn(1);
 		col1.setPreferredWidth(125);
-		
+
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(300, 130));
 		panel.add(table.getTableHeader(), BorderLayout.NORTH);
@@ -62,7 +62,7 @@ public class StockTable extends JFrame {
 
 		JComboBox<String> resourceList = new JComboBox<String>(stock.getNames());
 		JTextField textField = new JTextField("0");
-		
+
 		JPanel buttons = new JPanel();
 		Button sellButton = new Button("SELL");
 		sellButton.addActionListener(new ActionListener() {
