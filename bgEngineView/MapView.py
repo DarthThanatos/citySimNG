@@ -12,7 +12,7 @@ GREEN = (0, 150, 0)
 YELLOW = (200, 200, 0)
 PURPLE = (200, 0, 200)
 RESOURCES_PANEL_SIZE = 0.2
-BUILDINGS_PANEL_SIZE = 0.3
+BUILDINGS_PANEL_SIZE = 0.15
 RESOURCES_PANEL_COLOUR = YELLOW
 BUILDINGS_PANEL_COLOUR = PURPLE
 RESOURCES_EXAMPLE = ["rock", "0", "gold", "0", "wood", "0"]
@@ -21,7 +21,6 @@ RIGHT = 3
 
 
 class MapView(wx.Panel):
-    sprites = []
     buildings_sprites = pygame.sprite.Group()
     buildings = []
 
@@ -90,6 +89,11 @@ class MapView(wx.Panel):
                                               BUILDINGS_PANEL_SIZE * self.size_x, self.size_y)
         self.buildings_panel.draw_buildings_panel()
 
+        # start new thread, that will be listening for player events
+        self.game_on = True
+        self.listener_thread = UserEventHandlerThread(self)
+        self.listener_thread.start()
+
     def mes(self, msg, color, x, y):
         font = pygame.font.SysFont(None, 25)
         screen_text = font.render(msg, True, color)
@@ -121,11 +125,6 @@ class MapView(wx.Panel):
             # fill buildings panel
             self.buildings = msg_as_dict["Buildings"]
             self.buildings_panel.add_buildings_to_buildings_panel(self.buildings, self)
-            self.game_on = True
-
-            # start new thread, that will be listening for player events
-            self.listener_thread = UserEventHandlerThread(self)
-            self.listener_thread.start()
         elif "BuildingID" in msg_as_dict:
             info = ""
             # we can draw building with given id
@@ -193,7 +192,11 @@ class BuildingsPanel:
         self.size_y = size_y
 
     def draw_buildings_panel(self):
-        self.game_screen.fill(BUILDINGS_PANEL_COLOUR, (self.pos_x, self.pos_y, self.size_x, self.size_y))
+        image = pygame.image.load('Textures\\BuildingsPanelTexture.jpg')
+        print str(self.size_x)
+        print str(self.size_y)
+        image = pygame.transform.scale(image, (int(self.size_x), int(self.size_y)))
+        self.game_screen.blit(image, (self.pos_x, self.pos_y))
 
     def add_buildings_to_buildings_panel(self, buildings_info, main_panel):
         for (pos, building) in enumerate(buildings_info):
