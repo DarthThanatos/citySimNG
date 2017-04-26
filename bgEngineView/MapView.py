@@ -1,7 +1,7 @@
 import wx
 import os
 import re
-import thread
+import threading
 import json
 import uuid
 import time
@@ -52,7 +52,9 @@ class MapView(wx.Panel):
 
     def ret_to_menu(self, event):
         """ Menu button logic """
+        self.buildings_sprites = pygame.sprite.Group()
         self.game_on = False
+        self.listener_thread.join()
         self.sender.send("MapNode@MoveTo@MenuNode")
 
     def on_show(self, event):
@@ -88,41 +90,6 @@ class MapView(wx.Panel):
                                               BUILDINGS_PANEL_SIZE * self.size_x, self.size_y)
         self.buildings_panel.draw_buildings_panel()
 
-        # start new thread, that will be listening for player events
-        thread.start_new_thread(self.mouse_listener, ())
-
-    def mouse_listener(self):
-        sprite_is_chosen = False
-        building = None
-        clock = pygame.time.Clock()
-        while self.game_on:
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
-                    pos = pygame.mouse.get_pos()
-                    if sprite_is_chosen:
-                        shadow.rect.center = pos
-                        shadow.update()
-                        self.place_building(building, (shadow.rect.left, shadow.rect.top))
-                        sprite_is_chosen = False
-                    else:
-                        clicked_sprites = [s for s in self.buildings_sprites if s.rect.collidepoint(pos)]
-                        if len(clicked_sprites) == 1:
-                            sprite_is_chosen = True
-                            building = clicked_sprites[0]
-                            shadow = Building(building.name, building.id, building.size_x, building.size_y,
-                                              self.background, False, pos)
-                            shadow.image.fill(RESOURCES_PANEL_COLOUR)
-
-            pos = pygame.mouse.get_pos()
-            self.mes("FPS: " + str(FPS), GREEN, 0, 0)
-            self.background.blit(self.game_screen, (0, 0))
-            if sprite_is_chosen:
-                shadow.rect.center = pos
-                shadow.update()
-                self.background.blit(shadow.image, (shadow.rect.left, shadow.rect.top))
-            pygame.display.flip()
-            clock.tick(FPS)
-
     def mes(self, msg, color, x, y):
         font = pygame.font.SysFont(None, 25)
         screen_text = font.render(msg, True, color)
@@ -154,6 +121,11 @@ class MapView(wx.Panel):
             # fill buildings panel
             self.buildings = msg_as_dict["Buildings"]
             self.buildings_panel.add_buildings_to_buildings_panel(self.buildings, self)
+            self.game_on = True
+
+            # start new thread, that will be listening for player events
+            self.listener_thread = UserEventHandlerThread(self)
+            self.listener_thread.start()
         elif "BuildingID" in msg_as_dict:
             info = ""
             # we can draw building with given id
@@ -229,3 +201,41 @@ class BuildingsPanel:
                                        building["sizeX"], building["sizeY"], self.game_screen,
                                        pos=(self.pos_x + 60 * (pos % 2), 60 * (pos / 2)))
             main_panel.buildings_sprites.add(building_sprite)
+
+
+class UserEventHandlerThread(threading.Thread):
+    def __init__(self, mapView):
+        threading.Thread.__init__(self)
+        self.mapView = mapView
+
+    def run(self):
+        sprite_is_chosen = False
+        building = None
+        clock = pygame.time.Clock()
+        while self.mapView.game_on:
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
+                    pos = pygame.mouse.get_pos()
+                    if sprite_is_chosen:
+                        shadow.rect.center = pos
+                        shadow.update()
+                        self.mapView.place_building(building, (shadow.rect.left, shadow.rect.top))
+                        sprite_is_chosen = False
+                    else:
+                        clicked_sprites = [s for s in self.mapView.buildings_sprites if s.rect.collidepoint(pos)]
+                        if len(clicked_sprites) == 1:
+                            sprite_is_chosen = True
+                            building = clicked_sprites[0]
+                            shadow = Building(building.name, building.id, building.size_x, building.size_y,
+                                              self.mapView.background, False, pos)
+                            shadow.image.fill(RESOURCES_PANEL_COLOUR)
+
+            pos = pygame.mouse.get_pos()
+            self.mapView.mes("FPS: " + str(FPS), GREEN, 0, 0)
+            self.mapView.background.blit(self.mapView.game_screen, (0, 0))
+            if sprite_is_chosen:
+                shadow.rect.center = pos
+                shadow.update()
+                self.mapView.background.blit(shadow.image, (shadow.rect.left, shadow.rect.top))
+            pygame.display.flip()
+            clock.tick(FPS)

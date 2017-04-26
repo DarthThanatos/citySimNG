@@ -49,6 +49,7 @@ public class MapNode extends SocketNode{
 
 	@Override
 	public void atStart() {
+		update = true;
 		resources = new Resources(sender);
 		buildings = new Buildings(sender);
 		buildings.sendBuildingsInfo();
@@ -59,7 +60,7 @@ public class MapNode extends SocketNode{
 					try{
 						Thread.sleep(3000);
 					}catch(Exception e){
-						return;
+						System.out.println("Map timer exited while loop");
 					}
 				}
 				System.out.println("Map timer exited while loop");
@@ -70,6 +71,7 @@ public class MapNode extends SocketNode{
 
 	@Override
 	public void atExit() {
+		resourcesThread.interrupt();
 		this.update = false;
 	}
 
