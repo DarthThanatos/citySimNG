@@ -17,7 +17,7 @@ public class Buildings {
 		allBuildings = new ArrayList<Building>();
 		Building b1 = new Building();
 		b1.setName("house");
-		b1.setTexture("Textures\\Building1.png");
+		b1.setTexturePath("Textures\\Building1.png");
 		Map a = new HashMap();
 		a.put("rock", 2);
 		a.put("wood", 10);
@@ -36,7 +36,7 @@ public class Buildings {
 		
 		Building b2 = new Building();
 		b2.setName("shed");
-		b2.setTexture("Textures\\Building.png");
+		b2.setTexturePath("Textures\\Building.png");
 		Map b = new HashMap();
 		b.put("wood", 15);
 		b.put("rock", 0);
@@ -55,7 +55,7 @@ public class Buildings {
 		
 		Building b3 = new Building();
 		b3.setName("windmill");
-		b3.setTexture("Textures\\Building3.png");
+		b3.setTexturePath("Textures\\Building3.png");
 		Map c = new HashMap();
 		c.put("wood", 15);
 		c.put("rock", 2);

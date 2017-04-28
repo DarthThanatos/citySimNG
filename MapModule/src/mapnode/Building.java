@@ -5,18 +5,21 @@ import java.util.Map;
 
 public class Building {
 	private String name;
-	private String dewellerName;
-	private String texture;
-	private Map<String, Integer> resourcesCost;
+	private Map<String, Integer> dewellers;
+	private String predecessor;
+	private String successor;
 	private Map<String, Integer> produces;
 	private Map<String, Integer> consumes;
+	private Map<String, Integer> resourcesCost;
+	private String texturePath;
+	private String type;
 	
-	public String getTexture() {
-		return texture;
+	public String getTexturePath() {
+		return texturePath;
 	}
 	
-	public void setTexture(String texture) {
-		this.texture = texture;
+	public void setTexturePath(String texturePath) {
+		this.texturePath = texturePath;
 	}
 
 	public String getName() {
@@ -51,12 +54,36 @@ public class Building {
 		this.consumes = consumes;
 	}
 
-	public String getDewellerName() {
-		return dewellerName;
+	public Map<String, Integer> getDewellers() {
+		return dewellers;
 	}
 
-	public void setDewellerName(String dewellerName) {
-		this.dewellerName = dewellerName;
+	public void setDewellers(Map<String, Integer> dewellers) {
+		this.dewellers = dewellers;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getSuccessor() {
+		return successor;
+	}
+
+	public void setSuccessor(String successor) {
+		this.successor = successor;
+	}
+
+	public String getPredecessor() {
+		return predecessor;
+	}
+
+	public void setPredecessor(String predecessor) {
+		this.predecessor = predecessor;
 	}
 	
 }
