@@ -108,7 +108,7 @@ class MapView(wx.Panel):
 
     def place_building(self, building, pos):
         # Create sprite for new building
-        new_building = Building(building.name, uuid.uuid4(), building.size_x,
+        new_building = Building(building.name, uuid.uuid4(), building.texture, building.size_x,
                                 building.size_y, self, False, pos)
         self.buildings_dict[str(new_building.id)] = (new_building, pos)
         if self.check_buildings_collision(new_building):
@@ -132,8 +132,7 @@ class MapView(wx.Panel):
                 building = self.buildings_dict[msg_as_dict["BuildingID"]][0]
                 pos_x = self.buildings_dict[msg_as_dict["BuildingID"]][1][0]
                 pos_y = self.buildings_dict[msg_as_dict["BuildingID"]][1][1]
-                self.game_screen.fill(RESOURCES_PANEL_COLOUR,
-                                      (pos_x, pos_y, building.size_x, building.size_y))
+                self.game_screen.blit(building.image, (pos_x, pos_y))
                 self.buildings_sprites.add(building)
                 for (key, value) in msg_as_dict["actualRes"].iteritems():
                     info += key + " " + str(value) + " "
@@ -151,22 +150,26 @@ class MapView(wx.Panel):
 
 
 class Building(pygame.sprite.Sprite):
-    def __init__(self, name, id, size_x, size_y, game_screen, panel_building=True, pos=()):
+    def __init__(self, name, id, texture, size_x, size_y, game_screen, panel_building=True, pos=()):
         pygame.sprite.Sprite.__init__(self)
         self.name = name
         self.id = id
+        self.texture = texture
         self.size_x = size_x
         self.size_y = size_y
         self.game_screen = game_screen
 
         # This is only building icon in buildings panel
         if panel_building:
-            self.image = pygame.Surface([size_x, size_y])
-            self.game_screen.fill(RESOURCES_PANEL_COLOUR, (pos[0], pos[1], size_x, size_y))
+            # self.image = pygame.Surface([size_x, size_y])
+            self.image = pygame.image.load(texture)
+            self.image = pygame.transform.scale(self.image, (int(size_x), int(size_y)))
+            self.game_screen.blit(self.image, (pos[0], pos[1]))
             self.rect = self.image.get_rect(topleft=(pos[0], pos[1]))
         # This is user building, before we draw it we have to check conditions
         else:
-            self.image = pygame.Surface([size_x, size_y])
+            self.image = pygame.image.load(texture)
+            self.image = pygame.transform.scale(self.image, (int(size_x), int(size_y)))
             self.rect = self.image.get_rect(topleft=(pos[0], pos[1]))
 
 
@@ -179,7 +182,9 @@ class ResourcesPanel:
         self.size_y = size_y
 
     def draw_resources_panel(self, resources_info, main_panel):
-        self.game_screen.fill(RESOURCES_PANEL_COLOUR, (self.pos_x, self.pos_y, self.size_x, self.size_y))
+        image = pygame.image.load('Textures\\BuildingsPanelTexture.jpg')
+        image = pygame.transform.scale(image, (int(self.size_x), int(self.size_y)))
+        self.game_screen.blit(image, (self.pos_x, self.pos_y))
         main_panel.mes("Resources: " + resources_info, GREEN, self.pos_x, self.pos_y)
 
 
@@ -193,14 +198,12 @@ class BuildingsPanel:
 
     def draw_buildings_panel(self):
         image = pygame.image.load('Textures\\BuildingsPanelTexture.jpg')
-        print str(self.size_x)
-        print str(self.size_y)
         image = pygame.transform.scale(image, (int(self.size_x), int(self.size_y)))
         self.game_screen.blit(image, (self.pos_x, self.pos_y))
 
     def add_buildings_to_buildings_panel(self, buildings_info, main_panel):
         for (pos, building) in enumerate(buildings_info):
-            building_sprite = Building(building["name"], uuid.uuid4(),
+            building_sprite = Building(building["name"], uuid.uuid4(), building["texture"],
                                        building["sizeX"], building["sizeY"], self.game_screen,
                                        pos=(self.pos_x + 60 * (pos % 2), 60 * (pos / 2)))
             main_panel.buildings_sprites.add(building_sprite)
@@ -229,8 +232,8 @@ class UserEventHandlerThread(threading.Thread):
                         if len(clicked_sprites) == 1:
                             sprite_is_chosen = True
                             building = clicked_sprites[0]
-                            shadow = Building(building.name, building.id, building.size_x, building.size_y,
-                                              self.mapView.background, False, pos)
+                            shadow = Building(building.name, building.id, building.texture, building.size_x,
+                                              building.size_y, self.mapView.background, False, pos)
                             shadow.image.fill(RESOURCES_PANEL_COLOUR)
 
             pos = pygame.mouse.get_pos()
