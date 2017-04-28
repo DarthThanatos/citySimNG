@@ -8,6 +8,7 @@ import time
 import pygame
 
 FPS = 60
+RED = (150, 0, 0)
 GREEN = (0, 150, 0)
 YELLOW = (200, 200, 0)
 PURPLE = (200, 0, 200)
@@ -25,6 +26,7 @@ SPACE = 20
 
 class MapView(wx.Panel):
     buildings_sprites = pygame.sprite.Group()
+    all_sprites = pygame.sprite.Group()
     buildings = []
 
     def __init__(self, parent, size, name, sender, music_path="TwoMandolins.mp3"):
@@ -97,6 +99,9 @@ class MapView(wx.Panel):
                                               BUILDINGS_PANEL_SIZE * self.size_x, self.size_y)
         self.buildings_panel.draw_buildings_panel()
 
+        self.all_sprites.add(self.resources_panel)
+        self.all_sprites.add(self.buildings_panel)
+
         # start new thread, that will be listening for player events
         self.game_on = True
         self.listener_thread = UserEventHandlerThread(self)
@@ -109,7 +114,9 @@ class MapView(wx.Panel):
 
     def check_buildings_collision(self, new_building):
         """ Check if new building collides with some other one """
-        for b in self.buildings_sprites.sprites():
+        if not self.game_screen.get_rect().contains(new_building):
+            return True
+        for b in self.all_sprites.sprites():
             if pygame.sprite.collide_rect(b, new_building):
                 return True
         return False
@@ -185,32 +192,38 @@ class Building(pygame.sprite.Sprite):
             self.rect = self.image.get_rect(topleft=(pos[0], pos[1]))
 
 
-class ResourcesPanel:
+class ResourcesPanel(pygame.sprite.Sprite):
     def __init__(self, game_screen, pos_x, pos_y, size_x, size_y):
+        pygame.sprite.Sprite.__init__(self)
         self.game_screen = game_screen
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.size_x = size_x
         self.size_y = size_y
+        self.rect = None
 
     def draw_resources_panel(self, resources_info, main_panel):
         image = pygame.image.load('Textures\\BuildingsPanelTexture.jpg')
         image = pygame.transform.scale(image, (int(self.size_x), int(self.size_y)))
+        self.rect = image.get_rect(topleft=(self.pos_x, self.pos_y))
         self.game_screen.blit(image, (self.pos_x, self.pos_y))
         main_panel.mes("Resources: " + resources_info, GREEN, self.pos_x, self.pos_y)
 
 
-class BuildingsPanel:
+class BuildingsPanel(pygame.sprite.Sprite):
     def __init__(self, game_screen, pos_x, pos_y, size_x, size_y):
+        pygame.sprite.Sprite.__init__(self)
         self.game_screen = game_screen
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.size_x = size_x
         self.size_y = size_y
+        self.rect = None
 
     def draw_buildings_panel(self):
         image = pygame.image.load('Textures\\BuildingsPanelTexture.jpg')
         image = pygame.transform.scale(image, (int(self.size_x), int(self.size_y)))
+        self.rect = image.get_rect(topleft=(self.pos_x, self.pos_y))
         self.game_screen.blit(image, (self.pos_x, self.pos_y))
 
     def add_buildings_to_buildings_panel(self, buildings_info, main_panel):
@@ -248,7 +261,7 @@ class UserEventHandlerThread(threading.Thread):
                             building = clicked_sprites[0]
                             shadow = Building(building.name, building.id, building.texture,
                                               self.mapView.background, False, pos)
-                            shadow.image.fill(RESOURCES_PANEL_COLOUR)
+                            shadow.image.fill(RED)
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == RIGHT:
                     if sprite_is_chosen:
                         sprite_is_chosen = False
@@ -259,6 +272,10 @@ class UserEventHandlerThread(threading.Thread):
             if sprite_is_chosen:
                 shadow.rect.center = pos
                 shadow.update()
+                if self.mapView.check_buildings_collision(shadow):
+                    shadow.image.fill(RED)
+                else:
+                    shadow.image.fill(GREEN)
                 self.mapView.background.blit(shadow.image, (shadow.rect.left, shadow.rect.top))
             pygame.display.flip()
             clock.tick(FPS)
