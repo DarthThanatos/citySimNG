@@ -28,11 +28,13 @@ public class Resources {
 	}
 	
 	public void updateResources(){
+		Map<String, String> actualValuseAndIncomes = new HashMap<String, String>();
 		for(String resource : resources){
 			actualValues.put(resource, actualValues.get(resource) + incomes.get(resource));
+			actualValuseAndIncomes.put(resource, actualValues.get(resource) + 
+					" + " + incomes.get(resource));
 		}
-		JSONObject json = new JSONObject(actualValues);
-		System.out.println(json);
+		JSONObject json = new JSONObject(actualValuseAndIncomes);
 		sender.setStream("Map@" + json);
 		synchronized(sender){
 			sender.notify();
@@ -42,4 +44,23 @@ public class Resources {
 	public Map<String, Integer> getActualValues(){
 		return this.actualValues;
 	}
+	
+	public Map<String, Integer> getIncomes(){
+		return this.incomes;
+	}
+	
+	public List<String> getResources(){
+		return this.resources;
+	}
+	
+	
+	public void setActualValues(Map<String, Integer> actualValues){
+		this.actualValues = actualValues;
+	}
+	
+	public void setIncomes(Map<String, Integer> incomes){
+		this.incomes = incomes;
+	}
+	
+	
 }

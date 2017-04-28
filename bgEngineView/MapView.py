@@ -137,17 +137,17 @@ class MapView(wx.Panel):
                 self.game_screen.blit(building.image, (pos_x, pos_y))
                 self.buildings_sprites.add(building)
                 for (key, value) in msg_as_dict["actualRes"].iteritems():
-                    info += key + " " + str(value) + " "
+                    info += key + ": " + str(value) + " "
                 self.resources_panel.draw_resources_panel(info, self)
             else:
                 for (key, value) in msg_as_dict["actualRes"].iteritems():
-                    info += key + " " + str(value) + " "
+                    info += key + ": " + str(value) + " "
                 self.resources_panel.draw_resources_panel(info, self)
         else:
             # update resources values
             info = ""
             for (key, value) in msg_as_dict.iteritems():
-                info += key + " " + str(value) + " "
+                info += key + ": " + str(value) + " "
             self.resources_panel.draw_resources_panel(info, self)
 
 

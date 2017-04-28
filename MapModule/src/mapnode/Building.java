@@ -7,6 +7,7 @@ public class Building {
 	private String texture;
 	private String name;
 	private Map<String, Integer> resourcesCost;
+	private Map<String, Integer> produces;
 	
 	public String getTexture() {
 		return texture;
@@ -30,6 +31,14 @@ public class Building {
 
 	public void setResourcesCost(Map<String, Integer> resourcesCost) {
 		this.resourcesCost = resourcesCost;
+	}
+
+	public Map<String, Integer> getProduces() {
+		return produces;
+	}
+
+	public void setProduces(Map<String, Integer> produces) {
+		this.produces = produces;
 	}
 	
 }

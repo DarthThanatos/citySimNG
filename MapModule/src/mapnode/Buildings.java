@@ -22,6 +22,10 @@ public class Buildings {
 		a.put("rock", 2);
 		a.put("wood", 10);
 		b1.setResourcesCost(a);
+		Map a2 = new HashMap();
+		a2.put("rock", 1);
+		a2.put("wood", 3);
+		b1.setProduces(a2);
 		
 		Building b2 = new Building();
 		b2.setName("shed");
@@ -29,6 +33,11 @@ public class Buildings {
 		Map b = new HashMap();
 		b.put("wood", 15);
 		b2.setResourcesCost(b);
+		Map bm2 = new HashMap();
+		bm2.put("rock", 1);
+		bm2.put("wood", 3);
+		b2.setProduces(bm2);
+		
 		
 		Building b3 = new Building();
 		b3.setName("windmill");
@@ -36,6 +45,10 @@ public class Buildings {
 		Map c = new HashMap();
 		c.put("wood", 15);
 		b3.setResourcesCost(c);
+		Map c2 = new HashMap();
+		c2.put("rock", 1);
+		c2.put("wood", 3);
+		b3.setProduces(c2);
 		
 		allBuildings.add(b1);
 		allBuildings.add(b2);
@@ -56,6 +69,7 @@ public class Buildings {
 	
 	public boolean placeBuilding(String buildingsName, Resources resources){
 		Map<String, Integer> actualValues = resources.getActualValues();
+		Map<String, Integer> incomes = resources.getIncomes();
 		Building b = null;
 		
 		for(Building building : allBuildings){
@@ -77,7 +91,10 @@ public class Buildings {
 		    String resource = entry.getKey();
 		    Integer cost = entry.getValue();
 		    actualValues.put(resource, actualValues.get(resource) - cost);
+		    incomes.put(resource, incomes.get(resource) + b.getProduces().get(resource));
 		}
+		
+		
 		
 		return true;
 	}

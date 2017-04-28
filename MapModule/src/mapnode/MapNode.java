@@ -2,7 +2,9 @@ package mapnode;
 
 import model.DependenciesRepresenter;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONObject;
 
@@ -32,10 +34,15 @@ public class MapNode extends SocketNode{
 			Boolean canAfford = buildings.placeBuilding(argsList[0], resources);
 			
 			// create and send reply to view
+			Map<String, String> actualValuseAndIncomes = new HashMap<String, String>();
+			for(String resource : resources.getResources()){
+				actualValuseAndIncomes.put(resource, resources.getActualValues().get(resource) + 
+						" + " + resources.getIncomes().get(resource));
+			}
 			JSONObject json = new JSONObject();
 			json.put("BuildingID", argsList[1]);
 			json.put("CanAfford", canAfford);
-			json.put("actualRes", resources.getActualValues());
+			json.put("actualRes", actualValuseAndIncomes);
 			sender.setStream("Map@" + json);
 			synchronized(sender){
 				sender.notify();
