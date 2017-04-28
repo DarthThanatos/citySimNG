@@ -18,6 +18,9 @@ BUILDINGS_PANEL_COLOUR = PURPLE
 RESOURCES_EXAMPLE = ["rock", "0", "gold", "0", "wood", "0"]
 LEFT = 1
 RIGHT = 3
+DEFAULT_BUILDING_TEXTURE = "Textures\\DefaultBuilding.jpg"
+BUILDING_SIZE = 0.05
+SPACE = 20
 
 
 class MapView(wx.Panel):
@@ -108,8 +111,7 @@ class MapView(wx.Panel):
 
     def place_building(self, building, pos):
         # Create sprite for new building
-        new_building = Building(building.name, uuid.uuid4(), building.texture, building.size_x,
-                                building.size_y, self, False, pos)
+        new_building = Building(building.name, uuid.uuid4(), building.texture, self.game_screen, False, pos)
         self.buildings_dict[str(new_building.id)] = (new_building, pos)
         if self.check_buildings_collision(new_building):
             print "Collision detected. Can't place building here."
@@ -150,26 +152,31 @@ class MapView(wx.Panel):
 
 
 class Building(pygame.sprite.Sprite):
-    def __init__(self, name, id, texture, size_x, size_y, game_screen, panel_building=True, pos=()):
+    def __init__(self, name, id, texture, game_screen, panel_building=True, pos=()):
         pygame.sprite.Sprite.__init__(self)
         self.name = name
         self.id = id
         self.texture = texture
-        self.size_x = size_x
-        self.size_y = size_y
         self.game_screen = game_screen
 
+        width, height = self.game_screen.get_size()
         # This is only building icon in buildings panel
         if panel_building:
             # self.image = pygame.Surface([size_x, size_y])
-            self.image = pygame.image.load(texture)
-            self.image = pygame.transform.scale(self.image, (int(size_x), int(size_y)))
+            try:
+                self.image = pygame.image.load(self.texture)
+            except Exception:
+                self.texture = DEFAULT_BUILDING_TEXTURE
+                self.image = pygame.image.load(self.texture)
+            self.image = pygame.transform.scale(self.image, (int(width * BUILDING_SIZE),
+                                                             int(height * BUILDING_SIZE)))
             self.game_screen.blit(self.image, (pos[0], pos[1]))
             self.rect = self.image.get_rect(topleft=(pos[0], pos[1]))
         # This is user building, before we draw it we have to check conditions
         else:
             self.image = pygame.image.load(texture)
-            self.image = pygame.transform.scale(self.image, (int(size_x), int(size_y)))
+            self.image = pygame.transform.scale(self.image, (int(width * BUILDING_SIZE),
+                                                             int(height * BUILDING_SIZE)))
             self.rect = self.image.get_rect(topleft=(pos[0], pos[1]))
 
 
@@ -202,10 +209,12 @@ class BuildingsPanel:
         self.game_screen.blit(image, (self.pos_x, self.pos_y))
 
     def add_buildings_to_buildings_panel(self, buildings_info, main_panel):
+        width, height = self.game_screen.get_size()
         for (pos, building) in enumerate(buildings_info):
             building_sprite = Building(building["name"], uuid.uuid4(), building["texture"],
-                                       building["sizeX"], building["sizeY"], self.game_screen,
-                                       pos=(self.pos_x + 60 * (pos % 2), 60 * (pos / 2)))
+                                       self.game_screen,
+                                       pos=(self.pos_x + BUILDING_SIZE * width * (pos % 2) + (pos % 2) * SPACE,
+                                            BUILDING_SIZE * height * (pos / 2) + SPACE * (pos / 2)))
             main_panel.buildings_sprites.add(building_sprite)
 
 
@@ -232,9 +241,12 @@ class UserEventHandlerThread(threading.Thread):
                         if len(clicked_sprites) == 1:
                             sprite_is_chosen = True
                             building = clicked_sprites[0]
-                            shadow = Building(building.name, building.id, building.texture, building.size_x,
-                                              building.size_y, self.mapView.background, False, pos)
+                            shadow = Building(building.name, building.id, building.texture,
+                                              self.mapView.background, False, pos)
                             shadow.image.fill(RESOURCES_PANEL_COLOUR)
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == RIGHT:
+                    if sprite_is_chosen:
+                        sprite_is_chosen = False
 
             pos = pygame.mouse.get_pos()
             self.mapView.mes("FPS: " + str(FPS), GREEN, 0, 0)
