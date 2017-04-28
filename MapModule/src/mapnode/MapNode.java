@@ -71,7 +71,6 @@ public class MapNode extends SocketNode{
 		synchronized(sender){
 			sender.notify();
 		} 
-		
 		resourcesThread = new Thread() {
 			public void run() {
 				while(update){

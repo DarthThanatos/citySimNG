@@ -75,7 +75,10 @@ public class Buildings {
 		allBuildings.add(b1);
 		allBuildings.add(b2);
 		allBuildings.add(b3);
-		
+		allBuildings.add(b3);
+		allBuildings.add(b3);
+
+
 		this.sender = sender;
 	}
 	

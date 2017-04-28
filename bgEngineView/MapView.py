@@ -5,6 +5,8 @@ import json
 import uuid
 import pygame
 
+TMP = 1
+FONT = "Comic Sans MS"
 FPS = 60
 RED = (150, 0, 0)
 GREEN = (0, 150, 0)
@@ -13,6 +15,12 @@ PURPLE = (200, 0, 200)
 WHITE = (255, 255, 255)
 RESOURCES_PANEL_SIZE = 0.2
 BUILDINGS_PANEL_SIZE = 0.15
+ARROW_BUTTON_WIDTH = 0.2
+RIGHT_ARROW_BUTTON_X = 0.7
+ARROW_BUTTON_HEIGHT = 0.1
+ARROW_BUTTON_Y = 0.7
+LEFT_ARROW_BUTTON_X = 0.3
+
 RESOURCES_PANEL_COLOUR = YELLOW
 BUILDINGS_PANEL_COLOUR = PURPLE
 RESOURCES_EXAMPLE = ["rock", "0", "gold", "0", "wood", "0"]
@@ -27,10 +35,19 @@ RESOURCES_SPACE = 10
 
 
 class MapView(wx.Panel):
+    background = None
+    game_screen = None
+    resources_panel = None
+    buildings_panel = None
+    listener_thread = None
     buildings_sprites = pygame.sprite.Group()
     buildings_panel_sprites = pygame.sprite.Group()
     all_sprites = pygame.sprite.Group()
     buildings = []
+    right_arrow_buildings_panel = None
+    left_arrow_buildings_panel = None
+    buildings_dict = {}
+    game_on = True
     resources_initialized = False
 
     def __init__(self, parent, size, name, sender, music_path="TwoMandolins.mp3"):
@@ -44,8 +61,6 @@ class MapView(wx.Panel):
         self.name = name
         self.sender = sender
         self.music_path = music_path
-        self.game_on = True
-        self.buildings_dict = {}
 
         # bind EVT_SHOW to onShow() function
         self.Bind(wx.EVT_SHOW, self.on_show, self)
@@ -99,8 +114,8 @@ class MapView(wx.Panel):
         self.game_screen.blit(image, (0, 0))
         self.resources_panel = ResourcesPanel(self.game_screen, 0, self.size_y - RESOURCES_PANEL_SIZE * self.size_y,
                                               self.size_x, RESOURCES_PANEL_SIZE * self.size_y)
-        # self.resources_panel.draw_resources_panel(" ".join(RESOURCES_EXAMPLE), self)
-        self.buildings_panel = BuildingsPanel(self.game_screen, self.size_x - BUILDINGS_PANEL_SIZE * self.size_x, 0,
+        self.buildings_panel = BuildingsPanel(self.game_screen, self,
+                                              self.size_x - BUILDINGS_PANEL_SIZE * self.size_x, 0,
                                               BUILDINGS_PANEL_SIZE * self.size_x, self.size_y)
         self.buildings_panel.draw_buildings_panel()
 
@@ -113,7 +128,7 @@ class MapView(wx.Panel):
         self.listener_thread.start()
 
     def mes(self, msg, color, x, y, surface=None):
-        font = pygame.font.SysFont("Comic Sans MS", 25)
+        font = pygame.font.SysFont(FONT, 25)
         screen_text = font.render(msg, True, color)
         if surface is None:
             self.game_screen.blit(screen_text, [x, y])
@@ -122,7 +137,7 @@ class MapView(wx.Panel):
         return screen_text.get_size()
 
     def draw_message_with_wrapping(self, msg, color, x, y, surface):
-        font = pygame.font.SysFont("Comic Sans MS", 25)
+        font = pygame.font.SysFont(FONT, 25)
         space_width = font.size(' ')[0]
         pos_x, pos_y = x, y
         max_width, max_height = self.game_screen.get_size()
@@ -134,7 +149,6 @@ class MapView(wx.Panel):
                 pos_y += word_height  # Start on new row.
             surface.blit(word_surface, (pos_x, pos_y))
             pos_x += word_width + space_width
-        surface.blit(word_surface, [x, y])
 
     def check_buildings_collision(self, new_building):
         """ Check if new building collides with some other one """
@@ -163,7 +177,7 @@ class MapView(wx.Panel):
         if "buildings" in msg_as_dict:
             # fill buildings panel
             self.buildings = msg_as_dict["buildings"]
-            self.buildings_panel.add_buildings_to_buildings_panel(self.buildings, self)
+            self.buildings_panel.add_buildings_to_buildings_panel(self.buildings)
             self.resources_panel.add_resources_to_resources_panel(msg_as_dict["resources"])
             self.resources_initialized = True
         elif "buildingID" in msg_as_dict:
@@ -184,13 +198,14 @@ class MapView(wx.Panel):
 
 
 class Building(pygame.sprite.Sprite):
-    def __init__(self, name, id, resources_cost, texture, game_screen, panel_building=True, pos=()):
+    def __init__(self, name, id, resources_cost, texture, game_screen, panel_building=False, pos=()):
         pygame.sprite.Sprite.__init__(self)
         self.name = name
         self.id = id
         self.resources_cost = resources_cost
         self.texture = texture
         self.game_screen = game_screen
+        self.pos = pos
 
         width, height = self.game_screen.get_size()
         # This is only building icon in buildings panel
@@ -206,7 +221,11 @@ class Building(pygame.sprite.Sprite):
             self.rect = self.image.get_rect(topleft=(pos[0], pos[1]))
         # This is user building, before we draw it we have to check conditions
         else:
-            self.image = pygame.image.load(texture)
+            try:
+                self.image = pygame.image.load(self.texture)
+            except Exception:
+                self.texture = DEFAULT_BUILDING_TEXTURE
+                self.image = pygame.image.load(self.texture)
             self.image = pygame.transform.scale(self.image, (int(width * BUILDING_SIZE),
                                                              int(height * BUILDING_SIZE)))
             self.rect = self.image.get_rect(topleft=(pos[0], pos[1]))
@@ -262,9 +281,17 @@ class ResourcesPanel(pygame.sprite.Sprite):
 
 
 class BuildingsPanel(pygame.sprite.Sprite):
-    def __init__(self, game_screen, pos_x, pos_y, size_x, size_y):
+    it = 0
+    more_buildings = False
+    one_page = None
+    buildings_info = None
+    tmp = 1
+    tmp2 = -1
+
+    def __init__(self, game_screen, main_panel, pos_x, pos_y, size_x, size_y):
         pygame.sprite.Sprite.__init__(self)
         self.game_screen = game_screen
+        self.main_panel = main_panel
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.size_x = size_x
@@ -277,17 +304,68 @@ class BuildingsPanel(pygame.sprite.Sprite):
         self.rect = image.get_rect(topleft=(self.pos_x, self.pos_y))
         self.game_screen.blit(image, (self.pos_x, self.pos_y))
 
-    def add_buildings_to_buildings_panel(self, buildings_info, main_panel):
-        width, height = self.game_screen.get_size()
-        for (pos, building) in enumerate(buildings_info):
-            resource_cost_string = ""
-            for (resource, value) in building["resourcesCost"].iteritems():
-                resource_cost_string += "{}: {} ; ".format(resource, value)
-            building_sprite = Building(building["name"], uuid.uuid4(), resource_cost_string,
-                                       building["texturePath"], self.game_screen,
-                                       pos=(self.pos_x + BUILDING_SIZE * width * (pos % 2) + (pos % 2) * SPACE,
-                                            BUILDING_SIZE * height * (pos / 2) + SPACE * (pos / 2)))
-            main_panel.buildings_panel_sprites.add(building_sprite)
+        image = pygame.image.load('Textures\\RightArrow.png')
+        image = pygame.transform.scale(image, (int(ARROW_BUTTON_WIDTH * self.size_x),
+                                               int(ARROW_BUTTON_HEIGHT * self.size_y)))
+        right_arrow_rect = image.get_rect(topleft=(self.pos_x + RIGHT_ARROW_BUTTON_X * self.size_x,
+                                          ARROW_BUTTON_Y * self.size_y))
+        self.game_screen.blit(image, (self.pos_x + RIGHT_ARROW_BUTTON_X * self.size_x,
+                                      ARROW_BUTTON_Y * self.size_y))
+        self.main_panel.right_arrow_buildings_panel = right_arrow_rect
+
+        image = pygame.image.load('Textures\\LeftArrow.png')
+        image = pygame.transform.scale(image, (int(ARROW_BUTTON_WIDTH * self.size_x),
+                                               int(ARROW_BUTTON_HEIGHT * self.size_y)))
+        left_arrow_rect = image.get_rect(topleft=(self.pos_x + LEFT_ARROW_BUTTON_X * self.size_x,
+                                         ARROW_BUTTON_Y * self.size_y))
+        self.game_screen.blit(image, (self.pos_x + LEFT_ARROW_BUTTON_X * self.size_x,
+                                      ARROW_BUTTON_Y * self.size_y))
+        self.main_panel.left_arrow_buildings_panel = left_arrow_rect
+
+    def add_buildings_to_buildings_panel(self, buildings_info):
+            width, height = self.game_screen.get_size()
+            self.buildings_info = buildings_info
+            for (pos, building) in enumerate(buildings_info):
+                resource_cost_string = ""
+                for (resource, value) in building["resourcesCost"].iteritems():
+                    resource_cost_string += "{}: {} ; ".format(resource, value)
+                building_sprite = Building(building["name"], uuid.uuid4(), resource_cost_string,
+                                           building["texturePath"], self.game_screen,
+                                           pos=(self.pos_x + BUILDING_SIZE * width * (pos % 2) + (pos % 2) * SPACE,
+                                                BUILDING_SIZE * height * (pos / 2) + SPACE * (pos / 2)))
+                self.main_panel.buildings_panel_sprites.add(building_sprite)
+            self.draw()
+
+    def draw(self):
+        # if BUILDING_SIZE * height * (pos / 2) + SPACE * (pos / 2) >= \
+        #        self.main_panel.game_screen.get_size()[1]:
+        for (i, building) in enumerate(self.main_panel.buildings_panel_sprites):
+            if i > self.tmp:
+                if self.tmp == 1:
+                    self.tmp = 3
+                    self.tmp2 = 2
+                else:
+                    self.tmp = 1
+                    self.tmp2 = -1
+                self.it = i
+                if self.one_page is None:
+                    self.one_page = i - 1
+                self.more_buildings = True
+                break
+            if i < self.tmp2:
+                continue
+            self.game_screen.blit(building.image, (building.pos[0], building.pos[1]))
+
+    def scroll_building_panel_right(self):
+        if self.more_buildings:
+            self.draw_buildings_panel()
+            self.draw()
+
+    def scroll_building_panel_left(self):
+        if self.it > 0:
+            self.it -= self.one_page
+            self.draw_buildings_panel()
+            self.draw()
 
 
 class UserEventHandlerThread(threading.Thread):
@@ -302,7 +380,9 @@ class UserEventHandlerThread(threading.Thread):
         while self.map_view.game_on:
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
+                    print self.map_view.left_arrow_buildings_panel
                     pos = pygame.mouse.get_pos()
+                    print pos
                     if sprite_is_chosen:
                         shadow.rect.center = pos
                         shadow.update()
@@ -316,6 +396,10 @@ class UserEventHandlerThread(threading.Thread):
                             shadow = Building(building.name, building.id, building.resources_cost,
                                               building.texture, self.map_view.background, False, pos)
                             shadow.image.fill(RED)
+                        if self.map_view.left_arrow_buildings_panel.collidepoint(pos):
+                            self.map_view.buildings_panel.scroll_building_panel_left()
+                        if self.map_view.right_arrow_buildings_panel.collidepoint(pos):
+                            self.map_view.buildings_panel.scroll_building_panel_right()
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == RIGHT:
                     if sprite_is_chosen:
                         sprite_is_chosen = False
