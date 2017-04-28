@@ -60,13 +60,18 @@ public class MapNode extends SocketNode{
 	@Override
 	public void atStart() {
 		update = true;
-		try{
-			Thread.sleep(2000);
-		}catch (Exception e){}
+		
+		// send initial info
 		resources = new Resources(sender);
 		buildings = new Buildings(sender);
-		buildings.sendBuildingsInfo();
-		resources.sendInitResourcesInfo();
+		JSONObject json = new JSONObject();
+		json.put("resources", resources.getResources());
+		json.put("buildings", buildings.getAllBuildings());
+		sender.setStream("Map@" + json);
+		synchronized(sender){
+			sender.notify();
+		} 
+		
 		resourcesThread = new Thread() {
 			public void run() {
 				while(update){

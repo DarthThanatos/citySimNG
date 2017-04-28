@@ -56,15 +56,6 @@ public class Resources {
 		} 
 	}
 	
-	public void sendInitResourcesInfo(){
-		JSONObject json = new JSONObject();
-		json.put("resources", this.resources);
-		sender.setStream("Map@" + json);
-		synchronized(sender){
-			sender.notify();
-		} 
-	}
-	
 	public Map<String, Integer> getActualValues(){
 		return this.actualValues;
 	}
@@ -75,6 +66,10 @@ public class Resources {
 	
 	public List<String> getResourcesNames(){
 		return this.resourcesNames;
+	}
+	
+	public List<Resource> getResources(){
+		return this.resources;
 	}
 	
 	

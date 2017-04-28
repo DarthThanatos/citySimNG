@@ -79,16 +79,6 @@ public class Buildings {
 		this.sender = sender;
 	}
 	
-	public void sendBuildingsInfo(){
-		JSONObject json = new JSONObject();
-		json.put("buildings", allBuildings);
-		System.out.println(json);
-		synchronized(sender){
-		sender.setStream("Map@" + json);
-		sender.notify();
-		} 
-	}
-	
 	public boolean placeBuilding(String buildingsName, Resources resources){
 		Map<String, Integer> actualValues = resources.getActualValues();
 		Map<String, Integer> incomes = resources.getIncomes();
@@ -122,5 +112,13 @@ public class Buildings {
 		
 		
 		return true;
+	}
+
+	public List<Building> getAllBuildings() {
+		return allBuildings;
+	}
+
+	public void setAllBuildings(List<Building> allBuildings) {
+		this.allBuildings = allBuildings;
 	}
 }

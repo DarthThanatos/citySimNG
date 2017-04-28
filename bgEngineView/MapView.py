@@ -113,13 +113,28 @@ class MapView(wx.Panel):
         self.listener_thread.start()
 
     def mes(self, msg, color, x, y, surface=None):
-        font = pygame.font.SysFont(None, 25)
+        font = pygame.font.SysFont("Comic Sans MS", 25)
         screen_text = font.render(msg, True, color)
         if surface is None:
             self.game_screen.blit(screen_text, [x, y])
         else:
             surface.blit(screen_text, [x, y])
         return screen_text.get_size()
+
+    def draw_message_with_wrapping(self, msg, color, x, y, surface):
+        font = pygame.font.SysFont("Comic Sans MS", 25)
+        space_width = font.size(' ')[0]
+        pos_x, pos_y = x, y
+        max_width, max_height = self.game_screen.get_size()
+        for word in msg.split(" "):
+            word_surface = font.render(word, True, color)
+            word_width, word_height = word_surface.get_size()
+            if pos_x + word_width >= max_width:
+                pos_x = x  # Reset the x.
+                pos_y += word_height  # Start on new row.
+            surface.blit(word_surface, (pos_x, pos_y))
+            pos_x += word_width + space_width
+        surface.blit(word_surface, [x, y])
 
     def check_buildings_collision(self, new_building):
         """ Check if new building collides with some other one """
@@ -149,6 +164,8 @@ class MapView(wx.Panel):
             # fill buildings panel
             self.buildings = msg_as_dict["buildings"]
             self.buildings_panel.add_buildings_to_buildings_panel(self.buildings, self)
+            self.resources_panel.add_resources_to_resources_panel(msg_as_dict["resources"])
+            self.resources_initialized = True
         elif "buildingID" in msg_as_dict:
             # we can draw building with given id
             if msg_as_dict["canAfford"]:
@@ -161,9 +178,6 @@ class MapView(wx.Panel):
                 self.resources_panel.draw_resources_panel(msg_as_dict["actualRes"], self)
             else:
                 self.resources_panel.draw_resources_panel(msg_as_dict["actualRes"], self)
-        elif "resources" in msg_as_dict:
-            self.resources_panel.add_resources_to_resources_panel(msg_as_dict["resources"])
-            self.resources_initialized = True
         else:
             # update resources values
             self.resources_panel.draw_resources_panel(msg_as_dict, self)
@@ -320,7 +334,8 @@ class UserEventHandlerThread(threading.Thread):
             if not sprite_is_chosen:
                 for sprite in self.map_view.buildings_panel_sprites:
                     if sprite.rect.collidepoint(pos):
-                        self.map_view.mes(str(sprite.resources_cost), GREEN, pos[0], pos[1],
-                                          self.map_view.background)
+                        self.map_view.draw_message_with_wrapping(str(sprite.resources_cost), GREEN,
+                                                                 pos[0], pos[1],
+                                                                 self.map_view.background)
             pygame.display.flip()
             clock.tick(FPS)
