@@ -29,16 +29,21 @@ public class Resources {
 	
 	public void updateResources(){
 		Map<String, String> actualValuseAndIncomes = new HashMap<String, String>();
+		String sign = " +";
 		for(String resource : resources){
 			actualValues.put(resource, actualValues.get(resource) + incomes.get(resource));
+			if(actualValues.get(resource) < 0)
+				actualValues.put(resource, 0);
+			if(incomes.get(resource) < 0)
+				sign = " ";
 			actualValuseAndIncomes.put(resource, actualValues.get(resource) + 
-					" + " + incomes.get(resource));
+					sign + incomes.get(resource));
 		}
 		JSONObject json = new JSONObject(actualValuseAndIncomes);
 		sender.setStream("Map@" + json);
 		synchronized(sender){
 			sender.notify();
-		}
+		} 
 	}
 	
 	public Map<String, Integer> getActualValues(){

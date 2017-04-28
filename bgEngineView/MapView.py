@@ -49,7 +49,9 @@ class MapView(wx.Panel):
 
     def init_buttons(self):
         """ Function adding buttons """
-        menu_btn = wx.Button(self, label="Menu", pos=(300, 500), size=(60, 30))
+        menu_btn = wx.Button(self, label="Menu", pos=(self.size_x - BUILDINGS_PANEL_SIZE * self.size_x,
+                                                      self.size_y - RESOURCES_PANEL_SIZE * self.size_y),
+                             size=(BUILDINGS_PANEL_SIZE * self.size_x, RESOURCES_PANEL_SIZE * self.size_y))
         self.Bind(wx.EVT_BUTTON, self.ret_to_menu, menu_btn)
 
     def ret_to_menu(self, event):
@@ -85,6 +87,9 @@ class MapView(wx.Panel):
         pygame.display.init()
         self.background = pygame.display.set_mode((self.size_x, self.size_y))
         self.game_screen = pygame.Surface.copy(self.background)
+        image = pygame.image.load("Textures\\Grass.png")
+        image = pygame.transform.scale(image, (self.size_x, self.size_y))
+        self.game_screen.blit(image, (0, 0))
         self.resources_panel = ResourcesPanel(self.game_screen, 0, self.size_y - RESOURCES_PANEL_SIZE * self.size_y,
                                               self.size_x, RESOURCES_PANEL_SIZE * self.size_y)
         self.resources_panel.draw_resources_panel(" ".join(RESOURCES_EXAMPLE), self)
@@ -123,17 +128,17 @@ class MapView(wx.Panel):
     def readMsg(self, msg):
         print "Map view got msg", msg
         msg_as_dict = json.loads(msg)
-        if "Buildings" in msg_as_dict:
+        if "buildings" in msg_as_dict:
             # fill buildings panel
-            self.buildings = msg_as_dict["Buildings"]
+            self.buildings = msg_as_dict["buildings"]
             self.buildings_panel.add_buildings_to_buildings_panel(self.buildings, self)
-        elif "BuildingID" in msg_as_dict:
+        elif "buildingID" in msg_as_dict:
             info = ""
             # we can draw building with given id
-            if msg_as_dict["CanAfford"]:
-                building = self.buildings_dict[msg_as_dict["BuildingID"]][0]
-                pos_x = self.buildings_dict[msg_as_dict["BuildingID"]][1][0]
-                pos_y = self.buildings_dict[msg_as_dict["BuildingID"]][1][1]
+            if msg_as_dict["canAfford"]:
+                building = self.buildings_dict[msg_as_dict["buildingID"]][0]
+                pos_x = self.buildings_dict[msg_as_dict["buildingID"]][1][0]
+                pos_y = self.buildings_dict[msg_as_dict["buildingID"]][1][1]
                 self.game_screen.blit(building.image, (pos_x, pos_y))
                 self.buildings_sprites.add(building)
                 for (key, value) in msg_as_dict["actualRes"].iteritems():

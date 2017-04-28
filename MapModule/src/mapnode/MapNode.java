@@ -35,13 +35,16 @@ public class MapNode extends SocketNode{
 			
 			// create and send reply to view
 			Map<String, String> actualValuseAndIncomes = new HashMap<String, String>();
+			String sign = " +";
 			for(String resource : resources.getResources()){
+				if(resources.getIncomes().get(resource) < 0)
+					sign = " ";
 				actualValuseAndIncomes.put(resource, resources.getActualValues().get(resource) + 
-						" + " + resources.getIncomes().get(resource));
+						sign + resources.getIncomes().get(resource));
 			}
 			JSONObject json = new JSONObject();
-			json.put("BuildingID", argsList[1]);
-			json.put("CanAfford", canAfford);
+			json.put("buildingID", argsList[1]);
+			json.put("canAfford", canAfford);
 			json.put("actualRes", actualValuseAndIncomes);
 			sender.setStream("Map@" + json);
 			synchronized(sender){
