@@ -36,7 +36,7 @@ public class MapNode extends SocketNode{
 			// create and send reply to view
 			Map<String, String> actualValuseAndIncomes = new HashMap<String, String>();
 			String sign = " +";
-			for(String resource : resources.getResources()){
+			for(String resource : resources.getResourcesNames()){
 				if(resources.getIncomes().get(resource) < 0)
 					sign = " ";
 				actualValuseAndIncomes.put(resource, resources.getActualValues().get(resource) + 
@@ -60,9 +60,13 @@ public class MapNode extends SocketNode{
 	@Override
 	public void atStart() {
 		update = true;
+		try{
+			Thread.sleep(2000);
+		}catch (Exception e){}
 		resources = new Resources(sender);
 		buildings = new Buildings(sender);
 		buildings.sendBuildingsInfo();
+		resources.sendInitResourcesInfo();
 		resourcesThread = new Thread() {
 			public void run() {
 				while(update){

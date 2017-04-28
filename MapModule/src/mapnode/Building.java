@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Building {
-	private String texture;
 	private String name;
+	private String dewellerName;
+	private String texture;
 	private Map<String, Integer> resourcesCost;
 	private Map<String, Integer> produces;
 	private Map<String, Integer> consumes;
@@ -48,6 +49,14 @@ public class Building {
 
 	public void setConsumes(Map<String, Integer> consumes) {
 		this.consumes = consumes;
+	}
+
+	public String getDewellerName() {
+		return dewellerName;
+	}
+
+	public void setDewellerName(String dewellerName) {
+		this.dewellerName = dewellerName;
 	}
 	
 }
