@@ -77,6 +77,24 @@ public class Buildings {
 		allBuildings.add(b3);
 		allBuildings.add(b3);
 		allBuildings.add(b3);
+		allBuildings.add(b3);
+		allBuildings.add(b3);
+		allBuildings.add(b3);
+		allBuildings.add(b3);
+		allBuildings.add(b3);
+		allBuildings.add(b3);
+		allBuildings.add(b3);
+		allBuildings.add(b3);
+		allBuildings.add(b3);
+		allBuildings.add(b3);
+		allBuildings.add(b3);
+		allBuildings.add(b3);
+		allBuildings.add(b3);
+		allBuildings.add(b3);
+		allBuildings.add(b3);
+		allBuildings.add(b3);
+		allBuildings.add(b1);
+		allBuildings.add(b2);
 
 
 		this.sender = sender;
