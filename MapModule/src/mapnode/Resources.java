@@ -10,12 +10,22 @@ import org.json.JSONObject;
 import controlnode.SocketStreamSender;
 
 public class Resources {
-	private List<String> resources = new ArrayList<String>(Arrays.asList("wood", "rock", "gold"));
+	private List<String> resourcesNames;
+	private List<Resource> resources;
 	private Map<String, Integer> incomes = new HashMap<String, Integer>();
 	private Map<String, Integer> actualValues = new HashMap<String, Integer>();
 	private SocketStreamSender sender;
 	
 	public Resources(SocketStreamSender sender){
+		Resource wood = new Resource("wood", "", "", "Textures\\Wood.jpg");
+		Resource rock = new Resource("rock", "", "", "Textures\\Rock.png");
+		Resource gold = new Resource("gold", "", "", "Textures\\Gold.jpg");
+		this.resourcesNames = new ArrayList<String>(Arrays.asList("wood", "rock", "gold"));
+		this.resources = new ArrayList<Resource>();
+		this.resources.add(wood);
+		this.resources.add(rock);
+		this.resources.add(gold);
+		
 		actualValues.put("wood", 0);
 		actualValues.put("rock", 0);
 		actualValues.put("gold", 0);
@@ -28,18 +38,48 @@ public class Resources {
 	}
 	
 	public void updateResources(){
-		for(String resource : resources){
+		Map<String, String> actualValuseAndIncomes = new HashMap<String, String>();
+		String sign = " +";
+		for(String resource : resourcesNames){
 			actualValues.put(resource, actualValues.get(resource) + incomes.get(resource));
+			if(actualValues.get(resource) < 0)
+				actualValues.put(resource, 0);
+			if(incomes.get(resource) < 0)
+				sign = " ";
+			actualValuseAndIncomes.put(resource, actualValues.get(resource) + 
+					sign + incomes.get(resource));
 		}
-		JSONObject json = new JSONObject(actualValues);
-		System.out.println(json);
+		JSONObject json = new JSONObject(actualValuseAndIncomes);
 		sender.setStream("Map@" + json);
 		synchronized(sender){
 			sender.notify();
-		}
+		} 
 	}
 	
 	public Map<String, Integer> getActualValues(){
 		return this.actualValues;
 	}
+	
+	public Map<String, Integer> getIncomes(){
+		return this.incomes;
+	}
+	
+	public List<String> getResourcesNames(){
+		return this.resourcesNames;
+	}
+	
+	public List<Resource> getResources(){
+		return this.resources;
+	}
+	
+	
+	public void setActualValues(Map<String, Integer> actualValues){
+		this.actualValues = actualValues;
+	}
+	
+	public void setIncomes(Map<String, Integer> incomes){
+		this.incomes = incomes;
+	}
+	
+	
 }

@@ -1,6 +1,7 @@
 import wx
 import os
 
+
 class MenuView(wx.Panel):
     def __init__(self, parent, size, name, musicPath="TwoMandolins.mp3", sender = None):
         wx.Panel.__init__(self, size=size, parent=parent)
