@@ -6,7 +6,7 @@ import json
 import os
 
 class CreatorView(wx.Panel):
-    def __init__(self, parent, size, name,  musicPath="TwoMandolins.mp3", sender = None):
+    def __init__(self, parent, size, name,  musicPath="music/TwoMandolins.mp3", sender = None):
         wx.Panel.__init__(self,  size=size,  parent=parent)
         self.name = name
         self.parent = parent
@@ -152,7 +152,9 @@ class CreatorView(wx.Panel):
                 import pygame
                 pygame.init()
                 pygame.mixer.init()
-                pygame.mixer.music.load(os.path.dirname(os.path.abspath(__file__)) + "\\" + self.musicPath)
+                pygame.mixer.music.load(
+                    #os.path.dirname(os.path.abspath(__file__)) + "\\" +
+                    self.musicPath)
                 pygame.mixer.music.play()
             except Exception:
                 print "Problem with music"
@@ -206,7 +208,7 @@ class CreatorView(wx.Panel):
             self,
             message = "Choose a file to save",
             wildcard = "*.dep",
-            style = wx.FD_SAVE | wx.FD_CHANGE_DIR
+            style = wx.FD_SAVE 
         )
         if dlg.ShowModal() == wx.ID_OK:
             path = dlg.GetPath()
@@ -287,7 +289,7 @@ class CreatorView(wx.Panel):
             self,
             message = "Choose a file",
             wildcard="*.dep",
-            style = wx.FD_OPEN | wx.FD_MULTIPLE | wx.FD_CHANGE_DIR
+            style = wx.FD_OPEN | wx.FD_MULTIPLE
         )
         if dlg.ShowModal() == wx.ID_OK:
             path = dlg.GetPath()

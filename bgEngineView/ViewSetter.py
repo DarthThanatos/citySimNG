@@ -13,8 +13,8 @@ class MyFrame(wx.Frame):
         wx.Frame.__init__(self, parent, ID, strTitle, size=tplSize)
 
         self.views = {
-            "Menu": MenuView(self, tplSize, "Menu", "NWN2.mp3", sender),
-            "Creator": CreatorView(self, tplSize, "Creator", "Ret Xed OST.mp3", sender),
+            "Menu": MenuView(self, tplSize, "Menu", "music/NWN2.mp3", sender),
+            "Creator": CreatorView(self, tplSize, "Creator", "music/Ret Xed OST.mp3", sender),
             "Exchange": ExchangeView(self, tplSize, "Exchange", sender),
             "Map": MapView(self, tplSize, "Map", sender),
             "Tutorial": TutorialView(self, tplSize, "Tutorial", sender = sender)

@@ -4,6 +4,7 @@ import threading
 import json
 import uuid
 import pygame
+import traceback
 
 
 FONT = "Comic Sans MS"
@@ -47,7 +48,7 @@ class MapView(wx.Panel):
     game_on = True
     resources_initialized = False
 
-    def __init__(self, parent, size, name, sender, music_path="TwoMandolins.mp3"):
+    def __init__(self, parent, size, name, sender, music_path="music/TwoMandolins.mp3"):
         # call base class constructor
         wx.Panel.__init__(self, parent=parent, size=size)
 
@@ -86,7 +87,9 @@ class MapView(wx.Panel):
             self.init_view()
             try:
                 pygame.mixer.init()
-                pygame.mixer.music.load(os.path.dirname(os.path.abspath(__file__)) + "\\" + self.music_path)
+                pygame.mixer.music.load(
+                    #os.path.dirname(os.path.abspath(__file__)) + "\\" +
+                    self.music_path)
                 pygame.mixer.music.play()
             except Exception:
                 print "Problem with music"
@@ -176,7 +179,11 @@ class MapView(wx.Panel):
 
     def readMsg(self, msg):
         print "Map view got msg", msg
-        msg_as_dict = json.loads(msg)
+        try:
+            msg_as_dict = json.loads(msg)
+        except:
+            traceback.print_exc()
+            return
         if "buildings" in msg_as_dict:
             # fill buildings panel
             self.buildings = msg_as_dict["buildings"]

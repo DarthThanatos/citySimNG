@@ -9,7 +9,7 @@ import pylab
 
 
 class ExchangeViewCenterPart(wx.Panel):
-    def __init__(self, parent, ID, tplSize, musicPath="TwoMandolins.mp3"):
+    def __init__(self, parent, ID, tplSize, musicPath="music/TwoMandolins.mp3"):
         self.parent = parent
         self.ID = ID 
         self.tplSize = tplSize
@@ -22,7 +22,9 @@ class ExchangeViewCenterPart(wx.Panel):
             self.initView()
             try:        
                 pygame.mixer.init()
-                pygame.mixer.music.load(os.path.dirname(os.path.abspath(__file__))+ "\\" + self.musicPath)
+                pygame.mixer.music.load(
+                    #os.path.dirname(os.path.abspath(__file__))+ "\\" +
+                    self.musicPath)
                 pygame.mixer.music.play()
             except Exception:
                 print "Problem with music"

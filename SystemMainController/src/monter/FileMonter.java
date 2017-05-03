@@ -4,19 +4,24 @@ import java.io.*;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import model.DependenciesRepresenter;
 import controlnode.Node;
+import controlswitcher.ControlSwitcher;
 
 public class FileMonter implements SystemMonter{
 
 	private List<String> textDescriptions;
 	private HashMap<String, Node> nodes;
+	private HashMap<String, Boolean> monterConfig;
+
 	
-	public FileMonter(String filePath){
+	public FileMonter(String filePath, String[] args){
+		setConfigFlags(args);
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(new File(filePath)));
@@ -39,6 +44,21 @@ public class FileMonter implements SystemMonter{
 		}
 		nodes = new HashMap<String, Node>();
 	}
+
+	private void setConfigFlags(String[] args){
+		monterConfig = new HashMap<String, Boolean>();
+		String[] argNamesTmp = new String[]{"-noide"};
+		List<String> argNames = Arrays.asList(argNamesTmp);
+		/*Reset monterConfig map -> all possible flags set to false*/
+		for (String arg: argNames){
+			monterConfig.put(arg, false);
+		}
+		for (String arg : args){
+			if (argNames.contains(arg)){
+				monterConfig.put(arg, true);
+			}
+		}
+	}
 	
 	private void readNodes(String[] nodeDesc){
 		String projectName = nodeDesc[0];
@@ -49,7 +69,9 @@ public class FileMonter implements SystemMonter{
      	try {
      		/*Using java reflection to dynamically load Node instances from other modules(which are set up as separate projects)*/
 			String currentLocation = System.getProperty("user.dir");
-			String urlStr = "file:///" + currentLocation + "\\..\\" + projectName + "\\bin\\" + nodeClassName + ".class";//"MenuModule\\bin\\menunode\\MenuNode.class";
+			System.out.println("Current location: " + currentLocation);
+			String urlStr = "file:///" + currentLocation + "/" +  projectName + "/bin/"; //+ nodeClassName + ".class";//"MenuModule\\bin\\menunode\\MenuNode.class";
+			System.out.println("Url: " + urlStr);
 			URL[] urls = {new URL (urlStr)};
 			urlLoader = new URLClassLoader(urls);
 			Class<?> nodeClass = urlLoader.loadClass(nodeClassName);

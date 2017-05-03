@@ -50,7 +50,7 @@ public class MapNode extends SocketNode{
 			synchronized(sender){
 				sender.notify();
 			}
-			
+			System.out.println("\n\n\nYolo\n\n");
 			System.out.println("Sent after built: Map@" + json);
 			return "Map@" + json.toString();
 		}
