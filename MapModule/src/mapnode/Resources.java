@@ -50,10 +50,18 @@ public class Resources {
 					sign + incomes.get(resource));
 		}
 		JSONObject json = new JSONObject(actualValuseAndIncomes);
+		JSONObject envelope = new JSONObject();
+		envelope.put("To", "Map");
+		envelope.put("Operation", "Update");
+		envelope.put("Args", json);
+		//sender.pushStream("Map@" + json);
+		sender.pushStream(envelope.toString());
+		/*
 		sender.setStream("Map@" + json);
 		synchronized(sender){
 			sender.notify();
 		} 
+		*/
 	}
 	
 	public Map<String, Integer> getActualValues(){

@@ -1,0 +1,20 @@
+subprojects {
+	apply plugin: 'java'
+	sourceSets {
+		main {
+			java {
+				srcDirs = ['src']
+			}
+			output.classesDir = "bin"
+		}
+	}
+	repositories {
+    flatDir {
+       dirs '../lib'
+	   }
+ 	}
+
+	dependencies {
+	   compile name: 'json'
+	}
+}

@@ -3,6 +3,7 @@ package exchangenode;
 import java.util.*;
 
 import model.DependenciesRepresenter;
+import controlnode.DispatchCenter;
 import controlnode.Node;
 import exchange.RepresenterMock;
 import exchange.Stock;
@@ -14,13 +15,17 @@ public class ExchangeNode implements Node{
 	private Node parent;
 	private HashMap<String, Node> neighbors;
 	private DependenciesRepresenter dr;
+	private DispatchCenter dispatchCenter;
+	private String nodeName;
 	StockTable stockTable;
 	Stock stock;
 
-	public ExchangeNode(DependenciesRepresenter dr){
+	public ExchangeNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName){
 		System.out.println("Created Exchange Node");
 		neighbors = new HashMap<String, Node>();
+		this.nodeName = nodeName;
 		this.dr = dr;
+		this.dispatchCenter = dispatchCenter;
 		List<String> resourcesNames = new ArrayList<>();
 		resourcesNames.add("gold");
 		resourcesNames.add("silver");
@@ -30,7 +35,7 @@ public class ExchangeNode implements Node{
 		RepresenterMock player = new RepresenterMock(resourcesNames);
 		stockTable = new StockTable(stock);
 		stock.setPlayer(player);
-
+		
 		// this thread simulates stock's price changes in the background
 		Runnable stockThread = new Runnable() {
 			public void run() {

@@ -1,0 +1,14 @@
+repositories {
+   flatDir {
+       dirs '../lib'
+   }
+}
+
+dependencies {
+   compile name: 'json'
+}
+
+clean.doFirst {
+	delete "bin/"
+	println "SkeletonModule/bin/ deleted"
+}

@@ -1,3 +1,5 @@
+call gradle -q clean
+call gradle build
 start /B java ^
 -cp CreatorModule\bin;^
 SystemMainController\bin;^
@@ -8,5 +10,5 @@ MenuModule\bin;^
 RankingModule\bin;^
 TutorialModule\bin;^
 lib/json.jar^
- controlswitcher.ControlSwitcher
-python bgEngineView/Mediator.py
+ controlswitcher.ControlSwitcher > javaLog.txt
+python citySimNGView/Mediator.py

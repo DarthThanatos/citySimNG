@@ -1,0 +1,8 @@
+dependencies {
+   compile files('../SkeletonModule/bin')
+} 
+
+clean.doFirst {
+	delete "bin/"
+	println "TutorialModule/bin/ deleted"
+}

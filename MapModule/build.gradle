@@ -1,0 +1,17 @@
+
+repositories {
+   flatDir {
+       dirs '../lib'
+   }
+}
+
+dependencies {
+   compile name: 'json'
+   compile files('../SkeletonModule/bin')
+} 
+
+
+clean.doFirst {
+	delete "bin/"
+	println "MapModule/bin/ deleted"
+}

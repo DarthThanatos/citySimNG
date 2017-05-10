@@ -1,0 +1,935 @@
+One more trial
+One more trial
+One more trial
+One more trial
+One more trial
+One more trial
+One more trial
+One more trial
+One more trial
+One more trial
+One more trial
+One more trial
+One more trial
+One more trial
+One more trial
+Connected, view layer active
+Read and create node menunode.MenuNode with a hash key MenuNode
+Current location: C:\Users\Robert\Desktop\Robert\agh\PP\CitySimNG
+Url: file:///C:\Users\Robert\Desktop\Robert\agh\PP\CitySimNG/MenuModule/bin/
+menu node created
+Read and create node tutorialnode.TutorialNode with a hash key TutorialNode
+Current location: C:\Users\Robert\Desktop\Robert\agh\PP\CitySimNG
+Url: file:///C:\Users\Robert\Desktop\Robert\agh\PP\CitySimNG/TutorialModule/bin/
+Created Tutorial Node
+Read and create node exchangenode.ExchangeNode with a hash key ExchangeNode
+Current location: C:\Users\Robert\Desktop\Robert\agh\PP\CitySimNG
+Url: file:///C:\Users\Robert\Desktop\Robert\agh\PP\CitySimNG/ExchangeModule/bin/
+Created Exchange Node
+Stock is working
+Read and create node mapnode.MapNode with a hash key MapNode
+Current location: C:\Users\Robert\Desktop\Robert\agh\PP\CitySimNG
+Url: file:///C:\Users\Robert\Desktop\Robert\agh\PP\CitySimNG/MapModule/bin/
+Created Map Node
+Read and create node creatornode.CreatorNode with a hash key CreatorNode
+Current location: C:\Users\Robert\Desktop\Robert\agh\PP\CitySimNG
+Url: file:///C:\Users\Robert\Desktop\Robert\agh\PP\CitySimNG/CreatorModule/bin/
+Created Creator Node
+MenuNode: put TutorialNode as neighbour
+TutorialNode: put MenuNode as parent
+MenuNode: put ExchangeNode as neighbour
+MenuNode: put MapNode as neighbour
+MapNode: put MenuNode as parent
+MenuNode: put CreatorNode as neighbour
+CreatorNode: put MenuNode as parent
+	-> Created entry for MenuNode
+	-> Created entry for TutorialNode
+	-> Created entry for ExchangeNode
+	-> Created entry for MapNode
+	-> Created entry for CreatorNode
+
+============================================
+
+Switched control to: MenuNode
+MenuNode: Sender started queue algo
+MenuNode: Receiver started
+Generated 8bfd3a09-a95c-46e5-9927-6f0cec2694bc
+[Queue algo]: MenuNode's sender: sent {"Args":{"TargetView":"Menu"},"To":"ViewSetter","Operation":"SetView","From":"MenuNode","UUID":"8bfd3a09-a95c-46e5-9927-6f0cec2694bc"}
+Receiving module: MenuNode has acknowledged operation with UUID: 8bfd3a09-a95c-46e5-9927-6f0cec2694bc
+Blocking ended, receipt confirmed
+MenuNode's StreamReceiver got: {"To": "MenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MapNode", "TargetView": "Map"}}
+Recipent: MenuNode cmd: MoveTo args: {"TargetControlNode":"MapNode","TargetView":"Map"}
+MenuNode: Stopping sender thread
+Sender stopper out
+MenuNode: Stopping receiver thread
+[Queue algo]: MenuNode: Sender: out
+Receiver stopper out
+MenuNode: Receiver: out
+
+============================================
+
+Switched control to: MapNode
+Generated 34fdd1b0-6577-452e-a150-adc5510bbfaf
+MapNode: Sender started queue algo
+MapNode: Receiver started
+[Queue algo]: MapNode's sender: sent {"Args":{"TargetView":"Map"},"To":"ViewSetter","Operation":"SetView","From":"MapNode","UUID":"34fdd1b0-6577-452e-a150-adc5510bbfaf"}
+Receiving module: MapNode has acknowledged operation with UUID: 34fdd1b0-6577-452e-a150-adc5510bbfaf
+Blocking ended, receipt confirmed
+Generated 4ba3ba8a-3f1b-46ec-8e48-fe9f172f7ff5
+[Queue algo]: MapNode's sender: sent {"Args":{"buildings":[{"resourcesCost":{"rock":2,"gold":0,"wood":10},"name":"house","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building1.png","consumes":{"gold":3,"rock":0,"wood":0}},{"resourcesCost":{"rock":0,"gold":0,"wood":15},"name":"shed","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building.png","consumes":{"gold":3,"rock":0,"wood":0}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":10},"name":"house","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building1.png","consumes":{"gold":3,"rock":0,"wood":0}},{"resourcesCost":{"rock":0,"gold":0,"wood":15},"name":"shed","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building.png","consumes":{"gold":3,"rock":0,"wood":0}}],"resources":[{"successor":"","name":"wood","predecessor":"","texturePath":"Textures\\Wood.jpg"},{"successor":"","name":"rock","predecessor":"","texturePath":"Textures\\Rock.png"},{"successor":"","name":"gold","predecessor":"","texturePath":"Textures\\Gold.jpg"}]},"To":"Map","Operation":"Init","From":"MapNode","UUID":"4ba3ba8a-3f1b-46ec-8e48-fe9f172f7ff5"}
+Receiving module: MapNode has acknowledged operation with UUID: 4ba3ba8a-3f1b-46ec-8e48-fe9f172f7ff5
+Blocking ended, receipt confirmed
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"2 +2","gold":"10 +10","wood":"3 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"4 +2","gold":"20 +10","wood":"6 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"6 +2","gold":"30 +10","wood":"9 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"8 +2","gold":"40 +10","wood":"12 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"10 +2","gold":"50 +10","wood":"15 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"12 +2","gold":"60 +10","wood":"18 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"14 +2","gold":"70 +10","wood":"21 +3"},"To":"Map","Operation":"Update"}
+MapNode's StreamReceiver got: {"To": "MapNode", "Operation": "PlaceBuilding", "Args": {"BuildingName": "shed", "BuildingId": "16d7426a-9bdc-440e-8a80-f151db0b6225"}}
+Recipent: MapNode cmd: PlaceBuilding args: {"BuildingName":"shed","BuildingId":"16d7426a-9bdc-440e-8a80-f151db0b6225"}
+Sent after built: {"Args":{"actualRes":{"rock":"14 +3","gold":"70 +7","wood":"6 +6"},"canAfford":true,"buildingID":"16d7426a-9bdc-440e-8a80-f151db0b6225"},"To":"Map","Operation":"PlaceBuildingResult"}
+[Queue algo]: MapNode's sender: sent {"Args":{"actualRes":{"rock":"14 +3","gold":"70 +7","wood":"6 +6"},"canAfford":true,"buildingID":"16d7426a-9bdc-440e-8a80-f151db0b6225"},"To":"Map","Operation":"PlaceBuildingResult"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"17 +3","gold":"77 +7","wood":"12 +6"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"20 +3","gold":"84 +7","wood":"18 +6"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"23 +3","gold":"91 +7","wood":"24 +6"},"To":"Map","Operation":"Update"}
+MapNode's StreamReceiver got: {"To": "MapNode", "Operation": "PlaceBuilding", "Args": {"BuildingName": "shed", "BuildingId": "9fc7998e-d4c1-4914-8ecb-647525932c05"}}
+Recipent: MapNode cmd: PlaceBuilding args: {"BuildingName":"shed","BuildingId":"9fc7998e-d4c1-4914-8ecb-647525932c05"}
+Sent after built: {"Args":{"actualRes":{"rock":"23 +4","gold":"91 +4","wood":"9 +9"},"canAfford":true,"buildingID":"9fc7998e-d4c1-4914-8ecb-647525932c05"},"To":"Map","Operation":"PlaceBuildingResult"}
+[Queue algo]: MapNode's sender: sent {"Args":{"actualRes":{"rock":"23 +4","gold":"91 +4","wood":"9 +9"},"canAfford":true,"buildingID":"9fc7998e-d4c1-4914-8ecb-647525932c05"},"To":"Map","Operation":"PlaceBuildingResult"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"27 +4","gold":"95 +4","wood":"18 +9"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"31 +4","gold":"99 +4","wood":"27 +9"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"35 +4","gold":"103 +4","wood":"36 +9"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"39 +4","gold":"107 +4","wood":"45 +9"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"43 +4","gold":"111 +4","wood":"54 +9"},"To":"Map","Operation":"Update"}
+MapNode's StreamReceiver got: {"To": "MapNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MenuNode", "TargetView": "Menu"}}
+Recipent: MapNode cmd: MoveTo args: {"TargetControlNode":"MenuNode","TargetView":"Menu"}
+MapNode: Stopping sender thread
+Sender stopper out
+[Queue algo]: MapNode: Sender: out
+MapNode: Stopping receiver thread
+Receiver stopper out
+MapNode: Receiver: out
+
+============================================
+
+Switched control to: MenuNode
+Map timer exited while loop
+Map timer exited while loop
+MenuNode: Receiver started
+MenuNode: Sender started queue algo
+Generated 8de1370b-8d0e-4c41-b692-5023e01d73cf
+[Queue algo]: MenuNode's sender: sent {"Args":{"TargetView":"Menu"},"To":"ViewSetter","Operation":"SetView","From":"MenuNode","UUID":"8de1370b-8d0e-4c41-b692-5023e01d73cf"}
+Receiving module: MenuNode has acknowledged operation with UUID: 8de1370b-8d0e-4c41-b692-5023e01d73cf
+Blocking ended, receipt confirmed
+MenuNode's StreamReceiver got: {"To": "MenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "TutorialNode", "TargetView": "Tutorial"}}
+Recipent: MenuNode cmd: MoveTo args: {"TargetControlNode":"TutorialNode","TargetView":"Tutorial"}
+MenuNode: Stopping sender thread
+Sender stopper out
+MenuNode: Stopping receiver thread
+MenuNode: Receiver: out
+Receiver stopper out
+[Queue algo]: MenuNode: Sender: out
+
+============================================
+
+Switched control to: TutorialNode
+Generated 2187cd7f-0ab9-44ee-a783-7629984b8cc1
+TutorialNode: Receiver started
+TutorialNode: Sender started queue algo
+[Queue algo]: TutorialNode's sender: sent {"Args":{"TargetView":"Tutorial"},"To":"ViewSetter","Operation":"SetView","From":"TutorialNode","UUID":"2187cd7f-0ab9-44ee-a783-7629984b8cc1"}
+Receiving module: TutorialNode has acknowledged operation with UUID: 2187cd7f-0ab9-44ee-a783-7629984b8cc1
+Blocking ended, receipt confirmed
+TutorialNode's StreamReceiver got: {"To": "TutorialNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MenuNode", "TargetView": "Menu"}}
+Recipent: TutorialNode cmd: MoveTo args: {"TargetControlNode":"MenuNode","TargetView":"Menu"}
+TutorialNode: Stopping sender thread
+Sender stopper out
+TutorialNode: Stopping receiver thread
+TutorialNode: Receiver: out
+Receiver stopper out
+[Queue algo]: TutorialNode: Sender: out
+
+============================================
+
+Switched control to: MenuNode
+Generated 63696809-7230-456e-a137-8b8ef5e1c2cf
+MenuNode: Receiver started
+MenuNode: Sender started queue algo
+[Queue algo]: MenuNode's sender: sent {"Args":{"TargetView":"Menu"},"To":"ViewSetter","Operation":"SetView","From":"MenuNode","UUID":"63696809-7230-456e-a137-8b8ef5e1c2cf"}
+Receiving module: MenuNode has acknowledged operation with UUID: 63696809-7230-456e-a137-8b8ef5e1c2cf
+Blocking ended, receipt confirmed
+MenuNode's StreamReceiver got: {"To": "MenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "CreatorNode", "TargetView": "Creator"}}
+Recipent: MenuNode cmd: MoveTo args: {"TargetControlNode":"CreatorNode","TargetView":"Creator"}
+MenuNode: Stopping sender thread
+Sender stopper out
+MenuNode: Stopping receiver thread
+Receiver stopper out
+MenuNode: Receiver: out
+[Queue algo]: MenuNode: Sender: out
+
+============================================
+
+Switched control to: CreatorNode
+Generated 779f7bcb-9e9b-438d-83a3-9fe22283a790
+CreatorNode: Receiver started
+CreatorNode: Sender started queue algo
+[Queue algo]: CreatorNode's sender: sent {"Args":{"TargetView":"Creator"},"To":"ViewSetter","Operation":"SetView","From":"CreatorNode","UUID":"779f7bcb-9e9b-438d-83a3-9fe22283a790"}
+Receiving module: CreatorNode has acknowledged operation with UUID: 779f7bcb-9e9b-438d-83a3-9fe22283a790
+Blocking ended, receipt confirmed
+CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "Parse", "Args": {"Path": "C:\\Users\\Robert\\Desktop\\Robert\\agh\\IO\\bgEngine\\dependencies\\yolo.dep", "Dependencies": {"Dwellers": [{"Predecessor": "d", "Description": "d", "Dweller\nName": "d", "Consume Rate": "d", "Ico path": "d", "Consumes": "d", "Successor": "d"}, {"Predecessor": "d", "Description": "d", "Dweller\nName": "d", "Consume Rate": "d", "Ico path": "d", "Consumes": "d", "Successor": "d"}], "Buildings": [{"Predecessor": "b", "Description": "b", "Produces": "b", "Dwellers\namount": "b", "Building\nName": "b", "Dweller\nName": "b", "Produce Rate": "b", "Consume Rate": "b", "Ico path": "b", "Texture path": "b", "Type": "b", "Consumes": "b", "Successor": "b"}], "Resources": [{"Predecessor": "r", "Ico path": "r", "Description": "r", "Resource\nName": "r", "Successor": "r"}]}}}
+Recipent: CreatorNode cmd: Parse args: {"Path":"C:\\Users\\Robert\\Desktop\\Robert\\agh\\IO\\bgEngine\\dependencies\\yolo.dep","Dependencies":{"Buildings":[{"Predecessor":"b","Description":"b","Produce Rate":"b","Consume Rate":"b","Ico path":"b","Dweller\nName":"b","Successor":"b","Type":"b","Produces":"b","Consumes":"b","Building\nName":"b","Dwellers\namount":"b","Texture path":"b"}],"Dwellers":[{"Dweller\nName":"d","Successor":"d","Predecessor":"d","Description":"d","Consumes":"d","Consume Rate":"d","Ico path":"d"},{"Dweller\nName":"d","Successor":"d","Predecessor":"d","Description":"d","Consumes":"d","Consume Rate":"d","Ico path":"d"}],"Resources":[{"Successor":"r","Predecessor":"r","Description":"r","Resource\nName":"r","Ico path":"r"}]}}
+Creator node received following dependencies package:
+{"Buildings":[{"Predecessor":"b","Description":"b","Produce Rate":"b","Consume Rate":"b","Ico path":"b","Dweller\nName":"b","Successor":"b","Type":"b","Produces":"b","Consumes":"b","Building\nName":"b","Dwellers\namount":"b","Texture path":"b"}],"Dwellers":[{"Dweller\nName":"d","Successor":"d","Predecessor":"d","Description":"d","Consumes":"d","Consume Rate":"d","Ico path":"d"},{"Dweller\nName":"d","Successor":"d","Predecessor":"d","Description":"d","Consumes":"d","Consume Rate":"d","Ico path":"d"}],"Resources":[{"Successor":"r","Predecessor":"r","Description":"r","Resource\nName":"r","Ico path":"r"}]}
+[Queue algo]: CreatorNode's sender: sent Creator@Msg received successfully
+CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MenuNode", "TargetView": "Menu"}}
+Recipent: CreatorNode cmd: MoveTo args: {"TargetControlNode":"MenuNode","TargetView":"Menu"}
+CreatorNode: Stopping sender thread
+Sender stopper out
+CreatorNode: Stopping receiver thread
+CreatorNode: Receiver: out
+Receiver stopper out
+[Queue algo]: CreatorNode: Sender: out
+
+============================================
+
+Switched control to: MenuNode
+Generated d18f081e-af2d-4b2b-9991-93ee48df9a0e
+MenuNode: Receiver started
+MenuNode: Sender started queue algo
+[Queue algo]: MenuNode's sender: sent {"Args":{"TargetView":"Menu"},"To":"ViewSetter","Operation":"SetView","From":"MenuNode","UUID":"d18f081e-af2d-4b2b-9991-93ee48df9a0e"}
+Receiving module: MenuNode has acknowledged operation with UUID: d18f081e-af2d-4b2b-9991-93ee48df9a0e
+Blocking ended, receipt confirmed
+MenuNode's StreamReceiver got: {"To": "MenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "ExchangeNode", "TargetView": "Exchange"}}
+Recipent: MenuNode cmd: MoveTo args: {"TargetControlNode":"ExchangeNode","TargetView":"Exchange"}
+MenuNode: Stopping sender thread
+Sender stopper out
+MenuNode: Stopping receiver thread
+[Queue algo]: MenuNode: Sender: out
+MenuNode: Receiver: out
+Receiver stopper out
+Stock is stopped
+
+============================================
+
+Switched control to: MenuNode
+Generated 0bf5d8df-e699-4629-8b2d-0eff73586e04
+MenuNode: Receiver started
+MenuNode: Sender started queue algo
+[Queue algo]: MenuNode's sender: sent {"Args":{"TargetView":"Menu"},"To":"ViewSetter","Operation":"SetView","From":"MenuNode","UUID":"0bf5d8df-e699-4629-8b2d-0eff73586e04"}
+Receiving module: MenuNode has acknowledged operation with UUID: 0bf5d8df-e699-4629-8b2d-0eff73586e04
+Blocking ended, receipt confirmed
+Stock is working
+MenuNode's StreamReceiver got: {"To": "MenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MapNode", "TargetView": "Map"}}
+Recipent: MenuNode cmd: MoveTo args: {"TargetControlNode":"MapNode","TargetView":"Map"}
+MenuNode: Stopping sender thread
+Sender stopper out
+MenuNode: Stopping receiver thread
+MenuNode: Receiver: out
+[Queue algo]: MenuNode: Sender: out
+Receiver stopper out
+
+============================================
+
+Switched control to: MapNode
+Generated 803050b2-608c-4d52-a4e7-887d7ffa8e8e
+MapNode: Sender started queue algo
+[Queue algo]: MapNode's sender: sent {"Args":{"TargetView":"Map"},"To":"ViewSetter","Operation":"SetView","From":"MapNode","UUID":"803050b2-608c-4d52-a4e7-887d7ffa8e8e"}
+MapNode: Receiver started
+Receiving module: MapNode has acknowledged operation with UUID: 803050b2-608c-4d52-a4e7-887d7ffa8e8e
+Blocking ended, receipt confirmed
+Generated 83575884-304a-42a3-bc6e-fb3c4670f284
+[Queue algo]: MapNode's sender: sent {"Args":{"buildings":[{"resourcesCost":{"rock":2,"gold":0,"wood":10},"name":"house","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building1.png","consumes":{"gold":3,"rock":0,"wood":0}},{"resourcesCost":{"rock":0,"gold":0,"wood":15},"name":"shed","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building.png","consumes":{"gold":3,"rock":0,"wood":0}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":10},"name":"house","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building1.png","consumes":{"gold":3,"rock":0,"wood":0}},{"resourcesCost":{"rock":0,"gold":0,"wood":15},"name":"shed","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building.png","consumes":{"gold":3,"rock":0,"wood":0}}],"resources":[{"successor":"","name":"wood","predecessor":"","texturePath":"Textures\\Wood.jpg"},{"successor":"","name":"rock","predecessor":"","texturePath":"Textures\\Rock.png"},{"successor":"","name":"gold","predecessor":"","texturePath":"Textures\\Gold.jpg"}]},"To":"Map","Operation":"Init","From":"MapNode","UUID":"83575884-304a-42a3-bc6e-fb3c4670f284"}
+Blocking ended, receipt confirmed
+Receiving module: MapNode has acknowledged operation with UUID: 83575884-304a-42a3-bc6e-fb3c4670f284
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"2 +2","gold":"10 +10","wood":"3 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"4 +2","gold":"20 +10","wood":"6 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"6 +2","gold":"30 +10","wood":"9 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"8 +2","gold":"40 +10","wood":"12 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"10 +2","gold":"50 +10","wood":"15 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"12 +2","gold":"60 +10","wood":"18 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"14 +2","gold":"70 +10","wood":"21 +3"},"To":"Map","Operation":"Update"}
+MapNode's StreamReceiver got: {"To": "MapNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MenuNode", "TargetView": "Menu"}}
+Recipent: MapNode cmd: MoveTo args: {"TargetControlNode":"MenuNode","TargetView":"Menu"}
+MapNode: Stopping sender thread
+Sender stopper out
+MapNode: Stopping receiver thread
+MapNode: Receiver: out
+[Queue algo]: MapNode: Sender: out
+Receiver stopper out
+
+============================================
+
+Switched control to: MenuNode
+Map timer exited while loop
+Map timer exited while loop
+Generated 9a54dfb8-02c9-45ae-8b96-113a43946e5e
+MenuNode: Receiver started
+MenuNode: Sender started queue algo
+[Queue algo]: MenuNode's sender: sent {"Args":{"TargetView":"Menu"},"To":"ViewSetter","Operation":"SetView","From":"MenuNode","UUID":"9a54dfb8-02c9-45ae-8b96-113a43946e5e"}
+Receiving module: MenuNode has acknowledged operation with UUID: 9a54dfb8-02c9-45ae-8b96-113a43946e5e
+Blocking ended, receipt confirmed
+MenuNode's StreamReceiver got: {"To": "MenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MapNode", "TargetView": "Map"}}
+Recipent: MenuNode cmd: MoveTo args: {"TargetControlNode":"MapNode","TargetView":"Map"}
+MenuNode: Stopping sender thread
+Sender stopper out
+MenuNode: Stopping receiver thread
+MenuNode: Receiver: out
+Receiver stopper out
+[Queue algo]: MenuNode: Sender: out
+
+============================================
+
+Switched control to: MapNode
+Generated eb3d4007-f3a2-4795-8d31-69b5cf5c91fd
+MapNode: Receiver started
+MapNode: Sender started queue algo
+[Queue algo]: MapNode's sender: sent {"Args":{"TargetView":"Map"},"To":"ViewSetter","Operation":"SetView","From":"MapNode","UUID":"eb3d4007-f3a2-4795-8d31-69b5cf5c91fd"}
+Receiving module: MapNode has acknowledged operation with UUID: eb3d4007-f3a2-4795-8d31-69b5cf5c91fd
+Blocking ended, receipt confirmed
+Generated c3a65e54-69f8-4bcc-aaf4-af607189ec7a
+[Queue algo]: MapNode's sender: sent {"Args":{"buildings":[{"resourcesCost":{"rock":2,"gold":0,"wood":10},"name":"house","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building1.png","consumes":{"gold":3,"rock":0,"wood":0}},{"resourcesCost":{"rock":0,"gold":0,"wood":15},"name":"shed","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building.png","consumes":{"gold":3,"rock":0,"wood":0}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":10},"name":"house","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building1.png","consumes":{"gold":3,"rock":0,"wood":0}},{"resourcesCost":{"rock":0,"gold":0,"wood":15},"name":"shed","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building.png","consumes":{"gold":3,"rock":0,"wood":0}}],"resources":[{"successor":"","name":"wood","predecessor":"","texturePath":"Textures\\Wood.jpg"},{"successor":"","name":"rock","predecessor":"","texturePath":"Textures\\Rock.png"},{"successor":"","name":"gold","predecessor":"","texturePath":"Textures\\Gold.jpg"}]},"To":"Map","Operation":"Init","From":"MapNode","UUID":"c3a65e54-69f8-4bcc-aaf4-af607189ec7a"}
+Receiving module: MapNode has acknowledged operation with UUID: c3a65e54-69f8-4bcc-aaf4-af607189ec7a
+Blocking ended, receipt confirmed
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"2 +2","gold":"10 +10","wood":"3 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"4 +2","gold":"20 +10","wood":"6 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"6 +2","gold":"30 +10","wood":"9 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"8 +2","gold":"40 +10","wood":"12 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"10 +2","gold":"50 +10","wood":"15 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"12 +2","gold":"60 +10","wood":"18 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"14 +2","gold":"70 +10","wood":"21 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"16 +2","gold":"80 +10","wood":"24 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"18 +2","gold":"90 +10","wood":"27 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"20 +2","gold":"100 +10","wood":"30 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"22 +2","gold":"110 +10","wood":"33 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"24 +2","gold":"120 +10","wood":"36 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"26 +2","gold":"130 +10","wood":"39 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"28 +2","gold":"140 +10","wood":"42 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"30 +2","gold":"150 +10","wood":"45 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"32 +2","gold":"160 +10","wood":"48 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"34 +2","gold":"170 +10","wood":"51 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"36 +2","gold":"180 +10","wood":"54 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"38 +2","gold":"190 +10","wood":"57 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"40 +2","gold":"200 +10","wood":"60 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"42 +2","gold":"210 +10","wood":"63 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"44 +2","gold":"220 +10","wood":"66 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"46 +2","gold":"230 +10","wood":"69 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"48 +2","gold":"240 +10","wood":"72 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"50 +2","gold":"250 +10","wood":"75 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"52 +2","gold":"260 +10","wood":"78 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"54 +2","gold":"270 +10","wood":"81 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"56 +2","gold":"280 +10","wood":"84 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"58 +2","gold":"290 +10","wood":"87 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"60 +2","gold":"300 +10","wood":"90 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"62 +2","gold":"310 +10","wood":"93 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"64 +2","gold":"320 +10","wood":"96 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"66 +2","gold":"330 +10","wood":"99 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"68 +2","gold":"340 +10","wood":"102 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"70 +2","gold":"350 +10","wood":"105 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"72 +2","gold":"360 +10","wood":"108 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"74 +2","gold":"370 +10","wood":"111 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"76 +2","gold":"380 +10","wood":"114 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"78 +2","gold":"390 +10","wood":"117 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"80 +2","gold":"400 +10","wood":"120 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"82 +2","gold":"410 +10","wood":"123 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"84 +2","gold":"420 +10","wood":"126 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"86 +2","gold":"430 +10","wood":"129 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"88 +2","gold":"440 +10","wood":"132 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"90 +2","gold":"450 +10","wood":"135 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"92 +2","gold":"460 +10","wood":"138 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"94 +2","gold":"470 +10","wood":"141 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"96 +2","gold":"480 +10","wood":"144 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"98 +2","gold":"490 +10","wood":"147 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"100 +2","gold":"500 +10","wood":"150 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"102 +2","gold":"510 +10","wood":"153 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"104 +2","gold":"520 +10","wood":"156 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"106 +2","gold":"530 +10","wood":"159 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"108 +2","gold":"540 +10","wood":"162 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"110 +2","gold":"550 +10","wood":"165 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"112 +2","gold":"560 +10","wood":"168 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"114 +2","gold":"570 +10","wood":"171 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"116 +2","gold":"580 +10","wood":"174 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"118 +2","gold":"590 +10","wood":"177 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"120 +2","gold":"600 +10","wood":"180 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"122 +2","gold":"610 +10","wood":"183 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"124 +2","gold":"620 +10","wood":"186 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"126 +2","gold":"630 +10","wood":"189 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"128 +2","gold":"640 +10","wood":"192 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"130 +2","gold":"650 +10","wood":"195 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"132 +2","gold":"660 +10","wood":"198 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"134 +2","gold":"670 +10","wood":"201 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"136 +2","gold":"680 +10","wood":"204 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"138 +2","gold":"690 +10","wood":"207 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"140 +2","gold":"700 +10","wood":"210 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"142 +2","gold":"710 +10","wood":"213 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"144 +2","gold":"720 +10","wood":"216 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"146 +2","gold":"730 +10","wood":"219 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"148 +2","gold":"740 +10","wood":"222 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"150 +2","gold":"750 +10","wood":"225 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"152 +2","gold":"760 +10","wood":"228 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"154 +2","gold":"770 +10","wood":"231 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"156 +2","gold":"780 +10","wood":"234 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"158 +2","gold":"790 +10","wood":"237 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"160 +2","gold":"800 +10","wood":"240 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"162 +2","gold":"810 +10","wood":"243 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"164 +2","gold":"820 +10","wood":"246 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"166 +2","gold":"830 +10","wood":"249 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"168 +2","gold":"840 +10","wood":"252 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"170 +2","gold":"850 +10","wood":"255 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"172 +2","gold":"860 +10","wood":"258 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"174 +2","gold":"870 +10","wood":"261 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"176 +2","gold":"880 +10","wood":"264 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"178 +2","gold":"890 +10","wood":"267 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"180 +2","gold":"900 +10","wood":"270 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"182 +2","gold":"910 +10","wood":"273 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"184 +2","gold":"920 +10","wood":"276 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"186 +2","gold":"930 +10","wood":"279 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"188 +2","gold":"940 +10","wood":"282 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"190 +2","gold":"950 +10","wood":"285 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"192 +2","gold":"960 +10","wood":"288 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"194 +2","gold":"970 +10","wood":"291 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"196 +2","gold":"980 +10","wood":"294 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"198 +2","gold":"990 +10","wood":"297 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"200 +2","gold":"1000 +10","wood":"300 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"202 +2","gold":"1010 +10","wood":"303 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"204 +2","gold":"1020 +10","wood":"306 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"206 +2","gold":"1030 +10","wood":"309 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"208 +2","gold":"1040 +10","wood":"312 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"210 +2","gold":"1050 +10","wood":"315 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"212 +2","gold":"1060 +10","wood":"318 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"214 +2","gold":"1070 +10","wood":"321 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"216 +2","gold":"1080 +10","wood":"324 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"218 +2","gold":"1090 +10","wood":"327 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"220 +2","gold":"1100 +10","wood":"330 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"222 +2","gold":"1110 +10","wood":"333 +3"},"To":"Map","Operation":"Update"}
+MapNode's StreamReceiver got: {"To": "MapNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MenuNode", "TargetView": "Menu"}}
+Recipent: MapNode cmd: MoveTo args: {"TargetControlNode":"MenuNode","TargetView":"Menu"}
+MapNode: Stopping sender thread
+Sender stopper out
+[Queue algo]: MapNode: Sender: out
+MapNode: Stopping receiver thread
+MapNode: Receiver: out
+Receiver stopper out
+
+============================================
+
+Map timer exited while loop
+Map timer exited while loop
+Switched control to: MenuNode
+Generated 3657e730-9724-456f-9933-ede93f65e71a
+MenuNode: Receiver started
+MenuNode: Sender started queue algo
+[Queue algo]: MenuNode's sender: sent {"Args":{"TargetView":"Menu"},"To":"ViewSetter","Operation":"SetView","From":"MenuNode","UUID":"3657e730-9724-456f-9933-ede93f65e71a"}
+Receiving module: MenuNode has acknowledged operation with UUID: 3657e730-9724-456f-9933-ede93f65e71a
+Blocking ended, receipt confirmed
+MenuNode's StreamReceiver got: {"To": "MenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "TutorialNode", "TargetView": "Tutorial"}}
+Recipent: MenuNode cmd: MoveTo args: {"TargetControlNode":"TutorialNode","TargetView":"Tutorial"}
+MenuNode: Stopping sender thread
+Sender stopper out
+MenuNode: Stopping receiver thread
+MenuNode: Receiver: out
+Receiver stopper out
+[Queue algo]: MenuNode: Sender: out
+
+============================================
+
+Switched control to: TutorialNode
+Generated 0152f8c9-8de1-46ad-b520-695284ad982f
+TutorialNode: Receiver started
+TutorialNode: Sender started queue algo
+[Queue algo]: TutorialNode's sender: sent {"Args":{"TargetView":"Tutorial"},"To":"ViewSetter","Operation":"SetView","From":"TutorialNode","UUID":"0152f8c9-8de1-46ad-b520-695284ad982f"}
+Receiving module: TutorialNode has acknowledged operation with UUID: 0152f8c9-8de1-46ad-b520-695284ad982f
+Blocking ended, receipt confirmed
+TutorialNode's StreamReceiver got: {"To": "TutorialNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MenuNode", "TargetView": "Menu"}}
+Recipent: TutorialNode cmd: MoveTo args: {"TargetControlNode":"MenuNode","TargetView":"Menu"}
+TutorialNode: Stopping sender thread
+Sender stopper out
+TutorialNode: Stopping receiver thread
+Receiver stopper out
+TutorialNode: Receiver: out
+[Queue algo]: TutorialNode: Sender: out
+
+============================================
+
+Switched control to: MenuNode
+Generated c68ce711-2589-41c3-8369-fa0810fb0648
+MenuNode: Receiver started
+MenuNode: Sender started queue algo
+[Queue algo]: MenuNode's sender: sent {"Args":{"TargetView":"Menu"},"To":"ViewSetter","Operation":"SetView","From":"MenuNode","UUID":"c68ce711-2589-41c3-8369-fa0810fb0648"}
+Receiving module: MenuNode has acknowledged operation with UUID: c68ce711-2589-41c3-8369-fa0810fb0648
+Blocking ended, receipt confirmed
+MenuNode's StreamReceiver got: {"To": "MenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MapNode", "TargetView": "Map"}}
+Recipent: MenuNode cmd: MoveTo args: {"TargetControlNode":"MapNode","TargetView":"Map"}
+MenuNode: Stopping sender thread
+Sender stopper out
+MenuNode: Stopping receiver thread
+Receiver stopper out
+MenuNode: Receiver: out
+[Queue algo]: MenuNode: Sender: out
+
+============================================
+
+Switched control to: MapNode
+Generated 5072dde5-7de0-44a8-a7bc-c25334512914
+MapNode: Receiver started
+MapNode: Sender started queue algo
+[Queue algo]: MapNode's sender: sent {"Args":{"TargetView":"Map"},"To":"ViewSetter","Operation":"SetView","From":"MapNode","UUID":"5072dde5-7de0-44a8-a7bc-c25334512914"}
+Blocking ended, receipt confirmed
+Receiving module: MapNode has acknowledged operation with UUID: 5072dde5-7de0-44a8-a7bc-c25334512914
+Generated 511ba17c-98c8-41c4-ade5-5aeef0d424d5
+[Queue algo]: MapNode's sender: sent {"Args":{"buildings":[{"resourcesCost":{"rock":2,"gold":0,"wood":10},"name":"house","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building1.png","consumes":{"gold":3,"rock":0,"wood":0}},{"resourcesCost":{"rock":0,"gold":0,"wood":15},"name":"shed","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building.png","consumes":{"gold":3,"rock":0,"wood":0}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":10},"name":"house","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building1.png","consumes":{"gold":3,"rock":0,"wood":0}},{"resourcesCost":{"rock":0,"gold":0,"wood":15},"name":"shed","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building.png","consumes":{"gold":3,"rock":0,"wood":0}}],"resources":[{"successor":"","name":"wood","predecessor":"","texturePath":"Textures\\Wood.jpg"},{"successor":"","name":"rock","predecessor":"","texturePath":"Textures\\Rock.png"},{"successor":"","name":"gold","predecessor":"","texturePath":"Textures\\Gold.jpg"}]},"To":"Map","Operation":"Init","From":"MapNode","UUID":"511ba17c-98c8-41c4-ade5-5aeef0d424d5"}
+Receiving module: MapNode has acknowledged operation with UUID: 511ba17c-98c8-41c4-ade5-5aeef0d424d5
+Blocking ended, receipt confirmed
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"2 +2","gold":"10 +10","wood":"3 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"4 +2","gold":"20 +10","wood":"6 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"6 +2","gold":"30 +10","wood":"9 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"8 +2","gold":"40 +10","wood":"12 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"10 +2","gold":"50 +10","wood":"15 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"12 +2","gold":"60 +10","wood":"18 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"14 +2","gold":"70 +10","wood":"21 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"16 +2","gold":"80 +10","wood":"24 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"18 +2","gold":"90 +10","wood":"27 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"20 +2","gold":"100 +10","wood":"30 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"22 +2","gold":"110 +10","wood":"33 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"24 +2","gold":"120 +10","wood":"36 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"26 +2","gold":"130 +10","wood":"39 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"28 +2","gold":"140 +10","wood":"42 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"30 +2","gold":"150 +10","wood":"45 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"32 +2","gold":"160 +10","wood":"48 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"34 +2","gold":"170 +10","wood":"51 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"36 +2","gold":"180 +10","wood":"54 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"38 +2","gold":"190 +10","wood":"57 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"40 +2","gold":"200 +10","wood":"60 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"42 +2","gold":"210 +10","wood":"63 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"44 +2","gold":"220 +10","wood":"66 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"46 +2","gold":"230 +10","wood":"69 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"48 +2","gold":"240 +10","wood":"72 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"50 +2","gold":"250 +10","wood":"75 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"52 +2","gold":"260 +10","wood":"78 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"54 +2","gold":"270 +10","wood":"81 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"56 +2","gold":"280 +10","wood":"84 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"58 +2","gold":"290 +10","wood":"87 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"60 +2","gold":"300 +10","wood":"90 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"62 +2","gold":"310 +10","wood":"93 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"64 +2","gold":"320 +10","wood":"96 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"66 +2","gold":"330 +10","wood":"99 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"68 +2","gold":"340 +10","wood":"102 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"70 +2","gold":"350 +10","wood":"105 +3"},"To":"Map","Operation":"Update"}
+MapNode's StreamReceiver got: {"To": "MapNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MenuNode", "TargetView": "Menu"}}
+Recipent: MapNode cmd: MoveTo args: {"TargetControlNode":"MenuNode","TargetView":"Menu"}
+MapNode: Stopping sender thread
+Sender stopper out
+MapNode: Stopping receiver thread
+MapNode: Receiver: out
+Receiver stopper out
+[Queue algo]: MapNode: Sender: out
+
+============================================
+
+Switched control to: MenuNode
+Generated 96ca2fc1-f1fb-4463-a84a-5d62a63ab899
+Map timer exited while loop
+Map timer exited while loop
+MenuNode: Receiver started
+MenuNode: Sender started queue algo
+[Queue algo]: MenuNode's sender: sent {"Args":{"TargetView":"Menu"},"To":"ViewSetter","Operation":"SetView","From":"MenuNode","UUID":"96ca2fc1-f1fb-4463-a84a-5d62a63ab899"}
+Receiving module: MenuNode has acknowledged operation with UUID: 96ca2fc1-f1fb-4463-a84a-5d62a63ab899
+Blocking ended, receipt confirmed
+MenuNode's StreamReceiver got: {"To": "MenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "CreatorNode", "TargetView": "Creator"}}
+Recipent: MenuNode cmd: MoveTo args: {"TargetControlNode":"CreatorNode","TargetView":"Creator"}
+MenuNode: Stopping sender thread
+Sender stopper out
+MenuNode: Stopping receiver thread
+[Queue algo]: MenuNode: Sender: out
+MenuNode: Receiver: out
+Receiver stopper out
+
+============================================
+
+Switched control to: CreatorNode
+Generated 16ba504f-15aa-401f-a2e6-abb61ece1055
+CreatorNode: Receiver started
+CreatorNode: Sender started queue algo
+[Queue algo]: CreatorNode's sender: sent {"Args":{"TargetView":"Creator"},"To":"ViewSetter","Operation":"SetView","From":"CreatorNode","UUID":"16ba504f-15aa-401f-a2e6-abb61ece1055"}
+Blocking ended, receipt confirmed
+Receiving module: CreatorNode has acknowledged operation with UUID: 16ba504f-15aa-401f-a2e6-abb61ece1055
+CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MenuNode", "TargetView": "Menu"}}
+Recipent: CreatorNode cmd: MoveTo args: {"TargetControlNode":"MenuNode","TargetView":"Menu"}
+CreatorNode: Stopping sender thread
+Sender stopper out
+CreatorNode: Stopping receiver thread
+CreatorNode: Receiver: out
+Receiver stopper out
+[Queue algo]: CreatorNode: Sender: out
+
+============================================
+
+Switched control to: MenuNode
+Generated 07feffc4-d789-4df3-a365-857dd454e4af
+MenuNode: Receiver started
+MenuNode: Sender started queue algo
+[Queue algo]: MenuNode's sender: sent {"Args":{"TargetView":"Menu"},"To":"ViewSetter","Operation":"SetView","From":"MenuNode","UUID":"07feffc4-d789-4df3-a365-857dd454e4af"}
+Receiving module: MenuNode has acknowledged operation with UUID: 07feffc4-d789-4df3-a365-857dd454e4af
+Blocking ended, receipt confirmed
+MenuNode's StreamReceiver got: {"To": "MenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MapNode", "TargetView": "Map"}}
+Recipent: MenuNode cmd: MoveTo args: {"TargetControlNode":"MapNode","TargetView":"Map"}
+MenuNode: Stopping sender thread
+Sender stopper out
+MenuNode: Stopping receiver thread
+MenuNode: Receiver: out
+[Queue algo]: MenuNode: Sender: out
+Receiver stopper out
+
+============================================
+
+Switched control to: MapNode
+Generated eddbb6fb-980d-4931-ba5d-00845754599b
+MapNode: Receiver started
+MapNode: Sender started queue algo
+[Queue algo]: MapNode's sender: sent {"Args":{"TargetView":"Map"},"To":"ViewSetter","Operation":"SetView","From":"MapNode","UUID":"eddbb6fb-980d-4931-ba5d-00845754599b"}
+Receiving module: MapNode has acknowledged operation with UUID: eddbb6fb-980d-4931-ba5d-00845754599b
+Blocking ended, receipt confirmed
+Generated b9adcd55-21ea-4e49-b6e2-d4430a3170da
+[Queue algo]: MapNode's sender: sent {"Args":{"buildings":[{"resourcesCost":{"rock":2,"gold":0,"wood":10},"name":"house","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building1.png","consumes":{"gold":3,"rock":0,"wood":0}},{"resourcesCost":{"rock":0,"gold":0,"wood":15},"name":"shed","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building.png","consumes":{"gold":3,"rock":0,"wood":0}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":10},"name":"house","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building1.png","consumes":{"gold":3,"rock":0,"wood":0}},{"resourcesCost":{"rock":0,"gold":0,"wood":15},"name":"shed","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building.png","consumes":{"gold":3,"rock":0,"wood":0}}],"resources":[{"successor":"","name":"wood","predecessor":"","texturePath":"Textures\\Wood.jpg"},{"successor":"","name":"rock","predecessor":"","texturePath":"Textures\\Rock.png"},{"successor":"","name":"gold","predecessor":"","texturePath":"Textures\\Gold.jpg"}]},"To":"Map","Operation":"Init","From":"MapNode","UUID":"b9adcd55-21ea-4e49-b6e2-d4430a3170da"}
+Receiving module: MapNode has acknowledged operation with UUID: b9adcd55-21ea-4e49-b6e2-d4430a3170da
+Blocking ended, receipt confirmed
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"2 +2","gold":"10 +10","wood":"3 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"4 +2","gold":"20 +10","wood":"6 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"6 +2","gold":"30 +10","wood":"9 +3"},"To":"Map","Operation":"Update"}
+MapNode's StreamReceiver got: {"To": "MapNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MenuNode", "TargetView": "Menu"}}
+Recipent: MapNode cmd: MoveTo args: {"TargetControlNode":"MenuNode","TargetView":"Menu"}
+MapNode: Stopping sender thread
+Sender stopper out
+MapNode: Stopping receiver thread
+[Queue algo]: MapNode: Sender: out
+MapNode: Receiver: out
+Receiver stopper out
+
+============================================
+
+Switched control to: MenuNode
+Map timer exited while loop
+Map timer exited while loop
+Generated 0fc782a5-1a73-4fad-ab4e-5e813ce8a5c9
+MenuNode: Receiver started
+MenuNode: Sender started queue algo
+[Queue algo]: MenuNode's sender: sent {"Args":{"TargetView":"Menu"},"To":"ViewSetter","Operation":"SetView","From":"MenuNode","UUID":"0fc782a5-1a73-4fad-ab4e-5e813ce8a5c9"}
+Receiving module: MenuNode has acknowledged operation with UUID: 0fc782a5-1a73-4fad-ab4e-5e813ce8a5c9
+Blocking ended, receipt confirmed
+MenuNode's StreamReceiver got: {"To": "MenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "ExchangeNode", "TargetView": "Exchange"}}
+Recipent: MenuNode cmd: MoveTo args: {"TargetControlNode":"ExchangeNode","TargetView":"Exchange"}
+MenuNode: Stopping sender thread
+Sender stopper out
+MenuNode: Stopping receiver thread
+MenuNode: Receiver: out
+Receiver stopper out
+[Queue algo]: MenuNode: Sender: out
+Stock is stopped
+
+============================================
+
+Switched control to: MenuNode
+Generated ec90124c-6bfc-49c8-bd23-9a51e3878d77
+MenuNode: Receiver started
+MenuNode: Sender started queue algo
+[Queue algo]: MenuNode's sender: sent {"Args":{"TargetView":"Menu"},"To":"ViewSetter","Operation":"SetView","From":"MenuNode","UUID":"ec90124c-6bfc-49c8-bd23-9a51e3878d77"}
+Receiving module: MenuNode has acknowledged operation with UUID: ec90124c-6bfc-49c8-bd23-9a51e3878d77
+Blocking ended, receipt confirmed
+MenuNode's StreamReceiver got: {"To": "MenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "TutorialNode", "TargetView": "Tutorial"}}
+Recipent: MenuNode cmd: MoveTo args: {"TargetControlNode":"TutorialNode","TargetView":"Tutorial"}
+MenuNode: Stopping sender thread
+Sender stopper out
+MenuNode: Stopping receiver thread
+Receiver stopper out
+[Queue algo]: MenuNode: Sender: out
+MenuNode: Receiver: out
+
+============================================
+
+Switched control to: TutorialNode
+Generated 903d5669-ebc5-4710-902d-8b534bbdbe65
+TutorialNode: Receiver started
+TutorialNode: Sender started queue algo
+[Queue algo]: TutorialNode's sender: sent {"Args":{"TargetView":"Tutorial"},"To":"ViewSetter","Operation":"SetView","From":"TutorialNode","UUID":"903d5669-ebc5-4710-902d-8b534bbdbe65"}
+Blocking ended, receipt confirmed
+Receiving module: TutorialNode has acknowledged operation with UUID: 903d5669-ebc5-4710-902d-8b534bbdbe65
+TutorialNode's StreamReceiver got: {"To": "TutorialNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MenuNode", "TargetView": "Menu"}}
+Recipent: TutorialNode cmd: MoveTo args: {"TargetControlNode":"MenuNode","TargetView":"Menu"}
+TutorialNode: Stopping sender thread
+Sender stopper out
+TutorialNode: Stopping receiver thread
+Receiver stopper out
+TutorialNode: Receiver: out
+[Queue algo]: TutorialNode: Sender: out
+
+============================================
+
+Switched control to: MenuNode
+Generated 12039753-e11a-42df-8136-841e9985d080
+MenuNode: Receiver started
+MenuNode: Sender started queue algo
+[Queue algo]: MenuNode's sender: sent {"Args":{"TargetView":"Menu"},"To":"ViewSetter","Operation":"SetView","From":"MenuNode","UUID":"12039753-e11a-42df-8136-841e9985d080"}
+Receiving module: MenuNode has acknowledged operation with UUID: 12039753-e11a-42df-8136-841e9985d080
+Blocking ended, receipt confirmed
+MenuNode's StreamReceiver got: {"To": "MenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MapNode", "TargetView": "Map"}}
+Recipent: MenuNode cmd: MoveTo args: {"TargetControlNode":"MapNode","TargetView":"Map"}
+MenuNode: Stopping sender thread
+Sender stopper out
+MenuNode: Stopping receiver thread
+MenuNode: Receiver: out
+Receiver stopper out
+[Queue algo]: MenuNode: Sender: out
+
+============================================
+
+Switched control to: MapNode
+Generated 3602aa08-736f-4787-91a7-425506911cb7
+MapNode: Receiver started
+MapNode: Sender started queue algo
+[Queue algo]: MapNode's sender: sent {"Args":{"TargetView":"Map"},"To":"ViewSetter","Operation":"SetView","From":"MapNode","UUID":"3602aa08-736f-4787-91a7-425506911cb7"}
+Receiving module: MapNode has acknowledged operation with UUID: 3602aa08-736f-4787-91a7-425506911cb7
+Blocking ended, receipt confirmed
+Generated 14a9b37a-5cb1-4a6f-9530-b6f0f38e07e5
+[Queue algo]: MapNode's sender: sent {"Args":{"buildings":[{"resourcesCost":{"rock":2,"gold":0,"wood":10},"name":"house","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building1.png","consumes":{"gold":3,"rock":0,"wood":0}},{"resourcesCost":{"rock":0,"gold":0,"wood":15},"name":"shed","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building.png","consumes":{"gold":3,"rock":0,"wood":0}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"Textures\\Building3.png","consumes":{"gold":0,"rock":0,"wood":3}},{"resourcesCost":{"rock":2,"gold":0,"wood":10},"name":"house","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building1.png","consumes":{"gold":3,"rock":0,"wood":0}},{"resourcesCost":{"rock":0,"gold":0,"wood":15},"name":"shed","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"Textures\\Building.png","consumes":{"gold":3,"rock":0,"wood":0}}],"resources":[{"successor":"","name":"wood","predecessor":"","texturePath":"Textures\\Wood.jpg"},{"successor":"","name":"rock","predecessor":"","texturePath":"Textures\\Rock.png"},{"successor":"","name":"gold","predecessor":"","texturePath":"Textures\\Gold.jpg"}]},"To":"Map","Operation":"Init","From":"MapNode","UUID":"14a9b37a-5cb1-4a6f-9530-b6f0f38e07e5"}
+Blocking ended, receipt confirmed
+Receiving module: MapNode has acknowledged operation with UUID: 14a9b37a-5cb1-4a6f-9530-b6f0f38e07e5
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"2 +2","gold":"10 +10","wood":"3 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"4 +2","gold":"20 +10","wood":"6 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"6 +2","gold":"30 +10","wood":"9 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"8 +2","gold":"40 +10","wood":"12 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"10 +2","gold":"50 +10","wood":"15 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"12 +2","gold":"60 +10","wood":"18 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"14 +2","gold":"70 +10","wood":"21 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"16 +2","gold":"80 +10","wood":"24 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"18 +2","gold":"90 +10","wood":"27 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"20 +2","gold":"100 +10","wood":"30 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"22 +2","gold":"110 +10","wood":"33 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"24 +2","gold":"120 +10","wood":"36 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"26 +2","gold":"130 +10","wood":"39 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"28 +2","gold":"140 +10","wood":"42 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"30 +2","gold":"150 +10","wood":"45 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"32 +2","gold":"160 +10","wood":"48 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"34 +2","gold":"170 +10","wood":"51 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"36 +2","gold":"180 +10","wood":"54 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"38 +2","gold":"190 +10","wood":"57 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"40 +2","gold":"200 +10","wood":"60 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"42 +2","gold":"210 +10","wood":"63 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"44 +2","gold":"220 +10","wood":"66 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"46 +2","gold":"230 +10","wood":"69 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"48 +2","gold":"240 +10","wood":"72 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"50 +2","gold":"250 +10","wood":"75 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"52 +2","gold":"260 +10","wood":"78 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"54 +2","gold":"270 +10","wood":"81 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"56 +2","gold":"280 +10","wood":"84 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"58 +2","gold":"290 +10","wood":"87 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"60 +2","gold":"300 +10","wood":"90 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"62 +2","gold":"310 +10","wood":"93 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"64 +2","gold":"320 +10","wood":"96 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"66 +2","gold":"330 +10","wood":"99 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"68 +2","gold":"340 +10","wood":"102 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"70 +2","gold":"350 +10","wood":"105 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"72 +2","gold":"360 +10","wood":"108 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"74 +2","gold":"370 +10","wood":"111 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"76 +2","gold":"380 +10","wood":"114 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"78 +2","gold":"390 +10","wood":"117 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"80 +2","gold":"400 +10","wood":"120 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"82 +2","gold":"410 +10","wood":"123 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"84 +2","gold":"420 +10","wood":"126 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"86 +2","gold":"430 +10","wood":"129 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"88 +2","gold":"440 +10","wood":"132 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"90 +2","gold":"450 +10","wood":"135 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"92 +2","gold":"460 +10","wood":"138 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"94 +2","gold":"470 +10","wood":"141 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"96 +2","gold":"480 +10","wood":"144 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"98 +2","gold":"490 +10","wood":"147 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"100 +2","gold":"500 +10","wood":"150 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"102 +2","gold":"510 +10","wood":"153 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"104 +2","gold":"520 +10","wood":"156 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"106 +2","gold":"530 +10","wood":"159 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"108 +2","gold":"540 +10","wood":"162 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"110 +2","gold":"550 +10","wood":"165 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"112 +2","gold":"560 +10","wood":"168 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"114 +2","gold":"570 +10","wood":"171 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"116 +2","gold":"580 +10","wood":"174 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"118 +2","gold":"590 +10","wood":"177 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"120 +2","gold":"600 +10","wood":"180 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"122 +2","gold":"610 +10","wood":"183 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"124 +2","gold":"620 +10","wood":"186 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"126 +2","gold":"630 +10","wood":"189 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"128 +2","gold":"640 +10","wood":"192 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"130 +2","gold":"650 +10","wood":"195 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"132 +2","gold":"660 +10","wood":"198 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"134 +2","gold":"670 +10","wood":"201 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"136 +2","gold":"680 +10","wood":"204 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"138 +2","gold":"690 +10","wood":"207 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"140 +2","gold":"700 +10","wood":"210 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"142 +2","gold":"710 +10","wood":"213 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"144 +2","gold":"720 +10","wood":"216 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"146 +2","gold":"730 +10","wood":"219 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"148 +2","gold":"740 +10","wood":"222 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"150 +2","gold":"750 +10","wood":"225 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"152 +2","gold":"760 +10","wood":"228 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"154 +2","gold":"770 +10","wood":"231 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"156 +2","gold":"780 +10","wood":"234 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"158 +2","gold":"790 +10","wood":"237 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"160 +2","gold":"800 +10","wood":"240 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"162 +2","gold":"810 +10","wood":"243 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"164 +2","gold":"820 +10","wood":"246 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"166 +2","gold":"830 +10","wood":"249 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"168 +2","gold":"840 +10","wood":"252 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"170 +2","gold":"850 +10","wood":"255 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"172 +2","gold":"860 +10","wood":"258 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"174 +2","gold":"870 +10","wood":"261 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"176 +2","gold":"880 +10","wood":"264 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"178 +2","gold":"890 +10","wood":"267 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"180 +2","gold":"900 +10","wood":"270 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"182 +2","gold":"910 +10","wood":"273 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"184 +2","gold":"920 +10","wood":"276 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"186 +2","gold":"930 +10","wood":"279 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"188 +2","gold":"940 +10","wood":"282 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"190 +2","gold":"950 +10","wood":"285 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"192 +2","gold":"960 +10","wood":"288 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"194 +2","gold":"970 +10","wood":"291 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"196 +2","gold":"980 +10","wood":"294 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"198 +2","gold":"990 +10","wood":"297 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"200 +2","gold":"1000 +10","wood":"300 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"202 +2","gold":"1010 +10","wood":"303 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"204 +2","gold":"1020 +10","wood":"306 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"206 +2","gold":"1030 +10","wood":"309 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"208 +2","gold":"1040 +10","wood":"312 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"210 +2","gold":"1050 +10","wood":"315 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"212 +2","gold":"1060 +10","wood":"318 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"214 +2","gold":"1070 +10","wood":"321 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"216 +2","gold":"1080 +10","wood":"324 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"218 +2","gold":"1090 +10","wood":"327 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"220 +2","gold":"1100 +10","wood":"330 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"222 +2","gold":"1110 +10","wood":"333 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"224 +2","gold":"1120 +10","wood":"336 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"226 +2","gold":"1130 +10","wood":"339 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"228 +2","gold":"1140 +10","wood":"342 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"230 +2","gold":"1150 +10","wood":"345 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"232 +2","gold":"1160 +10","wood":"348 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"234 +2","gold":"1170 +10","wood":"351 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"236 +2","gold":"1180 +10","wood":"354 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"238 +2","gold":"1190 +10","wood":"357 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"240 +2","gold":"1200 +10","wood":"360 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"242 +2","gold":"1210 +10","wood":"363 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"244 +2","gold":"1220 +10","wood":"366 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"246 +2","gold":"1230 +10","wood":"369 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"248 +2","gold":"1240 +10","wood":"372 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"250 +2","gold":"1250 +10","wood":"375 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"252 +2","gold":"1260 +10","wood":"378 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"254 +2","gold":"1270 +10","wood":"381 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"256 +2","gold":"1280 +10","wood":"384 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"258 +2","gold":"1290 +10","wood":"387 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"260 +2","gold":"1300 +10","wood":"390 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"262 +2","gold":"1310 +10","wood":"393 +3"},"To":"Map","Operation":"Update"}
+Stock is working
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"264 +2","gold":"1320 +10","wood":"396 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"266 +2","gold":"1330 +10","wood":"399 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"268 +2","gold":"1340 +10","wood":"402 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"270 +2","gold":"1350 +10","wood":"405 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"272 +2","gold":"1360 +10","wood":"408 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"274 +2","gold":"1370 +10","wood":"411 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"276 +2","gold":"1380 +10","wood":"414 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"278 +2","gold":"1390 +10","wood":"417 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"280 +2","gold":"1400 +10","wood":"420 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"282 +2","gold":"1410 +10","wood":"423 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"284 +2","gold":"1420 +10","wood":"426 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"286 +2","gold":"1430 +10","wood":"429 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"288 +2","gold":"1440 +10","wood":"432 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"290 +2","gold":"1450 +10","wood":"435 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"292 +2","gold":"1460 +10","wood":"438 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"294 +2","gold":"1470 +10","wood":"441 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"296 +2","gold":"1480 +10","wood":"444 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"298 +2","gold":"1490 +10","wood":"447 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"300 +2","gold":"1500 +10","wood":"450 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"302 +2","gold":"1510 +10","wood":"453 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"304 +2","gold":"1520 +10","wood":"456 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"306 +2","gold":"1530 +10","wood":"459 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"308 +2","gold":"1540 +10","wood":"462 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"310 +2","gold":"1550 +10","wood":"465 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"312 +2","gold":"1560 +10","wood":"468 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"314 +2","gold":"1570 +10","wood":"471 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"316 +2","gold":"1580 +10","wood":"474 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"318 +2","gold":"1590 +10","wood":"477 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"320 +2","gold":"1600 +10","wood":"480 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"322 +2","gold":"1610 +10","wood":"483 +3"},"To":"Map","Operation":"Update"}
+MapNode's StreamReceiver got: {"To": "MapNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MenuNode", "TargetView": "Menu"}}
+Recipent: MapNode cmd: MoveTo args: {"TargetControlNode":"MenuNode","TargetView":"Menu"}
+MapNode: Stopping sender thread
+[Queue algo]: MapNode: Sender: out
+Sender stopper out
+MapNode: Stopping receiver thread
+MapNode: Receiver: out
+Receiver stopper out
+Map timer exited while loop
+
+============================================
+
+Map timer exited while loop
+Switched control to: MenuNode
+Generated 98922bb1-7b19-48e8-b1b9-8b4b2d24c9c6
+MenuNode: Receiver started
+MenuNode: Sender started queue algo
+[Queue algo]: MenuNode's sender: sent {"Args":{"TargetView":"Menu"},"To":"ViewSetter","Operation":"SetView","From":"MenuNode","UUID":"98922bb1-7b19-48e8-b1b9-8b4b2d24c9c6"}
+Receiving module: MenuNode has acknowledged operation with UUID: 98922bb1-7b19-48e8-b1b9-8b4b2d24c9c6
+Blocking ended, receipt confirmed
+MenuNode's StreamReceiver got: {"To": "MenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "ExchangeNode", "TargetView": "Exchange"}}
+Recipent: MenuNode cmd: MoveTo args: {"TargetControlNode":"ExchangeNode","TargetView":"Exchange"}
+MenuNode: Stopping sender thread
+Sender stopper out
+MenuNode: Stopping receiver thread
+MenuNode: Receiver: out
+Receiver stopper out
+[Queue algo]: MenuNode: Sender: out
+Stock is stopped
+
+============================================
+
+Switched control to: MenuNode
+Generated 93b2809e-bbfd-4fc3-9408-3b3e34ba3ffb
+MenuNode: Receiver started
+MenuNode: Sender started queue algo
+[Queue algo]: MenuNode's sender: sent {"Args":{"TargetView":"Menu"},"To":"ViewSetter","Operation":"SetView","From":"MenuNode","UUID":"93b2809e-bbfd-4fc3-9408-3b3e34ba3ffb"}
+Receiving module: MenuNode has acknowledged operation with UUID: 93b2809e-bbfd-4fc3-9408-3b3e34ba3ffb
+Blocking ended, receipt confirmed
+Stock is working
+MenuNode's StreamReceiver got: {"To": "MenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "TutorialNode", "TargetView": "Tutorial"}}
+Recipent: MenuNode cmd: MoveTo args: {"TargetControlNode":"TutorialNode","TargetView":"Tutorial"}
+MenuNode: Stopping sender thread
+Sender stopper out
+MenuNode: Stopping receiver thread
+Receiver stopper out
+[Queue algo]: MenuNode: Sender: out
+MenuNode: Receiver: out
+
+============================================
+
+Switched control to: TutorialNode
+Generated e7675c58-b36b-4ffd-91b1-7fa3a23da46d
+TutorialNode: Receiver started
+TutorialNode: Sender started queue algo
+[Queue algo]: TutorialNode's sender: sent {"Args":{"TargetView":"Tutorial"},"To":"ViewSetter","Operation":"SetView","From":"TutorialNode","UUID":"e7675c58-b36b-4ffd-91b1-7fa3a23da46d"}
+Receiving module: TutorialNode has acknowledged operation with UUID: e7675c58-b36b-4ffd-91b1-7fa3a23da46d
+Blocking ended, receipt confirmed
+TutorialNode's StreamReceiver got: {"To": "TutorialNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MenuNode", "TargetView": "Menu"}}
+Recipent: TutorialNode cmd: MoveTo args: {"TargetControlNode":"MenuNode","TargetView":"Menu"}
+TutorialNode: Stopping sender thread
+Sender stopper out
+TutorialNode: Stopping receiver thread
+TutorialNode: Receiver: out
+Receiver stopper out
+[Queue algo]: TutorialNode: Sender: out
+
+============================================
+
+Switched control to: MenuNode
+Generated da0ab495-fd55-4692-b940-b12d3c09c63e
+MenuNode: Receiver started
+MenuNode: Sender started queue algo
+[Queue algo]: MenuNode's sender: sent {"Args":{"TargetView":"Menu"},"To":"ViewSetter","Operation":"SetView","From":"MenuNode","UUID":"da0ab495-fd55-4692-b940-b12d3c09c63e"}
+Receiving module: MenuNode has acknowledged operation with UUID: da0ab495-fd55-4692-b940-b12d3c09c63e
+Blocking ended, receipt confirmed
+MenuNode's StreamReceiver got: {"To": "MenuNode", "Operation": "Exit", "Args": {}}
+Recipent: MenuNode cmd: Exit args: {}
+Exiting...

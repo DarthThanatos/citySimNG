@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import controlnode.DispatchCenter;
 import controlnode.SocketNode;
 
 
@@ -15,23 +16,25 @@ public class MapNode extends SocketNode{
 	Thread resourcesThread;
 	public boolean update = true;
 	public Buildings buildings;
-	Resources resources = new Resources(sender);
+	Resources resources = null;
 	
-	public MapNode(DependenciesRepresenter dr) {
-		super(dr);
+	public MapNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
+		super(dr, dispatchCenter, nodeName);
+		resources = new Resources(sender);
 		System.out.println("Created Map Node");
-		nodeName = "MapNode";
 	}
 
 
 	@Override
-	public String parseCommand(String command, String[] streamArgs) {
+	public String parseCommand(String command, JSONObject args) {
+		JSONObject envelope = new JSONObject();
+		envelope.put("To", "Map");
 		if(command.equals("PlaceBuilding")){
 			// parse arguments
-			String[] argsList = streamArgs[0].split(",");
+			//String[] argsList = streamArgs[0].split(",");
 			
 			// check if player can afford to build building
-			Boolean canAfford = buildings.placeBuilding(argsList[0], resources);
+			Boolean canAfford = buildings.placeBuilding(args.getString("BuildingName"), resources);
 			
 			// create and send reply to view
 			Map<String, String> actualValuseAndIncomes = new HashMap<String, String>();
@@ -43,18 +46,19 @@ public class MapNode extends SocketNode{
 						sign + resources.getIncomes().get(resource));
 			}
 			JSONObject json = new JSONObject();
-			json.put("buildingID", argsList[1]);
+			json.put("buildingID", args.getString("BuildingId"));
 			json.put("canAfford", canAfford);
 			json.put("actualRes", actualValuseAndIncomes);
-			sender.setStream("Map@" + json);
+			envelope.put("Operation","PlaceBuildingResult");
+			envelope.put("Args", json);
+			/*sender.setStream("Map@" + json);
 			synchronized(sender){
 				sender.notify();
-			}
-			System.out.println("\n\n\nYolo\n\n");
-			System.out.println("Sent after built: Map@" + json);
-			return "Map@" + json.toString();
+			}*/
+			System.out.println("Sent after built: " + envelope);
+			//return "Map@" + json.toString();
 		}
-		return "Map@{}";
+		return envelope.toString();
 	}
 
 	@Override
@@ -67,10 +71,16 @@ public class MapNode extends SocketNode{
 		JSONObject json = new JSONObject();
 		json.put("resources", resources.getResources());
 		json.put("buildings", buildings.getAllBuildings());
-		sender.setStream("Map@" + json);
+		/*sender.setStream("Map@" + json);
 		synchronized(sender){
 			sender.notify();
-		} 
+		} */
+		JSONObject envelope = new JSONObject();
+		envelope.put("To", "Map");
+		envelope.put("Operation", "Init");
+		envelope.put("Args", json);
+		sender.pushStreamAndWaitForResponse(envelope);
+		//sender.pushStream("Map@" + json);
 		resourcesThread = new Thread() {
 			public void run() {
 				while(update){

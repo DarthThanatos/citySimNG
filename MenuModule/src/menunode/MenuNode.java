@@ -1,25 +1,27 @@
 package menunode;
 
+import org.json.JSONObject;
+
 import model.DependenciesRepresenter;
+import controlnode.DispatchCenter;
 import controlnode.Node;
 import controlnode.SocketNode;
 
 public class MenuNode extends SocketNode{
 
-	public MenuNode(DependenciesRepresenter dr) {
-		super(dr);
+	public MenuNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
+		super(dr, dispatchCenter, nodeName);
 		System.out.println("menu node created");
-		nodeName = "MenuNode";
 	}
 
 
 	@Override
-	public String parseCommand(String command, String[] streamArgs) {
+	public String parseCommand(String command, JSONObject args) {
 		if(command.equals("Exit")){
 			System.out.println("Exiting...");
 			System.exit(0);
 		}
-		return null;
+		return "{}";
 	}
 
 

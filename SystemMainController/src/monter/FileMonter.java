@@ -4,12 +4,16 @@ import java.io.*;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import model.DependenciesRepresenter;
+import controlnode.DispatchCenter;
 import controlnode.Node;
 import controlswitcher.ControlSwitcher;
 
@@ -18,11 +22,12 @@ public class FileMonter implements SystemMonter{
 	private List<String> textDescriptions;
 	private HashMap<String, Node> nodes;
 	private HashMap<String, Boolean> monterConfig;
-
+	private DispatchCenter dispatchCenter;
 	
 	public FileMonter(String filePath, String[] args){
 		setConfigFlags(args);
 		BufferedReader br = null;
+		dispatchCenter = new DispatchCenter();
 		try {
 			br = new BufferedReader(new FileReader(new File(filePath)));
 			textDescriptions = new LinkedList<String>();
@@ -60,10 +65,12 @@ public class FileMonter implements SystemMonter{
 		}
 	}
 	
-	private void readNodes(String[] nodeDesc){
+	private void readNodes(String[] nodeDesc, ArrayList<String> modulesNames){
 		String projectName = nodeDesc[0];
 		String nodeClassName = nodeDesc[1];
 		String nodeHashKey = nodeDesc[2];
+		modulesNames.add(nodeHashKey);
+		
 		URLClassLoader urlLoader = null; 
 		System.out.println("Read and create node " + nodeClassName + " with a hash key " + nodeHashKey);
      	try {
@@ -75,9 +82,9 @@ public class FileMonter implements SystemMonter{
 			URL[] urls = {new URL (urlStr)};
 			urlLoader = new URLClassLoader(urls);
 			Class<?> nodeClass = urlLoader.loadClass(nodeClassName);
-			Constructor<?> constructor = nodeClass.getConstructor(DependenciesRepresenter.class);
+			Constructor<?> constructor = nodeClass.getConstructor(DependenciesRepresenter.class, DispatchCenter.class, String.class);
 			DependenciesRepresenter dr = new DependenciesRepresenter();
-			Node node = (Node)constructor.newInstance(dr);
+			Node node = (Node)constructor.newInstance(dr, dispatchCenter, nodeHashKey);
 			nodes.put(nodeHashKey, node);
 		} catch (Exception e) {
 			System.err.println("Not found: " + nodeClassName);
@@ -109,9 +116,10 @@ public class FileMonter implements SystemMonter{
 	/*
 	 * (non-Javadoc)
 	 * @see monter.SystemMonter#mount()
+	 * 
 	 */
 	@Override
-	public Node mount() {
+	public Node mount(ArrayList<String> modulesNamesList) {
 		
 		String mode = ""; /*text establishing the mode of parsing*/
 		String mainNodeName = ""; 
@@ -146,7 +154,7 @@ public class FileMonter implements SystemMonter{
 			 * a legitimate way, so current mode of mounting can understand it 
 			*/
 			if (mode.equals("Nodes")){
-				readNodes(descriptionParts);
+				readNodes(descriptionParts, modulesNamesList);
 			}
 			else if(mode.equals("Edges")){
 				readEdges(descriptionParts);
@@ -165,6 +173,7 @@ public class FileMonter implements SystemMonter{
 				return null;
 			}
 		}
+		dispatchCenter.createDB(modulesNamesList);
 		return nodes.get(mainNodeName);
 
 	}

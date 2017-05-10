@@ -1,4 +1,4 @@
-# bgEngine
+# citySimNG
 Silnik gry ekonomicznej
 
 Projekt dotyczy silnika gier strategicznych typu RTS, który będzie umożliwiał tworzenie i późniejsze wczytywanie zdefiniowanych przez użytkownika zasad gry oraz prowadzanie rozgrywki. Podczas rozgrywki gracz będzie miał możliwość rozwoju poprzez budowę budynków, opracowanie nowych technologii, udział w giełdzie sterowanej częściowo przez AI, pozyskiwanie zasobów i zarządzanie mieszkańcami miasta. Wszystkie akcje użytkownika będą odbywały się przy użyciu prostego interfejsu graficznego.
@@ -13,10 +13,13 @@ Podstawowe funkcjonalności:
 Wykorzystywane technologie:
 * Java 8
 * Python 2.7
-* Pygame
-* WxPython
-* Matplotlib
-* JSON
+* Pygame (można pobrać przy użyciu komendy pip install pygame)
+* WxPython (najlepiej pobrać z https://wxpython.org/download.php#msw, może nie współpracować z komendą pip)
+* Matplotlib (można pobrać przy użyciu pip install matplotlib)
+* JSON (w katalogu lib, plik json.jar)
+* gradle 
+(opis instalacji: https://gradle.org/install
+pobrać wersję 3.5 binary-only z: https://gradle.org/releases)
 
 Problemy:
 Jeśli po pobraniu projektów i otworzeniu ich w środowisku Eclipse dostajemy powiadomienie o błędach, należy:
@@ -45,3 +48,5 @@ przy uruchamianiu widoku, takie jak tekstury, jar, .mp3 itp.
 Próba uruchomienia w różnych środowiskach może poskutkować nierozwiązanymi ścieżkami, natomiast zmienianie struktury katalogów
 może spowodować utratę kompatybilności z już napisanym kodem; nie wspominając, że zmieniając strukturę, możemy doprowadzić
 do bałaganu. Zachęcamy do korzystania z już ustalonych przez twórców wzorców.
+
+

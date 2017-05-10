@@ -7,5 +7,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ExchangeModule"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/MapModule"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CreatorModule"/>
+	<classpathentry kind="lib" path="C:/Users/Robert/Desktop/Robert/agh/PP/CitySimNG/lib/json.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

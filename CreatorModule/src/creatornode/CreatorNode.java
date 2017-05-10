@@ -1,23 +1,24 @@
 //* Init class responsible for creating new games with given parameters. Will be implemented in future. */ 
 
 package creatornode;
+import org.json.JSONObject;
+
 import model.DependenciesRepresenter;
+import controlnode.DispatchCenter;
 import controlnode.Node;
 import controlnode.SocketNode;
 
 public class CreatorNode extends SocketNode{
 	
-	public CreatorNode(DependenciesRepresenter dr) {
-		super(dr);
+	public CreatorNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
+		super(dr, dispatchCenter, nodeName);
 		System.out.println("Created Creator Node");
-		nodeName = "CreatorNode";
 	}
 
 	@Override
-	public String parseCommand(String command, String[] streamArgs) {
+	public String parseCommand(String command, JSONObject args) {
 		if(command.equals("Parse")){
-			String jsonDependencies = streamArgs[0].replace(",", ",\n");
-			System.out.println("Creator node received following dependencies package:\n" + jsonDependencies);
+			System.out.println("Creator node received following dependencies package:\n" + args.getJSONObject("Dependencies"));
 		}
 		return "Creator@Msg received successfully";
 	}
