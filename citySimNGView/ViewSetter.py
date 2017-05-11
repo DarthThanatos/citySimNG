@@ -1,7 +1,9 @@
 import os
 import wx
 from CreatorView import CreatorView
-from MenuView import MenuView
+from GameMenuView import GameMenuView
+from LoaderView import LoaderView
+from MainMenuView import MainMenuView
 from ExchangeView import ExchangeView
 from MapView import MapView
 from TutorialView import TutorialView
@@ -15,7 +17,9 @@ class MyFrame(wx.Frame):
         wx.Frame.__init__(self, parent, ID, strTitle, size=tplSize)
 
         self.views = {
-            "Menu": MenuView(self, tplSize, "Menu", relative_music_path + "NWN2.mp3", sender),
+            "Loader": LoaderView(self, tplSize, "Loader",sender = sender),
+            "GameMenu": GameMenuView(self, tplSize, "GameMenu", relative_music_path + "NWN2.mp3", sender),
+            "MainMenu": MainMenuView(self, tplSize, "MainMenu", relative_music_path + "NWN2.mp3", sender),
             "Creator": CreatorView(self, tplSize, "Creator", relative_music_path + "Ret Xed OST.mp3", sender),
             "Exchange": ExchangeView(self, tplSize, "Exchange", sender),
             "Map": MapView(self, tplSize, "Map", sender),
@@ -29,7 +33,7 @@ class MyFrame(wx.Frame):
         # EVT_SHOW event shall be triggered for the first view to  be seen)
         
         self.ShowFullScreen(True)
-        self.currentViewName = "Menu"
+        self.currentViewName = "GameMenu"
         #self.setView("Menu")
     """
     def passMsgToCurrentView(self, msg):

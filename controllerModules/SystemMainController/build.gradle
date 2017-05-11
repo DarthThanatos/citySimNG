@@ -1,8 +1,0 @@
-dependencies {
-   compile files('../SkeletonModule/bin')
-} 
-
-clean.doFirst {
-	delete "bin/"
-	println "ExchangeModule/bin/ deleted"
-}

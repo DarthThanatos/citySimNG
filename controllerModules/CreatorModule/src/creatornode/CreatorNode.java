@@ -10,8 +10,8 @@ import controlnode.SocketNode;
 
 public class CreatorNode extends SocketNode{
 	
-	public CreatorNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
-		super(dr, dispatchCenter, nodeName);
+	public CreatorNode(DispatchCenter dispatchCenter, String nodeName) {
+		super(dispatchCenter, nodeName);
 		System.out.println("Created Creator Node");
 	}
 
@@ -31,6 +31,12 @@ public class CreatorNode extends SocketNode{
 
 	@Override
 	public void atExit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void atUnload() {
 		// TODO Auto-generated method stub
 		
 	}

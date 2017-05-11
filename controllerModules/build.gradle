@@ -10,7 +10,7 @@ subprojects {
 	}
 	repositories {
     flatDir {
-       dirs '../SystemMainController/lib'
+       dirs '../SkeletonModule/lib'
 	   }
  	}
 

@@ -10,8 +10,6 @@ public class TutorialNode extends SocketNode{
 
 	public TutorialNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
 		super(dr, dispatchCenter, nodeName);
-		System.out.println("Created Tutorial Node");
-		nodeName = "TutorialNode";
 	}
 
 
@@ -35,6 +33,13 @@ public class TutorialNode extends SocketNode{
 
 	@Override
 	public void atExit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void atUnload() {
 		// TODO Auto-generated method stub
 		
 	}

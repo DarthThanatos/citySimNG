@@ -4,13 +4,12 @@ call gradle build
 cd ..
 start /B java ^
 -cp controllerModules\CreatorModule\bin;^
-controllerModules\SystemMainController\bin;^
 controllerModules\SkeletonModule\bin;^
 controllerModules\ExchangeModule\bin;^
 controllerModules\MapModule\bin;^
 controllerModules\MenuModule\bin;^
 controllerModules\RankingModule\bin;^
 controllerModules\TutorialModule\bin;^
-controllerModules\SystemMainController\lib\json.jar^
+controllerModules\SkeletonModule\lib\json.jar^
  controlswitcher.ControlSwitcher > javaLog.txt
 python citySimNGView/Mediator.py

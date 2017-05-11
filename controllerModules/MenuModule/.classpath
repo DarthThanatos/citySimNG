@@ -3,10 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SkeletonModule"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/TutorialModule"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ExchangeModule"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/MapModule"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/CreatorModule"/>
-	<classpathentry kind="lib" path="/SystemMainController/lib/json.jar"/>
+	<classpathentry kind="lib" path="/SkeletonModule/lib/json.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

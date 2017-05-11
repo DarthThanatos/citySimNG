@@ -63,4 +63,14 @@ public class ExchangeNode implements Node{
 		neighbors.put(hashKey, neighbor);
 	}
 
+	@Override
+	public void atUnload() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public String getNodeName(){
+		return nodeName;
+	}
+
 }

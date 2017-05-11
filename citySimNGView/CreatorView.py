@@ -171,8 +171,8 @@ class CreatorView(wx.Panel):
         msg["To"] = "CreatorNode"
         msg["Operation"] = "MoveTo"
         msg["Args"] = {}
-        msg["Args"]["TargetView"] = "Menu"
-        msg["Args"]["TargetControlNode"] = "MenuNode"
+        msg["Args"]["TargetView"] = "MainMenu"
+        msg["Args"]["TargetControlNode"] = "MainMenuNode"
         self.sender.send(json.dumps(msg))
         #self.sender.send("CreatorNode@MoveTo@MenuNode")
 

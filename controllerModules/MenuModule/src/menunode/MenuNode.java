@@ -14,7 +14,10 @@ public class MenuNode extends SocketNode{
 		System.out.println("menu node created");
 	}
 
-
+	public MenuNode(DispatchCenter dispatchCenter, String nodeName) {
+		super(dispatchCenter, nodeName);
+		System.out.println("menu node created without a dependencies representer's instance");
+	}
 	@Override
 	public String parseCommand(String command, JSONObject args) {
 		if(command.equals("Exit")){
@@ -34,6 +37,13 @@ public class MenuNode extends SocketNode{
 
 	@Override
 	public void atExit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void atUnload() {
 		// TODO Auto-generated method stub
 		
 	}

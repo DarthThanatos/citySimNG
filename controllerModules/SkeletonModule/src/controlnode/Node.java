@@ -28,4 +28,23 @@ public interface Node{
 	 */
 	public void addNeighbour(String hashKey, Node neighbour);
 	
+	/*
+	 * When this method is called, the caller wants to replace
+	 * an existing instance of node by the new one (in particular
+	 * LoaderNode will call it at the time new set of rule has to
+	 * be applied); this is a signal given to the node to cleanup
+	 * and release system resources, stop any running threads etc.
+	 * Note that this is different than the end of a nodeLoop cycle of a node;
+	 * after this call, this node will be no more referenced to, as it has been
+	 * replaced by a new node with new configuration.
+	 */
+	public void atUnload();
+	
+	
+	/*
+	 * Operation needed for runtime change in control flow graph; 
+	 * e.g. LoaderNode instance will need hashKey of next menu and previous menu 
+	 * 
+	 */
+	public String getNodeName();
 }

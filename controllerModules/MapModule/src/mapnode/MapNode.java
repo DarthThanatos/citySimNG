@@ -104,4 +104,11 @@ public class MapNode extends SocketNode{
 	}
 
 
+	@Override
+	public void atUnload() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }

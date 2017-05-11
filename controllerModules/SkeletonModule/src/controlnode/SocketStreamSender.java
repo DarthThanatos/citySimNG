@@ -49,6 +49,7 @@ public class SocketStreamSender extends Thread{
 		String operationId = UUID.randomUUID().toString();
 		envelope.put("UUID", operationId);
 		envelope.put("From", nodeName);
+		System.out.println("Hanshake: " + dispatchCenter);
 		dispatchCenter.initHandshake(nodeName, operationId);
 		System.out.println("Generated " + operationId);
 		try {

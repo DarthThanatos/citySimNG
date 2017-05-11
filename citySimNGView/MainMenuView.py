@@ -1,10 +1,11 @@
 import wx
 import os
 import json
-from RelativePaths import relative_music_path,relative_textures_path,relative_text_files_path
+from RelativePaths import relative_music_path, relative_textures_path, relative_text_files_path
 
-class MenuView(wx.Panel):
-    def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):
+
+class MainMenuView(wx.Panel):
+    def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender=None):
         wx.Panel.__init__(self, size=size, parent=parent)
         self.Bind(wx.EVT_SHOW, self.onShow, self)
         self.parent = parent
@@ -20,18 +21,18 @@ class MenuView(wx.Panel):
         # print "Menu on show"
         global pygame
         if event.GetShow():
-                print "menu shown"
-                # print "menu: setting up music"
-                import pygame
-                print "Menu:", os.path.dirname(os.path.abspath(__file__))
-                pygame.init()
-                pygame.mixer.init()
-                pygame.mixer.music.load(
-                    #os.path.dirname(os.path.abspath(__file__)) + "\\" +
-                    self.musicPath)
-                pygame.mixer.music.play()
+            print "Main menu shown"
+            # print "menu: setting up music"
+            import pygame
+            print "Main Menu:", os.path.dirname(os.path.abspath(__file__))
+            pygame.init()
+            pygame.mixer.init()
+            pygame.mixer.music.load(
+                # os.path.dirname(os.path.abspath(__file__)) + "\\" +
+                self.musicPath)
+            pygame.mixer.music.play()
         else:
-            print "menu hidden"
+            print "Main menu hidden"
             try:
                 # print "Menu, quitting"
                 pygame.quit()
@@ -44,7 +45,7 @@ class MenuView(wx.Panel):
             It creates and sets position for header.
             It creates, binds and sets position for buttons."""
         buttonsSizer = wx.BoxSizer(wx.VERTICAL)
-        
+
         with open(relative_text_files_path + "headerCS.txt", "r+") as headerFile:
             headerTxt = headerFile.read()
             print headerTxt
@@ -57,12 +58,8 @@ class MenuView(wx.Panel):
         buttonsSizer.Add(headerSizer, 0, wx.CENTER)
 
         # Create buttons
-        newgame_btn = wx.Button(self, label="New Game")
+        newgame_btn = wx.Button(self, label="Load and mount New Game")
         creator_btn = wx.Button(self, label="Creator")
-        tutorial_btn = wx.Button(self, label="Tutorial")
-        exchange_btn = wx.Button(self, label="Exchange")
-        load_btn = wx.Button(self, label="Load")
-        save_btn = wx.Button(self, label="Save")
         exit_btn = wx.Button(self, label="Exit")
 
         # Set space between header and buttons
@@ -71,25 +68,19 @@ class MenuView(wx.Panel):
         # Set buttons positions
         buttonsSizer.Add(newgame_btn, 0, wx.CENTER | wx.ALL, 5)
         buttonsSizer.Add(creator_btn, 0, wx.CENTER | wx.ALL)
-        buttonsSizer.Add(tutorial_btn, 0, wx.CENTER)
-        buttonsSizer.Add(exchange_btn, 0, wx.CENTER)
-        buttonsSizer.Add(load_btn, 0, wx.CENTER)
-        buttonsSizer.Add(save_btn, 0, wx.CENTER)
         buttonsSizer.Add(exit_btn, 0, wx.CENTER | wx.ALL, 5)
 
         # Add logic to buttons
         self.Bind(wx.EVT_BUTTON, self.closeButton, exit_btn)
         self.Bind(wx.EVT_BUTTON, self.moveToCreator, creator_btn)
-        self.Bind(wx.EVT_BUTTON, self.moveToExchange, exchange_btn)
         self.Bind(wx.EVT_BUTTON, self.moveToNewGame, newgame_btn)
-        self.Bind(wx.EVT_BUTTON, self.moveToTutorial, tutorial_btn)
 
         self.SetSizer(buttonsSizer)
         buttonsSizer.SetDimension(0, 0, self.size[0], self.size[1])
 
-    def mountMoveToMsg (self, target):
+    def mountMoveToMsg(self, target):
         msg = {}
-        msg["To"] = "MenuNode"
+        msg["To"] = "MainMenuNode"
         msg["Operation"] = "MoveTo"
         msg["Args"] = {}
         msg["Args"]["TargetView"] = target
@@ -99,41 +90,27 @@ class MenuView(wx.Panel):
     def closeButton(self, event):
         """ This function defines logic for exit button. """
         msg = {}
-        msg["To"] = "MenuNode"
+        msg["To"] = "MainMenuNode"
         msg["Args"] = {}
         msg["Operation"] = "Exit"
         self.sender.send(json.dumps(msg))
-        #self.sender.send("MenuNode@Exit")
+        # self.sender.send("MenuNode@Exit")
         self.Close(True)
         self.parent.closeWindow(None)
 
     def moveToNewGame(self, event):
         """ This function switches to map view """
-        #self.parent.setView("Map")
-        msg = self.mountMoveToMsg("Map")
+        # self.parent.setView("Map")
+        msg = self.mountMoveToMsg("Loader")
         self.sender.send(msg)
-        #self.sender.send("MenuNode@MoveTo@MapNode")
+        # self.sender.send("MenuNode@MoveTo@MapNode")
 
     def moveToCreator(self, event):
         """ This function switches to creator view """
-        #self.parent.setView("Creator")
+        # self.parent.setView("Creator")
         msg = self.mountMoveToMsg("Creator")
         self.sender.send(msg)
-        #self.sender.send("MenuNode@MoveTo@CreatorNode")
-
-    def moveToExchange(self, event):
-        """ This function switches to exchange view """
-        #self.parent.setView("Exchange")
-        msg = self.mountMoveToMsg("Exchange")
-        self.sender.send(msg)
-        #self.sender.send("MenuNode@MoveTo@ExchangeNode")
-
-    def moveToTutorial(self, event):
-        """ This function switches to tutorial view """
-        #self.parent.setView("Tutorial")
-        msg = self.mountMoveToMsg("Tutorial")
-        self.sender.send(msg)
-        #self.sender.send("MenuNode@MoveTo@TutorialNode")
+        # self.sender.send("MenuNode@MoveTo@CreatorNode")
 
     def readMsg(self, msg):
         print "Menu view got msg", msg

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import controlnode.Node;
 import model.DependenciesRepresenter;
-import monter.FileMonter;
+import monter.BaseMonter;
 import monter.SystemMonter;
 
 public class ControlSwitcher {
@@ -19,7 +19,7 @@ public class ControlSwitcher {
 			 * possible args values:
 			 * -noide
 			 */
-			//check if view layer is already setup
+			//check if view layer is already set up
 			while(true){
 				try{
 					Socket waiter = new Socket("localhost",2468);
@@ -32,7 +32,7 @@ public class ControlSwitcher {
 			}
 			System.out.println("Connected, view layer active");
 			
-			SystemMonter monter  = new FileMonter("inject.txt",args);
+			SystemMonter monter  = new BaseMonter("resources\\injectFiles\\mainInject.txt",args);
 			ArrayList<String> modulesNamesList = new ArrayList<>();
 			Node currentNode = monter.mount(modulesNamesList);
 			while (currentNode != null){

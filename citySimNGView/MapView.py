@@ -85,8 +85,8 @@ class MapView(wx.Panel):
         msg["To"] = "MapNode"
         msg["Operation"] = "MoveTo"
         msg["Args"] = {}
-        msg["Args"]["TargetView"] = "Menu"
-        msg["Args"]["TargetControlNode"] = "MenuNode"
+        msg["Args"]["TargetView"] = "GameMenu"
+        msg["Args"]["TargetControlNode"] = "GameMenuNode"
         self.sender.send(json.dumps(msg))
 
     def on_show(self, event):

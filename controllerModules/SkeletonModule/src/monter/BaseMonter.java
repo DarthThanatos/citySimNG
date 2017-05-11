@@ -15,19 +15,18 @@ import java.util.regex.Pattern;
 import model.DependenciesRepresenter;
 import controlnode.DispatchCenter;
 import controlnode.Node;
-import controlswitcher.ControlSwitcher;
 
-public class FileMonter implements SystemMonter{
+public class BaseMonter implements SystemMonter{
 
 	private List<String> textDescriptions;
-	private HashMap<String, Node> nodes;
+	protected HashMap<String, Node> nodes;
 	private HashMap<String, Boolean> monterConfig;
-	private DispatchCenter dispatchCenter;
+	protected DispatchCenter dispatchCenter;
 	
-	public FileMonter(String filePath, String[] args){
+	public BaseMonter(String filePath, String[] args, DispatchCenter dispatchCenter){
 		setConfigFlags(args);
 		BufferedReader br = null;
-		dispatchCenter = new DispatchCenter();
+		this.dispatchCenter = dispatchCenter == null ? new DispatchCenter() : dispatchCenter;
 		try {
 			br = new BufferedReader(new FileReader(new File(filePath)));
 			textDescriptions = new LinkedList<String>();
@@ -48,9 +47,15 @@ public class FileMonter implements SystemMonter{
 			}
 		}
 		nodes = new HashMap<String, Node>();
+		
+	}
+	
+	public BaseMonter(String filePath, String[] args){
+		this(filePath, args, null);
 	}
 
 	private void setConfigFlags(String[] args){
+		if (args == null) return;
 		monterConfig = new HashMap<String, Boolean>();
 		String[] argNamesTmp = new String[]{"-noide"};
 		List<String> argNames = Arrays.asList(argNamesTmp);
@@ -65,7 +70,7 @@ public class FileMonter implements SystemMonter{
 		}
 	}
 	
-	private void readNodes(String[] nodeDesc, ArrayList<String> modulesNames){
+	protected void readNodes(String[] nodeDesc, ArrayList<String> modulesNames){
 		String projectName = nodeDesc[0];
 		String nodeClassName = nodeDesc[1];
 		String nodeHashKey = nodeDesc[2];
@@ -82,9 +87,8 @@ public class FileMonter implements SystemMonter{
 			URL[] urls = {new URL (urlStr)};
 			urlLoader = new URLClassLoader(urls);
 			Class<?> nodeClass = urlLoader.loadClass(nodeClassName);
-			Constructor<?> constructor = nodeClass.getConstructor(DependenciesRepresenter.class, DispatchCenter.class, String.class);
-			DependenciesRepresenter dr = new DependenciesRepresenter();
-			Node node = (Node)constructor.newInstance(dr, dispatchCenter, nodeHashKey);
+			Constructor<?> constructor = nodeClass.getConstructor(DispatchCenter.class, String.class);
+			Node node = (Node)constructor.newInstance(dispatchCenter, nodeHashKey);
 			nodes.put(nodeHashKey, node);
 		} catch (Exception e) {
 			System.err.println("Not found: " + nodeClassName);
@@ -96,7 +100,7 @@ public class FileMonter implements SystemMonter{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-     	}
+     	}	
 	}
 	
 	/*
@@ -106,7 +110,7 @@ public class FileMonter implements SystemMonter{
 	 * and the second is the node to which the parent node passes control
 	 * e.g. there exists an edge MenuNode -> CreatorNode: edgeDesc[0] = MenuNode, edgeDesc[1] = CreatorNode
 	 */
-	private void readEdges(String[] edgeDesc){
+	protected void readEdges(String[] edgeDesc){
 		Node fromNode =  nodes.get(edgeDesc[0]);
 		Node toNode = nodes.get(edgeDesc[1]);
 		fromNode.addNeighbour(edgeDesc[1], toNode);

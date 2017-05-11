@@ -19,15 +19,19 @@ import model.DependenciesRepresenter;
 */ 
 public abstract class SocketNode implements Node{
 	
-	private Node parent;
+	protected Node parent;
 	protected String nodeName = "socket node";
-	private HashMap<String, Node> neighbors;
+	protected HashMap<String, Node> neighbors;
 	protected DependenciesRepresenter dr;
 	
 	protected SocketStreamReceiver receiver = null;
 	protected SocketStreamSender sender = null;
 	protected BlockingQueue<String> receiveQueue = null;
 	protected DispatchCenter dispatchCenter;
+	
+	public SocketNode(DispatchCenter dispatchCenter, String nodeName){
+		this(null, dispatchCenter, nodeName);
+	}
 	
 	public SocketNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName){
 		this.dr = dr;
@@ -73,56 +77,26 @@ public abstract class SocketNode implements Node{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		/*
-		try{
-			Thread.sleep(10);
-			// ^ giving sender enough time to send its message, this may need optimizing in the future
-		} 
-		catch(Exception e){
-			e.printStackTrace();
-		}*/
 		JSONObject envelope = new JSONObject();
 		envelope.put("To", "ViewSetter");
 		envelope.put("Operation", "SetView");
 		JSONObject setViewArgs = new JSONObject();
 		setViewArgs.put("TargetView", nodeName.replace("Node",""));
-		envelope.put("Args", setViewArgs);
-		sender.pushStreamAndWaitForResponse(envelope);
-		//sender.pushStream(envelope);
-		
-		//sender.pushStream("SetView@" + nodeName.replace("Node", ""));
-		//sender.setStream("SetView@" + nodeName.replace("Node", "")); 
 		// ^ we must remember that we get a node instance name adequate for a controller node, which has "Node" suffix;
 		// to translate it to the form understandable to the view layer, we just have to cut off the "Node" part
-		/*synchronized (sender){
-			sender.notify();
-		}*/
+		envelope.put("Args", setViewArgs);
+		sender.pushStreamAndWaitForResponse(envelope);
 		atStart();
 		
 		while(true){
 			try {
-				/*
-				synchronized(this){ 
-					//needs to be in the synchronized block, otherwise it throws IllegalMonitorException
-					this.wait();
-				}
-				*/
-				//String stream = receiver.getStream();
 				String stream = receiveQueue.take();
 				JSONObject jsonMsg = new JSONObject(stream);
 				String recipentName = jsonMsg.getString("To");
 				String command = jsonMsg.getString("Operation");
-				//String args = jsonMsg.getString("Args");
 				JSONObject args = jsonMsg.getJSONObject("Args");
-				/*String[] streamParts = stream.split("@");
-				String recipentName = streamParts[0];
-				String command = streamParts[1];
-				String[] args = null;
-				*/
 				System.out.println("Recipent: " + recipentName + " cmd: " + command + " args: " + args);
 				if(!recipentName.equals(nodeName)) continue; //msg not addressed to us; skipping
-				//if (streamParts.length > 2) 
-				//	args = Arrays.copyOfRange(streamParts, 2, streamParts.length);
 				if(command.equals("MoveTo")){
 					//expecting only one argument- Node instance name to pass control to
 					nextNode = args.getString("TargetControlNode");
@@ -131,10 +105,6 @@ public abstract class SocketNode implements Node{
 				else{ 
 					String outputStream = parseCommand(command, args); //inheriting nodes will know what to do
 					sender.pushStream(outputStream);
-					/*sender.setStream(outputStream); //setting "registers" of the sending node
-					synchronized(sender){
-						sender.notify(); //now we trigger our sender thread to send stream to the view layer
-					}*/
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -152,6 +122,10 @@ public abstract class SocketNode implements Node{
 		}
 		atExit();
 		return neighbors.get(nextNode);
+	}
+	
+	public String getNodeName(){
+		return nodeName;
 	}
 	
 }

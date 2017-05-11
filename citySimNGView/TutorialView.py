@@ -105,8 +105,8 @@ class TutorialView(wx.Panel):
         msg["To"] = "TutorialNode"
         msg["Operation"] = "MoveTo"
         msg["Args"] = {}
-        msg["Args"]["TargetView"] = "Menu"
-        msg["Args"]["TargetControlNode"] = "MenuNode"
+        msg["Args"]["TargetView"] = "GameMenu"
+        msg["Args"]["TargetControlNode"] = "GameMenuNode"
         self.sender.send(json.dumps(msg))
 
     def initMenuBar(self):
