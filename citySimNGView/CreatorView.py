@@ -4,9 +4,10 @@ import wx.combo
 from pprint import PrettyPrinter
 import json
 import os
+from RelativePaths import relative_music_path,relative_dependencies_path
 
 class CreatorView(wx.Panel):
-    def __init__(self, parent, size, name,  musicPath="music/TwoMandolins.mp3", sender = None):
+    def __init__(self, parent, size, name,  musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):
         wx.Panel.__init__(self,  size=size,  parent=parent)
         self.name = name
         self.parent = parent
@@ -213,6 +214,7 @@ class CreatorView(wx.Panel):
 
         dlg = wx.FileDialog(
             self,
+            defaultDir = relative_dependencies_path,
             message = "Choose a file to save",
             wildcard = "*.dep",
             style = wx.FD_SAVE 
@@ -302,6 +304,7 @@ class CreatorView(wx.Panel):
     def loadDependencies(self, event):
         dlg = wx.FileDialog(
             self,
+            defaultDir = relative_dependencies_path,
             message = "Choose a file",
             wildcard="*.dep",
             style = wx.FD_OPEN | wx.FD_MULTIPLE

@@ -1,9 +1,10 @@
 import wx
 import os
 import json
+from RelativePaths import relative_music_path
 
 class TutorialView(wx.Panel):
-    def __init__(self, parent, size, name, musicPath="music/TwoMandolins.mp3", sender = None):
+    def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):
         wx.Panel.__init__(self, size=size, parent=parent)
         self.Bind(wx.EVT_SHOW, self.onShow, self)
         self.parent = parent

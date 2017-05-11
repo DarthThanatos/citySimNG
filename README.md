@@ -16,7 +16,7 @@ Wykorzystywane technologie:
 * Pygame (można pobrać przy użyciu komendy pip install pygame)
 * WxPython (najlepiej pobrać z https://wxpython.org/download.php#msw, może nie współpracować z komendą pip)
 * Matplotlib (można pobrać przy użyciu pip install matplotlib)
-* JSON (w katalogu lib, plik json.jar)
+* JSON (w katalogu controllerModules/SystemMainController/lib, plik json.jar)
 * gradle 
 (opis instalacji: https://gradle.org/install
 pobrać wersję 3.5 binary-only z: https://gradle.org/releases)
@@ -43,8 +43,8 @@ kontroler nie został włączony; to samo dotyczy niszczenia procesów; żeby w�
 procesy skojarzone bgEngine muszą zostać unicestwione; najprościej jest to osiągnąć poprzez zniszczenie okna towarzyszącego
 aplikacji po uruchomieniu skryptu. 
 
-UWAGA: katalogiem "domowym" projektu zakłada się katalog bgEngine; znajdują się tutaj pliki które są niezbędne 
-przy uruchamianiu widoku, takie jak tekstury, jar, .mp3 itp.
+UWAGA: katalogiem "domowym" projektu zakłada się katalog citySimNG; znajdują się tutaj (w podkatalogach katalogu resources)
+pliki które są niezbędne przy uruchamianiu widoku, takie jak tekstury, jar, .mp3 itp.
 Próba uruchomienia w różnych środowiskach może poskutkować nierozwiązanymi ścieżkami, natomiast zmienianie struktury katalogów
 może spowodować utratę kompatybilności z już napisanym kodem; nie wspominając, że zmieniając strukturę, możemy doprowadzić
 do bałaganu. Zachęcamy do korzystania z już ustalonych przez twórców wzorców.

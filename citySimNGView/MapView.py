@@ -5,7 +5,7 @@ import json
 import uuid
 import pygame
 import traceback
-
+from RelativePaths import relative_music_path, relative_textures_path
 
 FONT = "Comic Sans MS"
 FPS = 60
@@ -29,8 +29,9 @@ RESOURCE_SIZE = 0.03
 SPACE = 20
 RESOURCES_SPACE = 10
 
-DEFAULT_BUILDING_TEXTURE = "Textures\\DefaultBuilding.jpg"
-DEFAULT_RESOURCE_TEXTURE = "Textures\\DefaultBuilding.jpg"
+
+DEFAULT_BUILDING_TEXTURE = relative_textures_path + "DefaultBuilding.jpg"
+DEFAULT_RESOURCE_TEXTURE = relative_textures_path + "DefaultBuilding.jpg"
 
 
 class MapView(wx.Panel):
@@ -48,7 +49,7 @@ class MapView(wx.Panel):
     game_on = True
     resources_initialized = False
 
-    def __init__(self, parent, size, name, sender, music_path="music/TwoMandolins.mp3"):
+    def __init__(self, parent, size, name, sender, music_path=relative_music_path + "TwoMandolins.mp3"):
         # call base class constructor
         wx.Panel.__init__(self, parent=parent, size=size)
 
@@ -118,7 +119,7 @@ class MapView(wx.Panel):
         # Create background and game_screen
         self.background = pygame.display.set_mode((self.size_x, self.size_y))
         self.game_screen = pygame.Surface.copy(self.background)
-        image = pygame.image.load("Textures\\Grass.png")
+        image = pygame.image.load(relative_textures_path + "Grass.png")
         image = pygame.transform.scale(image, (self.size_x, self.size_y))
         self.game_screen.blit(image, (0, 0))
 
@@ -253,7 +254,7 @@ class ResourcesPanel(pygame.sprite.Sprite):
         self.resources = {}
 
     def draw_resources_panel(self, resources_info, main_panel):
-        image = pygame.image.load('Textures\\BuildingsPanelTexture.jpg')
+        image = pygame.image.load(relative_textures_path + 'BuildingsPanelTexture.jpg')
         image = pygame.transform.scale(image, (int(self.size_x), int(self.size_y)))
         self.rect = image.get_rect(topleft=(self.pos_x, self.pos_y))
         self.game_screen.blit(image, (self.pos_x, self.pos_y))
@@ -309,12 +310,12 @@ class BuildingsPanel(pygame.sprite.Sprite):
         self.rect = None
 
     def draw_buildings_panel(self):
-        image = pygame.image.load('Textures\\BuildingsPanelTexture.jpg')
+        image = pygame.image.load(relative_textures_path + 'BuildingsPanelTexture.jpg')
         image = pygame.transform.scale(image, (int(self.size_x), int(self.size_y)))
         self.rect = image.get_rect(topleft=(self.pos_x, self.pos_y))
         self.game_screen.blit(image, (self.pos_x, self.pos_y))
 
-        image = pygame.image.load('Textures\\RightArrow.png')
+        image = pygame.image.load(relative_textures_path + 'RightArrow.png')
         image = pygame.transform.scale(image, (int(ARROW_BUTTON_WIDTH * self.size_x),
                                                int(ARROW_BUTTON_HEIGHT * self.size_y)))
         right_arrow_rect = image.get_rect(topleft=(self.pos_x + RIGHT_ARROW_BUTTON_X * self.size_x,
@@ -323,7 +324,7 @@ class BuildingsPanel(pygame.sprite.Sprite):
                                       ARROW_BUTTON_Y * self.size_y))
         self.main_panel.right_arrow_buildings_panel = right_arrow_rect
 
-        image = pygame.image.load('Textures\\LeftArrow.png')
+        image = pygame.image.load(relative_textures_path + 'LeftArrow.png')
         image = pygame.transform.scale(image, (int(ARROW_BUTTON_WIDTH * self.size_x),
                                                int(ARROW_BUTTON_HEIGHT * self.size_y)))
         left_arrow_rect = image.get_rect(topleft=(self.pos_x + LEFT_ARROW_BUTTON_X * self.size_x,

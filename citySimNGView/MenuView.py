@@ -1,9 +1,10 @@
 import wx
 import os
 import json
+from RelativePaths import relative_music_path,relative_textures_path,relative_text_files_path
 
 class MenuView(wx.Panel):
-    def __init__(self, parent, size, name, musicPath="music/TwoMandolins.mp3", sender = None):
+    def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):
         wx.Panel.__init__(self, size=size, parent=parent)
         self.Bind(wx.EVT_SHOW, self.onShow, self)
         self.parent = parent
@@ -44,13 +45,13 @@ class MenuView(wx.Panel):
             It creates, binds and sets position for buttons."""
         buttonsSizer = wx.BoxSizer(wx.VERTICAL)
         
-        with open("TextFiles/headerCS.txt", "r+") as headerFile:
+        with open(relative_text_files_path + "headerCS.txt", "r+") as headerFile:
             headerTxt = headerFile.read()
             print headerTxt
 
         # Load, add and set position for header
         headerSizer = wx.BoxSizer(wx.HORIZONTAL)
-        headerImage = wx.Image("Textures/headerCS.jpg", wx.BITMAP_TYPE_JPEG)
+        headerImage = wx.Image(relative_textures_path + "headerCS.jpg", wx.BITMAP_TYPE_JPEG)
         headerBmp = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(headerImage))
         headerSizer.Add(headerBmp)
         buttonsSizer.Add(headerSizer, 0, wx.CENTER)

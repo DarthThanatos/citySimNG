@@ -8,14 +8,15 @@ from TutorialView import TutorialView
 import pygame
 import json
 import traceback
+from RelativePaths import relative_music_path
 
 class MyFrame(wx.Frame):
     def __init__(self, parent, ID, strTitle, tplSize, sender):
         wx.Frame.__init__(self, parent, ID, strTitle, size=tplSize)
 
         self.views = {
-            "Menu": MenuView(self, tplSize, "Menu", "music/NWN2.mp3", sender),
-            "Creator": CreatorView(self, tplSize, "Creator", "music/Ret Xed OST.mp3", sender),
+            "Menu": MenuView(self, tplSize, "Menu", relative_music_path + "NWN2.mp3", sender),
+            "Creator": CreatorView(self, tplSize, "Creator", relative_music_path + "Ret Xed OST.mp3", sender),
             "Exchange": ExchangeView(self, tplSize, "Exchange", sender),
             "Map": MapView(self, tplSize, "Map", sender),
             "Tutorial": TutorialView(self, tplSize, "Tutorial", sender = sender)

@@ -6,10 +6,11 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.backends.backend_agg as agg
 import pylab
+from RelativePaths import relative_music_path
 
 
 class ExchangeViewCenterPart(wx.Panel):
-    def __init__(self, parent, ID, tplSize, musicPath="music/TwoMandolins.mp3"):
+    def __init__(self, parent, ID, tplSize, musicPath=relative_music_path + "TwoMandolins.mp3"):
         self.parent = parent
         self.ID = ID 
         self.tplSize = tplSize

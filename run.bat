@@ -1,14 +1,16 @@
+cd controllerModules
 call gradle -q clean
 call gradle build
+cd ..
 start /B java ^
--cp CreatorModule\bin;^
-SystemMainController\bin;^
-SkeletonModule\bin;^
-ExchangeModule\bin;^
-MapModule\bin;^
-MenuModule\bin;^
-RankingModule\bin;^
-TutorialModule\bin;^
-lib/json.jar^
+-cp controllerModules\CreatorModule\bin;^
+controllerModules\SystemMainController\bin;^
+controllerModules\SkeletonModule\bin;^
+controllerModules\ExchangeModule\bin;^
+controllerModules\MapModule\bin;^
+controllerModules\MenuModule\bin;^
+controllerModules\RankingModule\bin;^
+controllerModules\TutorialModule\bin;^
+controllerModules\SystemMainController\lib\json.jar^
  controlswitcher.ControlSwitcher > javaLog.txt
 python citySimNGView/Mediator.py

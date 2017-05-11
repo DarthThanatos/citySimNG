@@ -11,6 +11,7 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind(('', 12345))
 
 
+
 def receiver_func(viewSetter):
     while True:
         # Receive response

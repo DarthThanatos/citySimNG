@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CreatorModule"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ExchangeModule"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/MapModule"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/MenuModule"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/RankingModule"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/TutorialModule"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SkeletonModule"/>
+	<classpathentry kind="lib" path="lib/json.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
