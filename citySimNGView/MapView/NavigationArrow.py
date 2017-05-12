@@ -1,5 +1,6 @@
 import pygame
 from RelativePaths import relative_textures_path
+from Consts import NAV_ARROW_TEXTURE, NAV_ARROW_HEIGHT, NAV_ARROW_WIDTH, BUILDINGS_PANEL_SIZE, RESOURCES_PANEL_SIZE
 
 
 class NavigationArrow(pygame.sprite.Sprite):
@@ -9,13 +10,14 @@ class NavigationArrow(pygame.sprite.Sprite):
         self.size_y = size_y
         self.pos_x = pos_x
         self.pos_y = pos_y
-        self.texture_path = texture_path
         self.rotation = rotation
         self.game_screen = game_screen
         self.direction = direction
 
-        image = pygame.image.load(relative_textures_path + 'LeftArrow.png')
-        image = pygame.transform.rotate(image, rotation)
-        image = pygame.transform.scale(image, (int(self.size_x), int(self.size_y)))
-        self.rect = image.get_rect(topleft=(self.pos_x, self.pos_y))
-        self.game_screen.blit(image, (self.pos_x, self.pos_y))
+        self.image = pygame.image.load(NAV_ARROW_TEXTURE)
+        self.image = pygame.transform.rotate(self.image, rotation)
+        self.image = pygame.transform.scale(self.image, (int(self.size_x), int(self.size_y)))
+        self.rect = self.image.get_rect(topleft=(self.pos_x, self.pos_y))
+
+    def draw_navigation_arrow(self):
+        self.game_screen.blit(self.image, (self.pos_x, self.pos_y))

@@ -2,31 +2,8 @@ import uuid
 import pygame
 from RelativePaths import relative_textures_path
 from Building import Building
-
-FONT = "Comic Sans MS"
-FPS = 60
-LEFT = 1
-RIGHT = 3
-RED = (150, 0, 0)
-GREEN = (0, 150, 0)
-YELLOW = (200, 200, 0)
-PURPLE = (200, 0, 200)
-WHITE = (255, 255, 255)
-
-RESOURCES_PANEL_SIZE = 0.2
-BUILDINGS_PANEL_SIZE = 0.15
-ARROW_BUTTON_WIDTH = 0.3
-RIGHT_ARROW_BUTTON_X = 0.6
-LEFT_ARROW_BUTTON_X = 0.1
-ARROW_BUTTON_HEIGHT = 0.1
-ARROW_BUTTON_Y = 0.7
-BUILDING_SIZE = 0.05
-RESOURCE_SIZE = 0.03
-SPACE = 20
-RESOURCES_SPACE = 10
-
-
-DEFAULT_BUILDING_TEXTURE = relative_textures_path + "DefaultBuilding.jpg"
+from Consts import BUILDINGS_PANEL_TEXTURE, ARROW_BUTTON_WIDTH, ARROW_BUTTON_HEIGHT, BUILDINGS_PANEL_RIGHT_ARROW_X, \
+    BUILDINGS_PANEL_ARROW_Y, BUILDINGS_PANEL_LEFT_ARROW_X, BUILDING_SIZE, SPACE
 
 
 class BuildingsPanel(pygame.sprite.Sprite):
@@ -38,60 +15,62 @@ class BuildingsPanel(pygame.sprite.Sprite):
         self.pos_y = pos_y
         self.size_x = size_x
         self.size_y = size_y
-        self.rect = None
         self.buildings_info = None
         self.page = 1
         self.page_buildings = {}
         self.last_page = 1
 
+        self.image = pygame.image.load(BUILDINGS_PANEL_TEXTURE)
+        self.image = pygame.transform.scale(self.image, (int(self.size_x), int(self.size_y)))
+        self.rect = self.image.get_rect(topleft=(self.pos_x, self.pos_y))
+
+        self.right_arrow_image = pygame.image.load(relative_textures_path + 'RightArrow.png')
+        self.right_arrow_image = pygame.transform.scale(self.right_arrow_image, (int(ARROW_BUTTON_WIDTH * self.size_x),
+                                                        int(ARROW_BUTTON_HEIGHT * self.size_y)))
+        self.right_arrow_rect = self.right_arrow_image.get_rect(topleft=(self.pos_x + BUILDINGS_PANEL_RIGHT_ARROW_X * self.size_x,
+                                                                         BUILDINGS_PANEL_ARROW_Y * self.size_y))
+
+        self.left_arrow_image = pygame.image.load(relative_textures_path + 'LeftArrow.png')
+        self.left_arrow_image = pygame.transform.scale(self.left_arrow_image, (int(ARROW_BUTTON_WIDTH * self.size_x),
+                                                       int(ARROW_BUTTON_HEIGHT * self.size_y)))
+        self.left_arrow_rect = self.left_arrow_image.get_rect(topleft=(self.pos_x + BUILDINGS_PANEL_LEFT_ARROW_X * self.size_x,
+                                                              BUILDINGS_PANEL_ARROW_Y * self.size_y))
+
     def draw_buildings_panel(self):
-        image = pygame.image.load(relative_textures_path + 'BuildingsPanelTexture.jpg')
-        image = pygame.transform.scale(image, (int(self.size_x), int(self.size_y)))
-        self.rect = image.get_rect(topleft=(self.pos_x, self.pos_y))
-        self.game_screen.blit(image, (self.pos_x, self.pos_y))
+        self.game_screen.blit(self.image, (self.pos_x, self.pos_y))
 
-        image = pygame.image.load(relative_textures_path + 'RightArrow.png')
-        image = pygame.transform.scale(image, (int(ARROW_BUTTON_WIDTH * self.size_x),
-                                               int(ARROW_BUTTON_HEIGHT * self.size_y)))
-        right_arrow_rect = image.get_rect(topleft=(self.pos_x + RIGHT_ARROW_BUTTON_X * self.size_x,
-                                          ARROW_BUTTON_Y * self.size_y))
-        self.game_screen.blit(image, (self.pos_x + RIGHT_ARROW_BUTTON_X * self.size_x,
-                                      ARROW_BUTTON_Y * self.size_y))
-        self.main_panel.right_arrow_buildings_panel = right_arrow_rect
+        self.game_screen.blit(self.right_arrow_image, (self.pos_x + BUILDINGS_PANEL_RIGHT_ARROW_X * self.size_x,
+                                                       BUILDINGS_PANEL_ARROW_Y * self.size_y))
+        self.main_panel.right_arrow_buildings_panel = self.right_arrow_rect
 
-        image = pygame.image.load(relative_textures_path + 'LeftArrow.png')
-        image = pygame.transform.scale(image, (int(ARROW_BUTTON_WIDTH * self.size_x),
-                                               int(ARROW_BUTTON_HEIGHT * self.size_y)))
-        left_arrow_rect = image.get_rect(topleft=(self.pos_x + LEFT_ARROW_BUTTON_X * self.size_x,
-                                         ARROW_BUTTON_Y * self.size_y))
-        self.game_screen.blit(image, (self.pos_x + LEFT_ARROW_BUTTON_X * self.size_x,
-                                      ARROW_BUTTON_Y * self.size_y))
-        self.main_panel.left_arrow_buildings_panel = left_arrow_rect
+        self.game_screen.blit(self.left_arrow_image, (self.pos_x + BUILDINGS_PANEL_LEFT_ARROW_X * self.size_x,
+                                                      BUILDINGS_PANEL_ARROW_Y * self.size_y))
+        self.main_panel.left_arrow_buildings_panel = self.left_arrow_rect
 
     def add_buildings_to_buildings_panel(self, buildings_info):
             width, height = self.game_screen.get_size()
-            pos = 0
+            building_no = 0
             for building in buildings_info:
-                if (BUILDING_SIZE * height) * (pos / 2 + 1) + SPACE * (pos / 2) > ARROW_BUTTON_Y * self.size_y:
+                if (BUILDING_SIZE * height) * (building_no / 2 + 1) + SPACE * (building_no / 2) > BUILDINGS_PANEL_ARROW_Y * self.size_y:
                     self.page += 1
-                    pos = 0
+                    building_no = 0
                     self.last_page = self.page
                 resource_cost_string = ""
                 for (resource, value) in building["resourcesCost"].iteritems():
                     resource_cost_string += "{}: {} ; ".format(resource, value)
                 building_sprite = Building(building["name"], uuid.uuid4().__str__(), resource_cost_string,
-                                           building["texturePath"], self.game_screen,
-                                           pos=(self.pos_x + BUILDING_SIZE * width * (pos % 2) + (pos % 2 + 1) * SPACE,
-                                                BUILDING_SIZE * height * (pos / 2) + SPACE * (pos / 2)))
+                                           building["texturePath"], (width, height),
+                                           pos=(self.pos_x + BUILDING_SIZE * width * (building_no % 2) + (building_no % 2 + 1) * SPACE,
+                                                BUILDING_SIZE * height * (building_no / 2) + SPACE * (building_no / 2)))
                 if str(self.page) in self.page_buildings:
                     self.page_buildings[str(self.page)].append(building_sprite)
                 else:
                     self.page_buildings[str(self.page)] = [building_sprite]
-                pos += 1
+                building_no += 1
             self.page = 1
-            self.draw()
+            self.draw_buildings_in_buildings_panel()
 
-    def draw(self):
+    def draw_buildings_in_buildings_panel(self):
         self.main_panel.buildings_panel_sprites = pygame.sprite.Group()
         for building in self.page_buildings[str(self.page)]:
             self.game_screen.blit(building.image, (building.pos[0], building.pos[1]))
@@ -101,10 +80,10 @@ class BuildingsPanel(pygame.sprite.Sprite):
         if self.page < self.last_page:
             self.page += 1
             self.draw_buildings_panel()
-            self.draw()
+            self.draw_buildings_in_buildings_panel()
 
     def scroll_building_panel_left(self):
         if self.page > 1:
             self.page -= 1
             self.draw_buildings_panel()
-            self.draw()
+            self.draw_buildings_in_buildings_panel()

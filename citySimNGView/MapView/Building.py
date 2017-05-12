@@ -1,21 +1,18 @@
-from RelativePaths import relative_textures_path
 import pygame
-
-BUILDING_SIZE = 0.05
-DEFAULT_BUILDING_TEXTURE = relative_textures_path + "DefaultBuilding.jpg"
+from Consts import BUILDING_SIZE, DEFAULT_BUILDING_TEXTURE
 
 
 class Building(pygame.sprite.Sprite):
-    def __init__(self, name, id, resources_cost, texture, game_screen, pos=()):
+    def __init__(self, name, id, resources_cost, texture, game_screen_size, pos):
         pygame.sprite.Sprite.__init__(self)
         self.name = name
         self.id = id
         self.resources_cost = resources_cost
         self.texture = texture
-        self.game_screen = game_screen
+        self.game_screen_size = game_screen_size
         self.pos = pos
 
-        width, height = self.game_screen.get_size()
+        width, height = self.game_screen_size
         try:
             self.image = pygame.image.load(self.texture)
         except Exception:

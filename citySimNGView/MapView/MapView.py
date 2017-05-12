@@ -10,13 +10,16 @@ from ResourcesPanel import ResourcesPanel
 from BuildingsPanel import BuildingsPanel
 from Building import Building
 from Consts import BUILDINGS_PANEL_SIZE, RESOURCES_PANEL_SIZE, NAV_ARROW_HEIGHT, NAV_ARROW_WIDTH, FPS, GREEN, RED, \
-    PURPLE, RIGHT, LEFT, FONT
+    PURPLE, RIGHT, LEFT, FONT, GAME_SCREEN_TEXTURE, NAV_ARROW_TEXTURE, FONT_SIZE
 from NavigationArrow import NavigationArrow
+from UserEventHandlerThread import UserEventHandlerThread
+from MapTile import MapTile
 
 
 # ------------------------------------------ Main class --------------------------------------------------------------#
 
 class MapView(wx.Panel):
+    current_tile = None
     background = None
     game_screen = None
     game_screen_tiles = {}
@@ -29,9 +32,10 @@ class MapView(wx.Panel):
     navigation_arrows_sprites = pygame.sprite.Group()
     right_arrow_buildings_panel = None
     left_arrow_buildings_panel = None
-    buildings_dict = {}
     game_on = True
-    resources_initialized = False
+    has_reply_arrived = False
+    can_afford_on_building = False
+    last_res_info = None
     condition = threading.Condition()
 
     def __init__(self, parent, size, name, sender, music_path=relative_music_path + "TwoMandolins.mp3"):
@@ -61,23 +65,14 @@ class MapView(wx.Panel):
 
     def ret_to_menu(self, event):
         """ Menu button logic """
-        self.background = None
-        self.game_screen = None
         self.game_screen_tiles = {}
-        self.resources_panel = None
-        self.buildings_panel = None
         self.buildings_sprites = pygame.sprite.Group()
         self.buildings_panel_sprites = pygame.sprite.Group()
         self.navigation_arrows_sprites = pygame.sprite.Group()
         self.all_sprites = pygame.sprite.Group()
-        self.right_arrow_buildings_panel = None
-        self.left_arrow_buildings_panel = None
-        self.buildings_dict = {}
         self.game_on = False
-        self.resources_initialized = False
         self.listener_thread.join()
-        self.listener_thread = None
-        #self.sender.send("MapNode@MoveTo@MenuNode")
+
         msg = {}
         msg["To"] = "MapNode"
         msg["Operation"] = "MoveTo"
@@ -92,9 +87,7 @@ class MapView(wx.Panel):
             self.init_view()
             try:
                 pygame.mixer.init()
-                pygame.mixer.music.load(
-                    #os.path.dirname(os.path.abspath(__file__)) + "\\" +
-                    self.music_path)
+                pygame.mixer.music.load(self.music_path)
                 pygame.mixer.music.play()
             except Exception:
                 print "Problem with music"
@@ -116,7 +109,7 @@ class MapView(wx.Panel):
         # Create background and game_screen
         self.background = pygame.display.set_mode((self.size_x, self.size_y))
         self.game_screen = pygame.Surface.copy(self.background)
-        image = pygame.image.load(relative_textures_path + "Grass.png")
+        image = pygame.image.load(GAME_SCREEN_TEXTURE)
         image = pygame.transform.scale(image, (self.size_x, self.size_y))
         self.game_screen.blit(image, (0, 0))
 
@@ -132,10 +125,12 @@ class MapView(wx.Panel):
         self.buildings_panel.draw_buildings_panel()
         self.all_sprites.add(self.buildings_panel)
 
-        self.current_tile = GameTile(self.game_screen, self.all_sprites, self.buildings_sprites)
+        self.current_tile = MapTile(self.game_screen, self.all_sprites, self.buildings_sprites)
 
-        # Create arrows for moving map
+        # Create and draw arrows for moving map
         self.create_navigation_arrows()
+        for nav_arrow in self.navigation_arrows_sprites:
+            nav_arrow.draw_navigation_arrow()
 
         # start new thread, that will be listening for player events
         self.game_on = True
@@ -143,19 +138,22 @@ class MapView(wx.Panel):
         self.listener_thread.start()
 
     def create_navigation_arrows(self):
-        left_arrow = NavigationArrow(self.size_x * NAV_ARROW_WIDTH, self.size_y * NAV_ARROW_HEIGHT,
-                                     0, 0.5 * self.size_y, relative_textures_path + 'LeftArrow.png', 0,
+        game_screen_width, game_screen_height = self.game_screen.get_size()
+        left_arrow = NavigationArrow(game_screen_width * NAV_ARROW_WIDTH, game_screen_height * NAV_ARROW_HEIGHT,
+                                     0, 0.5 * game_screen_height, NAV_ARROW_TEXTURE, 0,
                                      self.game_screen, "Left")
-        up_arrow = NavigationArrow(self.size_x * NAV_ARROW_WIDTH, self.size_y * NAV_ARROW_HEIGHT,
-                                   0.5 * self.size_x, 0, relative_textures_path + 'LeftArrow.png', 270,
+        up_arrow = NavigationArrow(game_screen_width * NAV_ARROW_WIDTH, game_screen_height * NAV_ARROW_HEIGHT,
+                                   0.5 * game_screen_width, 0, relative_textures_path + 'LeftArrow.png', 270,
                                    self.game_screen, "Up")
-        right_arrow = NavigationArrow(self.size_x * NAV_ARROW_WIDTH, self.size_y * NAV_ARROW_HEIGHT,
-                                      self.size_x - self.size_x * NAV_ARROW_WIDTH - self.size_x * BUILDINGS_PANEL_SIZE,
-                                      0.5 * self.size_y, relative_textures_path + 'LeftArrow.png', 180,
-                                      self.game_screen, "Right")
-        down_arrow = NavigationArrow(self.size_x * NAV_ARROW_WIDTH, self.size_y * NAV_ARROW_HEIGHT, 0.5 * self.size_x,
-                                     self.size_y - self.size_y * NAV_ARROW_HEIGHT - self.size_y * RESOURCES_PANEL_SIZE,
-                                     relative_textures_path + 'LeftArrow.png', 90, self.game_screen, "Down")
+        right_arrow = NavigationArrow(game_screen_width * NAV_ARROW_WIDTH, game_screen_height * NAV_ARROW_HEIGHT,
+                                      game_screen_width - game_screen_width * NAV_ARROW_WIDTH -
+                                      game_screen_width * BUILDINGS_PANEL_SIZE,
+                                      0.5 * game_screen_height, NAV_ARROW_TEXTURE, 180, self.game_screen, "Right")
+        down_arrow = NavigationArrow(game_screen_width * NAV_ARROW_WIDTH, game_screen_height * NAV_ARROW_HEIGHT,
+                                     0.5 * game_screen_width, game_screen_height - game_screen_height *
+                                     NAV_ARROW_HEIGHT - game_screen_height * RESOURCES_PANEL_SIZE,
+                                     NAV_ARROW_TEXTURE, 90, self.game_screen, "Down")
+
         self.navigation_arrows_sprites = pygame.sprite.Group()
         self.navigation_arrows_sprites.add(left_arrow)
         self.navigation_arrows_sprites.add(up_arrow)
@@ -163,7 +161,7 @@ class MapView(wx.Panel):
         self.navigation_arrows_sprites.add(down_arrow)
 
     def mes(self, msg, color, x, y, surface=None):
-        font = pygame.font.SysFont(FONT, 25)
+        font = pygame.font.SysFont(FONT, FONT_SIZE)
         screen_text = font.render(msg, True, color)
         if surface is None:
             self.game_screen.blit(screen_text, [x, y])
@@ -172,7 +170,7 @@ class MapView(wx.Panel):
         return screen_text.get_size()
 
     def draw_message_with_wrapping(self, msg, color, x, y, surface):
-        font = pygame.font.SysFont(FONT, 25)
+        font = pygame.font.SysFont(FONT, FONT_SIZE)
         space_width = font.size(' ')[0]  # get space width
         pos_x, pos_y = x, y
         max_width, max_height = self.game_screen.get_size()
@@ -203,7 +201,8 @@ class MapView(wx.Panel):
             self.game_screen.blit(building.image, (pos_x, pos_y))
             self.buildings_sprites.add(building)
             self.all_sprites.add(building)
-            # Send request to model to check if we can afford for this building
+
+            # Send info to model that we have placed building
             msg = {}
             msg["To"] = "MapNode"
             msg["Operation"] = "placeBuilding"
@@ -212,7 +211,6 @@ class MapView(wx.Panel):
             msg["Args"]["BuildingId"] = building.id
             stream = json.dumps(msg)
             self.sender.send(stream)
-            # self.resources_panel.draw_resources_panel(msg_as_dict["actualRes"], self)
         else:
             self.draw_message_with_wrapping("Invalid position for building", RED, pos[0], pos[1],
                                             self.background)
@@ -220,34 +218,34 @@ class MapView(wx.Panel):
     def readMsg(self, msg):
         print "Map view got msg", msg
         try:
-            fullMsg = json.loads(msg)
-            msg_as_dict = fullMsg["Args"]
+            parsed_msg = json.loads(msg)
+            args = parsed_msg["Args"]
         except:
             traceback.print_exc()
             return
-        if "buildings" in msg_as_dict:
-            # fill buildings panel
-            self.buildings = msg_as_dict["buildings"]
-            self.buildings_panel.add_buildings_to_buildings_panel(self.buildings)
-            self.resources_panel.add_resources_to_resources_panel(msg_as_dict["resources"])
-            self.resources_initialized = True
-        elif "buildingID" in msg_as_dict:
+        operation = parsed_msg["Operation"]
+        if operation == "Init":
+            self.buildings_panel.add_buildings_to_buildings_panel(args["buildings"])
+            self.resources_panel.add_resources_to_resources_panel(args["resources"])
+        elif operation == "canAffordOnBuildingResult":
             # we can draw building with given id
-            if msg_as_dict["canAffordOnBuilding"]:
-                self.can_afford = True
+            if args["canAffordOnBuilding"]:
+                self.can_afford_on_building = True
             else:
-                self.can_afford = False
+                self.can_afford_on_building = False
             self.condition.acquire()
-            self.is_reply_arrived = True
+            self.has_reply_arrived = True
             self.condition.notify()
             self.condition.release()
-        elif "actualRes" in msg_as_dict:
-            self.last_res_info = msg_as_dict["actualRes"]
-            self.resources_panel.draw_resources_panel(msg_as_dict["actualRes"], self)
-        else:
+        elif operation == "placeBuildingResult":
+            self.last_res_info = args["actualRes"]
+            self.resources_panel.draw_resources_panel(args["actualRes"], self)
+        elif operation == "Update":
             # update resources values
-            self.last_res_info = msg_as_dict
-            self.resources_panel.draw_resources_panel(msg_as_dict, self)
+            self.last_res_info = args
+            self.resources_panel.draw_resources_panel(args, self)
+        else:
+            print "Unknown message"
 
     def switch_game_tile(self, nav_arrow):
         if nav_arrow.direction == "Left":
@@ -258,7 +256,7 @@ class MapView(wx.Panel):
                 image = pygame.image.load(relative_textures_path + "Grass.png")
                 image = pygame.transform.scale(image, (self.size_x, self.size_y))
                 new_game_screen.blit(image, (0, 0))
-                new_game_screen_tile = GameTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
+                new_game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
                 self.current_tile.left = new_game_screen_tile
                 new_game_screen_tile.right = self.current_tile
             self.current_tile.buildings_sprites = self.buildings_sprites
@@ -271,7 +269,7 @@ class MapView(wx.Panel):
                 image = pygame.image.load(relative_textures_path + "Grass.png")
                 image = pygame.transform.scale(image, (self.size_x, self.size_y))
                 new_game_screen.blit(image, (0, 0))
-                new_game_screen_tile = GameTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
+                new_game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
                 self.current_tile.right = new_game_screen_tile
                 new_game_screen_tile.left = self.current_tile
             self.current_tile.buildings_sprites = self.buildings_sprites
@@ -284,7 +282,7 @@ class MapView(wx.Panel):
                 image = pygame.image.load(relative_textures_path + "Grass.png")
                 image = pygame.transform.scale(image, (self.size_x, self.size_y))
                 new_game_screen.blit(image, (0, 0))
-                new_game_screen_tile = GameTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
+                new_game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
                 self.current_tile.up = new_game_screen_tile
                 new_game_screen_tile.down = self.current_tile
             self.current_tile.buildings_sprites = self.buildings_sprites
@@ -297,7 +295,7 @@ class MapView(wx.Panel):
                 image = pygame.image.load(relative_textures_path + "Grass.png")
                 image = pygame.transform.scale(image, (self.size_x, self.size_y))
                 new_game_screen.blit(image, (0, 0))
-                new_game_screen_tile = GameTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
+                new_game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
                 self.current_tile.down = new_game_screen_tile
                 new_game_screen_tile.up = self.current_tile
             self.current_tile.buildings_sprites = self.buildings_sprites
@@ -308,9 +306,11 @@ class MapView(wx.Panel):
         self.buildings_panel.game_screen = self.game_screen
         self.resources_panel.game_screen = self.game_screen
         self.buildings_panel.draw_buildings_panel()
-        self.buildings_panel.draw()
+        self.buildings_panel.draw_buildings_in_buildings_panel()
         self.resources_panel.draw_resources_panel(self.last_res_info, self)
         self.create_navigation_arrows()
+        for nav_arrow in self.navigation_arrows_sprites:
+            nav_arrow.draw_navigation_arrow()
         self.buildings_sprites = self.current_tile.buildings_sprites
         self.all_sprites = self.current_tile.all_sprites
         for building in self.buildings_sprites:
@@ -318,8 +318,7 @@ class MapView(wx.Panel):
 
     def check_if_can_afford(self, building):
         new_building = Building(building.name, uuid.uuid4().__str__(), building.resources_cost,
-                                building.texture, self.game_screen, (0, 0))
-        self.buildings_dict[str(new_building.id)] = new_building
+                                building.texture, self.game_screen.get_size(), (0, 0))
         # Send request to model to check if we can afford for this building
         msg = {}
         msg["To"] = "MapNode"
@@ -328,80 +327,10 @@ class MapView(wx.Panel):
         msg["Args"]["BuildingName"] = new_building.name
         msg["Args"]["BuildingId"] = new_building.id
         stream = json.dumps(msg)
-        # stream = "MapNode@PlaceBuilding@{},{}".format(new_building.name, new_building.id)
+
         self.condition.acquire()
-        self.is_reply_arrived = False
+        self.has_reply_arrived = False
         self.sender.send(stream)
         self.condition.wait()
         self.condition.release()
         return new_building
-
-
-class GameTile:
-    def __init__(self, game_screen, all_sprites, buildings_sprites):
-        self.left = None
-        self.up = None
-        self.right = None
-        self.down = None
-        self.game_screen = game_screen
-        self.all_sprites = all_sprites
-        self.buildings_sprites = buildings_sprites
-
-
-class UserEventHandlerThread(threading.Thread):
-    def __init__(self, map_view):
-        threading.Thread.__init__(self)
-        self.map_view = map_view
-
-    def run(self):
-        sprite_is_chosen = False
-        building = None
-        clock = pygame.time.Clock()
-        while self.map_view.game_on:
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
-                    pos = pygame.mouse.get_pos()
-                    if sprite_is_chosen:
-                        shadow.rect.center = pos
-                        shadow.update()
-                        self.map_view.place_building(building, (shadow.rect.left, shadow.rect.top))
-                        sprite_is_chosen = False
-                    else:
-                        clicked_sprites = [s for s in self.map_view.buildings_panel_sprites if s.rect.collidepoint(pos)]
-                        if len(clicked_sprites) == 1:
-                            building = self.map_view.check_if_can_afford(clicked_sprites[0])
-                            if self.map_view.can_afford:
-                                sprite_is_chosen = True
-                                shadow = Building(building.name, building.id, building.resources_cost,
-                                                  building.texture, self.map_view.background, pos)
-                                shadow.image.fill(RED)
-                        if self.map_view.left_arrow_buildings_panel.collidepoint(pos):
-                            self.map_view.buildings_panel.scroll_building_panel_left()
-                        if self.map_view.right_arrow_buildings_panel.collidepoint(pos):
-                            self.map_view.buildings_panel.scroll_building_panel_right()
-                        clicked_nav_arrows = [s for s in self.map_view.navigation_arrows_sprites if s.rect.collidepoint(pos)]
-                        if len(clicked_nav_arrows) == 1:
-                            self.map_view.switch_game_tile(clicked_nav_arrows[0])
-                if event.type == pygame.MOUSEBUTTONDOWN and event.button == RIGHT:
-                    if sprite_is_chosen:
-                        sprite_is_chosen = False
-
-            pos = pygame.mouse.get_pos()
-            self.map_view.mes("FPS: " + str(FPS), PURPLE, 0, 0)
-            self.map_view.background.blit(self.map_view.game_screen, (0, 0))
-            if sprite_is_chosen:
-                shadow.rect.center = pos
-                shadow.update()
-                if self.map_view.is_building_position_valid(shadow):
-                    shadow.image.fill(GREEN)
-                else:
-                    shadow.image.fill(RED)
-                self.map_view.background.blit(shadow.image, (shadow.rect.left, shadow.rect.top))
-            if not sprite_is_chosen:
-                for sprite in self.map_view.buildings_panel_sprites:
-                    if sprite.rect.collidepoint(pos):
-                        self.map_view.draw_message_with_wrapping(str(sprite.resources_cost), GREEN,
-                                                                 pos[0], pos[1],
-                                                                 self.map_view.background)
-            pygame.display.flip()
-            clock.tick(FPS)

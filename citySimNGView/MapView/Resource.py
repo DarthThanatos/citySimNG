@@ -7,13 +7,13 @@ WHITE = (255, 255, 255)
 
 
 class Resource(pygame.sprite.Sprite):
-    def __init__(self, name, texture_path, game_screen):
+    def __init__(self, name, texture_path, game_screen_size):
         pygame.sprite.Sprite.__init__(self)
         self.name = name
         self.texture_path = texture_path
-        self.game_screen = game_screen
+        self.game_screen_size = game_screen_size
 
-        width, height = self.game_screen.get_size()
+        width, height = self.game_screen_size
         try:
             self.image = pygame.image.load(self.texture_path)
         except Exception:
