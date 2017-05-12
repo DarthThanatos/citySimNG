@@ -5,7 +5,8 @@ repositories {
 }
 
 dependencies {
-	compile project(":SkeletonModule")
+	compile project(":MapModule")
+    compile files('../MapModule/bin')
     compile files('../SkeletonModule/bin')
     compile name: 'json'
 } 
