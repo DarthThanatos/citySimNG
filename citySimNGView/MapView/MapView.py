@@ -10,7 +10,7 @@ from ResourcesPanel import ResourcesPanel
 from BuildingsPanel import BuildingsPanel
 from Building import Building
 from Consts import BUILDINGS_PANEL_SIZE, RESOURCES_PANEL_SIZE, NAV_ARROW_HEIGHT, NAV_ARROW_WIDTH, FPS, GREEN, RED, \
-    PURPLE, RIGHT, LEFT, FONT, GAME_SCREEN_TEXTURE, NAV_ARROW_TEXTURE, FONT_SIZE
+    PURPLE, RIGHT, LEFT, FONT, GAME_SCREEN_TEXTURE, NAV_ARROW_TEXTURE, FONT_SIZE, TEXT_PANEL_HEIGHT, TEXT_PANEL_WIDTH
 from NavigationArrow import NavigationArrow
 from UserEventHandlerThread import UserEventHandlerThread
 from MapTile import MapTile

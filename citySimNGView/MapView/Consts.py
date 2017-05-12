@@ -22,7 +22,8 @@ BUILDING_SIZE = 0.05
 RESOURCE_SIZE = 0.03
 SPACE = 20
 RESOURCES_SPACE = 10
-
+TEXT_PANEL_HEIGHT = 0.2
+TEXT_PANEL_WIDTH = 0.8
 
 DEFAULT_BUILDING_TEXTURE = relative_textures_path + "DefaultBuilding.jpg"
 DEFAULT_RESOURCE_TEXTURE = relative_textures_path + "DefaultBuilding.jpg"

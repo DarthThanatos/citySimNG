@@ -26,7 +26,7 @@ class UserEventHandlerThread(threading.Thread):
                         clicked_sprites = [s for s in self.map_view.buildings_panel_sprites if s.rect.collidepoint(pos)]
                         if len(clicked_sprites) == 1:
                             building = self.map_view.check_if_can_afford(clicked_sprites[0])
-                            if self.map_view.can_afford:
+                            if self.map_view.can_afford_on_building:
                                 shadow = Building(building.name, building.id, building.resources_cost,
                                                   building.texture, self.map_view.background.get_size(), pos)
                                 shadow.image.fill(RED)
