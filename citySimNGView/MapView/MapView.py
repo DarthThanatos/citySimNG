@@ -19,22 +19,29 @@ import sys
 
 class MapView(wx.Panel):
     current_tile = None
+    game_screen_tiles = {}
+    map_position = (0, 0)
+
     background = None
     game_screen = None
-    game_screen_tiles = {}
+
     resources_panel = None
     buildings_panel = None
+
     listener_thread = None
+
     buildings_sprites = pygame.sprite.Group()
     buildings_panel_sprites = pygame.sprite.Group()
     all_sprites = pygame.sprite.Group()
     navigation_arrows_sprites = pygame.sprite.Group()
     right_arrow_buildings_panel = None
     left_arrow_buildings_panel = None
+
     game_on = True
     has_reply_arrived = False
     can_afford_on_building = False
     last_res_info = None
+
     condition = threading.Condition()
 
     def __init__(self, parent, size, name, sender, music_path=relative_music_path + "TwoMandolins.mp3"):
@@ -81,6 +88,7 @@ class MapView(wx.Panel):
         self.navigation_arrows_sprites = pygame.sprite.Group()
         self.all_sprites = pygame.sprite.Group()
         self.game_on = False
+        self.map_position = (0, 0)
         self.listener_thread.join()
 
         msg = {}
@@ -136,6 +144,8 @@ class MapView(wx.Panel):
         self.all_sprites.add(self.buildings_panel)
 
         self.current_tile = MapTile(self.game_screen, self.all_sprites, self.buildings_sprites)
+        self.game_screen_tiles[str(self.map_position)] = self.current_tile
+        self.mes(str(self.map_position), PURPLE, 0, 0)
 
         # Create and draw arrows for moving map
         self.create_navigation_arrows()
@@ -264,59 +274,70 @@ class MapView(wx.Panel):
             print "Unknown message"
 
     def switch_game_tile(self, nav_arrow):
+        x, y = self.map_position
         if nav_arrow.direction == "Left":
-            print "Left arrow clicked"
-            if self.current_tile.left is None:
-                print "Create new tile"
+            if not str((x - 1, y)) in self.game_screen_tiles:
                 new_game_screen = pygame.Surface.copy(self.background)
-                image = pygame.image.load(relative_textures_path + "Grass.png")
+                image = pygame.image.load(GAME_SCREEN_TEXTURE)
                 image = pygame.transform.scale(image, (self.size_x, self.size_y))
                 new_game_screen.blit(image, (0, 0))
-                new_game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
-                self.current_tile.left = new_game_screen_tile
-                new_game_screen_tile.right = self.current_tile
+                game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
+                self.game_screen_tiles[str((x - 1, y))] = game_screen_tile
+            else:
+                game_screen_tile = self.game_screen_tiles[str((x - 1, y))]
+
             self.current_tile.buildings_sprites = self.buildings_sprites
             self.current_tile.all_sprites = self.all_sprites
-            self.current_tile = self.current_tile.left
+            self.current_tile = game_screen_tile
+            self.map_position = (self.map_position[0] - 1, self.map_position[1])
 
         if nav_arrow.direction == "Right":
-            if self.current_tile.right is None:
+            if not str((x + 1, y)) in self.game_screen_tiles:
                 new_game_screen = pygame.Surface.copy(self.background)
-                image = pygame.image.load(relative_textures_path + "Grass.png")
+                image = pygame.image.load(GAME_SCREEN_TEXTURE)
                 image = pygame.transform.scale(image, (self.size_x, self.size_y))
                 new_game_screen.blit(image, (0, 0))
-                new_game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
-                self.current_tile.right = new_game_screen_tile
-                new_game_screen_tile.left = self.current_tile
+                game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
+                self.game_screen_tiles[str((x + 1, y))] = game_screen_tile
+            else:
+                game_screen_tile = self.game_screen_tiles[str((x + 1, y))]
+
             self.current_tile.buildings_sprites = self.buildings_sprites
             self.current_tile.all_sprites = self.all_sprites
-            self.current_tile = self.current_tile.right
+            self.current_tile = game_screen_tile
+            self.map_position = (self.map_position[0] + 1, self.map_position[1])
 
         if nav_arrow.direction == "Up":
-            if self.current_tile.up is None:
+            if not str((x, y + 1)) in self.game_screen_tiles:
                 new_game_screen = pygame.Surface.copy(self.background)
-                image = pygame.image.load(relative_textures_path + "Grass.png")
+                image = pygame.image.load(GAME_SCREEN_TEXTURE)
                 image = pygame.transform.scale(image, (self.size_x, self.size_y))
                 new_game_screen.blit(image, (0, 0))
-                new_game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
-                self.current_tile.up = new_game_screen_tile
-                new_game_screen_tile.down = self.current_tile
+                game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
+                self.game_screen_tiles[str((x, y + 1))] = game_screen_tile
+            else:
+                game_screen_tile = self.game_screen_tiles[str((x, y + 1))]
+
             self.current_tile.buildings_sprites = self.buildings_sprites
             self.current_tile.all_sprites = self.all_sprites
-            self.current_tile = self.current_tile.up
+            self.current_tile = game_screen_tile
+            self.map_position = (self.map_position[0], self.map_position[1] + 1)
 
         if nav_arrow.direction == "Down":
-            if self.current_tile.down is None:
+            if not str((x, y - 1)) in self.game_screen_tiles:
                 new_game_screen = pygame.Surface.copy(self.background)
-                image = pygame.image.load(relative_textures_path + "Grass.png")
+                image = pygame.image.load(GAME_SCREEN_TEXTURE)
                 image = pygame.transform.scale(image, (self.size_x, self.size_y))
                 new_game_screen.blit(image, (0, 0))
-                new_game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
-                self.current_tile.down = new_game_screen_tile
-                new_game_screen_tile.up = self.current_tile
+                game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
+                self.game_screen_tiles[str((x, y - 1))] = game_screen_tile
+            else:
+                game_screen_tile = self.game_screen_tiles[str((x, y - 1))]
+
             self.current_tile.buildings_sprites = self.buildings_sprites
             self.current_tile.all_sprites = self.all_sprites
-            self.current_tile = self.current_tile.down
+            self.current_tile = game_screen_tile
+            self.map_position = (self.map_position[0], self.map_position[1] - 1)
 
         self.game_screen = self.current_tile.game_screen
         self.buildings_panel.game_screen = self.game_screen
@@ -329,6 +350,9 @@ class MapView(wx.Panel):
             nav_arrow.draw_navigation_arrow()
         self.buildings_sprites = self.current_tile.buildings_sprites
         self.all_sprites = self.current_tile.all_sprites
+        self.all_sprites.add(self.resources_panel)
+        self.all_sprites.add(self.buildings_panel)
+        self.mes(str(self.map_position), PURPLE, 0, 0)
         for building in self.buildings_sprites:
             self.game_screen.blit(building.image, building.pos)
 
