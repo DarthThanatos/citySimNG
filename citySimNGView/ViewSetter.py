@@ -5,7 +5,7 @@ from GameMenuView import GameMenuView
 from LoaderView import LoaderView
 from MainMenuView import MainMenuView
 from ExchangeView import ExchangeView
-from MapView import MapView
+from MapView.MapView import MapView
 from TutorialView import TutorialView
 import pygame
 import json

@@ -1,0 +1,31 @@
+from RelativePaths import relative_textures_path
+
+
+FONT = "Comic Sans MS"
+FPS = 60
+LEFT = 1
+RIGHT = 3
+RED = (150, 0, 0)
+GREEN = (0, 150, 0)
+YELLOW = (200, 200, 0)
+PURPLE = (200, 0, 200)
+WHITE = (255, 255, 255)
+
+NAV_ARROW_WIDTH = 0.1
+NAV_ARROW_HEIGHT = 0.1
+
+RESOURCES_PANEL_SIZE = 0.2
+BUILDINGS_PANEL_SIZE = 0.15
+ARROW_BUTTON_WIDTH = 0.3
+RIGHT_ARROW_BUTTON_X = 0.6
+LEFT_ARROW_BUTTON_X = 0.1
+ARROW_BUTTON_HEIGHT = 0.1
+ARROW_BUTTON_Y = 0.7
+BUILDING_SIZE = 0.05
+RESOURCE_SIZE = 0.03
+SPACE = 20
+RESOURCES_SPACE = 10
+
+
+DEFAULT_BUILDING_TEXTURE = relative_textures_path + "DefaultBuilding.jpg"
+DEFAULT_RESOURCE_TEXTURE = relative_textures_path + "DefaultBuilding.jpg"

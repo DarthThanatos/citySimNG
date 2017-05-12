@@ -29,14 +29,29 @@ public class MapNode extends SocketNode{
 	public String parseCommand(String command, JSONObject args) {
 		JSONObject envelope = new JSONObject();
 		envelope.put("To", "Map");
-		if(command.equals("PlaceBuilding")){
+		if(command.equals("canAffordOnBuilding")){
 			// parse arguments
 			//String[] argsList = streamArgs[0].split(",");
 			
 			// check if player can afford to build building
-			Boolean canAfford = buildings.placeBuilding(args.getString("BuildingName"), resources);
+			Boolean canAffordOnBuilding = buildings.canAffordOnBuilding(args.getString("BuildingName"), resources);
 			
 			// create and send reply to view
+			JSONObject json = new JSONObject();
+			json.put("buildingID", args.getString("BuildingId"));
+			json.put("canAffordOnBuilding", canAffordOnBuilding);
+			
+			envelope.put("Operation","canAffordOnBuildingResult");
+			envelope.put("Args", json);
+			/*sender.setStream("Map@" + json);
+			synchronized(sender){
+				sender.notify();
+			}*/
+			System.out.println("Sent after canAfford: " + envelope);
+			//return "Map@" + json.toString();
+		}
+		if(command.equals("placeBuilding")){
+			buildings.placeBuilding(args.getString("BuildingName"), resources);
 			Map<String, String> actualValuseAndIncomes = new HashMap<String, String>();
 			String sign = " +";
 			for(String resource : resources.getResourcesNames()){
@@ -45,18 +60,13 @@ public class MapNode extends SocketNode{
 				actualValuseAndIncomes.put(resource, resources.getActualValues().get(resource) + 
 						sign + resources.getIncomes().get(resource));
 			}
+			
 			JSONObject json = new JSONObject();
-			json.put("buildingID", args.getString("BuildingId"));
-			json.put("canAfford", canAfford);
 			json.put("actualRes", actualValuseAndIncomes);
-			envelope.put("Operation","PlaceBuildingResult");
+			
+			envelope.put("Operation", "placeBuildingResult");
 			envelope.put("Args", json);
-			/*sender.setStream("Map@" + json);
-			synchronized(sender){
-				sender.notify();
-			}*/
 			System.out.println("Sent after built: " + envelope);
-			//return "Map@" + json.toString();
 		}
 		return envelope.toString();
 	}
