@@ -16,6 +16,7 @@ from NavigationArrow import NavigationArrow
 from UserEventHandlerThread import UserEventHandlerThread
 from MapTile import MapTile
 import math
+from NavigationPanel import NavigationPanel
 
 
 class MapView(wx.Panel):
@@ -129,21 +130,31 @@ class MapView(wx.Panel):
         # Create background and game_screen
         self.background = pygame.display.set_mode((self.size_x, self.size_y))
         self.game_screen = pygame.Surface.copy(self.background)
-        image = self.choose_game_screen_texture()
-        image = pygame.transform.scale(image, (self.size_x, self.size_y))
-        self.game_screen.blit(image, (0, 0))
+        self.image = self.choose_game_screen_texture()
+        self.image = pygame.transform.scale(self.image, (self.size_x, self.size_y))
+        self.game_screen.blit(self.image, (0, 0))
 
         # Create resources panel and add it to all sprites
         self.resources_panel = ResourcesPanel(self.game_screen, 0, self.size_y - RESOURCES_PANEL_SIZE * self.size_y,
-                                              self.size_x - BUILDINGS_PANEL_SIZE * self.size_x, RESOURCES_PANEL_SIZE * self.size_y)
+                                              self.size_x - BUILDINGS_PANEL_SIZE * self.size_x,
+                                              RESOURCES_PANEL_SIZE * self.size_y)
         self.all_sprites.add(self.resources_panel)
 
         # Create buildings panel, draw it and add it to all sprites
         self.buildings_panel = BuildingsPanel(self.game_screen, self,
                                               self.size_x - BUILDINGS_PANEL_SIZE * self.size_x, 0,
-                                              BUILDINGS_PANEL_SIZE * self.size_x, self.size_y)
+                                              BUILDINGS_PANEL_SIZE * self.size_x,
+                                              self.size_y - RESOURCES_PANEL_SIZE * self.size_y)
         self.buildings_panel.draw_buildings_panel()
         self.all_sprites.add(self.buildings_panel)
+
+        self.navigation_panel = NavigationPanel(self.size_x - BUILDINGS_PANEL_SIZE * self.size_x,
+                                                self.size_y - RESOURCES_PANEL_SIZE * self.size_y,
+                                                BUILDINGS_PANEL_SIZE * self.size_x,
+                                                RESOURCES_PANEL_SIZE * self.size_y,
+                                                self.game_screen)
+        self.navigation_panel.draw_navigation_panel()
+        self.all_sprites.add(self.navigation_panel)
 
         self.current_tile = MapTile(self.game_screen, self.all_sprites, self.buildings_sprites)
         self.game_screen_tiles[str(self.map_position)] = self.current_tile
@@ -267,7 +278,7 @@ class MapView(wx.Panel):
             self.has_reply_arrived = True
             self.condition.notify()
             self.condition.release()
-        elif operation == "placeBuildingResult":
+        elif operation == "placeBuildingResult" or operation == "deleteBuildingResult":
             self.last_res_info = args["actualRes"]
             self.resources_panel.draw_resources_panel(args["actualRes"], self)
         elif operation == "Update":
@@ -353,6 +364,8 @@ class MapView(wx.Panel):
         self.game_screen = self.current_tile.game_screen
         self.buildings_panel.game_screen = self.game_screen
         self.resources_panel.game_screen = self.game_screen
+        self.navigation_panel.game_screen = self.game_screen
+        self.navigation_panel.draw_navigation_panel()
         self.buildings_panel.draw_buildings_panel()
         self.buildings_panel.draw_buildings_in_buildings_panel()
         self.resources_panel.draw_resources_panel(self.last_res_info, self)
@@ -385,3 +398,27 @@ class MapView(wx.Panel):
         self.condition.wait()
         self.condition.release()
         return new_building
+
+    def delete_building(self, building_sprite):
+        msg = {}
+        msg["To"] = "MapNode"
+        msg["Operation"] = "deleteBuilding"
+        msg["Args"] = {}
+        msg["Args"]["BuildingName"] = building_sprite.name
+        msg["Args"]["BuildingId"] = building_sprite.id
+        stream = json.dumps(msg)
+        self.sender.send(stream)
+
+        building_sprite.kill()
+        self.game_screen.blit(self.image, (0, 0))
+        self.navigation_panel.draw_navigation_panel()
+        self.buildings_panel.draw_buildings_panel()
+        self.buildings_panel.draw_buildings_in_buildings_panel()
+        self.resources_panel.draw_resources_panel(self.last_res_info, self)
+        for nav_arrow in self.navigation_arrows_sprites:
+            nav_arrow.draw_navigation_arrow()
+        self.mes(str(self.map_position), PURPLE, 0, 0)
+        for building in self.buildings_sprites:
+            self.game_screen.blit(building.image, building.pos)
+
+

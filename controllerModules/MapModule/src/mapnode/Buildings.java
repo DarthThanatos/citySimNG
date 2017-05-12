@@ -146,6 +146,29 @@ public class Buildings {
 		    	consumes.get(resource));
 		}
 	}
+	
+	public void deleteBuilding(String buildingName, Resources resources){
+		Map<String, Integer> actualValues = resources.getActualValues();
+		Map<String, Integer> incomes = resources.getIncomes();
+		Building b = null;
+		
+		for(Building building : allBuildings){
+			if(building.getName().equals(buildingName)){
+				b = building;
+				break;
+			}
+		}
+		
+		Map<String, Integer> consumes = b.getConsumes();
+		
+		for(Map.Entry<String, Integer> entry : b.getResourcesCost().entrySet()) {
+		    String resource = entry.getKey();
+		    Integer cost = entry.getValue();
+		    // actualValues.put(resource, actualValues.get(resource) - cost);
+		    incomes.put(resource, incomes.get(resource) - b.getProduces().get(resource) +
+		    	consumes.get(resource));
+		}
+	}
 
 	public List<Building> getAllBuildings() {
 		return allBuildings;

@@ -15,8 +15,8 @@ class UserEventHandlerThread(threading.Thread):
         clock = pygame.time.Clock()
         while self.map_view.game_on:
             for event in pygame.event.get():
+                pos = pygame.mouse.get_pos()
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
-                    pos = pygame.mouse.get_pos()
                     if shadow is not None:
                         shadow.rect.center = pos
                         shadow.update()
@@ -40,6 +40,10 @@ class UserEventHandlerThread(threading.Thread):
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == RIGHT:
                     if shadow is not None:
                         shadow = None
+                    if shadow is None:
+                        clicked_buildings = [s for s in self.map_view.buildings_sprites if s.rect.collidepoint(pos)]
+                        if len(clicked_buildings) == 1:
+                            self.map_view.delete_building(clicked_buildings[0])
 
             pos = pygame.mouse.get_pos()
             # self.map_view.mes("FPS: " + str(FPS), PURPLE, 0, 0)
