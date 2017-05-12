@@ -39,6 +39,7 @@ public class MapNode extends SocketNode{
 			// create and send reply to view
 			JSONObject json = new JSONObject();
 			json.put("buildingID", args.getString("BuildingId"));
+			json.put("buildingName", args.getString("BuildingName"));
 			json.put("canAffordOnBuilding", canAffordOnBuilding);
 			
 			envelope.put("Operation","canAffordOnBuildingResult");
@@ -56,9 +57,11 @@ public class MapNode extends SocketNode{
 			String sign = " +";
 			for(String resource : resources.getResourcesNames()){
 				if(resources.getIncomes().get(resource) < 0)
-					sign = " ";
 				actualValuseAndIncomes.put(resource, resources.getActualValues().get(resource) + 
-						sign + resources.getIncomes().get(resource));
+						" " + resources.getIncomes().get(resource));
+				else
+					actualValuseAndIncomes.put(resource, resources.getActualValues().get(resource) + 
+							sign + resources.getIncomes().get(resource));
 			}
 			
 			JSONObject json = new JSONObject();
@@ -67,6 +70,26 @@ public class MapNode extends SocketNode{
 			envelope.put("Operation", "placeBuildingResult");
 			envelope.put("Args", json);
 			System.out.println("Sent after built: " + envelope);
+		}
+		if(command.equals("deleteBuilding")){
+			buildings.deleteBuilding(args.getString("BuildingName"), resources);
+			Map<String, String> actualValuseAndIncomes = new HashMap<String, String>();
+			String sign = " +";
+			for(String resource : resources.getResourcesNames()){
+				if(resources.getIncomes().get(resource) < 0)
+				actualValuseAndIncomes.put(resource, resources.getActualValues().get(resource) + 
+						" " + resources.getIncomes().get(resource));
+				else
+					actualValuseAndIncomes.put(resource, resources.getActualValues().get(resource) + 
+							sign + resources.getIncomes().get(resource));
+			}
+			
+			JSONObject json = new JSONObject();
+			json.put("actualRes", actualValuseAndIncomes);
+			
+			envelope.put("Operation", "deleteBuildingResult");
+			envelope.put("Args", json);
+			System.out.println("Sent after delete: " + envelope);
 		}
 		return envelope.toString();
 	}
