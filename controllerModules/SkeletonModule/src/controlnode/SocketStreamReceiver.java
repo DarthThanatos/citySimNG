@@ -35,7 +35,7 @@ public class SocketStreamReceiver extends Thread {
 	@Override
 	public void run(){
 		System.out.println(nodeName + ": Receiver started");
-		byte[] content = new byte[1024]; 
+		byte[] content = new byte[100000]; 
 		while (shouldContinue){
 			DatagramPacket p = new DatagramPacket(content, content.length);
 			try {

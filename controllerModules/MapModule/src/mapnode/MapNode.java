@@ -81,16 +81,11 @@ public class MapNode extends SocketNode{
 		JSONObject json = new JSONObject();
 		json.put("resources", resources.getResources());
 		json.put("buildings", buildings.getAllBuildings());
-		/*sender.setStream("Map@" + json);
-		synchronized(sender){
-			sender.notify();
-		} */
 		JSONObject envelope = new JSONObject();
 		envelope.put("To", "Map");
 		envelope.put("Operation", "Init");
 		envelope.put("Args", json);
 		sender.pushStreamAndWaitForResponse(envelope);
-		//sender.pushStream("Map@" + json);
 		resourcesThread = new Thread() {
 			public void run() {
 				while(update){

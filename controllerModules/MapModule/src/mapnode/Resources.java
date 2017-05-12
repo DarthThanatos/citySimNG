@@ -55,14 +55,7 @@ public class Resources {
 		envelope.put("To", "Map");
 		envelope.put("Operation", "Update");
 		envelope.put("Args", json);
-		//sender.pushStream("Map@" + json);
 		sender.pushStream(envelope.toString());
-		/*
-		sender.setStream("Map@" + json);
-		synchronized(sender){
-			sender.notify();
-		} 
-		*/
 	}
 	
 	public Map<String, Integer> getActualValues(){

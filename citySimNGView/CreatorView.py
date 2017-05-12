@@ -5,6 +5,7 @@ from pprint import PrettyPrinter
 import json
 import os
 from RelativePaths import relative_music_path,relative_dependencies_path
+from uuid import uuid4
 
 class CreatorView(wx.Panel):
     def __init__(self, parent, size, name,  musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):
@@ -13,6 +14,7 @@ class CreatorView(wx.Panel):
         self.parent = parent
         self.musicPath = musicPath
         self.sender = sender
+        self.ackMsgs = {} #for confirming blocking send operations
 
         rootSizer = wx.BoxSizer(wx.VERTICAL)
         topSizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -108,6 +110,10 @@ class CreatorView(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
         buttonsSizer.Add(menu_btn, 0, wx.ALL | wx.EXPAND, 5)
 
+        save_btn = wx.Button(self, label = "Save")
+        self.Bind(wx.EVT_BUTTON, self.save, save_btn)
+        buttonsSizer.Add(save_btn, 0, wx.EXPAND, 5)
+
         create_btn = wx.Button(self, label="Create")
         self.Bind(wx.EVT_BUTTON, self.createDependencies, create_btn)
         buttonsSizer.Add(create_btn, 0, wx.EXPAND, 5)
@@ -174,7 +180,6 @@ class CreatorView(wx.Panel):
         msg["Args"]["TargetView"] = "MainMenu"
         msg["Args"]["TargetControlNode"] = "MainMenuNode"
         self.sender.send(json.dumps(msg))
-        #self.sender.send("CreatorNode@MoveTo@MenuNode")
 
     def getGridsContent(self):
         gridNamesList = ["Resources", "Buildings", "Dwellers"]
@@ -212,31 +217,38 @@ class CreatorView(wx.Panel):
                         self.errorMsgField.SetLabelText(errorMsg)
                         return
 
-        dlg = wx.FileDialog(
-            self,
-            defaultDir = relative_dependencies_path,
-            message = "Choose a file to save",
-            wildcard = "*.dep",
-            style = wx.FD_SAVE 
-        )
-        if dlg.ShowModal() == wx.ID_OK:
-            path = dlg.GetPath()
 
             msg = "Dependencies sent to further processing to creator controller"
             print msg
             self.errorMsgField.SetLabelText(msg)
+            uuid = uuid4().__str__()
+            self.ackMsgs[uuid] = False
 
-            #stream = "CreatorNode@Parse@" + json.dumps(dependencies)+"@"+path
             msg = {}
             msg["To"] = "CreatorNode"
             msg["Operation"] = "Parse"
             msg["Args"] = {}
             msg["Args"]["Dependencies"] = dependencies
-            msg["Args"]["Path"] = path
+            msg["Args"]["UUID"] = uuid
             stream = json.dumps(msg)
-            self.sender.send(stream)
-            
             print stream
+            self.sender.send(stream)
+            while not self.ackMsgs[uuid]: pass
+            print "Creator View: got confirmation, exiting blocking loop"
+
+
+
+    def save(self, event):
+        dependencies = self.getGridsContent()
+        dlg = wx.FileDialog(
+            self,
+            defaultDir = relative_dependencies_path,
+            message = "Choose a file to save",
+            wildcard = "*.dep",
+            style = wx.FD_SAVE
+        )
+        if dlg.ShowModal() == wx.ID_OK:
+            path = dlg.GetPath()
             with open(path, "wb+") as f:
                 f.write(json.dumps(dependencies).replace(",",",\n"))
 
@@ -258,6 +270,10 @@ class CreatorView(wx.Panel):
 
     def readMsg(self, msg):
         print "Creator view got msg", msg
+        jsonMsg = json.loads(msg)
+        operation = jsonMsg["Operation"]
+        if operation == "ParseConfirm":
+            self.ackMsgs[jsonMsg["Args"]["UUID"]] = True #unblock blocked thread
 
 
     def dependencyLoadFail(self):

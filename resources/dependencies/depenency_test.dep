@@ -1,32 +1,50 @@
-{"Dwellers": [{"Predecessor": "d",
- "Description": "d",
- "Dweller\nName": "d",
- "Consume Rate": "d",
- "Ico path": "d",
- "Consumes": "d",
- "Successor": "d"},
- {"Predecessor": "d",
- "Description": "d",
- "Dweller\nName": "d",
- "Consume Rate": "d",
- "Ico path": "d",
- "Consumes": "d",
- "Successor": "d"}],
- "Buildings": [{"Predecessor": "b",
- "Description": "b",
- "Produces": "b",
- "Dwellers\namount": "b",
- "Building\nName": "b",
- "Dweller\nName": "b",
- "Produce Rate": "b",
- "Consume Rate": "b",
- "Ico path": "b",
- "Texture path": "b",
- "Type": "b",
- "Consumes": "b",
- "Successor": "b"}],
- "Resources": [{"Predecessor": "r",
- "Ico path": "r",
- "Description": "r",
- "Resource\nName": "r",
- "Successor": "r"}]}
+{
+	"Dwellers": 
+	[
+		{
+			"Predecessor": "d",
+			 "Description": "d",
+			 "Dweller\nName": "d",
+			 "Consume Rate": "d",
+			 "Ico path": "d",
+			 "Consumes": "d",
+			 "Successor": "d"},
+			 {"Predecessor": "d",
+			 "Description": "d",
+			 "Dweller\nName": "d",
+			 "Consume Rate": "d",
+			 "Ico path": "d",
+			 "Consumes": "d",
+			 "Successor": "d"
+		}
+	],
+	"Buildings": 
+	[
+		{
+			"Predecessor": "b",
+			"Description": "b",
+			 "Produces": "b",
+			 "Dwellers\namount": "b",
+			 "Building\nName": "b",
+			 "Dweller\nName": "b",
+			 "Produce Rate": "b",
+			 "Consume Rate": "b",
+			 "Ico path": "b",
+			 "Texture path": "b",
+			 "Type": "b",
+			 "Consumes": "b",
+			 "Successor": "b"
+		}
+	],
+	"Resources": 
+	[
+	
+		{
+			"Predecessor": "r",
+			 "Ico path": "r",
+			 "Description": "r",
+			 "Resource\nName": "r",
+			 "Successor": "r"
+		}
+	]
+}
