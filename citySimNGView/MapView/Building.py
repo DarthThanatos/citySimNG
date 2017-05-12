@@ -1,5 +1,5 @@
 import pygame
-from Consts import BUILDING_SIZE, DEFAULT_BUILDING_TEXTURE
+from Consts import BUILDING_SIZE, DEFAULT_BUILDING_TEXTURE, WHITE
 
 
 class Building(pygame.sprite.Sprite):
@@ -18,6 +18,7 @@ class Building(pygame.sprite.Sprite):
         except Exception:
             self.texture = DEFAULT_BUILDING_TEXTURE
             self.image = pygame.image.load(self.texture)
+        self.image.set_colorkey(WHITE)
         self.image = pygame.transform.scale(self.image, (int(width * BUILDING_SIZE),
                                                          int(height * BUILDING_SIZE)))
         self.rect = self.image.get_rect(topleft=(pos[0], pos[1]))

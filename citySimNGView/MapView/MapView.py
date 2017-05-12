@@ -10,11 +10,12 @@ from ResourcesPanel import ResourcesPanel
 from BuildingsPanel import BuildingsPanel
 from Building import Building
 from Consts import BUILDINGS_PANEL_SIZE, RESOURCES_PANEL_SIZE, NAV_ARROW_HEIGHT, NAV_ARROW_WIDTH, FPS, GREEN, RED, \
-    PURPLE, RIGHT, LEFT, FONT, GAME_SCREEN_TEXTURE, NAV_ARROW_TEXTURE, FONT_SIZE, TEXT_PANEL_HEIGHT, TEXT_PANEL_WIDTH
+    PURPLE, FONT, GRASS_TEXTURE, GRASS2_TEXTURE, NAV_ARROW_TEXTURE, FONT_SIZE, TEXT_PANEL_HEIGHT, \
+    TEXT_PANEL_WIDTH, MENU_BUTTON_WIDTH
 from NavigationArrow import NavigationArrow
 from UserEventHandlerThread import UserEventHandlerThread
 from MapTile import MapTile
-import sys
+import math
 
 
 class MapView(wx.Panel):
@@ -51,7 +52,8 @@ class MapView(wx.Panel):
         # set class fields
         self.parent = parent
         self.size_x = size[0]
-        self.size_y = int(size[1] - TEXT_PANEL_HEIGHT * size[1])
+        self.size_y = int(math.ceil(size[1] - TEXT_PANEL_HEIGHT * size[1]))
+        self.screen_height = size[1]
         self.name = name
         self.sender = sender
         self.music_path = music_path
@@ -63,8 +65,8 @@ class MapView(wx.Panel):
         self.init_buttons()
 
         style = wx.TE_MULTILINE | wx.TE_READONLY | wx.HSCROLL
-        self.log = wx.TextCtrl(self, wx.ID_ANY, size=(size[0], TEXT_PANEL_HEIGHT * size[1]),
-                               style=style, pos=(0, size[1] - TEXT_PANEL_HEIGHT * size[1]))
+        self.log = wx.TextCtrl(self, wx.ID_ANY, size=(size[0] * TEXT_PANEL_WIDTH, TEXT_PANEL_HEIGHT * size[1]),
+                               style=style, pos=(0, int(size[1] - TEXT_PANEL_HEIGHT * size[1])))
         font = wx.Font(FONT_SIZE, wx.MODERN, wx.NORMAL, wx.NORMAL, False, FONT)
         self.log.SetFont(font)
 
@@ -75,9 +77,9 @@ class MapView(wx.Panel):
 
     def init_buttons(self):
         """ Function adding buttons """
-        menu_btn = wx.Button(self, label="Menu", pos=(self.size_x - BUILDINGS_PANEL_SIZE * self.size_x,
-                                                      self.size_y - RESOURCES_PANEL_SIZE * self.size_y),
-                             size=(BUILDINGS_PANEL_SIZE * self.size_x, RESOURCES_PANEL_SIZE * self.size_y))
+        menu_btn = wx.Button(self, label="Menu", pos=(self.size_x - MENU_BUTTON_WIDTH * self.size_x,
+                                                      self.screen_height - self.screen_height * TEXT_PANEL_HEIGHT),
+                             size=(MENU_BUTTON_WIDTH * self.size_x, self.screen_height * TEXT_PANEL_HEIGHT))
         self.Bind(wx.EVT_BUTTON, self.ret_to_menu, menu_btn)
 
     def ret_to_menu(self, event):
@@ -127,13 +129,13 @@ class MapView(wx.Panel):
         # Create background and game_screen
         self.background = pygame.display.set_mode((self.size_x, self.size_y))
         self.game_screen = pygame.Surface.copy(self.background)
-        image = pygame.image.load(GAME_SCREEN_TEXTURE)
+        image = self.choose_game_screen_texture()
         image = pygame.transform.scale(image, (self.size_x, self.size_y))
         self.game_screen.blit(image, (0, 0))
 
         # Create resources panel and add it to all sprites
         self.resources_panel = ResourcesPanel(self.game_screen, 0, self.size_y - RESOURCES_PANEL_SIZE * self.size_y,
-                                              self.size_x, RESOURCES_PANEL_SIZE * self.size_y)
+                                              self.size_x - BUILDINGS_PANEL_SIZE * self.size_x, RESOURCES_PANEL_SIZE * self.size_y)
         self.all_sprites.add(self.resources_panel)
 
         # Create buildings panel, draw it and add it to all sprites
@@ -158,20 +160,22 @@ class MapView(wx.Panel):
         self.listener_thread.start()
 
     def create_navigation_arrows(self):
-        game_screen_width, game_screen_height = self.game_screen.get_size()
-        left_arrow = NavigationArrow(game_screen_width * NAV_ARROW_WIDTH, game_screen_height * NAV_ARROW_HEIGHT,
-                                     0, 0.5 * game_screen_height, NAV_ARROW_TEXTURE, 0,
-                                     self.game_screen, "Left")
-        up_arrow = NavigationArrow(game_screen_width * NAV_ARROW_WIDTH, game_screen_height * NAV_ARROW_HEIGHT,
-                                   0.5 * game_screen_width, 0, relative_textures_path + 'LeftArrow.png', 270,
-                                   self.game_screen, "Up")
-        right_arrow = NavigationArrow(game_screen_width * NAV_ARROW_WIDTH, game_screen_height * NAV_ARROW_HEIGHT,
-                                      game_screen_width - game_screen_width * NAV_ARROW_WIDTH -
-                                      game_screen_width * BUILDINGS_PANEL_SIZE,
-                                      0.5 * game_screen_height, NAV_ARROW_TEXTURE, 180, self.game_screen, "Right")
-        down_arrow = NavigationArrow(game_screen_width * NAV_ARROW_WIDTH, game_screen_height * NAV_ARROW_HEIGHT,
-                                     0.5 * game_screen_width, game_screen_height - game_screen_height *
-                                     NAV_ARROW_HEIGHT - game_screen_height * RESOURCES_PANEL_SIZE,
+        y = self.resources_panel.pos_y
+        x = self.buildings_panel.pos_x
+        height = self.resources_panel.size_y
+        width = self.buildings_panel.size_x
+        middle_y = y + height / 2 - height * NAV_ARROW_HEIGHT / 2
+        middle_x = x + width / 2 - width * NAV_ARROW_WIDTH / 2
+        max_x = x + width - NAV_ARROW_WIDTH * width
+        max_y = y + height - NAV_ARROW_HEIGHT * height
+
+        left_arrow = NavigationArrow(width * NAV_ARROW_WIDTH, height * NAV_ARROW_HEIGHT,
+                                     x, middle_y, NAV_ARROW_TEXTURE, 0, self.game_screen, "Left")
+        up_arrow = NavigationArrow(width * NAV_ARROW_HEIGHT, height * NAV_ARROW_WIDTH,
+                                   middle_x, y, NAV_ARROW_TEXTURE, 270, self.game_screen, "Up")
+        right_arrow = NavigationArrow(width * NAV_ARROW_WIDTH, height * NAV_ARROW_HEIGHT, max_x, middle_y,
+                                      NAV_ARROW_TEXTURE, 180, self.game_screen, "Right")
+        down_arrow = NavigationArrow(width * NAV_ARROW_HEIGHT, height * NAV_ARROW_WIDTH, middle_x, max_y,
                                      NAV_ARROW_TEXTURE, 90, self.game_screen, "Down")
 
         self.navigation_arrows_sprites = pygame.sprite.Group()
@@ -273,12 +277,20 @@ class MapView(wx.Panel):
         else:
             print "Unknown message"
 
+    def choose_game_screen_texture(self):
+        x, y = self.map_position
+        if (abs(x) + abs(y)) % 2 == 0:
+            return pygame.image.load(GRASS_TEXTURE)
+        else:
+            return pygame.image.load(GRASS2_TEXTURE)
+
     def switch_game_tile(self, nav_arrow):
         x, y = self.map_position
         if nav_arrow.direction == "Left":
+            self.map_position = (self.map_position[0] - 1, self.map_position[1])
             if not str((x - 1, y)) in self.game_screen_tiles:
                 new_game_screen = pygame.Surface.copy(self.background)
-                image = pygame.image.load(GAME_SCREEN_TEXTURE)
+                image = self.choose_game_screen_texture()
                 image = pygame.transform.scale(image, (self.size_x, self.size_y))
                 new_game_screen.blit(image, (0, 0))
                 game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
@@ -289,12 +301,12 @@ class MapView(wx.Panel):
             self.current_tile.buildings_sprites = self.buildings_sprites
             self.current_tile.all_sprites = self.all_sprites
             self.current_tile = game_screen_tile
-            self.map_position = (self.map_position[0] - 1, self.map_position[1])
 
         if nav_arrow.direction == "Right":
+            self.map_position = (self.map_position[0] + 1, self.map_position[1])
             if not str((x + 1, y)) in self.game_screen_tiles:
                 new_game_screen = pygame.Surface.copy(self.background)
-                image = pygame.image.load(GAME_SCREEN_TEXTURE)
+                image = self.choose_game_screen_texture()
                 image = pygame.transform.scale(image, (self.size_x, self.size_y))
                 new_game_screen.blit(image, (0, 0))
                 game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
@@ -305,12 +317,12 @@ class MapView(wx.Panel):
             self.current_tile.buildings_sprites = self.buildings_sprites
             self.current_tile.all_sprites = self.all_sprites
             self.current_tile = game_screen_tile
-            self.map_position = (self.map_position[0] + 1, self.map_position[1])
 
         if nav_arrow.direction == "Up":
+            self.map_position = (self.map_position[0], self.map_position[1] + 1)
             if not str((x, y + 1)) in self.game_screen_tiles:
                 new_game_screen = pygame.Surface.copy(self.background)
-                image = pygame.image.load(GAME_SCREEN_TEXTURE)
+                image = self.choose_game_screen_texture()
                 image = pygame.transform.scale(image, (self.size_x, self.size_y))
                 new_game_screen.blit(image, (0, 0))
                 game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
@@ -321,12 +333,12 @@ class MapView(wx.Panel):
             self.current_tile.buildings_sprites = self.buildings_sprites
             self.current_tile.all_sprites = self.all_sprites
             self.current_tile = game_screen_tile
-            self.map_position = (self.map_position[0], self.map_position[1] + 1)
 
         if nav_arrow.direction == "Down":
+            self.map_position = (self.map_position[0], self.map_position[1] - 1)
             if not str((x, y - 1)) in self.game_screen_tiles:
                 new_game_screen = pygame.Surface.copy(self.background)
-                image = pygame.image.load(GAME_SCREEN_TEXTURE)
+                image = self.choose_game_screen_texture()
                 image = pygame.transform.scale(image, (self.size_x, self.size_y))
                 new_game_screen.blit(image, (0, 0))
                 game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
@@ -337,7 +349,6 @@ class MapView(wx.Panel):
             self.current_tile.buildings_sprites = self.buildings_sprites
             self.current_tile.all_sprites = self.all_sprites
             self.current_tile = game_screen_tile
-            self.map_position = (self.map_position[0], self.map_position[1] - 1)
 
         self.game_screen = self.current_tile.game_screen
         self.buildings_panel.game_screen = self.game_screen

@@ -13,8 +13,9 @@ class NavigationArrow(pygame.sprite.Sprite):
         self.rotation = rotation
         self.game_screen = game_screen
         self.direction = direction
+        self.texture_path = texture_path
 
-        self.image = pygame.image.load(NAV_ARROW_TEXTURE)
+        self.image = pygame.image.load(texture_path)
         self.image = pygame.transform.rotate(self.image, rotation)
         self.image = pygame.transform.scale(self.image, (int(self.size_x), int(self.size_y)))
         self.rect = self.image.get_rect(topleft=(self.pos_x, self.pos_y))
