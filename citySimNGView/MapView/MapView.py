@@ -14,9 +14,8 @@ from Consts import BUILDINGS_PANEL_SIZE, RESOURCES_PANEL_SIZE, NAV_ARROW_HEIGHT,
 from NavigationArrow import NavigationArrow
 from UserEventHandlerThread import UserEventHandlerThread
 from MapTile import MapTile
+import sys
 
-
-# ------------------------------------------ Main class --------------------------------------------------------------#
 
 class MapView(wx.Panel):
     current_tile = None
@@ -45,7 +44,7 @@ class MapView(wx.Panel):
         # set class fields
         self.parent = parent
         self.size_x = size[0]
-        self.size_y = size[1]
+        self.size_y = int(size[1] - TEXT_PANEL_HEIGHT * size[1])
         self.name = name
         self.sender = sender
         self.music_path = music_path
@@ -55,6 +54,17 @@ class MapView(wx.Panel):
 
         # add buttons
         self.init_buttons()
+
+        style = wx.TE_MULTILINE | wx.TE_READONLY | wx.HSCROLL
+        self.log = wx.TextCtrl(self, wx.ID_ANY, size=(size[0], TEXT_PANEL_HEIGHT * size[1]),
+                               style=style, pos=(0, size[1] - TEXT_PANEL_HEIGHT * size[1]))
+        font = wx.Font(FONT_SIZE, wx.MODERN, wx.NORMAL, wx.NORMAL, False, FONT)
+        self.log.SetFont(font)
+
+        self.sizer = wx.BoxSizer(wx.VERTICAL)
+        self.sizer.Add(self.log, 1, wx.ALL | wx.EXPAND, 5)
+        self.SetSizer(self.sizer)
+        # self.log.AppendText("ala ma kota")
 
     def init_buttons(self):
         """ Function adding buttons """
@@ -183,12 +193,17 @@ class MapView(wx.Panel):
             surface.blit(word_surface, (pos_x, pos_y))
             pos_x += word_width + space_width
 
-    def is_building_position_valid(self, new_building):
+    def is_building_position_valid(self, new_building, with_info=False):
         """ Check if position of new building is valid """
         if not self.game_screen.get_rect().contains(new_building):
+            if with_info:
+                self.log.AppendText("Can't place building here - building has to be inside game screen.\n")
             return False
         for b in self.all_sprites.sprites():
             if pygame.sprite.collide_rect(b, new_building):
+                if with_info:
+                    self.log.AppendText("Can't place building here - there is another building or game panel "
+                                        "in that place.\n")
                 return False
         return True
 
@@ -197,7 +212,7 @@ class MapView(wx.Panel):
         building.pos = pos
         building.rect = building.image.get_rect(topleft=(pos[0], pos[1]))
         # Create sprite for new building
-        if self.is_building_position_valid(building):
+        if self.is_building_position_valid(building, True):
             self.game_screen.blit(building.image, (pos_x, pos_y))
             self.buildings_sprites.add(building)
             self.all_sprites.add(building)
@@ -233,6 +248,7 @@ class MapView(wx.Panel):
                 self.can_afford_on_building = True
             else:
                 self.can_afford_on_building = False
+                self.log.AppendText("You don't have enough resources to build {}\n".format(args["buildingName"]))
             self.condition.acquire()
             self.has_reply_arrived = True
             self.condition.notify()

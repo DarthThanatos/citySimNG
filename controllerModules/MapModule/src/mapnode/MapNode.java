@@ -39,6 +39,7 @@ public class MapNode extends SocketNode{
 			// create and send reply to view
 			JSONObject json = new JSONObject();
 			json.put("buildingID", args.getString("BuildingId"));
+			json.put("buildingName", args.getString("BuildingName"));
 			json.put("canAffordOnBuilding", canAffordOnBuilding);
 			
 			envelope.put("Operation","canAffordOnBuildingResult");
