@@ -11,9 +11,18 @@ public class DependenciesRepresenter {
 	private List<String> resourcesNames;
 	private List<String> dwellersNames;
 	private HashMap<String, Object> dependencies;
+	private double money;
 	
 	public DependenciesRepresenter(){
 		dependencies = new HashMap<>();
+	}
+	
+	public void setMoney(double money){
+		this.money = money;
+	}
+	
+	public double getMoney(){
+		return money;
 	}
 	
 	public void setBuildingsNames(List<String> buildingsNames){

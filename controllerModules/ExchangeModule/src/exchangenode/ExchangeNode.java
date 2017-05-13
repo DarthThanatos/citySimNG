@@ -26,10 +26,12 @@ public class ExchangeNode implements Node{
 		this.nodeName = nodeName;
 		this.dr = dr;
 		this.dispatchCenter = dispatchCenter;
-		List<String> resourcesNames = new ArrayList<>();
+		List<String> resourcesNames = dr.getResourcesNames();
+		/*
+		List<String> resourcesNames = new ArrayList<String>();
 		resourcesNames.add("gold");
 		resourcesNames.add("silver");
-		resourcesNames.add("copper");
+		resourcesNames.add("copper");*/
 		stock = new Stock();
 		stock.init(resourcesNames);
 		RepresenterMock player = new RepresenterMock(resourcesNames);
