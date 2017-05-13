@@ -5,8 +5,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import model.DependenciesRepresenter;
+
 import org.json.JSONObject.*;
 import org.json.JSONObject;
+
 import controlnode.SocketStreamSender;
 
 public class Resources {
@@ -17,24 +21,13 @@ public class Resources {
 	private SocketStreamSender sender;
 	private final String relativeTexturesPath = "resources\\Textures\\";
 	
-	public Resources(SocketStreamSender sender){
-		Resource wood = new Resource("wood", "", "", relativeTexturesPath + "Wood.jpg");
-		Resource rock = new Resource("rock", "", "", relativeTexturesPath + "Rock.png");
-		Resource gold = new Resource("gold", "", "", relativeTexturesPath + "Gold.jpg");
-		this.resourcesNames = new ArrayList<String>(Arrays.asList("wood", "rock", "gold"));
-		this.resources = new ArrayList<Resource>();
-		this.resources.add(wood);
-		this.resources.add(rock);
-		this.resources.add(gold);
-		
-		actualValues.put("wood", 0);
-		actualValues.put("rock", 0);
-		actualValues.put("gold", 0);
-	
-		incomes.put("wood", 3);
-		incomes.put("rock", 2);
-		incomes.put("gold", 10);
-		
+	public Resources(SocketStreamSender sender, DependenciesRepresenter dr){
+		incomes = (Map<String, Integer>) dr.getModuleData("incomes");
+		resourcesNames = (List<String>) dr.getModuleData("resourcesNames");
+		resources = (List<Resource>) dr.getModuleData("resourcesList");
+		for (String resourceName : resourcesNames){
+			actualValues.put(resourceName, 0);
+		}			
 		this.sender = sender;
 	}
 	

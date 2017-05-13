@@ -256,7 +256,7 @@ class MapView(wx.Panel):
                                             self.background)
 
     def readMsg(self, msg):
-        print "Map view got msg", msg
+        #print "Map view got msg", msg
         try:
             parsed_msg = json.loads(msg)
             args = parsed_msg["Args"]

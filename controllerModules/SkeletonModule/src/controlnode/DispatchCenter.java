@@ -89,4 +89,13 @@ public class DispatchCenter{
 	public boolean confirmed(String moduleName, String uuid){
 		return (Boolean) dispatchData.get(moduleName).get(uuid); 
 	}
+	
+	public void putDispatchData(String module, String key, Object dispatch){
+		if (!dispatchData.containsKey(module)) dispatchData.put(module, new HashMap<String, Object>());
+		dispatchData.get(module).put(key,dispatch);
+	}
+
+	public Object getDispatchData(String module, String key){
+		return dispatchData.get(module).get(key);
+	}
 }

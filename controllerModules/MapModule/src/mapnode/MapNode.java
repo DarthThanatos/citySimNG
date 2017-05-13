@@ -20,7 +20,7 @@ public class MapNode extends SocketNode{
 	
 	public MapNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
 		super(dr, dispatchCenter, nodeName);
-		resources = new Resources(sender);
+		resources = new Resources(sender,dr);
 		System.out.println("Created Map Node");
 	}
 
@@ -29,10 +29,7 @@ public class MapNode extends SocketNode{
 	public String parseCommand(String command, JSONObject args) {
 		JSONObject envelope = new JSONObject();
 		envelope.put("To", "Map");
-		if(command.equals("canAffordOnBuilding")){
-			// parse arguments
-			//String[] argsList = streamArgs[0].split(",");
-			
+		if(command.equals("canAffordOnBuilding")){			
 			// check if player can afford to build building
 			Boolean canAffordOnBuilding = buildings.canAffordOnBuilding(args.getString("BuildingName"), resources);
 			
@@ -44,12 +41,7 @@ public class MapNode extends SocketNode{
 			
 			envelope.put("Operation","canAffordOnBuildingResult");
 			envelope.put("Args", json);
-			/*sender.setStream("Map@" + json);
-			synchronized(sender){
-				sender.notify();
-			}*/
 			System.out.println("Sent after canAfford: " + envelope);
-			//return "Map@" + json.toString();
 		}
 		if(command.equals("placeBuilding")){
 			buildings.placeBuilding(args.getString("BuildingName"), resources);
@@ -99,8 +91,8 @@ public class MapNode extends SocketNode{
 		update = true;
 		
 		// send initial info
-		resources = new Resources(sender);
-		buildings = new Buildings(sender);
+		resources = new Resources(sender,dr);
+		buildings = new Buildings(sender,dr);
 		JSONObject json = new JSONObject();
 		json.put("resources", resources.getResources());
 		json.put("buildings", buildings.getAllBuildings());

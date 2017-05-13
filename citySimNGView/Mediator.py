@@ -15,17 +15,17 @@ sock.bind(('', 12345))
 def receiver_func(viewSetter):
     while True:
         # Receive response
-        print >> sys.stderr, 'waiting to receive'
+        #print >> sys.stderr, 'waiting to receive'
         try:
             data, server = sock.recvfrom(10000)
         except Exception:
             print "Hold on, Jesus, not so fast"
-        print >> sys.stderr, 'View receiver: received sth:',data
+        #print >> sys.stderr, 'View receiver: received sth:',data
         viewSetter.passMsgToCurrentView(data)
         try:
             jsonObj = json.loads(data)
             uuid = jsonObj["UUID"]
-            print "Got UUID:", uuid, "from:",jsonObj["From"]
+            #print "Got UUID:", uuid, "from:",jsonObj["From"]
             msg = {}
             msg["UUID"] = uuid
             msg["To"] = jsonObj["From"]

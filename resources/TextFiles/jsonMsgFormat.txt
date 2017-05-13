@@ -1,0 +1,18 @@
+{
+	"To": targetName,
+	optional "From" : srcName,
+	optional "UUID" : uuid,
+	"Operation" : opName,
+	"Args" : { ... }	
+}
+
+Examples of Args:
+{
+	"UUID" : uuid // for acknowledgements for view layer
+	"Dependencies" : {
+		"Buildings" : {...},
+		"Resources" : {...},
+		"Dwellers" : {...}
+	},
+	"FilePath": filePath
+}

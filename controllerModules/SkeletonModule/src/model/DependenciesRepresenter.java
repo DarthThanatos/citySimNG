@@ -1,5 +1,6 @@
 package model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,42 @@ public class DependenciesRepresenter {
 	private List<String> buildingsNames;
 	private List<String> resourcesNames;
 	private List<String> dwellersNames;
-	private Map<String, ModuleData> moduleDataStorage;
+	private HashMap<String, Object> dependencies;
+	
+	public DependenciesRepresenter(){
+		dependencies = new HashMap<>();
+	}
+	
+	public void setBuildingsNames(List<String> buildingsNames){
+		this.buildingsNames = buildingsNames;
+	}
+	
+	public void setResourcesNames(List<String> resourcesNames){
+		this.resourcesNames = resourcesNames;
+	}
+	
+	public void setDwellersNames(List<String> dwellersNames){
+		this.dwellersNames = dwellersNames;
+	}
+	
+	public List<String> getBuildingsNames(){
+		return buildingsNames;
+	}
+
+	public List<String> getResourcesNames(){
+		return resourcesNames;
+	}
+	
+	public List<String> getDwellersNames(){
+		return dwellersNames;
+	}
+	
+	public void putModuleData(String dataName, Object data){
+		dependencies.put(dataName, data);
+	}
+	
+	public Object getModuleData(String dataName){
+		return dependencies.get(dataName);
+	}
 	
 }

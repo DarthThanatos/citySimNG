@@ -6,6 +6,7 @@ import json
 import os
 from RelativePaths import relative_music_path,relative_dependencies_path
 from uuid import uuid4
+import traceback
 
 class CreatorView(wx.Panel):
     def __init__(self, parent, size, name,  musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):
@@ -30,13 +31,13 @@ class CreatorView(wx.Panel):
         # ^ list of type [[resourcesColumnsNames[0]...],[buildingsColumnsnames[0]...], [dwellersColumnsNames[0]...]]
         # needed at the time of creating dependencies via Create button
 
-        resourcesColumnsNames = ["Resource\nName", "Predecessor", "Successor", "Description", "Ico path"]
+        resourcesColumnsNames = ["Resource\nName", "Predecessor", "Successor", "Description", "Texture path", "Start income", "Ico path"]
         self.dependenciesHeaders["Resources"] = resourcesColumnsNames
 
         resourcesInfo = "Resource name identifies this object; must be unique throughout this dependency set.\n" \
                         "Predecessor is the name of a resource that this object requires\n" \
                         "Successor is the name of a resource next in the hierarchy\n" \
-                        "Description goes to the tutorial module\n" \
+                        "Description goes to the tutorial module\nStart income tells how much of a resource you get at start; set to zero if you do not want this resource to be produced at start" \
                         "Ico is the path to a file that contains image representing this object"
 
 
@@ -56,7 +57,7 @@ class CreatorView(wx.Panel):
             " same position in >>Consumes<< list"
 
         buildingsColumnsNames = ["Building\nName", "Dweller\nName", "Dwellers\namount", "Predecessor", "Successor",
-                                 "Description", "Produces", "Consumes", "Consume Rate", "Produce Rate", "Texture path",
+                                 "Description", "Produces", "Consumes", "Consume Rate", "Produce Rate", "Cost\nin\nresources","Texture path",
                                  "Ico path", "Type"]
         self.dependenciesHeaders["Buildings"]  = buildingsColumnsNames
 
@@ -65,7 +66,7 @@ class CreatorView(wx.Panel):
             "Dweller is a name existing in Dwellers list\n" \
             "Predecessor is the name of a dweller that this object requires\n" \
             "Successor is the name of a dweller next in the hierarchy\n" \
-            "Description goes to the tutorial module\n" \
+            "Description goes to the tutorial module\nCost in resources is a comma-separated list of pairs resource_name:units, that indicates how many units of resources player is due to have\n" \
             "Ico is the path to a file that contains image representing this object\n" +\
             ">>Produces<< is a semi-colon separated sequence of items existing at the resources list that" \
             " this building produces;\n Same rule applies for >>Consumes<< list\n>>Consume<< and >>Produce<<" \
@@ -101,6 +102,7 @@ class CreatorView(wx.Panel):
         self.currentGrid = "Buildings"
         self.ctrlMsgField = wx.StaticText(self, label=self.infos[self.currentGrid])
         self.centerSizer.Add(self.ctrlMsgField, 0, wx.EXPAND, 5)
+
 
         load_btn = wx.Button(self, label="Load Created dependencies")
         self.Bind(wx.EVT_BUTTON, self.loadDependencies, load_btn)
@@ -229,6 +231,7 @@ class CreatorView(wx.Panel):
             msg["Operation"] = "Parse"
             msg["Args"] = {}
             msg["Args"]["Dependencies"] = dependencies
+            msg["Args"]["DependenciesSetName"] = "Default Set"
             msg["Args"]["UUID"] = uuid
             stream = json.dumps(msg)
             print stream
@@ -346,5 +349,6 @@ class CreatorView(wx.Panel):
                             self.errorMsgField.SetLabelText(msg)
                     except Exception:
                         self.dependencyLoadFail()
+                        traceback.print_exc()
             else:
                 self.dependencyLoadFail()

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import model.DependenciesRepresenter;
 import monter.LoaderMonter;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import controlnode.DispatchCenter;
@@ -27,16 +28,19 @@ public class LoaderNode extends SocketNode{
 		JSONObject envelope = new JSONObject();
 		envelope.put("To", "Loader");
 		if(command.equals("Select")){
-			System.out.println(nodeName + ": got string selection: " + args.getString("SetChosen"));
+			String chosenSet = args.getString("SetChosen");
+			System.out.println(nodeName + ": got string selection: " + chosenSet);
 			String operationId = args.getString("UUID");
 			JSONObject ackArgs = new JSONObject();
 			ackArgs.put("UUID",operationId);
 			envelope.put("Operation", "SelectConfirm");
 			envelope.put("Args", ackArgs);
+			//assuming that at least atStart() method initialized empty hashmap; no exception expected
+			HashMap<String, DependenciesRepresenter> representers = (HashMap<String, DependenciesRepresenter>) dispatchCenter.getDispatchData("LoaderModule", "DependenciesRepresenters");
+			DependenciesRepresenter dr = representers.get(chosenSet);
 			
 			//dynamically mount new set of rules
-			System.out.println("Loader: dispatch: " + dispatchCenter);
-			LoaderMonter monter = new LoaderMonter("resources\\injectFiles\\loaderInject.txt", new String[]{}, dispatchCenter, new DependenciesRepresenter());
+			LoaderMonter monter = new LoaderMonter("resources\\injectFiles\\loaderInject.txt", new String[]{}, dispatchCenter, dr);
 			Node menu = monter.mount(new ArrayList<String>());
 			menu.setParent(nodeName, this);
 			neighbors = new HashMap<>();
@@ -48,8 +52,23 @@ public class LoaderNode extends SocketNode{
 
 	@Override
 	public void atStart() {
-		// TODO Auto-generated method stub
-		
+
+		HashMap<String, DependenciesRepresenter> representers = null;
+		try{
+			representers = (HashMap<String, DependenciesRepresenter>) dispatchCenter.getDispatchData("LoaderModule", "DependenciesRepresenters");
+		}
+		catch(Exception e){
+			representers = new HashMap<String, DependenciesRepresenter>();
+			dispatchCenter.putDispatchData("LoaderModule", "DependenciesRepresenters", representers);
+		}
+		JSONArray dependenciesNames = new JSONArray(representers.keySet());		
+		JSONObject envelope = new JSONObject();
+		envelope.put("To", "Loader");
+		envelope.put("Operation", "Init");
+		JSONObject args = new JSONObject();
+		args.put("DependenciesNames", dependenciesNames);
+		envelope.put("Args", args);
+		sender.pushStreamAndWaitForResponse(envelope);
 	}
 
 	@Override

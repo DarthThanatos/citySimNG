@@ -32,7 +32,7 @@ class MyFrame(wx.Frame):
         # (otherwise the first view to run will be inactive, i.e. no
         # EVT_SHOW event shall be triggered for the first view to  be seen)
         
-        self.ShowFullScreen(True)
+        #self.ShowFullScreen(True)
         self.currentViewName = "GameMenu"
         #self.setView("Menu")
     """

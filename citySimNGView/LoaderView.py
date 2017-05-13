@@ -28,8 +28,8 @@ class LoaderView(wx.Panel):
         mainSizer.Add(headerSizer, 0, wx.CENTER)
 
         # Create dependencies selector
-        ruleSetMock = ["Middle Earth", "Near Future"]
-        self.ruleSelector = wx.ListBox(self,  choices=ruleSetMock)
+        self.ruleSetsList = []
+        self.ruleSelector = wx.ListBox(self,  choices=self.ruleSetsList)
         mainSizer.Add(self.ruleSelector, 0, wx.CENTER)
         # Set space between dialog and exit button
         mainSizer.AddSpacer(50)
@@ -55,6 +55,8 @@ class LoaderView(wx.Panel):
 
     def moveToNewGameMenu(self, event):
         setChosen = self.ruleSelector.GetStringSelection()
+        print "SetChosen:",setChosen
+        if setChosen == "": return
         operationId = uuid4().__str__()
         self.ackMsgs[operationId] = False
         msg = {}
@@ -77,6 +79,10 @@ class LoaderView(wx.Panel):
     def readMsg(self, msg):
         msgObj = json.loads(msg)
         operation = msgObj["Operation"]
+        if operation == "Init":
+            ruleSetsList = msgObj["Args"]["DependenciesNames"]
+            self.ruleSetsList = ruleSetsList
+            self.ruleSelector.Set(self.ruleSetsList)
         if operation == "SelectConfirm":
             operationId = msgObj["Args"]["UUID"]
             self.ackMsgs[operationId] = True

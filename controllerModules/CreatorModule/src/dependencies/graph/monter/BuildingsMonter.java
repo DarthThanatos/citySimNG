@@ -1,96 +1,66 @@
 package dependencies.graph.monter;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import mapnode.Building;
+import model.DependenciesRepresenter;
 
 public class BuildingsMonter {
+	private ArrayList<Building> allBuildings;
+	public BuildingsMonter(JSONArray buildingGraphDesc, DependenciesRepresenter dr){
+		allBuildings = new ArrayList<Building>();
+		List<String> buildingsNames = new ArrayList<String>();
+		List<String> resourcesNames = dr.getResourcesNames();
+		String relativeTexturesPath = "resources\\Textures\\";
+		for (int i = 0; i < buildingGraphDesc.length(); i++){
+			JSONObject buildingDesc = (JSONObject)buildingGraphDesc.get(i);
+			Building building = new Building();
+			String buildingName = buildingDesc.getString("Building\nName");
+			building.setName(buildingName);
+			buildingsNames.add(buildingName);
+			building.setTexturePath(relativeTexturesPath + buildingDesc.getString("Texture path"));
+			HashMap<String, Integer> consumes = new HashMap<>();
+			HashMap<String, Integer> produces = new HashMap<>();
+			HashMap<String, Integer> costs = new HashMap<>();
+			String[] producedResources = buildingDesc.getString("Produces").split(" ");
+			String[] consumedResources = buildingDesc.getString("Consumes").split(" ");
+			String[] produceRates = buildingDesc.getString("Produce Rate").split(" ");
+			String[] consumeRates = buildingDesc.getString("Consume Rate").split(" ");
+			String[] costsDesc = buildingDesc.getString("Cost\nin\nresources").split(" ");
+			for (String resourceName : resourcesNames){
+				costs.put(resourceName, 0);
+				produces.put(resourceName, 0);
+				consumes.put(resourceName, 0);
+			}
+			for (String costDesc : costsDesc){
+				String requiredResource = costDesc.split(":")[0];
+				int costInResource = Integer.parseInt(costDesc.split(":")[1]);
+				costs.put(requiredResource,costInResource);
+			}
+			for (int j = 0; j < producedResources.length; j++){
+				int produceRate = Integer.parseInt(produceRates[j]);
+				produces.put(producedResources[j], produceRate);
+			}
+			for (int j = 0; j < consumedResources.length; j++){
+				int consumeRate = Integer.parseInt(consumeRates[j]);
+				consumes.put(consumedResources[j], consumeRate);
+			}	
+			building.setResourcesCost(costs);
+			building.setConsumes(consumes);
+			building.setProduces(produces);
+			allBuildings.add(building);
+		}
+		dr.putModuleData("allBuildings", allBuildings);
+		dr.setBuildingsNames(buildingsNames);
+	}
 	
-	public BuildingsMonter(JSONArray buildingGraphDesc){
-		ArrayList<Building> allBuildings = new ArrayList<Building>();
-		Building b1 = new Building();
-		b1.setName("house");
-		b1.setTexturePath("Building1.png");
-		Map a = new HashMap();
-		a.put("rock", 2);
-		a.put("wood", 10);
-		a.put("gold", 0);
-		b1.setResourcesCost(a);
-		Map a2 = new HashMap();
-		a2.put("rock", 1);
-		a2.put("wood", 3);
-		a2.put("gold", 0);
-		b1.setProduces(a2);
-		Map a3 = new HashMap();
-		a3.put("gold", 3);
-		a3.put("rock", 0);
-		a3.put("wood", 0);
-		b1.setConsumes(a3);
-		
-		Building b2 = new Building();
-		b2.setName("shed");
-		b2.setTexturePath("Building.png");
-		Map b = new HashMap();
-		b.put("wood", 15);
-		b.put("rock", 0);
-		b.put("gold", 0);
-		b2.setResourcesCost(b);
-		Map bm2 = new HashMap();
-		bm2.put("rock", 1);
-		bm2.put("wood", 3);
-		bm2.put("gold", 0);
-		b2.setProduces(bm2);
-		Map bm3 = new HashMap();
-		bm3.put("gold", 3);
-		bm3.put("rock", 0);
-		bm3.put("wood", 0);
-		b2.setConsumes(bm3);
-		
-		Building b3 = new Building();
-		b3.setName("windmill");
-		b3.setTexturePath("Building3.png");
-		Map c = new HashMap();
-		c.put("wood", 15);
-		c.put("rock", 2);
-		c.put("gold", 0);
-		b3.setResourcesCost(c);
-		Map c2 = new HashMap();
-		c2.put("rock", 1);
-		c2.put("wood", 0);
-		c2.put("gold", 3);
-		b3.setProduces(c2);
-		Map c3 = new HashMap();
-		c3.put("wood", 3);
-		c3.put("gold", 0);
-		c3.put("rock", 0);
-		b3.setConsumes(c3);
-		
-		allBuildings.add(b1);
-		allBuildings.add(b2);
-		allBuildings.add(b3);
-		allBuildings.add(b3);
-		allBuildings.add(b3);
-		allBuildings.add(b3);
-		allBuildings.add(b3);
-		allBuildings.add(b3);
-		allBuildings.add(b3);
-		allBuildings.add(b3);
-		allBuildings.add(b3);
-		allBuildings.add(b3);
-		allBuildings.add(b3);
-		allBuildings.add(b3);
-		allBuildings.add(b3);
-		allBuildings.add(b3);
-		allBuildings.add(b3);
-		allBuildings.add(b3);
-		allBuildings.add(b3);
-		allBuildings.add(b3);
-		allBuildings.add(b3);
-		allBuildings.add(b1);
-		allBuildings.add(b2);
+	public ArrayList<Building> getBuildingsList(){
+		return allBuildings;
 	}
 }
