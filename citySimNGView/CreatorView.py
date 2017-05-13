@@ -7,6 +7,7 @@ import os
 from RelativePaths import relative_music_path,relative_dependencies_path
 from uuid import uuid4
 import traceback
+import re
 
 class CreatorView(wx.Panel):
     def __init__(self, parent, size, name,  musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):
@@ -20,6 +21,7 @@ class CreatorView(wx.Panel):
         rootSizer = wx.BoxSizer(wx.VERTICAL)
         topSizer = wx.BoxSizer(wx.HORIZONTAL)
         buttonsSizer = wx.BoxSizer(wx.HORIZONTAL)
+        chosenSetSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.centerSizer = wx.BoxSizer(wx.HORIZONTAL) 
 
         choiceList = ["Resources", "Buildings", "Dwellers"]
@@ -103,6 +105,8 @@ class CreatorView(wx.Panel):
         self.ctrlMsgField = wx.StaticText(self, label=self.infos[self.currentGrid])
         self.centerSizer.Add(self.ctrlMsgField, 0, wx.EXPAND, 5)
 
+        self.ctrlText = wx.TextCtrl(self, -1, "Default Set")
+        chosenSetSizer.Add(self.ctrlText)
 
         load_btn = wx.Button(self, label="Load Created dependencies")
         self.Bind(wx.EVT_BUTTON, self.loadDependencies, load_btn)
@@ -140,7 +144,7 @@ class CreatorView(wx.Panel):
         rootSizer.Add(topSizer, 0, wx.CENTER)
         rootSizer.Add(self.centerSizer, 0, wx.EXPAND, 5)
         rootSizer.Add(buttonsSizer, 0, wx.CENTER)
-
+        rootSizer.Add(chosenSetSizer, 0, wx.CENTER)
         self.SetSizer(rootSizer)
         rootSizer.SetDimension(0, 0, size[0], size[1])
         self.Bind(wx.EVT_SHOW, self.onShow, self)
@@ -218,26 +222,34 @@ class CreatorView(wx.Panel):
                         print errorMsg
                         self.errorMsgField.SetLabelText(errorMsg)
                         return
+        setName = self.ctrlText.GetValue()
+        if re.sub(r'\s', "", setName) == "":
+            errorMsg = "Please, fill dependencies set name field"
+            print errorMsg
+            self.errorMsgField.SetLabelText(errorMsg)
+            return
 
+        msg = "Dependencies sent to further processing to creator controller"
+        print msg
+        self.errorMsgField.SetLabelText(msg)
+        uuid = uuid4().__str__()
+        self.ackMsgs[uuid] = False
 
-            msg = "Dependencies sent to further processing to creator controller"
-            print msg
-            self.errorMsgField.SetLabelText(msg)
-            uuid = uuid4().__str__()
-            self.ackMsgs[uuid] = False
+        msg = {}
+        msg["To"] = "CreatorNode"
+        msg["Operation"] = "Parse"
+        msg["Args"] = {}
+        msg["Args"]["Dependencies"] = dependencies
+        msg["Args"]["DependenciesSetName"] = setName
+        msg["Args"]["UUID"] = uuid
+        stream = json.dumps(msg)
+        print stream
+        self.sender.send(stream)
+        while not self.ackMsgs[uuid]: pass
 
-            msg = {}
-            msg["To"] = "CreatorNode"
-            msg["Operation"] = "Parse"
-            msg["Args"] = {}
-            msg["Args"]["Dependencies"] = dependencies
-            msg["Args"]["DependenciesSetName"] = "Default Set"
-            msg["Args"]["UUID"] = uuid
-            stream = json.dumps(msg)
-            print stream
-            self.sender.send(stream)
-            while not self.ackMsgs[uuid]: pass
-            print "Creator View: got confirmation, exiting blocking loop"
+        msg = "Dependencies created successfully, please go to the Loader menu now to check what was created"
+        print msg
+        self.errorMsgField.SetLabelText(msg)
 
 
 
@@ -303,6 +315,7 @@ class CreatorView(wx.Panel):
         self.ctrlMsgField.SetLabel(self.infos[self.currentGrid])
         self.modes.SetStringSelection("Buildings")
         self.centerSizer.Layout()
+        self.ctrlText.SetLabelText("Default Set")
 
     def fillGridsWithContent(self, content_dict):
         self.resetGrids()

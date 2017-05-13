@@ -1,12 +1,16 @@
 package exchange;
 
 import java.util.*;
+
 import javax.swing.JOptionPane;
+
+import model.DependenciesRepresenter;
 
 public class Stock {
 
 	private List<Resource> resources = new ArrayList<>();
 	private RepresenterMock player;
+	private DependenciesRepresenter dr;
 	private String[] names;
 	private boolean working;
 
@@ -14,6 +18,14 @@ public class Stock {
 		this.setWorking(true);
 	}
 
+	public void setDependenciesRepresenter(DependenciesRepresenter dr){
+		this.dr = dr;
+	}
+	
+	public DependenciesRepresenter getDependenciesRepresenter(){
+		return dr;
+	}
+	
 	public List<Resource> getResources() {
 		return resources;
 	}

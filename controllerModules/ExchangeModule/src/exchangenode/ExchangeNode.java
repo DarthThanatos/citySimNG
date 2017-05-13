@@ -37,7 +37,7 @@ public class ExchangeNode implements Node{
 		RepresenterMock player = new RepresenterMock(resourcesNames);
 		stockTable = new StockTable(stock);
 		stock.setPlayer(player);
-		
+		stock.setDependenciesRepresenter(dr);
 		// this thread simulates stock's price changes in the background
 		Runnable stockThread = new Runnable() {
 			public void run() {

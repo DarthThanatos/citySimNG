@@ -15,21 +15,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="RelativePaths.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/RelativePaths.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="3" column="53" lean-forward="false" selection-start-line="3" selection-start-column="53" selection-end-line="3" selection-end-column="53" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CreatorView.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CreatorView.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CreatorView.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5962">
-              <caret line="278" column="80" lean-forward="false" selection-start-line="278" selection-start-column="80" selection-end-line="278" selection-end-column="80" />
+            <state relative-caret-position="289">
+              <caret line="224" column="40" lean-forward="false" selection-start-line="224" selection-start-column="40" selection-end-line="224" selection-end-column="40" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -115,7 +105,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Mediator.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Mediator.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Mediator.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="303">
@@ -179,8 +169,8 @@
         <option value="$PROJECT_DIR$/GameMenuView.py" />
         <option value="$PROJECT_DIR$/LoaderView.py" />
         <option value="$PROJECT_DIR$/extra/dispatcherTest.py" />
-        <option value="$PROJECT_DIR$/CreatorView.py" />
         <option value="$PROJECT_DIR$/Mediator.py" />
+        <option value="$PROJECT_DIR$/CreatorView.py" />
       </list>
     </option>
   </component>
@@ -509,14 +499,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/RelativePaths.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="3" column="53" lean-forward="false" selection-start-line="3" selection-start-column="53" selection-end-line="3" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MapView.py" />
     <entry file="file://$PROJECT_DIR$/CreatorView.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -834,21 +816,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CreatorView.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5962">
-          <caret line="278" column="80" lean-forward="false" selection-start-line="278" selection-start-column="80" selection-end-line="278" selection-end-column="80" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Mediator.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="303">
           <caret line="41" column="24" lean-forward="false" selection-start-line="41" selection-start-column="24" selection-end-line="41" selection-end-column="24" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/extra/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CreatorView.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="224" column="40" lean-forward="false" selection-start-line="224" selection-start-column="40" selection-end-line="224" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

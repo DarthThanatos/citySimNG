@@ -28,6 +28,7 @@ public class Resources {
 		for (String resourceName : resourcesNames){
 			actualValues.put(resourceName, 0);
 		}			
+		dr.setStockPile(actualValues);
 		this.sender = sender;
 	}
 	

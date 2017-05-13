@@ -24,9 +24,9 @@ Switched control to: MainMenuNode
 MainMenuNode: Receiver started
 MainMenuNode: Sender started queue algo
 Hanshake: controlnode.DispatchCenter@3cd1a2f1
-Generated e1a652b9-1db7-43dc-beeb-64a3c00ba230
-[Queue algo]: MainMenuNode's sender: sent {"Args":{"TargetView":"MainMenu"},"To":"ViewSetter","Operation":"SetView","From":"MainMenuNode","UUID":"e1a652b9-1db7-43dc-beeb-64a3c00ba230"}
-Receiving module: MainMenuNode has acknowledged operation with UUID: e1a652b9-1db7-43dc-beeb-64a3c00ba230
+Generated 1edf7c2a-535c-4e90-b967-1f76167103d8
+[Queue algo]: MainMenuNode's sender: sent {"Args":{"TargetView":"MainMenu"},"To":"ViewSetter","Operation":"SetView","From":"MainMenuNode","UUID":"1edf7c2a-535c-4e90-b967-1f76167103d8"}
+Receiving module: MainMenuNode has acknowledged operation with UUID: 1edf7c2a-535c-4e90-b967-1f76167103d8
 Blocking ended, receipt confirmed
 MainMenuNode's StreamReceiver got: {"To": "MainMenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "CreatorNode", "TargetView": "Creator"}}
 Recipent: MainMenuNode cmd: MoveTo args: {"TargetControlNode":"CreatorNode","TargetView":"Creator"}
@@ -34,59 +34,54 @@ MainMenuNode: Stopping sender thread
 Sender stopper out
 [Queue algo]: MainMenuNode: Sender: out
 MainMenuNode: Stopping receiver thread
-MainMenuNode: Receiver: out
 Receiver stopper out
+MainMenuNode: Receiver: out
 
 ============================================
 
 Switched control to: CreatorNode
 CreatorNode: Receiver started
-Hanshake: controlnode.DispatchCenter@3cd1a2f1
 CreatorNode: Sender started queue algo
-Generated cbadd390-e3e9-4593-a16e-438dc6a1280d
-[Queue algo]: CreatorNode's sender: sent {"Args":{"TargetView":"Creator"},"To":"ViewSetter","Operation":"SetView","From":"CreatorNode","UUID":"cbadd390-e3e9-4593-a16e-438dc6a1280d"}
-Receiving module: CreatorNode has acknowledged operation with UUID: cbadd390-e3e9-4593-a16e-438dc6a1280d
+Hanshake: controlnode.DispatchCenter@3cd1a2f1
+Generated ce8b035a-3dc3-4971-9b2c-8b5be9ca3dfa
+[Queue algo]: CreatorNode's sender: sent {"Args":{"TargetView":"Creator"},"To":"ViewSetter","Operation":"SetView","From":"CreatorNode","UUID":"ce8b035a-3dc3-4971-9b2c-8b5be9ca3dfa"}
+Receiving module: CreatorNode has acknowledged operation with UUID: ce8b035a-3dc3-4971-9b2c-8b5be9ca3dfa
 Blocking ended, receipt confirmed
-CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "Parse", "Args": {"Dependencies": {"Dwellers": [{"Predecessor": "none", "Description": "-", "Dweller\nName": "dweller", "Consume Rate": "1", "Ico path": "-", "Consumes": "rock", "Successor": "none"}], "Buildings": [{"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "house", "Dweller\nName": "dweller", "Produce Rate": "1 3 0", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:2 wood:10 gold:0", "Texture path": "bakery.png", "Type": "Domestic", "Consumes": "rock wood gold", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "shed", "Dweller\nName": "dweller", "Produce Rate": "1 3 0", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:0 wood:15 gold:0", "Texture path": "shed.png", "Type": "Industrial", "Consumes": "rock wood gold", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "windmill", "Dweller\nName": "dweller", "Produce Rate": "1 0 3", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:2 wood:15 gold:0", "Texture path": "bakery.png", "Type": "Induustrial", "Consumes": "rock wood gold", "Successor": "none"}], "Resources": [{"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "2", "Texture path": "Rock.jpg", "Resource\nName": "rock", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "3", "Texture path": "Wood.jpg", "Resource\nName": "wood", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "10", "Texture path": "Gold.jpg", "Resource\nName": "gold", "Successor": "none"}]}, "UUID": "14957cb6-db5f-44d3-84a9-c777ef3622aa", "DependenciesSetName": "Default Set"}}
-Recipent: CreatorNode cmd: Parse args: {"DependenciesSetName":"Default Set","Dependencies":{"Buildings":[{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:10 gold:0","Type":"Domestic","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"house","Dwellers\namount":"1","Texture path":"bakery.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:0 wood:15 gold:0","Type":"Industrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"shed","Dwellers\namount":"1","Texture path":"shed.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 0 3","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:15 gold:0","Type":"Induustrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"windmill","Dwellers\namount":"1","Texture path":"bakery.png"}],"Dwellers":[{"Dweller\nName":"dweller","Successor":"none","Predecessor":"none","Description":"-","Consumes":"rock","Consume Rate":"1","Ico path":"-"}],"Resources":[{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"2","Texture path":"Rock.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"10","Texture path":"Gold.jpg","Ico path":"-"}]},"UUID":"14957cb6-db5f-44d3-84a9-c777ef3622aa"}
+CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "Parse", "Args": {"Dependencies": {"Dwellers": [{"Predecessor": "none", "Description": "-", "Dweller\nName": "dweller", "Consume Rate": "1", "Ico path": "-", "Consumes": "rock", "Successor": "none"}], "Buildings": [{"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "house", "Dweller\nName": "dweller", "Produce Rate": "1 3 0", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:2 wood:10 gold:0", "Texture path": "bakery.png", "Type": "Domestic", "Consumes": "rock wood gold", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "shed", "Dweller\nName": "dweller", "Produce Rate": "1 3 0", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:0 wood:15 gold:0", "Texture path": "shed.png", "Type": "Industrial", "Consumes": "rock wood gold", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "windmill", "Dweller\nName": "dweller", "Produce Rate": "1 0 3", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:2 wood:15 gold:0", "Texture path": "bakery.png", "Type": "Induustrial", "Consumes": "rock wood gold", "Successor": "none"}], "Resources": [{"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "2", "Texture path": "Rock.jpg", "Resource\nName": "rock", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "3", "Texture path": "Wood.jpg", "Resource\nName": "wood", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "10", "Texture path": "Gold.jpg", "Resource\nName": "gold", "Successor": "none"}]}, "UUID": "a8f28425-8d83-4580-b265-9b2dd8c40736", "DependenciesSetName": "Default Set"}}
+Recipent: CreatorNode cmd: Parse args: {"DependenciesSetName":"Default Set","Dependencies":{"Buildings":[{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:10 gold:0","Type":"Domestic","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"house","Dwellers\namount":"1","Texture path":"bakery.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:0 wood:15 gold:0","Type":"Industrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"shed","Dwellers\namount":"1","Texture path":"shed.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 0 3","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:15 gold:0","Type":"Induustrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"windmill","Dwellers\namount":"1","Texture path":"bakery.png"}],"Dwellers":[{"Dweller\nName":"dweller","Successor":"none","Predecessor":"none","Description":"-","Consumes":"rock","Consume Rate":"1","Ico path":"-"}],"Resources":[{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"2","Texture path":"Rock.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"10","Texture path":"Gold.jpg","Ico path":"-"}]},"UUID":"a8f28425-8d83-4580-b265-9b2dd8c40736"}
 Creator node received following dependencies package:
 {"Buildings":[{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:10 gold:0","Type":"Domestic","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"house","Dwellers\namount":"1","Texture path":"bakery.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:0 wood:15 gold:0","Type":"Industrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"shed","Dwellers\namount":"1","Texture path":"shed.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 0 3","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:15 gold:0","Type":"Induustrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"windmill","Dwellers\namount":"1","Texture path":"bakery.png"}],"Dwellers":[{"Dweller\nName":"dweller","Successor":"none","Predecessor":"none","Description":"-","Consumes":"rock","Consume Rate":"1","Ico path":"-"}],"Resources":[{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"2","Texture path":"Rock.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"10","Texture path":"Gold.jpg","Ico path":"-"}]}
-[Queue algo]: CreatorNode's sender: sent {"Args":{"UUID":"14957cb6-db5f-44d3-84a9-c777ef3622aa"},"To":"Creator","Operation":"ParseConfirm"}
-CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "Parse", "Args": {"Dependencies": {"Dwellers": [{"Predecessor": "none", "Description": "-", "Dweller\nName": "dweller", "Consume Rate": "1", "Ico path": "-", "Consumes": "rock", "Successor": "none"}], "Buildings": [{"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "house", "Dweller\nName": "dweller", "Produce Rate": "1 3 0", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:2 wood:10 gold:0", "Texture path": "bakery.png", "Type": "Domestic", "Consumes": "rock wood gold", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "shed", "Dweller\nName": "dweller", "Produce Rate": "1 3 0", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:0 wood:15 gold:0", "Texture path": "shed.png", "Type": "Industrial", "Consumes": "rock wood gold", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "windmill", "Dweller\nName": "dweller", "Produce Rate": "1 0 3", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:2 wood:15 gold:0", "Texture path": "bakery.png", "Type": "Induustrial", "Consumes": "rock wood gold", "Successor": "none"}], "Resources": [{"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "2", "Texture path": "Rock.jpg", "Resource\nName": "rock", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "3", "Texture path": "Wood.jpg", "Resource\nName": "wood", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "10", "Texture path": "Gold.jpg", "Resource\nName": "gold", "Successor": "none"}]}, "UUID": "0728401c-0f86-4e61-b67d-11a6fe988d1e", "DependenciesSetName": "Default Set"}}
-Recipent: CreatorNode cmd: Parse args: {"DependenciesSetName":"Default Set","Dependencies":{"Buildings":[{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:10 gold:0","Type":"Domestic","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"house","Dwellers\namount":"1","Texture path":"bakery.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:0 wood:15 gold:0","Type":"Industrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"shed","Dwellers\namount":"1","Texture path":"shed.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 0 3","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:15 gold:0","Type":"Induustrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"windmill","Dwellers\namount":"1","Texture path":"bakery.png"}],"Dwellers":[{"Dweller\nName":"dweller","Successor":"none","Predecessor":"none","Description":"-","Consumes":"rock","Consume Rate":"1","Ico path":"-"}],"Resources":[{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"2","Texture path":"Rock.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"10","Texture path":"Gold.jpg","Ico path":"-"}]},"UUID":"0728401c-0f86-4e61-b67d-11a6fe988d1e"}
+[Queue algo]: CreatorNode's sender: sent {"Args":{"UUID":"a8f28425-8d83-4580-b265-9b2dd8c40736"},"To":"Creator","Operation":"ParseConfirm"}
+CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "Parse", "Args": {"Dependencies": {"Dwellers": [{"Predecessor": "none", "Description": "-", "Dweller\nName": "Robotnik", "Consume Rate": "1", "Ico path": "Dweller.ico", "Consumes": "chleb", "Successor": "none"}], "Buildings": [{"Predecessor": "mlyn", "Description": "-", "Produces": "chleb", "Dwellers\namount": "1", "Building\nName": "piekarnia", "Dweller\nName": "robotnik", "Produce Rate": "4", "Consume Rate": "3", "Ico path": "Bakery.ico", "Cost\nin\nresources": "wood:1 rock:1 gold:1", "Texture path": "Bakery.jpg", "Type": "Industrial", "Consumes": "maka", "Successor": "none"}, {"Predecessor": "pole", "Description": "-", "Produces": "maka", "Dwellers\namount": "3", "Building\nName": "mlyn", "Dweller\nName": "robotnik", "Produce Rate": "3", "Consume Rate": "2", "Ico path": "Mill.ico", "Cost\nin\nresources": "wood:1 rock:1 gold:1", "Texture path": "windmill.jpg", "Type": "Industrial", "Consumes": "pszenica", "Successor": "piekarnia"}, {"Predecessor": "none", "Description": "-", "Produces": "pszenica", "Dwellers\namount": "1", "Building\nName": "pole", "Dweller\nName": "robotnik", "Produce Rate": "2", "Consume Rate": "0", "Ico path": "Field.ico", "Cost\nin\nresources": "wood:1 rock:1 gold:1", "Texture path": "farma.jpg", "Type": "Industrial", "Consumes": "none", "Successor": "mlyn"}, {"Predecessor": "none", "Description": "-", "Produces": "piwo", "Dwellers\namount": "1", "Building\nName": "karczma", "Dweller\nName": "robotnik", "Produce Rate": "3", "Consume Rate": "0", "Ico path": "none", "Cost\nin\nresources": "wood:4", "Texture path": "inn.jpg", "Type": "Industrial", "Consumes": "none", "Successor": "none"}], "Resources": [{"Predecessor": "none", "Description": "-", "Ico path": "Pszenica.jpg", "Start income": "0", "Texture path": "pszenica.jpg", "Resource\nName": "pszenica", "Successor": "maka"}, {"Predecessor": "pszenica", "Description": "-", "Ico path": "Maka.jpg", "Start income": "0", "Texture path": "maka.jpg", "Resource\nName": "maka", "Successor": "chleb"}, {"Predecessor": "maka", "Description": "-", "Ico path": "Chleb.jpg", "Start income": "0", "Texture path": "chleb.jpg", "Resource\nName": "chleb", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "3", "Texture path": "Gold.jpg", "Resource\nName": "gold", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "3", "Texture path": "Rock.jpg", "Resource\nName": "rock", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "3", "Texture path": "Wood.jpg", "Resource\nName": "wood", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "0", "Texture path": "piwo.jpg", "Resource\nName": "piwo", "Successor": "none"}]}, "UUID": "63e983b3-5dd2-48de-b2d4-9ba33f3b4300", "DependenciesSetName": "Stronghold"}}
+Recipent: CreatorNode cmd: Parse args: {"DependenciesSetName":"Stronghold","Dependencies":{"Buildings":[{"Predecessor":"mlyn","Description":"-","Produce Rate":"4","Consume Rate":"3","Ico path":"Bakery.ico","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"chleb","Consumes":"maka","Building\nName":"piekarnia","Dwellers\namount":"1","Texture path":"Bakery.jpg"},{"Predecessor":"pole","Description":"-","Produce Rate":"3","Consume Rate":"2","Ico path":"Mill.ico","Dweller\nName":"robotnik","Successor":"piekarnia","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"maka","Consumes":"pszenica","Building\nName":"mlyn","Dwellers\namount":"3","Texture path":"windmill.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"2","Consume Rate":"0","Ico path":"Field.ico","Dweller\nName":"robotnik","Successor":"mlyn","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"pszenica","Consumes":"none","Building\nName":"pole","Dwellers\namount":"1","Texture path":"farma.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"3","Consume Rate":"0","Ico path":"none","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:4","Type":"Industrial","Produces":"piwo","Consumes":"none","Building\nName":"karczma","Dwellers\namount":"1","Texture path":"inn.jpg"}],"Dwellers":[{"Dweller\nName":"Robotnik","Successor":"none","Predecessor":"none","Description":"-","Consumes":"chleb","Consume Rate":"1","Ico path":"Dweller.ico"}],"Resources":[{"Successor":"maka","Predecessor":"none","Description":"-","Resource\nName":"pszenica","Start income":"0","Texture path":"pszenica.jpg","Ico path":"Pszenica.jpg"},{"Successor":"chleb","Predecessor":"pszenica","Description":"-","Resource\nName":"maka","Start income":"0","Texture path":"maka.jpg","Ico path":"Maka.jpg"},{"Successor":"none","Predecessor":"maka","Description":"-","Resource\nName":"chleb","Start income":"0","Texture path":"chleb.jpg","Ico path":"Chleb.jpg"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"3","Texture path":"Gold.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"3","Texture path":"Rock.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"piwo","Start income":"0","Texture path":"piwo.jpg","Ico path":"none"}]},"UUID":"63e983b3-5dd2-48de-b2d4-9ba33f3b4300"}
 Creator node received following dependencies package:
-{"Buildings":[{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:10 gold:0","Type":"Domestic","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"house","Dwellers\namount":"1","Texture path":"bakery.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:0 wood:15 gold:0","Type":"Industrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"shed","Dwellers\namount":"1","Texture path":"shed.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 0 3","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:15 gold:0","Type":"Induustrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"windmill","Dwellers\namount":"1","Texture path":"bakery.png"}],"Dwellers":[{"Dweller\nName":"dweller","Successor":"none","Predecessor":"none","Description":"-","Consumes":"rock","Consume Rate":"1","Ico path":"-"}],"Resources":[{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"2","Texture path":"Rock.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"10","Texture path":"Gold.jpg","Ico path":"-"}]}
-[Queue algo]: CreatorNode's sender: sent {"Args":{"UUID":"0728401c-0f86-4e61-b67d-11a6fe988d1e"},"To":"Creator","Operation":"ParseConfirm"}
-CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "Parse", "Args": {"Dependencies": {"Dwellers": [{"Predecessor": "none", "Description": "-", "Dweller\nName": "dweller", "Consume Rate": "1", "Ico path": "-", "Consumes": "rock", "Successor": "none"}], "Buildings": [{"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "house", "Dweller\nName": "dweller", "Produce Rate": "1 3 0", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:2 wood:10 gold:0", "Texture path": "bakery.png", "Type": "Domestic", "Consumes": "rock wood gold", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "shed", "Dweller\nName": "dweller", "Produce Rate": "1 3 0", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:0 wood:15 gold:0", "Texture path": "shed.png", "Type": "Industrial", "Consumes": "rock wood gold", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "windmill", "Dweller\nName": "dweller", "Produce Rate": "1 0 3", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:2 wood:15 gold:0", "Texture path": "bakery.png", "Type": "Induustrial", "Consumes": "rock wood gold", "Successor": "none"}], "Resources": [{"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "2", "Texture path": "Rock.jpg", "Resource\nName": "rock", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "3", "Texture path": "Wood.jpg", "Resource\nName": "wood", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "10", "Texture path": "Gold.jpg", "Resource\nName": "gold", "Successor": "none"}]}, "UUID": "9f7046fa-1cab-41cc-a536-4169c4e2eb05", "DependenciesSetName": "Default Set"}}
-Recipent: CreatorNode cmd: Parse args: {"DependenciesSetName":"Default Set","Dependencies":{"Buildings":[{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:10 gold:0","Type":"Domestic","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"house","Dwellers\namount":"1","Texture path":"bakery.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:0 wood:15 gold:0","Type":"Industrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"shed","Dwellers\namount":"1","Texture path":"shed.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 0 3","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:15 gold:0","Type":"Induustrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"windmill","Dwellers\namount":"1","Texture path":"bakery.png"}],"Dwellers":[{"Dweller\nName":"dweller","Successor":"none","Predecessor":"none","Description":"-","Consumes":"rock","Consume Rate":"1","Ico path":"-"}],"Resources":[{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"2","Texture path":"Rock.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"10","Texture path":"Gold.jpg","Ico path":"-"}]},"UUID":"9f7046fa-1cab-41cc-a536-4169c4e2eb05"}
-Creator node received following dependencies package:
-{"Buildings":[{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:10 gold:0","Type":"Domestic","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"house","Dwellers\namount":"1","Texture path":"bakery.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:0 wood:15 gold:0","Type":"Industrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"shed","Dwellers\namount":"1","Texture path":"shed.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 0 3","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:15 gold:0","Type":"Induustrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"windmill","Dwellers\namount":"1","Texture path":"bakery.png"}],"Dwellers":[{"Dweller\nName":"dweller","Successor":"none","Predecessor":"none","Description":"-","Consumes":"rock","Consume Rate":"1","Ico path":"-"}],"Resources":[{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"2","Texture path":"Rock.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"10","Texture path":"Gold.jpg","Ico path":"-"}]}
-[Queue algo]: CreatorNode's sender: sent {"Args":{"UUID":"9f7046fa-1cab-41cc-a536-4169c4e2eb05"},"To":"Creator","Operation":"ParseConfirm"}
+{"Buildings":[{"Predecessor":"mlyn","Description":"-","Produce Rate":"4","Consume Rate":"3","Ico path":"Bakery.ico","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"chleb","Consumes":"maka","Building\nName":"piekarnia","Dwellers\namount":"1","Texture path":"Bakery.jpg"},{"Predecessor":"pole","Description":"-","Produce Rate":"3","Consume Rate":"2","Ico path":"Mill.ico","Dweller\nName":"robotnik","Successor":"piekarnia","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"maka","Consumes":"pszenica","Building\nName":"mlyn","Dwellers\namount":"3","Texture path":"windmill.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"2","Consume Rate":"0","Ico path":"Field.ico","Dweller\nName":"robotnik","Successor":"mlyn","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"pszenica","Consumes":"none","Building\nName":"pole","Dwellers\namount":"1","Texture path":"farma.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"3","Consume Rate":"0","Ico path":"none","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:4","Type":"Industrial","Produces":"piwo","Consumes":"none","Building\nName":"karczma","Dwellers\namount":"1","Texture path":"inn.jpg"}],"Dwellers":[{"Dweller\nName":"Robotnik","Successor":"none","Predecessor":"none","Description":"-","Consumes":"chleb","Consume Rate":"1","Ico path":"Dweller.ico"}],"Resources":[{"Successor":"maka","Predecessor":"none","Description":"-","Resource\nName":"pszenica","Start income":"0","Texture path":"pszenica.jpg","Ico path":"Pszenica.jpg"},{"Successor":"chleb","Predecessor":"pszenica","Description":"-","Resource\nName":"maka","Start income":"0","Texture path":"maka.jpg","Ico path":"Maka.jpg"},{"Successor":"none","Predecessor":"maka","Description":"-","Resource\nName":"chleb","Start income":"0","Texture path":"chleb.jpg","Ico path":"Chleb.jpg"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"3","Texture path":"Gold.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"3","Texture path":"Rock.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"piwo","Start income":"0","Texture path":"piwo.jpg","Ico path":"none"}]}
+[Queue algo]: CreatorNode's sender: sent {"Args":{"UUID":"63e983b3-5dd2-48de-b2d4-9ba33f3b4300"},"To":"Creator","Operation":"ParseConfirm"}
 CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MainMenuNode", "TargetView": "MainMenu"}}
 Recipent: CreatorNode cmd: MoveTo args: {"TargetControlNode":"MainMenuNode","TargetView":"MainMenu"}
 CreatorNode: Stopping sender thread
 Sender stopper out
-[Queue algo]: CreatorNode: Sender: out
 CreatorNode: Stopping receiver thread
-Receiver stopper out
+[Queue algo]: CreatorNode: Sender: out
 CreatorNode: Receiver: out
+Receiver stopper out
 
 ============================================
 
 Switched control to: MainMenuNode
-MainMenuNode: Receiver started
 Hanshake: controlnode.DispatchCenter@3cd1a2f1
+Generated 68fb050f-e530-450d-b9bb-7662d83ccef1
 MainMenuNode: Sender started queue algo
-Generated 31ca4806-ca64-4094-aaed-7e21bb014248
-[Queue algo]: MainMenuNode's sender: sent {"Args":{"TargetView":"MainMenu"},"To":"ViewSetter","Operation":"SetView","From":"MainMenuNode","UUID":"31ca4806-ca64-4094-aaed-7e21bb014248"}
-Receiving module: MainMenuNode has acknowledged operation with UUID: 31ca4806-ca64-4094-aaed-7e21bb014248
+MainMenuNode: Receiver started
+[Queue algo]: MainMenuNode's sender: sent {"Args":{"TargetView":"MainMenu"},"To":"ViewSetter","Operation":"SetView","From":"MainMenuNode","UUID":"68fb050f-e530-450d-b9bb-7662d83ccef1"}
+Receiving module: MainMenuNode has acknowledged operation with UUID: 68fb050f-e530-450d-b9bb-7662d83ccef1
 Blocking ended, receipt confirmed
 MainMenuNode's StreamReceiver got: {"To": "MainMenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "LoaderNode", "TargetView": "Loader"}}
 Recipent: MainMenuNode cmd: MoveTo args: {"TargetControlNode":"LoaderNode","TargetView":"Loader"}
 MainMenuNode: Stopping sender thread
 Sender stopper out
-[Queue algo]: MainMenuNode: Sender: out
 MainMenuNode: Stopping receiver thread
+[Queue algo]: MainMenuNode: Sender: out
 MainMenuNode: Receiver: out
 Receiver stopper out
 
@@ -95,18 +90,137 @@ Receiver stopper out
 Switched control to: LoaderNode
 LoaderNode: Receiver started
 Hanshake: controlnode.DispatchCenter@3cd1a2f1
-Generated f291775c-68d8-447b-96e5-4379c1a9934a
 LoaderNode: Sender started queue algo
-[Queue algo]: LoaderNode's sender: sent {"Args":{"TargetView":"Loader"},"To":"ViewSetter","Operation":"SetView","From":"LoaderNode","UUID":"f291775c-68d8-447b-96e5-4379c1a9934a"}
+Generated 8d4bbfa0-f428-4231-bff8-3d7679110907
+[Queue algo]: LoaderNode's sender: sent {"Args":{"TargetView":"Loader"},"To":"ViewSetter","Operation":"SetView","From":"LoaderNode","UUID":"8d4bbfa0-f428-4231-bff8-3d7679110907"}
 Blocking ended, receipt confirmed
-Receiving module: LoaderNode has acknowledged operation with UUID: f291775c-68d8-447b-96e5-4379c1a9934a
+Receiving module: LoaderNode has acknowledged operation with UUID: 8d4bbfa0-f428-4231-bff8-3d7679110907
 Hanshake: controlnode.DispatchCenter@3cd1a2f1
-Generated a0bdcef6-99ab-40a0-8717-ce6eceaf67bf
-[Queue algo]: LoaderNode's sender: sent {"Args":{"DependenciesNames":["Default Set"]},"To":"Loader","Operation":"Init","From":"LoaderNode","UUID":"a0bdcef6-99ab-40a0-8717-ce6eceaf67bf"}
+Generated 466d5a3a-5b5f-499c-be7c-62eaa887d677
+[Queue algo]: LoaderNode's sender: sent {"Args":{"DependenciesNames":["Default Set","Stronghold"]},"To":"Loader","Operation":"Init","From":"LoaderNode","UUID":"466d5a3a-5b5f-499c-be7c-62eaa887d677"}
 Blocking ended, receipt confirmed
-Receiving module: LoaderNode has acknowledged operation with UUID: a0bdcef6-99ab-40a0-8717-ce6eceaf67bf
-LoaderNode's StreamReceiver got: {"To": "LoaderNode", "Operation": "Select", "Args": {"UUID": "544018e1-39fe-4d29-a9a8-34935968aa9d", "SetChosen": "Default Set"}}
-Recipent: LoaderNode cmd: Select args: {"UUID":"544018e1-39fe-4d29-a9a8-34935968aa9d","SetChosen":"Default Set"}
+Receiving module: LoaderNode has acknowledged operation with UUID: 466d5a3a-5b5f-499c-be7c-62eaa887d677
+LoaderNode's StreamReceiver got: {"To": "LoaderNode", "Operation": "Select", "Args": {"UUID": "22ef28dd-d04e-43cb-b86c-09ac5e437625", "SetChosen": "Stronghold"}}
+Recipent: LoaderNode cmd: Select args: {"UUID":"22ef28dd-d04e-43cb-b86c-09ac5e437625","SetChosen":"Stronghold"}
+LoaderNode: got string selection: Stronghold
+Read and create node menunode.MenuNode with a hash key GameMenuNode
+Current location: C:\Users\Vobis\Desktop\workspace\citySimNG
+Url: file:///C:\Users\Vobis\Desktop\workspace\citySimNG/MenuModule/bin/
+menu node created
+Read and create node tutorialnode.TutorialNode with a hash key TutorialNode
+Current location: C:\Users\Vobis\Desktop\workspace\citySimNG
+Url: file:///C:\Users\Vobis\Desktop\workspace\citySimNG/TutorialModule/bin/
+Read and create node exchangenode.ExchangeNode with a hash key ExchangeNode
+Current location: C:\Users\Vobis\Desktop\workspace\citySimNG
+Url: file:///C:\Users\Vobis\Desktop\workspace\citySimNG/ExchangeModule/bin/
+Created Exchange Node
+Stock is working
+Read and create node mapnode.MapNode with a hash key MapNode
+Current location: C:\Users\Vobis\Desktop\workspace\citySimNG
+Url: file:///C:\Users\Vobis\Desktop\workspace\citySimNG/MapModule/bin/
+Created Map Node
+GameMenuNode: put TutorialNode as neighbour
+TutorialNode: put GameMenuNode as parent
+GameMenuNode: put ExchangeNode as neighbour
+GameMenuNode: put MapNode as neighbour
+MapNode: put GameMenuNode as parent
+	-> Created entry for GameMenuNode
+	-> Created entry for TutorialNode
+	-> Created entry for ExchangeNode
+	-> Created entry for MapNode
+GameMenuNode: put LoaderNode as parent
+[Queue algo]: LoaderNode's sender: sent {"Args":{"UUID":"22ef28dd-d04e-43cb-b86c-09ac5e437625"},"To":"Loader","Operation":"SelectConfirm"}
+LoaderNode's StreamReceiver got: {"To": "LoaderNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "GameMenuNode", "TargetView": "GameMenu"}}
+Recipent: LoaderNode cmd: MoveTo args: {"TargetControlNode":"GameMenuNode","TargetView":"GameMenu"}
+LoaderNode: Stopping sender thread
+Sender stopper out
+[Queue algo]: LoaderNode: Sender: out
+LoaderNode: Stopping receiver thread
+Receiver stopper out
+LoaderNode: Receiver: out
+
+============================================
+
+Switched control to: GameMenuNode
+Hanshake: controlnode.DispatchCenter@3cd1a2f1
+Generated 8ae1d1f7-edfc-44ed-bbd4-aa26541c7721
+GameMenuNode: Receiver started
+GameMenuNode: Sender started queue algo
+[Queue algo]: GameMenuNode's sender: sent {"Args":{"TargetView":"GameMenu"},"To":"ViewSetter","Operation":"SetView","From":"GameMenuNode","UUID":"8ae1d1f7-edfc-44ed-bbd4-aa26541c7721"}
+Blocking ended, receipt confirmed
+Receiving module: GameMenuNode has acknowledged operation with UUID: 8ae1d1f7-edfc-44ed-bbd4-aa26541c7721
+GameMenuNode's StreamReceiver got: {"To": "GameMenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MapNode", "TargetView": "Map"}}
+Recipent: GameMenuNode cmd: MoveTo args: {"TargetControlNode":"MapNode","TargetView":"Map"}
+GameMenuNode: Stopping sender thread
+Sender stopper out
+[Queue algo]: GameMenuNode: Sender: out
+GameMenuNode: Stopping receiver thread
+Receiver stopper out
+GameMenuNode: Receiver: out
+
+============================================
+
+Switched control to: MapNode
+Hanshake: controlnode.DispatchCenter@3cd1a2f1
+Generated 9cd2ea3c-7f5c-47e7-a892-96f686b540e7
+MapNode: Sender started queue algo
+MapNode: Receiver started
+[Queue algo]: MapNode's sender: sent {"Args":{"TargetView":"Map"},"To":"ViewSetter","Operation":"SetView","From":"MapNode","UUID":"9cd2ea3c-7f5c-47e7-a892-96f686b540e7"}
+Blocking ended, receipt confirmed
+Receiving module: MapNode has acknowledged operation with UUID: 9cd2ea3c-7f5c-47e7-a892-96f686b540e7
+Hanshake: controlnode.DispatchCenter@3cd1a2f1
+Generated 66e57085-0cd7-4548-bdb9-87c676352eb0
+[Queue algo]: MapNode's sender: sent {"Args":{"buildings":[{"resourcesCost":{"gold":1,"rock":1,"pszenica":0,"piwo":0,"chleb":0,"maka":0,"wood":1},"name":"piekarnia","produces":{"gold":0,"rock":0,"pszenica":0,"piwo":0,"chleb":4,"maka":0,"wood":0},"texturePath":"resources\\Textures\\Bakery.jpg","consumes":{"gold":0,"rock":0,"pszenica":0,"piwo":0,"chleb":0,"maka":3,"wood":0}},{"resourcesCost":{"gold":1,"rock":1,"pszenica":0,"piwo":0,"chleb":0,"maka":0,"wood":1},"name":"mlyn","produces":{"gold":0,"rock":0,"pszenica":0,"piwo":0,"chleb":0,"maka":3,"wood":0},"texturePath":"resources\\Textures\\windmill.jpg","consumes":{"gold":0,"rock":0,"pszenica":2,"piwo":0,"chleb":0,"maka":0,"wood":0}},{"resourcesCost":{"gold":1,"rock":1,"pszenica":0,"piwo":0,"chleb":0,"maka":0,"wood":1},"name":"pole","produces":{"gold":0,"rock":0,"pszenica":2,"piwo":0,"chleb":0,"maka":0,"wood":0},"texturePath":"resources\\Textures\\farma.jpg","consumes":{"gold":0,"rock":0,"pszenica":0,"piwo":0,"chleb":0,"maka":0,"wood":0,"none":0}},{"resourcesCost":{"gold":0,"rock":0,"pszenica":0,"piwo":0,"chleb":0,"maka":0,"wood":4},"name":"karczma","produces":{"gold":0,"rock":0,"pszenica":0,"piwo":3,"chleb":0,"maka":0,"wood":0},"texturePath":"resources\\Textures\\inn.jpg","consumes":{"gold":0,"rock":0,"pszenica":0,"piwo":0,"chleb":0,"maka":0,"wood":0,"none":0}}],"resources":[{"successor":"maka","name":"pszenica","predecessor":"none","texturePath":"resources\\Textures\\pszenica.jpg"},{"successor":"chleb","name":"maka","predecessor":"pszenica","texturePath":"resources\\Textures\\maka.jpg"},{"successor":"none","name":"chleb","predecessor":"maka","texturePath":"resources\\Textures\\chleb.jpg"},{"successor":"none","name":"gold","predecessor":"none","texturePath":"resources\\Textures\\Gold.jpg"},{"successor":"none","name":"rock","predecessor":"none","texturePath":"resources\\Textures\\Rock.jpg"},{"successor":"none","name":"wood","predecessor":"none","texturePath":"resources\\Textures\\Wood.jpg"},{"successor":"none","name":"piwo","predecessor":"none","texturePath":"resources\\Textures\\piwo.jpg"}]},"To":"Map","Operation":"Init","From":"MapNode","UUID":"66e57085-0cd7-4548-bdb9-87c676352eb0"}
+Blocking ended, receipt confirmed
+Receiving module: MapNode has acknowledged operation with UUID: 66e57085-0cd7-4548-bdb9-87c676352eb0
+[Queue algo]: MapNode's sender: sent {"Args":{"gold":"3 +3","rock":"3 +3","pszenica":"0 +0","piwo":"0 +0","chleb":"0 +0","maka":"0 +0","wood":"3 +3"},"To":"Map","Operation":"Update"}
+MapNode's StreamReceiver got: {"To": "MapNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "GameMenuNode", "TargetView": "GameMenu"}}
+Recipent: MapNode cmd: MoveTo args: {"TargetControlNode":"GameMenuNode","TargetView":"GameMenu"}
+MapNode: Stopping sender thread
+Sender stopper out
+MapNode: Stopping receiver thread
+[Queue algo]: MapNode: Sender: out
+Receiver stopper out
+MapNode: Receiver: out
+
+============================================
+
+Switched control to: GameMenuNode
+Map timer exited while loop
+Map timer exited while loop
+Hanshake: controlnode.DispatchCenter@3cd1a2f1
+Generated 3687e059-1683-49c8-b705-91a89ce03a5b
+GameMenuNode: Receiver started
+GameMenuNode: Sender started queue algo
+[Queue algo]: GameMenuNode's sender: sent {"Args":{"TargetView":"GameMenu"},"To":"ViewSetter","Operation":"SetView","From":"GameMenuNode","UUID":"3687e059-1683-49c8-b705-91a89ce03a5b"}
+Blocking ended, receipt confirmed
+Receiving module: GameMenuNode has acknowledged operation with UUID: 3687e059-1683-49c8-b705-91a89ce03a5b
+GameMenuNode's StreamReceiver got: {"To": "GameMenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "LoaderNode", "TargetView": "Loader"}}
+Recipent: GameMenuNode cmd: MoveTo args: {"TargetControlNode":"LoaderNode","TargetView":"Loader"}
+GameMenuNode: Stopping sender thread
+Sender stopper out
+[Queue algo]: GameMenuNode: Sender: out
+GameMenuNode: Stopping receiver thread
+Receiver stopper out
+GameMenuNode: Receiver: out
+
+============================================
+
+Switched control to: LoaderNode
+Hanshake: controlnode.DispatchCenter@3cd1a2f1
+Generated a0e87d5b-c7fc-4976-9ee2-0cc18723f1bc
+LoaderNode: Sender started queue algo
+LoaderNode: Receiver started
+[Queue algo]: LoaderNode's sender: sent {"Args":{"TargetView":"Loader"},"To":"ViewSetter","Operation":"SetView","From":"LoaderNode","UUID":"a0e87d5b-c7fc-4976-9ee2-0cc18723f1bc"}
+Blocking ended, receipt confirmed
+Receiving module: LoaderNode has acknowledged operation with UUID: a0e87d5b-c7fc-4976-9ee2-0cc18723f1bc
+Hanshake: controlnode.DispatchCenter@3cd1a2f1
+Generated 340f352f-0f98-424e-96d0-c06514cef200
+[Queue algo]: LoaderNode's sender: sent {"Args":{"DependenciesNames":["Default Set","Stronghold"]},"To":"Loader","Operation":"Init","From":"LoaderNode","UUID":"340f352f-0f98-424e-96d0-c06514cef200"}
+Blocking ended, receipt confirmed
+Receiving module: LoaderNode has acknowledged operation with UUID: 340f352f-0f98-424e-96d0-c06514cef200
+LoaderNode's StreamReceiver got: {"To": "LoaderNode", "Operation": "Select", "Args": {"UUID": "efb2f818-d521-413a-9020-a1e1db92e29b", "SetChosen": "Default Set"}}
+Recipent: LoaderNode cmd: Select args: {"UUID":"efb2f818-d521-413a-9020-a1e1db92e29b","SetChosen":"Default Set"}
 LoaderNode: got string selection: Default Set
 Read and create node menunode.MenuNode with a hash key GameMenuNode
 Current location: C:\Users\Vobis\Desktop\workspace\citySimNG
@@ -134,53 +248,81 @@ MapNode: put GameMenuNode as parent
 	-> Created entry for ExchangeNode
 	-> Created entry for MapNode
 GameMenuNode: put LoaderNode as parent
-[Queue algo]: LoaderNode's sender: sent {"Args":{"UUID":"544018e1-39fe-4d29-a9a8-34935968aa9d"},"To":"Loader","Operation":"SelectConfirm"}
+[Queue algo]: LoaderNode's sender: sent {"Args":{"UUID":"efb2f818-d521-413a-9020-a1e1db92e29b"},"To":"Loader","Operation":"SelectConfirm"}
 LoaderNode's StreamReceiver got: {"To": "LoaderNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "GameMenuNode", "TargetView": "GameMenu"}}
 Recipent: LoaderNode cmd: MoveTo args: {"TargetControlNode":"GameMenuNode","TargetView":"GameMenu"}
 LoaderNode: Stopping sender thread
 Sender stopper out
 LoaderNode: Stopping receiver thread
+Receiver stopper out
 [Queue algo]: LoaderNode: Sender: out
 LoaderNode: Receiver: out
-Receiver stopper out
 
 ============================================
 
 Switched control to: GameMenuNode
+Hanshake: controlnode.DispatchCenter@3cd1a2f1
+Generated df64f6ac-2fb7-472c-9660-68bcf8a6c1c7
 GameMenuNode: Receiver started
 GameMenuNode: Sender started queue algo
-Hanshake: controlnode.DispatchCenter@3cd1a2f1
-Generated cce46789-9b6b-4bbe-bdf4-ec362c0b6bd7
-[Queue algo]: GameMenuNode's sender: sent {"Args":{"TargetView":"GameMenu"},"To":"ViewSetter","Operation":"SetView","From":"GameMenuNode","UUID":"cce46789-9b6b-4bbe-bdf4-ec362c0b6bd7"}
+[Queue algo]: GameMenuNode's sender: sent {"Args":{"TargetView":"GameMenu"},"To":"ViewSetter","Operation":"SetView","From":"GameMenuNode","UUID":"df64f6ac-2fb7-472c-9660-68bcf8a6c1c7"}
 Blocking ended, receipt confirmed
-Receiving module: GameMenuNode has acknowledged operation with UUID: cce46789-9b6b-4bbe-bdf4-ec362c0b6bd7
-GameMenuNode's StreamReceiver got: {"To": "GameMenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "ExchangeNode", "TargetView": "Exchange"}}
-Recipent: GameMenuNode cmd: MoveTo args: {"TargetControlNode":"ExchangeNode","TargetView":"Exchange"}
+Receiving module: GameMenuNode has acknowledged operation with UUID: df64f6ac-2fb7-472c-9660-68bcf8a6c1c7
+GameMenuNode's StreamReceiver got: {"To": "GameMenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MapNode", "TargetView": "Map"}}
+Recipent: GameMenuNode cmd: MoveTo args: {"TargetControlNode":"MapNode","TargetView":"Map"}
 GameMenuNode: Stopping sender thread
 Sender stopper out
-[Queue algo]: GameMenuNode: Sender: out
 GameMenuNode: Stopping receiver thread
-Receiver stopper out
+[Queue algo]: GameMenuNode: Sender: out
 GameMenuNode: Receiver: out
-Stock is stopped
+Receiver stopper out
+
+============================================
+
+Switched control to: MapNode
+Hanshake: controlnode.DispatchCenter@3cd1a2f1
+Generated 6348cbee-3315-4bb1-abd8-f6e352de0e1e
+MapNode: Receiver started
+MapNode: Sender started queue algo
+[Queue algo]: MapNode's sender: sent {"Args":{"TargetView":"Map"},"To":"ViewSetter","Operation":"SetView","From":"MapNode","UUID":"6348cbee-3315-4bb1-abd8-f6e352de0e1e"}
+Blocking ended, receipt confirmed
+Receiving module: MapNode has acknowledged operation with UUID: 6348cbee-3315-4bb1-abd8-f6e352de0e1e
+Hanshake: controlnode.DispatchCenter@3cd1a2f1
+Generated 09f6e124-1dd1-4145-814a-209aaec41c33
+[Queue algo]: MapNode's sender: sent {"Args":{"buildings":[{"resourcesCost":{"rock":2,"gold":0,"wood":10},"name":"house","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"resources\\Textures\\bakery.png","consumes":{"rock":0,"gold":3,"wood":0}},{"resourcesCost":{"rock":0,"gold":0,"wood":15},"name":"shed","produces":{"rock":1,"gold":0,"wood":3},"texturePath":"resources\\Textures\\shed.png","consumes":{"rock":0,"gold":3,"wood":0}},{"resourcesCost":{"rock":2,"gold":0,"wood":15},"name":"windmill","produces":{"rock":1,"gold":3,"wood":0},"texturePath":"resources\\Textures\\bakery.png","consumes":{"rock":0,"gold":3,"wood":0}}],"resources":[{"successor":"none","name":"rock","predecessor":"none","texturePath":"resources\\Textures\\Rock.jpg"},{"successor":"none","name":"wood","predecessor":"none","texturePath":"resources\\Textures\\Wood.jpg"},{"successor":"none","name":"gold","predecessor":"none","texturePath":"resources\\Textures\\Gold.jpg"}]},"To":"Map","Operation":"Init","From":"MapNode","UUID":"09f6e124-1dd1-4145-814a-209aaec41c33"}
+Blocking ended, receipt confirmed
+Receiving module: MapNode has acknowledged operation with UUID: 09f6e124-1dd1-4145-814a-209aaec41c33
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"2 +2","gold":"10 +10","wood":"3 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"4 +2","gold":"20 +10","wood":"6 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"6 +2","gold":"30 +10","wood":"9 +3"},"To":"Map","Operation":"Update"}
+[Queue algo]: MapNode's sender: sent {"Args":{"rock":"8 +2","gold":"40 +10","wood":"12 +3"},"To":"Map","Operation":"Update"}
+MapNode's StreamReceiver got: {"To": "MapNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "GameMenuNode", "TargetView": "GameMenu"}}
+Recipent: MapNode cmd: MoveTo args: {"TargetControlNode":"GameMenuNode","TargetView":"GameMenu"}
+MapNode: Stopping sender thread
+Sender stopper out
+MapNode: Stopping receiver thread
+[Queue algo]: MapNode: Sender: out
+Receiver stopper out
+MapNode: Receiver: out
 
 ============================================
 
 Switched control to: GameMenuNode
+Map timer exited while loop
+Map timer exited while loop
 Hanshake: controlnode.DispatchCenter@3cd1a2f1
-Generated 6cf1e69a-32b9-41bc-9883-279f79a0d067
+Generated 73c94903-e5dc-4620-82bd-c625330e5e2c
 GameMenuNode: Receiver started
 GameMenuNode: Sender started queue algo
-[Queue algo]: GameMenuNode's sender: sent {"Args":{"TargetView":"GameMenu"},"To":"ViewSetter","Operation":"SetView","From":"GameMenuNode","UUID":"6cf1e69a-32b9-41bc-9883-279f79a0d067"}
+[Queue algo]: GameMenuNode's sender: sent {"Args":{"TargetView":"GameMenu"},"To":"ViewSetter","Operation":"SetView","From":"GameMenuNode","UUID":"73c94903-e5dc-4620-82bd-c625330e5e2c"}
+Receiving module: GameMenuNode has acknowledged operation with UUID: 73c94903-e5dc-4620-82bd-c625330e5e2c
 Blocking ended, receipt confirmed
-Receiving module: GameMenuNode has acknowledged operation with UUID: 6cf1e69a-32b9-41bc-9883-279f79a0d067
-Stock is working
 GameMenuNode's StreamReceiver got: {"To": "GameMenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "LoaderNode", "TargetView": "Loader"}}
 Recipent: GameMenuNode cmd: MoveTo args: {"TargetControlNode":"LoaderNode","TargetView":"Loader"}
 GameMenuNode: Stopping sender thread
 Sender stopper out
-[Queue algo]: GameMenuNode: Sender: out
 GameMenuNode: Stopping receiver thread
+[Queue algo]: GameMenuNode: Sender: out
 Receiver stopper out
 GameMenuNode: Receiver: out
 
@@ -188,36 +330,36 @@ GameMenuNode: Receiver: out
 
 Switched control to: LoaderNode
 Hanshake: controlnode.DispatchCenter@3cd1a2f1
-Generated cd24761f-7832-4a8e-ae1f-6459bba46647
-LoaderNode: Sender started queue algo
+Generated 2b09aaee-69a2-45b9-ab71-a823d6b0a65f
 LoaderNode: Receiver started
-[Queue algo]: LoaderNode's sender: sent {"Args":{"TargetView":"Loader"},"To":"ViewSetter","Operation":"SetView","From":"LoaderNode","UUID":"cd24761f-7832-4a8e-ae1f-6459bba46647"}
+LoaderNode: Sender started queue algo
+[Queue algo]: LoaderNode's sender: sent {"Args":{"TargetView":"Loader"},"To":"ViewSetter","Operation":"SetView","From":"LoaderNode","UUID":"2b09aaee-69a2-45b9-ab71-a823d6b0a65f"}
 Blocking ended, receipt confirmed
-Receiving module: LoaderNode has acknowledged operation with UUID: cd24761f-7832-4a8e-ae1f-6459bba46647
+Receiving module: LoaderNode has acknowledged operation with UUID: 2b09aaee-69a2-45b9-ab71-a823d6b0a65f
 Hanshake: controlnode.DispatchCenter@3cd1a2f1
-Generated 5e20926b-201b-4670-b1a1-d9320940d25d
-[Queue algo]: LoaderNode's sender: sent {"Args":{"DependenciesNames":["Default Set"]},"To":"Loader","Operation":"Init","From":"LoaderNode","UUID":"5e20926b-201b-4670-b1a1-d9320940d25d"}
+Generated 4af4dd8d-bff1-4b54-a1bc-cf6373d9e459
+[Queue algo]: LoaderNode's sender: sent {"Args":{"DependenciesNames":["Default Set","Stronghold"]},"To":"Loader","Operation":"Init","From":"LoaderNode","UUID":"4af4dd8d-bff1-4b54-a1bc-cf6373d9e459"}
 Blocking ended, receipt confirmed
-Receiving module: LoaderNode has acknowledged operation with UUID: 5e20926b-201b-4670-b1a1-d9320940d25d
+Receiving module: LoaderNode has acknowledged operation with UUID: 4af4dd8d-bff1-4b54-a1bc-cf6373d9e459
 LoaderNode's StreamReceiver got: {"To": "LoaderNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MainMenuNode", "TargetView": "MainMenu"}}
 Recipent: LoaderNode cmd: MoveTo args: {"TargetControlNode":"MainMenuNode","TargetView":"MainMenu"}
 LoaderNode: Stopping sender thread
 Sender stopper out
 LoaderNode: Stopping receiver thread
-Receiver stopper out
 [Queue algo]: LoaderNode: Sender: out
+Receiver stopper out
 LoaderNode: Receiver: out
 
 ============================================
 
 Switched control to: MainMenuNode
 Hanshake: controlnode.DispatchCenter@3cd1a2f1
-Generated 2463a659-7ffa-4c7c-8a3d-21278c710ba9
+Generated 5b69357b-20b9-4069-afc8-84b78b784dd9
 MainMenuNode: Receiver started
 MainMenuNode: Sender started queue algo
-[Queue algo]: MainMenuNode's sender: sent {"Args":{"TargetView":"MainMenu"},"To":"ViewSetter","Operation":"SetView","From":"MainMenuNode","UUID":"2463a659-7ffa-4c7c-8a3d-21278c710ba9"}
+[Queue algo]: MainMenuNode's sender: sent {"Args":{"TargetView":"MainMenu"},"To":"ViewSetter","Operation":"SetView","From":"MainMenuNode","UUID":"5b69357b-20b9-4069-afc8-84b78b784dd9"}
 Blocking ended, receipt confirmed
-Receiving module: MainMenuNode has acknowledged operation with UUID: 2463a659-7ffa-4c7c-8a3d-21278c710ba9
+Receiving module: MainMenuNode has acknowledged operation with UUID: 5b69357b-20b9-4069-afc8-84b78b784dd9
 MainMenuNode's StreamReceiver got: {"To": "MainMenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "CreatorNode", "TargetView": "Creator"}}
 Recipent: MainMenuNode cmd: MoveTo args: {"TargetControlNode":"CreatorNode","TargetView":"Creator"}
 MainMenuNode: Stopping sender thread
@@ -231,27 +373,12 @@ MainMenuNode: Receiver: out
 
 Switched control to: CreatorNode
 Hanshake: controlnode.DispatchCenter@3cd1a2f1
-Generated 7bee0d9b-ef95-4d49-9c45-4902ff354da6
-CreatorNode: Receiver started
+Generated cd5797df-e541-4eb7-81d3-743efd479d4c
 CreatorNode: Sender started queue algo
-[Queue algo]: CreatorNode's sender: sent {"Args":{"TargetView":"Creator"},"To":"ViewSetter","Operation":"SetView","From":"CreatorNode","UUID":"7bee0d9b-ef95-4d49-9c45-4902ff354da6"}
+[Queue algo]: CreatorNode's sender: sent {"Args":{"TargetView":"Creator"},"To":"ViewSetter","Operation":"SetView","From":"CreatorNode","UUID":"cd5797df-e541-4eb7-81d3-743efd479d4c"}
+CreatorNode: Receiver started
 Blocking ended, receipt confirmed
-Receiving module: CreatorNode has acknowledged operation with UUID: 7bee0d9b-ef95-4d49-9c45-4902ff354da6
-CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "Parse", "Args": {"Dependencies": {"Dwellers": [{"Predecessor": "none", "Description": "-", "Dweller\nName": "Robotnik", "Consume Rate": "1", "Ico path": "Dweller.ico", "Consumes": "chleb", "Successor": "none"}], "Buildings": [{"Predecessor": "mlyn", "Description": "-", "Produces": "chleb", "Dwellers\namount": "1", "Building\nName": "piekarnia", "Dweller\nName": "robotnik", "Produce Rate": "4", "Consume Rate": "3", "Ico path": "Bakery.ico", "Cost\nin\nresources": "wood:1 rock:1 gold:1", "Texture path": "Bakery.jpg", "Type": "Industrial", "Consumes": "maka", "Successor": "none"}, {"Predecessor": "pole", "Description": "-", "Produces": "maka", "Dwellers\namount": "3", "Building\nName": "mlyn", "Dweller\nName": "robotnik", "Produce Rate": "3", "Consume Rate": "2", "Ico path": "Mill.ico", "Cost\nin\nresources": "wood:1 rock:1 gold:1", "Texture path": "windmill.jpg", "Type": "Industrial", "Consumes": "pszenica", "Successor": "piekarnia"}, {"Predecessor": "none", "Description": "-", "Produces": "pszenica", "Dwellers\namount": "1", "Building\nName": "pole", "Dweller\nName": "robotnik", "Produce Rate": "2", "Consume Rate": "0", "Ico path": "Field.ico", "Cost\nin\nresources": "wood:1 rock:1 gold:1", "Texture path": "farma.jpg", "Type": "Industrial", "Consumes": "none", "Successor": "mlyn"}, {"Predecessor": "none", "Description": "-", "Produces": "piwo", "Dwellers\namount": "1", "Building\nName": "karczma", "Dweller\nName": "robotnik", "Produce Rate": "3", "Consume Rate": "0", "Ico path": "none", "Cost\nin\nresources": "wood:4", "Texture path": "inn.jpg", "Type": "Industrial", "Consumes": "none", "Successor": "none"}], "Resources": [{"Predecessor": "none", "Description": "-", "Ico path": "Pszenica.jpg", "Start income": "0", "Texture path": "pszenica.jpg", "Resource\nName": "pszenica", "Successor": "maka"}, {"Predecessor": "pszenica", "Description": "-", "Ico path": "Maka.jpg", "Start income": "0", "Texture path": "maka.jpg", "Resource\nName": "maka", "Successor": "chleb"}, {"Predecessor": "maka", "Description": "-", "Ico path": "Chleb.jpg", "Start income": "0", "Texture path": "chleb.jpg", "Resource\nName": "chleb", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "3", "Texture path": "Gold.jpg", "Resource\nName": "gold", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "3", "Texture path": "Rock.jpg", "Resource\nName": "rock", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "3", "Texture path": "Wood.jpg", "Resource\nName": "wood", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "0", "Texture path": "piwo.jpg", "Resource\nName": "piwo", "Successor": "none"}]}, "UUID": "8754dcc9-5bd9-4684-a7f4-69ac5603b54b", "DependenciesSetName": "Default Set"}}
-Recipent: CreatorNode cmd: Parse args: {"DependenciesSetName":"Default Set","Dependencies":{"Buildings":[{"Predecessor":"mlyn","Description":"-","Produce Rate":"4","Consume Rate":"3","Ico path":"Bakery.ico","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"chleb","Consumes":"maka","Building\nName":"piekarnia","Dwellers\namount":"1","Texture path":"Bakery.jpg"},{"Predecessor":"pole","Description":"-","Produce Rate":"3","Consume Rate":"2","Ico path":"Mill.ico","Dweller\nName":"robotnik","Successor":"piekarnia","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"maka","Consumes":"pszenica","Building\nName":"mlyn","Dwellers\namount":"3","Texture path":"windmill.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"2","Consume Rate":"0","Ico path":"Field.ico","Dweller\nName":"robotnik","Successor":"mlyn","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"pszenica","Consumes":"none","Building\nName":"pole","Dwellers\namount":"1","Texture path":"farma.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"3","Consume Rate":"0","Ico path":"none","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:4","Type":"Industrial","Produces":"piwo","Consumes":"none","Building\nName":"karczma","Dwellers\namount":"1","Texture path":"inn.jpg"}],"Dwellers":[{"Dweller\nName":"Robotnik","Successor":"none","Predecessor":"none","Description":"-","Consumes":"chleb","Consume Rate":"1","Ico path":"Dweller.ico"}],"Resources":[{"Successor":"maka","Predecessor":"none","Description":"-","Resource\nName":"pszenica","Start income":"0","Texture path":"pszenica.jpg","Ico path":"Pszenica.jpg"},{"Successor":"chleb","Predecessor":"pszenica","Description":"-","Resource\nName":"maka","Start income":"0","Texture path":"maka.jpg","Ico path":"Maka.jpg"},{"Successor":"none","Predecessor":"maka","Description":"-","Resource\nName":"chleb","Start income":"0","Texture path":"chleb.jpg","Ico path":"Chleb.jpg"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"3","Texture path":"Gold.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"3","Texture path":"Rock.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"piwo","Start income":"0","Texture path":"piwo.jpg","Ico path":"none"}]},"UUID":"8754dcc9-5bd9-4684-a7f4-69ac5603b54b"}
-Creator node received following dependencies package:
-{"Buildings":[{"Predecessor":"mlyn","Description":"-","Produce Rate":"4","Consume Rate":"3","Ico path":"Bakery.ico","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"chleb","Consumes":"maka","Building\nName":"piekarnia","Dwellers\namount":"1","Texture path":"Bakery.jpg"},{"Predecessor":"pole","Description":"-","Produce Rate":"3","Consume Rate":"2","Ico path":"Mill.ico","Dweller\nName":"robotnik","Successor":"piekarnia","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"maka","Consumes":"pszenica","Building\nName":"mlyn","Dwellers\namount":"3","Texture path":"windmill.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"2","Consume Rate":"0","Ico path":"Field.ico","Dweller\nName":"robotnik","Successor":"mlyn","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"pszenica","Consumes":"none","Building\nName":"pole","Dwellers\namount":"1","Texture path":"farma.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"3","Consume Rate":"0","Ico path":"none","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:4","Type":"Industrial","Produces":"piwo","Consumes":"none","Building\nName":"karczma","Dwellers\namount":"1","Texture path":"inn.jpg"}],"Dwellers":[{"Dweller\nName":"Robotnik","Successor":"none","Predecessor":"none","Description":"-","Consumes":"chleb","Consume Rate":"1","Ico path":"Dweller.ico"}],"Resources":[{"Successor":"maka","Predecessor":"none","Description":"-","Resource\nName":"pszenica","Start income":"0","Texture path":"pszenica.jpg","Ico path":"Pszenica.jpg"},{"Successor":"chleb","Predecessor":"pszenica","Description":"-","Resource\nName":"maka","Start income":"0","Texture path":"maka.jpg","Ico path":"Maka.jpg"},{"Successor":"none","Predecessor":"maka","Description":"-","Resource\nName":"chleb","Start income":"0","Texture path":"chleb.jpg","Ico path":"Chleb.jpg"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"3","Texture path":"Gold.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"3","Texture path":"Rock.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"piwo","Start income":"0","Texture path":"piwo.jpg","Ico path":"none"}]}
-[Queue algo]: CreatorNode's sender: sent {"Args":{"UUID":"8754dcc9-5bd9-4684-a7f4-69ac5603b54b"},"To":"Creator","Operation":"ParseConfirm"}
-CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "Parse", "Args": {"Dependencies": {"Dwellers": [{"Predecessor": "none", "Description": "-", "Dweller\nName": "Robotnik", "Consume Rate": "1", "Ico path": "Dweller.ico", "Consumes": "chleb", "Successor": "none"}], "Buildings": [{"Predecessor": "mlyn", "Description": "-", "Produces": "chleb", "Dwellers\namount": "1", "Building\nName": "piekarnia", "Dweller\nName": "robotnik", "Produce Rate": "4", "Consume Rate": "3", "Ico path": "Bakery.ico", "Cost\nin\nresources": "wood:1 rock:1 gold:1", "Texture path": "Bakery.jpg", "Type": "Industrial", "Consumes": "maka", "Successor": "none"}, {"Predecessor": "pole", "Description": "-", "Produces": "maka", "Dwellers\namount": "3", "Building\nName": "mlyn", "Dweller\nName": "robotnik", "Produce Rate": "3", "Consume Rate": "2", "Ico path": "Mill.ico", "Cost\nin\nresources": "wood:1 rock:1 gold:1", "Texture path": "windmill.jpg", "Type": "Industrial", "Consumes": "pszenica", "Successor": "piekarnia"}, {"Predecessor": "none", "Description": "-", "Produces": "pszenica", "Dwellers\namount": "1", "Building\nName": "pole", "Dweller\nName": "robotnik", "Produce Rate": "2", "Consume Rate": "0", "Ico path": "Field.ico", "Cost\nin\nresources": "wood:1 rock:1 gold:1", "Texture path": "farma.jpg", "Type": "Industrial", "Consumes": "none", "Successor": "mlyn"}, {"Predecessor": "none", "Description": "-", "Produces": "piwo", "Dwellers\namount": "1", "Building\nName": "karczma", "Dweller\nName": "robotnik", "Produce Rate": "3", "Consume Rate": "0", "Ico path": "none", "Cost\nin\nresources": "wood:4", "Texture path": "inn.jpg", "Type": "Industrial", "Consumes": "none", "Successor": "none"}], "Resources": [{"Predecessor": "none", "Description": "-", "Ico path": "Pszenica.jpg", "Start income": "0", "Texture path": "pszenica.jpg", "Resource\nName": "pszenica", "Successor": "maka"}, {"Predecessor": "pszenica", "Description": "-", "Ico path": "Maka.jpg", "Start income": "0", "Texture path": "maka.jpg", "Resource\nName": "maka", "Successor": "chleb"}, {"Predecessor": "maka", "Description": "-", "Ico path": "Chleb.jpg", "Start income": "0", "Texture path": "chleb.jpg", "Resource\nName": "chleb", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "3", "Texture path": "Gold.jpg", "Resource\nName": "gold", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "3", "Texture path": "Rock.jpg", "Resource\nName": "rock", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "3", "Texture path": "Wood.jpg", "Resource\nName": "wood", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "0", "Texture path": "piwo.jpg", "Resource\nName": "piwo", "Successor": "none"}]}, "UUID": "f08e2fa6-408c-4f8f-bc4f-2bf23bbb643c", "DependenciesSetName": "Default Set"}}
-Recipent: CreatorNode cmd: Parse args: {"DependenciesSetName":"Default Set","Dependencies":{"Buildings":[{"Predecessor":"mlyn","Description":"-","Produce Rate":"4","Consume Rate":"3","Ico path":"Bakery.ico","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"chleb","Consumes":"maka","Building\nName":"piekarnia","Dwellers\namount":"1","Texture path":"Bakery.jpg"},{"Predecessor":"pole","Description":"-","Produce Rate":"3","Consume Rate":"2","Ico path":"Mill.ico","Dweller\nName":"robotnik","Successor":"piekarnia","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"maka","Consumes":"pszenica","Building\nName":"mlyn","Dwellers\namount":"3","Texture path":"windmill.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"2","Consume Rate":"0","Ico path":"Field.ico","Dweller\nName":"robotnik","Successor":"mlyn","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"pszenica","Consumes":"none","Building\nName":"pole","Dwellers\namount":"1","Texture path":"farma.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"3","Consume Rate":"0","Ico path":"none","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:4","Type":"Industrial","Produces":"piwo","Consumes":"none","Building\nName":"karczma","Dwellers\namount":"1","Texture path":"inn.jpg"}],"Dwellers":[{"Dweller\nName":"Robotnik","Successor":"none","Predecessor":"none","Description":"-","Consumes":"chleb","Consume Rate":"1","Ico path":"Dweller.ico"}],"Resources":[{"Successor":"maka","Predecessor":"none","Description":"-","Resource\nName":"pszenica","Start income":"0","Texture path":"pszenica.jpg","Ico path":"Pszenica.jpg"},{"Successor":"chleb","Predecessor":"pszenica","Description":"-","Resource\nName":"maka","Start income":"0","Texture path":"maka.jpg","Ico path":"Maka.jpg"},{"Successor":"none","Predecessor":"maka","Description":"-","Resource\nName":"chleb","Start income":"0","Texture path":"chleb.jpg","Ico path":"Chleb.jpg"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"3","Texture path":"Gold.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"3","Texture path":"Rock.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"piwo","Start income":"0","Texture path":"piwo.jpg","Ico path":"none"}]},"UUID":"f08e2fa6-408c-4f8f-bc4f-2bf23bbb643c"}
-Creator node received following dependencies package:
-{"Buildings":[{"Predecessor":"mlyn","Description":"-","Produce Rate":"4","Consume Rate":"3","Ico path":"Bakery.ico","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"chleb","Consumes":"maka","Building\nName":"piekarnia","Dwellers\namount":"1","Texture path":"Bakery.jpg"},{"Predecessor":"pole","Description":"-","Produce Rate":"3","Consume Rate":"2","Ico path":"Mill.ico","Dweller\nName":"robotnik","Successor":"piekarnia","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"maka","Consumes":"pszenica","Building\nName":"mlyn","Dwellers\namount":"3","Texture path":"windmill.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"2","Consume Rate":"0","Ico path":"Field.ico","Dweller\nName":"robotnik","Successor":"mlyn","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"pszenica","Consumes":"none","Building\nName":"pole","Dwellers\namount":"1","Texture path":"farma.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"3","Consume Rate":"0","Ico path":"none","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:4","Type":"Industrial","Produces":"piwo","Consumes":"none","Building\nName":"karczma","Dwellers\namount":"1","Texture path":"inn.jpg"}],"Dwellers":[{"Dweller\nName":"Robotnik","Successor":"none","Predecessor":"none","Description":"-","Consumes":"chleb","Consume Rate":"1","Ico path":"Dweller.ico"}],"Resources":[{"Successor":"maka","Predecessor":"none","Description":"-","Resource\nName":"pszenica","Start income":"0","Texture path":"pszenica.jpg","Ico path":"Pszenica.jpg"},{"Successor":"chleb","Predecessor":"pszenica","Description":"-","Resource\nName":"maka","Start income":"0","Texture path":"maka.jpg","Ico path":"Maka.jpg"},{"Successor":"none","Predecessor":"maka","Description":"-","Resource\nName":"chleb","Start income":"0","Texture path":"chleb.jpg","Ico path":"Chleb.jpg"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"3","Texture path":"Gold.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"3","Texture path":"Rock.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"piwo","Start income":"0","Texture path":"piwo.jpg","Ico path":"none"}]}
-[Queue algo]: CreatorNode's sender: sent {"Args":{"UUID":"f08e2fa6-408c-4f8f-bc4f-2bf23bbb643c"},"To":"Creator","Operation":"ParseConfirm"}
-CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "Parse", "Args": {"Dependencies": {"Dwellers": [{"Predecessor": "none", "Description": "-", "Dweller\nName": "Robotnik", "Consume Rate": "1", "Ico path": "Dweller.ico", "Consumes": "chleb", "Successor": "none"}], "Buildings": [{"Predecessor": "mlyn", "Description": "-", "Produces": "chleb", "Dwellers\namount": "1", "Building\nName": "piekarnia", "Dweller\nName": "robotnik", "Produce Rate": "4", "Consume Rate": "3", "Ico path": "Bakery.ico", "Cost\nin\nresources": "wood:1 rock:1 gold:1", "Texture path": "Bakery.jpg", "Type": "Industrial", "Consumes": "maka", "Successor": "none"}, {"Predecessor": "pole", "Description": "-", "Produces": "maka", "Dwellers\namount": "3", "Building\nName": "mlyn", "Dweller\nName": "robotnik", "Produce Rate": "3", "Consume Rate": "2", "Ico path": "Mill.ico", "Cost\nin\nresources": "wood:1 rock:1 gold:1", "Texture path": "windmill.jpg", "Type": "Industrial", "Consumes": "pszenica", "Successor": "piekarnia"}, {"Predecessor": "none", "Description": "-", "Produces": "pszenica", "Dwellers\namount": "1", "Building\nName": "pole", "Dweller\nName": "robotnik", "Produce Rate": "2", "Consume Rate": "0", "Ico path": "Field.ico", "Cost\nin\nresources": "wood:1 rock:1 gold:1", "Texture path": "farma.jpg", "Type": "Industrial", "Consumes": "none", "Successor": "mlyn"}, {"Predecessor": "none", "Description": "-", "Produces": "piwo", "Dwellers\namount": "1", "Building\nName": "karczma", "Dweller\nName": "robotnik", "Produce Rate": "3", "Consume Rate": "0", "Ico path": "none", "Cost\nin\nresources": "wood:4", "Texture path": "inn.jpg", "Type": "Industrial", "Consumes": "none", "Successor": "none"}], "Resources": [{"Predecessor": "none", "Description": "-", "Ico path": "Pszenica.jpg", "Start income": "0", "Texture path": "pszenica.jpg", "Resource\nName": "pszenica", "Successor": "maka"}, {"Predecessor": "pszenica", "Description": "-", "Ico path": "Maka.jpg", "Start income": "0", "Texture path": "maka.jpg", "Resource\nName": "maka", "Successor": "chleb"}, {"Predecessor": "maka", "Description": "-", "Ico path": "Chleb.jpg", "Start income": "0", "Texture path": "chleb.jpg", "Resource\nName": "chleb", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "3", "Texture path": "Gold.jpg", "Resource\nName": "gold", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "3", "Texture path": "Rock.jpg", "Resource\nName": "rock", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "3", "Texture path": "Wood.jpg", "Resource\nName": "wood", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "0", "Texture path": "piwo.jpg", "Resource\nName": "piwo", "Successor": "none"}]}, "UUID": "62bb792e-3daa-433f-9ef0-2f7fe1226689", "DependenciesSetName": "Default Set"}}
-Recipent: CreatorNode cmd: Parse args: {"DependenciesSetName":"Default Set","Dependencies":{"Buildings":[{"Predecessor":"mlyn","Description":"-","Produce Rate":"4","Consume Rate":"3","Ico path":"Bakery.ico","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"chleb","Consumes":"maka","Building\nName":"piekarnia","Dwellers\namount":"1","Texture path":"Bakery.jpg"},{"Predecessor":"pole","Description":"-","Produce Rate":"3","Consume Rate":"2","Ico path":"Mill.ico","Dweller\nName":"robotnik","Successor":"piekarnia","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"maka","Consumes":"pszenica","Building\nName":"mlyn","Dwellers\namount":"3","Texture path":"windmill.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"2","Consume Rate":"0","Ico path":"Field.ico","Dweller\nName":"robotnik","Successor":"mlyn","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"pszenica","Consumes":"none","Building\nName":"pole","Dwellers\namount":"1","Texture path":"farma.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"3","Consume Rate":"0","Ico path":"none","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:4","Type":"Industrial","Produces":"piwo","Consumes":"none","Building\nName":"karczma","Dwellers\namount":"1","Texture path":"inn.jpg"}],"Dwellers":[{"Dweller\nName":"Robotnik","Successor":"none","Predecessor":"none","Description":"-","Consumes":"chleb","Consume Rate":"1","Ico path":"Dweller.ico"}],"Resources":[{"Successor":"maka","Predecessor":"none","Description":"-","Resource\nName":"pszenica","Start income":"0","Texture path":"pszenica.jpg","Ico path":"Pszenica.jpg"},{"Successor":"chleb","Predecessor":"pszenica","Description":"-","Resource\nName":"maka","Start income":"0","Texture path":"maka.jpg","Ico path":"Maka.jpg"},{"Successor":"none","Predecessor":"maka","Description":"-","Resource\nName":"chleb","Start income":"0","Texture path":"chleb.jpg","Ico path":"Chleb.jpg"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"3","Texture path":"Gold.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"3","Texture path":"Rock.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"piwo","Start income":"0","Texture path":"piwo.jpg","Ico path":"none"}]},"UUID":"62bb792e-3daa-433f-9ef0-2f7fe1226689"}
-Creator node received following dependencies package:
-{"Buildings":[{"Predecessor":"mlyn","Description":"-","Produce Rate":"4","Consume Rate":"3","Ico path":"Bakery.ico","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"chleb","Consumes":"maka","Building\nName":"piekarnia","Dwellers\namount":"1","Texture path":"Bakery.jpg"},{"Predecessor":"pole","Description":"-","Produce Rate":"3","Consume Rate":"2","Ico path":"Mill.ico","Dweller\nName":"robotnik","Successor":"piekarnia","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"maka","Consumes":"pszenica","Building\nName":"mlyn","Dwellers\namount":"3","Texture path":"windmill.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"2","Consume Rate":"0","Ico path":"Field.ico","Dweller\nName":"robotnik","Successor":"mlyn","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"pszenica","Consumes":"none","Building\nName":"pole","Dwellers\namount":"1","Texture path":"farma.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"3","Consume Rate":"0","Ico path":"none","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:4","Type":"Industrial","Produces":"piwo","Consumes":"none","Building\nName":"karczma","Dwellers\namount":"1","Texture path":"inn.jpg"}],"Dwellers":[{"Dweller\nName":"Robotnik","Successor":"none","Predecessor":"none","Description":"-","Consumes":"chleb","Consume Rate":"1","Ico path":"Dweller.ico"}],"Resources":[{"Successor":"maka","Predecessor":"none","Description":"-","Resource\nName":"pszenica","Start income":"0","Texture path":"pszenica.jpg","Ico path":"Pszenica.jpg"},{"Successor":"chleb","Predecessor":"pszenica","Description":"-","Resource\nName":"maka","Start income":"0","Texture path":"maka.jpg","Ico path":"Maka.jpg"},{"Successor":"none","Predecessor":"maka","Description":"-","Resource\nName":"chleb","Start income":"0","Texture path":"chleb.jpg","Ico path":"Chleb.jpg"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"3","Texture path":"Gold.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"3","Texture path":"Rock.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"piwo","Start income":"0","Texture path":"piwo.jpg","Ico path":"none"}]}
-[Queue algo]: CreatorNode's sender: sent {"Args":{"UUID":"62bb792e-3daa-433f-9ef0-2f7fe1226689"},"To":"Creator","Operation":"ParseConfirm"}
+Receiving module: CreatorNode has acknowledged operation with UUID: cd5797df-e541-4eb7-81d3-743efd479d4c
 CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MainMenuNode", "TargetView": "MainMenu"}}
 Recipent: CreatorNode cmd: MoveTo args: {"TargetControlNode":"MainMenuNode","TargetView":"MainMenu"}
 CreatorNode: Stopping sender thread
@@ -265,12 +392,12 @@ Receiver stopper out
 
 Switched control to: MainMenuNode
 Hanshake: controlnode.DispatchCenter@3cd1a2f1
-Generated f1b714a9-7998-4028-b637-37407f692b36
+Generated b8e5c60c-ecc7-46a1-8811-5c265f51bc4f
 MainMenuNode: Receiver started
 MainMenuNode: Sender started queue algo
-[Queue algo]: MainMenuNode's sender: sent {"Args":{"TargetView":"MainMenu"},"To":"ViewSetter","Operation":"SetView","From":"MainMenuNode","UUID":"f1b714a9-7998-4028-b637-37407f692b36"}
+[Queue algo]: MainMenuNode's sender: sent {"Args":{"TargetView":"MainMenu"},"To":"ViewSetter","Operation":"SetView","From":"MainMenuNode","UUID":"b8e5c60c-ecc7-46a1-8811-5c265f51bc4f"}
 Blocking ended, receipt confirmed
-Receiving module: MainMenuNode has acknowledged operation with UUID: f1b714a9-7998-4028-b637-37407f692b36
+Receiving module: MainMenuNode has acknowledged operation with UUID: b8e5c60c-ecc7-46a1-8811-5c265f51bc4f
 MainMenuNode's StreamReceiver got: {"To": "MainMenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "LoaderNode", "TargetView": "Loader"}}
 Recipent: MainMenuNode cmd: MoveTo args: {"TargetControlNode":"LoaderNode","TargetView":"Loader"}
 MainMenuNode: Stopping sender thread
@@ -284,111 +411,17 @@ Receiver stopper out
 
 Switched control to: LoaderNode
 Hanshake: controlnode.DispatchCenter@3cd1a2f1
-Generated afa7de27-17a3-405c-b7d5-da9d2b7ea7e3
+Generated a3265311-f77a-4c3d-b38d-7fad0be0d596
 LoaderNode: Receiver started
 LoaderNode: Sender started queue algo
-[Queue algo]: LoaderNode's sender: sent {"Args":{"TargetView":"Loader"},"To":"ViewSetter","Operation":"SetView","From":"LoaderNode","UUID":"afa7de27-17a3-405c-b7d5-da9d2b7ea7e3"}
+[Queue algo]: LoaderNode's sender: sent {"Args":{"TargetView":"Loader"},"To":"ViewSetter","Operation":"SetView","From":"LoaderNode","UUID":"a3265311-f77a-4c3d-b38d-7fad0be0d596"}
 Blocking ended, receipt confirmed
-Receiving module: LoaderNode has acknowledged operation with UUID: afa7de27-17a3-405c-b7d5-da9d2b7ea7e3
+Receiving module: LoaderNode has acknowledged operation with UUID: a3265311-f77a-4c3d-b38d-7fad0be0d596
 Hanshake: controlnode.DispatchCenter@3cd1a2f1
-Generated 8422909c-1b13-4136-96bc-8e011c5c30e3
-[Queue algo]: LoaderNode's sender: sent {"Args":{"DependenciesNames":["Default Set"]},"To":"Loader","Operation":"Init","From":"LoaderNode","UUID":"8422909c-1b13-4136-96bc-8e011c5c30e3"}
+Generated c21f81ac-09bc-4a1b-803a-acbc23370384
+[Queue algo]: LoaderNode's sender: sent {"Args":{"DependenciesNames":["Default Set","Stronghold"]},"To":"Loader","Operation":"Init","From":"LoaderNode","UUID":"c21f81ac-09bc-4a1b-803a-acbc23370384"}
 Blocking ended, receipt confirmed
-Receiving module: LoaderNode has acknowledged operation with UUID: 8422909c-1b13-4136-96bc-8e011c5c30e3
-LoaderNode's StreamReceiver got: {"To": "LoaderNode", "Operation": "Select", "Args": {"UUID": "909f7428-c127-45fe-8a37-885f65d0e6ed", "SetChosen": "Default Set"}}
-Recipent: LoaderNode cmd: Select args: {"UUID":"909f7428-c127-45fe-8a37-885f65d0e6ed","SetChosen":"Default Set"}
-LoaderNode: got string selection: Default Set
-Read and create node menunode.MenuNode with a hash key GameMenuNode
-Current location: C:\Users\Vobis\Desktop\workspace\citySimNG
-Url: file:///C:\Users\Vobis\Desktop\workspace\citySimNG/MenuModule/bin/
-menu node created
-Read and create node tutorialnode.TutorialNode with a hash key TutorialNode
-Current location: C:\Users\Vobis\Desktop\workspace\citySimNG
-Url: file:///C:\Users\Vobis\Desktop\workspace\citySimNG/TutorialModule/bin/
-Read and create node exchangenode.ExchangeNode with a hash key ExchangeNode
-Current location: C:\Users\Vobis\Desktop\workspace\citySimNG
-Url: file:///C:\Users\Vobis\Desktop\workspace\citySimNG/ExchangeModule/bin/
-Created Exchange Node
-Stock is working
-Read and create node mapnode.MapNode with a hash key MapNode
-Current location: C:\Users\Vobis\Desktop\workspace\citySimNG
-Url: file:///C:\Users\Vobis\Desktop\workspace\citySimNG/MapModule/bin/
-Created Map Node
-GameMenuNode: put TutorialNode as neighbour
-TutorialNode: put GameMenuNode as parent
-GameMenuNode: put ExchangeNode as neighbour
-GameMenuNode: put MapNode as neighbour
-MapNode: put GameMenuNode as parent
-	-> Created entry for GameMenuNode
-	-> Created entry for TutorialNode
-	-> Created entry for ExchangeNode
-	-> Created entry for MapNode
-GameMenuNode: put LoaderNode as parent
-[Queue algo]: LoaderNode's sender: sent {"Args":{"UUID":"909f7428-c127-45fe-8a37-885f65d0e6ed"},"To":"Loader","Operation":"SelectConfirm"}
-LoaderNode's StreamReceiver got: {"To": "LoaderNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "GameMenuNode", "TargetView": "GameMenu"}}
-Recipent: LoaderNode cmd: MoveTo args: {"TargetControlNode":"GameMenuNode","TargetView":"GameMenu"}
-LoaderNode: Stopping sender thread
-Sender stopper out
-LoaderNode: Stopping receiver thread
-[Queue algo]: LoaderNode: Sender: out
-LoaderNode: Receiver: out
-Receiver stopper out
-
-============================================
-
-Switched control to: GameMenuNode
-Hanshake: controlnode.DispatchCenter@3cd1a2f1
-Generated d969696c-212c-4d8b-9022-c1ea8c31858b
-GameMenuNode: Receiver started
-GameMenuNode: Sender started queue algo
-[Queue algo]: GameMenuNode's sender: sent {"Args":{"TargetView":"GameMenu"},"To":"ViewSetter","Operation":"SetView","From":"GameMenuNode","UUID":"d969696c-212c-4d8b-9022-c1ea8c31858b"}
-Receiving module: GameMenuNode has acknowledged operation with UUID: d969696c-212c-4d8b-9022-c1ea8c31858b
-Blocking ended, receipt confirmed
-GameMenuNode's StreamReceiver got: {"To": "GameMenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "ExchangeNode", "TargetView": "Exchange"}}
-Recipent: GameMenuNode cmd: MoveTo args: {"TargetControlNode":"ExchangeNode","TargetView":"Exchange"}
-GameMenuNode: Stopping sender thread
-Sender stopper out
-GameMenuNode: Stopping receiver thread
-[Queue algo]: GameMenuNode: Sender: out
-GameMenuNode: Receiver: out
-Receiver stopper out
-Stock is stopped
-
-============================================
-
-Switched control to: GameMenuNode
-GameMenuNode: Receiver started
-Hanshake: controlnode.DispatchCenter@3cd1a2f1
-Generated 009b9aee-5aea-4361-aede-87300d54fa97
-GameMenuNode: Sender started queue algo
-[Queue algo]: GameMenuNode's sender: sent {"Args":{"TargetView":"GameMenu"},"To":"ViewSetter","Operation":"SetView","From":"GameMenuNode","UUID":"009b9aee-5aea-4361-aede-87300d54fa97"}
-Blocking ended, receipt confirmed
-Receiving module: GameMenuNode has acknowledged operation with UUID: 009b9aee-5aea-4361-aede-87300d54fa97
-Stock is working
-GameMenuNode's StreamReceiver got: {"To": "GameMenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "LoaderNode", "TargetView": "Loader"}}
-Recipent: GameMenuNode cmd: MoveTo args: {"TargetControlNode":"LoaderNode","TargetView":"Loader"}
-GameMenuNode: Stopping sender thread
-Sender stopper out
-GameMenuNode: Stopping receiver thread
-[Queue algo]: GameMenuNode: Sender: out
-Receiver stopper out
-GameMenuNode: Receiver: out
-
-============================================
-
-Switched control to: LoaderNode
-Hanshake: controlnode.DispatchCenter@3cd1a2f1
-Generated 8918f282-9668-4347-8d4d-f2befda74ffa
-LoaderNode: Sender started queue algo
-LoaderNode: Receiver started
-[Queue algo]: LoaderNode's sender: sent {"Args":{"TargetView":"Loader"},"To":"ViewSetter","Operation":"SetView","From":"LoaderNode","UUID":"8918f282-9668-4347-8d4d-f2befda74ffa"}
-Blocking ended, receipt confirmed
-Receiving module: LoaderNode has acknowledged operation with UUID: 8918f282-9668-4347-8d4d-f2befda74ffa
-Hanshake: controlnode.DispatchCenter@3cd1a2f1
-Generated 130ce870-c5a1-477c-92f9-79d97a96b6c0
-[Queue algo]: LoaderNode's sender: sent {"Args":{"DependenciesNames":["Default Set"]},"To":"Loader","Operation":"Init","From":"LoaderNode","UUID":"130ce870-c5a1-477c-92f9-79d97a96b6c0"}
-Blocking ended, receipt confirmed
-Receiving module: LoaderNode has acknowledged operation with UUID: 130ce870-c5a1-477c-92f9-79d97a96b6c0
+Receiving module: LoaderNode has acknowledged operation with UUID: c21f81ac-09bc-4a1b-803a-acbc23370384
 LoaderNode's StreamReceiver got: {"To": "LoaderNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MainMenuNode", "TargetView": "MainMenu"}}
 Recipent: LoaderNode cmd: MoveTo args: {"TargetControlNode":"MainMenuNode","TargetView":"MainMenu"}
 LoaderNode: Stopping sender thread
@@ -402,16 +435,108 @@ LoaderNode: Receiver: out
 
 Switched control to: MainMenuNode
 Hanshake: controlnode.DispatchCenter@3cd1a2f1
-Generated 280627db-3329-4919-86c7-51d0efb54554
+Generated 2f629edf-e02c-4581-bc61-a29c08c911db
 MainMenuNode: Receiver started
 MainMenuNode: Sender started queue algo
-[Queue algo]: MainMenuNode's sender: sent {"Args":{"TargetView":"MainMenu"},"To":"ViewSetter","Operation":"SetView","From":"MainMenuNode","UUID":"280627db-3329-4919-86c7-51d0efb54554"}
+[Queue algo]: MainMenuNode's sender: sent {"Args":{"TargetView":"MainMenu"},"To":"ViewSetter","Operation":"SetView","From":"MainMenuNode","UUID":"2f629edf-e02c-4581-bc61-a29c08c911db"}
 Blocking ended, receipt confirmed
-Receiving module: MainMenuNode has acknowledged operation with UUID: 280627db-3329-4919-86c7-51d0efb54554
+Receiving module: MainMenuNode has acknowledged operation with UUID: 2f629edf-e02c-4581-bc61-a29c08c911db
+MainMenuNode's StreamReceiver got: {"To": "MainMenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "CreatorNode", "TargetView": "Creator"}}
+Recipent: MainMenuNode cmd: MoveTo args: {"TargetControlNode":"CreatorNode","TargetView":"Creator"}
+MainMenuNode: Stopping sender thread
+Sender stopper out
+MainMenuNode: Stopping receiver thread
+[Queue algo]: MainMenuNode: Sender: out
+MainMenuNode: Receiver: out
+Receiver stopper out
+
+============================================
+
+Switched control to: CreatorNode
+CreatorNode: Receiver started
+CreatorNode: Sender started queue algo
+Hanshake: controlnode.DispatchCenter@3cd1a2f1
+Generated 58fc811b-2c43-41f8-aa8e-596dddebef95
+[Queue algo]: CreatorNode's sender: sent {"Args":{"TargetView":"Creator"},"To":"ViewSetter","Operation":"SetView","From":"CreatorNode","UUID":"58fc811b-2c43-41f8-aa8e-596dddebef95"}
+Blocking ended, receipt confirmed
+Receiving module: CreatorNode has acknowledged operation with UUID: 58fc811b-2c43-41f8-aa8e-596dddebef95
+CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "Parse", "Args": {"Dependencies": {"Dwellers": [{"Predecessor": "none", "Description": "-", "Dweller\nName": "dweller", "Consume Rate": "1", "Ico path": "-", "Consumes": "rock", "Successor": "none"}], "Buildings": [{"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "house", "Dweller\nName": "dweller", "Produce Rate": "1 3 0", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:2 wood:10 gold:0", "Texture path": "bakery.png", "Type": "Domestic", "Consumes": "rock wood gold", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "shed", "Dweller\nName": "dweller", "Produce Rate": "1 3 0", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:0 wood:15 gold:0", "Texture path": "shed.png", "Type": "Industrial", "Consumes": "rock wood gold", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "windmill", "Dweller\nName": "dweller", "Produce Rate": "1 0 3", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:2 wood:15 gold:0", "Texture path": "bakery.png", "Type": "Induustrial", "Consumes": "rock wood gold", "Successor": "none"}], "Resources": [{"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "2", "Texture path": "Rock.jpg", "Resource\nName": "rock", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "3", "Texture path": "Wood.jpg", "Resource\nName": "wood", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "10", "Texture path": "Gold.jpg", "Resource\nName": "gold", "Successor": "none"}]}, "UUID": "2a9302bf-75c1-4316-8f49-bd2bce59c665", "DependenciesSetName": "Default Set"}}
+Recipent: CreatorNode cmd: Parse args: {"DependenciesSetName":"Default Set","Dependencies":{"Buildings":[{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:10 gold:0","Type":"Domestic","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"house","Dwellers\namount":"1","Texture path":"bakery.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:0 wood:15 gold:0","Type":"Industrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"shed","Dwellers\namount":"1","Texture path":"shed.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 0 3","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:15 gold:0","Type":"Induustrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"windmill","Dwellers\namount":"1","Texture path":"bakery.png"}],"Dwellers":[{"Dweller\nName":"dweller","Successor":"none","Predecessor":"none","Description":"-","Consumes":"rock","Consume Rate":"1","Ico path":"-"}],"Resources":[{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"2","Texture path":"Rock.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"10","Texture path":"Gold.jpg","Ico path":"-"}]},"UUID":"2a9302bf-75c1-4316-8f49-bd2bce59c665"}
+Creator node received following dependencies package:
+{"Buildings":[{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:10 gold:0","Type":"Domestic","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"house","Dwellers\namount":"1","Texture path":"bakery.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:0 wood:15 gold:0","Type":"Industrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"shed","Dwellers\namount":"1","Texture path":"shed.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 0 3","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:15 gold:0","Type":"Induustrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"windmill","Dwellers\namount":"1","Texture path":"bakery.png"}],"Dwellers":[{"Dweller\nName":"dweller","Successor":"none","Predecessor":"none","Description":"-","Consumes":"rock","Consume Rate":"1","Ico path":"-"}],"Resources":[{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"2","Texture path":"Rock.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"10","Texture path":"Gold.jpg","Ico path":"-"}]}
+[Queue algo]: CreatorNode's sender: sent {"Args":{"UUID":"2a9302bf-75c1-4316-8f49-bd2bce59c665"},"To":"Creator","Operation":"ParseConfirm"}
+CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "Parse", "Args": {"Dependencies": {"Dwellers": [{"Predecessor": "none", "Description": "-", "Dweller\nName": "dweller", "Consume Rate": "1", "Ico path": "-", "Consumes": "rock", "Successor": "none"}], "Buildings": [{"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "house", "Dweller\nName": "dweller", "Produce Rate": "1 3 0", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:2 wood:10 gold:0", "Texture path": "bakery.png", "Type": "Domestic", "Consumes": "rock wood gold", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "shed", "Dweller\nName": "dweller", "Produce Rate": "1 3 0", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:0 wood:15 gold:0", "Texture path": "shed.png", "Type": "Industrial", "Consumes": "rock wood gold", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "windmill", "Dweller\nName": "dweller", "Produce Rate": "1 0 3", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:2 wood:15 gold:0", "Texture path": "bakery.png", "Type": "Induustrial", "Consumes": "rock wood gold", "Successor": "none"}], "Resources": [{"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "2", "Texture path": "Rock.jpg", "Resource\nName": "rock", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "3", "Texture path": "Wood.jpg", "Resource\nName": "wood", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "10", "Texture path": "Gold.jpg", "Resource\nName": "gold", "Successor": "none"}]}, "UUID": "1ca05037-da97-459c-a632-6c5840f3a7ad", "DependenciesSetName": "Default Set 1"}}
+Recipent: CreatorNode cmd: Parse args: {"DependenciesSetName":"Default Set 1","Dependencies":{"Buildings":[{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:10 gold:0","Type":"Domestic","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"house","Dwellers\namount":"1","Texture path":"bakery.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:0 wood:15 gold:0","Type":"Industrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"shed","Dwellers\namount":"1","Texture path":"shed.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 0 3","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:15 gold:0","Type":"Induustrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"windmill","Dwellers\namount":"1","Texture path":"bakery.png"}],"Dwellers":[{"Dweller\nName":"dweller","Successor":"none","Predecessor":"none","Description":"-","Consumes":"rock","Consume Rate":"1","Ico path":"-"}],"Resources":[{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"2","Texture path":"Rock.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"10","Texture path":"Gold.jpg","Ico path":"-"}]},"UUID":"1ca05037-da97-459c-a632-6c5840f3a7ad"}
+Creator node received following dependencies package:
+{"Buildings":[{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:10 gold:0","Type":"Domestic","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"house","Dwellers\namount":"1","Texture path":"bakery.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:0 wood:15 gold:0","Type":"Industrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"shed","Dwellers\namount":"1","Texture path":"shed.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 0 3","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:15 gold:0","Type":"Induustrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"windmill","Dwellers\namount":"1","Texture path":"bakery.png"}],"Dwellers":[{"Dweller\nName":"dweller","Successor":"none","Predecessor":"none","Description":"-","Consumes":"rock","Consume Rate":"1","Ico path":"-"}],"Resources":[{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"2","Texture path":"Rock.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"10","Texture path":"Gold.jpg","Ico path":"-"}]}
+[Queue algo]: CreatorNode's sender: sent {"Args":{"UUID":"1ca05037-da97-459c-a632-6c5840f3a7ad"},"To":"Creator","Operation":"ParseConfirm"}
+CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "Parse", "Args": {"Dependencies": {"Dwellers": [{"Predecessor": "none", "Description": "-", "Dweller\nName": "dweller", "Consume Rate": "1", "Ico path": "-", "Consumes": "rock", "Successor": "none"}], "Buildings": [{"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "house", "Dweller\nName": "dweller", "Produce Rate": "1 3 0", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:2 wood:10 gold:0", "Texture path": "bakery.png", "Type": "Domestic", "Consumes": "rock wood gold", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "shed", "Dweller\nName": "dweller", "Produce Rate": "1 3 0", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:0 wood:15 gold:0", "Texture path": "shed.png", "Type": "Industrial", "Consumes": "rock wood gold", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Produces": "rock wood gold", "Dwellers\namount": "1", "Building\nName": "windmill", "Dweller\nName": "dweller", "Produce Rate": "1 0 3", "Consume Rate": "0 0 3", "Ico path": "-", "Cost\nin\nresources": "rock:2 wood:15 gold:0", "Texture path": "bakery.png", "Type": "Induustrial", "Consumes": "rock wood gold", "Successor": "none"}], "Resources": [{"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "2", "Texture path": "Rock.jpg", "Resource\nName": "rock", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "3", "Texture path": "Wood.jpg", "Resource\nName": "wood", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "-", "Start income": "10", "Texture path": "Gold.jpg", "Resource\nName": "gold", "Successor": "none"}]}, "UUID": "f551e3b9-e385-4bf7-8099-235ab8689bc9", "DependenciesSetName": "Default Set 2"}}
+Recipent: CreatorNode cmd: Parse args: {"DependenciesSetName":"Default Set 2","Dependencies":{"Buildings":[{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:10 gold:0","Type":"Domestic","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"house","Dwellers\namount":"1","Texture path":"bakery.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:0 wood:15 gold:0","Type":"Industrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"shed","Dwellers\namount":"1","Texture path":"shed.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 0 3","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:15 gold:0","Type":"Induustrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"windmill","Dwellers\namount":"1","Texture path":"bakery.png"}],"Dwellers":[{"Dweller\nName":"dweller","Successor":"none","Predecessor":"none","Description":"-","Consumes":"rock","Consume Rate":"1","Ico path":"-"}],"Resources":[{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"2","Texture path":"Rock.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"10","Texture path":"Gold.jpg","Ico path":"-"}]},"UUID":"f551e3b9-e385-4bf7-8099-235ab8689bc9"}
+Creator node received following dependencies package:
+{"Buildings":[{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:10 gold:0","Type":"Domestic","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"house","Dwellers\namount":"1","Texture path":"bakery.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 3 0","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:0 wood:15 gold:0","Type":"Industrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"shed","Dwellers\namount":"1","Texture path":"shed.png"},{"Predecessor":"none","Description":"-","Produce Rate":"1 0 3","Consume Rate":"0 0 3","Ico path":"-","Dweller\nName":"dweller","Successor":"none","Cost\nin\nresources":"rock:2 wood:15 gold:0","Type":"Induustrial","Produces":"rock wood gold","Consumes":"rock wood gold","Building\nName":"windmill","Dwellers\namount":"1","Texture path":"bakery.png"}],"Dwellers":[{"Dweller\nName":"dweller","Successor":"none","Predecessor":"none","Description":"-","Consumes":"rock","Consume Rate":"1","Ico path":"-"}],"Resources":[{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"2","Texture path":"Rock.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"-"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"10","Texture path":"Gold.jpg","Ico path":"-"}]}
+[Queue algo]: CreatorNode's sender: sent {"Args":{"UUID":"f551e3b9-e385-4bf7-8099-235ab8689bc9"},"To":"Creator","Operation":"ParseConfirm"}
+CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MainMenuNode", "TargetView": "MainMenu"}}
+Recipent: CreatorNode cmd: MoveTo args: {"TargetControlNode":"MainMenuNode","TargetView":"MainMenu"}
+CreatorNode: Stopping sender thread
+Sender stopper out
+[Queue algo]: CreatorNode: Sender: out
+CreatorNode: Stopping receiver thread
+Receiver stopper out
+CreatorNode: Receiver: out
+
+============================================
+
+Switched control to: MainMenuNode
+Hanshake: controlnode.DispatchCenter@3cd1a2f1
+Generated da53f8b9-cd5a-44e7-a22a-fec758655bab
+MainMenuNode: Sender started queue algo
+MainMenuNode: Receiver started
+[Queue algo]: MainMenuNode's sender: sent {"Args":{"TargetView":"MainMenu"},"To":"ViewSetter","Operation":"SetView","From":"MainMenuNode","UUID":"da53f8b9-cd5a-44e7-a22a-fec758655bab"}
+Blocking ended, receipt confirmed
+Receiving module: MainMenuNode has acknowledged operation with UUID: da53f8b9-cd5a-44e7-a22a-fec758655bab
+MainMenuNode's StreamReceiver got: {"To": "MainMenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "LoaderNode", "TargetView": "Loader"}}
+Recipent: MainMenuNode cmd: MoveTo args: {"TargetControlNode":"LoaderNode","TargetView":"Loader"}
+MainMenuNode: Stopping sender thread
+Sender stopper out
+MainMenuNode: Stopping receiver thread
+[Queue algo]: MainMenuNode: Sender: out
+Receiver stopper out
+MainMenuNode: Receiver: out
+
+============================================
+
+Switched control to: LoaderNode
+Hanshake: controlnode.DispatchCenter@3cd1a2f1
+Generated 4d48106c-2fff-4d77-8413-ed9beff11db6
+LoaderNode: Receiver started
+LoaderNode: Sender started queue algo
+[Queue algo]: LoaderNode's sender: sent {"Args":{"TargetView":"Loader"},"To":"ViewSetter","Operation":"SetView","From":"LoaderNode","UUID":"4d48106c-2fff-4d77-8413-ed9beff11db6"}
+Blocking ended, receipt confirmed
+Receiving module: LoaderNode has acknowledged operation with UUID: 4d48106c-2fff-4d77-8413-ed9beff11db6
+Hanshake: controlnode.DispatchCenter@3cd1a2f1
+Generated 6c75f70b-67fb-4001-969f-aa58d151093f
+[Queue algo]: LoaderNode's sender: sent {"Args":{"DependenciesNames":["Default Set","Stronghold","Default Set 2","Default Set 1"]},"To":"Loader","Operation":"Init","From":"LoaderNode","UUID":"6c75f70b-67fb-4001-969f-aa58d151093f"}
+Blocking ended, receipt confirmed
+Receiving module: LoaderNode has acknowledged operation with UUID: 6c75f70b-67fb-4001-969f-aa58d151093f
+LoaderNode's StreamReceiver got: {"To": "LoaderNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MainMenuNode", "TargetView": "MainMenu"}}
+Recipent: LoaderNode cmd: MoveTo args: {"TargetControlNode":"MainMenuNode","TargetView":"MainMenu"}
+LoaderNode: Stopping sender thread
+Sender stopper out
+LoaderNode: Stopping receiver thread
+[Queue algo]: LoaderNode: Sender: out
+Receiver stopper out
+LoaderNode: Receiver: out
+
+============================================
+
+Switched control to: MainMenuNode
+Hanshake: controlnode.DispatchCenter@3cd1a2f1
+Generated b7e6d325-07d5-4e94-a468-386595b9382e
+MainMenuNode: Receiver started
+MainMenuNode: Sender started queue algo
+[Queue algo]: MainMenuNode's sender: sent {"Args":{"TargetView":"MainMenu"},"To":"ViewSetter","Operation":"SetView","From":"MainMenuNode","UUID":"b7e6d325-07d5-4e94-a468-386595b9382e"}
+Blocking ended, receipt confirmed
+Receiving module: MainMenuNode has acknowledged operation with UUID: b7e6d325-07d5-4e94-a468-386595b9382e
 MainMenuNode's StreamReceiver got: {"To": "MainMenuNode", "Operation": "Exit", "Args": {}}
 Recipent: MainMenuNode cmd: Exit args: {}
 Exiting...
-[0x7FEE2C6E030] ANOMALY: meaningless REX prefix used
-[0x7FEE641AAA0] ANOMALY: meaningless REX prefix used
-[0x7FEE64048C0] ANOMALY: meaningless REX prefix used
-[0x7FEE64054B0] ANOMALY: meaningless REX prefix used

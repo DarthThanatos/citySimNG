@@ -12,9 +12,18 @@ public class DependenciesRepresenter {
 	private List<String> dwellersNames;
 	private HashMap<String, Object> dependencies;
 	private double money;
+	private Map<String, Integer> stockPile;
 	
 	public DependenciesRepresenter(){
 		dependencies = new HashMap<>();
+	}
+	
+	public Map<String,Integer> getStockPile(){
+		return stockPile;
+	}
+	
+	public void setStockPile(Map<String, Integer> actualValues){
+		this.stockPile = actualValues;
 	}
 	
 	public void setMoney(double money){
