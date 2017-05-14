@@ -1,0 +1,53 @@
+{
+	"Dwellers": 
+	[
+		{
+			"Predecessor": "d",
+			 "Successor": "d",
+			 "Description": "d",
+			 "Dweller\nName": "d",
+			 "Ico path": "d",
+			 "Consume Rate": "d",
+			 "Consumes": "d"
+			 },
+			 {"Predecessor": "d",
+			 "Description": "d",
+			 "Dweller\nName": "d",
+			 "Consume Rate": "d",
+			 "Ico path": "d",
+			 "Consumes": "d",
+			 "Successor": "d"
+		}
+	],
+	"Buildings": 
+	[
+		{
+			 "Building\nName": "b",
+			"Predecessor": "b",
+			 "Successor": "b",
+			"Description": "b",
+			 "Ico path": "b",
+			 "Texture path": "b",
+			 "Dwellers\namount": "b",
+			 "Dweller\nName": "b",
+			 "Type": "b",
+			 
+			 "Produces": "b",
+			 "Produce Rate": "b",
+			 "Consume Rate": "b",
+			 "Consumes": "b",
+			 "Costs":""
+		}
+	],
+	"Resources": 
+	[
+	
+		{
+			"Predecessor": "r",
+			 "Ico path": "r",
+			 "Description": "r",
+			 "Resource\nName": "r",
+			 "Successor": "r"
+		}
+	]
+}

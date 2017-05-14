@@ -1,6 +1,6 @@
 import os
 import wx
-from CreatorView import CreatorView
+from CreatorView.CreatorView import CreatorView
 from GameMenuView import GameMenuView
 from LoaderView import LoaderView
 from MainMenuView import MainMenuView

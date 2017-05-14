@@ -251,8 +251,6 @@ class CreatorView(wx.Panel):
         print msg
         self.errorMsgField.SetLabelText(msg)
 
-
-
     def save(self, event):
         dependencies = self.getGridsContent()
         dlg = wx.FileDialog(
