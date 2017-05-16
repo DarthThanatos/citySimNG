@@ -34,6 +34,10 @@ class UserEventHandlerThread(threading.Thread):
                             self.map_view.buildings_panel.scroll_building_panel_left()
                         if self.map_view.right_arrow_buildings_panel.collidepoint(pos):
                             self.map_view.buildings_panel.scroll_building_panel_right()
+                        if self.map_view.resources_panel.left_arrow_rect.collidepoint(pos):
+                            self.map_view.resources_panel.scroll_resources_panel_left()
+                        if self.map_view.resources_panel.right_arrow_rect.collidepoint(pos):
+                            self.map_view.resources_panel.scroll_resources_panel_right()
                         clicked_nav_arrows = [s for s in self.map_view.navigation_arrows_sprites if s.rect.collidepoint(pos)]
                         if len(clicked_nav_arrows) == 1:
                             self.map_view.switch_game_tile(clicked_nav_arrows[0])

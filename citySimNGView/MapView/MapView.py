@@ -137,7 +137,7 @@ class MapView(wx.Panel):
         # Create resources panel and add it to all sprites
         self.resources_panel = ResourcesPanel(self.game_screen, 0, self.size_y - RESOURCES_PANEL_SIZE * self.size_y,
                                               self.size_x - BUILDINGS_PANEL_SIZE * self.size_x,
-                                              RESOURCES_PANEL_SIZE * self.size_y)
+                                              RESOURCES_PANEL_SIZE * self.size_y, self)
         self.all_sprites.add(self.resources_panel)
 
         # Create buildings panel, draw it and add it to all sprites
@@ -195,13 +195,14 @@ class MapView(wx.Panel):
         self.navigation_arrows_sprites.add(right_arrow)
         self.navigation_arrows_sprites.add(down_arrow)
 
-    def mes(self, msg, color, x, y, surface=None):
+    def mes(self, msg, color, x, y, surface=None, draw=True):
         font = pygame.font.SysFont(FONT, FONT_SIZE)
         screen_text = font.render(msg, True, color)
-        if surface is None:
-            self.game_screen.blit(screen_text, [x, y])
-        else:
-            surface.blit(screen_text, [x, y])
+        if draw:
+            if surface is None:
+                self.game_screen.blit(screen_text, [x, y])
+            else:
+                surface.blit(screen_text, [x, y])
         return screen_text.get_size()
 
     def draw_message_with_wrapping(self, msg, color, x, y, surface):
@@ -267,9 +268,9 @@ class MapView(wx.Panel):
         if operation == "Init":
             self.buildings_panel.add_buildings_to_buildings_panel(args["buildings"])
             self.resources_panel.add_resources_to_resources_panel(args["resources"])
-            texture_one = args["Texture One"]
-            texture_two = args["Texture Two"]
-            print "texture one:",texture_one,"texture two", texture_two
+            self.texture_one = args["Texture One"]
+            self.texture_two = args["Texture Two"]
+            print "texture one:",self.texture_one,"texture two", self.texture_two
             #global GRASS_TEXTURE, GRASS2_TEXTURE
             #GRASS_TEXTURE = relative_textures_path + texture_one
             #GRASS2_TEXTURE = relative_textures_path + texture_two
@@ -286,11 +287,11 @@ class MapView(wx.Panel):
             self.condition.release()
         elif operation == "placeBuildingResult" or operation == "deleteBuildingResult":
             self.last_res_info = args["actualRes"]
-            self.resources_panel.draw_resources_panel(args["actualRes"], self)
+            self.resources_panel.draw_resources_panel(args["actualRes"])
         elif operation == "Update":
             # update resources values
             self.last_res_info = args
-            self.resources_panel.draw_resources_panel(args, self)
+            self.resources_panel.draw_resources_panel(args)
         else:
             print "Unknown message"
 
@@ -374,7 +375,7 @@ class MapView(wx.Panel):
         self.navigation_panel.draw_navigation_panel()
         self.buildings_panel.draw_buildings_panel()
         self.buildings_panel.draw_buildings_in_buildings_panel()
-        self.resources_panel.draw_resources_panel(self.last_res_info, self)
+        self.resources_panel.draw_resources_panel(self.last_res_info)
         self.create_navigation_arrows()
         for nav_arrow in self.navigation_arrows_sprites:
             nav_arrow.draw_navigation_arrow()
@@ -420,7 +421,7 @@ class MapView(wx.Panel):
         self.navigation_panel.draw_navigation_panel()
         self.buildings_panel.draw_buildings_panel()
         self.buildings_panel.draw_buildings_in_buildings_panel()
-        self.resources_panel.draw_resources_panel(self.last_res_info, self)
+        self.resources_panel.draw_resources_panel(self.last_res_info)
         for nav_arrow in self.navigation_arrows_sprites:
             nav_arrow.draw_navigation_arrow()
         self.mes(str(self.map_position), PURPLE, 0, 0)
