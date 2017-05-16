@@ -8,6 +8,7 @@ from MainMenuView import MainMenuView
 from ExchangeView import ExchangeView
 from MapView.MapView import MapView
 from TutorialView import TutorialView
+from RankingView import RankingView
 import pygame
 import json
 import traceback
@@ -25,7 +26,8 @@ class MyFrame(wx.Frame):
             "Creator":CreatorSwitcher(self,tplSize,"Creator",sender = sender),
             "Exchange": ExchangeView(self, tplSize, "Exchange", sender),
             "Map": MapView(self, tplSize, "Map", sender),
-            "Tutorial": TutorialView(self, tplSize, "Tutorial", sender = sender)
+            "Tutorial": TutorialView(self, tplSize, "Tutorial", sender = sender),
+            "Ranking": RankingView(self, tplSize, "Ranking", sender = sender)
         }
 
         for name in self.views:

@@ -60,6 +60,7 @@ class GameMenuView(wx.Panel):
         newgame_btn = wx.Button(self, label="New Game")
         tutorial_btn = wx.Button(self, label="Tutorial")
         exchange_btn = wx.Button(self, label="Exchange")
+        ranking_btn = wx.Button(self, label="Ranking")
         load_btn = wx.Button(self, label="Load")
         save_btn = wx.Button(self, label="Save")
         loader_btn = wx.Button(self, label = "Back to Loader")
@@ -70,6 +71,7 @@ class GameMenuView(wx.Panel):
         # Set buttons positions
         buttonsSizer.Add(newgame_btn, 0, wx.CENTER | wx.ALL, 5)
         buttonsSizer.Add(tutorial_btn, 0, wx.CENTER)
+        buttonsSizer.Add(ranking_btn, 0, wx.CENTER)
         buttonsSizer.Add(exchange_btn, 0, wx.CENTER)
         buttonsSizer.Add(load_btn, 0, wx.CENTER)
         buttonsSizer.Add(save_btn, 0, wx.CENTER)
@@ -79,6 +81,7 @@ class GameMenuView(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self.moveToExchange, exchange_btn)
         self.Bind(wx.EVT_BUTTON, self.moveToNewGame, newgame_btn)
         self.Bind(wx.EVT_BUTTON, self.moveToTutorial, tutorial_btn)
+        self.Bind(wx.EVT_BUTTON, self.moveToRanking, ranking_btn)
         self.Bind(wx.EVT_BUTTON, self.moveToLoader, loader_btn)
 
         self.SetSizer(buttonsSizer)
@@ -117,6 +120,13 @@ class GameMenuView(wx.Panel):
         msg = self.mountMoveToMsg("Tutorial")
         self.sender.send(msg)
         #self.sender.send("MenuNode@MoveTo@TutorialNode")
+
+    def moveToRanking(self, event):
+        """ This function switches to tutorial view """
+        #self.parent.setView("Ranking")
+        msg = self.mountMoveToMsg("Ranking")
+        self.sender.send(msg)
+        #self.sender.send("MenuNode@MoveTo@RankingNode")
 
     def readMsg(self, msg):
         print "Menu view got msg", msg

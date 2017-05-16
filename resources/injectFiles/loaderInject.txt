@@ -7,6 +7,7 @@ MenuModule menunode.MenuNode GameMenuNode
 TutorialModule tutorialnode.TutorialNode TutorialNode 
 ExchangeModule exchangenode.ExchangeNode ExchangeNode
 MapModule mapnode.MapNode MapNode
+RankingModule rankingnode.RankingNode RankingNode
 
 Mode Edges
 # first column: "from" vertex, represented via its hashkey 
@@ -16,6 +17,7 @@ Mode Edges
 GameMenuNode TutorialNode   
 GameMenuNode ExchangeNode
 GameMenuNode MapNode
+GameMenuNode RankingNode
 
 Mode StartNode
 # one row containing the main Node instance hashKey; it can be used to retrieve root Node from which everything is started
