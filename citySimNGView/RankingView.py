@@ -13,38 +13,10 @@ class RankingView(wx.Panel):
 
         self.size = size
         self.musicPath = musicPath
-        self.initButtons()
+        self.initRanking()
         self.SetBackgroundColour((255, 255, 255))
-        self.pageID = 0
-        self.ranking_info = [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu sapien non felis mattis\n " \
-            "luctus. Nulla sed sapien neque. Mauris vitae urna ac tellus cursus efficitur et egestas turpis.\n" \
-            " Etiam vel justo scelerisque, tincidunt dui ac, iaculis felis. In hac habitasse platea dictum\n" \
-            "st. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut \n" \
-            "ante metus, vestibulum nec commodo ac, eleifend porta tortor. Etiam diam orci, luctus ac alique\n" \
-            "t at, porttitor nec risus. Fusce fermentum lacinia mauris, eu hendrerit ligula convallis non. \n" \
-            "Quisque faucibus tellus ac lacus fringilla malesuada. Nulla id neque eget nisi vulputate accum\n" \
-            "san. Quisque euismod metus pretium justo imperdiet iaculis. Cras a ante nisi. Aliquam erat vol\n" \
-            "utpat. Nulla rutrum ut velit a placerat. Maecenas laoreet ornare lacinia. Cras ultrices mi nis\n" \
-            "i. Etiam euismod et magna ac mattis. Cras et quam dictum, lobortis mauris eget, pretium metus\n" \
-            ". Integer pulvinar, sem non suscipit congue, erat ipsum tincidunt mi, et aliquam lectus leo eu\n" \
-            " mi. Fusce blandit metus at odio consequat, a suscipit urna pharetra. Sed ullamcorper orci id \n" \
-            "lacinia bibendum.",
-            "Suspendisse accumsan tincidunt sagittis. Etiam tempor lacus id ante interdum, vitae faucibus \n"
-            "nulla aliquet. Donec enim risus, tincidunt eu est nec, suscipit imperdiet nisi. Quisque \n"
-            "laoreet magna consectetur porta gravida. Nullam id felis sapien. Suspendisse orci mi, commodo\n"
-            " in lorem quis, tincidunt vehicula metus. Morbi laoreet, lectus eu blandit pharetra, tortor\n"
-            " ante gravida turpis, quis mollis nisi mi vitae massa. Duis tincidunt nisi a nisi luctus tempus.\n"
-            " Vivamus euismod a tortor at tempus.",
-            "Aliquam pulvinar ac dui ut iaculis. Nullam ut rutrum odio. Etiam accumsan in dui in auctor. Praesent \n"
-            "cursus lacus nec nisl blandit ullamcorper. Proin non est efficitur ligula ultrices pellentesque. Cras \n"
-            "aliquet, ante varius commodo fermentum, nisi elit dictum lacus, ac feugiat libero felis eu mi. Nulla \n"
-            "porttitor faucibus dui quis gravida. Suspendisse potenti."
-            ]
-
-        self.centerSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self.ctrlMsgField = wx.StaticText(self, label=self.ranking_info[self.pageID])
-        self.centerSizer.Add(self.ctrlMsgField, 0, wx.EXPAND, 5)
+        
+        
 
     def onShow(self, event):
         # print "Menu on show"
@@ -66,35 +38,28 @@ class RankingView(wx.Panel):
                 # print "menu: problem with pygame quit"
                 pass
 
-    def initButtons(self):
-        """ This function creates buttons, sets theirs positions and size and
-            binds logic to them."""
-        menu_btn = wx.Button(self, label="Menu", pos=(130, 225), size=(60, 30))
-        next_btn = wx.Button(self, label="Next", pos=(160, 195), size=(60, 30))
-        prev_btn = wx.Button(self, label="Prev", pos=(100, 195), size=(60, 30))
+    def initRanking(self):
+        """ This function creates view for ranking, sets essential buttons' properties - 
+            positions and size. It also binds logic to them."""
+
+        ranking_info = [
+            "ranking"
+            ]
+        centerSizer = wx.BoxSizer(wx.VERTICAL)
+        ctrlMsgField = wx.StaticText(self, label=ranking_info[0])
+        centerSizer.Add(ctrlMsgField, 0, wx.CENTER)
+
+        menu_btn = wx.Button(self, label="Menu")
+
+        centerSizer.AddSpacer(50)
+        centerSizer.Add(menu_btn, 0, wx.CENTER | wx.ALL, 5)
+        
+
         self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
-        self.Bind(wx.EVT_BUTTON, self.nextPage, next_btn)
-        self.Bind(wx.EVT_BUTTON, self.prevPage, prev_btn)
 
-    def nextPage(self, event):
-        """ This function displays next page of ranking """
-        if self.pageID + 1 < self.ranking_info.__len__():
-            self.pageID += 1
-            self.ctrlMsgField.Destroy()
-            self.Refresh()
-            self.centerSizer = wx.BoxSizer(wx.HORIZONTAL)
-            self.ctrlMsgField = wx.StaticText(self, label=self.ranking_info[self.pageID])
-            self.centerSizer.Add(self.ctrlMsgField, 0, wx.EXPAND, 5)
+        self.SetSizer(centerSizer)
+        centerSizer.SetDimension(0, 0, self.size[0], self.size[1])
 
-    def prevPage(self, event):
-        """ This function displays previous page of ranking """
-        if self.pageID > 0:
-            self.pageID -= 1
-            self.ctrlMsgField.Destroy()
-            self.Refresh()
-            self.centerSizer = wx.BoxSizer(wx.HORIZONTAL)
-            self.ctrlMsgField = wx.StaticText(self, label=self.ranking_info[self.pageID])
-            self.centerSizer.Add(self.ctrlMsgField, 0, wx.EXPAND, 5)
 
 
     def retToMenu(self, event):
