@@ -1,11 +1,2 @@
 *.pyc
-*/CreatorModule/build/*
-*/ExchangeModule/build/*
-*/MapModule/build/*
-*/RankingModule/build/*
-*/SkeletonModule/build/*
-*/TutorialModule/build/*
-*/MenuModule/build/*
 javaLog.txt
-.gradle/*
-*/.gradle/*
