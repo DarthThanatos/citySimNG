@@ -13,6 +13,7 @@ class UserEventHandlerThread(threading.Thread):
         shadow = None
         building = None
         clock = pygame.time.Clock()
+
         while self.map_view.game_on:
             for event in pygame.event.get():
                 pos = pygame.mouse.get_pos()

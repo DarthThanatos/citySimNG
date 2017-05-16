@@ -44,6 +44,8 @@ class MapView(wx.Panel):
     can_afford_on_building = False
     last_res_info = None
 
+    image = None
+
     condition = threading.Condition()
 
     def __init__(self, parent, size, name, sender, music_path=relative_music_path + "TwoMandolins.mp3"):
@@ -130,9 +132,7 @@ class MapView(wx.Panel):
         # Create background and game_screen
         self.background = pygame.display.set_mode((self.size_x, self.size_y))
         self.game_screen = pygame.Surface.copy(self.background)
-        self.image = self.choose_game_screen_texture()
-        self.image = pygame.transform.scale(self.image, (self.size_x, self.size_y))
-        self.game_screen.blit(self.image, (0, 0))
+
 
         # Create resources panel and add it to all sprites
         self.resources_panel = ResourcesPanel(self.game_screen, 0, self.size_y - RESOURCES_PANEL_SIZE * self.size_y,
@@ -145,7 +145,7 @@ class MapView(wx.Panel):
                                               self.size_x - BUILDINGS_PANEL_SIZE * self.size_x, 0,
                                               BUILDINGS_PANEL_SIZE * self.size_x,
                                               self.size_y - RESOURCES_PANEL_SIZE * self.size_y)
-        self.buildings_panel.draw_buildings_panel()
+
         self.all_sprites.add(self.buildings_panel)
 
         self.navigation_panel = NavigationPanel(self.size_x - BUILDINGS_PANEL_SIZE * self.size_x,
@@ -153,17 +153,14 @@ class MapView(wx.Panel):
                                                 BUILDINGS_PANEL_SIZE * self.size_x,
                                                 RESOURCES_PANEL_SIZE * self.size_y,
                                                 self.game_screen)
-        self.navigation_panel.draw_navigation_panel()
+
         self.all_sprites.add(self.navigation_panel)
 
         self.current_tile = MapTile(self.game_screen, self.all_sprites, self.buildings_sprites)
         self.game_screen_tiles[str(self.map_position)] = self.current_tile
-        self.mes(str(self.map_position), PURPLE, 0, 0)
 
         # Create and draw arrows for moving map
         self.create_navigation_arrows()
-        for nav_arrow in self.navigation_arrows_sprites:
-            nav_arrow.draw_navigation_arrow()
 
         # start new thread, that will be listening for player events
         self.game_on = True
@@ -266,11 +263,24 @@ class MapView(wx.Panel):
             return
         operation = parsed_msg["Operation"]
         if operation == "Init":
-            self.buildings_panel.add_buildings_to_buildings_panel(args["buildings"])
-            self.resources_panel.add_resources_to_resources_panel(args["resources"])
             self.texture_one = args["Texture One"]
             self.texture_two = args["Texture Two"]
             print "texture one:",self.texture_one,"texture two", self.texture_two
+            print "TEXTURE ONE " + str(self.texture_one)
+            self.image = self.choose_game_screen_texture()
+            self.image = pygame.transform.scale(self.image, (self.size_x, self.size_y))
+            self.game_screen.blit(self.image, (0, 0))
+
+            self.buildings_panel.draw_buildings_panel()
+            self.navigation_panel.draw_navigation_panel()
+            for nav_arrow in self.navigation_arrows_sprites:
+                nav_arrow.draw_navigation_arrow()
+
+            self.mes(str(self.map_position), PURPLE, 0, 0)
+
+            self.buildings_panel.add_buildings_to_buildings_panel(args["buildings"])
+            self.resources_panel.add_resources_to_resources_panel(args["resources"])
+
             #global GRASS_TEXTURE, GRASS2_TEXTURE
             #GRASS_TEXTURE = relative_textures_path + texture_one
             #GRASS2_TEXTURE = relative_textures_path + texture_two
@@ -298,9 +308,9 @@ class MapView(wx.Panel):
     def choose_game_screen_texture(self):
         x, y = self.map_position
         if (abs(x) + abs(y)) % 2 == 0:
-            return pygame.image.load(GRASS_TEXTURE)
+            return pygame.image.load(relative_textures_path + self.texture_one)
         else:
-            return pygame.image.load(GRASS2_TEXTURE)
+            return pygame.image.load(relative_textures_path + self.texture_two)
 
     def switch_game_tile(self, nav_arrow):
         x, y = self.map_position
