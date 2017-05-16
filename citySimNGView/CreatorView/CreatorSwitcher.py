@@ -10,7 +10,7 @@ class CreatorSwitcher(wx.Panel):
         wx.Panel.__init__(self, size=size, parent=parent)
 
         self.musicPath = musicPath
-        current_dependencies = {}
+        current_dependencies = {"Resources" : {}, "Buildings":{}, "Dwellers":{}}
         buildingsNames = ["Building1","Building2"]
         resourcesNames = ["Res1","Res2"]
         dwellersNames = ["Dweller1","Dweller2"]
@@ -29,6 +29,7 @@ class CreatorSwitcher(wx.Panel):
         }
         for view in self.views: self.views[view].Hide()
         self.showPanel("main_panel", initDataForSearchedPanel=None)
+        self.Bind(wx.EVT_SHOW, self.onShow, self)
 
     def readMsg(self, msg):
         self.main_panel.readMsg(msg)
@@ -61,4 +62,4 @@ class CreatorSwitcher(wx.Panel):
                 print "creator: problem with pygame quit"
 
     def resetView(self):
-        pass
+        self.views["main_panel"].resetView()

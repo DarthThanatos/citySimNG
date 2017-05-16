@@ -267,6 +267,12 @@ class MapView(wx.Panel):
         if operation == "Init":
             self.buildings_panel.add_buildings_to_buildings_panel(args["buildings"])
             self.resources_panel.add_resources_to_resources_panel(args["resources"])
+            texture_one = args["Texture One"]
+            texture_two = args["Texture Two"]
+            print "texture one:",texture_one,"texture two", texture_two
+            #global GRASS_TEXTURE, GRASS2_TEXTURE
+            #GRASS_TEXTURE = relative_textures_path + texture_one
+            #GRASS2_TEXTURE = relative_textures_path + texture_two
         elif operation == "canAffordOnBuildingResult":
             # we can draw building with given id
             if args["canAffordOnBuilding"]:

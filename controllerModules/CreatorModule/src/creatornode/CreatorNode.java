@@ -31,6 +31,8 @@ public class CreatorNode extends SocketNode{
 			responseArgs.put("UUID", args.getString("UUID"));
 			envelope.put("Operation", "ParseConfirm");
 			envelope.put("Args", responseArgs);
+			String textureOneName = args.getString("Texture One");
+			String textureTwoName = args.getString("Texture Two");
 			JSONObject dependencies = args.getJSONObject("Dependencies");
 			System.out.println("Creator node received following dependencies package:\n" + dependencies);
 			JSONArray resources = dependencies.getJSONArray("Resources");
@@ -41,6 +43,8 @@ public class CreatorNode extends SocketNode{
 			ResourcesMonter rm = new ResourcesMonter(resources, dr);
 			BuildingsMonter bm = new BuildingsMonter(buildings, dr);
 			DwellersMonter dm = new DwellersMonter(dwellers, dr);
+			dr.setTextureAt(0, textureOneName);
+			dr.setTextureAt(1, textureTwoName);
 			//dr now contains all necessary data; let's pass it to dispatchCenter
 			HashMap<String, DependenciesRepresenter> representers = null;
 			try{

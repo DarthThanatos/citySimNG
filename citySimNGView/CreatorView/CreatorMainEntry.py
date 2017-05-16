@@ -4,7 +4,7 @@ from DependenciesPanel import DependenciesPanel
 from LogMessages import WELCOME_MSG
 import json
 from pprint import PrettyPrinter
-from RelativePaths import relative_dependencies_path
+from RelativePaths import relative_dependencies_path,relative_textures_path
 import traceback
 import re
 from uuid import uuid4
@@ -19,7 +19,6 @@ class CreatorMainEntry(ScrolledPanel):
         self.ackMsgs = {}
         self.imageOneFile = "Grass.png"
         self.imageTwoFile = "Grass2.png"
-
         self.wakeUpData = None
         self.currentDependencies = current_dependencies # all dependencies will be stored here
 
@@ -49,9 +48,16 @@ class CreatorMainEntry(ScrolledPanel):
         rootSizer.Add(top_ln, 0, wx.EXPAND)
         rootSizer.AddSpacer(ROOT_SPACER_SIZE)
 
+        resourcesNames = current_dependencies["Resources"].keys()
+        dwellersNames = current_dependencies["Dwellers"].keys()
+        buildingsNames = current_dependencies["Buildings"].keys()
+
         self.resourcesDependenciesPanel = DependenciesPanel(self, dependenciesPartsVerticalSizer, "Resources", resourcesNames, frame, self.currentDependencies)
         self.dwellersDependenciesPanel = DependenciesPanel(self, dependenciesPartsVerticalSizer, "Dwellers",dwellersNames,frame, self.currentDependencies)
         self.buildingsDependenciesPanel = DependenciesPanel(self, dependenciesPartsVerticalSizer, "Buildings",buildingsNames, frame, self.currentDependencies)
+        self.children = [self.resourcesDependenciesPanel, self.dwellersDependenciesPanel, self.buildingsDependenciesPanel]
+
+        self.children = [self.resourcesDependenciesPanel, self.dwellersDependenciesPanel, self.buildingsDependenciesPanel]
         dependenciesPartsHorizontalSizer.Add(dependenciesPartsVerticalSizer)
 
         logLabel = wx.StaticText(self, label="Log area, shows important information")
@@ -73,8 +79,9 @@ class CreatorMainEntry(ScrolledPanel):
         img_one_info_label = wx.StaticText(self, -1, "Your background texture number one: ")
         img_one_selector_btn = wx.Button(self, -1, label = "Choose another texture", size = (-1, 32))
         self.Bind(wx.EVT_BUTTON, self.onImageOneSelected ,img_one_selector_btn)
-        image = wx.Image(name = "..\\..\\resources\\Textures\\Grass.png")
+        image = wx.Image(name = relative_textures_path + "Grass.png")#"..\\..\\resources\\Textures\\Grass.png"
         self.imageBitmapOne = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(image), size = (32,32))
+        self.texture_one_name = "Grass.png"
         image_one_horizontal_sizer.Add(img_one_info_label)
         image_one_horizontal_sizer.AddSpacer(10)
         image_one_horizontal_sizer.Add(self.imageBitmapOne)
@@ -85,8 +92,9 @@ class CreatorMainEntry(ScrolledPanel):
 
         img_two_info_label = wx.StaticText(self, -1, "Your background texture number two: ")
         img_two_selector_btn = wx.Button(self, -1, label = "Choose another texture", size = (-1, 32))
-        self.Bind(wx.EVT_BUTTON, self.onImageOneSelected ,img_two_selector_btn)
-        image = wx.Image(name = "..\\..\\resources\\Textures\\Grass2.jpg")
+        self.Bind(wx.EVT_BUTTON, self.onImageTwoSelected ,img_two_selector_btn)
+        image = wx.Image(name = relative_textures_path + "Grass2.jpg") #"..\\..\\resources\\Textures\\Grass2.jpg"
+        self.texture_two_name = "Grass2.jpg"
         self.imageBitmapTwo = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(image), size = (32,32))
         image_two_horizontal_sizer.Add(img_two_info_label)
         image_two_horizontal_sizer.AddSpacer(10)
@@ -101,16 +109,24 @@ class CreatorMainEntry(ScrolledPanel):
         rootSizer.AddSpacer(ROOT_SPACER_SIZE)
 
         menu_btn = wx.Button(self, label="Menu")
+        self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
         buttonsSizer.Add(menu_btn, 0, wx.EXPAND, 5)
 
         load_btn = wx.Button(self, label="Load dependencies From File")
+        self.Bind(wx.EVT_BUTTON, self.loadDependencies, load_btn)
         buttonsSizer.Add(load_btn, 0, wx.EXPAND, 5)
 
         save_btn = wx.Button(self, label="Save these dependencies to File")
+        self.Bind(wx.EVT_BUTTON, self.save, save_btn)
         buttonsSizer.Add(save_btn, 0, wx.EXPAND, 5)
 
         create_btn = wx.Button(self, label="Create")
+        self.Bind(wx.EVT_BUTTON, self.createDependencies, create_btn)
         buttonsSizer.Add(create_btn, 0, wx.EXPAND, 5)
+
+        clean_btn = wx.Button(self, label = "Clean and Start Again")
+        self.Bind(wx.EVT_BUTTON, self.clean, clean_btn)
+        buttonsSizer.Add(clean_btn)
 
         rootSizer.Add(buttonsSizer, 0, wx.CENTER)
         rootSizer.AddSpacer(ROOT_SPACER_SIZE + 100)
@@ -132,7 +148,7 @@ class CreatorMainEntry(ScrolledPanel):
     def onImageOneSelected(self, event):
         dlg = wx.FileDialog(
             self,
-            defaultDir="..\\..\\resources\\Textures\\",
+            defaultDir=relative_textures_path, #"..\\..\\resources\\Textures\\",
             message="Choose an image",
             wildcard="*.png|*.jpg",
             style=wx.FD_OPEN
@@ -140,6 +156,7 @@ class CreatorMainEntry(ScrolledPanel):
         if dlg.ShowModal() == wx.ID_OK:
             path = dlg.GetPath()
             print "Filename:", dlg.GetFilename()
+            self.texture_one_name = dlg.GetFilename()
             image = wx.Image(path)
             image = image.Scale(32,32)
             self.imageBitmapOne.SetBitmap(wx.BitmapFromImage(image))
@@ -147,7 +164,7 @@ class CreatorMainEntry(ScrolledPanel):
     def onImageTwoSelected(self, event):
         dlg = wx.FileDialog(
             self,
-            defaultDir="..\\..\\resources\\Textures\\",
+            defaultDir=relative_textures_path, #"..\\..\\resources\\Textures\\",
             message="Choose an image",
             wildcard="*.png|*.jpg",
             style=wx.FD_OPEN
@@ -155,7 +172,7 @@ class CreatorMainEntry(ScrolledPanel):
         if dlg.ShowModal() == wx.ID_OK:
             path = dlg.GetPath()
             print "Filename:", dlg.GetFilename()
-            self.imageTwoFile = dlg.GetFilename()
+            self.texture_two_name = dlg.GetFilename()
             image = wx.Image(path)
             image = image.Scale(32,32)
             self.imageBitmapTwo.SetBitmap(wx.BitmapFromImage(image))
@@ -175,7 +192,7 @@ class CreatorMainEntry(ScrolledPanel):
         return dependencies
 
     def save(self, event):
-        dependencies = self.getContents()
+        dependencies = self.currentDependencies
         dlg = wx.FileDialog(
             self,
             defaultDir = relative_dependencies_path,
@@ -201,18 +218,42 @@ class CreatorMainEntry(ScrolledPanel):
         print errorMsg
         self.logArea.SetValue(errorMsg)
 
+    def clean(self, event):
+        self.currentDependencies["Buildings"] = {}
+        self.currentDependencies["Resources"] = {}
+        self.currentDependencies["Dwellers"] = {}
+        self.resetContents()
+        self.logArea.SetValue("Restored default settings")
+
     def resetContents(self):
         self.logArea.SetValue(WELCOME_MSG)
-        buildingsNames, resourceNames, dwellersNames = self.lists_of_names
+        self.dependenciesSetNameInput.SetValue("Default Set")
+        image_one = wx.Image(relative_textures_path + "Grass.png")
+        image_one = image_one.Scale(32,32)
+        self.imageBitmapOne.SetBitmap(wx.BitmapFromImage(image_one))
+        self.texture_one_name = "Grass.png"
+
+        image_two = wx.Image(relative_textures_path+"Grass2.png")
+        image_two = image_two.Scale(32,32)
+        self.imageBitmapTwo.SetBitmap(wx.BitmapFromImage(image_two))
+        self.texture_two_name = "Grass2.jpg"
+
+        buildingsNames, resourceNames, dwellersNames = self.currentDependencies["Buildings"].keys(), \
+                                                       self.currentDependencies["Resources"].keys(), \
+                                                       self.currentDependencies["Dwellers"].keys()
         self.resourcesDependenciesPanel.list_box.Clear()
         self.buildingsDependenciesPanel.list_box.Clear()
         self.dwellersDependenciesPanel.list_box.Clear()
         for resourceName in resourceNames : self.resourcesDependenciesPanel.list_box.Append(resourceName)
         for buildingName in buildingsNames : self.buildingsDependenciesPanel.list_box.Append(buildingName)
         for dwellerName in dwellersNames : self.dwellersDependenciesPanel.list_box.Append(dwellerName)
+        for child in self.children: child.resetContents()
 
     def resetView(self):
-        pass
+        self.resetContents()
+        for child in self.children:
+            child.resetContents()
+
 
     def fillDepenendenciesPanelsWithContent(self, content_dict):
         self.resetContents()
@@ -226,8 +267,10 @@ class CreatorMainEntry(ScrolledPanel):
         pass
 
     def createDependencies(self, event):
-        dependencies = self.getContents()
-
+        buildings = self.currentDependencies["Buildings"]
+        resources = self.currentDependencies["Resources"]
+        dwellers = self.currentDependencies["Dwellers"]
+        dependencies = {"Buildings": buildings.values(), "Resources":resources.values(), "Dwellers":dwellers.values()}
         pp = PrettyPrinter()
         pp.pprint(dependencies)
         self.checkDependenciesPanelsCorrectness()
@@ -252,10 +295,12 @@ class CreatorMainEntry(ScrolledPanel):
         msg["Args"]["Dependencies"] = dependencies
         msg["Args"]["DependenciesSetName"] = setName
         msg["Args"]["UUID"] = uuid
+        msg["Args"]["Texture One"] = self.texture_one_name
+        msg["Args"]["Texture Two"] = self.texture_two_name
         stream = json.dumps(msg)
         print stream
-        #self.sender.send(stream)
-        #while not self.ackMsgs[uuid]: pass
+        self.sender.send(stream)
+        while not self.ackMsgs[uuid]: pass
 
         msg = "Dependencies created successfully, please go to the Loader menu now to check what was created"
         print msg
@@ -285,6 +330,8 @@ class CreatorMainEntry(ScrolledPanel):
                             self.logArea.SetValue(errorMsg)
                             self.fillDepenendenciesPanelsWithContent(grids_copy) #here we restore previous state of subpanels
                         else:
+                            for key in dependency_dict : self.currentDependencies[key]  = dependency_dict[key]
+                            self.resetView()
                             msg = "Dependencies loaded successfully!"
                             print msg
                             self.logArea.SetLabelText(msg)

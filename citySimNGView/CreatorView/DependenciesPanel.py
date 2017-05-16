@@ -39,6 +39,10 @@ class DependenciesPanel(wx.Panel):
         self.SetSizer(vertical_sizer)
         rootSizer.Add(self, 0, wx.CENTER)
 
+    def resetContents(self):
+        self.list_box.Clear()
+        for choice in self.currentDependencies[self.partName].keys(): self.list_box.Append(choice)
+
     def onAdd(self,event):
         self.frame.showPanel(self.partName,initDataForSearchedPanel= None)
 
@@ -54,9 +58,8 @@ class DependenciesPanel(wx.Panel):
             self.parent.logArea.SetValue("Please, select element to be removed from " + self.partName + " first")
 
     def onEdit(self, event):
-        index = self.list_box.GetSelection()
-        if not index == -1:
-            edited_element = self.choices[index]
+        edited_element = self.list_box.GetStringSelection()
+        if not edited_element == "":
             print "editing", edited_element
             edit_arg = {"Edit":edited_element}
             self.frame.showPanel(self.partName, initDataForSearchedPanel=edit_arg)

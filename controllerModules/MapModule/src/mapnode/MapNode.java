@@ -96,6 +96,8 @@ public class MapNode extends SocketNode{
 		JSONObject json = new JSONObject();
 		json.put("resources", resources.getResources());
 		json.put("buildings", buildings.getAllBuildings());
+		json.put("Texture One", dr.getTextureAt(0));
+		json.put("Texture Two", dr.getTextureAt(1));
 		JSONObject envelope = new JSONObject();
 		envelope.put("To", "Map");
 		envelope.put("Operation", "Init");

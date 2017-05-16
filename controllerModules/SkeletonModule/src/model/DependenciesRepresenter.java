@@ -13,11 +13,23 @@ public class DependenciesRepresenter {
 	private HashMap<String, Object> dependencies;
 	private double money;
 	private Map<String, Integer> stockPile;
+	private String[] texturesNames;
 	
 	public DependenciesRepresenter(){
 		dependencies = new HashMap<>();
+		texturesNames = new String[2];
 	}
 	
+
+	public String getTextureAt(int index){
+		if (index < 0 || index >= 2) return "DefaultBuilding.jpg";
+		return texturesNames[index];
+	}
+
+	public void setTextureAt(int index, String textureName){
+		texturesNames[index] = textureName;
+	}
+
 	public Map<String,Integer> getStockPile(){
 		return stockPile;
 	}

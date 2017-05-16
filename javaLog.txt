@@ -1,54 +1,5 @@
 One more trial
 One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
-One more trial
 Connected, view layer active
 Read and create node menunode.MenuNode with a hash key MainMenuNode
 Current location: C:\Users\Robert\Desktop\Robert\agh\PP\citySimNG
@@ -75,28 +26,28 @@ Switched control to: MainMenuNode
 MainMenuNode: Receiver started
 MainMenuNode: Sender started queue algo
 Hanshake: controlnode.DispatchCenter@3764951d
-Generated be17e942-d6e2-491e-a787-bbfa3ab695e4
-[Queue algo]: MainMenuNode's sender: sent {"Args":{"TargetView":"MainMenu"},"To":"ViewSetter","Operation":"SetView","From":"MainMenuNode","UUID":"be17e942-d6e2-491e-a787-bbfa3ab695e4"}
-Receiving module: MainMenuNode has acknowledged operation with UUID: be17e942-d6e2-491e-a787-bbfa3ab695e4
+Generated a49f1027-205e-49a9-ad29-d9598cc23a50
+[Queue algo]: MainMenuNode's sender: sent {"Args":{"TargetView":"MainMenu"},"To":"ViewSetter","Operation":"SetView","From":"MainMenuNode","UUID":"a49f1027-205e-49a9-ad29-d9598cc23a50"}
+Receiving module: MainMenuNode has acknowledged operation with UUID: a49f1027-205e-49a9-ad29-d9598cc23a50
 Blocking ended, receipt confirmed
 MainMenuNode's StreamReceiver got: {"To": "MainMenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "CreatorNode", "TargetView": "Creator"}}
 Recipent: MainMenuNode cmd: MoveTo args: {"TargetControlNode":"CreatorNode","TargetView":"Creator"}
 MainMenuNode: Stopping sender thread
 Sender stopper out
-[Queue algo]: MainMenuNode: Sender: out
 MainMenuNode: Stopping receiver thread
 MainMenuNode: Receiver: out
 Receiver stopper out
+[Queue algo]: MainMenuNode: Sender: out
 
 ============================================
 
 Switched control to: CreatorNode
 Hanshake: controlnode.DispatchCenter@3764951d
-Generated eccde652-b6b1-4b03-82b9-a85b048185fc
-CreatorNode: Sender started queue algo
-[Queue algo]: CreatorNode's sender: sent {"Args":{"TargetView":"Creator"},"To":"ViewSetter","Operation":"SetView","From":"CreatorNode","UUID":"eccde652-b6b1-4b03-82b9-a85b048185fc"}
+Generated c6e52e65-3af7-4019-932a-c70157d12199
 CreatorNode: Receiver started
-Receiving module: CreatorNode has acknowledged operation with UUID: eccde652-b6b1-4b03-82b9-a85b048185fc
+CreatorNode: Sender started queue algo
+[Queue algo]: CreatorNode's sender: sent {"Args":{"TargetView":"Creator"},"To":"ViewSetter","Operation":"SetView","From":"CreatorNode","UUID":"c6e52e65-3af7-4019-932a-c70157d12199"}
+Receiving module: CreatorNode has acknowledged operation with UUID: c6e52e65-3af7-4019-932a-c70157d12199
 Blocking ended, receipt confirmed
 CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MainMenuNode", "TargetView": "MainMenu"}}
 Recipent: CreatorNode cmd: MoveTo args: {"TargetControlNode":"MainMenuNode","TargetView":"MainMenu"}
@@ -111,280 +62,11 @@ Receiver stopper out
 
 Switched control to: MainMenuNode
 Hanshake: controlnode.DispatchCenter@3764951d
-Generated 4498feaf-1281-4dd7-be5b-a3f5209a0499
+Generated 3f8da7b0-12b2-421b-8701-24a99eb38127
 MainMenuNode: Sender started queue algo
-[Queue algo]: MainMenuNode's sender: sent {"Args":{"TargetView":"MainMenu"},"To":"ViewSetter","Operation":"SetView","From":"MainMenuNode","UUID":"4498feaf-1281-4dd7-be5b-a3f5209a0499"}
 MainMenuNode: Receiver started
-Receiving module: MainMenuNode has acknowledged operation with UUID: 4498feaf-1281-4dd7-be5b-a3f5209a0499
-Blocking ended, receipt confirmed
-MainMenuNode's StreamReceiver got: {"To": "MainMenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "LoaderNode", "TargetView": "Loader"}}
-Recipent: MainMenuNode cmd: MoveTo args: {"TargetControlNode":"LoaderNode","TargetView":"Loader"}
-MainMenuNode: Stopping sender thread
-Sender stopper out
-MainMenuNode: Stopping receiver thread
-MainMenuNode: Receiver: out
-Receiver stopper out
-[Queue algo]: MainMenuNode: Sender: out
-
-============================================
-
-Switched control to: LoaderNode
-Hanshake: controlnode.DispatchCenter@3764951d
-Generated cf559b47-c820-4513-aec6-923ae482e1a7
-LoaderNode: Receiver started
-LoaderNode: Sender started queue algo
-[Queue algo]: LoaderNode's sender: sent {"Args":{"TargetView":"Loader"},"To":"ViewSetter","Operation":"SetView","From":"LoaderNode","UUID":"cf559b47-c820-4513-aec6-923ae482e1a7"}
-Blocking ended, receipt confirmed
-Receiving module: LoaderNode has acknowledged operation with UUID: cf559b47-c820-4513-aec6-923ae482e1a7
-Hanshake: controlnode.DispatchCenter@3764951d
-Generated 5a3d64b4-240e-4245-9735-a4fa61b0390f
-[Queue algo]: LoaderNode's sender: sent {"Args":{"DependenciesNames":[]},"To":"Loader","Operation":"Init","From":"LoaderNode","UUID":"5a3d64b4-240e-4245-9735-a4fa61b0390f"}
-Blocking ended, receipt confirmed
-Receiving module: LoaderNode has acknowledged operation with UUID: 5a3d64b4-240e-4245-9735-a4fa61b0390f
-LoaderNode's StreamReceiver got: {"To": "LoaderNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MainMenuNode", "TargetView": "MainMenu"}}
-Recipent: LoaderNode cmd: MoveTo args: {"TargetControlNode":"MainMenuNode","TargetView":"MainMenu"}
-LoaderNode: Stopping sender thread
-Sender stopper out
-LoaderNode: Stopping receiver thread
-LoaderNode: Receiver: out
-Receiver stopper out
-[Queue algo]: LoaderNode: Sender: out
-
-============================================
-
-Switched control to: MainMenuNode
-Hanshake: controlnode.DispatchCenter@3764951d
-Generated 864b24cb-69f2-4353-9a32-a51d7493583b
-MainMenuNode: Receiver started
-MainMenuNode: Sender started queue algo
-[Queue algo]: MainMenuNode's sender: sent {"Args":{"TargetView":"MainMenu"},"To":"ViewSetter","Operation":"SetView","From":"MainMenuNode","UUID":"864b24cb-69f2-4353-9a32-a51d7493583b"}
-Receiving module: MainMenuNode has acknowledged operation with UUID: 864b24cb-69f2-4353-9a32-a51d7493583b
-Blocking ended, receipt confirmed
-MainMenuNode's StreamReceiver got: {"To": "MainMenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "CreatorNode", "TargetView": "Creator"}}
-Recipent: MainMenuNode cmd: MoveTo args: {"TargetControlNode":"CreatorNode","TargetView":"Creator"}
-MainMenuNode: Stopping sender thread
-Sender stopper out
-[Queue algo]: MainMenuNode: Sender: out
-MainMenuNode: Stopping receiver thread
-MainMenuNode: Receiver: out
-Receiver stopper out
-
-============================================
-
-Switched control to: CreatorNode
-Hanshake: controlnode.DispatchCenter@3764951d
-Generated 3e4fc257-d112-4876-b707-4040cb4eb3eb
-CreatorNode: Sender started queue algo
-[Queue algo]: CreatorNode's sender: sent {"Args":{"TargetView":"Creator"},"To":"ViewSetter","Operation":"SetView","From":"CreatorNode","UUID":"3e4fc257-d112-4876-b707-4040cb4eb3eb"}
-CreatorNode: Receiver started
-Receiving module: CreatorNode has acknowledged operation with UUID: 3e4fc257-d112-4876-b707-4040cb4eb3eb
-Blocking ended, receipt confirmed
-CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "Parse", "Args": {"Dependencies": {"Dwellers": [{"Predecessor": "none", "Description": "-", "Dweller\nName": "Robotnik", "Consume Rate": "1", "Ico path": "Dweller.ico", "Consumes": "chleb", "Successor": "none"}], "Buildings": [{"Predecessor": "mlyn", "Description": "-", "Produces": "chleb", "Dwellers\namount": "1", "Building\nName": "piekarnia", "Dweller\nName": "robotnik", "Produce Rate": "4", "Consume Rate": "3", "Ico path": "Bakery.ico", "Cost\nin\nresources": "wood:1 rock:1 gold:1", "Texture path": "Bakery.jpg", "Type": "Industrial", "Consumes": "maka", "Successor": "none"}, {"Predecessor": "pole", "Description": "-", "Produces": "maka", "Dwellers\namount": "3", "Building\nName": "mlyn", "Dweller\nName": "robotnik", "Produce Rate": "3", "Consume Rate": "2", "Ico path": "Mill.ico", "Cost\nin\nresources": "wood:1 rock:1 gold:1", "Texture path": "windmill.jpg", "Type": "Industrial", "Consumes": "pszenica", "Successor": "piekarnia"}, {"Predecessor": "none", "Description": "-", "Produces": "pszenica", "Dwellers\namount": "1", "Building\nName": "pole", "Dweller\nName": "robotnik", "Produce Rate": "2", "Consume Rate": "0", "Ico path": "Field.ico", "Cost\nin\nresources": "wood:1 rock:1 gold:1", "Texture path": "farma.jpg", "Type": "Industrial", "Consumes": "none", "Successor": "mlyn"}, {"Predecessor": "none", "Description": "-", "Produces": "piwo", "Dwellers\namount": "1", "Building\nName": "karczma", "Dweller\nName": "robotnik", "Produce Rate": "3", "Consume Rate": "0", "Ico path": "none", "Cost\nin\nresources": "wood:4", "Texture path": "inn.jpg", "Type": "Industrial", "Consumes": "none", "Successor": "none"}], "Resources": [{"Predecessor": "none", "Description": "-", "Ico path": "Pszenica.jpg", "Start income": "0", "Texture path": "pszenica.jpg", "Resource\nName": "pszenica", "Successor": "maka"}, {"Predecessor": "pszenica", "Description": "-", "Ico path": "Maka.jpg", "Start income": "0", "Texture path": "maka.jpg", "Resource\nName": "maka", "Successor": "chleb"}, {"Predecessor": "maka", "Description": "-", "Ico path": "Chleb.jpg", "Start income": "0", "Texture path": "chleb.jpg", "Resource\nName": "chleb", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "3", "Texture path": "Gold.jpg", "Resource\nName": "gold", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "3", "Texture path": "Rock.jpg", "Resource\nName": "rock", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "3", "Texture path": "Wood.jpg", "Resource\nName": "wood", "Successor": "none"}, {"Predecessor": "none", "Description": "-", "Ico path": "none", "Start income": "0", "Texture path": "piwo.jpg", "Resource\nName": "piwo", "Successor": "none"}]}, "UUID": "e037e018-7c0b-4e16-bc16-b307fb523abd", "DependenciesSetName": "Default Set"}}
-Recipent: CreatorNode cmd: Parse args: {"DependenciesSetName":"Default Set","Dependencies":{"Buildings":[{"Predecessor":"mlyn","Description":"-","Produce Rate":"4","Consume Rate":"3","Ico path":"Bakery.ico","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"chleb","Consumes":"maka","Building\nName":"piekarnia","Dwellers\namount":"1","Texture path":"Bakery.jpg"},{"Predecessor":"pole","Description":"-","Produce Rate":"3","Consume Rate":"2","Ico path":"Mill.ico","Dweller\nName":"robotnik","Successor":"piekarnia","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"maka","Consumes":"pszenica","Building\nName":"mlyn","Dwellers\namount":"3","Texture path":"windmill.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"2","Consume Rate":"0","Ico path":"Field.ico","Dweller\nName":"robotnik","Successor":"mlyn","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"pszenica","Consumes":"none","Building\nName":"pole","Dwellers\namount":"1","Texture path":"farma.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"3","Consume Rate":"0","Ico path":"none","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:4","Type":"Industrial","Produces":"piwo","Consumes":"none","Building\nName":"karczma","Dwellers\namount":"1","Texture path":"inn.jpg"}],"Dwellers":[{"Dweller\nName":"Robotnik","Successor":"none","Predecessor":"none","Description":"-","Consumes":"chleb","Consume Rate":"1","Ico path":"Dweller.ico"}],"Resources":[{"Successor":"maka","Predecessor":"none","Description":"-","Resource\nName":"pszenica","Start income":"0","Texture path":"pszenica.jpg","Ico path":"Pszenica.jpg"},{"Successor":"chleb","Predecessor":"pszenica","Description":"-","Resource\nName":"maka","Start income":"0","Texture path":"maka.jpg","Ico path":"Maka.jpg"},{"Successor":"none","Predecessor":"maka","Description":"-","Resource\nName":"chleb","Start income":"0","Texture path":"chleb.jpg","Ico path":"Chleb.jpg"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"3","Texture path":"Gold.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"3","Texture path":"Rock.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"piwo","Start income":"0","Texture path":"piwo.jpg","Ico path":"none"}]},"UUID":"e037e018-7c0b-4e16-bc16-b307fb523abd"}
-Creator node received following dependencies package:
-{"Buildings":[{"Predecessor":"mlyn","Description":"-","Produce Rate":"4","Consume Rate":"3","Ico path":"Bakery.ico","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"chleb","Consumes":"maka","Building\nName":"piekarnia","Dwellers\namount":"1","Texture path":"Bakery.jpg"},{"Predecessor":"pole","Description":"-","Produce Rate":"3","Consume Rate":"2","Ico path":"Mill.ico","Dweller\nName":"robotnik","Successor":"piekarnia","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"maka","Consumes":"pszenica","Building\nName":"mlyn","Dwellers\namount":"3","Texture path":"windmill.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"2","Consume Rate":"0","Ico path":"Field.ico","Dweller\nName":"robotnik","Successor":"mlyn","Cost\nin\nresources":"wood:1 rock:1 gold:1","Type":"Industrial","Produces":"pszenica","Consumes":"none","Building\nName":"pole","Dwellers\namount":"1","Texture path":"farma.jpg"},{"Predecessor":"none","Description":"-","Produce Rate":"3","Consume Rate":"0","Ico path":"none","Dweller\nName":"robotnik","Successor":"none","Cost\nin\nresources":"wood:4","Type":"Industrial","Produces":"piwo","Consumes":"none","Building\nName":"karczma","Dwellers\namount":"1","Texture path":"inn.jpg"}],"Dwellers":[{"Dweller\nName":"Robotnik","Successor":"none","Predecessor":"none","Description":"-","Consumes":"chleb","Consume Rate":"1","Ico path":"Dweller.ico"}],"Resources":[{"Successor":"maka","Predecessor":"none","Description":"-","Resource\nName":"pszenica","Start income":"0","Texture path":"pszenica.jpg","Ico path":"Pszenica.jpg"},{"Successor":"chleb","Predecessor":"pszenica","Description":"-","Resource\nName":"maka","Start income":"0","Texture path":"maka.jpg","Ico path":"Maka.jpg"},{"Successor":"none","Predecessor":"maka","Description":"-","Resource\nName":"chleb","Start income":"0","Texture path":"chleb.jpg","Ico path":"Chleb.jpg"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"gold","Start income":"3","Texture path":"Gold.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"rock","Start income":"3","Texture path":"Rock.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"wood","Start income":"3","Texture path":"Wood.jpg","Ico path":"none"},{"Successor":"none","Predecessor":"none","Description":"-","Resource\nName":"piwo","Start income":"0","Texture path":"piwo.jpg","Ico path":"none"}]}
-[Queue algo]: CreatorNode's sender: sent {"Args":{"UUID":"e037e018-7c0b-4e16-bc16-b307fb523abd"},"To":"Creator","Operation":"ParseConfirm"}
-CreatorNode's StreamReceiver got: {"To": "CreatorNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MainMenuNode", "TargetView": "MainMenu"}}
-Recipent: CreatorNode cmd: MoveTo args: {"TargetControlNode":"MainMenuNode","TargetView":"MainMenu"}
-CreatorNode: Stopping sender thread
-Sender stopper out
-CreatorNode: Stopping receiver thread
-Receiver stopper out
-CreatorNode: Receiver: out
-[Queue algo]: CreatorNode: Sender: out
-
-============================================
-
-Switched control to: MainMenuNode
-Hanshake: controlnode.DispatchCenter@3764951d
-Generated 06a4118c-01f5-4d95-a403-67c3612b8461
-MainMenuNode: Receiver started
-MainMenuNode: Sender started queue algo
-[Queue algo]: MainMenuNode's sender: sent {"Args":{"TargetView":"MainMenu"},"To":"ViewSetter","Operation":"SetView","From":"MainMenuNode","UUID":"06a4118c-01f5-4d95-a403-67c3612b8461"}
-Receiving module: MainMenuNode has acknowledged operation with UUID: 06a4118c-01f5-4d95-a403-67c3612b8461
-Blocking ended, receipt confirmed
-MainMenuNode's StreamReceiver got: {"To": "MainMenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "LoaderNode", "TargetView": "Loader"}}
-Recipent: MainMenuNode cmd: MoveTo args: {"TargetControlNode":"LoaderNode","TargetView":"Loader"}
-MainMenuNode: Stopping sender thread
-Sender stopper out
-MainMenuNode: Stopping receiver thread
-MainMenuNode: Receiver: out
-Receiver stopper out
-[Queue algo]: MainMenuNode: Sender: out
-
-============================================
-
-Switched control to: LoaderNode
-Hanshake: controlnode.DispatchCenter@3764951d
-Generated 587c3d48-f221-477b-81fe-2589cfd64406
-LoaderNode: Receiver started
-LoaderNode: Sender started queue algo
-[Queue algo]: LoaderNode's sender: sent {"Args":{"TargetView":"Loader"},"To":"ViewSetter","Operation":"SetView","From":"LoaderNode","UUID":"587c3d48-f221-477b-81fe-2589cfd64406"}
-Receiving module: LoaderNode has acknowledged operation with UUID: 587c3d48-f221-477b-81fe-2589cfd64406
-Blocking ended, receipt confirmed
-Hanshake: controlnode.DispatchCenter@3764951d
-Generated 5ae8f301-325a-47ef-b0e2-416791e9b647
-[Queue algo]: LoaderNode's sender: sent {"Args":{"DependenciesNames":["Default Set"]},"To":"Loader","Operation":"Init","From":"LoaderNode","UUID":"5ae8f301-325a-47ef-b0e2-416791e9b647"}
-Receiving module: LoaderNode has acknowledged operation with UUID: 5ae8f301-325a-47ef-b0e2-416791e9b647
-Blocking ended, receipt confirmed
-LoaderNode's StreamReceiver got: {"To": "LoaderNode", "Operation": "Select", "Args": {"UUID": "6f78b8b1-dc31-468f-9f08-784267d51e88", "SetChosen": "Default Set"}}
-Recipent: LoaderNode cmd: Select args: {"UUID":"6f78b8b1-dc31-468f-9f08-784267d51e88","SetChosen":"Default Set"}
-LoaderNode: got string selection: Default Set
-Read and create node menunode.MenuNode with a hash key GameMenuNode
-Current location: C:\Users\Robert\Desktop\Robert\agh\PP\citySimNG
-Url: file:///C:\Users\Robert\Desktop\Robert\agh\PP\citySimNG/MenuModule/bin/
-menu node created
-Read and create node tutorialnode.TutorialNode with a hash key TutorialNode
-Current location: C:\Users\Robert\Desktop\Robert\agh\PP\citySimNG
-Url: file:///C:\Users\Robert\Desktop\Robert\agh\PP\citySimNG/TutorialModule/bin/
-Read and create node exchangenode.ExchangeNode with a hash key ExchangeNode
-Current location: C:\Users\Robert\Desktop\Robert\agh\PP\citySimNG
-Url: file:///C:\Users\Robert\Desktop\Robert\agh\PP\citySimNG/ExchangeModule/bin/
-Created Exchange Node
-Stock is working
-Read and create node mapnode.MapNode with a hash key MapNode
-Current location: C:\Users\Robert\Desktop\Robert\agh\PP\citySimNG
-Url: file:///C:\Users\Robert\Desktop\Robert\agh\PP\citySimNG/MapModule/bin/
-Created Map Node
-GameMenuNode: put TutorialNode as neighbour
-TutorialNode: put GameMenuNode as parent
-GameMenuNode: put ExchangeNode as neighbour
-GameMenuNode: put MapNode as neighbour
-MapNode: put GameMenuNode as parent
-	-> Created entry for GameMenuNode
-	-> Created entry for TutorialNode
-	-> Created entry for ExchangeNode
-	-> Created entry for MapNode
-GameMenuNode: put LoaderNode as parent
-[Queue algo]: LoaderNode's sender: sent {"Args":{"UUID":"6f78b8b1-dc31-468f-9f08-784267d51e88"},"To":"Loader","Operation":"SelectConfirm"}
-LoaderNode's StreamReceiver got: {"To": "LoaderNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "GameMenuNode", "TargetView": "GameMenu"}}
-Recipent: LoaderNode cmd: MoveTo args: {"TargetControlNode":"GameMenuNode","TargetView":"GameMenu"}
-LoaderNode: Stopping sender thread
-Sender stopper out
-LoaderNode: Stopping receiver thread
-LoaderNode: Receiver: out
-[Queue algo]: LoaderNode: Sender: out
-Receiver stopper out
-
-============================================
-
-Switched control to: GameMenuNode
-GameMenuNode: Receiver started
-Hanshake: controlnode.DispatchCenter@3764951d
-Generated 25ec0d3b-9440-4494-9ae9-df3534fe5945
-GameMenuNode: Sender started queue algo
-[Queue algo]: GameMenuNode's sender: sent {"Args":{"TargetView":"GameMenu"},"To":"ViewSetter","Operation":"SetView","From":"GameMenuNode","UUID":"25ec0d3b-9440-4494-9ae9-df3534fe5945"}
-Receiving module: GameMenuNode has acknowledged operation with UUID: 25ec0d3b-9440-4494-9ae9-df3534fe5945
-Blocking ended, receipt confirmed
-GameMenuNode's StreamReceiver got: {"To": "GameMenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MapNode", "TargetView": "Map"}}
-Recipent: GameMenuNode cmd: MoveTo args: {"TargetControlNode":"MapNode","TargetView":"Map"}
-GameMenuNode: Stopping sender thread
-Sender stopper out
-GameMenuNode: Stopping receiver thread
-Receiver stopper out
-GameMenuNode: Receiver: out
-[Queue algo]: GameMenuNode: Sender: out
-
-============================================
-
-Switched control to: MapNode
-Hanshake: controlnode.DispatchCenter@3764951d
-Generated 50bfafa0-a8b9-40c5-8ad6-5129b800a6db
-MapNode: Receiver started
-MapNode: Sender started queue algo
-[Queue algo]: MapNode's sender: sent {"Args":{"TargetView":"Map"},"To":"ViewSetter","Operation":"SetView","From":"MapNode","UUID":"50bfafa0-a8b9-40c5-8ad6-5129b800a6db"}
-Receiving module: MapNode has acknowledged operation with UUID: 50bfafa0-a8b9-40c5-8ad6-5129b800a6db
-Blocking ended, receipt confirmed
-Hanshake: controlnode.DispatchCenter@3764951d
-Generated 73eb9b3e-159b-4353-a014-64c1b68ab7a2
-[Queue algo]: MapNode's sender: sent {"Args":{"buildings":[{"resourcesCost":{"gold":1,"rock":1,"pszenica":0,"piwo":0,"chleb":0,"maka":0,"wood":1},"name":"piekarnia","produces":{"gold":0,"rock":0,"pszenica":0,"piwo":0,"chleb":4,"maka":0,"wood":0},"texturePath":"resources\\Textures\\Bakery.jpg","consumes":{"gold":0,"rock":0,"pszenica":0,"piwo":0,"chleb":0,"maka":3,"wood":0}},{"resourcesCost":{"gold":1,"rock":1,"pszenica":0,"piwo":0,"chleb":0,"maka":0,"wood":1},"name":"mlyn","produces":{"gold":0,"rock":0,"pszenica":0,"piwo":0,"chleb":0,"maka":3,"wood":0},"texturePath":"resources\\Textures\\windmill.jpg","consumes":{"gold":0,"rock":0,"pszenica":2,"piwo":0,"chleb":0,"maka":0,"wood":0}},{"resourcesCost":{"gold":1,"rock":1,"pszenica":0,"piwo":0,"chleb":0,"maka":0,"wood":1},"name":"pole","produces":{"gold":0,"rock":0,"pszenica":2,"piwo":0,"chleb":0,"maka":0,"wood":0},"texturePath":"resources\\Textures\\farma.jpg","consumes":{"gold":0,"rock":0,"pszenica":0,"piwo":0,"chleb":0,"maka":0,"wood":0,"none":0}},{"resourcesCost":{"gold":0,"rock":0,"pszenica":0,"piwo":0,"chleb":0,"maka":0,"wood":4},"name":"karczma","produces":{"gold":0,"rock":0,"pszenica":0,"piwo":3,"chleb":0,"maka":0,"wood":0},"texturePath":"resources\\Textures\\inn.jpg","consumes":{"gold":0,"rock":0,"pszenica":0,"piwo":0,"chleb":0,"maka":0,"wood":0,"none":0}}],"resources":[{"successor":"maka","name":"pszenica","predecessor":"none","texturePath":"resources\\Textures\\pszenica.jpg"},{"successor":"chleb","name":"maka","predecessor":"pszenica","texturePath":"resources\\Textures\\maka.jpg"},{"successor":"none","name":"chleb","predecessor":"maka","texturePath":"resources\\Textures\\chleb.jpg"},{"successor":"none","name":"gold","predecessor":"none","texturePath":"resources\\Textures\\Gold.jpg"},{"successor":"none","name":"rock","predecessor":"none","texturePath":"resources\\Textures\\Rock.jpg"},{"successor":"none","name":"wood","predecessor":"none","texturePath":"resources\\Textures\\Wood.jpg"},{"successor":"none","name":"piwo","predecessor":"none","texturePath":"resources\\Textures\\piwo.jpg"}]},"To":"Map","Operation":"Init","From":"MapNode","UUID":"73eb9b3e-159b-4353-a014-64c1b68ab7a2"}
-Blocking ended, receipt confirmed
-Receiving module: MapNode has acknowledged operation with UUID: 73eb9b3e-159b-4353-a014-64c1b68ab7a2
-[Queue algo]: MapNode's sender: sent {"Args":{"gold":"3 +3","rock":"3 +3","pszenica":"0 +0","piwo":"0 +0","chleb":"0 +0","maka":"0 +0","wood":"3 +3"},"To":"Map","Operation":"Update"}
-MapNode's StreamReceiver got: {"To": "MapNode", "Operation": "canAffordOnBuilding", "Args": {"BuildingName": "karczma", "BuildingId": "9ba08716-b3c7-48ff-9ef1-723244082b25"}}
-Recipent: MapNode cmd: canAffordOnBuilding args: {"BuildingName":"karczma","BuildingId":"9ba08716-b3c7-48ff-9ef1-723244082b25"}
-Sent after canAfford: {"Args":{"canAffordOnBuilding":false,"buildingName":"karczma","buildingID":"9ba08716-b3c7-48ff-9ef1-723244082b25"},"To":"Map","Operation":"canAffordOnBuildingResult"}
-[Queue algo]: MapNode's sender: sent {"Args":{"canAffordOnBuilding":false,"buildingName":"karczma","buildingID":"9ba08716-b3c7-48ff-9ef1-723244082b25"},"To":"Map","Operation":"canAffordOnBuildingResult"}
-[Queue algo]: MapNode's sender: sent {"Args":{"gold":"6 +3","rock":"6 +3","pszenica":"0 +0","piwo":"0 +0","chleb":"0 +0","maka":"0 +0","wood":"6 +3"},"To":"Map","Operation":"Update"}
-MapNode's StreamReceiver got: {"To": "MapNode", "Operation": "canAffordOnBuilding", "Args": {"BuildingName": "pole", "BuildingId": "00e236bd-515e-41d7-b80a-93d6f8afbafe"}}
-Recipent: MapNode cmd: canAffordOnBuilding args: {"BuildingName":"pole","BuildingId":"00e236bd-515e-41d7-b80a-93d6f8afbafe"}
-Sent after canAfford: {"Args":{"canAffordOnBuilding":true,"buildingName":"pole","buildingID":"00e236bd-515e-41d7-b80a-93d6f8afbafe"},"To":"Map","Operation":"canAffordOnBuildingResult"}
-[Queue algo]: MapNode's sender: sent {"Args":{"canAffordOnBuilding":true,"buildingName":"pole","buildingID":"00e236bd-515e-41d7-b80a-93d6f8afbafe"},"To":"Map","Operation":"canAffordOnBuildingResult"}
-[Queue algo]: MapNode's sender: sent {"Args":{"gold":"9 +3","rock":"9 +3","pszenica":"0 +0","piwo":"0 +0","chleb":"0 +0","maka":"0 +0","wood":"9 +3"},"To":"Map","Operation":"Update"}
-MapNode's StreamReceiver got: {"To": "MapNode", "Operation": "placeBuilding", "Args": {"BuildingName": "pole", "BuildingId": "00e236bd-515e-41d7-b80a-93d6f8afbafe"}}
-Recipent: MapNode cmd: placeBuilding args: {"BuildingName":"pole","BuildingId":"00e236bd-515e-41d7-b80a-93d6f8afbafe"}
-Sent after built: {"Args":{"actualRes":{"gold":"8 +3","rock":"8 +3","pszenica":"0 +2","piwo":"0 +0","chleb":"0 +0","maka":"0 +0","wood":"8 +3"}},"To":"Map","Operation":"placeBuildingResult"}
-[Queue algo]: MapNode's sender: sent {"Args":{"actualRes":{"gold":"8 +3","rock":"8 +3","pszenica":"0 +2","piwo":"0 +0","chleb":"0 +0","maka":"0 +0","wood":"8 +3"}},"To":"Map","Operation":"placeBuildingResult"}
-[Queue algo]: MapNode's sender: sent {"Args":{"gold":"11 +3","rock":"11 +3","pszenica":"2 +2","piwo":"0 +0","chleb":"0 +0","maka":"0 +0","wood":"11 +3"},"To":"Map","Operation":"Update"}
-[Queue algo]: MapNode's sender: sent {"Args":{"gold":"14 +3","rock":"14 +3","pszenica":"4 +2","piwo":"0 +0","chleb":"0 +0","maka":"0 +0","wood":"14 +3"},"To":"Map","Operation":"Update"}
-MapNode's StreamReceiver got: {"To": "MapNode", "Operation": "deleteBuilding", "Args": {"BuildingName": "pole", "BuildingId": "00e236bd-515e-41d7-b80a-93d6f8afbafe"}}
-Recipent: MapNode cmd: deleteBuilding args: {"BuildingName":"pole","BuildingId":"00e236bd-515e-41d7-b80a-93d6f8afbafe"}
-Sent after delete: {"Args":{"actualRes":{"gold":"14 +3","rock":"14 +3","pszenica":"4 +0","piwo":"0 +0","chleb":"0 +0","maka":"0 +0","wood":"14 +3"}},"To":"Map","Operation":"deleteBuildingResult"}
-[Queue algo]: MapNode's sender: sent {"Args":{"actualRes":{"gold":"14 +3","rock":"14 +3","pszenica":"4 +0","piwo":"0 +0","chleb":"0 +0","maka":"0 +0","wood":"14 +3"}},"To":"Map","Operation":"deleteBuildingResult"}
-[Queue algo]: MapNode's sender: sent {"Args":{"gold":"17 +3","rock":"17 +3","pszenica":"4 +0","piwo":"0 +0","chleb":"0 +0","maka":"0 +0","wood":"17 +3"},"To":"Map","Operation":"Update"}
-MapNode's StreamReceiver got: {"To": "MapNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "GameMenuNode", "TargetView": "GameMenu"}}
-Recipent: MapNode cmd: MoveTo args: {"TargetControlNode":"GameMenuNode","TargetView":"GameMenu"}
-MapNode: Stopping sender thread
-Sender stopper out
-MapNode: Stopping receiver thread
-MapNode: Receiver: out
-Receiver stopper out
-[Queue algo]: MapNode: Sender: out
-
-============================================
-
-Switched control to: GameMenuNode
-Map timer exited while loop
-Map timer exited while loop
-Hanshake: controlnode.DispatchCenter@3764951d
-Generated 1b7c96d6-0476-4bd7-a39d-f301e8ebcb72
-GameMenuNode: Receiver started
-GameMenuNode: Sender started queue algo
-[Queue algo]: GameMenuNode's sender: sent {"Args":{"TargetView":"GameMenu"},"To":"ViewSetter","Operation":"SetView","From":"GameMenuNode","UUID":"1b7c96d6-0476-4bd7-a39d-f301e8ebcb72"}
-Receiving module: GameMenuNode has acknowledged operation with UUID: 1b7c96d6-0476-4bd7-a39d-f301e8ebcb72
-Blocking ended, receipt confirmed
-GameMenuNode's StreamReceiver got: {"To": "GameMenuNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "LoaderNode", "TargetView": "Loader"}}
-Recipent: GameMenuNode cmd: MoveTo args: {"TargetControlNode":"LoaderNode","TargetView":"Loader"}
-GameMenuNode: Stopping sender thread
-Sender stopper out
-GameMenuNode: Stopping receiver thread
-GameMenuNode: Receiver: out
-Receiver stopper out
-[Queue algo]: GameMenuNode: Sender: out
-
-============================================
-
-Switched control to: LoaderNode
-Hanshake: controlnode.DispatchCenter@3764951d
-Generated b467b81d-891c-4799-9e35-ba60c2698296
-LoaderNode: Receiver started
-LoaderNode: Sender started queue algo
-[Queue algo]: LoaderNode's sender: sent {"Args":{"TargetView":"Loader"},"To":"ViewSetter","Operation":"SetView","From":"LoaderNode","UUID":"b467b81d-891c-4799-9e35-ba60c2698296"}
-Receiving module: LoaderNode has acknowledged operation with UUID: b467b81d-891c-4799-9e35-ba60c2698296
-Blocking ended, receipt confirmed
-Hanshake: controlnode.DispatchCenter@3764951d
-Generated babba06a-2c11-4e68-8390-06ae54fd5099
-[Queue algo]: LoaderNode's sender: sent {"Args":{"DependenciesNames":["Default Set"]},"To":"Loader","Operation":"Init","From":"LoaderNode","UUID":"babba06a-2c11-4e68-8390-06ae54fd5099"}
-Receiving module: LoaderNode has acknowledged operation with UUID: babba06a-2c11-4e68-8390-06ae54fd5099
-Blocking ended, receipt confirmed
-LoaderNode's StreamReceiver got: {"To": "LoaderNode", "Operation": "MoveTo", "Args": {"TargetControlNode": "MainMenuNode", "TargetView": "MainMenu"}}
-Recipent: LoaderNode cmd: MoveTo args: {"TargetControlNode":"MainMenuNode","TargetView":"MainMenu"}
-LoaderNode: Stopping sender thread
-Sender stopper out
-LoaderNode: Stopping receiver thread
-LoaderNode: Receiver: out
-Receiver stopper out
-[Queue algo]: LoaderNode: Sender: out
-
-============================================
-
-Switched control to: MainMenuNode
-Hanshake: controlnode.DispatchCenter@3764951d
-Generated 205ed97e-701f-46ca-a012-034c4c467a63
-MainMenuNode: Receiver started
-MainMenuNode: Sender started queue algo
-[Queue algo]: MainMenuNode's sender: sent {"Args":{"TargetView":"MainMenu"},"To":"ViewSetter","Operation":"SetView","From":"MainMenuNode","UUID":"205ed97e-701f-46ca-a012-034c4c467a63"}
-Receiving module: MainMenuNode has acknowledged operation with UUID: 205ed97e-701f-46ca-a012-034c4c467a63
+[Queue algo]: MainMenuNode's sender: sent {"Args":{"TargetView":"MainMenu"},"To":"ViewSetter","Operation":"SetView","From":"MainMenuNode","UUID":"3f8da7b0-12b2-421b-8701-24a99eb38127"}
+Receiving module: MainMenuNode has acknowledged operation with UUID: 3f8da7b0-12b2-421b-8701-24a99eb38127
 Blocking ended, receipt confirmed
 MainMenuNode's StreamReceiver got: {"To": "MainMenuNode", "Operation": "Exit", "Args": {}}
 Recipent: MainMenuNode cmd: Exit args: {}
