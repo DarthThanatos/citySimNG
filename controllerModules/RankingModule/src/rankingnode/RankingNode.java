@@ -54,8 +54,8 @@ public class RankingNode extends SocketNode {
 		}
 
 		envelope.put("Args", allArgs);
-		//czy ponizsze to wystarczy do wyslania???
-		//sender.pushStream(envelope); //czy jest inna funkcja?
+		
+		//sender.pushStream(envelope); 
 
 	}
 	
