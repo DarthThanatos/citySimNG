@@ -5,52 +5,52 @@ import java.util.*;
 import model.DependenciesRepresenter;
 import controlnode.DispatchCenter;
 import controlnode.Node;
-import exchange.RepresenterMock;
-import exchange.Stock;
-import exchange.StockAlgorithm;
-import exchange.StockTable;
+import exchange.*;
 
-public class ExchangeNode implements Node{
+public class ExchangeNode implements Node {
 
 	private Node parent;
 	private HashMap<String, Node> neighbors;
-	private DependenciesRepresenter dr;
+	private DependenciesRepresenter dependenciesRepresenter;
 	private DispatchCenter dispatchCenter;
 	private String nodeName;
-	StockTable stockTable;
-	Stock stock;
+	private Stock stock;
 
-	public ExchangeNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName){
-		System.out.println("Created Exchange Node");
+	public ExchangeNode(DependenciesRepresenter dependenciesRepresenter, DispatchCenter dispatchCenter,
+			String nodeName) {
+
+		// logic settings
 		neighbors = new HashMap<String, Node>();
 		this.nodeName = nodeName;
-		this.dr = dr;
+		this.dependenciesRepresenter = dependenciesRepresenter;
 		this.dispatchCenter = dispatchCenter;
-		List<String> resourcesNames = dr.getResourcesNames();
-		/*
-		List<String> resourcesNames = new ArrayList<String>();
-		resourcesNames.add("gold");
-		resourcesNames.add("silver");
-		resourcesNames.add("copper");*/
+		List<String> resourcesNames = dependenciesRepresenter.getResourcesNames();
+
+		// exchange module init
 		stock = new Stock();
 		stock.init(resourcesNames);
 		RepresenterMock player = new RepresenterMock(resourcesNames);
-		stockTable = new StockTable(stock);
 		stock.setPlayer(player);
-		stock.setDependenciesRepresenter(dr);
-		// this thread simulates stock's price changes in the background
-		Runnable stockThread = new Runnable() {
-			public void run() {
-				new StockAlgorithm().simulate(stock);
-			}
-		};
-		new Thread(stockThread).start();
+		stock.setDependenciesRepresenter(dependenciesRepresenter);
+
+		// thread for price algorithm
+		Thread stockThread = new Thread(() -> {
+			new StockAlgorithm().simulate(stock);
+		});
+		stockThread.start();
+
+		// thread for view modelling
+		StockTable.stock = stock;
+		Thread thread = new Thread(() -> {
+			StockTable.show();
+		});
+		thread.start();
 	}
 
 	@Override
 	public Node nodeLoop() {
 		stock.setWorking(false);
- 		stockTable.setVisible(true);
+		StockTable.again();
 		return parent;
 	}
 
@@ -68,10 +68,9 @@ public class ExchangeNode implements Node{
 	@Override
 	public void atUnload() {
 		// TODO Auto-generated method stub
-		
 	}
-	
-	public String getNodeName(){
+
+	public String getNodeName() {
 		return nodeName;
 	}
 

@@ -10,22 +10,24 @@ public class Stock {
 
 	private List<Resource> resources = new ArrayList<>();
 	private RepresenterMock player;
-	private DependenciesRepresenter dr;
+	private DependenciesRepresenter dependenciesRepresenter;
 	private String[] names;
 	private boolean working;
+	Random random;
 
 	public Stock() {
+		random = new Random();
 		this.setWorking(true);
 	}
 
-	public void setDependenciesRepresenter(DependenciesRepresenter dr){
-		this.dr = dr;
+	public void setDependenciesRepresenter(DependenciesRepresenter dependenciesRepresenter){
+		this.dependenciesRepresenter = dependenciesRepresenter;
 	}
-	
+
 	public DependenciesRepresenter getDependenciesRepresenter(){
-		return dr;
+		return dependenciesRepresenter;
 	}
-	
+
 	public List<Resource> getResources() {
 		return resources;
 	}
@@ -48,7 +50,8 @@ public class Stock {
 		names = new String[resourcesNames.size()];
 		int i = 0;
 		for (String name : resourcesNames) {
-			resources.add(new Resource(name));
+			double initPrice = random.nextDouble() * 10;
+			resources.add(new Resource(name, initPrice));
 			names[i] = name;
 			i++;
 		}
@@ -63,9 +66,9 @@ public class Stock {
 	}
 
 	public Resource getResource(String name) {
-		for (Resource res : resources) {
-			if (res.getName().equals(name)) {
-				return res;
+		for (Resource resource : resources) {
+			if (resource.getName().equals(name)) {
+				return resource;
 			}
 		}
 		return null;

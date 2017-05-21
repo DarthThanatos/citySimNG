@@ -1,111 +1,140 @@
 package exchange;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.util.Arrays;
-import java.util.List;
-import javax.swing.*;
-import javax.swing.table.TableColumn;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.stage.Stage;
 
-public class StockTable extends JFrame {
+public class StockTable extends Application {
 
-	private static final long serialVersionUID = 1L;
+    public static Stage stage;
+    public static Stock stock;
+    static TableView<Resource> table;
+    static ObservableList<Resource> data;
+    static LineChart<String,Number> lineChart;
 
-	public StockTable(Stock stock) {
-		super("Stock Data");
-		setSize(300, 210);
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-	//	setDefaultCloseOperation(EXIT_ON_CLOSE);
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-		Font font = new Font("Verdana", Font.BOLD, 20);
-		this.setFont(font);
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+    public void start(Stage primaryStage) {
 
-		JFrame me = this;
-		WindowListener exitListener = new WindowAdapter() {
+    	Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
-		    @Override
-		    public void windowClosing(WindowEvent e) {
-		    	me.setAlwaysOnTop(false);
-		        int confirm = JOptionPane.showOptionDialog(
-		             null, "Are you sure to close stock?",
-		             "Closing confirmation", JOptionPane.YES_NO_OPTION,
-		             JOptionPane.QUESTION_MESSAGE, null, null, null);
-		        if (confirm == 0) {
-		        	setVisible(false);
-		            stock.setWorking(true);
-		        }
-		    	me.setAlwaysOnTop(false);
-		    }
-		};
-		this.addWindowListener(exitListener);
+    	// stage settings
+        Platform.setImplicitExit(false);
+        stage = primaryStage;
+        stage.setAlwaysOnTop(true);
+        stage.setFullScreen(true);
+        stage.setResizable(true);
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 
-		StockTableModel stockModel = new StockTableModel(stock.getResources());
-		JTable table = new JTable(stockModel);
+        // title settings
+        final Label label = new Label("Stock");
+        label.setFont(new Font("Arial", 30));
 
-		table.setFont(font);
-		table.setRowHeight(30);
-		TableColumn col0 = table.getColumnModel().getColumn(0);
-		col0.setPreferredWidth(125);
-		TableColumn col1 = table.getColumnModel().getColumn(1);
-		col1.setPreferredWidth(125);
+        // table settings
+        table = new TableView<Resource>();
+        table.setEditable(false);
+        table.setLayoutX(primaryScreenBounds.getWidth() * 0.05);
+        table.setLayoutY(primaryScreenBounds.getHeight() * 0.09);
 
-		JPanel panel = new JPanel();
-		panel.setPreferredSize(new Dimension(300, 130));
-		panel.add(table.getTableHeader(), BorderLayout.NORTH);
-		panel.add(table, BorderLayout.CENTER);
-		getContentPane().add(panel, BorderLayout.PAGE_START);
+        TableColumn resourceNames = new TableColumn("Name");
+        resourceNames.setMinWidth(110);
+        resourceNames.setCellValueFactory(
+                new PropertyValueFactory<Resource, String>("name"));
 
-		JComboBox<String> resourceList = new JComboBox<String>(stock.getNames());
-		JTextField textField = new JTextField("0");
+        TableColumn resourcePrice = new TableColumn("Price");
+        resourcePrice.setMinWidth(110);
+        resourcePrice.setCellValueFactory(
+                new PropertyValueFactory<Resource, String>("priceString"));
 
-		JPanel buttons = new JPanel();
-		Button sellButton = new Button("SELL");
-		sellButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String resourceName = (String)resourceList.getSelectedItem();
-				double amount =  Double.parseDouble(textField.getText());
-				me.setAlwaysOnTop(false);
-				stock.stockOperation(resourceName, amount, "sell");
-				me.setAlwaysOnTop(true);
-			}
-		} );
+        TableColumn resoureQuantity = new TableColumn("Quantity");
+        resoureQuantity.setMinWidth(110);
+        resoureQuantity.setCellValueFactory(
+                new PropertyValueFactory<Resource, Integer>("quantity"));
 
-		Button buyButton = new Button("BUY");
-		buyButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String resourceName = (String)resourceList.getSelectedItem();
-				double amount =  Double.parseDouble(textField.getText());
-				me.setAlwaysOnTop(false);
-				stock.stockOperation(resourceName, amount, "buy");
-				me.setAlwaysOnTop(true);
-			}
-		} );
+        data = FXCollections.observableArrayList(stock.getResources());
+        table.setItems(data);
+        table.getColumns().addAll(resourceNames, resourcePrice, resoureQuantity);
 
-		Button exitButton = new Button("EXIT");
-		exitButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-		    	me.setAlwaysOnTop(false);
-		        setVisible(false);
-		        stock.setWorking(true);
-		    	me.setAlwaysOnTop(false);
-			}
-		} );
+        // axis settings
+        final CategoryAxis xAxis = new CategoryAxis();
+        final NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Turn");
 
-		buttons.add(sellButton);
-		buttons.add(buyButton);
-		buttons.add(exitButton);
-		getContentPane().add(resourceList, BorderLayout.LINE_START);
-		getContentPane().add(textField, BorderLayout.CENTER);
-		getContentPane().add(buttons, BorderLayout.LINE_END);
-		this.setAlwaysOnTop(true);
+        // chart settings
+        lineChart = new LineChart<String,Number>(xAxis,yAxis);
+        lineChart.setTitle("Stock Monitoring");
+        lineChart.setLayoutX(primaryScreenBounds.getWidth() * 0.25);
+        lineChart.setLayoutY(primaryScreenBounds.getHeight() * 0.05);
+        lineChart.setPrefSize(primaryScreenBounds.getWidth() * 0.6, primaryScreenBounds.getHeight() * 0.7);
 
-	}
+        Button exitButton = new Button("Exit");
+        exitButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                stage.hide();
+                stock.setWorking(true);
+            }
+        });
+        exitButton.setPrefSize(100, 50);
+        exitButton.setLayoutX(primaryScreenBounds.getWidth() * 0.45);
+        exitButton.setLayoutY(primaryScreenBounds.getHeight() * 0.9);
+
+        Scene scene = new Scene(new Group());
+        ((Group) scene.getRoot()).getChildren().addAll(table, lineChart, exitButton);
+
+        stage.setScene(scene);
+        stage.hide();
+    }
+
+    public static void show() {
+        launch();
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	private static void updateChart() {
+        for(Resource resource: stock.getResources()) {
+        	XYChart.Series series = new XYChart.Series();
+        	series.setName(resource.getName());
+        	double[] prices = resource.getPriceHistory();
+        	for(int i = 0; i < Resource.priceHistoryRange; i++) {
+        		series.getData().add(new XYChart.Data(String.valueOf(Resource.priceHistoryRange - i - 1), prices[i]));
+        	}
+        	lineChart.getData().add(series);
+        }
+    }
+
+    public static void again() {
+        Platform.runLater(() -> {
+        	lineChart.getData().clear();
+        	updateChart();
+        	table.getColumns().get(0).setVisible(false);
+        	table.getColumns().get(0).setVisible(true);
+        	stage.show();
+        });
+    }
+
 }
