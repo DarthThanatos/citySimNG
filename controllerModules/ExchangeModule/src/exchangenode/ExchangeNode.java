@@ -19,23 +19,20 @@ public class ExchangeNode implements Node {
 	public ExchangeNode(DependenciesRepresenter dependenciesRepresenter, DispatchCenter dispatchCenter,
 			String nodeName) {
 
-		// logic settings
+		// app logic settings
 		neighbors = new HashMap<String, Node>();
 		this.nodeName = nodeName;
 		this.dependenciesRepresenter = dependenciesRepresenter;
 		this.dispatchCenter = dispatchCenter;
-		List<String> resourcesNames = dependenciesRepresenter.getResourcesNames();
 
 		// exchange module init
 		stock = new Stock();
-		stock.init(resourcesNames);
-		RepresenterMock player = new RepresenterMock(resourcesNames);
-		stock.setPlayer(player);
 		stock.setDependenciesRepresenter(dependenciesRepresenter);
+		stock.init();
 
 		// thread for price algorithm
 		Thread stockThread = new Thread(() -> {
-			new StockAlgorithm().simulate(stock);
+			new StockAlgorithm().simulateStock(stock);
 		});
 		stockThread.start();
 
@@ -49,7 +46,7 @@ public class ExchangeNode implements Node {
 
 	@Override
 	public Node nodeLoop() {
-		stock.setWorking(false);
+		stock.setWorkingStatus(false);
 		StockTable.again();
 		return parent;
 	}
