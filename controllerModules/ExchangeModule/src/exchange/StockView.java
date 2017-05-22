@@ -4,6 +4,7 @@ import java.util.*;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -39,10 +40,10 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.chart.XYChart;
 
-public class StockTable extends Application {
+public class StockView extends Application {
 
 	private static Stage stage;
-	public static Stock stock;
+	private static Stock stock;
 	private static TableView<Resource> table;
 	private static ObservableList<Resource> lineChartData;
 	private static LineChart<String, Number> lineChart;
@@ -63,27 +64,32 @@ public class StockTable extends Application {
 		stage.setResizable(true);
 		stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 
-		// title settings
-		final Label label = new Label("Stock");
-		label.setFont(new Font("Arial", 30));
+		// resources table label
+		final Label tableLabel = new Label("Resource table detailed info:");
+		tableLabel.setFont(new Font("Arial", 20));
+		tableLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.18, primaryScreenBounds.getHeight() * 0.04);
+		tableLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.05);
+		tableLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.60);
 
 		// resources table settings
 		table = new TableView<Resource>();
 		table.setEditable(false);
-		table.setMaxHeight(260);
+		table.setFixedCellSize(primaryScreenBounds.getHeight() * 0.04);
+		table.setMaxHeight((primaryScreenBounds.getHeight() * 0.04) * 6.8);
 		table.setLayoutX(primaryScreenBounds.getWidth() * 0.05);
-		table.setLayoutY(primaryScreenBounds.getHeight() * 0.60);
+		table.setLayoutY(primaryScreenBounds.getHeight() * 0.65);
 
+		// settings columns
 		TableColumn resourceNames = new TableColumn("Name");
-		resourceNames.setMinWidth(110);
+		resourceNames.setMinWidth(primaryScreenBounds.getWidth() * 0.060);
 		resourceNames.setCellValueFactory(new PropertyValueFactory<Resource, String>("name"));
 
 		TableColumn resourcePrice = new TableColumn("Price");
-		resourcePrice.setMinWidth(110);
+		resourcePrice.setMinWidth(primaryScreenBounds.getWidth() * 0.060);
 		resourcePrice.setCellValueFactory(new PropertyValueFactory<Resource, String>("priceString"));
 
 		TableColumn resoureQuantity = new TableColumn("Quantity");
-		resoureQuantity.setMinWidth(110);
+		resoureQuantity.setMinWidth(primaryScreenBounds.getWidth() * 0.060);
 		resoureQuantity.setCellValueFactory(new PropertyValueFactory<Resource, Integer>("quantity"));
 
 		lineChartData = FXCollections.observableArrayList(stock.getResources());
@@ -109,24 +115,48 @@ public class StockTable extends Application {
 			pieChartData.add(new PieChart.Data(resource.getName(), resource.getQuantity()));
 		}
 		pieChart = new PieChart(pieChartData);
-		pieChart.setTitle("In stock");
-		pieChart.setLayoutX(primaryScreenBounds.getWidth() * 0.005);
-		pieChart.setLayoutY(primaryScreenBounds.getHeight() * 0.01);
+		pieChart.setTitle("Stock resources chart");
+		pieChart.setLayoutX(primaryScreenBounds.getWidth() * 0.02);
+		pieChart.setLayoutY(primaryScreenBounds.getHeight() * 0.05);
+		pieChart.setPrefSize(primaryScreenBounds.getWidth() * 0.25, primaryScreenBounds.getHeight() * 0.40);
+
+		// combobox label
+		final Label resourceComboBoxLabel = new Label("Choose resource type:");
+		resourceComboBoxLabel.setFont(new Font("Arial", 20));
+		resourceComboBoxLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.14,
+				primaryScreenBounds.getHeight() * 0.04);
+		resourceComboBoxLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
+		resourceComboBoxLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.77);
 
 		// combo box for resource choosing
 		final ComboBox resourceComboBox = new ComboBox();
 		resourceComboBox.getItems().addAll(stock.getResourcesNames());
 		resourceComboBox.getSelectionModel().selectFirst();
-		resourceComboBox.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
-		resourceComboBox.setLayoutY(primaryScreenBounds.getHeight() * 0.80);
+		resourceComboBox.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
+		resourceComboBox.setLayoutX(primaryScreenBounds.getWidth() * 0.45);
+		resourceComboBox.setLayoutY(primaryScreenBounds.getHeight() * 0.77);
+
+		// text field label
+		final Label resourceAmountLabel = new Label("Enter resource quantity:");
+		resourceAmountLabel.setFont(new Font("Arial", 20));
+		resourceAmountLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.14, primaryScreenBounds.getHeight() * 0.04);
+		resourceAmountLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
+		resourceAmountLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.83);
 
 		// text field settings
 		final TextField resourceAmount = new TextField();
-		resourceAmount.setPromptText("Enter resource amount");
+		resourceAmount.setPromptText("resource quantity");
 		resourceAmount.setPrefColumnCount(10);
-		resourceAmount.setPrefSize(200, 30);
-		resourceAmount.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
-		resourceAmount.setLayoutY(primaryScreenBounds.getHeight() * 0.88);
+		resourceAmount.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
+		resourceAmount.setLayoutX(primaryScreenBounds.getWidth() * 0.45);
+		resourceAmount.setLayoutY(primaryScreenBounds.getHeight() * 0.83);
+
+		// buy button label
+		final Label buyButtonLabel = new Label("Buy chosen resources: ");
+		buyButtonLabel.setFont(new Font("Arial", 20));
+		buyButtonLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.14, primaryScreenBounds.getHeight() * 0.04);
+		buyButtonLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
+		buyButtonLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.88);
 
 		// buy button settings
 		Button buyButton = new Button("BUY");
@@ -139,9 +169,16 @@ public class StockTable extends Application {
 				showAlert(message);
 			}
 		});
-		buyButton.setPrefSize(100, 50);
+		buyButton.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
 		buyButton.setLayoutX(primaryScreenBounds.getWidth() * 0.45);
-		buyButton.setLayoutY(primaryScreenBounds.getHeight() * 0.80);
+		buyButton.setLayoutY(primaryScreenBounds.getHeight() * 0.88);
+
+		// sell button label
+		final Label sellButtonLabel = new Label("Sell chosen resources: ");
+		sellButtonLabel.setFont(new Font("Arial", 20));
+		sellButtonLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.14, primaryScreenBounds.getHeight() * 0.04);
+		sellButtonLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
+		sellButtonLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.93);
 
 		// sell button settings
 		Button sellButton = new Button("SELL");
@@ -154,9 +191,16 @@ public class StockTable extends Application {
 				showAlert(message);
 			}
 		});
-		sellButton.setPrefSize(100, 50);
-		sellButton.setLayoutX(primaryScreenBounds.getWidth() * 0.52);
-		sellButton.setLayoutY(primaryScreenBounds.getHeight() * 0.80);
+		sellButton.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
+		sellButton.setLayoutX(primaryScreenBounds.getWidth() * 0.45);
+		sellButton.setLayoutY(primaryScreenBounds.getHeight() * 0.93);
+
+		// dice label
+		final Label diceLabel = new Label("Take part in lottery:");
+		diceLabel.setFont(new Font("Arial", 20));
+		diceLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.14, primaryScreenBounds.getHeight() * 0.04);
+		diceLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.58);
+		diceLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.77);
 
 		// dice button settings
 		Button diceButton = new Button("ROLL THE DICE");
@@ -166,9 +210,16 @@ public class StockTable extends Application {
 				showAlert(message);
 			}
 		});
-		diceButton.setPrefSize(235, 50);
-		diceButton.setLayoutX(primaryScreenBounds.getWidth() * 0.45);
-		diceButton.setLayoutY(primaryScreenBounds.getHeight() * 0.88);
+		diceButton.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
+		diceButton.setLayoutX(primaryScreenBounds.getWidth() * 0.72);
+		diceButton.setLayoutY(primaryScreenBounds.getHeight() * 0.77);
+
+		// exit label
+		final Label exitLabel = new Label("Leave stock:");
+		exitLabel.setFont(new Font("Arial", 20));
+		exitLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.14, primaryScreenBounds.getHeight() * 0.04);
+		exitLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.58);
+		exitLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.82);
 
 		// exit button settings
 		Button exitButton = new Button("Exit");
@@ -178,25 +229,30 @@ public class StockTable extends Application {
 				stock.setWorkingStatus(true);
 			}
 		});
-		exitButton.setPrefSize(150, 70);
-		exitButton.setLayoutX(primaryScreenBounds.getWidth() * 0.85);
-		exitButton.setLayoutY(primaryScreenBounds.getHeight() * 0.90);
+		exitButton.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
+		exitButton.setLayoutX(primaryScreenBounds.getWidth() * 0.72);
+		exitButton.setLayoutY(primaryScreenBounds.getHeight() * 0.82);
 
 		// main scene settings
 		Scene scene = new Scene(new Group());
 		((Group) scene.getRoot()).getChildren().addAll(table, lineChart, exitButton, resourceAmount, resourceComboBox,
-				buyButton, sellButton, diceButton, pieChart);
+				buyButton, sellButton, diceButton, pieChart, resourceComboBoxLabel, resourceAmountLabel, buyButtonLabel,
+				sellButtonLabel, tableLabel, diceLabel, exitLabel);
 
 		stage.setScene(scene);
 		stage.hide();
 	}
 
-	public static void show() {
+	public static void initStockView() {
 		launch();
 	}
 
+	public static void setStock(Stock stock) {
+		StockView.stock = stock;
+	}
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private static void updateChart() {
+	private static void updateLineChart() {
 		lineChart.getData().clear();
 		for (Resource resource : stock.getResources()) {
 			XYChart.Series series = new XYChart.Series();
@@ -215,7 +271,7 @@ public class StockTable extends Application {
 		}
 	}
 
-	public static void showAlert(String message) {
+	private static void showAlert(String message) {
 		Alert alert;
 		if (message.startsWith("ERROR")) {
 			alert = new Alert(AlertType.ERROR);
@@ -224,7 +280,7 @@ public class StockTable extends Application {
 		} else {
 			alert = new Alert(AlertType.INFORMATION);
 		}
-		//alert.initStyle(StageStyle.UNDECORATED);
+		// alert.initStyle(StageStyle.UNDECORATED);
 		alert.initOwner(stage);
 		alert.setTitle("Info");
 		alert.setHeaderText(null);
@@ -232,9 +288,9 @@ public class StockTable extends Application {
 		alert.show();
 	}
 
-	public static void again() {
+	public static void show() {
 		Platform.runLater(() -> {
-			updateChart();
+			updateLineChart();
 			table.getColumns().get(0).setVisible(false);
 			table.getColumns().get(0).setVisible(true);
 			stage.show();

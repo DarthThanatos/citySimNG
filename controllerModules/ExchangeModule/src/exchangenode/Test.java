@@ -33,8 +33,8 @@ public class Test {
 		});
 		stockAlgorithmThread.start();
 
-		StockTable.stock = stock;
-		Thread stockTableThread = new Thread(() -> StockTable.show());
+		StockView.setStock(stock);
+		Thread stockTableThread = new Thread(() -> StockView.initStockView());
 		stockTableThread.start();
 
 		Scanner input = new Scanner(System.in);
@@ -48,17 +48,11 @@ public class Test {
 		while (!command.startsWith("exit")) {
 			stock.setWorkingStatus(false);
 			System.out.println("Showing stock");
-			StockTable.again();
+			StockView.show();
 			command = input.nextLine();
 		}
 
-		/*
-		 * stock.setWorking(false); StockTable.again(); try {
-		 * Thread.sleep(5000); } catch (InterruptedException e) {
-		 * e.printStackTrace(); } System.exit(0);
-		 */
 		input.close();
-
 	}
 
 }

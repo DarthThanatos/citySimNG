@@ -73,6 +73,14 @@ public class Stock {
 		return null;
 	}
 
+	public int getAverageResourceQuantity() {
+		int averageQuantity = 0;
+		for (Resource resource : resources) {
+			averageQuantity = averageQuantity + resource.getQuantity();
+		}
+		return (int) (averageQuantity / resources.size());
+	}
+
 	public void updatePriceHistory(double newPrice, String resourceName) {
 		Double[] historyTable = priceHistory.get(resourceName);
 		for (int i = 0; i < priceHistoryRange - 1; i++) {
@@ -134,12 +142,15 @@ public class Stock {
 			return "WARNING - you need 10 money to roll the dice, you have "
 					+ String.format("%.2f", dependenciesRepresenter.getMoney()) + " money";
 		} else {
+			if (random.nextInt(10) % 2 == 0) {
+				return "You won nothing!";
+			}
 			Resource resource = resources.get(random.nextInt(resources.size() - 1));
 			int wonQuantity = (int) (random.nextInt(200) / resource.getPrice());
 			dependenciesRepresenter.getStockPile().put(resource.getName(),
 					dependenciesRepresenter.getStockPile().get(resource.getName()) + wonQuantity);
 			dependenciesRepresenter.setMoney(dependenciesRepresenter.getMoney() - 10);
-			return "You have won " + wonQuantity + " of " + resource.getName() + ", and now have "
+			return "You won " + wonQuantity + " of " + resource.getName() + ", and now have "
 					+ dependenciesRepresenter.getStockPile().get(resource.getName()) + " " + resource.getName()
 					+ " and " + String.format("%.2f", dependenciesRepresenter.getMoney()) + " money";
 		}

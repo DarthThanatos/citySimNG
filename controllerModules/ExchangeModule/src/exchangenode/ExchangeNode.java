@@ -37,9 +37,10 @@ public class ExchangeNode implements Node {
 		stockThread.start();
 
 		// thread for view modelling
-		StockTable.stock = stock;
+		StockView.setStock(stock);
+		;
 		Thread thread = new Thread(() -> {
-			StockTable.show();
+			StockView.initStockView();
 		});
 		thread.start();
 	}
@@ -47,7 +48,7 @@ public class ExchangeNode implements Node {
 	@Override
 	public Node nodeLoop() {
 		stock.setWorkingStatus(false);
-		StockTable.again();
+		StockView.show();
 		return parent;
 	}
 
