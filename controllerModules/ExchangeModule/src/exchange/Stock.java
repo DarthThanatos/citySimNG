@@ -23,6 +23,10 @@ public class Stock {
         this.dependenciesRepresenter = dependenciesRepresenter;
     }
 
+    public DependenciesRepresenter getDependenciesRepresenter() {
+        return dependenciesRepresenter;
+    }
+
     public List<Resource> getResources() {
         return resources;
     }
@@ -51,7 +55,7 @@ public class Stock {
     public void init() {
         this.resourcesNames = dependenciesRepresenter.getResourcesNames();
         for (String resourceName : this.resourcesNames) {
-            resources.add(new Resource(resourceName, random.nextDouble() * 10, random.nextInt(10)));
+            resources.add(new Resource(resourceName, (random.nextDouble() + 1) * 10, random.nextInt(10)));
             Double[] history;
             history = new Double[priceHistoryRange];
             for (int i = 0; i < priceHistoryRange; i++) {
@@ -76,6 +80,14 @@ public class Stock {
             averageQuantity = averageQuantity + resource.getQuantity();
         }
         return averageQuantity / resources.size();
+    }
+
+    public double getAverageResourcePrice() {
+        double averagePrice = 0;
+        for (Resource resource : resources) {
+            averagePrice = averagePrice + resource.getPrice();
+        }
+        return averagePrice / resources.size();
     }
 
     public void updatePriceHistory(double newPrice, String resourceName) {
@@ -138,7 +150,8 @@ public class Stock {
                     + String.format("%.2f", dependenciesRepresenter.getMoney()) + " money";
         } else {
             if (random.nextInt(10) % 2 == 0) {
-                return "You won nothing!";
+                dependenciesRepresenter.setMoney(dependenciesRepresenter.getMoney() - 10);
+                return "You won nothing, and now have "+ String.format("%.2f", dependenciesRepresenter.getMoney()) + " money";
             }
             Resource resource = resources.get(random.nextInt(resources.size() - 1));
             int wonQuantity = (int) (random.nextInt(200) / resource.getPrice());

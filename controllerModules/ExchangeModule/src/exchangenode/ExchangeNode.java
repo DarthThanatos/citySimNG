@@ -10,7 +10,7 @@ import exchange.*;
 public class ExchangeNode implements Node {
 
     private Node parent;
-    private HashMap<String, Node> neighbors;
+    private HashMap<String, Node> neighbors = new HashMap<>();
     private DispatchCenter dispatchCenter;
     private String nodeName;
     private Stock stock;
@@ -19,7 +19,6 @@ public class ExchangeNode implements Node {
                         String nodeName) {
 
         // app logic settings
-        neighbors = new HashMap<>();
         this.nodeName = nodeName;
         this.dispatchCenter = dispatchCenter;
 

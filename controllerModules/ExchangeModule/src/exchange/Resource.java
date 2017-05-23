@@ -34,10 +34,6 @@ public class Resource {
         return priceString.get();
     }
 
-    public void setPriceString(String priceString) {
-        this.priceString.set(priceString);
-    }
-
     public Integer getQuantity() {
         return quantity.get();
     }
