@@ -22,19 +22,6 @@ public class RankingNode extends SocketNode {
 		super(dr, dispatchCenter, nodeName);
 		
 		users = new HashMap<String, User>();
-		String line;
-		try {
-			csvReader = new BufferedReader(new FileReader ("resources\\TextFiles\\users.csv"));
-			while ((line = csvReader.readLine()) != null) {
-				System.out.println("Raw CSV data: " + line);
-				User currUser = crunchifyCSVtoArrayList(line); 
-				users.put(currUser.getName(), currUser);
-			}
-			sendData();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		
 	}
@@ -55,7 +42,7 @@ public class RankingNode extends SocketNode {
 
 		envelope.put("Args", allArgs);
 		
-		//sender.pushStream(envelope); 
+		sender.pushStream(envelope); //linijka generujaca exception
 
 	}
 	
@@ -84,7 +71,19 @@ public class RankingNode extends SocketNode {
 
 	@Override
 	public void atStart() {
-		// TODO Auto-generated method stub
+		String line;
+		try {
+			csvReader = new BufferedReader(new FileReader ("resources\\TextFiles\\users.csv"));
+			while ((line = csvReader.readLine()) != null) {
+				System.out.println("Raw CSV data: " + line);
+				User currUser = crunchifyCSVtoArrayList(line); 
+				users.put(currUser.getName(), currUser);
+			}
+			sendData();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
