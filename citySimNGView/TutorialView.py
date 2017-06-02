@@ -1,51 +1,64 @@
 import wx
 import os
 import json
-from RelativePaths import relative_music_path
+from wx.lib.scrolledpanel import ScrolledPanel
+from RelativePaths import relative_music_path, relative_textures_path
 
-class TutorialView(wx.Panel):
+class TutorialView(ScrolledPanel):
     def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):
-        wx.Panel.__init__(self, size=size, parent=parent)
-        self.Bind(wx.EVT_SHOW, self.onShow, self)
+        ScrolledPanel.__init__(self, size=size, parent=parent, style=wx.SIMPLE_BORDER)
+
         self.parent = parent
         self.name = name
         self.sender = sender
 
         self.size = size
         self.musicPath = musicPath
-        self.initButtons()
-        self.SetBackgroundColour((255, 255, 255))
-        self.pageID = 0
-        self.tutorial_info = [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu sapien non felis mattis\n " \
-            "luctus. Nulla sed sapien neque. Mauris vitae urna ac tellus cursus efficitur et egestas turpis.\n" \
-            " Etiam vel justo scelerisque, tincidunt dui ac, iaculis felis. In hac habitasse platea dictum\n" \
-            "st. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut \n" \
-            "ante metus, vestibulum nec commodo ac, eleifend porta tortor. Etiam diam orci, luctus ac alique\n" \
-            "t at, porttitor nec risus. Fusce fermentum lacinia mauris, eu hendrerit ligula convallis non. \n" \
-            "Quisque faucibus tellus ac lacus fringilla malesuada. Nulla id neque eget nisi vulputate accum\n" \
-            "san. Quisque euismod metus pretium justo imperdiet iaculis. Cras a ante nisi. Aliquam erat vol\n" \
-            "utpat. Nulla rutrum ut velit a placerat. Maecenas laoreet ornare lacinia. Cras ultrices mi nis\n" \
-            "i. Etiam euismod et magna ac mattis. Cras et quam dictum, lobortis mauris eget, pretium metus\n" \
-            ". Integer pulvinar, sem non suscipit congue, erat ipsum tincidunt mi, et aliquam lectus leo eu\n" \
-            " mi. Fusce blandit metus at odio consequat, a suscipit urna pharetra. Sed ullamcorper orci id \n" \
-            "lacinia bibendum.",
-            "Suspendisse accumsan tincidunt sagittis. Etiam tempor lacus id ante interdum, vitae faucibus \n"
-            "nulla aliquet. Donec enim risus, tincidunt eu est nec, suscipit imperdiet nisi. Quisque \n"
-            "laoreet magna consectetur porta gravida. Nullam id felis sapien. Suspendisse orci mi, commodo\n"
-            " in lorem quis, tincidunt vehicula metus. Morbi laoreet, lectus eu blandit pharetra, tortor\n"
-            " ante gravida turpis, quis mollis nisi mi vitae massa. Duis tincidunt nisi a nisi luctus tempus.\n"
-            " Vivamus euismod a tortor at tempus.",
-            "Aliquam pulvinar ac dui ut iaculis. Nullam ut rutrum odio. Etiam accumsan in dui in auctor. Praesent \n"
-            "cursus lacus nec nisl blandit ullamcorper. Proin non est efficitur ligula ultrices pellentesque. Cras \n"
-            "aliquet, ante varius commodo fermentum, nisi elit dictum lacus, ac feugiat libero felis eu mi. Nulla \n"
-            "porttitor faucibus dui quis gravida. Suspendisse potenti."
-            ]
+        #self.SetBackgroundColour((255, 255, 255))
+        self.tutorialInfo = "Welcome to our tutorial! If you'd like to find out what are all the functionalities of this cutting-edge game engine, you're in the right place :)"
+        self.welcomeField = wx.StaticText(self, label=self.tutorialInfo)
 
-        self.centerSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self.ctrlMsgField = wx.StaticText(self, label=self.tutorial_info[self.pageID])
-        self.centerSizer.Add(self.ctrlMsgField, 0, wx.EXPAND, 5)
+        self.centerSizer = wx.BoxSizer(wx.VERTICAL)
 
+        #self.ctrlMsgField = wx.StaticText(self, label=self.tutorial_info[self.pageID])
+        headerImg = wx.Image(relative_textures_path + "Tutorial.png", wx.BITMAP_TYPE_ANY)
+        headerBitmap = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(headerImg))
+        
+        headerSizer = wx.BoxSizer(wx.HORIZONTAL)
+        headerSizer.Add(headerBitmap)
+        self.centerSizer.AddSpacer(10)
+        self.centerSizer.Add(headerSizer, 0, wx.CENTER)
+        self.centerSizer.AddSpacer(50)
+        self.centerSizer.Add(self.welcomeField, 0, wx.CENTER)
+        self.centerSizer.AddSpacer(20)
+        self.content = [
+            {
+                'name': 'item1',
+                'id': 1
+            },
+            {
+                'name': 'item2',
+                'id': 2
+            },
+            {
+                'name': 'item3',
+                'id': 3
+            },
+            {
+                'name': 'item4',
+                'id': 4
+            },
+            {
+                'name': 'item5',
+                'id': 5
+            }
+        ]
+        #ponizej graf zaleznosci - skierowany
+        self.initContentList()
+        self.centerSizer.SetDimension(0, 0, self.size[0], self.size[1])
+
+        self.Bind(wx.EVT_SHOW, self.onShow, self)
+        self.SetupScrolling()
     def onShow(self, event):
         # print "Menu on show"
         global pygame
@@ -66,36 +79,50 @@ class TutorialView(wx.Panel):
                 # print "menu: problem with pygame quit"
                 pass
 
-    def initButtons(self):
-        """ This function creates buttons, sets theirs positions and size and
+    def initContentList(self):
+        """ This function creates content list and buttons, sets theirs positions and size and
             binds logic to them."""
-        menu_btn = wx.Button(self, label="Menu", pos=(130, 225), size=(60, 30))
-        next_btn = wx.Button(self, label="Next", pos=(160, 195), size=(60, 30))
-        prev_btn = wx.Button(self, label="Prev", pos=(100, 195), size=(60, 30))
+        leftBox = wx.BoxSizer(wx.VERTICAL)
+        rightBox = wx.BoxSizer(wx.VERTICAL)
+        contentBox = wx.BoxSizer(wx.HORIZONTAL)
+        arrow = wx.Bitmap(relative_textures_path+"rightGreenArrow.png", wx.BITMAP_TYPE_ANY)
+
+        contentSize = len(self.content)
+        contentHalf = contentSize // 2 + 1
+        for i in range(contentHalf):
+            elemField = wx.StaticText(self, label=self.content[i]['name'])
+            arrowButton = wx.BitmapButton(self, bitmap=arrow, 
+                size=(arrow.GetWidth(), arrow.GetHeight()))
+            tmpBox = wx.BoxSizer(wx.HORIZONTAL)
+            tmpBox.Add(elemField)
+            tmpBox.AddSpacer(10)
+            tmpBox.Add(arrowButton)
+            leftBox.Add(tmpBox)
+            leftBox.AddSpacer(20)
+
+        
+        for i in range(contentHalf, contentSize):
+            elemField = wx.StaticText(self, label=self.content[i]['name'])
+            arrowButton = wx.BitmapButton(self, bitmap=arrow, 
+                size=(arrow.GetWidth(), arrow.GetHeight()))
+            tmpBox = wx.BoxSizer(wx.HORIZONTAL)
+            tmpBox.Add(elemField)
+            tmpBox.AddSpacer(10)
+            tmpBox.Add(arrowButton)
+            rightBox.Add(tmpBox)
+            rightBox.AddSpacer(20)
+        contentBox.Add(leftBox)
+        contentBox.AddSpacer(20)
+        contentBox.Add(rightBox)
+        self.centerSizer.Add(contentBox, 0, wx.CENTER) 
+        self.centerSizer.AddSpacer(20)
+        ln = wx.StaticLine(self, -1)
+        self.centerSizer.Add(ln, 0, wx.EXPAND)
+
+        menu_btn = wx.Button(self, label="Menu")
+        self.centerSizer.AddSpacer(30)
+        self.centerSizer.Add(menu_btn, 0, wx.CENTER | wx.ALL, 5)
         self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
-        self.Bind(wx.EVT_BUTTON, self.nextPage, next_btn)
-        self.Bind(wx.EVT_BUTTON, self.prevPage, prev_btn)
-
-    def nextPage(self, event):
-        """ This function displays next page of tutorial """
-        if self.pageID + 1 < self.tutorial_info.__len__():
-            self.pageID += 1
-            self.ctrlMsgField.Destroy()
-            self.Refresh()
-            self.centerSizer = wx.BoxSizer(wx.HORIZONTAL)
-            self.ctrlMsgField = wx.StaticText(self, label=self.tutorial_info[self.pageID])
-            self.centerSizer.Add(self.ctrlMsgField, 0, wx.EXPAND, 5)
-
-    def prevPage(self, event):
-        """ This function displays previous page of tutorial """
-        if self.pageID > 0:
-            self.pageID -= 1
-            self.ctrlMsgField.Destroy()
-            self.Refresh()
-            self.centerSizer = wx.BoxSizer(wx.HORIZONTAL)
-            self.ctrlMsgField = wx.StaticText(self, label=self.tutorial_info[self.pageID])
-            self.centerSizer.Add(self.ctrlMsgField, 0, wx.EXPAND, 5)
-
 
     def retToMenu(self, event):
         """ This function returns to Menu view """
