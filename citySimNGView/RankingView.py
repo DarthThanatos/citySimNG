@@ -4,6 +4,7 @@ from wx.lib.scrolledpanel import ScrolledPanel
 import os
 import json
 import csv
+import traceback
 from RelativePaths import relative_music_path
 
 class RankingView(ScrolledPanel):
@@ -16,14 +17,16 @@ class RankingView(ScrolledPanel):
         self.size = size
         self.musicPath = musicPath
 
+        self.usersList = []
+
         self.Bind(wx.EVT_SHOW, self.onShow, self)
         self.SetupScrolling()
 
-        with open('resources\\TextFiles\\users.csv', 'r') as f:
-            reader = csv.reader(f)
-            self.usersList = list(reader)
+       # with open('resources\\TextFiles\\users.csv', 'r') as f:
+       #     reader = csv.reader(f)
+        #    self.usersList = list(reader)
 
-        self.initRanking()
+        #self.initRanking()
         self.SetBackgroundColour((255, 255, 255))        
 
     def onShow(self, event):
@@ -112,3 +115,34 @@ class RankingView(ScrolledPanel):
 
     def readMsg(self, msg):
         print "Ranking view got msg", msg
+
+        try:
+            jsonObj = json.loads(msg)
+            operation = jsonObj["Operation"]
+            args = jsonObj["Args"]
+            if operation == "FetchList":
+                for x in args:
+                    #print "In a loop\n"
+                    row = []
+                    for j in range(3):
+                     #   print "inner loop, j = " + str(j) + "\n"
+                        #ZLE!!! NIE JECHAC PO RANGE, TYLKO ODWOLYWAC SIE DO POL!!! 
+                        #I NA PODSTAWIE MOJEJ AUTORSKIEJ KOLEJNOSCI WSTAWIAC DO TEJ LISTY!!!
+                        row = row + [x[j]]
+                        #simpleGrid.SetCellValue(i, j, self.usersList[i][j])
+                    self.usersList = self.usersList + [row]
+                print "self.usersList: \n"
+                print self.usersList
+                self.initRanking()
+            else:
+                print "Unknown operation\n"
+
+        except:
+            traceback.print_exc()
+            msg2 = {}
+            msg2["To"] = "RankingNode"
+            msg2["Operation"] = "MoveTo"
+            msg2["Args"] = {}
+            msg2["Args"]["TargetView"] = "GameMenu"
+            msg2["Args"]["TargetControlNode"] = "GameMenuNode"
+            self.sender.send(json.dumps(msg2))
