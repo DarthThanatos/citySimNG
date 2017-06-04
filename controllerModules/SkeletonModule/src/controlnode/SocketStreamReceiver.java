@@ -16,7 +16,15 @@ public class SocketStreamReceiver extends Thread {
 	private BlockingQueue<String> receiveQueue;
 	
 	public SocketStreamReceiver(String nodeName, BlockingQueue<String> receiveQueue) throws Exception{
-		udpServer = new DatagramSocket(listenPort);
+		while(true){
+			try{
+				udpServer = new DatagramSocket(listenPort);
+				break;
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		udpServer.setReuseAddress(true);
 		this.nodeName = nodeName;
 		this.receiveQueue = receiveQueue;
 	}

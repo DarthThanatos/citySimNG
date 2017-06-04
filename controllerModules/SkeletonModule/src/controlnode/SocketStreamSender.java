@@ -23,7 +23,15 @@ public class SocketStreamSender extends Thread{
 	private DispatchCenter dispatchCenter;
 	
 	public SocketStreamSender(String nodeName, DispatchCenter dispatchCenter) throws Exception{
-		udpServer = new DatagramSocket();//udpServer;
+		while(true){
+			try{
+				udpServer = new DatagramSocket();//udpServer;
+				break;
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		udpServer.setReuseAddress(true);
 		sendQueue = new LinkedBlockingQueue<>();
 		this.nodeName = nodeName;
 		this.dispatchCenter = dispatchCenter;
