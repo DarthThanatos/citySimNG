@@ -7,6 +7,7 @@ public class Resource {
     private SimpleStringProperty name;
     private SimpleStringProperty priceString;
     private SimpleIntegerProperty quantity;
+    private SimpleIntegerProperty playerQuantity;
     private double price;
 
     Resource(String name, double price, int quantity) {
@@ -14,6 +15,7 @@ public class Resource {
         this.name = new SimpleStringProperty(name);
         this.priceString = new SimpleStringProperty(String.format("%.2f", price));
         this.quantity = new SimpleIntegerProperty(quantity);
+        this.playerQuantity = new SimpleIntegerProperty(0);
         this.price = price;
     }
 
@@ -40,6 +42,14 @@ public class Resource {
 
     public void setQuantity(Integer quantity) {
         this.quantity.set(quantity);
+    }
+
+    public Integer getPlayerQuantity() {
+        return playerQuantity.get();
+    }
+
+    public void setPlayerQuantity(Integer playerQuantity) {
+        this.playerQuantity.set(playerQuantity);
     }
 
 }

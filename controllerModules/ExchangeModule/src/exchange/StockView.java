@@ -73,20 +73,24 @@ public class StockView extends Application {
 
         // settings columns
         TableColumn resourceNames = new TableColumn("Name");
-        resourceNames.setMinWidth(primaryScreenBounds.getWidth() * 0.060);
+        resourceNames.setMinWidth(primaryScreenBounds.getWidth() * 0.05);
         resourceNames.setCellValueFactory(new PropertyValueFactory<Resource, String>("name"));
 
         TableColumn resourcePrice = new TableColumn("Price");
-        resourcePrice.setMinWidth(primaryScreenBounds.getWidth() * 0.060);
+        resourcePrice.setMinWidth(primaryScreenBounds.getWidth() * 0.05);
         resourcePrice.setCellValueFactory(new PropertyValueFactory<Resource, String>("priceString"));
 
-        TableColumn resoureQuantity = new TableColumn("Quantity");
-        resoureQuantity.setMinWidth(primaryScreenBounds.getWidth() * 0.060);
-        resoureQuantity.setCellValueFactory(new PropertyValueFactory<Resource, Integer>("quantity"));
+        TableColumn resourceQuantity = new TableColumn("In stock");
+        resourceQuantity.setMinWidth(primaryScreenBounds.getWidth() * 0.05);
+        resourceQuantity.setCellValueFactory(new PropertyValueFactory<Resource, Integer>("quantity"));
+
+        TableColumn playerResourceQuantity = new TableColumn("Possessed");
+        playerResourceQuantity.setMinWidth(primaryScreenBounds.getWidth() * 0.05);
+        playerResourceQuantity.setCellValueFactory(new PropertyValueFactory<Resource, Integer>("playerQuantity"));
 
         ObservableList<Resource> lineChartData = FXCollections.observableArrayList(stock.getResources());
         table.setItems(lineChartData);
-        table.getColumns().addAll(resourceNames, resourcePrice, resoureQuantity);
+        table.getColumns().addAll(resourceNames, resourcePrice, resourceQuantity, playerResourceQuantity);
 
         // axis settings
         final CategoryAxis xAxis = new CategoryAxis();
@@ -197,6 +201,8 @@ public class StockView extends Application {
         diceButton.setOnAction(event -> {
             String message = stock.diceOperation();
             moneyLabel.setText("You have "+String.format("%.2f", stock.getDependenciesRepresenter().getMoney())+" money.");
+            table.getColumns().get(0).setVisible(false);
+            table.getColumns().get(0).setVisible(true);
             showAlert(message);
         });
         diceButton.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
@@ -279,6 +285,7 @@ public class StockView extends Application {
         Platform.runLater(() -> {
             updateLineChart();
             updatePieChart();
+            stock.updatePlayerResource();
             table.getColumns().get(0).setVisible(false);
             table.getColumns().get(0).setVisible(true);
             stage.show();

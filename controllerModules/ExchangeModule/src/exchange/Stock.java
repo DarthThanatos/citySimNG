@@ -96,6 +96,12 @@ public class Stock {
         historyTable[priceHistoryRange - 1] = newPrice;
     }
 
+    public void updatePlayerResource() {
+        for(Resource resource: resources) {
+            resource.setPlayerQuantity(dependenciesRepresenter.getStockPile().get(resource.getName()));
+        }
+    }
+
     public String buyOperation(String resourceName, String stringQuantity) {
         int quantity;
         Resource resource = getResource(resourceName);
@@ -115,6 +121,7 @@ public class Stock {
             dependenciesRepresenter.getStockPile().put(resource.getName(),
                     dependenciesRepresenter.getStockPile().get(resource.getName()) + quantity);
             resource.setQuantity(resource.getQuantity() - quantity);
+            resource.setPlayerQuantity(dependenciesRepresenter.getStockPile().get(resourceName));
             return "You successfully bought " + stringQuantity + " of " + resource.getName() + ", and now have "
                     + dependenciesRepresenter.getStockPile().get(resource.getName()) + " " + resource.getName()
                     + " and " + String.format("%.2f", dependenciesRepresenter.getMoney()) + " money";
@@ -138,6 +145,7 @@ public class Stock {
             dependenciesRepresenter.getStockPile().put(resource.getName(),
                     dependenciesRepresenter.getStockPile().get(resource.getName()) - quantity);
             resource.setQuantity(resource.getQuantity() + quantity);
+            resource.setPlayerQuantity(dependenciesRepresenter.getStockPile().get(resourceName));
             return "You successfully sold " + stringQuantity + " of " + resource.getName() + ", and now have "
                     + dependenciesRepresenter.getStockPile().get(resource.getName()) + " " + resource.getName()
                     + " and " + String.format("%.2f", dependenciesRepresenter.getMoney()) + " money";
@@ -158,6 +166,7 @@ public class Stock {
             dependenciesRepresenter.getStockPile().put(resource.getName(),
                     dependenciesRepresenter.getStockPile().get(resource.getName()) + wonQuantity);
             dependenciesRepresenter.setMoney(dependenciesRepresenter.getMoney() - 10);
+            resource.setPlayerQuantity(dependenciesRepresenter.getStockPile().get(resource.getName()));
             return "You won " + wonQuantity + " of " + resource.getName() + ", and now have "
                     + dependenciesRepresenter.getStockPile().get(resource.getName()) + " " + resource.getName()
                     + " and " + String.format("%.2f", dependenciesRepresenter.getMoney()) + " money";
