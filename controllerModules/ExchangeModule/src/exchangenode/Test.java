@@ -32,7 +32,7 @@ public class Test {
         stockAlgorithmThread.start();
 
         StockView.setStock(stock);
-        Thread stockTableThread = new Thread(StockView::initStockView);
+        Thread stockTableThread = new Thread(() -> StockView.initStockView(stock, dependenciesRepresenter));
         stockTableThread.start();
 
         Scanner input = new Scanner(System.in);

@@ -32,14 +32,13 @@ public class ExchangeNode implements Node {
         stockThread.start();
 
         // thread for view modelling
-        StockView.setStock(stock);
-        Thread thread = new Thread(StockView::initStockView);
+        Thread thread = new Thread(() -> StockView.initStockView(stock, dependenciesRepresenter));
         thread.start();
     }
 
     @Override
     public Node nodeLoop() {
-        stock.setWorkingStatus(false);
+        StockView.stock.setWorkingStatus(false);
         StockView.show();
         return parent;
     }

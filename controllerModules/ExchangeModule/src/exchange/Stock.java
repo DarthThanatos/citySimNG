@@ -102,6 +102,19 @@ public class Stock {
         }
     }
 
+    public void resetStock() {
+        for(Resource resource: resources) {
+            double newPrice = (random.nextDouble() + 1) * 10;
+            resource.setPrice(newPrice);
+            resource.setQuantity(0);
+            Double[] historyTable = priceHistory.get(resource.getName());
+            for(int i = 0; i < historyTable.length - 2; i++) {
+                historyTable[i] = 0d;
+            }
+            historyTable[historyTable.length - 1] = newPrice;
+        }
+    }
+
     public String buyOperation(String resourceName, String stringQuantity) {
         int quantity;
         Resource resource = getResource(resourceName);

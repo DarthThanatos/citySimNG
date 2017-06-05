@@ -26,11 +26,12 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.chart.XYChart;
+import model.DependenciesRepresenter;
 
 public class StockView extends Application {
 
     private static Stage stage;
-    private static Stock stock;
+    public static Stock stock;
     private static TableView<Resource> table;
     private static LineChart<String, Number> lineChart;
     private static ObservableList<PieChart.Data> pieChartData;
@@ -236,8 +237,16 @@ public class StockView extends Application {
         stage.hide();
     }
 
-    public static void initStockView() {
-        launch();
+    public static void initStockView(Stock stock, DependenciesRepresenter dependenciesRepresenter) {
+        Stock tmpStock = StockView.stock;
+        StockView.stock = stock;
+        try {
+            launch();
+        } catch(Exception ex) {
+            StockView.stock = tmpStock;
+            StockView.stock.setDependenciesRepresenter(dependenciesRepresenter);
+            StockView.stock.resetStock();
+        }
     }
 
     public static void setStock(Stock stock) {
