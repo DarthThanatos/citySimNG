@@ -51,12 +51,17 @@ class RankingView(ScrolledPanel):
         """ This function creates view for ranking, sets essential buttons' properties - 
             positions and size. It also binds logic to them."""
 
-        ranking_info = [
-            "ranking"
-            ]
         centerSizer = wx.BoxSizer(wx.VERTICAL)
-        ctrlMsgField = wx.StaticText(self, label=ranking_info[0])
+
+        menu_btn = wx.Button(self, label="Menu")
+        centerSizer.AddSpacer(30)
+        centerSizer.Add(menu_btn, 0, wx.CENTER | wx.ALL, 5)
+        self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
+
+        ctrlMsgField = wx.StaticText(self, label="Ranking")
+        centerSizer.AddSpacer(20)
         centerSizer.Add(ctrlMsgField, 0, wx.CENTER)
+        centerSizer.AddSpacer(15)
 
         simpleGrid = gridlib.Grid(self)
         simpleGrid.CreateGrid(len(self.usersList), 3)
@@ -64,20 +69,22 @@ class RankingView(ScrolledPanel):
         simpleGrid.SetColLabelValue(1, "Money")
         simpleGrid.SetColLabelValue(2, "Nr of games")
 
-        for i in range(len(self.usersList)):
-            for j in range(3):
-                simpleGrid.SetCellValue(i, j, self.usersList[i][j]) 
+        print "Table will be filled"
+        #print "dlugosc: " + str(len(self.usersList))
+        #for i in range(len(self.usersList)):
+      #      for j in range(3):
+      #          value = str(self.usersList[i][j])
+       #         print "wartosc: " + str(self.usersList[i][j])
+                #simpleGrid.SetCellValue(i, j, value)
+        simpleGrid.SetCellValue(0,0,"jakis")
+        simpleGrid.SetCellValue(0,1,31301)
+        simpleGrid.SetCellValue(0,2,1)
         simpleGrid.EnableEditing(False)
         centerSizer.Add(simpleGrid, 0, wx.CENTER)
 
         centerSizer.AddSpacer(30)
         ln = wx.StaticLine(self, -1)
         centerSizer.Add(ln, 0, wx.EXPAND)
-
-        menu_btn = wx.Button(self, label="Menu")
-        centerSizer.AddSpacer(30)
-        centerSizer.Add(menu_btn, 0, wx.CENTER | wx.ALL, 5)
-        self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
 
         centerSizer.SetDimension(0, 0, self.size[0], self.size[1])
         self.SetSizer(centerSizer)
@@ -112,3 +119,31 @@ class RankingView(ScrolledPanel):
 
     def readMsg(self, msg):
         print "Ranking view got msg", msg
+
+        try:
+            jsonObj = json.loads(msg)
+            operation = jsonObj["Operation"]
+            args = jsonObj["Args"]
+            if operation == "FetchList":
+                for x in args:
+                    row = []
+                    row.append(x["userName"])
+                    row.append(x["money"])
+                    row.append(x["nrOfGames"])
+
+                    self.usersList.append(row)
+               # print "self.usersList: \n"
+                #print self.usersList
+                self.initRanking()
+            else:
+                print "Unknown operation\n"
+
+        except:
+            traceback.print_exc()
+            msg2 = {}
+            msg2["To"] = "RankingNode"
+            msg2["Operation"] = "MoveTo"
+            msg2["Args"] = {}
+            msg2["Args"]["TargetView"] = "GameMenu"
+            msg2["Args"]["TargetControlNode"] = "GameMenuNode"
+            self.sender.send(json.dumps(msg2))

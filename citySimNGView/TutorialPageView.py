@@ -29,29 +29,29 @@ class TutorialPageView(wx.Panel):
         #self.contentField = wx.StaticText(self, label=self.tutorialContent[self.subPage],
         #    size=(self.size[0]//2-10, self.size[1]//2)) 
         self.contentField = wx.TextCtrl(parent = self, id=-1, 
-            size=(self.size[0]//2-10, self.size[1]//2), 
+            size=(self.size[0]//2-20, self.size[1]//2), 
             style=wx.TE_MULTILINE | wx.TE_READONLY)
         self.contentField.SetValue(self.tutorialContent[self.subPage])
 
         self.hyperlinks = [
             {
-                'name': 'link1',
+                'label': 'link1',
                 'id': 1
             },
             {
-                'name': 'link2',
+                'label': 'link2',
                 'id': 2
             },
             {
-                'name': 'link3',
+                'label': 'link3',
                 'id': 3
             },
             {
-                'name': 'link4',
+                'label': 'link4',
                 'id': 4
             },
             {
-                'name': 'link5',
+                'label': 'link5',
                 'id': 5
             } 
         ]
@@ -89,7 +89,7 @@ class TutorialPageView(wx.Panel):
         #place for right image
         helperImg = wx.Image(relative_textures_path + "Grass.jpg", wx.BITMAP_TYPE_ANY)
         imgWidth = self.size[0] //2
-        imgHeight = self.size[1] -10
+        imgHeight = self.size[1]
         
         helperBitmap = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(helperImg), 
             size=(imgWidth, imgHeight))
@@ -112,8 +112,12 @@ class TutorialPageView(wx.Panel):
         self.leftSizer.Add(self.contentField, 0, wx.CENTER)
         self.leftSizer.AddSpacer(15)
         self.leftSizer.Add(self.bottomBtnSizer, 0, wx.CENTER)
+        self.leftSizer.AddSpacer(15)
+        self.initHyperlinks()
 
+        self.centerSizer.AddSpacer(10)
         self.centerSizer.Add(self.leftSizer)
+        self.centerSizer.AddSpacer(10)
         self.centerSizer.Add(self.rightSizer)
         self.centerSizer.SetDimension(0, 0, self.size[0], self.size[1])
 
@@ -147,7 +151,7 @@ class TutorialPageView(wx.Panel):
         for i in self.hyperlinks:
             hyperlink = wx.HyperlinkCtrl(self, -1, i['label'])
             hyperlinksBox.Add(hyperlink)
-            hyperlinksBox.Add(wx.StaticText(self, label=", "))
+            hyperlinksBox.Add(wx.StaticText(self, label=" "))
         self.leftSizer.Add(hyperlinksBox)
 
     def onShow(self, event):
