@@ -1,14 +1,17 @@
 import wx
 import os
 import json
-from wx.lib.scrolledpanel import ScrolledPanel
 from RelativePaths import relative_music_path, relative_textures_path
 
-class TutorialPageView(ScrolledPanel):
-    def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):
-        ScrolledPanel.__init__(self, size=size, parent=parent, style=wx.SIMPLE_BORDER)
-        #pozniej w inicie trzeba bedzie dostarczyc pierwszy indeks danych, jaki ma sie wyswietlic
+class TutorialPageView(wx.Panel):
+    def __init__(self, parent, size, name, page, musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):
+        wx.Panel.__init__(self, size=size, parent=parent)
+        #ScrolledPanel.__init__(self, size=size, parent=parent, style=wx.SIMPLE_BORDER)
+        #page - indeks 'strony ' z tutoriala, ktora ma byc wyswietlona
         #dane beda jakims jsonem, osobno importowanym (ale tylko tu)
+
+        #TODO
+        #linki w tekscie albo ladna lista przyciskow do przechodzenia do innych wpisow
 
         self.parent = parent
         self.name = name
@@ -17,23 +20,56 @@ class TutorialPageView(ScrolledPanel):
         self.size = size
         self.musicPath = musicPath
         #self.SetBackgroundColour((255, 255, 255))
-        self.pageID = 0
+        self.subPage = 0
+        self.nrOfSubpages = 3
         self.tutorialContent = [
         " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac ex accumsan, commodo tortor a, rhoncus mauris. Mauris gravida vulputate tellus, nec ullamcorper augue pharetra non. Sed ut justo venenatis, ultrices mi gravida, commodo odio. Nulla eu fermentum sem. Proin lobortis dolor ac augue facilisis aliquam. Mauris condimentum metus purus. Duis condimentum sollicitudin diam eget tincidunt. Proin venenatis, lorem et finibus imperdiet, elit ex gravida augue, a rutrum libero odio commodo magna. Proin tempus nec nisi viverra tincidunt. Duis gravida laoreet bibendum. Nulla finibus purus ante. Maecenas sit amet pharetra tellus. Nam vitae velit quam. Duis vel tempus massa. Nam rhoncus sapien quis nulla dictum blandit varius vitae orci.",
         "Quisque congue fermentum dui. Proin et augue elementum, dignissim lectus sagittis, maximus urna. Aenean vel elit porta, mollis sem quis, iaculis erat. Aliquam quis odio at nunc tempus mollis eget nec quam. Donec in metus vulputate, egestas urna eu, interdum erat. Sed suscipit consequat ullamcorper. Sed ac dignissim arcu. Pellentesque placerat maximus turpis. Maecenas non ante tellus. Quisque vitae euismod arcu. Fusce ullamcorper gravida lacus, id porta neque scelerisque nec. Curabitur tortor nibh, maximus a nulla sit amet, ornare ullamcorper justo. Ut lectus dolor, finibus quis sodales eu, porta ut sapien. Aliquam ligula libero, rutrum a sapien et, scelerisque imperdiet mauris.",
         "Cras at tellus mi. Donec id venenatis magna, at consequat eros. Pellentesque ac magna egestas, consectetur nulla in, semper ligula. Aliquam porttitor consequat enim, sit amet semper mauris. Etiam cursus feugiat lacinia. Quisque suscipit feugiat dui ac aliquam. Quisque pellentesque vulputate orci vel semper. Ut congue sodales facilisis. Donec dui arcu, accumsan et accumsan id, cursus vel lectus. Maecenas est erat, sollicitudin ut metus molestie, sollicitudin ornare libero. Donec ac scelerisque tortor. Nam pretium erat ut aliquet laoreet. Cras nec turpis volutpat, suscipit nisi in, interdum massa. In feugiat arcu nibh, ut semper tellus ornare eget. Sed lobortis diam ut sapien facilisis, non volutpat sapien tristique."]
-        self.contentField = wx.StaticText(self, label=self.tutorialContent[self.pageID])
+        #self.contentField = wx.StaticText(self, label=self.tutorialContent[self.subPage],
+        #    size=(self.size[0]//2-10, self.size[1]//2)) 
+        self.contentField = wx.TextCtrl(parent = self, id=-1, 
+            size=(self.size[0]//2-10, self.size[1]//2), 
+            style=wx.TE_MULTILINE | wx.TE_READONLY)
+        self.contentField.SetValue(self.tutorialContent[self.subPage])
+
+        self.hyperlinks = [
+            {
+                'name': 'link1',
+                'id': 1
+            },
+            {
+                'name': 'link2',
+                'id': 2
+            },
+            {
+                'name': 'link3',
+                'id': 3
+            },
+            {
+                'name': 'link4',
+                'id': 4
+            },
+            {
+                'name': 'link5',
+                'id': 5
+            } 
+        ]
+        self.Bind(wx.EVT_HYPERLINK, self.moveToPage, self)
+        
 
         self.centerSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.rightSizer = wx.BoxSizer(wx.VERTICAL)
         self.leftSizer = wx.BoxSizer(wx.VERTICAL)
+        self.topBtnSizer =  wx.BoxSizer(wx.HORIZONTAL)
+        self.bottomBtnSizer = wx.BoxSizer(wx.HORIZONTAL)
 
         #all bitmaps for buttons
         leftArrow = wx.Bitmap(relative_textures_path + "leftBlueArrow.png", wx.BITMAP_TYPE_ANY)
         rightArrow = wx.Bitmap(relative_textures_path + "rightBlueArrow.png", wx.BITMAP_TYPE_ANY)
         leftLittleArrow = wx.Bitmap(relative_textures_path + "leftGreenArrow.png", wx.BITMAP_TYPE_ANY)
         rightLittleArrow = wx.Bitmap(relative_textures_path + "rightGreenArrow.png", wx.BITMAP_TYPE_ANY)
-        contentsImg = wx.Bitmap(relative_textures_path + "small_notepad2.png", wx.BITMAP_TYPE_ANY)
+        contentsIcon = wx.Bitmap(relative_textures_path + "small_notepad2.png", wx.BITMAP_TYPE_ANY)
         
         #all needed buttons
         leftArrowBtn = wx.BitmapButton(self, bitmap=leftArrow,
@@ -44,49 +80,76 @@ class TutorialPageView(ScrolledPanel):
             size=(leftLittleArrow.GetWidth(), leftLittleArrow.GetHeight()))
         rightLittleArrowBtn = wx.BitmapButton(self, bitmap=rightLittleArrow,
             size=(rightLittleArrow.GetWidth(), rightLittleArrow.GetHeight()))
-        contentsBtn = wx.BitmapButton(self, bitmap=contentsImg,
-            size=(contentsImg.GetWidth(), contentsImg.GetHeight()))
+        contentsBtn = wx.BitmapButton(self, bitmap=contentsIcon,
+            size=(contentsIcon.GetWidth(), contentsIcon.GetHeight()))
+        self.Bind(wx.EVT_BUTTON, self.showMainView, contentsBtn)
+        self.Bind(wx.EVT_BUTTON, self.nextSubPage, rightLittleArrowBtn)
+        self.Bind(wx.EVT_BUTTON, self.prevSubPage, leftLittleArrowBtn)
 
         #place for right image
         helperImg = wx.Image(relative_textures_path + "Grass.jpg", wx.BITMAP_TYPE_ANY)
-        helperBitmap = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(helperImg))
-
-
+        imgWidth = self.size[0] //2
+        imgHeight = self.size[1] -10
         
-        headerSizer = wx.BoxSizer(wx.HORIZONTAL)
-        headerSizer.Add(headerBitmap)
-        self.centerSizer.Add(headerSizer, 0, wx.CENTER)
-        self.centerSizer.AddSpacer(80)
-        self.centerSizer.Add(self.welcomeField, 0, wx.CENTER)
-        self.centerSizer.AddSpacer(20)
-        self.content = [
-            {
-                'name': 'item1',
-                'id': 1
-            },
-            {
-                'name': 'item2',
-                'id': 2
-            },
-            {
-                'name': 'item3',
-                'id': 3
-            },
-            {
-                'name': 'item4',
-                'id': 4
-            },
-            {
-                'name': 'item5',
-                'id': 5
-            }
-        ]
-        #ponizej graf zaleznosci - skierowany
-        self.initContentList()
+        helperBitmap = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(helperImg), 
+            size=(imgWidth, imgHeight))
+
+        #place everything where needed
+        self.rightSizer.Add(helperBitmap)
+        self.topBtnSizer.Add(leftArrowBtn)
+        self.topBtnSizer.AddSpacer(10)
+        self.topBtnSizer.Add(contentsBtn)
+        self.topBtnSizer.AddSpacer(10)
+        self.topBtnSizer.Add(rightArrowBtn)
+
+        self.bottomBtnSizer.Add(leftLittleArrowBtn)
+        self.bottomBtnSizer.AddSpacer(20)
+        self.bottomBtnSizer.Add(rightLittleArrowBtn)
+
+        self.leftSizer.AddSpacer(20)
+        self.leftSizer.Add(self.topBtnSizer, 0, wx.CENTER)
+        self.leftSizer.AddSpacer(15)
+        self.leftSizer.Add(self.contentField, 0, wx.CENTER)
+        self.leftSizer.AddSpacer(15)
+        self.leftSizer.Add(self.bottomBtnSizer, 0, wx.CENTER)
+
+        self.centerSizer.Add(self.leftSizer)
+        self.centerSizer.Add(self.rightSizer)
         self.centerSizer.SetDimension(0, 0, self.size[0], self.size[1])
 
         self.Bind(wx.EVT_SHOW, self.onShow, self)
-        self.SetupScrolling()
+        #self.SetupScrolling()
+
+    def moveToPage(self, event):
+        print "Page will be changed\n"
+
+    def showMainView(self, event):
+        self.parent.Show()
+        self.parent.centerSizer.ShowItems(True)
+        self.Hide()
+
+    def nextSubPage(self, event):
+        self.subPage += 1
+        if self.subPage >= self.nrOfSubpages:
+            self.subPage = 0
+        self.contentField.SetValue(self.tutorialContent[self.subPage])
+
+    def prevSubPage(self, event):
+        self.subPage -= 1;
+        if self.subPage < 0:
+            self.subPage = self.nrOfSubpages-1
+        self.contentField.SetValue(self.tutorialContent[self.subPage])
+
+    def initHyperlinks(self):
+        hyperlinksBox = wx.BoxSizer(wx.HORIZONTAL)
+        hyperlinksLabel = wx.StaticText(self, label="See also: ")
+        hyperlinksBox.Add(hyperlinksLabel)
+        for i in self.hyperlinks:
+            hyperlink = wx.HyperlinkCtrl(self, -1, i['label'])
+            hyperlinksBox.Add(hyperlink)
+            hyperlinksBox.Add(wx.StaticText(self, label=", "))
+        self.leftSizer.Add(hyperlinksBox)
+
     def onShow(self, event):
         # print "Menu on show"
         global pygame
@@ -107,62 +170,7 @@ class TutorialPageView(ScrolledPanel):
                 # print "menu: problem with pygame quit"
                 pass
 
-    def initContentList(self):
-        """ This function creates content list and buttons, sets theirs positions and size and
-            binds logic to them."""
-        leftBox = wx.BoxSizer(wx.VERTICAL)
-        rightBox = wx.BoxSizer(wx.VERTICAL)
-        contentBox = wx.BoxSizer(wx.HORIZONTAL)
-        arrow = wx.Bitmap(relative_textures_path+"rightGreenArrow.png", wx.BITMAP_TYPE_ANY)
-
-        contentSize = len(self.content)
-        contentHalf = contentSize // 2 + 1
-        for i in range(contentHalf):
-            elemField = wx.StaticText(self, label=self.content[i]['name'])
-            arrowButton = wx.BitmapButton(self, bitmap=arrow, 
-                size=(arrow.GetWidth(), arrow.GetHeight()))
-            tmpBox = wx.BoxSizer(wx.HORIZONTAL)
-            tmpBox.Add(elemField)
-            tmpBox.AddSpacer(10)
-            tmpBox.Add(arrowButton)
-            leftBox.Add(tmpBox)
-            leftBox.AddSpacer(20)
-
-        
-        for i in range(contentHalf, contentSize):
-            elemField = wx.StaticText(self, label=self.content[i]['name'])
-            arrowButton = wx.BitmapButton(self, bitmap=arrow, 
-                size=(arrow.GetWidth(), arrow.GetHeight()))
-            tmpBox = wx.BoxSizer(wx.HORIZONTAL)
-            tmpBox.Add(elemField)
-            tmpBox.AddSpacer(10)
-            tmpBox.Add(arrowButton)
-            rightBox.Add(tmpBox)
-            rightBox.AddSpacer(20)
-        contentBox.Add(leftBox)
-        contentBox.AddSpacer(20)
-        contentBox.Add(rightBox)
-        self.centerSizer.Add(contentBox, 0, wx.CENTER) 
-        self.centerSizer.AddSpacer(20)
-        ln = wx.StaticLine(self, -1)
-        self.centerSizer.Add(ln, 0, wx.EXPAND)
-
-        menu_btn = wx.Button(self, label="Menu")
-        self.centerSizer.AddSpacer(30)
-        self.centerSizer.Add(menu_btn, 0, wx.CENTER | wx.ALL, 5)
-        self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
-
-    def retToMenu(self, event):
-        """ This function returns to Menu view """
-        #self.parent.setView("Menu")
-        #self.sender.send("TutorialNode@MoveTo@MenuNode")
-        msg = {}
-        msg["To"] = "TutorialNode"
-        msg["Operation"] = "MoveTo"
-        msg["Args"] = {}
-        msg["Args"]["TargetView"] = "GameMenu"
-        msg["Args"]["TargetControlNode"] = "GameMenuNode"
-        self.sender.send(json.dumps(msg))
+   
 
     def initMenuBar(self):
         status = self.CreateStatusBar()
@@ -179,5 +187,3 @@ class TutorialPageView(ScrolledPanel):
 
         self.SetMenuBar(menuBar)
 
-    def readMsg(self, msg):
-        print "Tutorial view got msg", msg
