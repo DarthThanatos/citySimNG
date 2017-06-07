@@ -34,8 +34,8 @@ public class Resources {
 	
 	public void updateResources(){
 		Map<String, String> actualValuseAndIncomes = new HashMap<String, String>();
-		String sign = " +";
 		for(String resource : resourcesNames){
+			String sign = " +";
 			actualValues.put(resource, actualValues.get(resource) + incomes.get(resource));
 			if(actualValues.get(resource) < 0)
 				actualValues.put(resource, 0);

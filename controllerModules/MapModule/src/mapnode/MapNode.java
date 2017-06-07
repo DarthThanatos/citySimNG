@@ -46,8 +46,9 @@ public class MapNode extends SocketNode{
 		if(command.equals("placeBuilding")){
 			buildings.placeBuilding(args.getString("BuildingName"), resources);
 			Map<String, String> actualValuseAndIncomes = new HashMap<String, String>();
-			String sign = " +";
+
 			for(String resource : resources.getResourcesNames()){
+				String sign = " +";
 				if(resources.getIncomes().get(resource) < 0)
 				actualValuseAndIncomes.put(resource, resources.getActualValues().get(resource) + 
 						" " + resources.getIncomes().get(resource));
@@ -66,8 +67,9 @@ public class MapNode extends SocketNode{
 		if(command.equals("deleteBuilding")){
 			buildings.deleteBuilding(args.getString("BuildingName"), resources);
 			Map<String, String> actualValuseAndIncomes = new HashMap<String, String>();
-			String sign = " +";
+	
 			for(String resource : resources.getResourcesNames()){
+				String sign = " +";
 				if(resources.getIncomes().get(resource) < 0)
 				actualValuseAndIncomes.put(resource, resources.getActualValues().get(resource) + 
 						" " + resources.getIncomes().get(resource));
