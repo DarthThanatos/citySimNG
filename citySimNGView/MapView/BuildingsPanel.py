@@ -54,14 +54,14 @@ class BuildingsPanel(Panel):
                 for (resource, value) in building["resourcesCost"].iteritems():
                     if value != 0:
                         resource_cost_string += "{}: {} ; ".format(resource, value)
-                for (resource, value) in building["consumes"].iteritems():
-                    if value != 0:
-                        consumes_string += "{}: {} ; ".format(resource, value)
-                for (resource, value) in building["produces"].iteritems():
-                    if value != 0:
-                        produces_string += "{}: {} ; ".format(resource, value)
+                # for (resource, value) in building["consumes"].iteritems():
+                #     if value != 0:
+                #         consumes_string += "{}: {} ; ".format(resource, value)
+                # for (resource, value) in building["produces"].iteritems():
+                #     if value != 0:
+                #         produces_string += "{}: {} ; ".format(resource, value)
                 building_sprite = Building(building["name"], uuid.uuid4().__str__(), building["texturePath"],
-                                           resource_cost_string, consumes_string, produces_string, (width, height),
+                                           resource_cost_string, building["consumes"], building["produces"], (width, height),
                                            pos=(self.pos_x + BUILDING_SIZE * width * (building_no % 2) + (building_no % 2 + 1) * SPACE,
                                                 BUILDING_SIZE * height * (building_no / 2) + SPACE * (building_no / 2)))
                 if str(self.page) in self.page_buildings:

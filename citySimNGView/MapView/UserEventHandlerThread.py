@@ -43,7 +43,7 @@ class UserEventHandlerThread(threading.Thread):
                             self.map_view.info_panel.draw_buildings_info(clicked_buildings[0], self.map_view)
 
                         if self.map_view.del_button_sprite is not None and self.map_view.del_button_sprite.collidepoint(pos):
-                            self.map_view.delete_building(clicked_buildings[0])
+                            self.map_view.delete_building(self.map_view.info_panel.curr_building)
 
                         if self.map_view.left_arrow_buildings_panel.collidepoint(pos):
                             self.map_view.buildings_panel.scroll_building_panel_left()
