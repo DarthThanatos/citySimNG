@@ -5,6 +5,7 @@ import json
 import uuid
 import pygame
 import traceback
+from Resource import Resources
 from RelativePaths import relative_music_path, relative_textures_path
 from ResourcesPanel import ResourcesPanel
 from BuildingsPanel import BuildingsPanel
@@ -237,7 +238,8 @@ class MapView(wx.Panel):
             draw_text(0, self.height * RESOURCES_PANEL_SIZE, str(self.map_position), PURPLE, self.game_screen)
 
             self.buildings_panel.add_buildings_to_buildings_panel(args["buildings"])
-            self.resources_panel.add_resources_to_resources_panel(args["resources"])
+            self.resources = Resources(args["resources"], self.game_screen)
+            # self.resources_panel.add_resources_to_resources_panel(args["resources"])
 
             self.resources_dict = self.resources_panel.resources
 
