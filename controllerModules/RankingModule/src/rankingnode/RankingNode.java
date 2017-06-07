@@ -2,7 +2,7 @@ package rankingnode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
@@ -20,24 +20,23 @@ public class RankingNode extends SocketNode {
 	
 	public RankingNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName){
 		super(dr, dispatchCenter, nodeName);
-		
 		users = new HashMap<String, User>();
-		
-		
 	}
 
 	private void sendData(){
 		JSONObject envelope = new JSONObject();
 		envelope.put("To","Ranking");
 		envelope.put("Operation","FetchList");
-		JSONObject allArgs = new JSONObject();
+		//JSONObject allArgs = new JSONObject();
+		List <JSONObject> allArgs = new ArrayList<JSONObject>();
 		for (String s : users.keySet()){
 			JSONObject json = new JSONObject();
 			User currUser = users.get(s);
 			json.put("userName", s);
 			json.put("money", currUser.getMoney());
 			json.put("nrOfGames", currUser.getNrOfGames());
-			allArgs.put("list", json);
+			allArgs.add(json);
+			//System.out.println("allArgs: " + allArgs);
 		}
 
 		envelope.put("Args", allArgs);
@@ -46,11 +45,11 @@ public class RankingNode extends SocketNode {
 
 	}
 	
-	private static User crunchifyCSVtoArrayList(String crunchifyCSV) {
+	private static User CSVtoArrayList(String CSV) {
 		ArrayList<String> result = new ArrayList<String>();
 		
-		if (crunchifyCSV != null) {
-			String[] splitData = crunchifyCSV.split("\\s*,\\s*");
+		if (CSV != null) {
+			String[] splitData = CSV.split("\\s*,\\s*");
 			for (int i = 0; i < splitData.length; i++) {
 				if (!(splitData[i] == null) || !(splitData[i].length() == 0)) {
 					result.add(splitData[i].trim());
@@ -75,8 +74,7 @@ public class RankingNode extends SocketNode {
 		try {
 			csvReader = new BufferedReader(new FileReader ("resources\\TextFiles\\users.csv"));
 			while ((line = csvReader.readLine()) != null) {
-				System.out.println("Raw CSV data: " + line);
-				User currUser = crunchifyCSVtoArrayList(line); 
+				User currUser = CSVtoArrayList(line); 
 				users.put(currUser.getName(), currUser);
 			}
 			sendData();

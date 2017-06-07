@@ -1,14 +1,15 @@
 import wx
 import os
 import json
-from wx.lib.scrolledpanel import ScrolledPanel
 from RelativePaths import relative_music_path, relative_textures_path
+from TutorialPageView import TutorialPageView
 
-class TutorialView(ScrolledPanel):
+class TutorialView(wx.Panel):
     def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):
-        ScrolledPanel.__init__(self, size=size, parent=parent, style=wx.SIMPLE_BORDER)
-
-        self.parent = parent
+        #ScrolledPanel.__init__(self, size=size, parent=parent, style=wx.SIMPLE_BORDER)
+        wx.Panel.__init__(self, size=size, parent=parent)
+        #TODO 
+        
         self.name = name
         self.sender = sender
 
@@ -54,11 +55,21 @@ class TutorialView(ScrolledPanel):
             }
         ]
         #ponizej graf zaleznosci - skierowany
+
+        #page view
+        self.currPage = 0
+        self.pageView = TutorialPageView(self, size, "Tutorial Page", self.currPage)
+        self.pageView.Hide()
         self.initContentList()
         self.centerSizer.SetDimension(0, 0, self.size[0], self.size[1])
 
         self.Bind(wx.EVT_SHOW, self.onShow, self)
-        self.SetupScrolling()
+        #self.SetupScrolling()
+
+    def showPageView(self, event):
+        self.pageView.Show()
+        self.centerSizer.ShowItems(False)
+
     def onShow(self, event):
         # print "Menu on show"
         global pygame
@@ -87,12 +98,15 @@ class TutorialView(ScrolledPanel):
         contentBox = wx.BoxSizer(wx.HORIZONTAL)
         arrow = wx.Bitmap(relative_textures_path+"rightGreenArrow.png", wx.BITMAP_TYPE_ANY)
 
+    
+
         contentSize = len(self.content)
         contentHalf = contentSize // 2 + 1
         for i in range(contentHalf):
             elemField = wx.StaticText(self, label=self.content[i]['name'])
             arrowButton = wx.BitmapButton(self, bitmap=arrow, 
                 size=(arrow.GetWidth(), arrow.GetHeight()))
+            self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton)
             tmpBox = wx.BoxSizer(wx.HORIZONTAL)
             tmpBox.Add(elemField)
             tmpBox.AddSpacer(10)
@@ -105,6 +119,7 @@ class TutorialView(ScrolledPanel):
             elemField = wx.StaticText(self, label=self.content[i]['name'])
             arrowButton = wx.BitmapButton(self, bitmap=arrow, 
                 size=(arrow.GetWidth(), arrow.GetHeight()))
+            self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton)
             tmpBox = wx.BoxSizer(wx.HORIZONTAL)
             tmpBox.Add(elemField)
             tmpBox.AddSpacer(10)
