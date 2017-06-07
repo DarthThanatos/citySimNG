@@ -33,6 +33,10 @@ class TutorialPageView(wx.Panel):
             style=wx.TE_MULTILINE | wx.TE_READONLY)
         self.contentField.SetValue(self.tutorialContent[self.subPage])
 
+        self.tutorialPageFont = wx.Font(20, wx.FONTFAMILY_SCRIPT, 
+            wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
+        self.contentField.SetFont(self.tutorialPageFont)
+
         self.hyperlinks = [
             {
                 'label': 'link1',
@@ -145,13 +149,22 @@ class TutorialPageView(wx.Panel):
         self.contentField.SetValue(self.tutorialContent[self.subPage])
 
     def initHyperlinks(self):
+        hyperlinksFont = self.tutorialPageFont
+        hyperlinksFont.SetPointSize(18)
+
         hyperlinksBox = wx.BoxSizer(wx.HORIZONTAL)
         hyperlinksLabel = wx.StaticText(self, label="See also: ")
+        hyperlinksLabel.SetFont(hyperlinksFont)
         hyperlinksBox.Add(hyperlinksLabel)
+
         for i in self.hyperlinks:
             hyperlink = wx.HyperlinkCtrl(self, -1, i['label'])
+            hyperlink.SetFont(hyperlinksFont)
+
+            space = wx.StaticText(self, label="\t")
+
             hyperlinksBox.Add(hyperlink)
-            hyperlinksBox.Add(wx.StaticText(self, label=" "))
+            hyperlinksBox.Add(space)
         self.leftSizer.Add(hyperlinksBox)
 
     def onShow(self, event):

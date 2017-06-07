@@ -19,6 +19,12 @@ class RankingView(wx.Panel):
 
         self.usersList = []
 
+        self.labelFont =  wx.Font(19, wx.FONTFAMILY_SCRIPT, 
+        wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
+        self.rankingFont = wx.Font(18, wx.FONTFAMILY_SCRIPT, 
+        wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
+        
+
         self.centerSizer = wx.BoxSizer(wx.VERTICAL)
 
         self.centerSizer.AddSpacer(10)
@@ -37,15 +43,15 @@ class RankingView(wx.Panel):
         self.centerSizer.AddSpacer(15)
 
         self.simpleGrid = gridlib.Grid(self)
-
-
         self.simpleGrid.CreateGrid(len(self.usersList), 3)
         self.simpleGrid.SetColLabelValue(0, "User name")
         self.simpleGrid.SetColLabelValue(1, "Money")
         self.simpleGrid.SetColLabelValue(2, "Nr of games")
+        self.simpleGrid.SetLabelFont(self.labelFont)
+        self.simpleGrid.SetDefaultCellFont(self.rankingFont)
 
         self.centerSizer.Add(self.simpleGrid, 0, wx.CENTER)
-        gridHeight = self.size[1]-400
+        gridHeight = self.size[1]-180
         self.simpleGrid.SetMaxSize(wx.Size(self.size[0], gridHeight))
         self.centerSizer.Layout()
     
@@ -78,10 +84,12 @@ class RankingView(wx.Panel):
         """ This function creates view for ranking, sets essential buttons' properties - 
             positions and size. It also binds logic to them."""
         print "Table will be filled"
+        self.simpleGrid.Hide()
         nrOfRows = self.simpleGrid.GetNumberRows()
         for i in range(nrOfRows):
             self.simpleGrid.DeleteRows()
 
+        print "len: " + str(len(self.usersList)) + "\n"
         for i in range(len(self.usersList)):
             self.simpleGrid.AppendRows()
             for j in range(3):
@@ -89,12 +97,14 @@ class RankingView(wx.Panel):
                 self.simpleGrid.SetCellValue(i, j, value)
 
         self.simpleGrid.AutoSizeColumns()
+        self.simpleGrid.AutoSizeRows()
         self.simpleGrid.ShowScrollbars(wx.SHOW_SB_NEVER,wx.SHOW_SB_DEFAULT)
         self.simpleGrid.DisableDragGridSize()
         self.simpleGrid.DisableDragRowSize()
         self.simpleGrid.DisableDragColSize()
         self.simpleGrid.DisableDragColMove()
         self.simpleGrid.EnableEditing(False)
+        self.simpleGrid.Show()
         self.centerSizer.Layout()
 
 
@@ -129,6 +139,7 @@ class RankingView(wx.Panel):
         print "Ranking view got msg", msg
 
         try:
+            self.usersList = []
             jsonObj = json.loads(msg)
             operation = jsonObj["Operation"]
             args = jsonObj["Args"]

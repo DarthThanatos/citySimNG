@@ -18,6 +18,9 @@ class TutorialView(wx.Panel):
         #self.SetBackgroundColour((255, 255, 255))
         self.tutorialInfo = "Welcome to our tutorial! If you'd like to find out what are all the functionalities of this cutting-edge game engine, you're in the right place :)"
         self.welcomeField = wx.StaticText(self, label=self.tutorialInfo)
+        self.tutorialFont = wx.Font(20, wx.FONTFAMILY_DECORATIVE, 
+            wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
+        self.welcomeField.SetFont(self.tutorialFont)
 
         self.centerSizer = wx.BoxSizer(wx.VERTICAL)
 
@@ -102,8 +105,11 @@ class TutorialView(wx.Panel):
 
         contentSize = len(self.content)
         contentHalf = contentSize // 2 + 1
+        listFont = self.tutorialFont
+        listFont.SetPointSize(18)
         for i in range(contentHalf):
             elemField = wx.StaticText(self, label=self.content[i]['name'])
+            elemField.SetFont(listFont)
             arrowButton = wx.BitmapButton(self, bitmap=arrow, 
                 size=(arrow.GetWidth(), arrow.GetHeight()))
             self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton)
@@ -117,6 +123,7 @@ class TutorialView(wx.Panel):
         
         for i in range(contentHalf, contentSize):
             elemField = wx.StaticText(self, label=self.content[i]['name'])
+            elemField.SetFont(listFont)
             arrowButton = wx.BitmapButton(self, bitmap=arrow, 
                 size=(arrow.GetWidth(), arrow.GetHeight()))
             self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton)
@@ -127,7 +134,7 @@ class TutorialView(wx.Panel):
             rightBox.Add(tmpBox)
             rightBox.AddSpacer(20)
         contentBox.Add(leftBox)
-        contentBox.AddSpacer(20)
+        contentBox.AddSpacer(30)
         contentBox.Add(rightBox)
         self.centerSizer.Add(contentBox, 0, wx.CENTER) 
         self.centerSizer.AddSpacer(20)
