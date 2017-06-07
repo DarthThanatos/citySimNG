@@ -16,6 +16,21 @@ class RankingView(ScrolledPanel):
         self.size = size
         self.musicPath = musicPath
 
+        self.usersList = []
+
+        self.centerSizer = wx.BoxSizer(wx.VERTICAL)
+
+        menu_btn = wx.Button(self, label="Menu")
+        self.centerSizer.AddSpacer(30)
+        self.centerSizer.Add(menu_btn, 0, wx.CENTER | wx.ALL, 5)
+        self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
+
+        ctrlMsgField = wx.StaticText(self, label="Ranking")
+        self.centerSizer.AddSpacer(20)
+        self.centerSizer.Add(ctrlMsgField, 0, wx.CENTER)
+        self.centerSizer.AddSpacer(15)
+        self.centerSizer.SetDimension(0, 0, self.size[0], self.size[1])
+
         self.Bind(wx.EVT_SHOW, self.onShow, self)
         self.SetupScrolling()
 
@@ -23,8 +38,10 @@ class RankingView(ScrolledPanel):
             reader = csv.reader(f)
             self.usersList = list(reader)
 
-        self.initRanking()
-        self.SetBackgroundColour((255, 255, 255))        
+
+        #self.initRanking()
+        #self.SetBackgroundColour((255, 255, 255))        
+
 
     def onShow(self, event):
         # print "Menu on show"
@@ -51,17 +68,6 @@ class RankingView(ScrolledPanel):
         """ This function creates view for ranking, sets essential buttons' properties - 
             positions and size. It also binds logic to them."""
 
-        centerSizer = wx.BoxSizer(wx.VERTICAL)
-
-        menu_btn = wx.Button(self, label="Menu")
-        centerSizer.AddSpacer(30)
-        centerSizer.Add(menu_btn, 0, wx.CENTER | wx.ALL, 5)
-        self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
-
-        ctrlMsgField = wx.StaticText(self, label="Ranking")
-        centerSizer.AddSpacer(20)
-        centerSizer.Add(ctrlMsgField, 0, wx.CENTER)
-        centerSizer.AddSpacer(15)
 
         simpleGrid = gridlib.Grid(self)
         simpleGrid.CreateGrid(len(self.usersList), 3)
@@ -71,24 +77,19 @@ class RankingView(ScrolledPanel):
 
         print "Table will be filled"
         #print "dlugosc: " + str(len(self.usersList))
-        #for i in range(len(self.usersList)):
-      #      for j in range(3):
-      #          value = str(self.usersList[i][j])
-       #         print "wartosc: " + str(self.usersList[i][j])
-                #simpleGrid.SetCellValue(i, j, value)
+        for i in range(len(self.usersList)):
+            for j in range(3):
+                value = str(self.usersList[i][j])
+                simpleGrid.SetCellValue(i, j, value)
         simpleGrid.SetCellValue(0,0,"jakis")
-        simpleGrid.SetCellValue(0,1,31301)
-        simpleGrid.SetCellValue(0,2,1)
+        simpleGrid.SetCellValue(0,1,"31301")
+        simpleGrid.SetCellValue(0,2,"1")
         simpleGrid.EnableEditing(False)
-        centerSizer.Add(simpleGrid, 0, wx.CENTER)
+        self.centerSizer.Add(simpleGrid, 0, wx.CENTER)
 
-        centerSizer.AddSpacer(30)
+        self.centerSizer.AddSpacer(30)
         ln = wx.StaticLine(self, -1)
-        centerSizer.Add(ln, 0, wx.EXPAND)
-
-        centerSizer.SetDimension(0, 0, self.size[0], self.size[1])
-        self.SetSizer(centerSizer)
-
+        self.centerSizer.Add(ln, 0, wx.EXPAND)
 
     def retToMenu(self, event):
         """ This function returns to Menu view """
@@ -130,11 +131,29 @@ class RankingView(ScrolledPanel):
                     row.append(x["userName"])
                     row.append(x["money"])
                     row.append(x["nrOfGames"])
-
                     self.usersList.append(row)
-               # print "self.usersList: \n"
-                #print self.usersList
-                self.initRanking()
+                simpleGrid = gridlib.Grid(self)
+                simpleGrid.CreateGrid(len(self.usersList), 3)
+                simpleGrid.SetColLabelValue(0, "User name")
+                simpleGrid.SetColLabelValue(1, "Money")
+                simpleGrid.SetColLabelValue(2, "Nr of games")
+
+                print "Table will be filled"
+                print "dlugosc: " + str(len(self.usersList))
+                for i in range(len(self.usersList)):
+                    for j in range(3):
+                        value = str(self.usersList[i][j])
+                        print "wartosc: " + str(self.usersList[i][j])
+                        #simpleGrid.SetCellValue(i, j, value)
+                #simpleGrid.SetCellValue(0,0,"jakis")
+                #simpleGrid.SetCellValue(0,1,"31301")
+                #simpleGrid.SetCellValue(0,2,"1")
+                simpleGrid.EnableEditing(False)
+                self.centerSizer.Add(simpleGrid, 0, wx.CENTER)
+
+                self.centerSizer.AddSpacer(30)
+                ln = wx.StaticLine(self, -1)
+                self.centerSizer.Add(ln, 0, wx.EXPAND)
             else:
                 print "Unknown operation\n"
 
