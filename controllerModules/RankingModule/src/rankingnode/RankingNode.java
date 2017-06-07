@@ -36,12 +36,13 @@ public class RankingNode extends SocketNode {
 			json.put("money", currUser.getMoney());
 			json.put("nrOfGames", currUser.getNrOfGames());
 			allArgs.add(json);
-			//System.out.println("allArgs: " + allArgs);
 		}
+
+		System.out.println("allArgs: " + allArgs);
 
 		envelope.put("Args", allArgs);
 		
-		sender.pushStream(envelope); //linijka generujaca exception
+		sender.pushStream(envelope);
 
 	}
 	

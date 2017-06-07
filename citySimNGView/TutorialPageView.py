@@ -96,11 +96,11 @@ class TutorialPageView(wx.Panel):
 
         #place everything where needed
         self.rightSizer.Add(helperBitmap)
-        self.topBtnSizer.Add(leftArrowBtn)
+        self.topBtnSizer.Add(leftArrowBtn, 0, wx.CENTER)
         self.topBtnSizer.AddSpacer(10)
-        self.topBtnSizer.Add(contentsBtn)
+        self.topBtnSizer.Add(contentsBtn, 0, wx.CENTER)
         self.topBtnSizer.AddSpacer(10)
-        self.topBtnSizer.Add(rightArrowBtn)
+        self.topBtnSizer.Add(rightArrowBtn, 0, wx.CENTER)
 
         self.bottomBtnSizer.Add(leftLittleArrowBtn)
         self.bottomBtnSizer.AddSpacer(20)
