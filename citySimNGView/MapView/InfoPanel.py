@@ -30,16 +30,7 @@ class InfoPanel(Panel):
                                                        self.pos_y))
         map_view.del_button_sprite = self.delete_icon_rect
 
-        # TODO: same code as in resources panel
-        for (resource, value) in building.produces.iteritems():
-            if value != 0:
-                image = map_view.resources_panel.resources[resource].image
-                self.game_screen.blit(image, (self.pos_x, self.pos_y))
-                draw_text(self.pos_x + image.get_size()[0], self.pos_y, "{}".format(value), GREEN, self.game_screen)
-        #
-        # building_info = "{} \n " \
-        #                 "{} \n " \
-        #                 "{} \n " \
-        #                 "{} \n ".format(building.name, building.produces, building.consumes, building.resources_cost)
-        # draw_text_with_wrapping(self.pos_x, self.pos_y, self.pos_x + self.width, building_info, GREEN, self.game_screen)
+        curr_y = draw_text(self.pos_x, self.pos_y, building.name, GREEN, self.game_screen)[1] + self.pos_y
+        curr_y = map_view.resources.draw_resources_info(building.produces, self.pos_x, curr_y, self.width + self.pos_x, "Produces")
+        map_view.resources.draw_resources_info(building.consumes, self.pos_x, curr_y, self.width + self.pos_x, "Consumes")
 
