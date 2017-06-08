@@ -41,10 +41,16 @@ class UserEventHandlerThread(threading.Thread):
                         # check if some building sprite in map has been clicked
                         clicked_buildings = [b for b in self.map_view.buildings_sprites if b.rect.collidepoint(pos)]
                         if len(clicked_buildings) == 1:
-                            self.map_view.info_panel.draw_buildings_info(clicked_buildings[0], self.map_view)
+                            self.map_view.get_building_state(clicked_buildings[0])
+                            self.map_view.info_panel.curr_building = clicked_buildings[0]
 
                         if self.map_view.del_button_sprite is not None and self.map_view.del_button_sprite.rect.collidepoint(pos):
                             clicked_button = self.map_view.del_button_sprite
+                            clicked_button.click_button(self.map_view, self.map_view.info_panel.curr_building)
+
+                        if self.map_view.info_panel.stop_production_button is not None and \
+                           self.map_view.info_panel.stop_production_button.rect.collidepoint(pos):
+                            clicked_button = self.map_view.info_panel.stop_production_button
                             clicked_button.click_button(self.map_view, self.map_view.info_panel.curr_building)
 
                         if self.map_view.left_arrow_buildings_panel.rect.collidepoint(pos):

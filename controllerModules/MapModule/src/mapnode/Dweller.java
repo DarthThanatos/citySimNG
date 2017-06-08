@@ -2,7 +2,7 @@ package mapnode;
 
 import java.util.Map;
 
-public class Deweller {
+public class Dweller {
 	private String name;
 	private String predecessor;
 	private String successor;

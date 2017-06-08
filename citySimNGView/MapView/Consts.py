@@ -68,7 +68,11 @@ NAVIGATION_PANEL_WIDTH = 0.3
 # =================================================================================================================== #
 TEXT_PANEL_HEIGHT = 0.1
 TEXT_PANEL_WIDTH = 0.25
+TEXT_PANEL_FONT_SIZE = 10
 
+# =================================================================================================================== #
+# TEXTURES #
+# =================================================================================================================== #
 DEFAULT_BUILDING_TEXTURE = relative_textures_path + "DefaultBuilding.jpg"
 DEFAULT_RESOURCE_TEXTURE = relative_textures_path + "DefaultBuilding.jpg"
 GRASS_TEXTURE = relative_textures_path + "Grass.png"
@@ -76,14 +80,20 @@ MEADOW_TEXTURE = relative_textures_path + "Meadow.jpg"
 GRASS2_TEXTURE = relative_textures_path + "Grass2.jpg"
 NAV_ARROW_TEXTURE = relative_textures_path + 'LeftArrow.png'
 
-RESOURCE_SIZE = 0.03
-RESOURCES_SPACE = 10
+# =================================================================================================================== #
+# DWELLERS #
+# =================================================================================================================== #
+DWELLER_ICON_WIDTH = 0.03
+DWELLER_ICON_HEIGHT = 0.9
 
-BUILDING_SIZE = 0.05
+# =================================================================================================================== #
+# OTHERS #
+# =================================================================================================================== #
+RESOURCE_SIZE = 0.03
+BUILDING_SIZE = 0.08
+RESOURCES_SPACE = 10
 
 ARROW_BUTTON_WIDTH = 0.3
 ARROW_BUTTON_HEIGHT = 0.1
 SPACE = 20
 MENU_BUTTON_WIDTH = 0.05
-
-

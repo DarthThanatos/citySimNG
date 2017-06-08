@@ -15,13 +15,14 @@ class Resource(pygame.sprite.Sprite):
         self.texture_path = texture_path
         self.game_screen_size = game_screen_size
 
+        # TODO: THIS IS WRONG...
         width, height = self.game_screen_size
+        self.width, self.height = int(width * RESOURCE_SIZE), int(height * RESOURCE_SIZE)
         try:
             self.image = pygame.image.load(self.texture_path)
         except Exception:
             self.texture_path = DEFAULT_RESOURCE_TEXTURE
             self.image = pygame.image.load(self.texture_path)
-        self.image = self.image.convert_alpha()
         self.image.set_colorkey(WHITE)
         self.image = pygame.transform.scale(self.image, (int(width * RESOURCE_SIZE),
                                                          int(height * RESOURCE_SIZE)))

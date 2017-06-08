@@ -13,7 +13,7 @@ from InfoPanel import InfoPanel
 from Building import Building
 from Consts import BUILDINGS_PANEL_SIZE, RESOURCES_PANEL_SIZE, NAV_ARROW_HEIGHT, NAV_ARROW_WIDTH, FPS, GREEN, RED, \
     PURPLE, FONT, GRASS_TEXTURE, GRASS2_TEXTURE, NAV_ARROW_TEXTURE, FONT_SIZE, TEXT_PANEL_HEIGHT, \
-    TEXT_PANEL_WIDTH, MENU_BUTTON_WIDTH, NAVIGATION_PANEL_HEIGHT, NAVIGATION_PANEL_WIDTH, INFO_PANEL_HEIGHT, INFO_PANEL_WIDTH
+    TEXT_PANEL_WIDTH, MENU_BUTTON_WIDTH, NAVIGATION_PANEL_HEIGHT, NAVIGATION_PANEL_WIDTH, INFO_PANEL_HEIGHT, INFO_PANEL_WIDTH, TEXT_PANEL_FONT_SIZE
 from NavigationArrow import NavigationArrow
 from UserEventHandlerThread import UserEventHandlerThread
 from MapTile import MapTile
@@ -70,11 +70,11 @@ class MapView(wx.Panel):
         # add buttons
         self.init_buttons()
 
-        style = wx.TE_MULTILINE | wx.TE_READONLY | wx.HSCROLL
+        style = wx.TE_MULTILINE | wx.TE_READONLY
         self.log = wx.TextCtrl(self, wx.ID_ANY, size=(size[0] * TEXT_PANEL_WIDTH, TEXT_PANEL_HEIGHT * size[1]),
                                style=style, pos=(self.width * NAVIGATION_PANEL_WIDTH + self.width * INFO_PANEL_WIDTH,
                                                  int(size[1] - TEXT_PANEL_HEIGHT * size[1])))
-        font = wx.Font(FONT_SIZE, wx.MODERN, wx.NORMAL, wx.NORMAL, False, FONT)
+        font = wx.Font(TEXT_PANEL_FONT_SIZE, wx.MODERN, wx.NORMAL, wx.NORMAL, False, FONT)
         self.log.SetFont(font)
 
         self.sizer = wx.BoxSizer(wx.VERTICAL)
@@ -159,7 +159,7 @@ class MapView(wx.Panel):
         # Create info panel and add it to all sprites
         self.info_panel = InfoPanel(NAVIGATION_PANEL_WIDTH * self.width, self.height - INFO_PANEL_HEIGHT * self.height,
                                     INFO_PANEL_WIDTH * self.width, INFO_PANEL_HEIGHT * self.height, self.game_screen,
-                                    self.delete_building)
+                                    self.delete_building, self.stop_production)
         self.all_sprites.add(self.info_panel)
 
         # set current player position on map to tile (0,0)
@@ -240,13 +240,8 @@ class MapView(wx.Panel):
 
             self.buildings_panel.add_buildings_to_buildings_panel(args["buildings"])
             self.resources = Resources(args["resources"], self.game_screen)
-            # self.resources_panel.add_resources_to_resources_panel(args["resources"])
 
             self.resources_dict = self.resources_panel.resources
-
-            #global GRASS_TEXTURE, GRASS2_TEXTURE
-            #GRASS_TEXTURE = relative_textures_path + texture_one
-            #GRASS2_TEXTURE = relative_textures_path + texture_two
         elif operation == "canAffordOnBuildingResult":
             # we can draw building with given id
             if args["canAffordOnBuilding"]:
@@ -261,12 +256,25 @@ class MapView(wx.Panel):
         elif operation == "placeBuildingResult" or operation == "deleteBuildingResult":
             self.last_res_info = args["actualRes"]
             self.resources_panel.resources_info = args["actualRes"]
+            self.resources_panel.curr_dwellers_amount = args["currDwellersAmount"]
             self.resources_panel.draw_panel()
         elif operation == "Update":
             # update resources values
             self.last_res_info = args
             self.resources_panel.resources_info = args
             self.resources_panel.draw_panel()
+        elif operation == "stopProductionResult":
+            self.last_res_info = args["actualRes"]
+            self.resources_panel.resources_info = args["actualRes"]
+            self.resources_panel.draw_panel()
+            if self.info_panel.stop_production_button.texture == relative_textures_path + 'Start.png':
+                self.info_panel.stop_production_button.set_texture(relative_textures_path + 'StopProduction.png')
+            else:
+                self.info_panel.stop_production_button.set_texture(relative_textures_path + 'Start.png')
+            self.info_panel.redraw_panel(self)
+        elif operation == "getBuildingStateResult":
+            print args["isRunning"]
+            self.info_panel.draw_buildings_info(self, args["isRunning"])
         else:
             print "Unknown message"
 
@@ -363,6 +371,9 @@ class MapView(wx.Panel):
         for building in self.buildings_sprites:
             self.game_screen.blit(building.image, building.pos)
 
+# =================================================================================================================== #
+# Messages
+# =================================================================================================================== #
     def check_if_can_afford(self, building):
         new_building = Building(building.name, uuid.uuid4().__str__(), building.texture, building.resources_cost,
                                 building.consumes, building.produces, self.game_screen.get_size(), (0, 0))
@@ -408,4 +419,27 @@ class MapView(wx.Panel):
         for building in self.buildings_sprites:
             self.game_screen.blit(building.image, building.pos)
 
+    def stop_production(self, building_sprite):
+        msg = {}
+        msg["To"] = "MapNode"
+        msg["Operation"] = "stopProduction"
+        msg["Args"] = {}
+        msg["Args"]["BuildingName"] = building_sprite.name
+        msg["Args"]["BuildingId"] = building_sprite.id
+        stream = json.dumps(msg)
+        self.sender.send(stream)
 
+    def get_building_state(self, building):
+        msg = dict()
+        msg["To"] = "MapNode"
+        msg["Operation"] = "getBuildingState"
+        msg["Args"] = {}
+        msg["Args"]["BuildingId"] = building.id
+        stream = json.dumps(msg)
+
+        #
+        # self.condition.acquire()
+        # self.has_reply_arrived = False
+        self.sender.send(stream)
+        # self.condition.wait()
+        # self.condition.release()
