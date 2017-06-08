@@ -14,6 +14,7 @@ class UserEventHandlerThread(threading.Thread):
         shadow = None
         building = None
         clock = pygame.time.Clock()
+        clicked_button = None
 
         while self.map_view.game_on:
             for event in pygame.event.get():
@@ -42,8 +43,9 @@ class UserEventHandlerThread(threading.Thread):
                         if len(clicked_buildings) == 1:
                             self.map_view.info_panel.draw_buildings_info(clicked_buildings[0], self.map_view)
 
-                        if self.map_view.del_button_sprite is not None and self.map_view.del_button_sprite.collidepoint(pos):
-                            self.map_view.delete_building(self.map_view.info_panel.curr_building)
+                        if self.map_view.del_button_sprite is not None and self.map_view.del_button_sprite.rect.collidepoint(pos):
+                            clicked_button = self.map_view.del_button_sprite
+                            clicked_button.click_button(self.map_view, self.map_view.info_panel.curr_building)
 
                         if self.map_view.left_arrow_buildings_panel.collidepoint(pos):
                             self.map_view.buildings_panel.scroll_building_panel_left()
@@ -55,14 +57,19 @@ class UserEventHandlerThread(threading.Thread):
                             self.map_view.resources_panel.scroll_resources_panel_right()
                         clicked_nav_arrows = [s for s in self.map_view.navigation_arrows_sprites if s.rect.collidepoint(pos)]
                         if len(clicked_nav_arrows) == 1:
-                            self.map_view.switch_game_tile(clicked_nav_arrows[0])
+                            clicked_button = clicked_nav_arrows[0]
+                            clicked_button.click_button(self.map_view, clicked_nav_arrows[0])
+
+                if event.type == pygame.MOUSEBUTTONUP and event.button == LEFT:
+                    if clicked_button is not None:
+                        clicked_button.release_button(self.map_view)
+                        clicked_button = None
 
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == RIGHT:
                     if shadow is not None:
                         shadow = None
 
             pos = pygame.mouse.get_pos()
-            # self.map_view.mes("FPS: " + str(FPS), PURPLE, 0, 0)
             self.map_view.background.blit(self.map_view.game_screen, (0, 0))
             if shadow is not None:
                 shadow.rect.center = pos

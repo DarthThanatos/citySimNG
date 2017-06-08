@@ -54,11 +54,6 @@ class ResourcesPanel(Panel):
                       "{}".format(self.resources_info[resource]), GREEN, self.game_screen)
             pos_x = width + RESOURCES_SPACE
 
-    # def add_resources_to_resources_panel(self, resources_info):
-    #     for (i, resource) in enumerate(resources_info):
-    #         resource_sprite = Resource(resource["name"], resource["texturePath"], self.game_screen.get_size())
-    #         self.resources[resource["name"]] = resource_sprite
-
     def scroll_resources_panel_right(self):
         if self.it < len(self.resources_list) and not self.displayed_all:
             self.it += 1

@@ -153,12 +153,13 @@ class MapView(wx.Panel):
         self.navigation_panel = NavigationPanel(0, self.height - NAVIGATION_PANEL_HEIGHT * self.height,
                                                 NAVIGATION_PANEL_WIDTH * self.width,
                                                 NAVIGATION_PANEL_HEIGHT * self.height,
-                                                self.game_screen)
+                                                self.game_screen, self.switch_game_tile)
         self.all_sprites.add(self.navigation_panel)
 
         # Create info panel and add it to all sprites
         self.info_panel = InfoPanel(NAVIGATION_PANEL_WIDTH * self.width, self.height - INFO_PANEL_HEIGHT * self.height,
-                                    INFO_PANEL_WIDTH * self.width, INFO_PANEL_HEIGHT * self.height, self.game_screen)
+                                    INFO_PANEL_WIDTH * self.width, INFO_PANEL_HEIGHT * self.height, self.game_screen,
+                                    self.delete_building)
         self.all_sprites.add(self.info_panel)
 
         # set current player position on map to tile (0,0)
@@ -343,12 +344,13 @@ class MapView(wx.Panel):
             self.current_tile = game_screen_tile
 
         self.game_screen = self.current_tile.game_screen
-
+        self.resources.game_screen = self.game_screen
         for panel in self.panels:
             panel.game_screen = self.game_screen
             panel.draw_panel()
 
         self.buildings_panel.draw_buildings_in_buildings_panel()
+
 
         for nav_arrow in self.navigation_arrows_sprites:
             nav_arrow.game_screen = self.game_screen
@@ -357,7 +359,7 @@ class MapView(wx.Panel):
         self.all_sprites = self.current_tile.all_sprites
         self.all_sprites.add(self.resources_panel)
         self.all_sprites.add(self.buildings_panel)
-        draw_text(0, 0, str(self.map_position), PURPLE, self.background)
+        draw_text(0,  self.height * RESOURCES_PANEL_SIZE, str(self.map_position), PURPLE, self.game_screen)
         for building in self.buildings_sprites:
             self.game_screen.blit(building.image, building.pos)
 
@@ -391,15 +393,18 @@ class MapView(wx.Panel):
         self.sender.send(stream)
 
         building_sprite.kill()
-        self.game_screen.blit(self.image, (0, 0))
+        image = self.choose_game_screen_texture()
+        image = pygame.transform.scale(image, (self.width, self.height))
+        self.game_screen.blit(image, (0, 0))
         for panel in self.panels:
             panel.draw_panel()
 
+        self.info_panel.curr_building = None
         self.buildings_panel.draw_buildings_in_buildings_panel()
 
         for nav_arrow in self.navigation_arrows_sprites:
             nav_arrow.draw_navigation_arrow()
-        draw_text(0, 0, str(self.map_position), PURPLE, self.background)
+        draw_text(0, self.height * RESOURCES_PANEL_SIZE, str(self.map_position), PURPLE, self.game_screen)
         for building in self.buildings_sprites:
             self.game_screen.blit(building.image, building.pos)
 

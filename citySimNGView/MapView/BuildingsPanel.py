@@ -49,17 +49,9 @@ class BuildingsPanel(Panel):
                     building_no = 0
                     self.last_page = self.page
                 resource_cost_string = ""
-                consumes_string = ""
-                produces_string = ""
                 for (resource, value) in building["resourcesCost"].iteritems():
                     if value != 0:
                         resource_cost_string += "{}: {} ; ".format(resource, value)
-                # for (resource, value) in building["consumes"].iteritems():
-                #     if value != 0:
-                #         consumes_string += "{}: {} ; ".format(resource, value)
-                # for (resource, value) in building["produces"].iteritems():
-                #     if value != 0:
-                #         produces_string += "{}: {} ; ".format(resource, value)
                 building_sprite = Building(building["name"], uuid.uuid4().__str__(), building["texturePath"],
                                            resource_cost_string, building["consumes"], building["produces"], (width, height),
                                            pos=(self.pos_x + BUILDING_SIZE * width * (building_no % 2) + (building_no % 2 + 1) * SPACE,
