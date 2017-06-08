@@ -5,6 +5,7 @@ from Consts import GREEN, RESOURCES_SPACE, RESOURCES_PANEL_TEXTURE, RESOURCES_PA
 from RelativePaths import relative_textures_path
 from Panel import Panel
 from Utils import draw_text, calculate_text_size
+from Button import Button
 
 
 class ResourcesPanel(Panel):
@@ -16,28 +17,22 @@ class ResourcesPanel(Panel):
         self.resources = {}
         self.main_panel = main_panel
 
-        self.right_arrow_image = pygame.image.load(relative_textures_path + 'RightArrow.png')
-        self.right_arrow_image = pygame.transform.scale(self.right_arrow_image, (int(RESOURCES_ARROW_BUTTON_WIDTH * self.width),
-                                                                                 int(RESOURCES_ARROW_BUTTON_HEIGHT * self.height)))
-        self.right_arrow_rect = self.right_arrow_image.get_rect(
-            topleft=(self.width - RESOURCES_ARROW_BUTTON_WIDTH * self.width,
-                     self.height))
+        self.right_arrow = Button(self.width - RESOURCES_ARROW_BUTTON_WIDTH * self.width, self.pos_y,
+                                  int(RESOURCES_ARROW_BUTTON_WIDTH * self.width),
+                                  int(RESOURCES_ARROW_BUTTON_HEIGHT * self.height),
+                                  relative_textures_path + 'RightArrow.png', self, self.scroll_resources_panel_right)
 
-        self.left_arrow_image = pygame.image.load(relative_textures_path + 'LeftArrow.png')
-        self.left_arrow_image = pygame.transform.scale(self.left_arrow_image, (int(RESOURCES_ARROW_BUTTON_WIDTH * self.width),
-                                                                               int(RESOURCES_ARROW_BUTTON_HEIGHT * self.height)))
-        self.left_arrow_rect = self.left_arrow_image.get_rect(
-            topleft=(self.pos_x, self.height))
+        self.left_arrow = Button(self.pos_x, self.pos_y, int(RESOURCES_ARROW_BUTTON_WIDTH * self.width),
+                                 int(RESOURCES_ARROW_BUTTON_HEIGHT * self.height),
+                                 relative_textures_path + "LeftArrow.png", self, self.scroll_resources_panel_left)
 
     def draw_panel(self):
         self.resources_list = self.resources_info.keys()
         self.game_screen.blit(self.image, (self.pos_x, self.pos_y))
 
-        self.game_screen.blit(self.right_arrow_image, (self.width - RESOURCES_ARROW_BUTTON_WIDTH * self.width,
-                                                       self.pos_y))
+        self.game_screen.blit(self.right_arrow.image, self.right_arrow.rect)
 
-        self.game_screen.blit(self.left_arrow_image, (self.pos_x,
-                                                      self.pos_y))
+        self.game_screen.blit(self.left_arrow.image, self.left_arrow.rect)
 
         pos_x = RESOURCES_ARROW_BUTTON_WIDTH * self.width
         self.displayed_all = True
@@ -63,3 +58,6 @@ class ResourcesPanel(Panel):
         if self.it > 0:
             self.it -= 1
             self.draw_panel()
+
+    def redraw_panel(self, map_view):
+        self.draw_panel()

@@ -47,14 +47,18 @@ class UserEventHandlerThread(threading.Thread):
                             clicked_button = self.map_view.del_button_sprite
                             clicked_button.click_button(self.map_view, self.map_view.info_panel.curr_building)
 
-                        if self.map_view.left_arrow_buildings_panel.collidepoint(pos):
-                            self.map_view.buildings_panel.scroll_building_panel_left()
-                        if self.map_view.right_arrow_buildings_panel.collidepoint(pos):
-                            self.map_view.buildings_panel.scroll_building_panel_right()
-                        if self.map_view.resources_panel.left_arrow_rect.collidepoint(pos):
-                            self.map_view.resources_panel.scroll_resources_panel_left()
-                        if self.map_view.resources_panel.right_arrow_rect.collidepoint(pos):
-                            self.map_view.resources_panel.scroll_resources_panel_right()
+                        if self.map_view.left_arrow_buildings_panel.rect.collidepoint(pos):
+                            clicked_button = self.map_view.left_arrow_buildings_panel
+                            clicked_button.click_button(self.map_view)
+                        if self.map_view.right_arrow_buildings_panel.rect.collidepoint(pos):
+                            clicked_button = self.map_view.right_arrow_buildings_panel
+                            clicked_button.click_button(self.map_view)
+                        if self.map_view.resources_panel.left_arrow.rect.collidepoint(pos):
+                            clicked_button = self.map_view.resources_panel.left_arrow
+                            clicked_button.click_button(self.map_view)
+                        if self.map_view.resources_panel.right_arrow.rect.collidepoint(pos):
+                            clicked_button = self.map_view.resources_panel.right_arrow
+                            clicked_button.click_button(self.map_view)
                         clicked_nav_arrows = [s for s in self.map_view.navigation_arrows_sprites if s.rect.collidepoint(pos)]
                         if len(clicked_nav_arrows) == 1:
                             clicked_button = clicked_nav_arrows[0]
