@@ -5,6 +5,7 @@ from Building import Building
 from Consts import BUILDINGS_PANEL_TEXTURE, ARROW_BUTTON_WIDTH, ARROW_BUTTON_HEIGHT, BUILDINGS_PANEL_RIGHT_ARROW_X, \
     BUILDINGS_PANEL_ARROW_Y, BUILDINGS_PANEL_LEFT_ARROW_X, BUILDING_SIZE, SPACE
 from Panel import Panel
+from Button import Button
 
 
 class BuildingsPanel(Panel):
@@ -17,28 +18,24 @@ class BuildingsPanel(Panel):
         self.page_buildings = {}
         self.last_page = 1
 
-        self.right_arrow_image = pygame.image.load(relative_textures_path + 'RightArrow.png')
-        self.right_arrow_image = pygame.transform.scale(self.right_arrow_image, (int(ARROW_BUTTON_WIDTH * self.width),
-                                                        int(ARROW_BUTTON_HEIGHT * self.height)))
-        self.right_arrow_rect = self.right_arrow_image.get_rect(topleft=(self.pos_x + BUILDINGS_PANEL_RIGHT_ARROW_X * self.width,
-                                                                         BUILDINGS_PANEL_ARROW_Y * self.height))
+        self.right_arrow = Button(self.pos_x + BUILDINGS_PANEL_RIGHT_ARROW_X * self.width,
+                                  BUILDINGS_PANEL_ARROW_Y * self.height, int(ARROW_BUTTON_WIDTH * self.width),
+                                  int(ARROW_BUTTON_HEIGHT * self.height), relative_textures_path + "RightArrow.png",
+                                  self, self.scroll_building_panel_right)
 
-        self.left_arrow_image = pygame.image.load(relative_textures_path + 'LeftArrow.png')
-        self.left_arrow_image = pygame.transform.scale(self.left_arrow_image, (int(ARROW_BUTTON_WIDTH * self.width),
-                                                       int(ARROW_BUTTON_HEIGHT * self.height)))
-        self.left_arrow_rect = self.left_arrow_image.get_rect(topleft=(self.pos_x + BUILDINGS_PANEL_LEFT_ARROW_X * self.width,
-                                                              BUILDINGS_PANEL_ARROW_Y * self.height))
+        self.left_arrow = Button(self.pos_x + BUILDINGS_PANEL_LEFT_ARROW_X * self.width,
+                                 BUILDINGS_PANEL_ARROW_Y * self.height, int(ARROW_BUTTON_WIDTH * self.width),
+                                 int(ARROW_BUTTON_HEIGHT * self.height), relative_textures_path + "LeftArrow.png",
+                                 self, self.scroll_building_panel_left)
 
     def draw_panel(self):
         self.game_screen.blit(self.image, (self.pos_x, self.pos_y))
 
-        self.game_screen.blit(self.right_arrow_image, (self.pos_x + BUILDINGS_PANEL_RIGHT_ARROW_X * self.width,
-                                                       BUILDINGS_PANEL_ARROW_Y * self.height))
-        self.main_panel.right_arrow_buildings_panel = self.right_arrow_rect
+        self.game_screen.blit(self.right_arrow.image, self.right_arrow.rect)
+        self.main_panel.right_arrow_buildings_panel = self.right_arrow
 
-        self.game_screen.blit(self.left_arrow_image, (self.pos_x + BUILDINGS_PANEL_LEFT_ARROW_X * self.width,
-                                                      BUILDINGS_PANEL_ARROW_Y * self.height))
-        self.main_panel.left_arrow_buildings_panel = self.left_arrow_rect
+        self.game_screen.blit(self.left_arrow.image, self.left_arrow.rect)
+        self.main_panel.left_arrow_buildings_panel = self.left_arrow
 
     def add_buildings_to_buildings_panel(self, buildings_info):
             width, height = self.game_screen.get_size()
@@ -49,17 +46,9 @@ class BuildingsPanel(Panel):
                     building_no = 0
                     self.last_page = self.page
                 resource_cost_string = ""
-                consumes_string = ""
-                produces_string = ""
                 for (resource, value) in building["resourcesCost"].iteritems():
                     if value != 0:
                         resource_cost_string += "{}: {} ; ".format(resource, value)
-                # for (resource, value) in building["consumes"].iteritems():
-                #     if value != 0:
-                #         consumes_string += "{}: {} ; ".format(resource, value)
-                # for (resource, value) in building["produces"].iteritems():
-                #     if value != 0:
-                #         produces_string += "{}: {} ; ".format(resource, value)
                 building_sprite = Building(building["name"], uuid.uuid4().__str__(), building["texturePath"],
                                            resource_cost_string, building["consumes"], building["produces"], (width, height),
                                            pos=(self.pos_x + BUILDING_SIZE * width * (building_no % 2) + (building_no % 2 + 1) * SPACE,
@@ -89,3 +78,7 @@ class BuildingsPanel(Panel):
             self.page -= 1
             self.draw_panel()
             self.draw_buildings_in_buildings_panel()
+
+    def redraw_panel(self, map_view):
+        self.draw_panel()
+        self.draw_buildings_in_buildings_panel()

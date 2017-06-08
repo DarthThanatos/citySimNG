@@ -16,3 +16,6 @@ class Panel(pygame.sprite.Sprite):
 
     def draw_panel(self):
         pass
+
+    def redraw_panel(self, map_view):
+        pass

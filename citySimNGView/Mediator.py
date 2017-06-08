@@ -17,7 +17,7 @@ def receiver_func(viewSetter):
         # Receive response
         #print >> sys.stderr, 'waiting to receive'
         try:
-            data, server = sock.recvfrom(10000)
+            data, server = sock.recvfrom(1000000)
         except Exception:
             print "Hold on, Jesus, not so fast"
         #print >> sys.stderr, 'View receiver: received sth:',data
