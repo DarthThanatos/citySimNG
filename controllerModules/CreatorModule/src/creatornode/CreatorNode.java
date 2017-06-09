@@ -18,9 +18,12 @@ import model.DependenciesRepresenter;
 import controlnode.DispatchCenter;
 import controlnode.Node;
 import controlnode.SocketNode;
+import corectness.checker.RootChecker;
 import dependencies.graph.monter.BuildingsMonter;
 import dependencies.graph.monter.DwellersMonter;
 import dependencies.graph.monter.ResourcesMonter;
+
+import constants.CreatorConsts;
 
 public class CreatorNode extends SocketNode{
 	
@@ -69,11 +72,11 @@ public class CreatorNode extends SocketNode{
 			
 			HashMap<String, DependenciesRepresenter> representers = null;
 			try{
-				 representers = (HashMap<String, DependenciesRepresenter>) dispatchCenter.getDispatchData("LoaderModule", "DependenciesRepresenters");
+				 representers = (HashMap<String, DependenciesRepresenter>) dispatchCenter.getDispatchData(CreatorConsts.LOADER_MODULE, CreatorConsts.DEPENDENCIES_REPRESENTERS);
 			}
 			catch(Exception e){
 				representers = new HashMap<>();	
-				dispatchCenter.putDispatchData("LoaderModule", "DependenciesRepresenters", representers);
+				dispatchCenter.putDispatchData(CreatorConsts.LOADER_MODULE, CreatorConsts.DEPENDENCIES_REPRESENTERS, representers);
 			}
 			representers.put(dependenciesSetName, dr);
 		} catch (FileNotFoundException e) {
@@ -86,21 +89,23 @@ public class CreatorNode extends SocketNode{
 	@Override
 	public String parseCommand(String command, JSONObject args) {
 		JSONObject envelope = new JSONObject();
-		envelope.put("To", "Creator");
-		if(command.equals("Parse")){
-			JSONObject responseArgs = new JSONObject();
-			responseArgs.put("UUID", args.getString("UUID"));
-			envelope.put("Operation", "ParseConfirm");
-			envelope.put("Args", responseArgs);
+		envelope.put(CreatorConsts.TO, CreatorConsts.CREATOR);
+		if(command.equals(CreatorConsts.PARSE)){
+			JSONObject dependencies = args.getJSONObject(CreatorConsts.DEPENDENCIES);
+			RootChecker correctnessChecker = new RootChecker(dependencies);
 			
-			String textureOneName = args.getString("Texture One");
-			String textureTwoName = args.getString("Texture Two");
-			JSONObject dependencies = args.getJSONObject("Dependencies");
+			JSONObject responseArgs = new JSONObject();
+			responseArgs.put(CreatorConsts.UUID, args.getString(CreatorConsts.UUID));
+			envelope.put(CreatorConsts.OPERATION,CreatorConsts.PARSE_CONFIRM);
+			envelope.put(CreatorConsts.ARGS, responseArgs);
+			
+			String textureOneName = args.getString(CreatorConsts.TEXTURE_ONE);
+			String textureTwoName = args.getString(CreatorConsts.TEXTURE_TWO);
 			System.out.println("Creator node received following dependencies package:\n" + dependencies);
-			JSONArray resources = dependencies.getJSONArray("Resources");
-			JSONArray buildings = dependencies.getJSONArray("Buildings");
-			JSONArray dwellers = dependencies.getJSONArray("Dwellers");
-			String dependenciesSetName = args.getString("DependenciesSetName");
+			JSONArray resources = dependencies.getJSONArray(CreatorConsts.RESOURCES);
+			JSONArray buildings = dependencies.getJSONArray(CreatorConsts.BUILDINGS);
+			JSONArray dwellers = dependencies.getJSONArray(CreatorConsts.DWELLERS);
+			String dependenciesSetName = args.getString(CreatorConsts.DEPENDENCIES_SET_NAME);
 			DependenciesRepresenter dr = new DependenciesRepresenter();
 			ResourcesMonter rm = new ResourcesMonter(resources, dr);
 			BuildingsMonter bm = new BuildingsMonter(buildings, dr);
@@ -110,12 +115,12 @@ public class CreatorNode extends SocketNode{
 			//dr now contains all necessary data; let's pass it to dispatchCenter
 			HashMap<String, DependenciesRepresenter> representers = null;
 			try{
-				 representers = (HashMap<String, DependenciesRepresenter>) dispatchCenter.getDispatchData("LoaderModule", "DependenciesRepresenters");
+				 representers = (HashMap<String, DependenciesRepresenter>) dispatchCenter.getDispatchData(CreatorConsts.LOADER_MODULE, CreatorConsts.DEPENDENCIES_REPRESENTERS);
 			}
 			catch(Exception e){
 				//e.printStackTrace();
 				representers = new HashMap<>();	
-				dispatchCenter.putDispatchData("LoaderModule", "DependenciesRepresenters", representers);
+				dispatchCenter.putDispatchData(CreatorConsts.LOADER_MODULE, CreatorConsts.DEPENDENCIES_REPRESENTERS, representers);
 			}
 			representers.put(dependenciesSetName, dr);
 			

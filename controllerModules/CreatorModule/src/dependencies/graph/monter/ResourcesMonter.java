@@ -9,31 +9,32 @@ import javax.print.attribute.HashAttributeSet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import constants.CreatorConsts;
 import mapnode.Resource;
 import model.DependenciesRepresenter;
 
 public class ResourcesMonter {
 	
 	public ResourcesMonter(JSONArray resourceGraphDesc, DependenciesRepresenter dr){
-		String relativeTexturesPath = "resources\\Textures\\";
+		String relativeTexturesPath = CreatorConsts.RELATIVE_TEXTURES_PATH;
 		ArrayList<String> resourcesNames = new ArrayList<String>();
 		ArrayList<Resource> resourcesList = new ArrayList<Resource>();
 		HashMap <String, Integer> incomes = new HashMap<>();
 		for (int i = 0; i < resourceGraphDesc.length(); i++){
 			JSONObject resourceJSONRepresentation = (JSONObject)resourceGraphDesc.get(i);
-			String resourceName = resourceJSONRepresentation.getString("Resource\nName");
-			String texturePath = relativeTexturesPath + resourceJSONRepresentation.getString("Texture path");
-			String predecessor = resourceJSONRepresentation.getString("Predecessor");
-			String successor = resourceJSONRepresentation.getString("Successor");
-			int startIncome = Integer.parseInt(resourceJSONRepresentation.getString("Start income"));
+			String resourceName = resourceJSONRepresentation.getString(CreatorConsts.RESOURCE_NAME);
+			String texturePath = relativeTexturesPath + resourceJSONRepresentation.getString(CreatorConsts.TEXTURE_PATH);
+			String predecessor = resourceJSONRepresentation.getString(CreatorConsts.PREDECESSOR);
+			String successor = resourceJSONRepresentation.getString(CreatorConsts.SUCCESSOR);
+			int startIncome = Integer.parseInt(resourceJSONRepresentation.getString(CreatorConsts.START_INCOME));
 			Resource resource = new Resource(resourceName, predecessor, successor, texturePath);
 			resourcesNames.add(resourceName);
 			resourcesList.add(resource);
 			incomes.put(resourceName, startIncome);			
 		}
-		dr.putModuleData("resourcesList", resourcesList);
-		dr.putModuleData("resourcesNames", resourcesNames);
-		dr.putModuleData("incomes", incomes);
+		dr.putModuleData(CreatorConsts.RESOURCES_LIST, resourcesList);
+		dr.putModuleData(CreatorConsts.RESOURCES_NAMES, resourcesNames);
+		dr.putModuleData(CreatorConsts.INCOMES, incomes);
 		dr.setResourcesNames(resourcesNames);
 	}
 }
