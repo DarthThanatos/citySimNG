@@ -1,12 +1,18 @@
 import wx
 import json
 from uuid import uuid4
-from RelativePaths import relative_music_path, relative_textures_path
+from RelativePaths import relative_music_path
 import GraphPanel
+from wx.lib.scrolledpanel import ScrolledPanel
 
-class GraphPanelParent(wx.Panel):
+
+relative_textures_path = "..\\..\\resources\\Textures\\"
+
+class GraphPanelParent(ScrolledPanel):
     def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender=None):
-        wx.Panel.__init__(self, size=size, parent=parent)
+        #wx.Panel.__init__(self, size=size, parent=parent)
+        super(GraphPanelParent, self).__init__(parent, size =(550,500),style = wx.SIMPLE_BORDER)
+        self.SetupScrolling()
         #self.Bind(wx.EVT_SHOW, self.onShow, self)
         self.parent = parent
         self.name = name
@@ -23,9 +29,9 @@ class GraphPanelParent(wx.Panel):
 
         # Load, add and set position for header
         headerSizer = wx.BoxSizer(wx.HORIZONTAL)
-        #headerImage = wx.Image(relative_textures_path + "headerCS.jpg", wx.BITMAP_TYPE_JPEG)
-        #headerBmp = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(headerImage))
-        #headerSizer.Add(headerBmp)
+        headerImage = wx.Image(relative_textures_path + "headerCS.jpg", wx.BITMAP_TYPE_JPEG)
+        headerBmp = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(headerImage))
+        headerSizer.Add(headerBmp)
         mainSizer.Add(headerSizer, 0, wx.CENTER)
 
         # Create dependencies selector
@@ -41,6 +47,7 @@ class GraphPanelParent(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self.moveToNewGameMenu, new_game_btn)
         mainSizer.Add(new_game_btn, 0, wx.CENTER | wx.ALL, 5)
         mainSizer.Add(menu_btn, 0, wx.CENTER | wx.ALL, 5)
+        mainSizer.AddSpacer(20)
         graphPanel = GraphPanel.View(self)
         mainSizer.Add(graphPanel,0, wx.CENTER | wx.ALL, 5)
 
@@ -109,9 +116,10 @@ class Frame(wx.Frame):
     def __init__(self):
         super(Frame, self).__init__(None)
         self.SetTitle('My Title')
-        self.SetClientSize((500, 500))
+        self.SetClientSize((750, 600))
         self.Center()
         self.view = GraphPanelParent(self, ((500,500)), "Name")
+        self.ShowFullScreen(True)
 
 def main():
     app = wx.App(False)
