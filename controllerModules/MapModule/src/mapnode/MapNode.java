@@ -31,6 +31,7 @@ public class MapNode extends SocketNode{
 	public String parseCommand(String command, JSONObject args) {
 		JSONObject envelope = new JSONObject();
 		envelope.put("To", "Map");
+		
 		if(command.equals("canAffordOnBuilding")){			
 			// check if player can afford to build building
 			Boolean canAffordOnBuilding = buildings.canAffordOnBuilding(args.getString("BuildingName"), resources);
@@ -45,23 +46,14 @@ public class MapNode extends SocketNode{
 			envelope.put("Args", json);
 			System.out.println("Sent after canAfford: " + envelope);
 		}
+		
 		if(command.equals("placeBuilding")){
 			buildings.placeBuilding(args.getString("BuildingName"), args.getString("BuildingId"),
 					resources, dwellers);
-			Map<String, String> actualValuseAndIncomes = new HashMap<String, String>();
-
-			for(String resource : resources.getResourcesNames()){
-				String sign = " +";
-				if(resources.getIncomes().get(resource) < 0)
-				actualValuseAndIncomes.put(resource, resources.getActualValues().get(resource) + 
-						" " + resources.getIncomes().get(resource));
-				else
-					actualValuseAndIncomes.put(resource, resources.getActualValues().get(resource) + 
-							sign + resources.getIncomes().get(resource));
-			}
+			Map<String, String> resourceInfoMap = createResourcesInfoMap();
 			
 			JSONObject json = new JSONObject();
-			json.put("actualRes", actualValuseAndIncomes);
+			json.put("actualRes", resourceInfoMap);
 			json.put("currDwellersAmount", dwellers.getCurrDwellersAmount());
 			json.put("currDwellersMaxAmount", dwellers.getCurrDwellersMaxAmount());
 			
@@ -69,19 +61,10 @@ public class MapNode extends SocketNode{
 			envelope.put("Args", json);
 			System.out.println("Sent after built: " + envelope);
 		}
+		
 		if(command.equals("deleteBuilding")){
-			buildings.deleteBuilding(args.getString("BuildingName"), resources);
-			Map<String, String> actualValuseAndIncomes = new HashMap<String, String>();
-	
-			for(String resource : resources.getResourcesNames()){
-				String sign = " +";
-				if(resources.getIncomes().get(resource) < 0)
-				actualValuseAndIncomes.put(resource, resources.getActualValues().get(resource) + 
-						" " + resources.getIncomes().get(resource));
-				else
-					actualValuseAndIncomes.put(resource, resources.getActualValues().get(resource) + 
-							sign + resources.getIncomes().get(resource));
-			}
+			buildings.deleteBuilding(args.getString("BuildingId"), resources);
+			Map<String, String> actualValuseAndIncomes = createResourcesInfoMap();
 			
 			JSONObject json = new JSONObject();
 			json.put("actualRes", actualValuseAndIncomes);
@@ -90,31 +73,24 @@ public class MapNode extends SocketNode{
 			envelope.put("Args", json);
 			System.out.println("Sent after delete: " + envelope);
 		}
+		
 		if(command.equals("stopProduction")){
 			buildings.stopProduction(args.getString("BuildingId"), resources);
-			Map<String, String> actualValuseAndIncomes = new HashMap<String, String>();
+			Map<String, String> actualValuseAndIncomes = createResourcesInfoMap();
 			
-			for(String resource : resources.getResourcesNames()){
-				String sign = " +";
-				if(resources.getIncomes().get(resource) < 0)
-				actualValuseAndIncomes.put(resource, resources.getActualValues().get(resource) + 
-						" " + resources.getIncomes().get(resource));
-				else
-					actualValuseAndIncomes.put(resource, resources.getActualValues().get(resource) + 
-							sign + resources.getIncomes().get(resource));
-			}
 			JSONObject json = new JSONObject();
 			json.put("actualRes", actualValuseAndIncomes);
 			
 			envelope.put("Operation", "stopProductionResult");
 			envelope.put("Args", json);
-			System.out.println("Sent after delete: " + envelope);
-			
+			System.out.println("Sent after delete: " + envelope);	
 		}
+		
 		if(command.equals("getBuildingState")){
 			envelope.put("Operation", "getBuildingStateResult");
 			envelope.put("Args", buildings.getBuildingState(args.getString("BuildingId")));
 		}
+		
 		return envelope.toString();
 	}
 
@@ -164,6 +140,18 @@ public class MapNode extends SocketNode{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	private Map<String, String> createResourcesInfoMap(){
+		Map<String, String> resourceInfoMap = new HashMap<String, String>();
 
-
+		for(String resource : resources.getResourcesNames()){
+			if(resources.getIncomes().get(resource) < 0)
+				resourceInfoMap.put(resource, resources.getActualValues().get(resource) + 
+					" " + resources.getIncomes().get(resource));
+			else
+				resourceInfoMap.put(resource, resources.getActualValues().get(resource) + 
+						" + " + resources.getIncomes().get(resource));
+		}
+		return resourceInfoMap;
+	}
 }

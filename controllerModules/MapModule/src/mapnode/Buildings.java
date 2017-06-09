@@ -25,15 +25,7 @@ public class Buildings {
 	
 	public boolean canAffordOnBuilding(String buildingName, Resources resources){
 		Map<String, Integer> actualValues = resources.getActualValues();
-		Map<String, Integer> incomes = resources.getIncomes();
-		Building b = null;
-		
-		for(Building building : allBuildings){
-			if(building.getName().equals(buildingName)){
-				b = building;
-				break;
-			}
-		}
+		Building b = findBuildingWithName(buildingName);
 		
 		for(Map.Entry<String, Integer> entry : b.getResourcesCost().entrySet()) {
 		    String resource = entry.getKey();
@@ -49,14 +41,7 @@ public class Buildings {
 	public void placeBuilding(String buildingName, String buildingId, Resources resources, Dwellers dwellers){
 		Map<String, Integer> actualValues = resources.getActualValues();
 		Map<String, Integer> incomes = resources.getIncomes();
-		Building b = null;
-		
-		for(Building building : allBuildings){
-			if(building.getName().equals(buildingName)){
-				b = building;
-				break;
-			}
-		}
+		Building b = findBuildingWithName(buildingName);
 		
 		Map<String, Integer> consumes = b.getConsumes();
 		Map<String, Integer> produces = b.getProduces();
@@ -66,8 +51,7 @@ public class Buildings {
 		    Integer cost = entry.getValue();
 			
 		    actualValues.put(resource, actualValues.get(resource) - cost);
-		    incomes.put(resource, 
-		    		incomes.get(resource)
+		    incomes.put(resource, incomes.get(resource) 
 		    		+ produces.get(resource) 
 		    		- consumes.get(resource));
 		}
@@ -86,70 +70,81 @@ public class Buildings {
 		playerBuildings.put(buildingId, new Building(b));
 	}
 	
-	public void deleteBuilding(String buildingName, Resources resources){
+	public void deleteBuilding(String buildingId, Resources resources){
 		Map<String, Integer> actualValues = resources.getActualValues();
 		Map<String, Integer> incomes = resources.getIncomes();
-		Building b = null;
+		Building b = findBuildingWithId(buildingId);
 		
-		for(Building building : allBuildings){
-			if(building.getName().equals(buildingName)){
-				b = building;
-				break;
-			}
+		// if building is not running we don't have to modify incomes 
+		if(!b.isRunning()){
+			playerBuildings.remove(buildingId);
+			return;
 		}
-		
+			
 		Map<String, Integer> consumes = b.getConsumes();
+		Map<String, Integer> produces = b.getProduces();
 		
 		for(Map.Entry<String, Integer> entry : b.getResourcesCost().entrySet()) {
 		    String resource = entry.getKey();
 		    Integer cost = entry.getValue();
-		    // actualValues.put(resource, actualValues.get(resource) - cost);
-		    incomes.put(resource, incomes.get(resource) - b.getProduces().get(resource) +
-		    	consumes.get(resource));
+		    incomes.put(resource, incomes.get(resource) - 
+		    		produces.get(resource) +
+		    		consumes.get(resource));
 		}
+		
+		playerBuildings.remove(buildingId);
 	}
 
 	public void stopProduction(String buildingId, Resources resources){
-		Building b = null;
+		Building b = findBuildingWithId(buildingId);
 		Map<String, Integer> incomes = resources.getIncomes();
+		Map<String, Integer> consumes = b.getConsumes();
+		Map<String, Integer> produces = b.getProduces();
 		
-		for(String id: playerBuildings.keySet()){
-			if(id.equals(buildingId)){
-				b = playerBuildings.get(id);
-				if(b.isRunning())
-					b.setRunning(false);
-				else
-					b.setRunning(true);
-				break;
+		if(b.isRunning()){
+			for(Map.Entry<String, Integer> entry : produces.entrySet()) {
+			    String resource = entry.getKey();
+			    Integer prod = entry.getValue();
+			    incomes.put(resource, incomes.get(resource) - prod + consumes.get(resource));
 			}
-		}
-
-		for(Map.Entry<String, Integer> entry : b.getProduces().entrySet()) {
-		    String resource = entry.getKey();
-		    Integer cost = entry.getValue();
-		    // actualValues.put(resource, actualValues.get(resource) - cost);
-		    if(!b.isRunning())
-		    	incomes.put(resource, incomes.get(resource) - b.getProduces().get(resource));
-		    else
-		    	incomes.put(resource, incomes.get(resource) + b.getProduces().get(resource));
+			b.setRunning(false);
 		}
 		
-		
+		else{
+			for(Map.Entry<String, Integer> entry : produces.entrySet()) {
+			    String resource = entry.getKey();
+			    Integer prod = entry.getValue();
+			    incomes.put(resource, incomes.get(resource) + prod - consumes.get(resource));
+			}
+			b.setRunning(true);
+		}
 	}
 	
 	public JSONObject getBuildingState(String buildingId){
-		Building b = null;
-		
-		for(String id: playerBuildings.keySet()){
-			if(id.equals(buildingId)){
-				b = playerBuildings.get(id);
-				break;
-			}
-		}
+		Building b = findBuildingWithId(buildingId);
 		
 		JSONObject json = new JSONObject();
 		json.put("isRunning", b.isRunning());
+		
 		return json;
+	}
+	
+	private Building findBuildingWithId(String buildingId){
+		for(String id: playerBuildings.keySet()){
+			if(id.equals(buildingId)){
+				return playerBuildings.get(id);
+			}
+		}
+		return null;
+	}
+	
+	private Building findBuildingWithName(String buildingName){
+		for(Building b: allBuildings){
+			if(b.getName().equals(buildingName)){
+				return b;
+			}
+		}
+		return null;
 	}
 	
 	public List<Building> getAllBuildings() {

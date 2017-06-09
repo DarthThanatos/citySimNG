@@ -24,7 +24,7 @@ from Utils import draw_text, draw_text_with_wrapping
 
 class MapView(wx.Panel):
     current_tile = None
-    game_screen_tiles = {}
+    map_tiles = {}
     map_position = (0, 0)
 
     background = None
@@ -92,7 +92,7 @@ class MapView(wx.Panel):
 
     def ret_to_menu(self, event):
         """ Menu button logic """
-        self.game_screen_tiles = {}
+        self.map_tiles = {}
         self.buildings_sprites = pygame.sprite.Group()
         self.buildings_panel_sprites = pygame.sprite.Group()
         self.navigation_arrows_sprites = pygame.sprite.Group()
@@ -164,7 +164,7 @@ class MapView(wx.Panel):
 
         # set current player position on map to tile (0,0)
         self.current_tile = MapTile(self.game_screen, self.all_sprites, self.buildings_sprites)
-        self.game_screen_tiles[str(self.map_position)] = self.current_tile
+        self.map_tiles[str(self.map_position)] = self.current_tile
 
         # Add arrows to navigation panel
         self.navigation_arrows_sprites.add(self.navigation_panel.add_navigation_arrows())
@@ -190,10 +190,84 @@ class MapView(wx.Panel):
                 return False
         return True
 
+    def choose_game_screen_texture(self):
+        x, y = self.map_position
+        if (abs(x) + abs(y)) % 2 == 0:
+            return pygame.image.load(relative_textures_path + self.texture_one)
+        else:
+            return pygame.image.load(relative_textures_path + self.texture_two)
+
+    def switch_game_tile(self, nav_arrow):
+        # save sprites for current position
+        self.current_tile.buildings_sprites = self.buildings_sprites
+        self.current_tile.all_sprites = self.all_sprites
+
+        # change current position
+        if nav_arrow.direction == "Left":
+            self.map_position = (self.map_position[0] - 1, self.map_position[1])
+        if nav_arrow.direction == "Right":
+            self.map_position = (self.map_position[0] + 1, self.map_position[1])
+        if nav_arrow.direction == "Up":
+            self.map_position = (self.map_position[0], self.map_position[1] + 1)
+        if nav_arrow.direction == "Down":
+            self.map_position = (self.map_position[0], self.map_position[1] - 1)
+
+        x, y = self.map_position
+
+        # if we are first time in given location create new MapTile
+        if not str((x, y)) in self.map_tiles:
+            new_game_screen = pygame.Surface.copy(self.background)
+            image = self.choose_game_screen_texture()
+            image = pygame.transform.scale(image, (self.width, self.height))
+            new_game_screen.blit(image, (0, 0))
+            map_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
+            self.map_tiles[str((x, y))] = map_tile
+
+        # otherwise just get game_screen of new position
+        else:
+            map_tile = self.map_tiles[str((x, y))]
+
+        # set current tile
+        self.current_tile = map_tile
+
+        # set game_screen to current tile game_screen
+        self.game_screen = self.current_tile.game_screen
+
+        # set buildings and all sprites
+        self.buildings_sprites = self.current_tile.buildings_sprites
+        self.all_sprites = self.current_tile.all_sprites
+
+        # set panel's game_screen, draw panels, add panels to sprites
+        self.resources.game_screen = self.game_screen
+        for panel in self.panels:
+            panel.game_screen = self.game_screen
+            panel.draw_panel()
+            self.all_sprites.add(panel)
+
+        self.buildings_panel.draw_buildings_in_buildings_panel()
+        for nav_arrow in self.navigation_arrows_sprites:
+            nav_arrow.game_screen = self.game_screen
+            nav_arrow.draw_navigation_arrow()
+
+        # draw position and buildings
+        draw_text(0, self.height * RESOURCES_PANEL_SIZE, str(self.map_position), PURPLE, self.game_screen)
+        for building in self.buildings_sprites:
+            self.game_screen.blit(building.image, building.pos)
+
+# =================================================================================================================== #
+# Communication with model
+# =================================================================================================================== #
     def place_building(self, building, pos):
+
+        # we have to do this in case of negative incomes
+        self.check_if_can_afford(building)
+        if not self.can_afford_on_building:
+            return
+
         pos_x, pos_y = pos
         building.pos = pos
         building.rect = building.image.get_rect(topleft=(pos[0], pos[1]))
+
         # Create sprite for new building
         if self.is_building_position_valid(building, True):
             self.game_screen.blit(building.image, (pos_x, pos_y))
@@ -210,170 +284,9 @@ class MapView(wx.Panel):
             stream = json.dumps(msg)
             self.sender.send(stream)
         else:
-            draw_text_with_wrapping(pos[0], pos[1], self.width, "Invalid position for building", RED, self.background)
+            draw_text_with_wrapping(pos[0], pos[1], self.width, "Invalid position for building", RED,
+                                    self.background)
 
-    def readMsg(self, msg):
-        #print "Map view got msg", msg
-        try:
-            parsed_msg = json.loads(msg)
-            args = parsed_msg["Args"]
-        except:
-            traceback.print_exc()
-            return
-        operation = parsed_msg["Operation"]
-        if operation == "Init":
-            self.texture_one = args["Texture One"]
-            self.texture_two = args["Texture Two"]
-            print "texture one:",self.texture_one,"texture two", self.texture_two
-            print "TEXTURE ONE " + str(self.texture_one)
-            self.image = self.choose_game_screen_texture()
-            self.image = pygame.transform.scale(self.image, (self.width, self.height))
-            self.game_screen.blit(self.image, (0, 0))
-
-            self.info_panel.draw_panel()
-            self.buildings_panel.draw_panel()
-            self.navigation_panel.draw_panel()
-            for nav_arrow in self.navigation_arrows_sprites:
-                nav_arrow.draw_navigation_arrow()
-
-            draw_text(0, self.height * RESOURCES_PANEL_SIZE, str(self.map_position), PURPLE, self.game_screen)
-
-            self.buildings_panel.add_buildings_to_buildings_panel(args["buildings"])
-            self.resources = Resources(args["resources"], self.game_screen)
-
-            self.resources_dict = self.resources_panel.resources
-        elif operation == "canAffordOnBuildingResult":
-            # we can draw building with given id
-            if args["canAffordOnBuilding"]:
-                self.can_afford_on_building = True
-            else:
-                self.can_afford_on_building = False
-                self.log.AppendText("You don't have enough resources to build {}\n".format(args["buildingName"]))
-            self.condition.acquire()
-            self.has_reply_arrived = True
-            self.condition.notify()
-            self.condition.release()
-        elif operation == "placeBuildingResult" or operation == "deleteBuildingResult":
-            self.last_res_info = args["actualRes"]
-            self.resources_panel.resources_info = args["actualRes"]
-            self.resources_panel.curr_dwellers_amount = args["currDwellersAmount"]
-            self.resources_panel.draw_panel()
-        elif operation == "Update":
-            # update resources values
-            self.last_res_info = args
-            self.resources_panel.resources_info = args
-            self.resources_panel.draw_panel()
-        elif operation == "stopProductionResult":
-            self.last_res_info = args["actualRes"]
-            self.resources_panel.resources_info = args["actualRes"]
-            self.resources_panel.draw_panel()
-            if self.info_panel.stop_production_button.texture == relative_textures_path + 'Start.png':
-                self.info_panel.stop_production_button.set_texture(relative_textures_path + 'StopProduction.png')
-            else:
-                self.info_panel.stop_production_button.set_texture(relative_textures_path + 'Start.png')
-            self.info_panel.redraw_panel(self)
-        elif operation == "getBuildingStateResult":
-            print args["isRunning"]
-            self.info_panel.draw_buildings_info(self, args["isRunning"])
-        else:
-            print "Unknown message"
-
-    def choose_game_screen_texture(self):
-        x, y = self.map_position
-        if (abs(x) + abs(y)) % 2 == 0:
-            return pygame.image.load(relative_textures_path + self.texture_one)
-        else:
-            return pygame.image.load(relative_textures_path + self.texture_two)
-
-    def switch_game_tile(self, nav_arrow):
-        x, y = self.map_position
-        if nav_arrow.direction == "Left":
-            self.map_position = (self.map_position[0] - 1, self.map_position[1])
-            if not str((x - 1, y)) in self.game_screen_tiles:
-                new_game_screen = pygame.Surface.copy(self.background)
-                image = self.choose_game_screen_texture()
-                image = pygame.transform.scale(image, (self.width, self.height))
-                new_game_screen.blit(image, (0, 0))
-                game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
-                self.game_screen_tiles[str((x - 1, y))] = game_screen_tile
-            else:
-                game_screen_tile = self.game_screen_tiles[str((x - 1, y))]
-
-            self.current_tile.buildings_sprites = self.buildings_sprites
-            self.current_tile.all_sprites = self.all_sprites
-            self.current_tile = game_screen_tile
-
-        if nav_arrow.direction == "Right":
-            self.map_position = (self.map_position[0] + 1, self.map_position[1])
-            if not str((x + 1, y)) in self.game_screen_tiles:
-                new_game_screen = pygame.Surface.copy(self.background)
-                image = self.choose_game_screen_texture()
-                image = pygame.transform.scale(image, (self.width, self.height))
-                new_game_screen.blit(image, (0, 0))
-                game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
-                self.game_screen_tiles[str((x + 1, y))] = game_screen_tile
-            else:
-                game_screen_tile = self.game_screen_tiles[str((x + 1, y))]
-
-            self.current_tile.buildings_sprites = self.buildings_sprites
-            self.current_tile.all_sprites = self.all_sprites
-            self.current_tile = game_screen_tile
-
-        if nav_arrow.direction == "Up":
-            self.map_position = (self.map_position[0], self.map_position[1] + 1)
-            if not str((x, y + 1)) in self.game_screen_tiles:
-                new_game_screen = pygame.Surface.copy(self.background)
-                image = self.choose_game_screen_texture()
-                image = pygame.transform.scale(image, (self.width, self.height))
-                new_game_screen.blit(image, (0, 0))
-                game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
-                self.game_screen_tiles[str((x, y + 1))] = game_screen_tile
-            else:
-                game_screen_tile = self.game_screen_tiles[str((x, y + 1))]
-
-            self.current_tile.buildings_sprites = self.buildings_sprites
-            self.current_tile.all_sprites = self.all_sprites
-            self.current_tile = game_screen_tile
-
-        if nav_arrow.direction == "Down":
-            self.map_position = (self.map_position[0], self.map_position[1] - 1)
-            if not str((x, y - 1)) in self.game_screen_tiles:
-                new_game_screen = pygame.Surface.copy(self.background)
-                image = self.choose_game_screen_texture()
-                image = pygame.transform.scale(image, (self.width, self.height))
-                new_game_screen.blit(image, (0, 0))
-                game_screen_tile = MapTile(new_game_screen, pygame.sprite.Group(), pygame.sprite.Group())
-                self.game_screen_tiles[str((x, y - 1))] = game_screen_tile
-            else:
-                game_screen_tile = self.game_screen_tiles[str((x, y - 1))]
-
-            self.current_tile.buildings_sprites = self.buildings_sprites
-            self.current_tile.all_sprites = self.all_sprites
-            self.current_tile = game_screen_tile
-
-        self.game_screen = self.current_tile.game_screen
-        self.resources.game_screen = self.game_screen
-        for panel in self.panels:
-            panel.game_screen = self.game_screen
-            panel.draw_panel()
-
-        self.buildings_panel.draw_buildings_in_buildings_panel()
-
-
-        for nav_arrow in self.navigation_arrows_sprites:
-            nav_arrow.game_screen = self.game_screen
-            nav_arrow.draw_navigation_arrow()
-        self.buildings_sprites = self.current_tile.buildings_sprites
-        self.all_sprites = self.current_tile.all_sprites
-        self.all_sprites.add(self.resources_panel)
-        self.all_sprites.add(self.buildings_panel)
-        draw_text(0,  self.height * RESOURCES_PANEL_SIZE, str(self.map_position), PURPLE, self.game_screen)
-        for building in self.buildings_sprites:
-            self.game_screen.blit(building.image, building.pos)
-
-# =================================================================================================================== #
-# Messages
-# =================================================================================================================== #
     def check_if_can_afford(self, building):
         new_building = Building(building.name, uuid.uuid4().__str__(), building.texture, building.resources_cost,
                                 building.consumes, building.produces, self.game_screen.get_size(), (0, 0))
@@ -436,10 +349,80 @@ class MapView(wx.Panel):
         msg["Args"] = {}
         msg["Args"]["BuildingId"] = building.id
         stream = json.dumps(msg)
-
-        #
-        # self.condition.acquire()
-        # self.has_reply_arrived = False
         self.sender.send(stream)
-        # self.condition.wait()
-        # self.condition.release()
+
+    def readMsg(self, msg):
+        try:
+            parsed_msg = json.loads(msg)
+            args = parsed_msg["Args"]
+        except:
+            traceback.print_exc()
+            return
+
+        operation = parsed_msg["Operation"]
+
+        if operation == "Init":
+            # get textures for map
+            self.texture_one = args["Texture One"]
+            self.texture_two = args["Texture Two"]
+
+            # set texture for first map tile
+            self.image = self.choose_game_screen_texture()
+            self.image = pygame.transform.scale(self.image, (self.width, self.height))
+            self.game_screen.blit(self.image, (0, 0))
+
+            self.info_panel.draw_panel()
+            self.buildings_panel.draw_panel()
+            self.navigation_panel.draw_panel()
+            for nav_arrow in self.navigation_arrows_sprites:
+                nav_arrow.draw_navigation_arrow()
+
+            draw_text(0, self.height * RESOURCES_PANEL_SIZE, str(self.map_position), PURPLE, self.game_screen)
+
+            self.buildings_panel.add_buildings_to_buildings_panel(args["buildings"])
+            self.resources = Resources(args["resources"], self.game_screen)
+
+            self.resources_dict = self.resources_panel.resources
+
+        elif operation == "canAffordOnBuildingResult":
+            # we can draw building with given id
+            if args["canAffordOnBuilding"]:
+                self.can_afford_on_building = True
+            else:
+                self.can_afford_on_building = False
+                self.log.AppendText("You don't have enough resources to build {}\n".format(args["buildingName"]))
+            self.condition.acquire()
+            self.has_reply_arrived = True
+            self.condition.notify()
+            self.condition.release()
+
+        elif operation == "placeBuildingResult" or operation == "deleteBuildingResult":
+            # if we placed / deleted building we have to update resources
+            self.last_res_info = args["actualRes"]
+            self.resources_panel.resources_info = args["actualRes"]
+            self.resources_panel.curr_dwellers_amount = args["currDwellersAmount"]
+            self.resources_panel.draw_panel()
+
+        elif operation == "Update":
+            # update resources values
+            self.last_res_info = args
+            self.resources_panel.resources_info = args
+            self.resources_panel.draw_panel()
+
+        elif operation == "stopProductionResult":
+            self.last_res_info = args["actualRes"]
+            self.resources_panel.resources_info = args["actualRes"]
+            self.resources_panel.draw_panel()
+            if self.info_panel.stop_production_button.texture == relative_textures_path + 'Start.png':
+                self.info_panel.stop_production_button.set_texture(relative_textures_path + 'StopProduction.png')
+            else:
+                self.info_panel.stop_production_button.set_texture(relative_textures_path + 'Start.png')
+            self.info_panel.redraw_panel(self)
+
+        elif operation == "getBuildingStateResult":
+            # For now we only get information if building i running
+            self.info_panel.draw_buildings_info(self, args["isRunning"])
+
+        else:
+            print "Unknown message"
+
