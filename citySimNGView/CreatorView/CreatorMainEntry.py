@@ -149,7 +149,7 @@ class CreatorMainEntry(ScrolledPanel):
         dlg = wx.FileDialog(
             self,
             defaultDir=relative_textures_path, #"..\\..\\resources\\Textures\\",
-            message="Choose an image",
+            mesage="Choose an image",
             wildcard="*.png|*.jpg",
             style=wx.FD_OPEN
         )

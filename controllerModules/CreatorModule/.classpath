@@ -5,5 +5,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/SkeletonModule"/>
 	<classpathentry kind="lib" path="/SkeletonModule/lib/json.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/MapModule"/>
+	<classpathentry kind="lib" path="/SkeletonModule/lib/jgrapht-core-1.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

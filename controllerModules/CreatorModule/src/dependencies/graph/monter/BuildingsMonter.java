@@ -1,9 +1,12 @@
 package dependencies.graph.monter;
 
+import graph.GraphsHolder;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+
 import constants.CreatorConsts;
 
 import org.json.JSONArray;
@@ -69,5 +72,9 @@ public class BuildingsMonter {
 	
 	public ArrayList<Building> getBuildingsList(){
 		return allBuildings;
+	}
+	
+	public GraphsHolder mountDependenciesGraph(JSONObject dependenciesObj){
+		return null;
 	}
 }

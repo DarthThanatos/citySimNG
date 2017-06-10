@@ -12,8 +12,4 @@ public class ResourcesChecker extends CyclesChecker{
 		this.resources = resources;
 	}
 
-	@Override
-	public void check() {
-		
-	}
 }

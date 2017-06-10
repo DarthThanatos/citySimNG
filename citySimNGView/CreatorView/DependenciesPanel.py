@@ -49,13 +49,18 @@ class DependenciesPanel(wx.Panel):
     def onDelete(self, event):
         index = self.list_box.GetSelection()
         if not index == -1:
+            removed_element = self.list_box.GetStringSelection()
+            print "index:", index
             self.list_box.Delete(index)
-            removed_element = self.choices[index]
-            print "removing", removed_element
-            self.choices.__delitem__(index)
+            print self.choices
+            self.currentDependencies[self.partName].__delitem__(removed_element)
+            #removed_element = self.choices[index]
+            #print "removing", removed_element
+            #self.choices.__delitem__(index)
             self.parent.logArea.SetValue("Successfully removed " + removed_element)
         else:
             self.parent.logArea.SetValue("Please, select element to be removed from " + self.partName + " first")
+        self.parent.resetContents()
 
     def onEdit(self, event):
         edited_element = self.list_box.GetStringSelection()
