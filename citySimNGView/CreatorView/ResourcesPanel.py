@@ -1,7 +1,6 @@
 import wx
 import re
 
-from django.contrib.messages.api import success
 from wx.lib.scrolledpanel import ScrolledPanel
 from RelativePaths import relative_textures_path
 import json
