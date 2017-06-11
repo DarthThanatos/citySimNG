@@ -52,6 +52,10 @@ public class Consts {
 	//commands
 	public static final String PARSE = "Parse"; 
 	public static final String PARSE_CONFIRM = "ParseConfirm";
+	public static final String PARSE_FAIL = "ParseFail";
+	
+	public static final String GRAPH = "graph";
+	public static final String ERROR_MSG = "errorMsg";
 
 	public static final String CHILDREN = "Children"; 
 }

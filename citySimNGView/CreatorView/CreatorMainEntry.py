@@ -8,6 +8,7 @@ from RelativePaths import relative_dependencies_path,relative_textures_path
 import traceback
 import re
 from uuid import uuid4
+from GraphsSpaces import GraphsSpaces
 
 class CreatorMainEntry(ScrolledPanel):
     def __init__(self, parent, size, frame, current_dependencies, lists_of_names, sender):
@@ -21,6 +22,7 @@ class CreatorMainEntry(ScrolledPanel):
         self.imageTwoFile = "Grass2.png"
         self.wakeUpData = None
         self.currentDependencies = current_dependencies # all dependencies will be stored here
+        self.frame = frame
 
         self.lists_of_names = lists_of_names
         buildingsNames, resourcesNames, dwellersNames = lists_of_names
@@ -129,6 +131,10 @@ class CreatorMainEntry(ScrolledPanel):
         buttonsSizer.Add(clean_btn)
 
         rootSizer.Add(buttonsSizer, 0, wx.CENTER)
+        rootSizer.AddSpacer(50)
+        self.graphsSpaces = GraphsSpaces(self)
+        rootSizer.Add(self.graphsSpaces,0,wx.CENTER)
+
         rootSizer.AddSpacer(ROOT_SPACER_SIZE + 100)
         rootSizer.SetDimension(0, 0, size[0], size[1])
         self.SetSizer(rootSizer)
@@ -188,8 +194,8 @@ class CreatorMainEntry(ScrolledPanel):
         self.sender.send(json.dumps(msg))
 
     def getContents(self):
-        dependencies = {} #initialize empty lists for each grid; lists will be of dict type
-        return dependencies
+        contents_copy = dict(self.currentDependencies)
+        return contents_copy
 
     def save(self, event):
         dependencies = self.currentDependencies
@@ -211,6 +217,13 @@ class CreatorMainEntry(ScrolledPanel):
         operation = jsonMsg["Operation"]
         if operation == "ParseConfirm":
             self.ackMsgs[jsonMsg["Args"]["UUID"]] = True #unblock blocked thread
+            self.graphsSpaces.resetViewFromJSON(jsonMsg["Args"]["graph"])
+            log_msg = "Dependencies created successfully, please go to the Loader menu now to check what was created"
+            print log_msg
+            self.logArea.SetLabelText(log_msg)
+        elif operation == "ParseFail":
+            self.ackMsgs[jsonMsg["Args"]["UUID"]] = True #unblock blocked thread
+            self.logArea.SetLabelText(jsonMsg["Args"]["errorMsg"])
 
 
     def dependencyLoadFail(self):
@@ -224,6 +237,7 @@ class CreatorMainEntry(ScrolledPanel):
         self.currentDependencies["Dwellers"] = {}
         self.resetContents()
         self.logArea.SetValue("Restored default settings")
+        self.graphsSpaces.resetViewFromJSON({"Dwellers":[], "Buildings":[], "Resources":[]})
 
     def resetContents(self):
         self.logArea.SetValue(WELCOME_MSG)
@@ -256,15 +270,23 @@ class CreatorMainEntry(ScrolledPanel):
 
 
     def fillDepenendenciesPanelsWithContent(self, content_dict):
+        for key in content_dict: self.currentDependencies[key] = content_dict[key]
+
+    def checkDependenciesPanelsCorrectness(self):
         self.resetContents()
         try:
-            pass
+            resources = self.currentDependencies["Resources"]
+            buildings = self.currentDependencies["Buildings"]
+            dwellers = self.currentDependencies["Dwellers"]
+            for resource in resources:
+                self.frame.views["Resources"].setUpEditMode(resource) #check if filling gets correctly and there is no exception
+            for building in buildings:
+                self.frame.views["Buildings"].setUpEditMode(building)
+            for dweller in dwellers:
+                self.frame.views["Dwellers"].setUpEditMode(dweller)
         except Exception:
             return False
         return True
-
-    def checkDependenciesPanelsCorrectness(self):
-        pass
 
     def createDependencies(self, event):
         buildings = self.currentDependencies["Buildings"]
@@ -273,7 +295,6 @@ class CreatorMainEntry(ScrolledPanel):
         dependencies = {"Buildings": buildings.values(), "Resources":resources.values(), "Dwellers":dwellers.values()}
         pp = PrettyPrinter()
         pp.pprint(dependencies)
-        self.checkDependenciesPanelsCorrectness()
 
         setName = self.dependenciesSetNameInput.GetValue()
         if re.sub(r'\s', "", setName) == "":
@@ -301,10 +322,17 @@ class CreatorMainEntry(ScrolledPanel):
         print stream
         self.sender.send(stream)
         while not self.ackMsgs[uuid]: pass
+        """
+        dwellers_tree = [["dweller.JPG"]]
+        resources_tree = [["pszenica.jpg"], ["maka.jpg"], ["chleb.jpg"],["gold.jpg"]]
 
-        msg = "Dependencies created successfully, please go to the Loader menu now to check what was created"
-        print msg
-        self.logArea.SetLabelText(msg)
+        firstLvl = ["farma.JPG", "bakery.png"]
+        secondLvl = ["farma.JPG", "browar.JPG", "house.png"]
+        thirdLvl = ["farma.JPG", "browar.JPG"]
+        buildings_tree = [ firstLvl, secondLvl, thirdLvl, firstLvl]
+
+        self.graphsSpaces.resetView([resources_tree,dwellers_tree, buildings_tree])
+        """
 
     def loadDependencies(self, event):
         dlg = wx.FileDialog(
@@ -324,13 +352,14 @@ class CreatorMainEntry(ScrolledPanel):
                     try:
                         dependency_dict = json.loads(dependency_content)
                         grids_copy = self.getContents() #if sth goes wrong, we can restore previous state
-                        if not self.fillDepenendenciesPanelsWithContent(dependency_dict):
-                            errorMsg = "Error while loading file"
+                        self.fillDepenendenciesPanelsWithContent(dependency_dict)
+                        if not self.checkDependenciesPanelsCorrectness():
+                            self.fillDepenendenciesPanelsWithContent(grids_copy) #here we restore previous state of subpanels
+                            self.resetView()
+                            errorMsg = "Error while loading file, previous dependency set still on board"
                             print errorMsg
                             self.logArea.SetValue(errorMsg)
-                            self.fillDepenendenciesPanelsWithContent(grids_copy) #here we restore previous state of subpanels
-                        else:
-                            for key in dependency_dict : self.currentDependencies[key]  = dependency_dict[key]
+                        else: #we're good, just reload view and praise lord
                             self.resetView()
                             msg = "Dependencies loaded successfully!"
                             print msg

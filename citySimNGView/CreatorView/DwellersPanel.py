@@ -177,9 +177,13 @@ class DwellersPanel(ScrolledPanel):
         self.descriptionArea.SetValue(self.currentDependencies["Dwellers"][edit_element_name]["Description"])
 
         self.texture_name = self.currentDependencies["Dwellers"][edit_element_name]["Texture path"]
-        image = wx.Image(relative_textures_path + self.texture_name) #"..\\..\\resources\\Textures\\"
-        image = image.Scale(32,32)
-        self.imageBitmap.SetBitmap(wx.BitmapFromImage(image))
+        try:
+            image = wx.Image(relative_textures_path + self.texture_name) #"..\\..\\resources\\Textures\\"
+            image = image.Scale(32,32)
+            self.imageBitmap.SetBitmap(wx.BitmapFromImage(image))
+        except Exception:
+            traceback.print_exc()
+
         self.resources_consumed_panel.reset_init_mode = self.resources_consumed_panel.resetContentsInit_EditMode
         self.resources_consumed_panel.resetContents(edit_element_name)
         successorVal = self.currentDependencies["Dwellers"][edit_element_name]["Successor"]

@@ -47,6 +47,17 @@ public class LoaderNode extends SocketNode{
 			neighbors.put(menu.getNodeName(),menu);
 			neighbors.put(parent.getNodeName(),parent);
 		}
+		else if(command.equals("ShowGraph")){
+			String chosenSet = args.getString("SetChosen");
+			System.out.println(nodeName + ": got string selection: " + chosenSet);
+			envelope.put("Operation", "ShowGraphRes");
+			JSONObject responseArgs = new JSONObject();
+			HashMap<String, DependenciesRepresenter> representers = (HashMap<String, DependenciesRepresenter>) dispatchCenter.getDispatchData("LoaderModule", "DependenciesRepresenters");
+			DependenciesRepresenter dr = representers.get(chosenSet);
+			responseArgs.put("Graph", dr.getGraphsHolder().displayAllGraphs());
+			envelope.put("Args", responseArgs);
+			
+		}
 		return envelope.toString();
 	}
 

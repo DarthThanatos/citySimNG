@@ -2,6 +2,7 @@ import wx
 import json
 from uuid import uuid4
 from RelativePaths import relative_music_path, relative_textures_path
+from CreatorView.GraphsSpaces import GraphsSpaces
 
 class LoaderView(wx.Panel):
     def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender=None):
@@ -36,13 +37,35 @@ class LoaderView(wx.Panel):
 
         menu_btn = wx.Button(self, label="Main Menu")
         new_game_btn = wx.Button(self, label = "New Game Menu")
+        show_graph_btn = wx.Button(self, label = "Show Graph")
+
         self.Bind(wx.EVT_BUTTON, self.moveToMenu, menu_btn)
         self.Bind(wx.EVT_BUTTON, self.moveToNewGameMenu, new_game_btn)
+        self.Bind(wx.EVT_BUTTON, self.showGraph, show_graph_btn)
+
         mainSizer.Add(new_game_btn, 0, wx.CENTER | wx.ALL, 5)
+        mainSizer.Add(show_graph_btn, 0, wx.CENTER)
         mainSizer.Add(menu_btn, 0, wx.CENTER | wx.ALL, 5)
+
+        mainSizer.AddSpacer(30)
+        self.graphsSpaces = GraphsSpaces(self)
+        mainSizer.Add(self.graphsSpaces,0,wx.CENTER)
 
         self.SetSizer(mainSizer)
         mainSizer.SetDimension(0, 0, self.size[0], self.size[1])
+        mainSizer.Layout()
+
+    def showGraph(self, evt):
+        setChosen = self.ruleSelector.GetStringSelection()
+        print "SetChosen:",setChosen
+        if setChosen == "": return
+
+        msg = {}
+        msg["To"] = "LoaderNode"
+        msg["Operation"] = "ShowGraph"
+        msg["Args"] = {}
+        msg["Args"]["SetChosen"] = setChosen
+        self.sender.send(json.dumps(msg))
 
     def mountMoveToMsg (self, target):
         msg = {}
@@ -86,6 +109,8 @@ class LoaderView(wx.Panel):
         if operation == "SelectConfirm":
             operationId = msgObj["Args"]["UUID"]
             self.ackMsgs[operationId] = True
+        if operation == "ShowGraphRes":
+            self.graphsSpaces.resetViewFromJSON(msgObj["Args"]["Graph"])
 
     def onShow(self, event):
         global pygame
