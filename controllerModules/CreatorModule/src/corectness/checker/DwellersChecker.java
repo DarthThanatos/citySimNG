@@ -1,12 +1,19 @@
 package corectness.checker;
 
+import graph.DwellerNode;
+
+import java.util.HashMap;
+
 import org.json.JSONArray;
 
-public class DwellersChecker {
+import constants.Consts;
+
+public class DwellersChecker extends CyclesChecker{
 	
-	JSONArray dwellers;
+	HashMap<String, DwellerNode> dwellerVertices;
 	
-	public DwellersChecker(JSONArray dwellers){
-		this.dwellers = dwellers;
+	public DwellersChecker(JSONArray dwellers, HashMap<String, DwellerNode> dwellerVertices){
+		super(dwellers, Consts.DWELLER_NAME);
+		this.dwellerVertices = dwellerVertices;
 	}
 }

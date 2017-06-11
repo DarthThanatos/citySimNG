@@ -1,4 +1,4 @@
-package mapnode;
+package entities;
 
 public class Resource {
 	private String name;

@@ -2,6 +2,8 @@ import  java.io.*;
 import java.util.Iterator;
 import java.util.Set;
 
+import model.DependenciesRepresenter;
+
 import org.jgrapht.alg.CycleDetector;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
@@ -9,7 +11,11 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import constants.CreatorConsts;
+import constants.Consts;
+import corectness.checker.CheckException;
+import dependencies.graph.monter.BuildingsMonter;
+import dependencies.graph.monter.DwellersMonter;
+import dependencies.graph.monter.ResourcesMonter;
 
 
 public class GraphTest {
@@ -26,8 +32,8 @@ public class GraphTest {
       
       for (int i = 0; i < entities.length(); i++){
     	  String entityName = entities.getJSONObject(i).getString(key);
-    	  String successorName = entities.getJSONObject(i).getString(CreatorConsts.SUCCESSOR);
-    	  String predecessorName = entities.getJSONObject(i).getString(CreatorConsts.PREDECESSOR);
+    	  String successorName = entities.getJSONObject(i).getString(Consts.SUCCESSOR);
+    	  String predecessorName = entities.getJSONObject(i).getString(Consts.PREDECESSOR);
     	  if(!predecessorName.equals("None"))g.addEdge(predecessorName, entityName);
     	  if(!successorName.equals("None")) g.addEdge(entityName, successorName);
       }
@@ -86,22 +92,33 @@ public class GraphTest {
    public static void dependenciesCycleDetectionTest(){
 	   try {
 		   System.out.println("Graph test");
-		   BufferedReader br = new BufferedReader(new FileReader(new File("..\\..\\resources\\dependencies\\cycle.dep")));
+		   BufferedReader br = new BufferedReader(new FileReader(new File("..\\..\\resources\\dependencies\\new_stronghold.dep")));
 		   String line, dependenciesContent = "";
 		   while((line = br.readLine())!= null){
 			   dependenciesContent += line + "\n";
 		   }
 		   JSONObject dependenciesObj = new JSONObject(dependenciesContent);
-		   JSONArray resources = DefaultDepTest.retrieveArrayFromObj(dependenciesObj.getJSONObject(CreatorConsts.RESOURCES));
-		   JSONArray buildings = DefaultDepTest.retrieveArrayFromObj(dependenciesObj.getJSONObject(CreatorConsts.BUILDINGS));
-		   JSONArray dwellers = DefaultDepTest.retrieveArrayFromObj(dependenciesObj.getJSONObject(CreatorConsts.DWELLERS));
-		   test(resources, CreatorConsts.RESOURCE_NAME);
-		   test(buildings, CreatorConsts.BUILDING_NAME);
-		   test(dwellers, CreatorConsts.DWELLER_NAME);
+		   JSONArray resources = DefaultDepTest.retrieveArrayFromObj(dependenciesObj.getJSONObject(Consts.RESOURCES));
+		   JSONArray buildings = DefaultDepTest.retrieveArrayFromObj(dependenciesObj.getJSONObject(Consts.BUILDINGS));
+		   JSONArray dwellers = DefaultDepTest.retrieveArrayFromObj(dependenciesObj.getJSONObject(Consts.DWELLERS));
+		   test(resources, Consts.RESOURCE_NAME);
+		   test(buildings, Consts.BUILDING_NAME);
+		   test(dwellers, Consts.DWELLER_NAME);
+		   DependenciesRepresenter dr = new DependenciesRepresenter();
+		   ResourcesMonter rm = new ResourcesMonter(resources, dr);
+		   rm.mountDependenciesGraph();
+		   DwellersMonter dm = new DwellersMonter(dwellers,dr);
+		   dm.mountDependendenciesGraph();
+		   BuildingsMonter bm = new BuildingsMonter(buildings, dr);
+		   bm.mountDependenciesGraph();
+		   System.out.println(dr.getGraphsHolder().displayAllGraphs().toString(4));
 		   br.close();
 	} catch (FileNotFoundException e) {
 		e.printStackTrace();
 	} catch (IOException e) {
+		e.printStackTrace();
+	} catch (CheckException e) {
+		// TODO Auto-generated catch block
 		e.printStackTrace();
 	} 
    }

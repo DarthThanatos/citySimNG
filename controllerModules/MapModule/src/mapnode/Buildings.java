@@ -10,6 +10,7 @@ import model.DependenciesRepresenter;
 import org.json.JSONObject;
 
 import controlnode.SocketStreamSender;
+import entities.Building;
 
 public class Buildings {
 	private List<Building> allBuildings;

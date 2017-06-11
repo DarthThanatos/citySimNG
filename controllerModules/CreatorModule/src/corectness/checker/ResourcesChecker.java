@@ -1,15 +1,20 @@
 package corectness.checker;
 
+import graph.ResourceNode;
+
+import java.util.HashMap;
+
 import org.json.JSONArray;
-import constants.CreatorConsts;
+
+import constants.Consts;
 
 public class ResourcesChecker extends CyclesChecker{
+
+	HashMap<String, ResourceNode> resourceVertices;
 	
-	JSONArray resources;
-	
-	public ResourcesChecker(JSONArray resources){
-		super(resources, CreatorConsts.RESOURCE_NAME);
-		this.resources = resources;
+	public ResourcesChecker(JSONArray resources, HashMap<String, ResourceNode> resourceVertices){
+		super(resources, Consts.RESOURCE_NAME);
+		this.resourceVertices = resourceVertices;
 	}
 
 }

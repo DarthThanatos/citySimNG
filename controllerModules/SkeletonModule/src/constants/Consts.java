@@ -1,11 +1,13 @@
 package constants;
 
-public class CreatorConsts {
+public class Consts {
 	//=======================================================
 	//for ResourceMonter
 	public static final String RESOURCE_NAME = "Resource\nName";
 	public static final String DWELLER_NAME = "Dweller\nName";
 	public static final String BUILDING_NAME = "Building\nName";
+	public static final String ENTITY_NAME = "Name";
+	
 	public static final String RESOURCES = "Resources";
 	public static final String BUILDINGS = "Buildings";
 	public static final String DWELLERS = "Dwellers";
@@ -50,5 +52,6 @@ public class CreatorConsts {
 	//commands
 	public static final String PARSE = "Parse"; 
 	public static final String PARSE_CONFIRM = "ParseConfirm";
-	
+
+	public static final String CHILDREN = "Children"; 
 }
