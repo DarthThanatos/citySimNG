@@ -100,6 +100,7 @@ public class Stock {
         for(Resource resource: resources) {
             resource.setPlayerQuantity(dependenciesRepresenter.getStockPile().get(resource.getName()));
         }
+
     }
 
     public void resetStock() {
