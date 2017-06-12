@@ -16,6 +16,7 @@ class TutorialView(wx.Panel):
         self.size = size
         self.musicPath = musicPath
         #self.SetBackgroundColour((255, 255, 255))
+        self.pageID = 0;
         self.tutorialInfo = "Welcome to our tutorial! If you'd like to find out what are all the functionalities of this cutting-edge game engine, you're in the right place :)"
         self.welcomeField = wx.StaticText(self, label=self.tutorialInfo)
         self.tutorialFont = wx.Font(20, wx.FONTFAMILY_DECORATIVE, 
@@ -109,32 +110,34 @@ class TutorialView(wx.Panel):
         listFont.SetPointSize(18)
         for i in range(contentHalf):
             elemField = wx.StaticText(self, label=self.content[i]['name'])
+            elemID = self.content[i]['id']
             elemField.SetFont(listFont)
             arrowButton = wx.BitmapButton(self, bitmap=arrow, 
                 size=(arrow.GetWidth(), arrow.GetHeight()))
-            self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton)
+            self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton, id=elemID)
             tmpBox = wx.BoxSizer(wx.HORIZONTAL)
-            tmpBox.Add(elemField)
+            tmpBox.Add(elemField, 0, wx.CENTER)
             tmpBox.AddSpacer(10)
-            tmpBox.Add(arrowButton)
+            tmpBox.Add(arrowButton,0, wx.CENTER)
             leftBox.Add(tmpBox)
             leftBox.AddSpacer(20)
 
         
         for i in range(contentHalf, contentSize):
             elemField = wx.StaticText(self, label=self.content[i]['name'])
+            elemID = self.content[i]['id']
             elemField.SetFont(listFont)
             arrowButton = wx.BitmapButton(self, bitmap=arrow, 
                 size=(arrow.GetWidth(), arrow.GetHeight()))
-            self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton)
+            self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton, id=elemID)
             tmpBox = wx.BoxSizer(wx.HORIZONTAL)
-            tmpBox.Add(elemField)
+            tmpBox.Add(elemField, 0, wx.CENTER)
             tmpBox.AddSpacer(10)
-            tmpBox.Add(arrowButton)
+            tmpBox.Add(arrowButton,0, wx.CENTER)
             rightBox.Add(tmpBox)
             rightBox.AddSpacer(20)
         contentBox.Add(leftBox)
-        contentBox.AddSpacer(30)
+        contentBox.AddSpacer(50)
         contentBox.Add(rightBox)
         self.centerSizer.Add(contentBox, 0, wx.CENTER) 
         self.centerSizer.AddSpacer(20)
@@ -145,6 +148,14 @@ class TutorialView(wx.Panel):
         self.centerSizer.AddSpacer(30)
         self.centerSizer.Add(menu_btn, 0, wx.CENTER | wx.ALL, 5)
         self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
+
+    def requestPage(self, event){
+        msg = {}
+        msg["To"] = "TutorialNode"
+        msg["Operation"] = "RequestPage"
+        msg["PageID"] = event.GetId()
+        self.sender.send(json.dumps(msg))
+    }
 
     def retToMenu(self, event):
         """ This function returns to Menu view """
@@ -174,4 +185,24 @@ class TutorialView(wx.Panel):
         self.SetMenuBar(menuBar)
 
     def readMsg(self, msg):
-        print "Tutorial view got msg", msg
+        try:
+            jsonObj = json.loads(msg)
+            
+        except:
+            traceback.print_exc()
+            return
+        operation = jsonObj["Operation"]
+        if operation == "FetchPage":
+            pageContent = []
+            args = jsonObj["Page"]
+            args = args["page"]
+            for x in args:
+                subpageContent =[]
+                subpageContent.append(x)    
+                pageContent.append(subpageContent)
+            print "Page:\n" 
+            print pageContent
+        else:
+            print "Unknown operation\n"
+
+
