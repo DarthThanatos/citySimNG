@@ -33,6 +33,14 @@ public class Resources {
 		this.sender = sender;
 	}
 	
+	public SocketStreamSender getSender() {
+		return sender;
+	}
+
+	public void setSender(SocketStreamSender sender) {
+		this.sender = sender;
+	}
+
 	public void updateResources(){
 		Map<String, String> actualValuseAndIncomes = new HashMap<String, String>();
 		for(String resource : resourcesNames){

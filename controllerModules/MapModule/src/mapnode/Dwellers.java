@@ -16,16 +16,7 @@ public class Dwellers {
 	private final String relativeTexturesPath = "resources\\Textures\\";
 	
 	public Dwellers(SocketStreamSender sender, DependenciesRepresenter dr){
-		//allDwellers = (List<Dweller>) dr.getModuleData("allDwellers");
-		Dweller d1 = new Dweller();
-		d1.setName("Zbychu");
-		d1.setPredecessor("");
-		d1.setSuccessor("");
-		d1.setTexturePath(relativeTexturesPath + "dweller.jpg");
-		Map c = new HashMap();
-		c.put("Wood", 5);
-		d1.setConsumes(c);
-		allDwellers.add(d1);
+		allDwellers = (List<Dweller>) dr.getModuleData("allDwellers");
 		this.sender = sender;
 	}
 	

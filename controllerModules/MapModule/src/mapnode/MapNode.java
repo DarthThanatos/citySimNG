@@ -18,6 +18,7 @@ public class MapNode extends SocketNode{
 	public Buildings buildings;
 	public Dwellers dwellers;
 	Resources resources = null;
+	boolean initialized = false;
 	
 	public MapNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
 		super(dr, dispatchCenter, nodeName);
@@ -63,11 +64,12 @@ public class MapNode extends SocketNode{
 		}
 		
 		if(command.equals("deleteBuilding")){
-			buildings.deleteBuilding(args.getString("BuildingId"), resources);
+			buildings.deleteBuilding(args.getString("BuildingId"), resources, dwellers);
 			Map<String, String> actualValuseAndIncomes = createResourcesInfoMap();
 			
 			JSONObject json = new JSONObject();
 			json.put("actualRes", actualValuseAndIncomes);
+			json.put("currDwellersAmount", dwellers.getCurrDwellersAmount());
 			
 			envelope.put("Operation", "deleteBuildingResult");
 			envelope.put("Args", json);
@@ -75,11 +77,12 @@ public class MapNode extends SocketNode{
 		}
 		
 		if(command.equals("stopProduction")){
-			buildings.stopProduction(args.getString("BuildingId"), resources);
+			buildings.stopProduction(args.getString("BuildingId"), resources, dwellers);
 			Map<String, String> actualValuseAndIncomes = createResourcesInfoMap();
 			
 			JSONObject json = new JSONObject();
 			json.put("actualRes", actualValuseAndIncomes);
+			json.put("currDwellersAmount", dwellers.getCurrDwellersAmount());
 			
 			envelope.put("Operation", "stopProductionResult");
 			envelope.put("Args", json);
@@ -97,35 +100,54 @@ public class MapNode extends SocketNode{
 	@Override
 	public void atStart() {
 		update = true;
-		
-		// send initial info
-		resources = new Resources(sender,dr);
-		buildings = new Buildings(sender,dr);
-		JSONObject json = new JSONObject();
-		json.put("resources", resources.getResources());
-		json.put("buildings", buildings.getAllBuildings());
-		json.put("dewellers", dwellers.getAllDewellers());
-		json.put("Texture One", dr.getTextureAt(0));
-		json.put("Texture Two", dr.getTextureAt(1));
-		JSONObject envelope = new JSONObject();
-		envelope.put("To", "Map");
-		envelope.put("Operation", "Init");
-		envelope.put("Args", json);
-		sender.pushStreamAndWaitForResponse(envelope);
-		resourcesThread = new Thread() {
-			public void run() {
-				while(update){
-					resources.updateResources();
-					try{
-						Thread.sleep(3000);
-					}catch(Exception e){
-						System.out.println("Map timer exited while loop");
+		if(!initialized){
+			// send initial info
+			resources = new Resources(sender,dr);
+			buildings = new Buildings(sender,dr);
+			JSONObject json = new JSONObject();
+			json.put("resources", resources.getResources());
+			json.put("buildings", buildings.getAllBuildings());
+			json.put("dewellers", dwellers.getAllDewellers());
+			json.put("Texture One", dr.getTextureAt(0));
+			json.put("Texture Two", dr.getTextureAt(1));
+			JSONObject envelope = new JSONObject();
+			envelope.put("To", "Map");
+			envelope.put("Operation", "Init");
+			envelope.put("Args", json);
+			sender.pushStreamAndWaitForResponse(envelope);
+			resourcesThread = new Thread() {
+				public void run() {
+					while(update){
+						resources.updateResources();
+						try{
+							Thread.sleep(3000);
+						}catch(Exception e){
+							System.out.println("Map timer exited while loop");
+						}
 					}
+					System.out.println("Map timer exited while loop");
 				}
-				System.out.println("Map timer exited while loop");
-			}
-		};
-		resourcesThread.start();
+			};
+			resourcesThread.start();
+			initialized = true;
+		}
+		else{
+			resources.setSender(sender);
+			resourcesThread = new Thread() {
+				public void run() {
+					while(update){
+						resources.updateResources();
+						try{
+							Thread.sleep(3000);
+						}catch(Exception e){
+							System.out.println("Map timer exited while loop");
+						}
+					}
+					System.out.println("Map timer exited while loop");
+				}
+			};
+			resourcesThread.start();
+		}
 	}
 
 	@Override
@@ -137,7 +159,6 @@ public class MapNode extends SocketNode{
 
 	@Override
 	public void atUnload() {
-		// TODO Auto-generated method stub
 		
 	}
 	

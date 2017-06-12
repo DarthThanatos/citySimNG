@@ -71,7 +71,7 @@ public class Buildings {
 		playerBuildings.put(buildingId, new Building(b));
 	}
 	
-	public void deleteBuilding(String buildingId, Resources resources){
+	public void deleteBuilding(String buildingId, Resources resources, Dwellers dwellers){
 		Map<String, Integer> actualValues = resources.getActualValues();
 		Map<String, Integer> incomes = resources.getIncomes();
 		Building b = findBuildingWithId(buildingId);
@@ -93,10 +93,18 @@ public class Buildings {
 		    		consumes.get(resource));
 		}
 		
+		Map<String, Integer> tmp = new HashMap();
+		tmp.put("Zbychu", 3);
+		for(Map.Entry<String, Integer> entry : tmp.entrySet()){
+			String dweller = entry.getKey();
+			Integer amount = entry.getValue();
+			dwellers.setCurrDwellersAmount(dwellers.getCurrDwellersAmount() - amount);
+		}
+		
 		playerBuildings.remove(buildingId);
 	}
 
-	public void stopProduction(String buildingId, Resources resources){
+	public void stopProduction(String buildingId, Resources resources, Dwellers dwellers){
 		Building b = findBuildingWithId(buildingId);
 		Map<String, Integer> incomes = resources.getIncomes();
 		Map<String, Integer> consumes = b.getConsumes();
@@ -108,6 +116,15 @@ public class Buildings {
 			    Integer prod = entry.getValue();
 			    incomes.put(resource, incomes.get(resource) - prod + consumes.get(resource));
 			}
+			
+			Map<String, Integer> tmp = new HashMap();
+			tmp.put("Zbychu", 3);
+			for(Map.Entry<String, Integer> entry : tmp.entrySet()){
+				String dweller = entry.getKey();
+				Integer amount = entry.getValue();
+				dwellers.setCurrDwellersAmount(dwellers.getCurrDwellersAmount() - amount);
+			}
+			
 			b.setRunning(false);
 		}
 		
@@ -117,6 +134,15 @@ public class Buildings {
 			    Integer prod = entry.getValue();
 			    incomes.put(resource, incomes.get(resource) + prod - consumes.get(resource));
 			}
+			
+			Map<String, Integer> tmp = new HashMap();
+			tmp.put("Zbychu", 3);
+			for(Map.Entry<String, Integer> entry : tmp.entrySet()){
+				String dweller = entry.getKey();
+				Integer amount = entry.getValue();
+				dwellers.setCurrDwellersAmount(dwellers.getCurrDwellersAmount() + amount);
+			}
+			
 			b.setRunning(true);
 		}
 	}

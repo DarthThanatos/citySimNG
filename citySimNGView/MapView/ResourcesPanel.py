@@ -77,10 +77,12 @@ class ResourcesPanel(Panel):
         image = pygame.image.load(relative_textures_path + "dweller.jpg")
         image = pygame.transform.scale(image, (int(DWELLER_ICON_WIDTH * self.width), int(DWELLER_ICON_HEIGHT * self.height)))
         rect = image.get_rect(topleft=(self.pos_x, self.pos_y))
-        self.game_screen.blit(image, rect)
+        self.game_screen.blit(image, (rect[0], center_image_y(int(DWELLER_ICON_HEIGHT * self.height), rect[1], self.height)))
 
-        text_width = draw_text(int(DWELLER_ICON_WIDTH * self.width), self.pos_y,
-                               "{} / {}".format(self.curr_dwellers_amount, self.curr_max_dwellers_amount), GREEN,
+        text_size = calculate_text_size("{}".format(self.curr_dwellers_amount))
+
+        text_width = draw_text(int(DWELLER_ICON_WIDTH * self.width), center_image_y(text_size[1], self.pos_y, self.height),
+                               "{}".format(self.curr_dwellers_amount), GREEN,
                                self.game_screen)[0]
 
         return (int(DWELLER_ICON_WIDTH * self.width)) + text_width
