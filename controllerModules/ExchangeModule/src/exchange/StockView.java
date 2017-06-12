@@ -121,7 +121,7 @@ public class StockView extends Application {
         // combobox label
         final Label resourceComboBoxLabel = new Label("Choose resource type:");
         resourceComboBoxLabel.setFont(new Font("Arial", 20));
-        resourceComboBoxLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.14,
+        resourceComboBoxLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.17,
                 primaryScreenBounds.getHeight() * 0.04);
         resourceComboBoxLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
         resourceComboBoxLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.77);
@@ -137,7 +137,7 @@ public class StockView extends Application {
         // text field label
         final Label resourceAmountLabel = new Label("Enter resource quantity:");
         resourceAmountLabel.setFont(new Font("Arial", 20));
-        resourceAmountLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.14, primaryScreenBounds.getHeight() * 0.04);
+        resourceAmountLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.17, primaryScreenBounds.getHeight() * 0.04);
         resourceAmountLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
         resourceAmountLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.83);
 
@@ -152,7 +152,7 @@ public class StockView extends Application {
         // buy button label
         final Label buyButtonLabel = new Label("Buy chosen resources: ");
         buyButtonLabel.setFont(new Font("Arial", 20));
-        buyButtonLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.14, primaryScreenBounds.getHeight() * 0.04);
+        buyButtonLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.17, primaryScreenBounds.getHeight() * 0.04);
         buyButtonLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
         buyButtonLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.88);
 
@@ -173,7 +173,7 @@ public class StockView extends Application {
         // sell button label
         final Label sellButtonLabel = new Label("Sell chosen resources: ");
         sellButtonLabel.setFont(new Font("Arial", 20));
-        sellButtonLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.14, primaryScreenBounds.getHeight() * 0.04);
+        sellButtonLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.17, primaryScreenBounds.getHeight() * 0.04);
         sellButtonLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
         sellButtonLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.93);
 
