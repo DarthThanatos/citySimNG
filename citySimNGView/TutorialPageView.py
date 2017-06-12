@@ -60,6 +60,7 @@ class TutorialPageView(wx.Panel):
             } 
         ]
         self.Bind(wx.EVT_HYPERLINK, self.moveToPage, self)
+        #nie wychodzi z eventem, strona sie laduje, a nie powinna xD
         
 
         self.centerSizer = wx.BoxSizer(wx.HORIZONTAL)
