@@ -12,6 +12,7 @@ import org.json.JSONObject.*;
 import org.json.JSONObject;
 
 import controlnode.SocketStreamSender;
+import entities.Resource;
 
 public class Resources {
 	private List<String> resourcesNames;

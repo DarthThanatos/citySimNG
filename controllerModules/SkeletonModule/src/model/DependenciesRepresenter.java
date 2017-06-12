@@ -1,5 +1,7 @@
 package model;
 
+import graph.GraphsHolder;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,13 +16,19 @@ public class DependenciesRepresenter {
 	private double money;
 	private Map<String, Integer> stockPile;
 	private String[] texturesNames;
+	private GraphsHolder graphsHolder;
 	
 	public DependenciesRepresenter(){
 		dependencies = new HashMap<>();
 		texturesNames = new String[2];
+		graphsHolder = new GraphsHolder();
 	}
 	
 
+	public GraphsHolder getGraphsHolder(){
+		return graphsHolder;
+	}
+	
 	public String getTextureAt(int index){
 		if (index < 0 || index >= 2) return "DefaultBuilding.jpg";
 		return texturesNames[index];

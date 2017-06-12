@@ -102,7 +102,7 @@ class BuildingsPanel(ScrolledPanel):
 
         type_label = wx.StaticText(self, -1, "Type of building: ")
         typeChoiceList = ["Industrial", "Domestic"]
-        self.type_of_building_selector = wx.ComboBox(self, choices=typeChoiceList, style=wx.CB_READONLY)
+        self.type_of_building_selector = wx.ComboBox(self, choices=typeChoiceList, style=wx.CB_READONLY, value = "Industrial")
         type_horizontal_sizer.Add(type_label)
         type_horizontal_sizer.AddSpacer(10)
         type_horizontal_sizer.Add(self.type_of_building_selector)
@@ -240,12 +240,34 @@ class BuildingsPanel(ScrolledPanel):
         self.descriptionArea.SetValue(self.currentDependencies["Buildings"][edit_element_name]["Description"])
 
         self.texture_name = self.currentDependencies["Buildings"][edit_element_name]["Texture path"]
-        image = wx.Image(relative_textures_path + self.texture_name) #"..\\..\\resources\\Textures\\"
-        image = image.Scale(32,32)
-        self.imageBitmap.SetBitmap(wx.BitmapFromImage(image))
+        try:
+            image = wx.Image(relative_textures_path + self.texture_name) #"..\\..\\resources\\Textures\\"
+            image = image.Scale(32,32)
+            self.imageBitmap.SetBitmap(wx.BitmapFromImage(image))
+        except Exception:
+            traceback.print_exc()
+
         for child in self.children:
             child.reset_init_mode = child.resetContentsInit_EditMode
             child.resetContents(edit_element_name)
+        successorVal = self.currentDependencies["Buildings"][edit_element_name]["Successor"]
+        successorVal = successorVal if successorVal in self.currentDependencies["Buildings"].keys() else "None"
+        predecessorVal = self.currentDependencies["Buildings"][edit_element_name]["Predecessor"]
+        predecessorVal = predecessorVal if predecessorVal in self.currentDependencies["Buildings"].keys() else "None"
+        self.predecessorSelector.SetStringSelection(predecessorVal)
+        self.successorSelector.SetStringSelection(successorVal)
+
+        dwellerTypeVal = self.currentDependencies["Buildings"][edit_element_name]["Dweller\nName"]
+        amount_of_dwellers_val = self.currentDependencies["Buildings"][edit_element_name]["Dwellers\namount"]
+        if not dwellerTypeVal in self.currentDependencies["Dwellers"].keys():
+            dwellerTypeVal = ""
+            amount_of_dwellers_val = 0
+        self.dwellers_amount.SetValue(amount_of_dwellers_val)
+        self.dwellers_names_selector.SetStringSelection(dwellerTypeVal)
+
+        print "Dweller living here: ", dwellerTypeVal
+        building_type_val = self.currentDependencies["Buildings"][edit_element_name]["Type"]
+        self.type_of_building_selector.SetStringSelection(building_type_val)
 
     def onShow(self, event):
         if event.GetShow():
@@ -307,7 +329,7 @@ class BuildingsPanel(ScrolledPanel):
         return True
 
     def checkAndDumpDweller(self, result_struct):
-        dweller_name = self.NameInput.GetValue()
+        dweller_name = self.dwellers_names_selector.GetStringSelection()
         if dweller_name == "":
             result_struct["ErrorMsg"] += "-> Please select a dweller that lives here\n"
             return False

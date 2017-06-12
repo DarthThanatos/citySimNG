@@ -35,6 +35,7 @@ public class StockView extends Application {
     private static TableView<Resource> table;
     private static LineChart<String, Number> lineChart;
     private static ObservableList<PieChart.Data> pieChartData;
+    private static Label moneyLabel;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
@@ -51,10 +52,10 @@ public class StockView extends Application {
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 
         // money label
-        final Label moneyLabel = new Label("You have "+String.format("%.2f", stock.getDependenciesRepresenter().getMoney())+" money.");
+        moneyLabel = new Label("You have "+String.format("%.2f", stock.getDependenciesRepresenter().getMoney())+" money.");
         moneyLabel.setFont(new Font("Arial", 20));
         moneyLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.18, primaryScreenBounds.getHeight() * 0.04);
-        moneyLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.58);
+        moneyLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.68);
         moneyLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.77);
 
         // resources table label
@@ -130,7 +131,7 @@ public class StockView extends Application {
         resourceComboBox.getItems().addAll(stock.getResourcesNames());
         resourceComboBox.getSelectionModel().selectFirst();
         resourceComboBox.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
-        resourceComboBox.setLayoutX(primaryScreenBounds.getWidth() * 0.45);
+        resourceComboBox.setLayoutX(primaryScreenBounds.getWidth() * 0.48);
         resourceComboBox.setLayoutY(primaryScreenBounds.getHeight() * 0.77);
 
         // text field label
@@ -145,7 +146,7 @@ public class StockView extends Application {
         resourceAmount.setPromptText("resource quantity");
         resourceAmount.setPrefColumnCount(10);
         resourceAmount.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
-        resourceAmount.setLayoutX(primaryScreenBounds.getWidth() * 0.45);
+        resourceAmount.setLayoutX(primaryScreenBounds.getWidth() * 0.48);
         resourceAmount.setLayoutY(primaryScreenBounds.getHeight() * 0.83);
 
         // buy button label
@@ -160,13 +161,13 @@ public class StockView extends Application {
         buyButton.setOnAction(event -> {
             String message = stock.buyOperation((String) resourceComboBox.getValue(), resourceAmount.getText());
             updatePieChart();
-            moneyLabel.setText("You have "+String.format("%.2f", stock.getDependenciesRepresenter().getMoney())+" money.");
+            updateMoneyLabel();
             table.getColumns().get(0).setVisible(false);
             table.getColumns().get(0).setVisible(true);
             showAlert(message);
         });
         buyButton.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
-        buyButton.setLayoutX(primaryScreenBounds.getWidth() * 0.45);
+        buyButton.setLayoutX(primaryScreenBounds.getWidth() * 0.48);
         buyButton.setLayoutY(primaryScreenBounds.getHeight() * 0.88);
 
         // sell button label
@@ -181,40 +182,40 @@ public class StockView extends Application {
         sellButton.setOnAction(event -> {
             String message = stock.sellOperation((String) resourceComboBox.getValue(), resourceAmount.getText());
             updatePieChart();
-            moneyLabel.setText("You have "+String.format("%.2f", stock.getDependenciesRepresenter().getMoney())+" money.");
+            updateMoneyLabel();
             table.getColumns().get(0).setVisible(false);
             table.getColumns().get(0).setVisible(true);
             showAlert(message);
         });
         sellButton.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
-        sellButton.setLayoutX(primaryScreenBounds.getWidth() * 0.45);
+        sellButton.setLayoutX(primaryScreenBounds.getWidth() * 0.48);
         sellButton.setLayoutY(primaryScreenBounds.getHeight() * 0.93);
 
         // dice label
         final Label diceLabel = new Label("Take part in lottery:");
         diceLabel.setFont(new Font("Arial", 20));
         diceLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.14, primaryScreenBounds.getHeight() * 0.04);
-        diceLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.58);
+        diceLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.68);
         diceLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.82);
 
         // dice button settings
         Button diceButton = new Button("ROLL THE DICE");
         diceButton.setOnAction(event -> {
             String message = stock.diceOperation();
-            moneyLabel.setText("You have "+String.format("%.2f", stock.getDependenciesRepresenter().getMoney())+" money.");
+            updateMoneyLabel();
             table.getColumns().get(0).setVisible(false);
             table.getColumns().get(0).setVisible(true);
             showAlert(message);
         });
         diceButton.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
-        diceButton.setLayoutX(primaryScreenBounds.getWidth() * 0.72);
+        diceButton.setLayoutX(primaryScreenBounds.getWidth() * 0.82);
         diceButton.setLayoutY(primaryScreenBounds.getHeight() * 0.82);
 
         // exit label
         final Label exitLabel = new Label("Leave stock:");
         exitLabel.setFont(new Font("Arial", 20));
         exitLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.14, primaryScreenBounds.getHeight() * 0.04);
-        exitLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.58);
+        exitLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.68);
         exitLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.87);
 
         // exit button settings
@@ -224,7 +225,7 @@ public class StockView extends Application {
             stock.setWorkingStatus(true);
         });
         exitButton.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
-        exitButton.setLayoutX(primaryScreenBounds.getWidth() * 0.72);
+        exitButton.setLayoutX(primaryScreenBounds.getWidth() * 0.82);
         exitButton.setLayoutY(primaryScreenBounds.getHeight() * 0.87);
 
         // main scene settings
@@ -273,6 +274,10 @@ public class StockView extends Application {
         }
     }
 
+    private static void updateMoneyLabel() {
+        moneyLabel.setText("You have "+String.format("%.2f", stock.getDependenciesRepresenter().getMoney())+" money.");
+    }
+
     private static void showAlert(String message) {
         Alert alert;
         if (message.startsWith("ERROR")) {
@@ -297,6 +302,7 @@ public class StockView extends Application {
             stock.updatePlayerResource();
             table.getColumns().get(0).setVisible(false);
             table.getColumns().get(0).setVisible(true);
+            updateMoneyLabel();
             stage.show();
         });
     }

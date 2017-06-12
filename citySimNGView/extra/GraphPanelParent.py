@@ -1,13 +1,19 @@
 import wx
 import json
 from uuid import uuid4
-from RelativePaths import relative_music_path, relative_textures_path
-from CreatorView.GraphsSpaces import GraphsSpaces
+from RelativePaths import relative_music_path
+import GraphPanel
+from wx.lib.scrolledpanel import ScrolledPanel
 
-class LoaderView(wx.Panel):
+
+relative_textures_path = "..\\..\\resources\\Textures\\"
+
+class GraphPanelParent(ScrolledPanel):
     def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender=None):
-        wx.Panel.__init__(self, size=size, parent=parent)
-        self.Bind(wx.EVT_SHOW, self.onShow, self)
+        #wx.Panel.__init__(self, size=size, parent=parent)
+        super(GraphPanelParent, self).__init__(parent, size =(550,500),style = wx.SIMPLE_BORDER)
+        self.SetupScrolling()
+        #self.Bind(wx.EVT_SHOW, self.onShow, self)
         self.parent = parent
         self.name = name
         self.size = size
@@ -15,10 +21,10 @@ class LoaderView(wx.Panel):
         self.ackMsgs = {}
 
         self.musicPath = musicPath
-        self.initLoader()
+        self.initPanel()
         self.SetBackgroundColour((255, 255, 255))
 
-    def initLoader(self):
+    def initPanel(self):
         mainSizer = wx.BoxSizer(wx.VERTICAL)
 
         # Load, add and set position for header
@@ -29,7 +35,7 @@ class LoaderView(wx.Panel):
         mainSizer.Add(headerSizer, 0, wx.CENTER)
 
         # Create dependencies selector
-        self.ruleSetsList = []
+        self.ruleSetsList = ["Default Set", "Stronghold", "Anno 2205"]
         self.ruleSelector = wx.ListBox(self,  choices=self.ruleSetsList)
         mainSizer.Add(self.ruleSelector, 0, wx.CENTER)
         # Set space between dialog and exit button
@@ -37,35 +43,16 @@ class LoaderView(wx.Panel):
 
         menu_btn = wx.Button(self, label="Main Menu")
         new_game_btn = wx.Button(self, label = "New Game Menu")
-        show_graph_btn = wx.Button(self, label = "Show Graph")
-
         self.Bind(wx.EVT_BUTTON, self.moveToMenu, menu_btn)
         self.Bind(wx.EVT_BUTTON, self.moveToNewGameMenu, new_game_btn)
-        self.Bind(wx.EVT_BUTTON, self.showGraph, show_graph_btn)
-
         mainSizer.Add(new_game_btn, 0, wx.CENTER | wx.ALL, 5)
-        mainSizer.Add(show_graph_btn, 0, wx.CENTER)
         mainSizer.Add(menu_btn, 0, wx.CENTER | wx.ALL, 5)
-
-        mainSizer.AddSpacer(30)
-        self.graphsSpaces = GraphsSpaces(self)
-        mainSizer.Add(self.graphsSpaces,0,wx.CENTER)
+        mainSizer.AddSpacer(20)
+        graphPanel = GraphPanel.View(self)
+        mainSizer.Add(graphPanel,0, wx.CENTER | wx.ALL, 5)
 
         self.SetSizer(mainSizer)
         mainSizer.SetDimension(0, 0, self.size[0], self.size[1])
-        mainSizer.Layout()
-
-    def showGraph(self, evt):
-        setChosen = self.ruleSelector.GetStringSelection()
-        print "SetChosen:",setChosen
-        if setChosen == "": return
-
-        msg = {}
-        msg["To"] = "LoaderNode"
-        msg["Operation"] = "ShowGraph"
-        msg["Args"] = {}
-        msg["Args"]["SetChosen"] = setChosen
-        self.sender.send(json.dumps(msg))
 
     def mountMoveToMsg (self, target):
         msg = {}
@@ -109,8 +96,6 @@ class LoaderView(wx.Panel):
         if operation == "SelectConfirm":
             operationId = msgObj["Args"]["UUID"]
             self.ackMsgs[operationId] = True
-        if operation == "ShowGraphRes":
-            self.graphsSpaces.resetViewFromJSON(msgObj["Args"]["Graph"])
 
     def onShow(self, event):
         global pygame
@@ -126,3 +111,21 @@ class LoaderView(wx.Panel):
                 pygame.quit()
             except Exception:
                 pass
+
+class Frame(wx.Frame):
+    def __init__(self):
+        super(Frame, self).__init__(None)
+        self.SetTitle('My Title')
+        self.SetClientSize((750, 600))
+        self.Center()
+        self.view = GraphPanelParent(self, ((500,500)), "Name")
+        self.ShowFullScreen(True)
+
+def main():
+    app = wx.App(False)
+    frame = Frame()
+    frame.Show()
+    app.MainLoop()
+
+if __name__ == '__main__':
+    main()

@@ -1,5 +1,6 @@
 import wx
 import re
+
 from wx.lib.scrolledpanel import ScrolledPanel
 from RelativePaths import relative_textures_path
 import json
@@ -162,6 +163,12 @@ class ResourcesPanel(ScrolledPanel):
         image = wx.Image( relative_textures_path + self.texture_name) #"..\\..\\resources\\Textures\\"
         image = image.Scale(32,32)
         self.imageBitmap.SetBitmap(wx.BitmapFromImage(image))
+        successorVal = self.currentDependencies["Resources"][edit_element_name]["Successor"]
+        successorVal = successorVal if successorVal in self.currentDependencies["Resources"].keys() else "None"
+        predecessorVal = self.currentDependencies["Resources"][edit_element_name]["Predecessor"]
+        predecessorVal = predecessorVal if predecessorVal in self.currentDependencies["Resources"].keys() else "None"
+        self.successorSelector.SetStringSelection(successorVal)
+        self.predecessorSelector.SetStringSelection(predecessorVal)
 
     def onShow(self, event):
         if event.GetShow():
