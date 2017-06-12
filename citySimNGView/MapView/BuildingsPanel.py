@@ -40,24 +40,47 @@ class BuildingsPanel(Panel):
     def add_buildings_to_buildings_panel(self, buildings_info):
             width, height = self.game_screen.get_size()
             building_no = 0
+            pos_x, pos_y = self.pos_x + SPACE, self.pos_y
             for building in buildings_info:
-                if (BUILDING_SIZE * height) * (building_no / 2 + 1) + SPACE * (building_no / 2) > BUILDINGS_PANEL_ARROW_Y * self.height:
+                # we have to go to new line
+                if pos_x + BUILDING_SIZE * width > self.pos_x + self.width:
+                    pos_x = self.pos_x + SPACE
+                    pos_y = pos_y + BUILDING_SIZE * height + SPACE
+                if pos_y + BUILDING_SIZE * height > BUILDINGS_PANEL_ARROW_Y * self.height:
+                    pos_y = self.pos_y
                     self.page += 1
                     building_no = 0
                     self.last_page = self.page
                 resource_cost_string = ""
-                for (resource, value) in building["resourcesCost"].iteritems():
-                    if value != 0:
-                        resource_cost_string += "{}: {} ; ".format(resource, value)
+                # for (resource, value) in building["resourcesCost"].iteritems():
+                #     if value != 0:
+                #         resource_cost_string += "{}: {} ; ".format(resource, value)
                 building_sprite = Building(building["name"], uuid.uuid4().__str__(), building["texturePath"],
-                                           resource_cost_string, building["consumes"], building["produces"], (width, height),
-                                           pos=(self.pos_x + BUILDING_SIZE * width * (building_no % 2) + (building_no % 2 + 1) * SPACE,
-                                                BUILDING_SIZE * height * (building_no / 2) + SPACE * (building_no / 2)))
+                                           building["resourcesCost"], building["consumes"], building["produces"], (width, height),
+                                           pos=(pos_x, pos_y))
+                pos_x += BUILDING_SIZE * width + SPACE
                 if str(self.page) in self.page_buildings:
                     self.page_buildings[str(self.page)].append(building_sprite)
                 else:
                     self.page_buildings[str(self.page)] = [building_sprite]
                 building_no += 1
+                # if (BUILDING_SIZE * height) * (building_no / 2 + 1) + SPACE * (building_no / 2) > BUILDINGS_PANEL_ARROW_Y * self.height:
+                #     self.page += 1
+                #     building_no = 0
+                #     self.last_page = self.page
+                # resource_cost_string = ""
+                # for (resource, value) in building["resourcesCost"].iteritems():
+                #     if value != 0:
+                #         resource_cost_string += "{}: {} ; ".format(resource, value)
+                # building_sprite = Building(building["name"], uuid.uuid4().__str__(), building["texturePath"],
+                #                            resource_cost_string, building["consumes"], building["produces"], (width, height),
+                #                            pos=(self.pos_x + BUILDING_SIZE * width * (building_no % 2) + (building_no % 2 + 1) * SPACE,
+                #                                 BUILDING_SIZE * height * (building_no / 2) + SPACE * (building_no / 2)))
+                # if str(self.page) in self.page_buildings:
+                #     self.page_buildings[str(self.page)].append(building_sprite)
+                # else:
+                #     self.page_buildings[str(self.page)] = [building_sprite]
+                # building_no += 1
             self.page = 1
             self.draw_buildings_in_buildings_panel()
 

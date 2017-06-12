@@ -39,7 +39,7 @@ RESOURCES_ARROW_BUTTON_HEIGHT = 0.9
 # BUILDINGS PANEL CONSTS #
 # =================================================================================================================== #
 BUILDINGS_PANEL_TEXTURE = relative_textures_path + 'BuildingsPanelTexture.jpg'
-BUILDINGS_PANEL_SIZE = 0.15
+BUILDINGS_PANEL_SIZE = 0.12
 
 BUILDINGS_PANEL_RIGHT_ARROW_X = 0.6
 BUILDINGS_PANEL_LEFT_ARROW_X = 0.1
@@ -48,7 +48,7 @@ BUILDINGS_PANEL_ARROW_Y = 0.85
 # =================================================================================================================== #
 # INFO PANEL CONSTS #
 # =================================================================================================================== #
-INFO_PANEL_WIDTH = 0.4
+INFO_PANEL_WIDTH = 0.5
 INFO_PANEL_HEIGHT = 0.1
 
 DELETE_BUILDING_WIDTH = 0.1
@@ -60,15 +60,21 @@ DELETE_BUILDING_HEIGHT = 0.3
 NAV_ARROW_WIDTH = 0.4
 NAV_ARROW_HEIGHT = 0.4
 
-NAVIGATION_PANEL_HEIGHT = 0.1
-NAVIGATION_PANEL_WIDTH = 0.3
+NAVIGATION_PANEL_HEIGHT = 0.2
+NAVIGATION_PANEL_WIDTH = 0.2
+
+NAV_PANEL_TEX = relative_textures_path + 'BuildingsPanelTexture.jpg'
 
 # =================================================================================================================== #
 # TEXT PANEL CONSTS #
 # =================================================================================================================== #
 TEXT_PANEL_HEIGHT = 0.1
 TEXT_PANEL_WIDTH = 0.25
+TEXT_PANEL_FONT_SIZE = 10
 
+# =================================================================================================================== #
+# TEXTURES #
+# =================================================================================================================== #
 DEFAULT_BUILDING_TEXTURE = relative_textures_path + "DefaultBuilding.jpg"
 DEFAULT_RESOURCE_TEXTURE = relative_textures_path + "DefaultBuilding.jpg"
 GRASS_TEXTURE = relative_textures_path + "Grass.png"
@@ -76,14 +82,20 @@ MEADOW_TEXTURE = relative_textures_path + "Meadow.jpg"
 GRASS2_TEXTURE = relative_textures_path + "Grass2.jpg"
 NAV_ARROW_TEXTURE = relative_textures_path + 'LeftArrow.png'
 
-RESOURCE_SIZE = 0.03
-RESOURCES_SPACE = 10
+# =================================================================================================================== #
+# DWELLERS #
+# =================================================================================================================== #
+DWELLER_ICON_WIDTH = 0.03
+DWELLER_ICON_HEIGHT = 0.9
 
-BUILDING_SIZE = 0.05
+# =================================================================================================================== #
+# OTHERS #
+# =================================================================================================================== #
+RESOURCE_SIZE = 0.03
+BUILDING_SIZE = 0.1
+RESOURCES_SPACE = 10
 
 ARROW_BUTTON_WIDTH = 0.3
 ARROW_BUTTON_HEIGHT = 0.1
 SPACE = 20
 MENU_BUTTON_WIDTH = 0.05
-
-

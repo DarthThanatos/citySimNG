@@ -15,13 +15,14 @@ class Resource(pygame.sprite.Sprite):
         self.texture_path = texture_path
         self.game_screen_size = game_screen_size
 
+        # TODO: THIS IS WRONG...
         width, height = self.game_screen_size
+        self.width, self.height = int(width * RESOURCE_SIZE), int(height * RESOURCE_SIZE)
         try:
             self.image = pygame.image.load(self.texture_path)
         except Exception:
             self.texture_path = DEFAULT_RESOURCE_TEXTURE
             self.image = pygame.image.load(self.texture_path)
-        self.image = self.image.convert_alpha()
         self.image.set_colorkey(WHITE)
         self.image = pygame.transform.scale(self.image, (int(width * RESOURCE_SIZE),
                                                          int(height * RESOURCE_SIZE)))
@@ -35,7 +36,7 @@ class Resources:
             resource_sprite = Resource(resource["name"], resource["texturePath"], game_screen.get_size())
             self.resources[resource["name"]] = resource_sprite
 
-    def draw_resources_info(self, resources_info, pos_x, pos_y, max_x, mes):
+    def draw_resources_info(self, resources_info, pos_x, pos_y, max_x, mes, game_screen=None):
         """
 
         :param resources_info: dictionary resource: value
@@ -43,10 +44,14 @@ class Resources:
         :param pos_y: start value for y coordinate
         :param max_x: max value for x coordinate
         :param mes: message that will be printed before resources info
+        :param game_screen: game screen on which draw info
         :return: y coordinate of first line below info
         """
+        if game_screen is None:
+            game_screen = self.game_screen
+
         text_size = (0, 0)
-        mes_width, mes_height = draw_text(pos_x, pos_y, mes, GREEN, self.game_screen)
+        mes_width, mes_height = draw_text(pos_x, pos_y, mes, GREEN, game_screen)
         curr_x = pos_x + mes_width + RESOURCES_SPACE
         for (resource, value) in resources_info.iteritems():
             # TODO: we have to take care of this in logic
@@ -64,8 +69,8 @@ class Resources:
                 curr_x = pos_x
                 pos_y += text_size[1]
 
-            self.game_screen.blit(image, (curr_x, pos_y))
+            game_screen.blit(image, (curr_x, pos_y))
             draw_text(curr_x + image.get_size()[0] + RESOURCES_SPACE, pos_y,
-                      "{}".format(resources_info[resource]), GREEN, self.game_screen)
+                      "{}".format(resources_info[resource]), GREEN, game_screen)
             curr_x += info_width + RESOURCES_SPACE
         return pos_y + text_size[1]

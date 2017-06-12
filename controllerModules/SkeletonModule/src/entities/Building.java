@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Building {
 	private String name;
-	private Map<String, Integer> dewellers;
+	private Map<String, Integer> dwellers;
 	private String predecessor;
 	private String successor;
 	private Map<String, Integer> produces;
@@ -13,6 +13,34 @@ public class Building {
 	private Map<String, Integer> resourcesCost;
 	private String texturePath;
 	private String type;
+	
+	private Map<String, Integer> workingDwellers;
+	private String id;
+	private boolean running = true;
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	public Building(){
+		
+	}
+
+	public Building(Building b){
+		this.name = b.name;
+		this.dwellers = b.dwellers;
+		this.predecessor = b.predecessor;
+		this.successor = b.successor;
+		this.produces = b.produces;
+		this.consumes = b.consumes;
+		this.resourcesCost = b.resourcesCost;
+		this.texturePath = b.texturePath;
+		this.type = b.type;
+	}
 	
 	public String getTexturePath() {
 		return texturePath;
@@ -54,12 +82,12 @@ public class Building {
 		this.consumes = consumes;
 	}
 
-	public Map<String, Integer> getDewellers() {
-		return dewellers;
+	public Map<String, Integer> getDwellers() {
+		return dwellers;
 	}
 
-	public void setDewellers(Map<String, Integer> dewellers) {
-		this.dewellers = dewellers;
+	public void setDwellers(Map<String, Integer> dwellers) {
+		this.dwellers = dwellers;
 	}
 
 	public String getType() {
@@ -84,6 +112,22 @@ public class Building {
 
 	public void setPredecessor(String predecessor) {
 		this.predecessor = predecessor;
+	}
+
+	public Map<String, Integer> getWorkingDwellers() {
+		return workingDwellers;
+	}
+
+	public void setWorkingDwellers(Map<String, Integer> workingDwellers) {
+		this.workingDwellers = workingDwellers;
+	}
+
+	public boolean isRunning() {
+		return running;
+	}
+
+	public void setRunning(boolean running) {
+		this.running = running;
 	}
 	
 }

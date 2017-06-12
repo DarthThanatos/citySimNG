@@ -1,12 +1,12 @@
 import pygame
 from Panel import Panel
-from Consts import BUILDINGS_PANEL_TEXTURE, NAV_ARROW_WIDTH, NAV_ARROW_HEIGHT, NAV_ARROW_TEXTURE
+from Consts import NAV_PANEL_TEX, NAV_ARROW_WIDTH, NAV_ARROW_HEIGHT, NAV_ARROW_TEXTURE
 from NavigationArrow import NavigationArrow
 
 
 class NavigationPanel(Panel):
     def __init__(self, pos_x, pos_y, width, height, game_screen, action):
-        Panel.__init__(self, pos_x, pos_y, width, height, BUILDINGS_PANEL_TEXTURE)
+        Panel.__init__(self, pos_x, pos_y, width, height, NAV_PANEL_TEX)
         self.game_screen = game_screen
         self.action = action
 
