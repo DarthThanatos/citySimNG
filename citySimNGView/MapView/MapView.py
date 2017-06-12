@@ -90,25 +90,6 @@ class MapView(wx.Panel):
                              size=(MENU_BUTTON_WIDTH * self.width, self.screen_height * TEXT_PANEL_HEIGHT))
         self.Bind(wx.EVT_BUTTON, self.ret_to_menu, menu_btn)
 
-    def ret_to_menu(self, event):
-        """ Menu button logic """
-        self.map_tiles = {}
-        self.buildings_sprites = pygame.sprite.Group()
-        self.buildings_panel_sprites = pygame.sprite.Group()
-        self.navigation_arrows_sprites = pygame.sprite.Group()
-        self.all_sprites = pygame.sprite.Group()
-        self.game_on = False
-        self.map_position = (0, 0)
-        self.listener_thread.join()
-
-        msg = {}
-        msg["To"] = "MapNode"
-        msg["Operation"] = "MoveTo"
-        msg["Args"] = {}
-        msg["Args"]["TargetView"] = "GameMenu"
-        msg["Args"]["TargetControlNode"] = "GameMenuNode"
-        self.sender.send(json.dumps(msg))
-
     def on_show(self, event):
         if event.GetShow():
             print "shown map"
@@ -257,6 +238,30 @@ class MapView(wx.Panel):
 # =================================================================================================================== #
 # Communication with model
 # =================================================================================================================== #
+
+# =================================================================================================================== #
+# Sending messages to model
+# =================================================================================================================== #
+
+    def ret_to_menu(self, event):
+        """ Menu button logic """
+        self.map_tiles = {}
+        self.buildings_sprites = pygame.sprite.Group()
+        self.buildings_panel_sprites = pygame.sprite.Group()
+        self.navigation_arrows_sprites = pygame.sprite.Group()
+        self.all_sprites = pygame.sprite.Group()
+        self.game_on = False
+        self.map_position = (0, 0)
+        self.listener_thread.join()
+
+        msg = {}
+        msg["To"] = "MapNode"
+        msg["Operation"] = "MoveTo"
+        msg["Args"] = {}
+        msg["Args"]["TargetView"] = "GameMenu"
+        msg["Args"]["TargetControlNode"] = "GameMenuNode"
+        self.sender.send(json.dumps(msg))
+
     def place_building(self, building, pos):
 
         # we have to do this in case of negative incomes
@@ -351,6 +356,9 @@ class MapView(wx.Panel):
         stream = json.dumps(msg)
         self.sender.send(stream)
 
+# =================================================================================================================== #
+# Reading messages from model
+# =================================================================================================================== #
     def readMsg(self, msg):
         try:
             parsed_msg = json.loads(msg)
