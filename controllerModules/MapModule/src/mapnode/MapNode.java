@@ -101,6 +101,13 @@ public class MapNode extends SocketNode{
 	public void atStart() {
 		update = true;
 		if(!initialized){
+//			JSONObject envelope = new JSONObject();
+//			envelope.put("To", "Map");
+//			envelope.put("Operation", "Clear");
+//			envelope.put("Args", "");
+//			sender.pushStreamAndWaitForResponse(envelope);
+//			
+			
 			// send initial info
 			resources = new Resources(sender,dr);
 			buildings = new Buildings(sender,dr);
