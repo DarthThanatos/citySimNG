@@ -101,6 +101,7 @@ public class MapNode extends SocketNode{
 	public void atStart() {
 		update = true;
 		if(!initialized){
+	
 			// send initial info
 			resources = new Resources(sender,dr);
 			buildings = new Buildings(sender,dr);
