@@ -32,6 +32,8 @@ class MapView(wx.Panel):
 
     resources_panel = None
     buildings_panel = None
+    navigation_panel = None
+    info_panel = None
 
     listener_thread = None
 
@@ -122,39 +124,14 @@ class MapView(wx.Panel):
             self.game_screen = pygame.Surface.copy(self.background)
 
         if self.first_time:
-            # Create resources panel and add it to all sprites
-            self.resources_panel = ResourcesPanel(0, 0, self.width - BUILDINGS_PANEL_SIZE * self.width,
-                                                  RESOURCES_PANEL_SIZE * self.height, self, self.game_screen)
-            self.all_sprites.add(self.resources_panel)
-
-            # Create buildings panel and add it to all sprites
-            self.buildings_panel = BuildingsPanel(self.width - BUILDINGS_PANEL_SIZE * self.width, 0,
-                                                  BUILDINGS_PANEL_SIZE * self.width,
-                                                  self.height - TEXT_PANEL_HEIGHT * self.height, self.game_screen, self)
-            self.all_sprites.add(self.buildings_panel)
-
-            # Create navigation panel and add it to all sprites
-            self.navigation_panel = NavigationPanel(0, self.height - NAVIGATION_PANEL_HEIGHT * self.height,
-                                                    NAVIGATION_PANEL_WIDTH * self.width,
-                                                    NAVIGATION_PANEL_HEIGHT * self.height,
-                                                    self.game_screen, self.switch_game_tile)
-            self.all_sprites.add(self.navigation_panel)
-
-            # Create info panel and add it to all sprites
-            self.info_panel = InfoPanel(NAVIGATION_PANEL_WIDTH * self.width, self.height - INFO_PANEL_HEIGHT * self.height,
-                                        INFO_PANEL_WIDTH * self.width, INFO_PANEL_HEIGHT * self.height, self.game_screen,
-                                        self.delete_building, self.stop_production)
-            self.all_sprites.add(self.info_panel)
-
             # set current player position on map to tile (0,0)
             self.current_tile = MapTile(self.game_screen, self.all_sprites, self.buildings_sprites)
             self.map_tiles[str(self.map_position)] = self.current_tile
 
-            self.panels = [self.resources_panel, self.buildings_panel, self.navigation_panel, self.info_panel]
+
             self.first_time = False
 
-        # Add arrows to navigation panel
-        self.navigation_arrows_sprites.add(self.navigation_panel.add_navigation_arrows())
+
 
         # start new thread, that will be listening for player events
         self.game_on = True
@@ -239,6 +216,36 @@ class MapView(wx.Panel):
         for building in self.buildings_sprites:
             self.game_screen.blit(building.image, building.pos)
 
+    def init_panels(self):
+        # Create resources panel and add it to all sprites
+        self.resources_panel = ResourcesPanel(0, 0, self.width - BUILDINGS_PANEL_SIZE * self.width,
+                                              RESOURCES_PANEL_SIZE * self.height, self, self.game_screen)
+        self.all_sprites.add(self.resources_panel)
+
+        # Create buildings panel and add it to all sprites
+        self.buildings_panel = BuildingsPanel(self.width - BUILDINGS_PANEL_SIZE * self.width, 0,
+                                              BUILDINGS_PANEL_SIZE * self.width,
+                                              self.height - TEXT_PANEL_HEIGHT * self.height, self.game_screen, self)
+        self.all_sprites.add(self.buildings_panel)
+
+        # Create navigation panel and add it to all sprites
+        self.navigation_panel = NavigationPanel(0, self.height - NAVIGATION_PANEL_HEIGHT * self.height,
+                                                NAVIGATION_PANEL_WIDTH * self.width,
+                                                NAVIGATION_PANEL_HEIGHT * self.height,
+                                                self.game_screen, self.switch_game_tile)
+        self.all_sprites.add(self.navigation_panel)
+
+        # Create info panel and add it to all sprites
+        self.info_panel = InfoPanel(NAVIGATION_PANEL_WIDTH * self.width, self.height - INFO_PANEL_HEIGHT * self.height,
+                                    INFO_PANEL_WIDTH * self.width, INFO_PANEL_HEIGHT * self.height, self.game_screen,
+                                    self.delete_building, self.stop_production)
+        self.all_sprites.add(self.info_panel)
+
+        # Add arrows to navigation panel
+        self.navigation_arrows_sprites.add(self.navigation_panel.add_navigation_arrows())
+
+        self.panels = [self.resources_panel, self.buildings_panel, self.navigation_panel, self.info_panel]
+
 # =================================================================================================================== #
 # Communication with model
 # =================================================================================================================== #
@@ -253,7 +260,7 @@ class MapView(wx.Panel):
         # self.buildings_sprites = pygame.sprite.Group()
         # self.buildings_panel_sprites = pygame.sprite.Group()
         # self.navigation_arrows_sprites = pygame.sprite.Group()
-        self.navigation_arrows_sprites = pygame.sprite.Group()
+        # self.navigation_arrows_sprites = pygame.sprite.Group()
         self.game_on = False
         self.listener_thread.join()
 
@@ -373,6 +380,12 @@ class MapView(wx.Panel):
         operation = parsed_msg["Operation"]
 
         if operation == "Init":
+            self.buildings_sprites = pygame.sprite.Group()
+            self.navigation_arrows_sprites = pygame.sprite.Group()
+            self.all_sprites = pygame.sprite.Group()
+            self.init_panels()
+            self.resources_panel.curr_dwellers_amount = 0
+
             # get textures for map
             self.texture_one = args["Texture One"]
             self.texture_two = args["Texture Two"]
@@ -385,6 +398,7 @@ class MapView(wx.Panel):
             self.info_panel.draw_panel()
             self.buildings_panel.draw_panel()
             self.navigation_panel.draw_panel()
+
             for nav_arrow in self.navigation_arrows_sprites:
                 nav_arrow.draw_navigation_arrow()
 

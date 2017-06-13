@@ -33,6 +33,7 @@ class UserEventHandlerThread(threading.Thread):
                     else:
                         # player selected building from panel
                         clicked_sprites = [s for s in self.map_view.buildings_panel_sprites if s.rect.collidepoint(pos)]
+                        print clicked_sprites
                         if len(clicked_sprites) == 1:
                             building = self.map_view.check_if_can_afford(clicked_sprites[0])
                             if self.map_view.can_afford_on_building:
