@@ -36,6 +36,11 @@ public class StockView extends Application {
     private static LineChart<String, Number> lineChart;
     private static ObservableList<PieChart.Data> pieChartData;
     private static Label moneyLabel;
+    private static TableColumn resourceNames;
+    private static TableColumn resourcePrice;
+    private static TableColumn resourceQuantity;
+    private static TableColumn playerResourceQuantity;
+    private static ComboBox resourceComboBox;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
@@ -74,25 +79,24 @@ public class StockView extends Application {
         table.setLayoutY(primaryScreenBounds.getHeight() * 0.65);
 
         // settings columns
-        TableColumn resourceNames = new TableColumn("Name");
+        resourceNames = new TableColumn("Name");
         resourceNames.setMinWidth(primaryScreenBounds.getWidth() * 0.05);
         resourceNames.setCellValueFactory(new PropertyValueFactory<Resource, String>("name"));
 
-        TableColumn resourcePrice = new TableColumn("Price");
+        resourcePrice = new TableColumn("Price");
         resourcePrice.setMinWidth(primaryScreenBounds.getWidth() * 0.05);
         resourcePrice.setCellValueFactory(new PropertyValueFactory<Resource, String>("priceString"));
 
-        TableColumn resourceQuantity = new TableColumn("In stock");
+        resourceQuantity = new TableColumn("In stock");
         resourceQuantity.setMinWidth(primaryScreenBounds.getWidth() * 0.05);
         resourceQuantity.setCellValueFactory(new PropertyValueFactory<Resource, Integer>("quantity"));
 
-        TableColumn playerResourceQuantity = new TableColumn("Possessed");
+        playerResourceQuantity = new TableColumn("Possessed");
         playerResourceQuantity.setMinWidth(primaryScreenBounds.getWidth() * 0.05);
         playerResourceQuantity.setCellValueFactory(new PropertyValueFactory<Resource, Integer>("playerQuantity"));
 
-        ObservableList<Resource> lineChartData = FXCollections.observableArrayList(stock.getResources());
-        table.setItems(lineChartData);
         table.getColumns().addAll(resourceNames, resourcePrice, resourceQuantity, playerResourceQuantity);
+        setTable();
 
         // axis settings
         final CategoryAxis xAxis = new CategoryAxis();
@@ -127,7 +131,7 @@ public class StockView extends Application {
         resourceComboBoxLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.77);
 
         // combo box for resource choosing
-        final ComboBox resourceComboBox = new ComboBox();
+        resourceComboBox = new ComboBox();
         resourceComboBox.getItems().addAll(stock.getResourcesNames());
         resourceComboBox.getSelectionModel().selectFirst();
         resourceComboBox.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
@@ -246,7 +250,10 @@ public class StockView extends Application {
         } catch(Exception ex) {
             StockView.stock = tmpStock;
             StockView.stock.setDependenciesRepresenter(dependenciesRepresenter);
-            StockView.stock.resetStock();
+            StockView.stock.init();
+            setTable();
+            setPieChart();
+            updateComboBox();
         }
     }
 
@@ -268,10 +275,31 @@ public class StockView extends Application {
         }
     }
 
+    private static void setTable() {
+        ObservableList<Resource> lineChartData = FXCollections.observableArrayList(stock.getResources());
+        table.getItems().removeAll();
+        table.setItems(lineChartData);
+    }
+
+    private static void setPieChart() {
+        pieChartData.removeAll();
+        pieChartData.clear();
+        for (Resource resource : stock.getResources()) {
+            pieChartData.add(new PieChart.Data(resource.getName(), resource.getQuantity()));
+        }
+    }
+
     private static void updatePieChart() {
         for (Data data : pieChartData) {
             data.setPieValue(stock.getResource(data.getName()).getQuantity());
         }
+    }
+
+    private static void updateComboBox() {
+        resourceComboBox.getItems().removeAll();
+        resourceComboBox.getItems().clear();
+        resourceComboBox.getItems().addAll(stock.getResourcesNames());
+        resourceComboBox.getSelectionModel().selectFirst();
     }
 
     private static void updateMoneyLabel() {
