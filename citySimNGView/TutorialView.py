@@ -1,7 +1,9 @@
 import wx
 import os
 import json
+import traceback
 from RelativePaths import relative_music_path, relative_textures_path
+from CreatorView.GraphsSpaces import GraphsSpaces
 from TutorialPageView import TutorialPageView
 
 class TutorialView(wx.Panel):
@@ -22,7 +24,7 @@ class TutorialView(wx.Panel):
         self.tutorialFont = wx.Font(20, wx.FONTFAMILY_DECORATIVE, 
             wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
         self.welcomeField.SetFont(self.tutorialFont)
-
+        self.setName = ""
         self.centerSizer = wx.BoxSizer(wx.VERTICAL)
 
         #self.ctrlMsgField = wx.StaticText(self, label=self.tutorial_info[self.pageID])
@@ -33,9 +35,9 @@ class TutorialView(wx.Panel):
         headerSizer.Add(headerBitmap)
         self.centerSizer.AddSpacer(10)
         self.centerSizer.Add(headerSizer, 0, wx.CENTER)
-        self.centerSizer.AddSpacer(50)
+        self.centerSizer.AddSpacer(30)
         self.centerSizer.Add(self.welcomeField, 0, wx.CENTER)
-        self.centerSizer.AddSpacer(20)
+        self.centerSizer.AddSpacer(10)
         self.content = [
             {
                 'name': 'item1',
@@ -65,14 +67,42 @@ class TutorialView(wx.Panel):
         self.pageView = TutorialPageView(self, size, "Tutorial Page", self.currPage)
         self.pageView.Hide()
         self.initContentList()
-        self.centerSizer.SetDimension(0, 0, self.size[0], self.size[1])
+        self.graphsSpaces = GraphsSpaces(self)
+        self.centerSizer.Add(self.graphsSpaces,0,wx.CENTER)
 
+#        self.SetSizer(mainSizer)
+        self.centerSizer.SetDimension(0, 0, self.size[0], self.size[1])
+        #centerSizer.Layout()
+        self.getDependencies()
+        self.showGraph()
         self.Bind(wx.EVT_SHOW, self.onShow, self)
-        #self.SetupScrolling()
 
     def showPageView(self, event):
+        self.requestPage(event)
         self.pageView.Show()
         self.centerSizer.ShowItems(False)
+
+    def showGraph(self):
+        #setChosen = self.ruleSelector.GetStringSelection()
+        print "SetChosen:",self.setName
+        if self.setName == "": return
+
+        msg = {}
+        msg["To"] = "LoaderNode"
+        msg["Operation"] = "ShowGraph"
+        msg["Args"] = {}
+        msg["Args"]["SetChosen"] = self.setName
+        self.sender.send(json.dumps(msg))
+
+    def getDependencies(self):
+        msg = {}
+        msg["To"] = "LoaderNode"
+        msg["Operation"] = "GiveDependencies"
+        msg["Args"] = {}
+        msg["Args"]["Module"] = "Tutorial"
+        print "Tutorial: DependenciesNames msg: "
+        print msg
+        #self.sender.send(json.dumps(msg))
 
     def onShow(self, event):
         # print "Menu on show"
@@ -102,8 +132,6 @@ class TutorialView(wx.Panel):
         contentBox = wx.BoxSizer(wx.HORIZONTAL)
         arrow = wx.Bitmap(relative_textures_path+"rightGreenArrow.png", wx.BITMAP_TYPE_ANY)
 
-    
-
         contentSize = len(self.content)
         contentHalf = contentSize // 2 + 1
         listFont = self.tutorialFont
@@ -112,9 +140,9 @@ class TutorialView(wx.Panel):
             elemField = wx.StaticText(self, label=self.content[i]['name'])
             elemID = self.content[i]['id']
             elemField.SetFont(listFont)
-            arrowButton = wx.BitmapButton(self, bitmap=arrow, 
+            arrowButton = wx.BitmapButton(self, id=elemID, bitmap=arrow, 
                 size=(arrow.GetWidth(), arrow.GetHeight()))
-            self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton, id=elemID)
+            self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton)
             tmpBox = wx.BoxSizer(wx.HORIZONTAL)
             tmpBox.Add(elemField, 0, wx.CENTER)
             tmpBox.AddSpacer(10)
@@ -127,9 +155,9 @@ class TutorialView(wx.Panel):
             elemField = wx.StaticText(self, label=self.content[i]['name'])
             elemID = self.content[i]['id']
             elemField.SetFont(listFont)
-            arrowButton = wx.BitmapButton(self, bitmap=arrow, 
+            arrowButton = wx.BitmapButton(self, id=elemID, bitmap=arrow, 
                 size=(arrow.GetWidth(), arrow.GetHeight()))
-            self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton, id=elemID)
+            self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton)
             tmpBox = wx.BoxSizer(wx.HORIZONTAL)
             tmpBox.Add(elemField, 0, wx.CENTER)
             tmpBox.AddSpacer(10)
@@ -149,13 +177,16 @@ class TutorialView(wx.Panel):
         self.centerSizer.Add(menu_btn, 0, wx.CENTER | wx.ALL, 5)
         self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
 
-    def requestPage(self, event){
+    def requestPage(self, event):
+        print "TutorialView: requestPage executed"
+        print "PageID: " + str(event.GetId())
         msg = {}
         msg["To"] = "TutorialNode"
         msg["Operation"] = "RequestPage"
-        msg["PageID"] = event.GetId()
+        msg["Args"] = {}
+        msg["Args"]["PageID"] = event.GetId()
         self.sender.send(json.dumps(msg))
-    }
+    
 
     def retToMenu(self, event):
         """ This function returns to Menu view """
@@ -191,17 +222,24 @@ class TutorialView(wx.Panel):
         except:
             traceback.print_exc()
             return
+        print "Tutorial view got message: "
+        print msg
         operation = jsonObj["Operation"]
         if operation == "FetchPage":
             pageContent = []
-            args = jsonObj["Page"]
-            args = args["page"]
-            for x in args:
+            args = jsonObj["Args"]["Page"]
+            page = json.loads(args)
+            for x in page:
                 subpageContent =[]
                 subpageContent.append(x)    
                 pageContent.append(subpageContent)
             print "Page:\n" 
             print pageContent
+        elif operation == "Init":
+            ruleSetsList = msgObj["Args"]["DependenciesNames"]
+            self.setName = ruleSetsList[0]
+        elif operation == "ShowGraphRes":
+            self.graphsSpaces.resetViewFromJSON(msgObj["Args"]["Graph"])
         else:
             print "Unknown operation\n"
 
