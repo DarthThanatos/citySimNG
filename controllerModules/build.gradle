@@ -16,5 +16,6 @@ subprojects {
 
 	dependencies {
 	   compile name: 'json'
+	   compile name: 'json-simple-1.1.1'
 	}
 }

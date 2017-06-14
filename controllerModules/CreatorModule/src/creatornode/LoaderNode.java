@@ -58,12 +58,14 @@ public class LoaderNode extends SocketNode{
 			envelope.put("Args", responseArgs);
 			
 		}
+		else if (command.equals("GiveDependencies")){
+			String module = args.getString("Module");
+			giveDependencies(module);
+		}
 		return envelope.toString();
 	}
 
-	@Override
-	public void atStart() {
-
+	private void giveDependencies(String module){
 		HashMap<String, DependenciesRepresenter> representers = null;
 		try{
 			representers = (HashMap<String, DependenciesRepresenter>) dispatchCenter.getDispatchData("LoaderModule", "DependenciesRepresenters");
@@ -74,12 +76,18 @@ public class LoaderNode extends SocketNode{
 		}
 		JSONArray dependenciesNames = new JSONArray(representers.keySet());		
 		JSONObject envelope = new JSONObject();
-		envelope.put("To", "Loader");
+		envelope.put("To", module);
 		envelope.put("Operation", "Init");
 		JSONObject args = new JSONObject();
 		args.put("DependenciesNames", dependenciesNames);
 		envelope.put("Args", args);
 		sender.pushStreamAndWaitForResponse(envelope);
+	}
+	
+	@Override
+	public void atStart() {
+
+		giveDependencies("Loader");
 	}
 
 	@Override
