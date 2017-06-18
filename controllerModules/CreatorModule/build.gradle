@@ -10,7 +10,6 @@ dependencies {
     compile files('../SkeletonModule/bin')
     compile name: 'json'
     compile name: 'jgrapht-core-1.0.1'
-    compile name: 'json-simple-1.1.1'
 } 
 
 

@@ -17,11 +17,11 @@ import controlnode.SocketNode;
 
 public class TutorialNode extends SocketNode{
 
-	private String page;
+	private JSONObject readPage;
 	private BufferedReader tutorialReader;
 	public TutorialNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
 		super(dr, dispatchCenter, nodeName);
-		page = "";
+		readPage = new JSONObject("{}");
 	}
 
 
@@ -46,7 +46,7 @@ public class TutorialNode extends SocketNode{
 			envelope.put("To","Tutorial");
 			envelope.put("Operation","FetchPage");
 			JSONObject json = new JSONObject();
-			json.put("Page", page);
+			json.put("Page", readPage);
 			envelope.put("Args", json);
 			return envelope.toString();
 		}
@@ -60,27 +60,35 @@ public class TutorialNode extends SocketNode{
 
 	public void readPage(int pageID) throws IOException{
 		String line;
+		String page = "";
 			tutorialReader = new BufferedReader(new FileReader ("resources\\Tutorial\\page"+pageID+".json"));
 			while ((line = tutorialReader.readLine()) != null) {
 				System.out.println("line = " + line);
 				page = page.concat(line); 
 			}
+			tutorialReader.close();
 
+			page = page.replaceAll("[\\p{Cc}\\p{Cf}\\p{Co}\\p{Cn}]", "?");
 			System.out.println("Pure string: " + page);
-			JSONObject readPage = (JSONObject) new JSONTokener(page).nextValue();
+			readPage = new JSONObject(page);
+			/*JSONObject readPage = (JSONObject) new JSONTokener(page).nextValue();
 			String readPageString = readPage.toString();
 			if (readPageString == null){
 				System.out.println("Something went wrong!");
 				throw new NullPointerException();
-			}
-			System.out.println("Read page:" + readPageString);
+			}*/
+			System.out.println("Read page:" + readPage.toString());
 	}
 
 
 	@Override
 	public void atStart() {
-		// TODO Auto-generated method stub
-		
+		JSONObject graphs = dr.getGraphsHolder().displayAllGraphs();
+		JSONObject envelope = new JSONObject();
+			envelope.put("To","Tutorial");
+			envelope.put("Operation","FetchGraphs");
+			envelope.put("Args", graphs);
+			sender.pushStream(envelope);
 	}
 
 

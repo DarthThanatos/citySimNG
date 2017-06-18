@@ -17,6 +17,8 @@ class TutorialView(wx.Panel):
 
         self.size = size
         self.musicPath = musicPath
+
+        #self.showGraph()
         #self.SetBackgroundColour((255, 255, 255))
         self.pageID = 0;
         self.tutorialInfo = "Welcome to our tutorial! If you'd like to find out what are all the functionalities of this cutting-edge game engine, you're in the right place :)"
@@ -40,69 +42,36 @@ class TutorialView(wx.Panel):
         self.centerSizer.AddSpacer(10)
         self.content = [
             {
-                'name': 'item1',
+                'name': 'Gielda',
                 'id': 1
             },
             {
-                'name': 'item2',
+                'name': 'Gielda - transakcje',
                 'id': 2
             },
             {
-                'name': 'item3',
+                'name': 'Gielda - loteria',
                 'id': 3
             },
-            {
-                'name': 'item4',
-                'id': 4
-            },
-            {
-                'name': 'item5',
-                'id': 5
-            }
         ]
         #ponizej graf zaleznosci - skierowany
 
         #page view
-        self.currPage = 0
-        self.pageView = TutorialPageView(self, size, "Tutorial Page", self.currPage)
+        self.pageView = TutorialPageView(self, size, "Tutorial Page")
         self.pageView.Hide()
+        self.pageView.centerSizer.ShowItems(False)
         self.initContentList()
         self.graphsSpaces = GraphsSpaces(self)
         self.centerSizer.Add(self.graphsSpaces,0,wx.CENTER)
-
-#        self.SetSizer(mainSizer)
         self.centerSizer.SetDimension(0, 0, self.size[0], self.size[1])
-        #centerSizer.Layout()
-        self.getDependencies()
-        self.showGraph()
         self.Bind(wx.EVT_SHOW, self.onShow, self)
 
     def showPageView(self, event):
         self.requestPage(event)
-        self.pageView.Show()
         self.centerSizer.ShowItems(False)
+        self.pageView.Show()
+        self.pageView.centerSizer.ShowItems(True)
 
-    def showGraph(self):
-        #setChosen = self.ruleSelector.GetStringSelection()
-        print "SetChosen:",self.setName
-        if self.setName == "": return
-
-        msg = {}
-        msg["To"] = "LoaderNode"
-        msg["Operation"] = "ShowGraph"
-        msg["Args"] = {}
-        msg["Args"]["SetChosen"] = self.setName
-        self.sender.send(json.dumps(msg))
-
-    def getDependencies(self):
-        msg = {}
-        msg["To"] = "LoaderNode"
-        msg["Operation"] = "GiveDependencies"
-        msg["Args"] = {}
-        msg["Args"]["Module"] = "Tutorial"
-        print "Tutorial: DependenciesNames msg: "
-        print msg
-        #self.sender.send(json.dumps(msg))
 
     def onShow(self, event):
         # print "Menu on show"
@@ -130,18 +99,20 @@ class TutorialView(wx.Panel):
         leftBox = wx.BoxSizer(wx.VERTICAL)
         rightBox = wx.BoxSizer(wx.VERTICAL)
         contentBox = wx.BoxSizer(wx.HORIZONTAL)
-        arrow = wx.Bitmap(relative_textures_path+"rightGreenArrow.png", wx.BITMAP_TYPE_ANY)
 
         contentSize = len(self.content)
         contentHalf = contentSize // 2 + 1
         listFont = self.tutorialFont
         listFont.SetPointSize(18)
+
+        arrow = wx.Bitmap(relative_textures_path+"rightGreenArrow.png", wx.BITMAP_TYPE_ANY)
         for i in range(contentHalf):
             elemField = wx.StaticText(self, label=self.content[i]['name'])
             elemID = self.content[i]['id']
             elemField.SetFont(listFont)
-            arrowButton = wx.BitmapButton(self, id=elemID, bitmap=arrow, 
-                size=(arrow.GetWidth(), arrow.GetHeight()))
+            #arrowButton = wx.BitmapButton(self, id=elemID, bitmap=arrow, 
+            #    size=(arrow.GetWidth(), arrow.GetHeight()))
+            arrowButton = wx.Button(self, id=elemID, label=">>")
             self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton)
             tmpBox = wx.BoxSizer(wx.HORIZONTAL)
             tmpBox.Add(elemField, 0, wx.CENTER)
@@ -155,8 +126,9 @@ class TutorialView(wx.Panel):
             elemField = wx.StaticText(self, label=self.content[i]['name'])
             elemID = self.content[i]['id']
             elemField.SetFont(listFont)
-            arrowButton = wx.BitmapButton(self, id=elemID, bitmap=arrow, 
-                size=(arrow.GetWidth(), arrow.GetHeight()))
+            #arrowButton = wx.BitmapButton(self, id=elemID, bitmap=arrow, 
+            #    size=(arrow.GetWidth(), arrow.GetHeight()))
+            arrowButton = wx.Button(self, id=elemID, label=">>")
             self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton)
             tmpBox = wx.BoxSizer(wx.HORIZONTAL)
             tmpBox.Add(elemField, 0, wx.CENTER)
@@ -217,6 +189,7 @@ class TutorialView(wx.Panel):
 
     def readMsg(self, msg):
         try:
+            #msg = unicode(msg, errors='ignore')
             jsonObj = json.loads(msg)
             
         except:
@@ -227,19 +200,37 @@ class TutorialView(wx.Panel):
         operation = jsonObj["Operation"]
         if operation == "FetchPage":
             pageContent = []
-            args = jsonObj["Args"]["Page"]
-            page = json.loads(args)
-            for x in page:
+            args = jsonObj["Args"]["Page"]["page"]
+            #page = json.loads(args)
+            for x in args:
                 subpageContent =[]
                 subpageContent.append(x)    
                 pageContent.append(subpageContent)
-            print "Page:\n" 
-            print pageContent
-        elif operation == "Init":
-            ruleSetsList = msgObj["Args"]["DependenciesNames"]
-            self.setName = ruleSetsList[0]
-        elif operation == "ShowGraphRes":
-            self.graphsSpaces.resetViewFromJSON(msgObj["Args"]["Graph"])
+            #print "Page:\n" 
+           # print pageContent[0][0]
+            pageContentString = pageContent[0][0]
+            #self.pageView.tutorialContent = json.loads(pageContent) #????
+           # print "pageContentString[\"sub0\"]:"
+        #    print pageContentString["sub0"]
+            self.pageView.tutorialContent = pageContentString
+            firstSubPage = pageContentString["sub0"]
+            firstSubPageContent = ""
+            for x in firstSubPage:
+                firstSubPageContent += x
+                firstSubPageContent += "\n"
+            self.pageView.contentField.SetValue(firstSubPageContent)
+
+            hyperlinks = pageContentString["link"]
+           # print "Hyperlinks: " 
+           # print hyperlinks
+          #  print "\n"
+            self.pageView.hyperlinks = hyperlinks
+            self.pageView.updateHyperlinks()
+            self.pageView.subPage = 0
+            self.pageView.nrOfSubpages = 2 #zmienic na len!!!
+        elif operation == "FetchGraphs":
+            self.graphsSpaces.resetViewFromJSON(jsonObj["Args"])
+            self.centerSizer.Layout()
         else:
             print "Unknown operation\n"
 
