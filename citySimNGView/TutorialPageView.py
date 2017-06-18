@@ -66,15 +66,15 @@ class TutorialPageView(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self.prevSubPage, leftLittleArrowBtn)
 
         #place for right image
-        helperImg = wx.Image(relative_textures_path + "Grass.jpg", wx.BITMAP_TYPE_ANY)
+        self.helperImg = wx.Image(relative_textures_path + "Grass.jpg", wx.BITMAP_TYPE_ANY)
         imgWidth = self.size[0] //2
         imgHeight = self.size[1]
         
-        helperBitmap = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(helperImg), 
+        self.helperBitmap = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(self.helperImg), 
             size=(imgWidth, imgHeight))
 
         #place everything where needed
-        self.rightSizer.Add(helperBitmap)
+        self.rightSizer.Add(self.helperBitmap)
         self.topBtnSizer.Add(leftArrowBtn, 0, wx.CENTER)
         self.topBtnSizer.AddSpacer(10)
         self.topBtnSizer.Add(contentsBtn, 0, wx.CENTER)
@@ -157,7 +157,7 @@ class TutorialPageView(wx.Panel):
             self.hyperlinksBox.Add(space)
         self.leftSizer.Add(self.hyperlinksBox)
 
-    def updateHyperlinks(self):
+    def updateHyperlinksAndImg(self):
         #self.hyperlinksBox.Hide()
         for i in range(len(self.hyperlinks)):
             child = self.hyperlinkCtrls[i]
@@ -168,6 +168,8 @@ class TutorialPageView(wx.Panel):
             child.SetLabel("")
             child.SetId(-100)
         #self.hyperlinksBox.Show()
+        self.helperBitmap.SetBitmap(wx.BitmapFromImage(self.helperImg))
+
         self.centerSizer.Layout()
 
     def onShow(self, event):

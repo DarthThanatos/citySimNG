@@ -9,7 +9,7 @@
   "sub1": [
     "W przypadku niewystarczajacej ilosci zasobow lub pieniedzy jest wyswietlony stosowny komunikat. W tym wypadku nalezy sprawdzic, czy dokonanie danej transakcji jest mozliwe, lub czy nie popelniono jakiegos bledu przy wpisywaniu.", 
     "W przypadku pomyslnego dokonania transakcji, wyswietlany jest stosowny komunikat.",],
-  "img": "toniejestdobryurl",
+  "img": "resources\\Tutorial\\img2.jpg",
     "link": [{
       "id": 1,
       "label": "Gielda",

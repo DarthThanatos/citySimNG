@@ -221,11 +221,30 @@ class TutorialView(wx.Panel):
             self.pageView.contentField.SetValue(firstSubPageContent)
 
             hyperlinks = pageContentString["link"]
-           # print "Hyperlinks: " 
-           # print hyperlinks
-          #  print "\n"
+
+            
             self.pageView.hyperlinks = hyperlinks
-            self.pageView.updateHyperlinks()
+
+            image = wx.Image(pageContentString["img"], wx.BITMAP_TYPE_ANY)
+            imgWidth = self.size[0] //2
+            imgHeight = self.size[1]
+            if imgWidth < image.GetWidth():
+                print "scale according to width"
+                #print "image.GetWidth() " + str (image.GetWidth())
+                #print "imgWidth: " + str (imgWidth)
+                ratio = float(image.GetWidth()) / float(imgWidth)
+                #print "ratio: " + str(ratio)
+                imgHeight = float(imgHeight) / ratio
+               # print "imgHeight: " + str(imgHeight)
+                image.Rescale(imgWidth, int(imgHeight))
+            if imgHeight < image.GetHeight():
+                print "scale according to height"
+                ratio = float(image.GetHeight()) / float(imgHeight)
+                imgWidth = float(imgWidth) / float(ratio)
+                image.Rescale(int(imgWidth), imgHeight)
+                
+            self.pageView.helperImg = image
+            self.pageView.updateHyperlinksAndImg()
             self.pageView.subPage = 0
             self.pageView.nrOfSubpages = 2 #zmienic na len!!!
         elif operation == "FetchGraphs":

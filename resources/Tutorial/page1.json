@@ -8,7 +8,7 @@
     "sub1": [
       "Uzywajac panel gieldy mozemy dokonac transakcji posiadanych zasobow. Mamy takze mozliwosc wziac udzial w loterii.",
     "W celu wyjscia z gieldy nalezy wcisnac przycisk \"exit\".",],
-  "img": "toniejestdobryurl",
+  "img": "resources\\Tutorial\\img1.jpg",
     "link": [{
       "id": -1,
       "label": "Zasoby gracza",

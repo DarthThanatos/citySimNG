@@ -6,7 +6,7 @@
     "sub1": [
       "Po nacisnieciu przycisku (rool the dice) wyswietlana jest odpowiednia informacja o wygranej lub przegranej.",
     ],
-  "img": "toniejestdobryurl",
+  "img": "resources\\Tutorial\\img3.jpg",
     "link": [{
       "id": 1,
       "label": "Gielda",
