@@ -98,6 +98,7 @@ class Game(object):
                     self.shadow.rect.center = mouse_pos
                     self.place_building(self.shadow, self.shadow.rect.left, self.shadow.rect.top)
                     self.shadow = None
+                    break
 
                 # player clicked on building in buildings panel ->
                 # check if he can afford for it if yes start displaying shadow if no print appropriate info
@@ -246,6 +247,7 @@ class Game(object):
         else:
             return pygame.image.load(relative_textures_path + self.texture_two)
 
+    # TODO: should log panel be in map view??
     def is_building_position_valid(self, building, with_info=False):
         """ Function checking if position of building is valid.
 
@@ -255,13 +257,14 @@ class Game(object):
         """
         if not self.game_board.get_rect().contains(building):
             if with_info:
-                self.log.AppendText("Can't place building here - building has to be inside game screen.\n")
+                self.map_view.log.AppendText("Can't place {} here - building has to be inside "
+                                             "game screen.\n".format(building.name))
             return False
         for b in self.all_sprites.sprites():
             if pygame.sprite.collide_rect(b, building):
                 if with_info:
-                    self.log.AppendText("Can't place building here - there is another building or game panel "
-                                        "in that place.\n")
+                    self.map_view.log.AppendText("Can't place {} here - there is another building or game panel "
+                                                 "in that place.\n".format(building.name))
                 return False
         return True
 
@@ -283,13 +286,13 @@ class Game(object):
         building.load_image()
 
         # check if building's position is valid
-        if not self.is_building_position_valid(building):
-            self.map_view.log.AppendText("Can't place building here - building has to be inside game screen.\n")
+        if not self.is_building_position_valid(building, True):
             return
 
         self.buildings_sprites.add(building)
         self.all_sprites.add(building)
         self.map_view.erected_building(building)
+        self.info_panel.curr_building = building
 
     def switch_game_tile(self, nav_arrow):
         """ Function changing position on map. It saves sprites for current location. Then, if player is first time
