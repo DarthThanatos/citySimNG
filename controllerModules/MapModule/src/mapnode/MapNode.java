@@ -51,10 +51,11 @@ public class MapNode extends SocketNode{
 		if(command.equals("placeBuilding")){
 			buildings.placeBuilding(args.getString("BuildingName"), args.getString("BuildingId"),
 					resources, dwellers);
-			Map<String, String> resourceInfoMap = createResourcesInfoMap();
+			// Map<String, String> resourceInfoMap = createResourcesInfoMap();
 			
 			JSONObject json = new JSONObject();
-			json.put("actualRes", resourceInfoMap);
+			json.put("actualValues", resources.getActualValues());
+			json.put("actualIncomes", resources.getIncomes());
 			json.put("currDwellersAmount", dwellers.getCurrDwellersAmount());
 			json.put("currDwellersMaxAmount", dwellers.getCurrDwellersMaxAmount());
 			
@@ -65,10 +66,11 @@ public class MapNode extends SocketNode{
 		
 		if(command.equals("deleteBuilding")){
 			buildings.deleteBuilding(args.getString("BuildingId"), resources, dwellers);
-			Map<String, String> actualValuseAndIncomes = createResourcesInfoMap();
+			//Map<String, String> actualValuseAndIncomes = createResourcesInfoMap();
 			
 			JSONObject json = new JSONObject();
-			json.put("actualRes", actualValuseAndIncomes);
+			json.put("actualValues", resources.getActualValues());
+			json.put("actualIncomes", resources.getIncomes());
 			json.put("currDwellersAmount", dwellers.getCurrDwellersAmount());
 			
 			envelope.put("Operation", "deleteBuildingResult");
@@ -78,21 +80,26 @@ public class MapNode extends SocketNode{
 		
 		if(command.equals("stopProduction")){
 			buildings.stopProduction(args.getString("BuildingId"), resources, dwellers);
-			Map<String, String> actualValuseAndIncomes = createResourcesInfoMap();
+			//Map<String, String> actualValuseAndIncomes = createResourcesInfoMap();
 			
 			JSONObject json = new JSONObject();
-			json.put("actualRes", actualValuseAndIncomes);
+			json.put("actualValues", resources.getActualValues());
+			json.put("actualIncomes", resources.getIncomes());
 			json.put("currDwellersAmount", dwellers.getCurrDwellersAmount());
+			json.put("currDwellersMaxAmount", dwellers.getCurrDwellersMaxAmount());
+			
+			// TODO: mby we should keep this info in view
+			json.put("buildingState", buildings.findBuildingWithId(args.getString("BuildingId")).isRunning());
 			
 			envelope.put("Operation", "stopProductionResult");
 			envelope.put("Args", json);
 			System.out.println("Sent after delete: " + envelope);	
 		}
 		
-		if(command.equals("getBuildingState")){
-			envelope.put("Operation", "getBuildingStateResult");
-			envelope.put("Args", buildings.getBuildingState(args.getString("BuildingId")));
-		}
+//		if(command.equals("getBuildingState")){
+//			envelope.put("Operation", "getBuildingStateResult");
+//			envelope.put("Args", buildings.getBuildingState(args.getString("BuildingId")));
+//		}
 		
 		return envelope.toString();
 	}
@@ -109,6 +116,8 @@ public class MapNode extends SocketNode{
 			json.put("resources", resources.getResources());
 			json.put("buildings", buildings.getAllBuildings());
 			json.put("dewellers", dwellers.getAllDewellers());
+			json.put("initialResourcesValues", resources.getActualValues());
+			json.put("initialResourcesIncomes", resources.getIncomes());
 			json.put("Texture One", dr.getTextureAt(0));
 			json.put("Texture Two", dr.getTextureAt(1));
 			JSONObject envelope = new JSONObject();

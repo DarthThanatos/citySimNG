@@ -42,18 +42,14 @@ public class Resources {
 	}
 
 	public void updateResources(){
-		Map<String, String> actualValuseAndIncomes = new HashMap<String, String>();
 		for(String resource : resourcesNames){
-			String sign = " +";
 			actualValues.put(resource, actualValues.get(resource) + incomes.get(resource));
 			if(actualValues.get(resource) < 0)
 				actualValues.put(resource, 0);
-			if(incomes.get(resource) < 0)
-				sign = " ";
-			actualValuseAndIncomes.put(resource, actualValues.get(resource) + 
-					sign + incomes.get(resource));
 		}
-		JSONObject json = new JSONObject(actualValuseAndIncomes);
+		JSONObject json = new JSONObject();
+		json.put("actualValues", actualValues);
+		json.put("actualIncomes", incomes);
 		JSONObject envelope = new JSONObject();
 		envelope.put("To", "Map");
 		envelope.put("Operation", "Update");

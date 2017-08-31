@@ -72,9 +72,11 @@ public class Buildings {
 	}
 	
 	public void deleteBuilding(String buildingId, Resources resources, Dwellers dwellers){
+		Building b = findBuildingWithId(buildingId);
+		if(b == null)
+			return;
 		Map<String, Integer> actualValues = resources.getActualValues();
 		Map<String, Integer> incomes = resources.getIncomes();
-		Building b = findBuildingWithId(buildingId);
 		
 		// if building is not running we don't have to modify incomes 
 		if(!b.isRunning()){
@@ -106,6 +108,8 @@ public class Buildings {
 
 	public void stopProduction(String buildingId, Resources resources, Dwellers dwellers){
 		Building b = findBuildingWithId(buildingId);
+		if(b == null)
+			return;
 		Map<String, Integer> incomes = resources.getIncomes();
 		Map<String, Integer> consumes = b.getConsumes();
 		Map<String, Integer> produces = b.getProduces();
@@ -156,7 +160,7 @@ public class Buildings {
 		return json;
 	}
 	
-	private Building findBuildingWithId(String buildingId){
+	public Building findBuildingWithId(String buildingId){
 		for(String id: playerBuildings.keySet()){
 			if(id.equals(buildingId)){
 				return playerBuildings.get(id);
