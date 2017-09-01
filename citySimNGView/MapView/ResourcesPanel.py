@@ -1,3 +1,5 @@
+import json
+
 import pygame
 from Resource import Resource
 from Consts import GREEN, RESOURCES_SPACE, RESOURCES_PANEL_TEXTURE, RESOURCES_PANEL_ARROW_Y, \

@@ -8,6 +8,19 @@ public class Dweller {
 	private String successor;
 	private Map<String, Integer> consumes;
 	private String texturePath;
+	private String description;
+	
+	public String getDescription(){
+		return description;
+	}
+	
+	public void setDescription(String description){
+		this.description = description;
+	}
+	
+	public Dweller(){
+		
+	}
 	
 	public String getName() {
 		return name;
@@ -48,4 +61,5 @@ public class Dweller {
 	public void setTexturePath(String texturePath) {
 		this.texturePath = texturePath;
 	}
+	
 }

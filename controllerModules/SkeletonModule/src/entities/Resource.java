@@ -5,12 +5,34 @@ public class Resource {
 	private String predecessor;
 	private String successor;
 	private String texturePath;
+	private int startingIncome;
+	private String description;
+	
+	public String getDescription(){
+		return description;
+	}
+	
+	public void setDescription(String description){
+		this.description = description;
+	}
+	
+	public Resource(){
+		
+	}
 	
 	public Resource(String name, String predecessor, String successor, String texturePath){
 		this.name = name;
 		this.predecessor = predecessor;
 		this.successor = successor;
 		this.texturePath = texturePath;
+	}
+	
+	public void setStartingIncome(int startingIncome){
+		this.startingIncome = startingIncome;
+	}
+	
+	public int getStartingIncome(){
+		return startingIncome;
 	}
 	
 	public String getName() {

@@ -17,6 +17,15 @@ public class Building {
 	private Map<String, Integer> workingDwellers;
 	private String id;
 	private boolean running = true;
+	private String description;
+	
+	public String getDescription(){
+		return description;
+	}
+	
+	public void setDescription(String description){
+		this.description = description;
+	}
 	
 	public String getId() {
 		return id;
@@ -40,6 +49,7 @@ public class Building {
 		this.resourcesCost = b.resourcesCost;
 		this.texturePath = b.texturePath;
 		this.type = b.type;
+		this.description = b.description;
 	}
 	
 	public String getTexturePath() {
@@ -130,4 +140,20 @@ public class Building {
 		this.running = running;
 	}
 	
+	@Override
+	public String toString(){
+		return "Name: " + name + "\n"
+				+ "Pred: " + predecessor + "\n"
+				+ "Suc: " + successor + "\n"
+				+ "Type: " + type + "\n"
+				+ "Texture: " + texturePath + "\n"
+				+ "Produces: " + concatenateMap(produces)
+				+ "Consumes: " + concatenateMap(consumes)
+				+ "Cost in res: " + concatenateMap(resourcesCost);
+				
+	} 
+	
+	private String concatenateMap(Map<String, Integer> map){
+		return map.size() == 0 ? "" : map.entrySet().stream().map( es -> es.getKey() + " -> " + es.getValue() + "\n").reduce((v1, v2) -> v1 + v2).get();
+	}
 }

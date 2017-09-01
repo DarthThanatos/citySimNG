@@ -3,9 +3,9 @@ Mode Nodes
 # second column: name of class in the form package.classname
 # third column: hashkey of an instance 
 
-MenuModule menunode.MenuNode MainMenuNode
+MenuModule menunode.MenuPy4JNode MainMenuNode
 CreatorModule creatornode.LoaderNode LoaderNode
-CreatorModule creatornode.CreatorNode CreatorNode
+CreatorModule creatornode.CreatorPy4JNode CreatorNode
 
 Mode Edges
 # first column: "from" vertex, represented via its hashkey 

@@ -5,6 +5,7 @@ import traceback
 import re
 import json
 from RelativePaths import relative_textures_path
+import Consts
 
 class DwellersPanel(ScrolledPanel):
     def __init__(self,parent, size, frame, currentDependencies, lists_of_names):
@@ -220,7 +221,7 @@ class DwellersPanel(ScrolledPanel):
             error_msg ="-> Resource name already taken\n"
             result_struct["ErrorMsg"] += error_msg
             return False
-        result_struct["Result"]["Dweller\nName"] = dweller_name
+        result_struct["Result"][Consts.DWELLER_NAME] = dweller_name
         return True
 
     def checkAndDumpPredAndSucc(self, result_struct):
@@ -236,8 +237,8 @@ class DwellersPanel(ScrolledPanel):
         if predecessor_name == dweller_name :
             result_struct["ErrorMsg"] += "-> A dweller cannot be its own predeccessor\n"
             return False
-        result_struct["Result"]["Predecessor"] = predecessor_name
-        result_struct["Result"]["Successor"] = successor_name
+        result_struct["Result"][Consts.PREDECESSOR] = predecessor_name
+        result_struct["Result"][Consts.SUCCESSOR] = successor_name
         return True
 
     def checkAndDumpDescriptionArea(self, result_struct):
@@ -245,12 +246,12 @@ class DwellersPanel(ScrolledPanel):
         if re.sub(r'\s', "", description_content) == "":
             result_struct["ErrorMsg"] += "-> Please enter description of this dweller\n"
             return False
-        result_struct["Result"]["Description"] = description_content
+        result_struct["Result"][Consts.DESCRIPTION] = description_content
         return True
 
 
     def checkAndDumpTexture(self, result_struct):
-        result_struct["Result"]["Texture path"] = self.texture_name
+        result_struct["Result"][Consts.TEXTURE_PATH] = self.texture_name
         return True
 
     def submit(self, event):

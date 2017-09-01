@@ -12,6 +12,7 @@ public class CyclesChecker implements CorrectnessChecker{
 	protected JSONArray entities;
 	protected String key;
 	
+	
 	public CyclesChecker(JSONArray entities, String key) {
 		this.key = key;
 		this.entities = entities;
