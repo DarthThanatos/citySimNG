@@ -23,7 +23,6 @@ class MyFrame(wx.Frame):
             "Loader": LoaderView(self, tplSize, "Loader",sender = sender),
             "GameMenu": GameMenuView(self, tplSize, "GameMenu", relative_music_path + "NWN2.mp3", sender),
             "MainMenu": MainMenuView(self, tplSize, "MainMenu", relative_music_path + "NWN2.mp3", gateway),
-            #"Creator": CreatorView(self, tplSize, "Creator", relative_music_path + "Ret Xed OST.mp3", sender),
             "Creator":CreatorSwitcher(self,tplSize,"Creator",sender = gateway),
             "Exchange": ExchangeView(self, tplSize, "Exchange", sender),
             "Map": MapView(self, tplSize, "Map", sender),
