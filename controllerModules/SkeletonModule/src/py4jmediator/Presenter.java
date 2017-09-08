@@ -10,6 +10,7 @@ public class Presenter {
     
     private static MainMenuPresenter mainMenuPresenter = new MainMenuPresenter();
     private static CreatorPresenter creatorPresenter = new CreatorPresenter(); 
+    private static GameMenuPresenter gameMenuPresenter = new GameMenuPresenter();
     
     public static void initViewModel(){
         // We get an entry point from the Python side
@@ -36,6 +37,10 @@ public class Presenter {
     
     public CreatorPresenter getCreatorPresenter(){
     	return creatorPresenter;
+    }
+    
+    public GameMenuPresenter getGameMenuPresenter(){
+    	return gameMenuPresenter;
     }
     
     public static void cleanup(){

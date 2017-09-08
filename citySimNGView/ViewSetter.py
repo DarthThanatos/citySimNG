@@ -21,7 +21,7 @@ class MyFrame(wx.Frame):
         wx.Frame.__init__(self, parent, ID, strTitle, size=tplSize)
         self.views = {
             "Loader": LoaderView(self, tplSize, "Loader",sender = sender),
-            "GameMenu": GameMenuView(self, tplSize, "GameMenu", relative_music_path + "NWN2.mp3", sender),
+            "GameMenu": GameMenuView(self, tplSize, "GameMenu", relative_music_path + "NWN2.mp3", gateway),
             "MainMenu": MainMenuView(self, tplSize, "MainMenu", relative_music_path + "NWN2.mp3", gateway),
             "Creator":CreatorSwitcher(self,tplSize,"Creator",sender = gateway),
             "Exchange": ExchangeView(self, tplSize, "Exchange", sender),

@@ -3,7 +3,7 @@ Mode Nodes
 # second column: name of class in the form package.classname
 # third column: hashkey of an instance 
 
-MenuModule menunode.MenuNode GameMenuNode
+MenuModule menunode.GameMenuPy4jNode GameMenuNode
 TutorialModule tutorialnode.TutorialNode TutorialNode 
 ExchangeModule exchangenode.ExchangeNode ExchangeNode
 MapModule mapnode.MapNode MapNode

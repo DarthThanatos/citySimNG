@@ -11,9 +11,6 @@ class CreatorViewModel(object):
     def displayCreator(self):
         wx.CallAfter(self.viewSetter.setView, "Creator")
 
-    def displayMainMenu(self):
-        wx.CallAfter(self.viewSetter.setView, "MainMenu")
-
     def displayDependenciesGraph(self, jsonGraph):
         wx.CallAfter(
             self.viewSetter.views["Creator"].views["main_panel"].displayDependenciesGraph,
