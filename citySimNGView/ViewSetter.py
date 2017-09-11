@@ -19,8 +19,9 @@ from RelativePaths import relative_music_path
 class MyFrame(wx.Frame):
     def __init__(self, parent, ID, strTitle, tplSize, sender, gateway):
         wx.Frame.__init__(self, parent, ID, strTitle, size=tplSize)
+        self.gateway = gateway
         self.views = {
-            "Loader": LoaderView(self, tplSize, "Loader",sender = sender),
+            "Loader": LoaderView(self, tplSize, "Loader",sender = gateway),
             "GameMenu": GameMenuView(self, tplSize, "GameMenu", relative_music_path + "NWN2.mp3", gateway),
             "MainMenu": MainMenuView(self, tplSize, "MainMenu", relative_music_path + "NWN2.mp3", gateway),
             "Creator":CreatorSwitcher(self,tplSize,"Creator",sender = gateway),

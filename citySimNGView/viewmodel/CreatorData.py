@@ -1,3 +1,4 @@
+from Converter import Converter
 from CreatorView import Consts
 from py4j.java_collections import MapConverter, ListConverter
 
@@ -29,7 +30,7 @@ class CreatorData(object):
         resources = self.mapResourcesDictToNamesList(dataDict[Consts.RESOURCES])
         for dwellerFromDict in dwellersFromDict:
             dwellers.append(self.getDweller(dwellerFromDict, resources))
-        return self.convertCollectionToList(dwellers)
+        return Converter(self.javaGateway).convertCollectionToList(dwellers)
 
     def getDweller(self, dwellerFromDict, resources):
         dweller = self.javaGateway.jvm.entities.Dweller()
@@ -40,7 +41,7 @@ class CreatorData(object):
         dweller.setName(dwellerFromDict[Consts.DWELLER_NAME])
 
         consumesMap = self.createNonSparseResourcesMap(dwellerFromDict[Consts.CONSUMES], resources)
-        consumesMap = self.convertDictToMap(consumesMap)
+        consumesMap = Converter(self.javaGateway).convertDictToMap(consumesMap)
         dweller.setConsumes(consumesMap)
         return dweller
 
@@ -49,7 +50,7 @@ class CreatorData(object):
         resources = []
         for resourceFromDict in resourcesFromDict:
             resources.append(self.getResource(resourceFromDict))
-        return self.convertCollectionToList(resources)
+        return Converter(self.javaGateway).convertCollectionToList(resources)
 
     def getResource(self, resourceFromDict):
         resource = self.javaGateway.jvm.entities.Resource()
@@ -67,7 +68,7 @@ class CreatorData(object):
         resources = self.mapResourcesDictToNamesList(dataDict[Consts.RESOURCES])
         for buildingFromDict in buildingsFromDict:
             buildings.append(self.getBuilding(buildingFromDict, resources))
-        return self.convertCollectionToList(buildings)
+        return Converter(self.javaGateway).convertCollectionToList(buildings)
 
     def getBuilding(self, buildingFromDict, resources):
         building = self.javaGateway.jvm.entities.Building()
@@ -76,23 +77,17 @@ class CreatorData(object):
         building.setDescription(buildingFromDict[Consts.DESCRIPTION])
 
         producesMap = self.createNonSparseResourcesMap(buildingFromDict[Consts.PRODUCES],resources)
-        producesMap = self.convertDictToMap(producesMap)
+        producesMap = Converter(self.javaGateway).convertDictToMap(producesMap)
         building.setProduces(producesMap)
 
         consumesMap = self.createNonSparseResourcesMap(buildingFromDict[Consts.CONSUMES], resources)
-        consumesMap = self.convertDictToMap(consumesMap)
+        consumesMap = Converter(self.javaGateway).convertDictToMap(consumesMap)
         building.setConsumes(consumesMap)
 
         resourcesCost = self.createNonSparseResourcesMap(buildingFromDict[Consts.COST_IN_RESOURCES], resources)
-        resourcesCost = self.convertDictToMap(resourcesCost)
+        resourcesCost = Converter(self.javaGateway).convertDictToMap(resourcesCost)
         building.setResourcesCost(resourcesCost)
 
         building.setName(buildingFromDict[Consts.BUILDING_NAME])
         building.setTexturePath(Consts.relative_textures_path + buildingFromDict[Consts.TEXTURE_PATH])
         return building
-
-    def convertDictToMap(self, dictToConvert):
-        return MapConverter().convert(dictToConvert, self.javaGateway._gateway_client)
-
-    def convertCollectionToList(self, collectionToConvert):
-        return ListConverter().convert(collectionToConvert, self.javaGateway._gateway_client)

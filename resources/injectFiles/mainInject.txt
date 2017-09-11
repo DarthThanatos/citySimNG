@@ -4,7 +4,7 @@ Mode Nodes
 # third column: hashkey of an instance 
 
 MenuModule menunode.MenuPy4JNode MainMenuNode
-CreatorModule creatornode.LoaderNode LoaderNode
+CreatorModule creatornode.LoaderPy4JNode LoaderNode
 CreatorModule creatornode.CreatorPy4JNode CreatorNode
 
 Mode Edges
