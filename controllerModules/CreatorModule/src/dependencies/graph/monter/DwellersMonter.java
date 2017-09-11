@@ -2,9 +2,11 @@ package dependencies.graph.monter;
 
 import entities.Building;
 import entities.Dweller;
+import entities.Resource;
 import graph.BuildingNode;
 import graph.DwellerNode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -24,6 +26,20 @@ public class DwellersMonter extends GraphMonter{
 	private HashMap<String, DwellerNode> dwellerVertices;
 	private DependenciesRepresenter dr;
 	
+	public DwellersMonter(List<Dweller> dwellers, DependenciesRepresenter dr){
+		this.dwellersGraphDesc = listToJSONArray(dwellers);
+		this.dr = dr;
+		dwellerVertices = new HashMap<>();
+		List<String> dwellersNames = new ArrayList<String>();
+		for (Dweller dweller : dwellers){
+			String dwellerName = dweller.getName();
+			DwellerNode dwellerNode = new DwellerNode(dweller);
+			dwellerVertices.put(dwellerName, dwellerNode);
+			dwellersNames.add(dwellerName);
+		}
+		
+	}
+
 	public DwellersMonter(JSONArray dwellersGraphDesc, DependenciesRepresenter dr) {
 		this.dwellersGraphDesc = dwellersGraphDesc;
 		this.dr = dr;
@@ -58,6 +74,20 @@ public class DwellersMonter extends GraphMonter{
 			dwellerVertices.put(dwellerName, dwellerNode);
 		}
 	}
+
+	
+	private JSONArray listToJSONArray(List<Dweller> dwellers){
+		JSONArray entities = new JSONArray();
+		for(int i = 0; i < dwellers.size(); i++){
+			JSONObject entity = new JSONObject()
+				.put(Consts.DWELLER_NAME, dwellers.get(i).getName())
+				.put(Consts.PREDECESSOR, dwellers.get(i).getPredecessor())
+				.put(Consts.SUCCESSOR, dwellers.get(i).getSuccessor());
+			entities.put(i, entity);
+		}
+		return entities;
+	}
+	
 
 	public void mountDependendenciesGraph() throws CheckException{
 		DwellersChecker dwellersChecker = new DwellersChecker(dwellersGraphDesc, dwellerVertices);

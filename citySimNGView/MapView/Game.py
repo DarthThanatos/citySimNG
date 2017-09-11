@@ -14,6 +14,7 @@ from Panels.NavigationPanel import NavigationPanel
 from Panels.ResourcesPanel import ResourcesPanel
 from Panels.InfoPanel import InfoPanel
 import uuid
+from Converter import Converter
 
 
 class Game(object):
@@ -39,7 +40,7 @@ class Game(object):
         self.board_height = height
 
         # Create background and game_board
-        self.background = pygame.display.set_mode((width, height))
+        self.set_display_mode()
 
         # Set position on map to (0, 0)
         self.map_position_x = 0
@@ -71,6 +72,8 @@ class Game(object):
         parse_resources_data(resources_data)
 
         # Initialize game panels
+        initial_resources_values = Converter().convertJavaMapToDict(initial_resources_values)
+        initial_resources_incomes = Converter().convertJavaMapToDict(initial_resources_incomes)
         self.init_panels(buildings_data, initial_resources_values, initial_resources_incomes)
 
         # # TODO: probably should get this from model
@@ -86,8 +89,12 @@ class Game(object):
         self.listener_thread = GameThread(self)
         self.listener_thread.start()
 
+    def set_display_mode(self):
+        self.background = pygame.display.set_mode((self.board_width, self.board_height))
+
     def process_events(self):
         """ Process all of the events. """
+
         for event in pygame.event.get():
             mouse_pos = pygame.mouse.get_pos()
 
@@ -110,6 +117,9 @@ class Game(object):
                         self.shadow = Building(building.name, uuid.uuid4().__str__(), building.texture_path,
                                                building.resources_cost, building.consumes, building.produces,
                                                mouse_pos[0], mouse_pos[1], building.width, building.height)
+                    else:
+                        self.map_view.log.AppendText(
+                            "You don't have enough resources to build {}\n".format(building.name))
 
                 # TODO: find better way to deal with button texture change
                 # player clicked on building in map ->

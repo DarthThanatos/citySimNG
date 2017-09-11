@@ -20,6 +20,7 @@ Wykorzystywane technologie:
 * gradle 
 (opis instalacji: https://gradle.org/install
 pobrać wersję 3.5 binary-only z: https://gradle.org/releases)
+* py4j (pobrać przy użyciu komendy pip install py4j)
 
 Problemy:
 Jeśli po pobraniu projektów i otworzeniu ich w środowisku Eclipse dostajemy powiadomienie o błędach, należy:

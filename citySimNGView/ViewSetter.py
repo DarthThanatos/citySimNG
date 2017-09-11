@@ -1,5 +1,7 @@
 import os
 import wx
+from py4j.java_gateway import JavaGateway, GatewayParameters
+
 from CreatorView.CreatorView import CreatorView
 from CreatorView.CreatorSwitcher import CreatorSwitcher
 from GameMenuView import GameMenuView
@@ -15,17 +17,15 @@ import traceback
 from RelativePaths import relative_music_path
 
 class MyFrame(wx.Frame):
-    def __init__(self, parent, ID, strTitle, tplSize, sender):
+    def __init__(self, parent, ID, strTitle, tplSize, sender, gateway):
         wx.Frame.__init__(self, parent, ID, strTitle, size=tplSize)
-
         self.views = {
             "Loader": LoaderView(self, tplSize, "Loader",sender = sender),
             "GameMenu": GameMenuView(self, tplSize, "GameMenu", relative_music_path + "NWN2.mp3", sender),
-            "MainMenu": MainMenuView(self, tplSize, "MainMenu", relative_music_path + "NWN2.mp3", sender),
-            #"Creator": CreatorView(self, tplSize, "Creator", relative_music_path + "Ret Xed OST.mp3", sender),
-            "Creator":CreatorSwitcher(self,tplSize,"Creator",sender = sender),
+            "MainMenu": MainMenuView(self, tplSize, "MainMenu", relative_music_path + "NWN2.mp3", gateway),
+            "Creator":CreatorSwitcher(self,tplSize,"Creator",sender = gateway),
             "Exchange": ExchangeView(self, tplSize, "Exchange", sender),
-            "Map": MapView(self, tplSize, "Map", sender),
+            "Map": MapView(self, tplSize, "Map", sender=gateway),
             "Tutorial": TutorialView(self, tplSize, "Tutorial", sender = sender),
             "Ranking": RankingView(self, tplSize, "Ranking", sender = sender)
         }
@@ -37,10 +37,10 @@ class MyFrame(wx.Frame):
         # EVT_SHOW event shall be triggered for the first view to  be seen)
         
         self.ShowFullScreen(True)
-        self.currentViewName = "GameMenu"
-        #self.setView("Menu")
-    """
-    def passMsgToCurrentView(self, msg):
+        # self.currentViewName = "MainMenu"
+        # self.setView("MainMenu")
+
+    def passMsgToCurrentViewWithOldFormat(self, msg):
         msgParts = msg.split("@")
         # ^ here we use split() methid having "@" separator, because arguments in the message may be texts containing spaces
         if msg.startswith("SetView"):
@@ -49,7 +49,7 @@ class MyFrame(wx.Frame):
         else:
             # msg is in the form: ViewName@Params
             self.views[msgParts[0]].readMsg("@".join(msgParts[1:]))
-    """
+
     def passMsgToCurrentView(self, msg):
         try:
             jsonObj = json.loads(msg)
@@ -63,11 +63,12 @@ class MyFrame(wx.Frame):
             else:
                 self.views[receipent].readMsg(msg)
         except:
-            print "Not a valid json msg:", msg, "skipping..."
+            print "Not a valid json msg:", json.dumps(json.loads(msg),indent=4), "skipping..."
             traceback.print_exc()
             return
 
     def setView(self, viewName):
+        print "setting view " + viewName
         objToRun = None
         for name in self.views:
             if name == viewName:    

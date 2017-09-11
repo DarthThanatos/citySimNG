@@ -26,6 +26,37 @@ public class BuildingsMonter extends GraphMonter{
 	private HashMap<String, BuildingNode> buildingVertices; 
 	private DependenciesRepresenter dr;
 	
+	public BuildingsMonter(List<Building> buildings, DependenciesRepresenter dr){
+		this.dr = dr;
+		allBuildings = new ArrayList<Building>(buildings);
+		buildingVertices = new HashMap<>();
+		dr.putModuleData(Consts.ALL_BUILDINGS, buildings);
+		
+		List<String> buildingsNames = new ArrayList<>();
+		for(Building building : buildings){
+			String buildingName = building.getName();
+			buildingsNames.add(buildingName);
+			BuildingNode buildingNode = new BuildingNode(building);
+			buildingVertices.put(buildingName, buildingNode);
+			
+		}
+		dr.setBuildingsNames(buildingsNames);
+		buildingsGraphDesc = listToJSONArray(buildings);
+	}
+	
+
+	private JSONArray listToJSONArray(List<Building> buildings){
+		JSONArray entities = new JSONArray();
+		for(int i = 0; i < buildings.size(); i++){
+			JSONObject entity = new JSONObject()
+				.put(Consts.BUILDING_NAME, buildings.get(i).getName())
+				.put(Consts.PREDECESSOR, buildings.get(i).getPredecessor())
+				.put(Consts.SUCCESSOR, buildings.get(i).getSuccessor());
+			entities.put(i, entity);
+		}
+		return entities;
+	}
+	
 	public BuildingsMonter(JSONArray buildingGraphDesc, DependenciesRepresenter dr){
 		this.buildingsGraphDesc = buildingGraphDesc;
 		this.dr = dr;
@@ -80,6 +111,7 @@ public class BuildingsMonter extends GraphMonter{
 			building.setResourcesCost(costs);
 			building.setConsumes(consumes);
 			building.setProduces(produces);
+			
 			allBuildings.add(building);
 			BuildingNode buildingNode = new BuildingNode(building);
 			buildingVertices.put(buildingName, buildingNode);

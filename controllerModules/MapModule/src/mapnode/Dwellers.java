@@ -6,18 +6,17 @@ import java.util.List;
 import java.util.Map;
 
 import controlnode.SocketStreamSender;
+import entities.Dweller;
 import model.DependenciesRepresenter;
 
 public class Dwellers {
 	private int currDwellersAmount = 0;
 	private int currDwellersMaxAmount = 5;
 	private List<Dweller> allDwellers = new ArrayList();
-	private SocketStreamSender sender;
 	private final String relativeTexturesPath = "resources\\Textures\\";
 	
-	public Dwellers(SocketStreamSender sender, DependenciesRepresenter dr){
+	Dwellers(DependenciesRepresenter dr){
 		allDwellers = (List<Dweller>) dr.getModuleData("allDwellers");
-		this.sender = sender;
 	}
 	
 	public int getCurrDwellersAmount() {

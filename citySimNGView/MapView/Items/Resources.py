@@ -16,9 +16,9 @@ def parse_resources_data(resources_data):
     :param resources_data: list of dictionaries. Each dictionary contains following information about resource:
     name, texture path, predecessor and successor.
     """
-    for res_info in resources_data:
-        resource = Resource(res_info['name'], res_info['texturePath'])
-        resources[res_info['name']] = resource
+    for resource in resources_data:
+        resource_sprite = Resource(resource.getName(), resource.getTexturePath())
+        resources[resource.getName()] = resource_sprite
 
 
 def draw_resources_info(resources_info, start_x, start_y, max_x, surface, image_width, image_height):

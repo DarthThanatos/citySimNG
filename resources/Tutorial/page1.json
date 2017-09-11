@@ -1,0 +1,25 @@
+{
+  "page": [{
+    "sub0": [
+      "W celu wywolania gieldy z glownego menu gry wciskamy przycisk gielda. Zostanie wywolany glowny widok gieldy.",
+      "W tabeli (Resource table detailed info) znajduja sie informacje na temat nazwy dostepnych surowcow, ich ceny, dostepnej ilosci na gieldzie oraz ilosci posiadanej przez uzytkownika. Jest to glowny element z ktorego uzytkownik czerpie informacje na temat tego co sie dzieje na gieldzie. ",
+      "Oprocz informacji w tabeli oraz przyciskow wyswietlane sa takze dwa wykresy - kolowy informujacy o dostepnych na gieldzie zasobach (Stock resources chart) oraz klasyczny wykres ilustrujacy zmiany cen zasobow w czasie (Stock monitoring).",
+     ],
+    "sub1": [
+      "Uzywajac panel gieldy mozemy dokonac transakcji posiadanych zasobow. Mamy takze mozliwosc wziac udzial w loterii.",
+    "W celu wyjscia z gieldy nalezy wcisnac przycisk \"exit\".",],
+  "img": "resources\\Tutorial\\img1.jpg",
+    "link": [{
+      "id": -1,
+      "label": "Zasoby gracza",
+      },
+    {
+    "id": 2,
+    "label": "Gielda - transakcje",
+    },
+    {
+      "id": 3,
+      "label": "Gielda - loteria",
+    }]
+  }]
+}

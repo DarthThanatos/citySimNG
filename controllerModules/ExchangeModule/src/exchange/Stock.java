@@ -8,10 +8,10 @@ public class Stock {
 
     public static final int priceHistoryRange = 15;
     private DependenciesRepresenter dependenciesRepresenter;
-    private List<Resource> resources = new ArrayList<>();
+    private List<Resource> resources;
     private List<String> resourcesNames;
     private boolean workingStatus;
-    private Map<String, Double[]> priceHistory = new HashMap<>();
+    private Map<String, Double[]> priceHistory;
     private Random random;
 
     public Stock() {
@@ -54,6 +54,8 @@ public class Stock {
 
     public void init() {
         this.resourcesNames = dependenciesRepresenter.getResourcesNames();
+        resources = new ArrayList<>();
+        priceHistory = new HashMap<>();
         for (String resourceName : this.resourcesNames) {
             resources.add(new Resource(resourceName, (random.nextDouble() + 1) * 10, random.nextInt(10)));
             Double[] history;

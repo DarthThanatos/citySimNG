@@ -69,8 +69,8 @@ class BuildingsPanel(Panel):
                 self.curr_page += 1
                 self.last_page = self.curr_page
 
-            building_sprite = Building(building["name"], uuid.uuid4().__str__(), building["texturePath"],
-                                       building["resourcesCost"], building["consumes"], building["produces"],
+            building_sprite = Building(building.getName(), uuid.uuid4().__str__(), building.getTexturePath(),
+                                       building.getResourcesCost(), building.getConsumes(), building.getProduces(),
                                        curr_x + self.pos_x, curr_y + self.pos_y, int(BUILDING_WIDTH * self.width),
                                        int(BUILDING_HEIGHT * self.height))
             curr_x += BUILDING_WIDTH * self.width + SPACE

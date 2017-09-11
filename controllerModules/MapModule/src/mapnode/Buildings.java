@@ -1,6 +1,5 @@
 package mapnode;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,29 +8,26 @@ import model.DependenciesRepresenter;
 
 import org.json.JSONObject;
 
-import controlnode.SocketStreamSender;
 import entities.Building;
 
 public class Buildings {
 	private List<Building> allBuildings;
 	private Map<String, Building> playerBuildings;
-	private SocketStreamSender sender;
 	private final String relativeTexturesPath = "resources\\Textures\\";
 	
-	public Buildings(SocketStreamSender sender, DependenciesRepresenter dr){
+	public Buildings(DependenciesRepresenter dr){
 		allBuildings = (List<Building>) dr.getModuleData("allBuildings");
-		playerBuildings = new HashMap();
-		this.sender = sender;
+		playerBuildings = new HashMap<>();
 	}
 	
 	public boolean canAffordOnBuilding(String buildingName, Resources resources){
-		Map<String, Integer> actualValues = resources.getActualValues();
-		Building b = findBuildingWithName(buildingName);
+		Map<String, Integer> actualResourcesValues = resources.getActualResourcesValues();
+		Building building = findBuildingWithName(buildingName);
 		
-		for(Map.Entry<String, Integer> entry : b.getResourcesCost().entrySet()) {
+		for(Map.Entry<String, Integer> entry : building.getResourcesCost().entrySet()) {
 		    String resource = entry.getKey();
 		    Integer cost = entry.getValue();
-		    if(actualValues.get(resource) < cost){
+		    if(actualResourcesValues.get(resource) < cost){
 		    	return false;
 		    }
 		}
@@ -40,8 +36,8 @@ public class Buildings {
 	}
 	
 	public void placeBuilding(String buildingName, String buildingId, Resources resources, Dwellers dwellers){
-		Map<String, Integer> actualValues = resources.getActualValues();
-		Map<String, Integer> incomes = resources.getIncomes();
+		Map<String, Integer> actualValues = resources.getActualResourcesValues();
+		Map<String, Integer> incomes = resources.getActualIncomes();
 		Building b = findBuildingWithName(buildingName);
 		
 		Map<String, Integer> consumes = b.getConsumes();
@@ -75,8 +71,8 @@ public class Buildings {
 		Building b = findBuildingWithId(buildingId);
 		if(b == null)
 			return;
-		Map<String, Integer> actualValues = resources.getActualValues();
-		Map<String, Integer> incomes = resources.getIncomes();
+		Map<String, Integer> actualValues = resources.getActualResourcesValues();
+		Map<String, Integer> incomes = resources.getActualIncomes();
 		
 		// if building is not running we don't have to modify incomes 
 		if(!b.isRunning()){
@@ -110,7 +106,7 @@ public class Buildings {
 		Building b = findBuildingWithId(buildingId);
 		if(b == null)
 			return;
-		Map<String, Integer> incomes = resources.getIncomes();
+		Map<String, Integer> incomes = resources.getActualIncomes();
 		Map<String, Integer> consumes = b.getConsumes();
 		Map<String, Integer> produces = b.getProduces();
 		

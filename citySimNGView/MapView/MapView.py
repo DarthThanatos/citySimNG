@@ -11,6 +11,7 @@ from Consts import RESOURCES_PANEL_SIZE, PURPLE, FONT, TEXT_PANEL_HEIGHT, \
     TEXT_PANEL_WIDTH, MENU_BUTTON_WIDTH, NAVIGATION_PANEL_WIDTH, INFO_PANEL_WIDTH, TEXT_PANEL_FONT_SIZE
 from Game import Game
 from Utils import draw_text
+from Converter import Converter
 
 
 class MapView(wx.Panel):
@@ -105,24 +106,17 @@ class MapView(wx.Panel):
 
     def ret_to_menu(self, event):
         """ Send node change message to model. """
-        msg = dict()
-        msg["To"] = "MapNode"
-        msg["Operation"] = "MoveTo"
-        msg["Args"] = {}
-        msg["Args"]["TargetView"] = "GameMenu"
-        msg["Args"]["TargetControlNode"] = "GameMenuNode"
-        self.sender.send(json.dumps(msg))
+        self.sender.entry_point.getMapPresenter().goToMenu()
 
     def erected_building(self, building):
         """ Send message to model that new building has been erected. """
-        msg = dict()
-        msg["To"] = "MapNode"
-        msg["Operation"] = "placeBuilding"
-        msg["Args"] = {}
-        msg["Args"]["BuildingName"] = building.name
-        msg["Args"]["BuildingId"] = building.id
-        stream = json.dumps(msg)
-        self.sender.send(stream)
+        result = self.sender.entry_point.getMapPresenter().placeBuilding(building.name, building.id)
+        self.game.resources_panel.resources_values = \
+            Converter().convertJavaMapToDict(result.getActualResourcesValues())
+        self.game.resources_panel.resources_incomes = \
+            Converter().convertJavaMapToDict(result.getActualResourcesIncomes())
+        self.game.resources_panel.curr_dwellers_amount = result.getCurrentDwellersAmount()
+        self.game.resources_panel.curr_max_dwellers_amount = result.getCurrentDwellersMaxAmount()
 
     def check_if_can_afford(self, building):
         """ Send message to model with the inquiry if player has enough resources to erect building and
@@ -131,105 +125,39 @@ class MapView(wx.Panel):
         :param building: building that player wants to erect
         :return: response from model telling if player can afford to erect building
         """
-        msg = dict()
-        msg["To"] = "MapNode"
-        msg["Operation"] = "canAffordOnBuilding"
-        msg["Args"] = {}
-        msg["Args"]["BuildingName"] = building.name
-        msg["Args"]["BuildingId"] = building.id
-        stream = json.dumps(msg)
-
-        self.send_mes_and_wait_for_response(stream)
-        return self.can_afford_on_building
+        return self.sender.entry_point.getMapPresenter().checkIfCanAffordOnBuilding(building.name)
 
     def deleted_building(self, building_id):
         """ Send message to model that building has been deleted.
 
         :param building_id: id of building that will be deleted
         """
-        msg = dict()
-        msg["To"] = "MapNode"
-        msg["Operation"] = "deleteBuilding"
-        msg["Args"] = {}
-        msg["Args"]["BuildingId"] = building_id
-        stream = json.dumps(msg)
-        self.sender.send(stream)
+        result = self.sender.entry_point.getMapPresenter().deleteBuilding(building_id)
+        self.game.resources_panel.resources_values = \
+            Converter().convertJavaMapToDict(result.getActualResourcesValues())
+        self.game.resources_panel.resources_incomes = \
+            Converter().convertJavaMapToDict(result.getActualResourcesIncomes())
+        self.game.resources_panel.curr_dwellers_amount = result.getCurrentDwellersAmount()
+        self.game.resources_panel.curr_max_dwellers_amount = result.getCurrentDwellersMaxAmount()
 
     def stop_production(self, building_id):
         """ Stop production in given building.
 
         :param building_id: id of the building where production will be stopped
         """
-        msg = dict()
-        msg["To"] = "MapNode"
-        msg["Operation"] = "stopProduction"
-        msg["Args"] = {}
-        msg["Args"]["BuildingId"] = building_id
-        stream = json.dumps(msg)
-        self.sender.send(stream)
-
+        result = self.sender.entry_point.getMapPresenter().stopProduction(building_id)
+        self.game.resources_panel.resources_values = \
+            Converter().convertJavaMapToDict(result.getActualResourcesValues())
+        self.game.resources_panel.resources_incomes = \
+            Converter().convertJavaMapToDict(result.getActualResourcesIncomes())
+        self.game.resources_panel.curr_dwellers_amount = result.getCurrentDwellersAmount()
+        self.game.resources_panel.curr_max_dwellers_amount = result.getCurrentDwellersMaxAmount()
+        self.game.info_panel.curr_building.is_running = result.isBuildingRunning()
+        self.game.info_panel.set_stop_production_button_texture()
 
 # =================================================================================================================== #
 # Reading messages from model
 # =================================================================================================================== #
-    def readMsg(self, msg):
-        """ Function receiving messages from model and setting appropriate variables.
-
-        :param msg: received message
-        """
-        try:
-            parsed_msg = json.loads(msg)
-            args = parsed_msg["Args"]
-        except:
-            traceback.print_exc()
-            return
-
-        operation = parsed_msg["Operation"]
-
-        if operation == "Init":
-            # create an instance of the Game class
-            self.game = Game(self.width, self.height, args["Texture One"], args["Texture Two"],
-                             args["buildings"], args["resources"], args["initialResourcesValues"],
-                             args["initialResourcesIncomes"], self)
-
-        elif operation == "canAffordOnBuildingResult":
-            # we can draw building with given id
-            if args["canAffordOnBuilding"]:
-                self.can_afford_on_building = True
-            else:
-                self.can_afford_on_building = False
-                self.log.AppendText("You don't have enough resources to build {}\n".format(args["buildingName"]))
-            self.condition.acquire()
-            self.has_reply_arrived = True
-            self.condition.notify()
-            self.condition.release()
-
-        elif operation == "placeBuildingResult" or operation == "deleteBuildingResult":
-            # if we placed / deleted building we have to update resources
-            self.last_res_info = args
-            self.game.resources_panel.resources_values = args["actualValues"]
-            self.game.resources_panel.resources_incomes = args["actualIncomes"]
-            self.game.resources_panel.curr_dwellers_amount = args["currDwellersAmount"]
-
-        elif operation == "Update":
-            # update resources values
-            self.last_res_info = args
-            self.game.resources_panel.resources_values = args["actualValues"]
-            self.game.resources_panel.resources_incomes = args["actualIncomes"]
-
-        elif operation == "stopProductionResult":
-            self.last_res_info = args
-
-            self.game.info_panel.curr_building.is_running = args["buildingState"]
-            self.game.info_panel.set_stop_production_button_texture()
-
-            self.game.resources_panel.resources_values = args["actualValues"]
-            self.game.resources_panel.resources_incomes = args["actualIncomes"]
-            self.game.resources_panel.curr_dwellers_amount = args["currDwellersAmount"]
-
-        else:
-            print "Unknown message"
-
     def send_mes_and_wait_for_response(self, message):
         """ Send message to model and wait for response.
 
@@ -240,3 +168,13 @@ class MapView(wx.Panel):
         self.sender.send(message)
         self.condition.wait()
         self.condition.release()
+
+    def init(self, resources, buildings, texture_one, texture_two, initial_resources_values,
+             initial_resources_incomes):
+        # create an instance of the Game class
+        self.game = Game(self.width, self.height, texture_one, texture_two, buildings, resources,
+                         initial_resources_values, initial_resources_incomes, self)
+
+    def update_resources_values(self, actual_resources_values, actual_resources_incomes):
+        self.game.resources_panel.resources_values = Converter().convertJavaMapToDict(actual_resources_values)
+        self.game.resources_panel.resources_incomes = Converter().convertJavaMapToDict(actual_resources_incomes)

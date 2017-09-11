@@ -2,15 +2,19 @@ import socket
 import sys
 import json
 import thread
+import traceback
+
 import wx
-
+from py4j.clientserver import ClientServer, JavaParameters, PythonParameters
 # Create a UDP socket
-from ViewSetter import MyFrame
+from py4j.java_gateway import JavaGateway, GatewayParameters
 
+from ViewSetter import MyFrame
+from viewmodel.ViewModel import ViewModel
+
+print "Hello world"
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind(('', 12345))
-
-
 
 def receiver_func(viewSetter):
     while True:
@@ -19,6 +23,7 @@ def receiver_func(viewSetter):
         try:
             data, server = sock.recvfrom(1000000)
         except Exception:
+            traceback.print_exc()
             print "Hold on, Jesus, not so fast"
         #print >> sys.stderr, 'View receiver: received sth:',data
         viewSetter.passMsgToCurrentView(data)
@@ -56,21 +61,33 @@ def wait_for_controller():
     print 'Connection address:', addr
     conn.close()
 
+def startViewModelListener(viewSetter):
+    viewModel = ViewModel(viewSetter)
+    return ClientServer(
+        java_parameters=JavaParameters(),
+        python_parameters=PythonParameters(),
+        python_server_entry_point=viewModel)
+
 def main():
     sender = Sender(sock)
 
     app = wx.PySimpleApp()
     screenDims = wx.GetDisplaySize()
 
-    frame = MyFrame(None, wx.ID_ANY, "SDL Frame", screenDims, sender)
-    frame.Show()
-
+    javagateway = JavaGateway(gateway_parameters=GatewayParameters(port=25335))
+    frame = MyFrame(None, wx.ID_ANY, "SDL Frame", screenDims, sender, javagateway)
     thread.start_new_thread(receiver_func, (frame,))
+    gateway = startViewModelListener(frame)
+
+    frame.Show()
     wait_for_controller()
     try:
         app.MainLoop()
     finally:
-        print >>sys.stderr, 'closing socket'
+        print >>sys.stderr, 'closing sockets'
         sock.close()
+        gateway.close()
+        javagateway.close()
+        sys.exit()
 
 main()

@@ -1,5 +1,7 @@
 import wx
 from wx.lib.scrolledpanel import ScrolledPanel
+
+import Consts
 from NumberFillingChecker import NumberFillingChecker
 import json
 import traceback
@@ -237,9 +239,9 @@ class BuildingsPanel(ScrolledPanel):
         self.NameInput.SetValue(edit_element_name)
         self.NameInput.Disable()
         self.mount_exit_msg = self.mountSuccessEditMsg
-        self.descriptionArea.SetValue(self.currentDependencies["Buildings"][edit_element_name]["Description"])
+        self.descriptionArea.SetValue(self.currentDependencies["Buildings"][edit_element_name][Consts.DESCRIPTION])
 
-        self.texture_name = self.currentDependencies["Buildings"][edit_element_name]["Texture path"]
+        self.texture_name = self.currentDependencies["Buildings"][edit_element_name][Consts.TEXTURE_PATH]
         try:
             image = wx.Image(relative_textures_path + self.texture_name) #"..\\..\\resources\\Textures\\"
             image = image.Scale(32,32)
@@ -258,7 +260,7 @@ class BuildingsPanel(ScrolledPanel):
         self.successorSelector.SetStringSelection(successorVal)
 
         dwellerTypeVal = self.currentDependencies["Buildings"][edit_element_name]["Dweller\nName"]
-        amount_of_dwellers_val = self.currentDependencies["Buildings"][edit_element_name]["Dwellers\namount"]
+        amount_of_dwellers_val = self.currentDependencies["Buildings"][edit_element_name][Consts.DWELLERS_AMOUNT]
         if not dwellerTypeVal in self.currentDependencies["Dwellers"].keys():
             dwellerTypeVal = ""
             amount_of_dwellers_val = 0
@@ -266,7 +268,7 @@ class BuildingsPanel(ScrolledPanel):
         self.dwellers_names_selector.SetStringSelection(dwellerTypeVal)
 
         print "Dweller living here: ", dwellerTypeVal
-        building_type_val = self.currentDependencies["Buildings"][edit_element_name]["Type"]
+        building_type_val = self.currentDependencies["Buildings"][edit_element_name][Consts.TYPE]
         self.type_of_building_selector.SetStringSelection(building_type_val)
 
     def onShow(self, event):
@@ -282,7 +284,7 @@ class BuildingsPanel(ScrolledPanel):
                 self.wakeUpData = None
 
     def checkAndDumpNameEditMode(self, result_struct):
-        result_struct["Result"]["Building\nName"] = self.NameInput.GetValue()
+        result_struct["Result"][Consts.BUILDING_NAME] = self.NameInput.GetValue()
         return True
 
     def checkAndDumpNameAddMode(self,result_struct):
@@ -296,7 +298,7 @@ class BuildingsPanel(ScrolledPanel):
             error_msg ="-> Building name already taken\n"
             result_struct["ErrorMsg"] += error_msg
             return False
-        result_struct["Result"]["Building\nName"] = building_name
+        result_struct["Result"][Consts.BUILDING_NAME] = building_name
         return True
 
     def checkAndDumpPredAndSucc(self, result_struct):
@@ -312,8 +314,8 @@ class BuildingsPanel(ScrolledPanel):
         if predecessor_name == building_name :
             result_struct["ErrorMsg"] += "-> A building cannot be its own predeccessor\n"
             return False
-        result_struct["Result"]["Predecessor"] = predecessor_name
-        result_struct["Result"]["Successor"] = successor_name
+        result_struct["Result"][Consts.PREDECESSOR] = predecessor_name
+        result_struct["Result"][Consts.SUCCESSOR] = successor_name
         return True
 
     def checkAndDumpDescriptionArea(self, result_struct):
@@ -321,11 +323,11 @@ class BuildingsPanel(ScrolledPanel):
         if re.sub(r'\s', "", description_content) == "":
             result_struct["ErrorMsg"] += "-> Please enter description of this building\n"
             return False
-        result_struct["Result"]["Description"] = description_content
+        result_struct["Result"][Consts.DESCRIPTION] = description_content
         return True
 
     def checkAndDumpTexture(self, result_struct):
-        result_struct["Result"]["Texture path"] = self.texture_name
+        result_struct["Result"][Consts.TEXTURE_PATH] = self.texture_name
         return True
 
     def checkAndDumpDweller(self, result_struct):
@@ -333,15 +335,15 @@ class BuildingsPanel(ScrolledPanel):
         if dweller_name == "":
             result_struct["ErrorMsg"] += "-> Please select a dweller that lives here\n"
             return False
-        result_struct["Result"]["Dweller\nName"] = dweller_name
+        result_struct["Result"][Consts.DWELLER_NAME] = dweller_name
         return True
 
     def checkAndDumpDwellersAmount(self, result_struct):
-        result_struct["Result"]["Dwellers\namount"] = self.dwellers_amount.GetValue()
+        result_struct["Result"][Consts.DWELLERS_AMOUNT] = self.dwellers_amount.GetValue()
         return True
 
     def checkAndDumpTypeOfBuilding(self, result_struct):
-        result_struct["Result"]["Type"] = self.type_of_building_selector.GetValue()
+        result_struct["Result"][Consts.TYPE] = self.type_of_building_selector.GetValue()
         return True
 
     def submit(self, event):

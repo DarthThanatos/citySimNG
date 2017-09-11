@@ -1,4 +1,6 @@
 import pygame
+
+from Converter import Converter
 from MapView.Consts import DEFAULT_BUILDING_TEXTURE, WHITE
 
 
@@ -22,9 +24,9 @@ class Building(pygame.sprite.Sprite):
         self.name = name
         self.id = id
         self.texture_path = texture_path
-        self.resources_cost = resource_cost
-        self.consumes = consumes
-        self.produces = produces
+        self.resources_cost = Converter().convertJavaMapToDict(resource_cost)
+        self.consumes = Converter().convertJavaMapToDict(consumes)
+        self.produces = Converter().convertJavaMapToDict(produces)
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.width = width
@@ -44,4 +46,3 @@ class Building(pygame.sprite.Sprite):
         self.image.set_colorkey(WHITE)
         self.image = pygame.transform.scale(self.image, (self.width, self.height))
         self.rect = self.image.get_rect(topleft=(self.pos_x, self.pos_y))
-

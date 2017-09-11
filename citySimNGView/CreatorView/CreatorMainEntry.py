@@ -9,6 +9,8 @@ import traceback
 import re
 from uuid import uuid4
 from GraphsSpaces import GraphsSpaces
+from viewmodel.CreatorData import CreatorData
+
 
 class CreatorMainEntry(ScrolledPanel):
     def __init__(self, parent, size, frame, current_dependencies, lists_of_names, sender):
@@ -184,14 +186,11 @@ class CreatorMainEntry(ScrolledPanel):
             self.imageBitmapTwo.SetBitmap(wx.BitmapFromImage(image))
 
     def retToMenu(self, event):
-        #self.parent.setView("Menu")
-        msg = {}
-        msg["To"] = "CreatorNode"
-        msg["Operation"] = "MoveTo"
-        msg["Args"] = {}
-        msg["Args"]["TargetView"] = "MainMenu"
-        msg["Args"]["TargetControlNode"] = "MainMenuNode"
-        self.sender.send(json.dumps(msg))
+        # self.retToMenuViaSockets()
+        self.returnToMenuPy4J()
+
+    def returnToMenuPy4J(self):
+        self.sender.entry_point.getCreatorPresenter().returnToMenu()
 
     def getContents(self):
         contents_copy = dict(self.currentDependencies)
@@ -210,21 +209,6 @@ class CreatorMainEntry(ScrolledPanel):
             path = dlg.GetPath()
             with open(path, "wb+") as f:
                 f.write(json.dumps(dependencies).replace(",",",\n"))
-
-    def readMsg(self, msg):
-        print "Creator view got msg", msg
-        jsonMsg = json.loads(msg)
-        operation = jsonMsg["Operation"]
-        if operation == "ParseConfirm":
-            self.ackMsgs[jsonMsg["Args"]["UUID"]] = True #unblock blocked thread
-            self.graphsSpaces.resetViewFromJSON(jsonMsg["Args"]["graph"])
-            log_msg = "Dependencies created successfully, please go to the Loader menu now to check what was created"
-            print log_msg
-            self.logArea.SetLabelText(log_msg)
-        elif operation == "ParseFail":
-            self.ackMsgs[jsonMsg["Args"]["UUID"]] = True #unblock blocked thread
-            self.logArea.SetLabelText(jsonMsg["Args"]["errorMsg"])
-
 
     def dependencyLoadFail(self):
         errorMsg = "Not a valid file format, need a .dep file with a valid format"
@@ -288,51 +272,44 @@ class CreatorMainEntry(ScrolledPanel):
             return False
         return True
 
-    def createDependencies(self, event):
+    def fetchDependenciesDict(self):
         buildings = self.currentDependencies["Buildings"]
         resources = self.currentDependencies["Resources"]
         dwellers = self.currentDependencies["Dwellers"]
-        dependencies = {"Buildings": buildings.values(), "Resources":resources.values(), "Dwellers":dwellers.values()}
-        pp = PrettyPrinter()
-        pp.pprint(dependencies)
+        return {"Buildings": buildings.values(), "Resources":resources.values(), "Dwellers":dwellers.values()}
 
-        setName = self.dependenciesSetNameInput.GetValue()
+    def dependenciesSetNameTypedCorrectly(self, setName):
         if re.sub(r'\s', "", setName) == "":
             errorMsg = "Please, fill dependencies set name field"
             print errorMsg
             self.logArea.SetValue(errorMsg)
-            return
+            return False
+        return True
+
+    def createDependencies(self, event):
+        dependencies = self.fetchDependenciesDict()
+        setName = self.dependenciesSetNameInput.GetValue()
+        if not self.dependenciesSetNameTypedCorrectly(setName): return
 
         msg = "Dependencies sent to further processing to creator controller"
-        print msg
+        print msg + "\n" + json.dumps(dependencies, indent=4)
         self.logArea.SetLabelText(msg)
-        uuid = uuid4().__str__()
-        self.ackMsgs[uuid] = False
 
-        msg = {}
-        msg["To"] = "CreatorNode"
-        msg["Operation"] = "Parse"
-        msg["Args"] = {}
-        msg["Args"]["Dependencies"] = dependencies
-        msg["Args"]["DependenciesSetName"] = setName
-        msg["Args"]["UUID"] = uuid
-        msg["Args"]["Texture One"] = self.texture_one_name
-        msg["Args"]["Texture Two"] = self.texture_two_name
-        stream = json.dumps(msg)
-        print stream
-        self.sender.send(stream)
-        while not self.ackMsgs[uuid]: pass
-        """
-        dwellers_tree = [["dweller.JPG"]]
-        resources_tree = [["pszenica.jpg"], ["maka.jpg"], ["chleb.jpg"],["gold.jpg"]]
+        # self.sendDependenciesViaSockets(dependencies, setName)
+        self.sendDependenciesPy4J(dependencies, setName)
 
-        firstLvl = ["farma.JPG", "bakery.png"]
-        secondLvl = ["farma.JPG", "browar.JPG", "house.png"]
-        thirdLvl = ["farma.JPG", "browar.JPG"]
-        buildings_tree = [ firstLvl, secondLvl, thirdLvl, firstLvl]
+    def sendDependenciesPy4J(self, dependencies, setName):
+        creatorData = CreatorData(self.sender).receiveFromDict(dependencies)
+        creatorData.setDependenciesSetName(setName)
+        creatorData.setTextureOne(self.texture_one_name)
+        creatorData.setTextureOne(self.texture_two_name)
+        self.sender.entry_point.getCreatorPresenter().createDependencies(creatorData)
 
-        self.graphsSpaces.resetView([resources_tree,dwellers_tree, buildings_tree])
-        """
+    def displayDependenciesGraph(self, jsonGraph):
+        self.graphsSpaces.resetViewFromJSON(jsonGraph)
+
+    def displayMsg(self, msg):
+        self.logArea.SetLabelText(msg)
 
     def loadDependencies(self, event):
         dlg = wx.FileDialog(
@@ -369,3 +346,46 @@ class CreatorMainEntry(ScrolledPanel):
                         traceback.print_exc()
             else:
                 self.dependencyLoadFail()
+
+
+
+    def sendDependenciesViaSockets(self, dependencies, setName):
+        uuid = uuid4().__str__()
+        self.ackMsgs[uuid] = False
+        msg = {}
+        msg["To"] = "CreatorNode"
+        msg["Operation"] = "Parse"
+        msg["Args"] = {}
+        msg["Args"]["Dependencies"] = dependencies
+        msg["Args"]["DependenciesSetName"] = setName
+        msg["Args"]["UUID"] = uuid
+        msg["Args"]["Texture One"] = self.texture_one_name
+        msg["Args"]["Texture Two"] = self.texture_two_name
+        stream = json.dumps(msg, indent=4)
+        print stream
+        self.sender.send(stream)
+        while not self.ackMsgs[uuid]: pass
+
+
+    def retToMenuViaSockets(self):
+        msg = {}
+        msg["To"] = "CreatorNode"
+        msg["Operation"] = "MoveTo"
+        msg["Args"] = {}
+        msg["Args"]["TargetView"] = "MainMenu"
+        msg["Args"]["TargetControlNode"] = "MainMenuNode"
+        self.sender.send(json.dumps(msg))
+
+    def readMsg(self, msg):
+        print "Creator view got msg", msg
+        jsonMsg = json.loads(msg)
+        operation = jsonMsg["Operation"]
+        if operation == "ParseConfirm":
+            self.ackMsgs[jsonMsg["Args"]["UUID"]] = True #unblock blocked thread
+            self.graphsSpaces.resetViewFromJSON(jsonMsg["Args"]["graph"])
+            log_msg = "Dependencies created successfully, please go to the Loader menu now to check what was created"
+            print log_msg
+            self.logArea.SetLabelText(log_msg)
+        elif operation == "ParseFail":
+            self.ackMsgs[jsonMsg["Args"]["UUID"]] = True #unblock blocked thread
+            self.logArea.SetLabelText(jsonMsg["Args"]["errorMsg"])
