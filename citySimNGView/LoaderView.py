@@ -5,7 +5,7 @@ import wx
 
 from CreatorView.GraphsSpaces import GraphsSpaces
 from utils.JSONMonter import JSONMonter
-from utils.PygameOnShowUtil import PygameOnShowUtil
+from utils.OnShowUtil import OnShowUtil
 from utils.RelativePaths import relative_music_path, relative_textures_path
 from utils.SocketMsgReader.LoaderMsgReader import LoaderMsgReader
 
@@ -123,7 +123,7 @@ class LoaderView(wx.Panel):
         self.sender.send(msg)
 
     def onShow(self, event):
-        PygameOnShowUtil(self.musicPath).switch_music_on_show_changed(event)
+        OnShowUtil().switch_music_on_show_changed(event,self.musicPath)
 
     def readMsg(self, msg):
         LoaderMsgReader(self).reactOnMsg(msg)

@@ -1,5 +1,5 @@
 import wx
-from CreatorSwitcher import CreatorSwitcher
+from CreatorView.CreatorSwitcher import CreatorSwitcher
 
 class Example(wx.Frame):
     def __init__(self, *args, **kw):

@@ -22,6 +22,7 @@ class CreatorData(object):
         return res_map
 
     def mapResourcesDictToNamesList(self, resourcesDict):
+        print resourcesDict
         return [resource[Consts.RESOURCE_NAME] for resource in resourcesDict]
 
     def getDwellersList(self, dataDict):

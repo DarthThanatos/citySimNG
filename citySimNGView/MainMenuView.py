@@ -3,7 +3,7 @@ import json
 import wx
 
 from utils.JSONMonter import JSONMonter
-from utils.PygameOnShowUtil import PygameOnShowUtil
+from utils.OnShowUtil import OnShowUtil
 from utils.RelativePaths import relative_music_path, relative_textures_path, relative_text_files_path
 
 
@@ -100,7 +100,7 @@ class MainMenuView(wx.Panel):
         self.sender.send(msg)
 
     def onShow(self, event):
-        PygameOnShowUtil(self.musicPath).switch_music_on_show_changed(event)
+        OnShowUtil().switch_music_on_show_changed(event, self.musicPath)
 
     def readMsg(self, msg):
         pass

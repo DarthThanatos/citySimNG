@@ -4,7 +4,7 @@ from ResourcesPanel import ResourcesPanel
 from BuildingsPanel import  BuildingsPanel
 from CreatorMainEntry import CreatorMainEntry
 from RelativePaths import relative_music_path,relative_dependencies_path
-from utils.PygameOnShowUtil import PygameOnShowUtil
+from utils.OnShowUtil import OnShowUtil
 
 
 class CreatorSwitcher(wx.Panel):
@@ -27,6 +27,9 @@ class CreatorSwitcher(wx.Panel):
             "Buildings": BuildingsPanel(self, self.size, self, current_dependencies)
         }
 
+    def setupPanelEditMode(self, panelName, editedElementName):
+        self.views[panelName].setUpEditMode(editedElementName)
+
     def showPanel(self, searchedPanelName, initDataForSearchedPanel):
         for panelName in self.views:
             if panelName == searchedPanelName:
@@ -39,7 +42,7 @@ class CreatorSwitcher(wx.Panel):
         for view in self.views: self.views[view].Hide()
 
     def onShow(self, event):
-        PygameOnShowUtil(self.musicPath).switch_music_on_show_changed(event, onShowCallback = self.resetView)
+        OnShowUtil().switch_music_on_show_changed(event, self.musicPath, onShowCallback = self.resetView)
 
     def resetView(self):
         self.views["main_panel"].resetView()

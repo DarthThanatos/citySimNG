@@ -4,7 +4,7 @@ import wx.combo
 from pprint import PrettyPrinter
 import json
 import os
-from RelativePaths import relative_music_path,relative_dependencies_path
+from CreatorView.RelativePaths import relative_music_path,relative_dependencies_path
 from uuid import uuid4
 import traceback
 import re

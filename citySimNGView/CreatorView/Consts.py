@@ -16,4 +16,3 @@ CONSUMES = "Consumes"
 COST_IN_RESOURCES = "Cost\nin\nresources"
 RESOURCE_NAME = "Resource\nName"
 START_INCOME = "Start income"
-CREATOR_MAIN_PANEL_ROOT_SPACER_SIZE = 75

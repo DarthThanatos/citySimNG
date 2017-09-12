@@ -35,3 +35,15 @@ class JSONMonter(object):
         msg["Args"] = {}
         msg["Operation"] = "Exit"
         return msg
+
+    def mountCreatorParseMsg(self, creator_main_entry, dependencies, setName, uuid):
+        msg = {}
+        msg["To"] = "CreatorNode"
+        msg["Operation"] = "Parse"
+        msg["Args"] = {}
+        msg["Args"]["Dependencies"] = dependencies
+        msg["Args"]["DependenciesSetName"] = setName
+        msg["Args"]["UUID"] = uuid
+        msg["Args"]["Texture One"] = creator_main_entry.texture_one_name
+        msg["Args"]["Texture Two"] = creator_main_entry.texture_two_name
+        return msg

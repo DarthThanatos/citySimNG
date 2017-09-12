@@ -1,9 +1,6 @@
-class PygameOnShowUtil(object):
+class OnShowUtil(object):
 
-    def __init__(self, musicPath=None):
-        self.musicPath = musicPath
-
-    def switch_music_on_show_changed(self, event, onShowCallback = None):
+    def switch_music_on_show_changed(self, event, musicPath, onShowCallback = None):
         global pygame
         if event.GetShow():
             if onShowCallback != None: onShowCallback()
@@ -12,7 +9,7 @@ class PygameOnShowUtil(object):
                 pygame.init()
                 pygame.mixer.init()
                 pygame.mixer.music.load(
-                    self.musicPath)
+                    musicPath)
                 pygame.mixer.music.play()
             except Exception:
                 print "Problem with music"
@@ -21,3 +18,13 @@ class PygameOnShowUtil(object):
                 pygame.quit()
             except Exception:
                 pass
+
+    def onCreatorPanelShow(self, view, event):
+        if event.GetShow():
+            view.resetContents()
+            if not view.wakeUpData == None:
+                try:
+                    view.logArea.SetValue(view.wakeUpData["Log"])
+                except:
+                    pass #no need to panic
+                view.wakeUpData = None
