@@ -1,8 +1,14 @@
-import wx
 import json
 from uuid import uuid4
-from RelativePaths import relative_music_path, relative_textures_path
+
+import wx
+
 from CreatorView.GraphsSpaces import GraphsSpaces
+from utils.JSONMonter import JSONMonter
+from utils.PygameOnShowUtil import PygameOnShowUtil
+from utils.RelativePaths import relative_music_path, relative_textures_path
+from utils.SocketMsgReader.LoaderMsgReader import LoaderMsgReader
+
 
 class LoaderView(wx.Panel):
     def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender=None):
@@ -16,26 +22,10 @@ class LoaderView(wx.Panel):
         self.musicPath = musicPath
         self.initLoader()
 
-    def onShow(self, event):
-        global pygame
-        if event.GetShow():
-            import pygame
-            pygame.init()
-            pygame.mixer.init()
-            pygame.mixer.music.load(
-                self.musicPath)
-            pygame.mixer.music.play()
-        else:
-            try:
-                pygame.quit()
-            except Exception:
-                pass
-
     def initLoader(self):
         self.initHeaderSizer()
         self.initRulesSelector()
         self.createButtons()
-        # self.bindSocketButtons()
         self.bindButtons()
         self.initGraphSpaces()
         self.initMainSizer()
@@ -108,56 +98,32 @@ class LoaderView(wx.Panel):
 
     def showGraph(self, evt):
         setChosen = self.ruleSelector.GetStringSelection()
-        print "SetChosen:",setChosen
         if setChosen == "": return
-
-        msg = {}
-        msg["To"] = "LoaderNode"
-        msg["Operation"] = "ShowGraph"
-        msg["Args"] = {}
-        msg["Args"]["SetChosen"] = setChosen
-        self.sender.send(json.dumps(msg))
-
-    def mountMoveToMsg (self, target):
-        msg = {}
-        msg["To"] = "LoaderNode"
-        msg["Operation"] = "MoveTo"
-        msg["Args"] = {}
-        msg["Args"]["TargetView"] = target
-        msg["Args"]["TargetControlNode"] = target + "Node"
-        return json.dumps(msg)
+        self.sender.send(JSONMonter().mountShowGraphMsg(setChosen))
 
     def moveToNewGameMenu(self, event):
         setChosen = self.ruleSelector.GetStringSelection()
-        print "SetChosen:",setChosen
         if setChosen == "": return
+        self.sendAndWaitSelectMsg(setChosen)
+        self.moveToGameMenu()
+
+    def sendAndWaitSelectMsg(self, setChosen):
         operationId = uuid4().__str__()
         self.ackMsgs[operationId] = False
-        msg = {}
-        msg["To"] = "LoaderNode"
-        msg["Operation"] = "Select"
-        msg["Args"] = {}
-        msg["Args"]["SetChosen"] = setChosen
-        msg["Args"]["UUID"] = operationId
-        self.sender.send(json.dumps(msg))
+        self.sender.send(JSONMonter().mountSelectMsg(setChosen, operationId))
         while not self.ackMsgs[operationId]: pass
-        print "Select block ended"
         # ^ wait for controller confirmation
-        moveToMsg = self.mountMoveToMsg("GameMenu")
+
+    def moveToGameMenu(self):
+        moveToMsg = JSONMonter().mountMoveToMsg("LoaderNode", "GameMenu")
         self.sender.send(moveToMsg)
 
     def moveToMenu(self, event):
-        msg = self.mountMoveToMsg("MainMenu")
+        msg = JSONMonter().mountMoveToMsg("LoaderNode", "MainMenu")
         self.sender.send(msg)
 
+    def onShow(self, event):
+        PygameOnShowUtil(self.musicPath).switch_music_on_show_changed(event)
+
     def readMsg(self, msg):
-        msgObj = json.loads(msg)
-        operation = msgObj["Operation"]
-        if operation == "Init":
-            ruleSetsList = msgObj["Args"]["DependenciesNames"]
-            self.displayPossibleDependenciesSets(ruleSetsList)
-        if operation == "SelectConfirm":
-            operationId = msgObj["Args"]["UUID"]
-            self.ackMsgs[operationId] = True
-        if operation == "ShowGraphRes":
-            self.displayDependenciesGraph(msgObj["Args"]["Graph"])
+        LoaderMsgReader(self).reactOnMsg(msg)

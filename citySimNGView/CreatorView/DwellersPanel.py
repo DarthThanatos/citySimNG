@@ -8,12 +8,11 @@ from RelativePaths import relative_textures_path
 import Consts
 
 class DwellersPanel(ScrolledPanel):
-    def __init__(self,parent, size, frame, currentDependencies, lists_of_names):
+    def __init__(self,parent, size, frame, currentDependencies):
         ScrolledPanel.__init__(self, size = size, parent = parent, style = wx.SIMPLE_BORDER)
         self.SetupScrolling()
         self.wakeUpData = None
 
-        self.lists_of_names = lists_of_names
         self.frame = frame
         self.currentDependencies = currentDependencies
 

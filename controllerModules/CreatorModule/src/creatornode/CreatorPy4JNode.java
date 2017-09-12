@@ -2,7 +2,6 @@ package creatornode;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -19,7 +18,6 @@ import constants.CreatorConfig;
 import controlnode.DispatchCenter;
 import controlnode.Py4JNode;
 import corectness.checker.CheckException;
-import corectness.checker.RootChecker;
 import dependencies.graph.monter.BuildingsMonter;
 import dependencies.graph.monter.DwellersMonter;
 import dependencies.graph.monter.ResourcesMonter;

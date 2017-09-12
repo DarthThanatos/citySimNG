@@ -4,35 +4,28 @@ from ResourcesPanel import ResourcesPanel
 from BuildingsPanel import  BuildingsPanel
 from CreatorMainEntry import CreatorMainEntry
 from RelativePaths import relative_music_path,relative_dependencies_path
+from utils.PygameOnShowUtil import PygameOnShowUtil
+
 
 class CreatorSwitcher(wx.Panel):
     def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender=None):
         wx.Panel.__init__(self, size=size, parent=parent)
-
+        self.size = size
+        self.sender = sender
         self.musicPath = musicPath
-        current_dependencies = {"Resources" : {}, "Buildings":{}, "Dwellers":{}}
-        buildingsNames = ["Building1","Building2"]
-        resourcesNames = ["Res1","Res2"]
-        dwellersNames = ["Dweller1","Dweller2"]
-        lists_of_names = [buildingsNames, resourcesNames, dwellersNames]
-
-        self.main_panel = CreatorMainEntry(self, size, self, current_dependencies,  lists_of_names, sender)
-        self.resources_panel = ResourcesPanel(self, size, self, current_dependencies, lists_of_names)
-        self.dwellers_panel = DwellersPanel(self, size, self, current_dependencies, lists_of_names)
-        self.buildings_panel = BuildingsPanel(self, size, self, current_dependencies, lists_of_names)
-
-        self.views = {
-            "main_panel": self.main_panel,
-            "Resources": self.resources_panel,
-            "Dwellers": self.dwellers_panel,
-            "Buildings": self.buildings_panel
-        }
-        for view in self.views: self.views[view].Hide()
+        self.init_views()
+        self.hideAllPanels()
         self.showPanel("main_panel", initDataForSearchedPanel=None)
         self.Bind(wx.EVT_SHOW, self.onShow, self)
 
-    def readMsg(self, msg):
-        self.main_panel.readMsg(msg)
+    def init_views(self):
+        current_dependencies = {"Resources" : {}, "Buildings":{}, "Dwellers":{}}
+        self.views = {
+            "main_panel": CreatorMainEntry(self, self.size, self, current_dependencies,  self.sender),
+            "Resources": ResourcesPanel(self, self.size, self, current_dependencies),
+            "Dwellers": DwellersPanel(self, self.size, self, current_dependencies),
+            "Buildings": BuildingsPanel(self, self.size, self, current_dependencies)
+        }
 
     def showPanel(self, searchedPanelName, initDataForSearchedPanel):
         for panelName in self.views:
@@ -42,24 +35,14 @@ class CreatorSwitcher(wx.Panel):
             else:
                 self.views[panelName].Hide()
 
+    def hideAllPanels(self):
+        for view in self.views: self.views[view].Hide()
+
     def onShow(self, event):
-        global pygame
-        if event.GetShow():
-            self.resetView()
-            try:
-                import pygame
-                pygame.init()
-                pygame.mixer.init()
-                pygame.mixer.music.load(
-                    self.musicPath)
-                pygame.mixer.music.play()
-            except Exception:
-                print "Problem with music"
-        else:
-            try:
-                pygame.quit()
-            except Exception:
-                print "creator: problem with pygame quit"
+        PygameOnShowUtil(self.musicPath).switch_music_on_show_changed(event, onShowCallback = self.resetView)
 
     def resetView(self):
         self.views["main_panel"].resetView()
+
+    def readMsg(self, msg):
+        self.views["main_panel"].readMsg(msg)

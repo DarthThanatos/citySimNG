@@ -1,11 +1,13 @@
 import uuid
+
 import pygame
-from RelativePaths import relative_textures_path
+
 from Building import Building
+from Button import Button
 from Consts import BUILDINGS_PANEL_TEXTURE, ARROW_BUTTON_WIDTH, ARROW_BUTTON_HEIGHT, BUILDINGS_PANEL_RIGHT_ARROW_X, \
     BUILDINGS_PANEL_ARROW_Y, BUILDINGS_PANEL_LEFT_ARROW_X, BUILDING_SIZE, SPACE
 from Panel import Panel
-from Button import Button
+from utils.RelativePaths import relative_textures_path
 
 
 class BuildingsPanel(Panel):

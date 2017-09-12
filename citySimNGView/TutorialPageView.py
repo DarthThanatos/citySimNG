@@ -1,7 +1,7 @@
 import wx
-import os
-import json
-from RelativePaths import relative_music_path, relative_textures_path
+
+from utils.RelativePaths import relative_music_path, relative_textures_path
+
 
 class TutorialPageView(wx.Panel):
     def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):

@@ -1,25 +1,25 @@
-import wx
+import json
 import os
 import threading
-import json
-import uuid
-import pygame
 import traceback
-from Resource import Resources
-from RelativePaths import relative_music_path, relative_textures_path
-from ResourcesPanel import ResourcesPanel
-from BuildingsPanel import BuildingsPanel
-from InfoPanel import InfoPanel
+import uuid
+
+import wx
+import pygame
+
 from Building import Building
-from Consts import BUILDINGS_PANEL_SIZE, RESOURCES_PANEL_SIZE, NAV_ARROW_HEIGHT, NAV_ARROW_WIDTH, FPS, GREEN, RED, \
-    PURPLE, FONT, GRASS_TEXTURE, GRASS2_TEXTURE, NAV_ARROW_TEXTURE, FONT_SIZE, TEXT_PANEL_HEIGHT, \
+from BuildingsPanel import BuildingsPanel
+from Consts import BUILDINGS_PANEL_SIZE, RESOURCES_PANEL_SIZE, RED, \
+    PURPLE, FONT, TEXT_PANEL_HEIGHT, \
     TEXT_PANEL_WIDTH, MENU_BUTTON_WIDTH, NAVIGATION_PANEL_HEIGHT, NAVIGATION_PANEL_WIDTH, INFO_PANEL_HEIGHT, INFO_PANEL_WIDTH, TEXT_PANEL_FONT_SIZE
-from NavigationArrow import NavigationArrow
-from UserEventHandlerThread import UserEventHandlerThread
+from InfoPanel import InfoPanel
 from MapTile import MapTile
-import math
 from NavigationPanel import NavigationPanel
+from Resource import Resources
+from ResourcesPanel import ResourcesPanel
+from UserEventHandlerThread import UserEventHandlerThread
 from Utils import draw_text, draw_text_with_wrapping
+from utils.RelativePaths import relative_music_path, relative_textures_path
 
 
 class MapView(wx.Panel):
@@ -95,7 +95,6 @@ class MapView(wx.Panel):
 
     def on_show(self, event):
         if event.GetShow():
-            print "shown map"
             self.init_view()
             try:
                 pygame.mixer.init()

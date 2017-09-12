@@ -1,10 +1,8 @@
-from Panel import Panel
-from Consts import BUILDINGS_PANEL_TEXTURE, GREEN, DELETE_BUILDING_HEIGHT, DELETE_BUILDING_WIDTH
-from Utils import draw_text_with_wrapping, draw_text
-from RelativePaths import relative_textures_path
 from Button import Button
-
-import pygame
+from Consts import BUILDINGS_PANEL_TEXTURE, GREEN, DELETE_BUILDING_HEIGHT, DELETE_BUILDING_WIDTH
+from Panel import Panel
+from Utils import draw_text
+from utils.RelativePaths import relative_textures_path
 
 
 class InfoPanel(Panel):

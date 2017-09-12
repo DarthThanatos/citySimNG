@@ -1,14 +1,11 @@
-import json
-
 import pygame
-from Resource import Resource
-from Consts import GREEN, RESOURCES_SPACE, RESOURCES_PANEL_TEXTURE, RESOURCES_PANEL_ARROW_Y, \
-    RESOURCES_PANEL_LEFT_ARROW_X, RESOURCES_PANEL_RIGHT_ARROW_X, RESOURCES_ARROW_BUTTON_HEIGHT, RESOURCES_ARROW_BUTTON_WIDTH, \
+
+from Button import Button
+from Consts import GREEN, RESOURCES_SPACE, RESOURCES_PANEL_TEXTURE, RESOURCES_ARROW_BUTTON_HEIGHT, RESOURCES_ARROW_BUTTON_WIDTH, \
     DWELLER_ICON_WIDTH, DWELLER_ICON_HEIGHT
-from RelativePaths import relative_textures_path
 from Panel import Panel
 from Utils import draw_text, calculate_text_size, center_image_y
-from Button import Button
+from utils.RelativePaths import relative_textures_path
 
 
 class ResourcesPanel(Panel):

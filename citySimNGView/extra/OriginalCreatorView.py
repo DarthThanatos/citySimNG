@@ -1,13 +1,14 @@
-import wx
-import wx.grid as gridlib
-import wx.combo
-from pprint import PrettyPrinter
 import json
-import os
-from RelativePaths import relative_music_path, relative_dependencies_path
-from uuid import uuid4
-import traceback
 import re
+import traceback
+from pprint import PrettyPrinter
+from uuid import uuid4
+
+import wx
+import wx.combo
+import wx.grid as gridlib
+
+from utils.RelativePaths import relative_music_path, relative_dependencies_path
 
 
 class CreatorView(wx.Panel):

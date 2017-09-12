@@ -1,6 +1,6 @@
-from Converter import Converter
 from CreatorView import Consts
-from py4j.java_collections import MapConverter, ListConverter
+from utils.Converter import Converter
+
 
 class CreatorData(object):
 

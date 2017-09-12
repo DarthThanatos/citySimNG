@@ -1,6 +1,5 @@
 import pygame
-from RelativePaths import relative_textures_path
-from Consts import NAV_ARROW_TEXTURE, NAV_ARROW_HEIGHT, NAV_ARROW_WIDTH, BUILDINGS_PANEL_SIZE, RESOURCES_PANEL_SIZE
+
 from Button import Button
 
 

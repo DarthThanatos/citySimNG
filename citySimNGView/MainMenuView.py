@@ -1,8 +1,10 @@
-import sys
-import wx
-import os
 import json
-from RelativePaths import relative_music_path, relative_textures_path, relative_text_files_path
+
+import wx
+
+from utils.JSONMonter import JSONMonter
+from utils.PygameOnShowUtil import PygameOnShowUtil
+from utils.RelativePaths import relative_music_path, relative_textures_path, relative_text_files_path
 
 
 class MainMenuView(wx.Panel):
@@ -13,33 +15,8 @@ class MainMenuView(wx.Panel):
         self.name = name
         self.size = size
         self.sender = sender
-
         self.musicPath = musicPath
         self.initMenu()
-        self.SetBackgroundColour((255, 255, 255))
-
-    def onShow(self, event):
-        # print "Menu on show"
-        global pygame
-        if event.GetShow():
-            print "Main menu shown"
-            # print "menu: setting up music"
-            import pygame
-            print "Main Menu:", os.path.dirname(os.path.abspath(__file__))
-            pygame.init()
-            pygame.mixer.init()
-            pygame.mixer.music.load(
-                # os.path.dirname(os.path.abspath(__file__)) + "\\" +
-                self.musicPath)
-            pygame.mixer.music.play()
-        else:
-            print "Main menu hidden"
-            try:
-                # print "Menu, quitting"
-                pygame.quit()
-            except Exception:
-                # print "menu: problem with pygame quit"
-                pass
 
     def initMenu(self):
         """ This function creates view for menu.
@@ -49,9 +26,8 @@ class MainMenuView(wx.Panel):
         self.initHeaderSizer()
         self.createButtons()
         self.addLogicToButtonsPy4J()
-        # self.addLogicToButtonsSockets()
         self.initRootSizer()
-
+        self.SetBackgroundColour((255, 255, 255))
 
     def initRootSizer(self):
         rootSizer = wx.BoxSizer(wx.VERTICAL)
@@ -60,7 +36,6 @@ class MainMenuView(wx.Panel):
         self.addButtonsToSizer(rootSizer)
         self.SetSizer(rootSizer)
         rootSizer.SetDimension(0, 0, self.size[0], self.size[1])
-
 
     def printHeader(self):
         with open(relative_text_files_path + "headerCS.txt", "r+") as headerFile:
@@ -108,39 +83,24 @@ class MainMenuView(wx.Panel):
         self.Close(True)
         self.parent.closeWindow(None)
 
-    def mountMoveToMsg(self, target):
-        msg = {}
-        msg["To"] = "MainMenuNode"
-        msg["Operation"] = "MoveTo"
-        msg["Args"] = {}
-        msg["Args"]["TargetView"] = target
-        msg["Args"]["TargetControlNode"] = target + "Node"
-        return json.dumps(msg)
-
     def closeButton(self, event):
         """ This function defines logic for exit button. """
-        msg = {}
-        msg["To"] = "MainMenuNode"
-        msg["Args"] = {}
-        msg["Operation"] = "Exit"
-        self.sender.send(json.dumps(msg))
-        # self.sender.send("MenuNode@Exit")
+        self.sender.send(json.dumps(JSONMonter().mountExitMsg()))
         self.Close(True)
         self.parent.closeWindow(None)
 
     def moveToNewGame(self, event):
         """ This function switches to map view """
-        # self.parent.setView("Map")
-        msg = self.mountMoveToMsg("Loader")
+        msg = JSONMonter().mountMoveToMsg("MainMenuNode","Loader")
         self.sender.send(msg)
-        # self.sender.send("MenuNode@MoveTo@MapNode")
 
     def moveToCreator(self, event):
         """ This function switches to creator view """
-        # self.parent.setView("Creator")
-        msg = self.mountMoveToMsg("Creator")
+        msg = JSONMonter().mountMoveToMsg("MainMenuNode","Creator")
         self.sender.send(msg)
-        # self.sender.send("MenuNode@MoveTo@CreatorNode")
+
+    def onShow(self, event):
+        PygameOnShowUtil(self.musicPath).switch_music_on_show_changed(event)
 
     def readMsg(self, msg):
-        print "Menu view got msg", msg
+        pass

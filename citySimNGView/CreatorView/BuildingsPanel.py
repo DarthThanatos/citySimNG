@@ -9,12 +9,11 @@ import re
 from RelativePaths import relative_textures_path
 
 class BuildingsPanel(ScrolledPanel):
-    def __init__(self,parent, size, frame, currentDependencies, lists_of_names):
+    def __init__(self,parent, size, frame, currentDependencies):
         ScrolledPanel.__init__(self, size = size, parent = parent, style = wx.SIMPLE_BORDER)
         self.SetupScrolling()
         self.wakeUpData = None
 
-        self.lists_of_names = lists_of_names
         self.frame = frame
         self.currentDependencies = currentDependencies
 
@@ -51,7 +50,7 @@ class BuildingsPanel(ScrolledPanel):
         between_lines_part_vertical_sizer.AddSpacer(10)
 
         predecessor_label = wx.StaticText(self, -1, "Predecessor building:", size = (125, -1))
-        predecessorChoiceList = ["None"] + self.lists_of_names[0]
+        predecessorChoiceList = ["None"]
         self.predecessorSelector = wx.ComboBox(self, choices=predecessorChoiceList, style=wx.CB_READONLY)
         self.predecessorSelector.Bind(wx.EVT_COMBOBOX, self.onPredecessorSelected)
         predecessor_horizontal_sizer.Add(predecessor_label)
@@ -61,7 +60,7 @@ class BuildingsPanel(ScrolledPanel):
         between_lines_part_vertical_sizer.AddSpacer(5)
 
         successor_label = wx.StaticText(self, -1, "Successor building:", size = (125,-1))
-        successorChoiceList = ["None"] + self.lists_of_names[0]
+        successorChoiceList = ["None"]
         self.successorSelector = wx.ComboBox(self, choices=successorChoiceList, style=wx.CB_READONLY)
         self.successorSelector.Bind(wx.EVT_COMBOBOX, self.onSuccessorSelected)
         successor_horizontal_sizer.Add(successor_label)
@@ -85,7 +84,6 @@ class BuildingsPanel(ScrolledPanel):
         between_lines_part_vertical_sizer.AddSpacer(10)
 
         dweller_name_label = wx.StaticText(self, -1, "Name of dweller being here: ")
-        dwellersNamesChoiceList = self.lists_of_names[2]
         dwellersNamesChoiceList = self.currentDependencies["Buildings"].keys()
         self.dwellers_names_selector = wx.ComboBox(self, choices=dwellersNamesChoiceList, style=wx.CB_READONLY)
 

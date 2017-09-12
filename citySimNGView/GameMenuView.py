@@ -1,7 +1,8 @@
 import wx
-import os
-import json
-from RelativePaths import relative_music_path,relative_textures_path,relative_text_files_path
+
+from utils.PygameOnShowUtil import PygameOnShowUtil
+from utils.JSONMonter import JSONMonter
+from utils.RelativePaths import relative_music_path,relative_textures_path,relative_text_files_path
 
 class GameMenuView(wx.Panel):
     def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):
@@ -14,29 +15,6 @@ class GameMenuView(wx.Panel):
         self.musicPath = musicPath
         self.initMenu()
 
-    def onShow(self, event):
-        # print "Menu on show"
-        global pygame
-        if event.GetShow():
-                print "menu shown"
-                # print "menu: setting up music"
-                import pygame
-                print "Menu:", os.path.dirname(os.path.abspath(__file__))
-                pygame.init()
-                pygame.mixer.init()
-                pygame.mixer.music.load(
-                    #os.path.dirname(os.path.abspath(__file__)) + "\\" +
-                    self.musicPath)
-                pygame.mixer.music.play()
-        else:
-            print "menu hidden"
-            try:
-                # print "Menu, quitting"
-                pygame.quit()
-            except Exception:
-                # print "menu: problem with pygame quit"
-                pass
-
     def initMenu(self):
         """ This function creates view for menu.
             It creates and sets position for header.
@@ -45,7 +23,6 @@ class GameMenuView(wx.Panel):
         self.initHeaderSizer()
         self.createButtons()
         self.bindButtons()
-        # self.bindSocketButtons()
         self.initRootSizer()
         self.SetBackgroundColour((255, 255, 255))
 
@@ -74,14 +51,8 @@ class GameMenuView(wx.Panel):
 
     def initRootSizer(self):
         rootSizer = wx.BoxSizer(wx.VERTICAL)
-
-        # add previously created headerSizer
         rootSizer.Add(self.headerSizer, 0, wx.CENTER)
-
-        # Set space between header and buttons
         rootSizer.AddSpacer(50)
-
-        # Set buttons positions
         rootSizer.Add(self.newgame_btn, 0, wx.CENTER | wx.ALL, 5)
         rootSizer.Add(self.tutorial_btn, 0, wx.CENTER)
         rootSizer.Add(self.ranking_btn, 0, wx.CENTER)
@@ -89,8 +60,6 @@ class GameMenuView(wx.Panel):
         rootSizer.Add(self.load_btn, 0, wx.CENTER)
         rootSizer.Add(self.save_btn, 0, wx.CENTER)
         rootSizer.Add(self.loader_btn, 0, wx.CENTER)
-
-        # Establish relationships between view, rootSizer and their dimensions
         self.SetSizer(rootSizer)
         rootSizer.SetDimension(0, 0, self.size[0], self.size[1])
 
@@ -123,46 +92,32 @@ class GameMenuView(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self.moveToRanking, self.ranking_btn)
         self.Bind(wx.EVT_BUTTON, self.moveToLoader, self.loader_btn)
 
-    def mountMoveToMsg (self, target):
-        msg = {}
-        msg["To"] = "GameMenuNode"
-        msg["Operation"] = "MoveTo"
-        msg["Args"] = {}
-        msg["Args"]["TargetView"] = target
-        msg["Args"]["TargetControlNode"] = target + "Node"
-        return json.dumps(msg)
-
     def moveToNewGame(self, event):
         """ This function switches to map view """
-        #self.parent.setView("Map")
-        msg = self.mountMoveToMsg("Map")
+        msg = JSONMonter().mountMoveToMsg("GameMenuNode", "Map")
         self.sender.send(msg)
-        #self.sender.send("MenuNode@MoveTo@MapNode")
 
     def moveToLoader(self, event):
-        msg = self.mountMoveToMsg("Loader")
+        msg = JSONMonter().mountMoveToMsg("GameMenuNode", "Loader")
         self.sender.send(msg)
 
     def moveToExchange(self, event):
         """ This function switches to exchange view """
-        #self.parent.setView("Exchange")
-        msg = self.mountMoveToMsg("Exchange")
+        msg = JSONMonter().mountMoveToMsg("GameMenuNode", "Exchange")
         self.sender.send(msg)
-        #self.sender.send("MenuNode@MoveTo@ExchangeNode")
 
     def moveToTutorial(self, event):
         """ This function switches to tutorial view """
-        #self.parent.setView("Tutorial")
-        msg = self.mountMoveToMsg("Tutorial")
+        msg = JSONMonter().mountMoveToMsg("GameMenuNode", "Tutorial")
         self.sender.send(msg)
-        #self.sender.send("MenuNode@MoveTo@TutorialNode")
 
     def moveToRanking(self, event):
         """ This function switches to tutorial view """
-        #self.parent.setView("Ranking")
-        msg = self.mountMoveToMsg("Ranking")
+        msg = JSONMonter().mountMoveToMsg("GameMenuNode", "Ranking")
         self.sender.send(msg)
-        #self.sender.send("MenuNode@MoveTo@RankingNode")
+
+    def onShow(self, event):
+        PygameOnShowUtil(self.musicPath).switch_music_on_show_changed(event)
 
     def readMsg(self, msg):
-        print "Menu view got msg", msg
+        pass

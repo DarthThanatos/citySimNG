@@ -1,7 +1,8 @@
 import pygame
-from RelativePaths import relative_textures_path
-from Utils import calculate_text_size, draw_text
+
 from Consts import GREEN, RESOURCES_SPACE
+from Utils import calculate_text_size, draw_text
+from utils.RelativePaths import relative_textures_path
 
 DEFAULT_RESOURCE_TEXTURE = relative_textures_path + "DefaultBuilding.jpg"
 RESOURCE_SIZE = 0.03

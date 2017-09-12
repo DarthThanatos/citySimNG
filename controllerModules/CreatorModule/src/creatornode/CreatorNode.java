@@ -3,12 +3,10 @@
 package creatornode;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -16,10 +14,8 @@ import org.json.JSONObject;
 
 import model.DependenciesRepresenter;
 import controlnode.DispatchCenter;
-import controlnode.Node;
 import controlnode.SocketNode;
 import corectness.checker.CheckException;
-import corectness.checker.RootChecker;
 import dependencies.graph.monter.BuildingsMonter;
 import dependencies.graph.monter.DwellersMonter;
 import dependencies.graph.monter.ResourcesMonter;
@@ -101,7 +97,6 @@ public class CreatorNode extends SocketNode{
 		envelope.put(Consts.TO, Consts.CREATOR);
 		if(command.equals(Consts.PARSE)){
 			JSONObject dependencies = args.getJSONObject(Consts.DEPENDENCIES);
-			RootChecker correctnessChecker = new RootChecker(dependencies);
 			
 			JSONObject responseArgs = new JSONObject();
 			responseArgs.put(Consts.UUID, args.getString(Consts.UUID));

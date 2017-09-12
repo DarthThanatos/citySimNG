@@ -7,12 +7,11 @@ import json
 import traceback
 
 class ResourcesPanel(ScrolledPanel):
-    def __init__(self,parent, size, frame, currentDependencies, lists_of_names):
+    def __init__(self,parent, size, frame, currentDependencies):
         ScrolledPanel.__init__(self, size = size, parent = parent, style = wx.SIMPLE_BORDER)
         self.SetupScrolling()
         self.wakeUpData = None
 
-        self.lists_of_names = lists_of_names
         self.frame = frame
         self.currentDependencies = currentDependencies
 
@@ -48,7 +47,7 @@ class ResourcesPanel(ScrolledPanel):
         between_lines_part_vertical_sizer.AddSpacer(10)
 
         predecessor_label = wx.StaticText(self, -1, "Predecessor resource:", size = (150, -1))
-        predecessorChoiceList = ["None"] + self.lists_of_names[1]
+        predecessorChoiceList = ["None"]
         self.predecessorSelector = wx.ComboBox(self, choices=predecessorChoiceList, size = (125,-1), style=wx.CB_READONLY)
         self.predecessorSelector.Bind(wx.EVT_COMBOBOX, self.onPredecessorSelected)
         predecessor_horizontal_sizer.Add(predecessor_label)
@@ -58,7 +57,7 @@ class ResourcesPanel(ScrolledPanel):
         between_lines_part_vertical_sizer.AddSpacer(5)
 
         successor_label = wx.StaticText(self, -1, "Successor resource:", size = (125,-1))
-        successorChoiceList = ["None"] + self.lists_of_names[1]
+        successorChoiceList = ["None"]
         self.successorSelector = wx.ComboBox(self, choices=successorChoiceList, size = (150,-1), style=wx.CB_READONLY)
         self.successorSelector.Bind(wx.EVT_COMBOBOX, self.onSuccessorSelected)
         successor_horizontal_sizer.Add(successor_label)

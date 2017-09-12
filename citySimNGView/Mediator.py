@@ -6,31 +6,26 @@ import traceback
 
 import wx
 from py4j.clientserver import ClientServer, JavaParameters, PythonParameters
-# Create a UDP socket
 from py4j.java_gateway import JavaGateway, GatewayParameters
 
 from ViewSetter import MyFrame
 from viewmodel.ViewModel import ViewModel
 
-print "Hello world"
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind(('', 12345))
 
 def receiver_func(viewSetter):
     while True:
-        # Receive response
-        #print >> sys.stderr, 'waiting to receive'
+        # Receive response from model
         try:
             data, server = sock.recvfrom(1000000)
         except Exception:
             traceback.print_exc()
             print "Hold on, Jesus, not so fast"
-        #print >> sys.stderr, 'View receiver: received sth:',data
         viewSetter.passMsgToCurrentView(data)
         try:
             jsonObj = json.loads(data)
             uuid = jsonObj["UUID"]
-            #print "Got UUID:", uuid, "from:",jsonObj["From"]
             msg = {}
             msg["UUID"] = uuid
             msg["To"] = jsonObj["From"]
@@ -51,12 +46,9 @@ class Sender:
 def wait_for_controller():
     TCP_IP = '127.0.0.1'
     TCP_PORT = 2468
-    BUFFER_SIZE = 20  # Normally 1024, but we want fast response
-
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((TCP_IP, TCP_PORT))
     s.listen(1)
-
     conn, addr = s.accept()
     print 'Connection address:', addr
     conn.close()

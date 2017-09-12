@@ -2,7 +2,7 @@ import json
 
 from wx import wx
 
-from Converter import Converter
+from utils.Converter import Converter
 
 
 class LoaderViewModel(object):

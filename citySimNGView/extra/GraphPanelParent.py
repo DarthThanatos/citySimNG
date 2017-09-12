@@ -1,10 +1,11 @@
-import wx
 import json
 from uuid import uuid4
-from RelativePaths import relative_music_path
-import GraphPanel
+
+import wx
 from wx.lib.scrolledpanel import ScrolledPanel
 
+import GraphPanel
+from utils.RelativePaths import relative_music_path
 
 relative_textures_path = "..\\..\\resources\\Textures\\"
 
