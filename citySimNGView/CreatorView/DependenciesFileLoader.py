@@ -20,7 +20,6 @@ class DependenciesFileLoader(object):
         dependenciesCopy = self.creator_view.fetchDependenciesCopy()  # if sth goes wrong, we can restore previous state
         with open(path, "r+") as dependency_file:
             try:
-                # probe if json parser does not fail at this input
                 dependencies_dict = self.loadDependenciesFileContentToDict(dependency_file)
                 self.creator_view.fillCurrentDependenciesWithContent(dependencies_dict)
                 self.onLoadFileNotCorrupted(dependenciesCopy)

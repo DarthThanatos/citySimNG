@@ -24,8 +24,8 @@ class CreatorMainEntry(ScrolledPanel):
         self.parent = parent
         self.size = size
         self.ackMsgs = {}
-        self.imageOneFile = "Grass.png"
-        self.imageTwoFile = "Grass2.png"
+        self.texture_one_name = "Grass.png"
+        self.texture_two_name = "Grass2.jpg"
         self.wakeUpData = None
         self.current_dependencies = current_dependencies # all dependencies will be stored here
         self.frame = frame
@@ -37,8 +37,8 @@ class CreatorMainEntry(ScrolledPanel):
         self.initChildrenDependenciesPanelsSizer()
         self.initLogAreaSizer()
         self.initDependenciesPanelsPartHorizontalSizer()
-        self.initTextureOneHorizontalSizer()
-        self.initTextureTwoHorizontalSizer()
+        self.initBackgroundTextureOneHorizontalSizer()
+        self.initBackgroundTextureTwoHorizontalSizer()
         self.initButtonsPanel()
         self.initGraphSpaces()
         self.initRootSizer()
@@ -52,17 +52,23 @@ class CreatorMainEntry(ScrolledPanel):
         self.chosenSetSizer.AddSpacer(5)
         self.chosenSetSizer.Add(self.dependenciesSetNameInput)
 
+    def getSubPanel(self, panelName, displayedEntitiesNames):
+           return \
+               DependenciesPanel(
+                   self,
+                   self.dependenciesPartsVerticalSizer,
+                   panelName,
+                   displayedEntitiesNames,
+                   self.frame,
+                   self.current_dependencies
+               )
+
+
     def initChildrenDependenciesPanelsSizer(self):
         self.dependenciesPartsVerticalSizer = wx.BoxSizer(wx.VERTICAL)
-        resourcesNames = self.current_dependencies["Resources"].keys()
-        dwellersNames = self.current_dependencies["Dwellers"].keys()
-        buildingsNames = self.current_dependencies["Buildings"].keys()
-        self.resourcesDependenciesPanel = \
-            DependenciesPanel(self, self.dependenciesPartsVerticalSizer, "Resources", resourcesNames, self.frame, self.current_dependencies)
-        self.dwellersDependenciesPanel = \
-            DependenciesPanel(self, self.dependenciesPartsVerticalSizer, "Dwellers", dwellersNames, self.frame, self.current_dependencies)
-        self.buildingsDependenciesPanel = \
-            DependenciesPanel(self, self.dependenciesPartsVerticalSizer, "Buildings", buildingsNames, self.frame, self.current_dependencies)
+        self.resourcesDependenciesPanel = self.getSubPanel("Resources", self.getCurrentResourcesNames())
+        self.buildingsDependenciesPanel = self.getSubPanel("Buildings", self.getCurrentBuildingsNames())
+        self.dwellersDependenciesPanel = self.getSubPanel("Dwellers", self.getCurrentDwellersNames())
         self.children = [self.resourcesDependenciesPanel, self.dwellersDependenciesPanel, self.buildingsDependenciesPanel]
 
     def initDependenciesPanelsPartHorizontalSizer(self):
@@ -80,33 +86,48 @@ class CreatorMainEntry(ScrolledPanel):
         #  h = dependencyPanel_height * dependenciesPanelsAmount + part_desc_label_height * dependenciesPanelsAmount
         self.logAreaVerticalSizer.Add(self.logArea)
 
-    def initTextureOneHorizontalSizer(self):
-        self.image_one_horizontal_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        img_one_info_label = wx.StaticText(self, -1, "Your background texture number one: ")
-        img_one_selector_btn = wx.Button(self, -1, label = "Choose another texture", size = (-1, 32))
-        self.Bind(wx.EVT_BUTTON, self.onSelectImageOne, img_one_selector_btn)
-        image = wx.Image(name = relative_textures_path + "Grass.png")#"..\\..\\resources\\Textures\\Grass.png"
-        self.imageBitmapOne = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(image), size = (32,32))
-        self.texture_one_name = "Grass.png"
-        self.image_one_horizontal_sizer.Add(img_one_info_label)
-        self.image_one_horizontal_sizer.AddSpacer(10)
-        self.image_one_horizontal_sizer.Add(self.imageBitmapOne)
-        self.image_one_horizontal_sizer.AddSpacer(10)
-        self.image_one_horizontal_sizer.Add(img_one_selector_btn)
+    def getImageSelectorButton(self,onImgChangeCallback):
+        img_selector_btn = wx.Button(self, -1, label = "Choose another texture", size = (-1, 32))
+        self.Bind(wx.EVT_BUTTON, onImgChangeCallback, img_selector_btn)
+        return img_selector_btn
 
-    def initTextureTwoHorizontalSizer(self):
-        self.image_two_horizontal_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        img_two_info_label = wx.StaticText(self, -1, "Your background texture number two: ")
-        img_two_selector_btn = wx.Button(self, -1, label = "Choose another texture", size = (-1, 32))
-        self.Bind(wx.EVT_BUTTON, self.onSelectImageTwo, img_two_selector_btn)
-        image = wx.Image(name = relative_textures_path + "Grass2.jpg") #"..\\..\\resources\\Textures\\Grass2.jpg"
-        self.texture_two_name = "Grass2.jpg"
-        self.imageBitmapTwo = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(image), size = (32,32))
-        self.image_two_horizontal_sizer.Add(img_two_info_label)
-        self.image_two_horizontal_sizer.AddSpacer(10)
-        self.image_two_horizontal_sizer.Add(self.imageBitmapTwo)
-        self.image_two_horizontal_sizer.AddSpacer(10)
-        self.image_two_horizontal_sizer.Add(img_two_selector_btn)
+    def getBitmap(self,  textureName):
+        image = wx.Image(name = relative_textures_path + textureName)#"..\\..\\resources\\Textures\\Grass.png"
+        return wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(image), size = (32,32))
+
+    def getBackgroundInfoST(self, desc):
+        return wx.StaticText(self, -1, desc)
+
+    def initBackgroundTextureHorizontalSizer(self, imageBitmap, info, onImageChangeCallback):
+        image_horizontal_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        image_horizontal_sizer.Add(self.getBackgroundInfoST(info))
+        image_horizontal_sizer.AddSpacer(10)
+        image_horizontal_sizer.Add(imageBitmap)
+        image_horizontal_sizer.AddSpacer(10)
+        image_horizontal_sizer.Add(self.getImageSelectorButton(onImageChangeCallback))
+        return image_horizontal_sizer
+
+    def newBitmapOne(self):
+        self.imageBitmapOne = self.getBitmap(self.texture_one_name)
+        return self.imageBitmapOne
+
+    def initBackgroundTextureOneHorizontalSizer(self):
+        self.image_one_horizontal_sizer = self.initBackgroundTextureHorizontalSizer(
+            self.newBitmapOne(),
+            "Your background texture number one: ",
+            self.onSelectImageOne
+        )
+
+    def newBitmapTwo(self):
+        self.imageBitmapTwo = self.getBitmap(self.texture_two_name)
+        return self.imageBitmapTwo
+
+    def initBackgroundTextureTwoHorizontalSizer(self):
+        self.image_two_horizontal_sizer = self.initBackgroundTextureHorizontalSizer(
+            self.newBitmapTwo(),
+            "Your background texture number two: ",
+            self.onSelectImageTwo
+        )
 
     def createButtons(self):
         self.menu_btn = wx.Button(self, label="Menu")
@@ -307,7 +328,7 @@ class CreatorMainEntry(ScrolledPanel):
         return True
 
     def createDependencies(self, event):
-        dependencies = self.fetchDependenciesDictStrappedOfKeys()
+        dependencies = self.fetchDependenciesDictStrappedOfEntitiesNameKeys()
         setName = self.dependenciesSetNameInput.GetValue()
         if not self.dependenciesSetNameTypedCorrectly(setName): return
         msg = "Dependencies sent to further processing to creator controller"
@@ -318,7 +339,7 @@ class CreatorMainEntry(ScrolledPanel):
         creatorData = CreatorData(self.sender).receiveFromDict(dependencies)
         creatorData.setDependenciesSetName(setName)
         creatorData.setTextureOne(self.texture_one_name)
-        creatorData.setTextureOne(self.texture_two_name)
+        creatorData.setTextureTwo(self.texture_two_name)
         self.sender.entry_point.getCreatorPresenter().createDependencies(creatorData)
 
     def displayDependenciesGraph(self, jsonGraph):
@@ -331,7 +352,7 @@ class CreatorMainEntry(ScrolledPanel):
         dlg = self.createLoadDialog()
         self.onLoadFileSelected(dlg)
 
-    def fetchDependenciesDictStrappedOfKeys(self):
+    def fetchDependenciesDictStrappedOfEntitiesNameKeys(self):
         buildings = self.current_dependencies["Buildings"]
         resources = self.current_dependencies["Resources"]
         dwellers = self.current_dependencies["Dwellers"]
