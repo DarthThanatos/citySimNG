@@ -269,8 +269,8 @@ class CreatorMainEntry(ScrolledPanel):
         bmp.SetBitmap(wx.BitmapFromImage(image))
 
     def refreshDependenciesPanel(self, dependenciesPanel, values):
-        dependenciesPanel.list_box.Clear()
-        for value in values: dependenciesPanel.list_box.Append(value)
+        dependenciesPanel.entities_names_listbox.Clear()
+        for value in values: dependenciesPanel.entities_names_listbox.Append(value)
 
     def refreshDependenciesPanels(self):
         self.refreshDependenciesPanel(self.resourcesDependenciesSubPanel, self.getCurrentResourcesNames())

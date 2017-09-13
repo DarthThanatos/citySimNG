@@ -1,5 +1,8 @@
 import wx
 
+from utils.ButtonsFactory import ButtonsFactory
+
+
 class DependenciesPanel(wx.Panel):
     def __init__(self, parent, partName, choices, frame, currentDependencies):
         wx.Panel.__init__(self, parent = parent)
@@ -8,60 +11,78 @@ class DependenciesPanel(wx.Panel):
         self.partName = partName
         self.choices = choices
         self.parent = parent
+        self.partName = partName
+        self.initRootSizer()
 
-        vertical_sizer = wx.BoxSizer(wx.VERTICAL)
-        horizontal_sizer = wx.BoxSizer(wx.HORIZONTAL)
+    def newDescription(self):
+        self.desc = wx.StaticText(self, label=self.partName)
+        return self.desc
 
-        self.desc = wx.StaticText(self, label=partName)
-        vertical_sizer.Add(self.desc)
-        self.list_box = wx.ListBox(self, -1, size = (300,90), choices = choices)
+    def initRootSizer(self):
+        rootSizer = wx.BoxSizer(wx.VERTICAL)
+        rootSizer.Add(self.newDescription())
+        rootSizer.Add(self.newHorizontalSizer())
+        self.SetSizer(rootSizer)
 
-        button_vertical_sizer = wx.BoxSizer(wx.VERTICAL)
+    def newEntitiesNamesListBox(self):
+        self.entities_names_listbox = wx.ListBox(self, -1, size = (300, 90), choices = self.choices)
+        return self.entities_names_listbox
 
-        add_btn = wx.Button(self, size = (200,30), label = "add to " + partName)
-        self.Bind(wx.EVT_BUTTON, self.onAdd, add_btn)
+    def newHorizontalSizer(self):
+        self.horizontal_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.horizontal_sizer.Add(self.newEntitiesNamesListBox())
+        self.horizontal_sizer.Add(self.newButtonsVerticalSizer())
+        return self.horizontal_sizer
 
-        edit_btn = wx.Button(self, size = (200, 30), label = "edit selected from " + partName)
-        self.Bind(wx.EVT_BUTTON, self.onEdit, edit_btn)
+    def newButtonsVerticalSizer(self):
+        self.button_vertical_sizer = wx.BoxSizer(wx.VERTICAL)
+        self.button_vertical_sizer.Add(self.newAddButton())
+        self.button_vertical_sizer.Add(self.newEditButton())
+        self.button_vertical_sizer.Add(self.newDeleteButton())
+        return self.button_vertical_sizer
 
-        delete_btn = wx.Button(self, size = (200,30), label = "delete selected from " + partName)
-        self.Bind(wx.EVT_BUTTON, self.onDelete, delete_btn)
+    def newAddButton(self):
+        self.add_btn = ButtonsFactory().newButton(self, "add to " + self.partName, self.onAdd, size = (200,30))
+        return self.add_btn
 
-        button_vertical_sizer.Add(add_btn)
-        button_vertical_sizer.Add(edit_btn)
-        button_vertical_sizer.Add(delete_btn)
+    def newEditButton(self):
+        self.edit_btn = ButtonsFactory().newButton(self, "edit selected from " + self.partName, self.onEdit, size = (200,30))
+        return self.edit_btn
 
-        horizontal_sizer.Add(self.list_box)
-        horizontal_sizer.Add(button_vertical_sizer)
-
-        vertical_sizer.Add(horizontal_sizer)
-        self.SetSizer(vertical_sizer)
+    def newDeleteButton(self):
+        self.delete_btn = ButtonsFactory().newButton(self, "delete selected from " + self.partName, self.onDelete, size = (200,30))
+        return self.delete_btn
 
     def resetContents(self):
-        self.list_box.Clear()
-        for choice in self.currentDependencies[self.partName].keys(): self.list_box.Append(choice)
+        self.entities_names_listbox.Clear()
+        for choice in self.currentDependencies[self.partName].keys(): self.entities_names_listbox.Append(choice)
 
     def onAdd(self,event):
         self.frame.showPanel(self.partName,initDataForSearchedPanel= None)
 
     def onDelete(self, event):
-        index = self.list_box.GetSelection()
-        if not index == -1:
-            removed_element = self.list_box.GetStringSelection()
-            self.list_box.Delete(index)
-            self.currentDependencies[self.partName].__delitem__(removed_element)
-            #removed_element = self.choices[index]
-            #print "removing", removed_element
-            #self.choices.__delitem__(index)
-            self.parent.logArea.SetValue("Successfully removed " + removed_element)
-        else:
-            self.parent.logArea.SetValue("Please, select element to be removed from " + self.partName + " first")
+        index = self.entities_names_listbox.GetSelection()
+        if not index == -1: self.onDeleteItemSelected(index)
+        else: self.onDeleteItemNotSelected()
         self.parent.resetContents()
 
+    def onDeleteItemNotSelected(self):
+        self.parent.logArea.SetValue("Please, select element to be removed from " + self.partName + " first")
+
+    def onDeleteItemSelected(self, index):
+        removed_element = self.entities_names_listbox.GetStringSelection()
+        self.entities_names_listbox.Delete(index)
+        self.currentDependencies[self.partName].__delitem__(removed_element)
+        self.parent.logArea.SetValue("Successfully removed " + removed_element)
+
     def onEdit(self, event):
-        edited_element = self.list_box.GetStringSelection()
-        if not edited_element == "":
-            edit_arg = {"Edit":edited_element}
-            self.frame.showPanel(self.partName, initDataForSearchedPanel=edit_arg)
-        else:
-            self.parent.logArea.SetValue("Please, select element to be edited from " + self.partName + " first")
+        edited_element = self.entities_names_listbox.GetStringSelection()
+        if not edited_element == "": self.onEditedItemSelected(edited_element)
+        else: self.onEditedItemNotSelected()
+
+    def onEditedItemSelected(self, edited_element):
+        edit_arg = {"Edit": edited_element}
+        self.frame.showPanel(self.partName, initDataForSearchedPanel=edit_arg)
+
+    def onEditedItemNotSelected(self):
+        self.parent.logArea.SetValue("Please, select element to be edited from " + self.partName + " first")

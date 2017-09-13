@@ -1,8 +1,9 @@
 import wx
 
+from utils.ButtonsFactory import ButtonsFactory
 from utils.OnShowUtil import OnShowUtil
 from utils.JSONMonter import JSONMonter
-from utils.RelativePaths import relative_music_path,relative_textures_path,relative_text_files_path
+from utils.RelativePaths import relative_music_path,relative_textures_path
 
 class GameMenuView(wx.Panel):
     def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):
@@ -13,26 +14,8 @@ class GameMenuView(wx.Panel):
         self.size = size
         self.sender = sender
         self.musicPath = musicPath
-        self.initMenu()
-
-    def initMenu(self):
-        """ This function creates view for menu.
-            It creates and sets position for header.
-            It creates, binds and sets position for buttons."""
-        self.printHeader()
-        self.initHeaderSizer()
-        self.createButtons()
-        self.bindButtons()
         self.initRootSizer()
         self.SetBackgroundColour((255, 255, 255))
-
-    def bindButtons(self):
-        # Add logic to buttons
-        self.Bind(wx.EVT_BUTTON, self.goToExchange, self.exchange_btn)
-        self.Bind(wx.EVT_BUTTON, self.goToNewGame, self.newgame_btn)
-        self.Bind(wx.EVT_BUTTON, self.goToTutorial, self.tutorial_btn)
-        self.Bind(wx.EVT_BUTTON, self.goToRanking, self.ranking_btn)
-        self.Bind(wx.EVT_BUTTON, self.goToLoader, self.loader_btn)
 
     def goToExchange(self,event):
         self.sender.entry_point.getGameMenuPresenter().goToExchange()
@@ -51,46 +34,60 @@ class GameMenuView(wx.Panel):
 
     def initRootSizer(self):
         rootSizer = wx.BoxSizer(wx.VERTICAL)
-        rootSizer.Add(self.headerSizer, 0, wx.CENTER)
+        rootSizer.Add(self.newHeaderSizer(), 0, wx.CENTER)
         rootSizer.AddSpacer(50)
-        rootSizer.Add(self.newgame_btn, 0, wx.CENTER | wx.ALL, 5)
-        rootSizer.Add(self.tutorial_btn, 0, wx.CENTER)
-        rootSizer.Add(self.ranking_btn, 0, wx.CENTER)
-        rootSizer.Add(self.exchange_btn, 0, wx.CENTER)
-        rootSizer.Add(self.load_btn, 0, wx.CENTER)
-        rootSizer.Add(self.save_btn, 0, wx.CENTER)
-        rootSizer.Add(self.loader_btn, 0, wx.CENTER)
+        rootSizer.Add(self.newButtonsSizer(), 0, wx.CENTER)
         self.SetSizer(rootSizer)
         rootSizer.SetDimension(0, 0, self.size[0], self.size[1])
 
-    def initHeaderSizer(self):
+    def newHeaderBmp(self):
+        headerImage = wx.Image(relative_textures_path + "headerCS.jpg", wx.BITMAP_TYPE_JPEG)
+        return wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(headerImage))
+
+    def newHeaderSizer(self):
         # Load, add and set position for header
         self.headerSizer = wx.BoxSizer(wx.HORIZONTAL)
-        headerImage = wx.Image(relative_textures_path + "headerCS.jpg", wx.BITMAP_TYPE_JPEG)
-        headerBmp = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(headerImage))
-        self.headerSizer.Add(headerBmp)
+        self.headerSizer.Add(self.newHeaderBmp())
+        return self.headerSizer
 
-    def printHeader(self):
-        with open(relative_text_files_path + "headerCS.txt", "r+") as headerFile:
-            headerTxt = headerFile.read()
-            print headerTxt
+    def newButtonsSizer(self):
+        self.buttons_vertical_sizer = wx.BoxSizer(wx.VERTICAL)
+        self.buttons_vertical_sizer.Add(self.newGameButton(), 0, wx.CENTER | wx.ALL, 15)
+        self.buttons_vertical_sizer.Add(self.newTutorialButton(), 0, wx.CENTER, 0)
+        self.buttons_vertical_sizer.Add(self.newRankingButton(), 0, wx.CENTER, 0)
+        self.buttons_vertical_sizer.Add(self.newExchangeButton(), 0, wx.CENTER, 0)
+        self.buttons_vertical_sizer.Add(self.newLoadButton(), 0, wx.CENTER, 0)
+        self.buttons_vertical_sizer.Add(self.newSaveButton(), 0, wx.CENTER, 0)
+        self.buttons_vertical_sizer.Add(self.newLoaderButton(), 0, wx.CENTER, 0)
+        return self.buttons_vertical_sizer
 
-    def createButtons(self):
-        self.newgame_btn = wx.Button(self, label="New Game")
-        self.tutorial_btn = wx.Button(self, label="Tutorial")
-        self.exchange_btn = wx.Button(self, label="Exchange")
-        self.ranking_btn = wx.Button(self, label="Ranking")
-        self.load_btn = wx.Button(self, label="Load")
-        self.save_btn = wx.Button(self, label="Save")
-        self.loader_btn = wx.Button(self, label="Back to Loader")
+    def newGameButton(self):
+        self.newgame_btn = ButtonsFactory().newButton(self, "New Game", self.goToNewGame)
+        return self.newgame_btn
 
-    def bindSocketButtons(self):
-        # Add logic to buttons
-        self.Bind(wx.EVT_BUTTON, self.moveToExchange, self.exchange_btn)
-        self.Bind(wx.EVT_BUTTON, self.moveToNewGame, self.newgame_btn)
-        self.Bind(wx.EVT_BUTTON, self.moveToTutorial, self.tutorial_btn)
-        self.Bind(wx.EVT_BUTTON, self.moveToRanking, self.ranking_btn)
-        self.Bind(wx.EVT_BUTTON, self.moveToLoader, self.loader_btn)
+    def newTutorialButton(self):
+        self.tutorial_btn = ButtonsFactory().newButton(self, "Tutorial", self.goToTutorial)
+        return self.tutorial_btn
+
+    def newExchangeButton(self):
+        self.exchange_btn = ButtonsFactory().newButton(self, "Exchange", self.goToExchange)
+        return self.exchange_btn
+
+    def newRankingButton(self):
+        self.ranking_btn = ButtonsFactory().newButton(self, "Ranking", self.goToRanking)
+        return self.ranking_btn
+
+    def newLoadButton(self):
+        self.load_btn =  ButtonsFactory().newButton(self, "Load")
+        return self.load_btn
+
+    def newSaveButton(self):
+        self.save_btn =  ButtonsFactory().newButton(self, "Save")
+        return self.save_btn
+
+    def newLoaderButton(self):
+        self.loader_btn = ButtonsFactory().newButton(self, "Back to Loader", self.goToLoader)
+        return self.loader_btn
 
     def moveToNewGame(self, event):
         """ This function switches to map view """
