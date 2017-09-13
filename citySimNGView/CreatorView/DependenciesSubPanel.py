@@ -3,7 +3,7 @@ import wx
 from utils.ButtonsFactory import ButtonsFactory
 
 
-class DependenciesPanel(wx.Panel):
+class DependenciesSubPanel(wx.Panel):
     def __init__(self, parent, partName, choices, frame, currentDependencies):
         wx.Panel.__init__(self, parent = parent)
         self.frame = frame

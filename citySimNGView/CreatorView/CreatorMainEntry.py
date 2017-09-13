@@ -6,7 +6,7 @@ from uuid import uuid4
 import wx
 from wx.lib.scrolledpanel import ScrolledPanel
 
-from DependenciesPanel import DependenciesPanel
+from DependenciesSubPanel import DependenciesSubPanel
 from GraphsSpaces import GraphsSpaces
 from LogMessages import WELCOME_MSG
 from RelativePaths import relative_dependencies_path,relative_textures_path
@@ -81,7 +81,7 @@ class CreatorMainEntry(ScrolledPanel):
         return self.chosenSetSizer
 
     def newSubPanel(self, panelName, displayedEntitiesNames):
-       subpanel = DependenciesPanel(self, panelName, displayedEntitiesNames, self.frame, self.current_dependencies)
+       subpanel = DependenciesSubPanel(self, panelName, displayedEntitiesNames, self.frame, self.current_dependencies)
        self.subpanels.append(subpanel)
        return subpanel
 
