@@ -1,19 +1,20 @@
+import json
+import re
+import traceback
+from uuid import uuid4
+
 import wx
 from wx.lib.scrolledpanel import ScrolledPanel
 
-from CreatorView.DependenciesFileLoader import DependenciesFileLoader
 from DependenciesPanel import DependenciesPanel
-from LogMessages import WELCOME_MSG
-import json
-from RelativePaths import relative_dependencies_path,relative_textures_path
-import traceback
-import re
-from uuid import uuid4
 from GraphsSpaces import GraphsSpaces
+from LogMessages import WELCOME_MSG
+from RelativePaths import relative_dependencies_path,relative_textures_path
 from utils.JSONMonter import JSONMonter
 from utils.OnShowUtil import OnShowUtil
 from utils.SocketMsgReader.CreatorMsgReader import CreatorMsgReader
 from viewmodel.CreatorData import CreatorData
+from viewmodel.DependenciesFileLoader import DependenciesFileLoader
 
 
 class CreatorMainEntry(ScrolledPanel):
@@ -29,14 +30,15 @@ class CreatorMainEntry(ScrolledPanel):
         self.wakeUpData = None
         self.current_dependencies = current_dependencies # all dependencies will be stored here
         self.frame = frame
+        self.subpanels = []
         self.initCreatorView()
 
     def initCreatorView(self):
         self.SetupScrolling()
         self.initChosenSetNameSizer()
-        self.initChildrenDependenciesPanelsSizer()
+        self.initDependenciesSubPanelsSizer()
         self.initLogAreaSizer()
-        self.initDependenciesPanelsPartHorizontalSizer()
+        self.initDependenciesSubpanelsHorizontalSizer()
         self.initBackgroundTextureOneHorizontalSizer()
         self.initBackgroundTextureTwoHorizontalSizer()
         self.initButtonsPanel()
@@ -44,87 +46,96 @@ class CreatorMainEntry(ScrolledPanel):
         self.initRootSizer()
         self.Bind(wx.EVT_SHOW, self.onShow, self)
 
+
+    def newInfoST(self, desc):
+        return wx.StaticText(self, -1, desc)
+
+    def newNameInput(self):
+        self.dependenciesSetNameInput = wx.TextCtrl(self, -1, "Default Set")
+        return self.dependenciesSetNameInput
+
     def initChosenSetNameSizer(self):
         self.chosenSetSizer = wx.BoxSizer(wx.HORIZONTAL)
-        dependenciesSetNameLabel = wx.StaticText(self,-1, "Name of this dependencies set")
-        self.dependenciesSetNameInput = wx.TextCtrl(self, -1, "Default Set")
-        self.chosenSetSizer.Add(dependenciesSetNameLabel)
+        self.chosenSetSizer.Add(self.newInfoST("Name of this dependencies set"))
         self.chosenSetSizer.AddSpacer(5)
-        self.chosenSetSizer.Add(self.dependenciesSetNameInput)
+        self.chosenSetSizer.Add(self.newNameInput())
 
-    def getSubPanel(self, panelName, displayedEntitiesNames):
-           return \
-               DependenciesPanel(
-                   self,
-                   self.dependenciesPartsVerticalSizer,
-                   panelName,
-                   displayedEntitiesNames,
-                   self.frame,
-                   self.current_dependencies
-               )
+    def newSubPanel(self, panelName, displayedEntitiesNames):
+       subpanel = DependenciesPanel(self, panelName, displayedEntitiesNames, self.frame, self.current_dependencies)
+       self.subpanels.append(subpanel)
+       return subpanel
 
+    def newResourcesSubpanel(self):
+        self.resourcesDependenciesSubPanel = self.newSubPanel("Resources", self.getCurrentResourcesNames())
+        return self.resourcesDependenciesSubPanel
 
-    def initChildrenDependenciesPanelsSizer(self):
-        self.dependenciesPartsVerticalSizer = wx.BoxSizer(wx.VERTICAL)
-        self.resourcesDependenciesPanel = self.getSubPanel("Resources", self.getCurrentResourcesNames())
-        self.buildingsDependenciesPanel = self.getSubPanel("Buildings", self.getCurrentBuildingsNames())
-        self.dwellersDependenciesPanel = self.getSubPanel("Dwellers", self.getCurrentDwellersNames())
-        self.children = [self.resourcesDependenciesPanel, self.dwellersDependenciesPanel, self.buildingsDependenciesPanel]
+    def newBuildingsSubpanel(self):
+        self.buildingsDependenciesSubPanel = self.newSubPanel("Buildings", self.getCurrentBuildingsNames())
+        return self.buildingsDependenciesSubPanel
 
-    def initDependenciesPanelsPartHorizontalSizer(self):
-        self.dependenciesPartsHorizontalSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self.dependenciesPartsHorizontalSizer.Add(self.dependenciesPartsVerticalSizer)
-        self.dependenciesPartsHorizontalSizer.AddSpacer(10)
-        self.dependenciesPartsHorizontalSizer.Add(self.logAreaVerticalSizer)
+    def newDwellersSubpanel(self):
+        self.dwellersDependenciesSubPanel = self.newSubPanel("Dwellers", self.getCurrentDwellersNames())
+        return self.dwellersDependenciesSubPanel
+
+    def initDependenciesSubPanelsSizer(self):
+        self.dependenciesSubpanelsVerticalSizer = wx.BoxSizer(wx.VERTICAL)
+        self.dependenciesSubpanelsVerticalSizer.Add(self.newResourcesSubpanel(), 0, wx.CENTER)
+        self.dependenciesSubpanelsVerticalSizer.Add(self.newBuildingsSubpanel(), 0, wx.CENTER)
+        self.dependenciesSubpanelsVerticalSizer.Add(self.newDwellersSubpanel(), 0, wx.CENTER)
+
+    def initDependenciesSubpanelsHorizontalSizer(self):
+        self.dependenciesSubpanelsHorizontalSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.dependenciesSubpanelsHorizontalSizer.Add(self.dependenciesSubpanelsVerticalSizer)
+        self.dependenciesSubpanelsHorizontalSizer.AddSpacer(10)
+        self.dependenciesSubpanelsHorizontalSizer.Add(self.logAreaVerticalSizer)
+
+    def newLogArea(self):
+        # height of a logArea textctrl comes from the equation:
+        #  h = dependencyPanel_height * dependenciesPanelsAmount + part_desc_label_height * dependenciesPanelsAmount
+        self.logArea = wx.TextCtrl(parent = self, id=-1, size=(400, 90 * 3 + 10 * 3), style=wx.TE_MULTILINE | wx.TE_READONLY)
+        return self.logArea
 
     def initLogAreaSizer(self):
         self.logAreaVerticalSizer = wx.BoxSizer(wx.VERTICAL)
-        logLabel = wx.StaticText(self, label="Log area, shows important information")
-        self.logAreaVerticalSizer.Add(logLabel)
-        self.logArea = wx.TextCtrl(parent = self, id=-1, size=(400, 90 * 3 + 10 * 3), style=wx.TE_MULTILINE | wx.TE_READONLY)
-        # ^ height of a logArea textctrl comes from the equation:
-        #  h = dependencyPanel_height * dependenciesPanelsAmount + part_desc_label_height * dependenciesPanelsAmount
-        self.logAreaVerticalSizer.Add(self.logArea)
+        self.logAreaVerticalSizer.Add(self.newInfoST("Log area, shows important information"))
+        self.logAreaVerticalSizer.Add(self.newLogArea())
 
-    def getImageSelectorButton(self,onImgChangeCallback):
+    def newImageSelectorButton(self, onImgChangeCallback):
         img_selector_btn = wx.Button(self, -1, label = "Choose another texture", size = (-1, 32))
         self.Bind(wx.EVT_BUTTON, onImgChangeCallback, img_selector_btn)
         return img_selector_btn
 
-    def getBitmap(self,  textureName):
+    def newBitmap(self, textureName):
         image = wx.Image(name = relative_textures_path + textureName)#"..\\..\\resources\\Textures\\Grass.png"
         return wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(image), size = (32,32))
 
-    def getBackgroundInfoST(self, desc):
-        return wx.StaticText(self, -1, desc)
+    def newBackgroundTextureHorizontalSizer(self, imageBitmap, info, onImageChangeCallback):
+        texture_horizontal_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        texture_horizontal_sizer.Add(self.newInfoST(info))
+        texture_horizontal_sizer.AddSpacer(10)
+        texture_horizontal_sizer.Add(imageBitmap)
+        texture_horizontal_sizer.AddSpacer(10)
+        texture_horizontal_sizer.Add(self.newImageSelectorButton(onImageChangeCallback))
+        return texture_horizontal_sizer
 
-    def initBackgroundTextureHorizontalSizer(self, imageBitmap, info, onImageChangeCallback):
-        image_horizontal_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        image_horizontal_sizer.Add(self.getBackgroundInfoST(info))
-        image_horizontal_sizer.AddSpacer(10)
-        image_horizontal_sizer.Add(imageBitmap)
-        image_horizontal_sizer.AddSpacer(10)
-        image_horizontal_sizer.Add(self.getImageSelectorButton(onImageChangeCallback))
-        return image_horizontal_sizer
-
-    def newBitmapOne(self):
-        self.imageBitmapOne = self.getBitmap(self.texture_one_name)
+    def newBackgroundBitmapOne(self):
+        self.imageBitmapOne = self.newBitmap(self.texture_one_name)
         return self.imageBitmapOne
 
     def initBackgroundTextureOneHorizontalSizer(self):
-        self.image_one_horizontal_sizer = self.initBackgroundTextureHorizontalSizer(
-            self.newBitmapOne(),
+        self.image_one_horizontal_sizer = self.newBackgroundTextureHorizontalSizer(
+            self.newBackgroundBitmapOne(),
             "Your background texture number one: ",
             self.onSelectImageOne
         )
 
-    def newBitmapTwo(self):
-        self.imageBitmapTwo = self.getBitmap(self.texture_two_name)
+    def newBackgroundBitmapTwo(self):
+        self.imageBitmapTwo = self.newBitmap(self.texture_two_name)
         return self.imageBitmapTwo
 
     def initBackgroundTextureTwoHorizontalSizer(self):
-        self.image_two_horizontal_sizer = self.initBackgroundTextureHorizontalSizer(
-            self.newBitmapTwo(),
+        self.image_two_horizontal_sizer = self.newBackgroundTextureHorizontalSizer(
+            self.newBackgroundBitmapTwo(),
             "Your background texture number two: ",
             self.onSelectImageTwo
         )
@@ -166,7 +177,7 @@ class CreatorMainEntry(ScrolledPanel):
         rootSizer.AddSpacer(10)
         rootSizer.Add(wx.StaticLine(self, -1), 0, wx.EXPAND)
         rootSizer.AddSpacer(75)
-        rootSizer.Add(self.dependenciesPartsHorizontalSizer, 0, wx.CENTER)
+        rootSizer.Add(self.dependenciesSubpanelsHorizontalSizer, 0, wx.CENTER)
         rootSizer.AddSpacer(75)
         rootSizer.Add(wx.StaticLine(self, -1), 0, wx.EXPAND)
         rootSizer.AddSpacer(10)
@@ -262,9 +273,9 @@ class CreatorMainEntry(ScrolledPanel):
         for value in values: dependenciesPanel.list_box.Append(value)
 
     def refreshDependenciesPanels(self):
-        self.refreshDependenciesPanel(self.resourcesDependenciesPanel, self.getCurrentResourcesNames())
-        self.refreshDependenciesPanel(self.buildingsDependenciesPanel, self.getCurrentBuildingsNames())
-        self.refreshDependenciesPanel(self.dwellersDependenciesPanel, self.getCurrentDwellersNames())
+        self.refreshDependenciesPanel(self.resourcesDependenciesSubPanel, self.getCurrentResourcesNames())
+        self.refreshDependenciesPanel(self.buildingsDependenciesSubPanel, self.getCurrentBuildingsNames())
+        self.refreshDependenciesPanel(self.dwellersDependenciesSubPanel, self.getCurrentDwellersNames())
 
     def getCurrentBuildingsNames(self):
         return self.current_dependencies["Buildings"].keys()
@@ -276,7 +287,7 @@ class CreatorMainEntry(ScrolledPanel):
         return self.current_dependencies["Dwellers"].keys()
 
     def refreshChildren(self):
-        for child in self.children: child.resetContents()
+        for child in self.subpanels: child.resetContents()
 
     def updateTextureOne(self, imageName):
         self.createScaledBitmap(self.imageBitmapOne, relative_textures_path +imageName)
@@ -328,12 +339,18 @@ class CreatorMainEntry(ScrolledPanel):
         return True
 
     def createDependencies(self, event):
-        dependencies = self.fetchDependenciesDictStrappedOfEntitiesNameKeys()
+        dependencies = self.fetchDependenciesDictStrippedOfEntitiesNameKeys()
         setName = self.dependenciesSetNameInput.GetValue()
         if not self.dependenciesSetNameTypedCorrectly(setName): return
         msg = "Dependencies sent to further processing to creator controller"
         self.logArea.SetLabelText(msg)
         self.sendDependenciesPy4J(dependencies, setName)
+
+    def fetchDependenciesDictStrippedOfEntitiesNameKeys(self):
+        buildings = self.current_dependencies["Buildings"]
+        resources = self.current_dependencies["Resources"]
+        dwellers = self.current_dependencies["Dwellers"]
+        return {"Buildings": buildings.values(), "Resources": resources.values(), "Dwellers": dwellers.values()}
 
     def sendDependenciesPy4J(self, dependencies, setName):
         creatorData = CreatorData(self.sender).receiveFromDict(dependencies)
@@ -352,11 +369,6 @@ class CreatorMainEntry(ScrolledPanel):
         dlg = self.createLoadDialog()
         self.onLoadFileSelected(dlg)
 
-    def fetchDependenciesDictStrappedOfEntitiesNameKeys(self):
-        buildings = self.current_dependencies["Buildings"]
-        resources = self.current_dependencies["Resources"]
-        dwellers = self.current_dependencies["Dwellers"]
-        return {"Buildings": buildings.values(), "Resources": resources.values(), "Dwellers": dwellers.values()}
 
     def createLoadDialog(self):
         return wx.FileDialog(

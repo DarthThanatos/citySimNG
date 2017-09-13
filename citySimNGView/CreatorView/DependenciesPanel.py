@@ -1,10 +1,9 @@
 import wx
 
 class DependenciesPanel(wx.Panel):
-    def __init__(self, parent, rootSizer, partName, choices, frame, currentDependencies):
+    def __init__(self, parent, partName, choices, frame, currentDependencies):
         wx.Panel.__init__(self, parent = parent)
         self.frame = frame
-
         self.currentDependencies = currentDependencies
         self.partName = partName
         self.choices = choices
@@ -37,7 +36,6 @@ class DependenciesPanel(wx.Panel):
 
         vertical_sizer.Add(horizontal_sizer)
         self.SetSizer(vertical_sizer)
-        rootSizer.Add(self, 0, wx.CENTER)
 
     def resetContents(self):
         self.list_box.Clear()
@@ -50,9 +48,7 @@ class DependenciesPanel(wx.Panel):
         index = self.list_box.GetSelection()
         if not index == -1:
             removed_element = self.list_box.GetStringSelection()
-            print "index:", index
             self.list_box.Delete(index)
-            print self.choices
             self.currentDependencies[self.partName].__delitem__(removed_element)
             #removed_element = self.choices[index]
             #print "removing", removed_element
@@ -65,7 +61,6 @@ class DependenciesPanel(wx.Panel):
     def onEdit(self, event):
         edited_element = self.list_box.GetStringSelection()
         if not edited_element == "":
-            print "editing", edited_element
             edit_arg = {"Edit":edited_element}
             self.frame.showPanel(self.partName, initDataForSearchedPanel=edit_arg)
         else:
