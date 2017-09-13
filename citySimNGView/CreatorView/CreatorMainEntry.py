@@ -246,7 +246,7 @@ class CreatorMainEntry(ScrolledPanel):
         if dlg.ShowModal() == wx.ID_OK:
             path = dlg.GetPath()
             with open(path, "wb+") as f:
-                f.write(json.dumps(self.current_dependencies).replace(",",",\n"))
+                f.write(json.dumps(self.current_dependencies, indent=4).replace(",",",\n"))
 
     def save(self, event):
         dlg = self.createSaveDialog()

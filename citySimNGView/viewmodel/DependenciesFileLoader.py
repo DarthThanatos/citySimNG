@@ -52,4 +52,3 @@ class DependenciesFileLoader(object):
     def restoreDependenciesCopy(self, dependenciesCopy):
         self.creator_view.fillCurrentDependenciesWithContent(dependenciesCopy)  # here we restore previous state of subpanels
         self.creator_view.resetView()
-

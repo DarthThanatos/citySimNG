@@ -6,7 +6,6 @@ class CreatorData(object):
 
     def __init__(self, javaGateway):
         self.javaGateway = javaGateway
-        print "converting creator data"
 
     def receiveFromDict(self, dataDict):
         creatorData = self.javaGateway.jvm.py4jmediator.CreatorData()
