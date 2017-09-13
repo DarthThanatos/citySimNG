@@ -23,7 +23,6 @@ class LoaderView(wx.Panel):
         self.initMainSizer()
         self.SetBackgroundColour((255, 255, 255))
 
-
     def initMainSizer(self):
         mainSizer = wx.BoxSizer(wx.VERTICAL)
         mainSizer.Add(self.newHeaderSizer(), 0, wx.CENTER)

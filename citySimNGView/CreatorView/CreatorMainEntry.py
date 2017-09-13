@@ -10,6 +10,7 @@ from DependenciesPanel import DependenciesPanel
 from GraphsSpaces import GraphsSpaces
 from LogMessages import WELCOME_MSG
 from RelativePaths import relative_dependencies_path,relative_textures_path
+from utils.ButtonsFactory import ButtonsFactory
 from utils.JSONMonter import JSONMonter
 from utils.OnShowUtil import OnShowUtil
 from utils.SocketMsgReader.CreatorMsgReader import CreatorMsgReader
@@ -35,17 +36,35 @@ class CreatorMainEntry(ScrolledPanel):
 
     def initCreatorView(self):
         self.SetupScrolling()
-        self.initChosenSetNameSizer()
-        self.initDependenciesSubPanelsSizer()
-        self.initLogAreaSizer()
-        self.initDependenciesSubpanelsHorizontalSizer()
-        self.initBackgroundTextureOneHorizontalSizer()
-        self.initBackgroundTextureTwoHorizontalSizer()
-        self.initButtonsPanel()
-        self.initGraphSpaces()
         self.initRootSizer()
         self.Bind(wx.EVT_SHOW, self.onShow, self)
 
+    def newLine(self):
+        return wx.StaticLine(self, -1)
+
+    def initRootSizer(self):
+        rootSizer = wx.BoxSizer(wx.VERTICAL)
+        rootSizer.AddSpacer(20)
+        rootSizer.Add(self.newChosenSetNameSizer(), 0, wx.CENTER)
+        rootSizer.AddSpacer(10)
+        rootSizer.Add(self.newLine(), 0, wx.EXPAND)
+        rootSizer.AddSpacer(75)
+        rootSizer.Add(self.newDependenciesSubpanelsHorizontalSizer(), 0, wx.CENTER)
+        rootSizer.AddSpacer(75)
+        rootSizer.Add(self.newLine(), 0, wx.EXPAND)
+        rootSizer.AddSpacer(10)
+        rootSizer.Add(self.newBackgroundTextureOneHorizontalSizer(), 0, wx.CENTER)
+        rootSizer.AddSpacer(10)
+        rootSizer.Add(self.newBackgroundTextureTwoHorizontalSizer(), 0, wx.CENTER)
+        rootSizer.AddSpacer(10)
+        rootSizer.Add(self.newLine(), 0, wx.EXPAND)
+        rootSizer.AddSpacer(75)
+        rootSizer.Add(self.newButtonsSizer(), 0, wx.CENTER)
+        rootSizer.AddSpacer(50)
+        rootSizer.Add(self.newGraphSpaces(),0,wx.CENTER)
+        rootSizer.AddSpacer(175)
+        rootSizer.SetDimension(0, 0, self.size[0], self.size[1])
+        self.SetSizer(rootSizer)
 
     def newInfoST(self, desc):
         return wx.StaticText(self, -1, desc)
@@ -54,11 +73,12 @@ class CreatorMainEntry(ScrolledPanel):
         self.dependenciesSetNameInput = wx.TextCtrl(self, -1, "Default Set")
         return self.dependenciesSetNameInput
 
-    def initChosenSetNameSizer(self):
+    def newChosenSetNameSizer(self):
         self.chosenSetSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.chosenSetSizer.Add(self.newInfoST("Name of this dependencies set"))
         self.chosenSetSizer.AddSpacer(5)
         self.chosenSetSizer.Add(self.newNameInput())
+        return self.chosenSetSizer
 
     def newSubPanel(self, panelName, displayedEntitiesNames):
        subpanel = DependenciesPanel(self, panelName, displayedEntitiesNames, self.frame, self.current_dependencies)
@@ -77,17 +97,19 @@ class CreatorMainEntry(ScrolledPanel):
         self.dwellersDependenciesSubPanel = self.newSubPanel("Dwellers", self.getCurrentDwellersNames())
         return self.dwellersDependenciesSubPanel
 
-    def initDependenciesSubPanelsSizer(self):
+    def newDependenciesSubPanelsVerticalSizer(self):
         self.dependenciesSubpanelsVerticalSizer = wx.BoxSizer(wx.VERTICAL)
         self.dependenciesSubpanelsVerticalSizer.Add(self.newResourcesSubpanel(), 0, wx.CENTER)
         self.dependenciesSubpanelsVerticalSizer.Add(self.newBuildingsSubpanel(), 0, wx.CENTER)
         self.dependenciesSubpanelsVerticalSizer.Add(self.newDwellersSubpanel(), 0, wx.CENTER)
+        return self.dependenciesSubpanelsVerticalSizer
 
-    def initDependenciesSubpanelsHorizontalSizer(self):
+    def newDependenciesSubpanelsHorizontalSizer(self):
         self.dependenciesSubpanelsHorizontalSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self.dependenciesSubpanelsHorizontalSizer.Add(self.dependenciesSubpanelsVerticalSizer)
+        self.dependenciesSubpanelsHorizontalSizer.Add(self.newDependenciesSubPanelsVerticalSizer())
         self.dependenciesSubpanelsHorizontalSizer.AddSpacer(10)
-        self.dependenciesSubpanelsHorizontalSizer.Add(self.logAreaVerticalSizer)
+        self.dependenciesSubpanelsHorizontalSizer.Add(self.newLogAreaSizer())
+        return self.dependenciesSubpanelsHorizontalSizer
 
     def newLogArea(self):
         # height of a logArea textctrl comes from the equation:
@@ -95,10 +117,11 @@ class CreatorMainEntry(ScrolledPanel):
         self.logArea = wx.TextCtrl(parent = self, id=-1, size=(400, 90 * 3 + 10 * 3), style=wx.TE_MULTILINE | wx.TE_READONLY)
         return self.logArea
 
-    def initLogAreaSizer(self):
+    def newLogAreaSizer(self):
         self.logAreaVerticalSizer = wx.BoxSizer(wx.VERTICAL)
         self.logAreaVerticalSizer.Add(self.newInfoST("Log area, shows important information"))
         self.logAreaVerticalSizer.Add(self.newLogArea())
+        return self.logAreaVerticalSizer
 
     def newImageSelectorButton(self, onImgChangeCallback):
         img_selector_btn = wx.Button(self, -1, label = "Choose another texture", size = (-1, 32))
@@ -122,77 +145,58 @@ class CreatorMainEntry(ScrolledPanel):
         self.imageBitmapOne = self.newBitmap(self.texture_one_name)
         return self.imageBitmapOne
 
-    def initBackgroundTextureOneHorizontalSizer(self):
+    def newBackgroundTextureOneHorizontalSizer(self):
         self.image_one_horizontal_sizer = self.newBackgroundTextureHorizontalSizer(
             self.newBackgroundBitmapOne(),
             "Your background texture number one: ",
             self.onSelectImageOne
         )
+        return self.image_one_horizontal_sizer
 
     def newBackgroundBitmapTwo(self):
         self.imageBitmapTwo = self.newBitmap(self.texture_two_name)
         return self.imageBitmapTwo
 
-    def initBackgroundTextureTwoHorizontalSizer(self):
+    def newBackgroundTextureTwoHorizontalSizer(self):
         self.image_two_horizontal_sizer = self.newBackgroundTextureHorizontalSizer(
             self.newBackgroundBitmapTwo(),
             "Your background texture number two: ",
             self.onSelectImageTwo
         )
+        return self.image_two_horizontal_sizer
 
-    def createButtons(self):
-        self.menu_btn = wx.Button(self, label="Menu")
-        self.load_btn = wx.Button(self, label="Load dependencies From File")
-        self.save_btn = wx.Button(self, label="Save these dependencies to File")
-        self.create_btn = wx.Button(self, label="Create")
-        self.clean_btn = wx.Button(self, label = "Clean and Start Again")
+    def newMenuButton(self):
+        self.menu_btn = ButtonsFactory().newButton(self, "Menu", self.retToMenu)
+        return self.menu_btn
 
-    def bindButtons(self):
-        self.Bind(wx.EVT_BUTTON, self.retToMenu, self.menu_btn)
-        self.Bind(wx.EVT_BUTTON, self.loadDependencies, self.load_btn)
-        self.Bind(wx.EVT_BUTTON, self.save, self.save_btn)
-        self.Bind(wx.EVT_BUTTON, self.createDependencies, self.create_btn)
-        self.Bind(wx.EVT_BUTTON, self.clean, self.clean_btn)
+    def newLoadButton(self):
+        self.load_btn = ButtonsFactory().newButton(self, "Load dependencies From File", self.loadDependencies)
+        return self.load_btn
 
-    def initButtonsSizer(self):
+    def newSaveButton(self):
+        self.save_btn = ButtonsFactory().newButton(self, "Save these dependencies to File", self.save)
+        return self.save_btn
+
+    def newCreateButton(self):
+        self.create_btn = ButtonsFactory().newButton(self, "Create", self.createDependencies)
+        return self.create_btn
+
+    def newCleanButton(self):
+        self.clean_btn = ButtonsFactory().newButton(self, "Clean and Start Again", self.clean)
+        return self.clean_btn
+
+    def newButtonsSizer(self):
         self.buttonsSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self.buttonsSizer.Add(self.menu_btn, 0, wx.EXPAND, 5)
-        self.buttonsSizer.Add(self.load_btn, 0, wx.EXPAND, 5)
-        self.buttonsSizer.Add(self.save_btn, 0, wx.EXPAND, 5)
-        self.buttonsSizer.Add(self.create_btn, 0, wx.EXPAND, 5)
-        self.buttonsSizer.Add(self.clean_btn)
+        self.buttonsSizer.Add(self.newMenuButton(), 0, wx.EXPAND, 5)
+        self.buttonsSizer.Add(self.newLoadButton(), 0, wx.EXPAND, 5)
+        self.buttonsSizer.Add(self.newSaveButton(), 0, wx.EXPAND, 5)
+        self.buttonsSizer.Add(self.newCreateButton(), 0, wx.EXPAND, 5)
+        self.buttonsSizer.Add(self.newCleanButton())
+        return self.buttonsSizer
 
-    def initGraphSpaces(self):
+    def newGraphSpaces(self):
         self.graphsSpaces = GraphsSpaces(self)
-
-    def initButtonsPanel(self):
-        self.createButtons()
-        self.bindButtons()
-        self.initButtonsSizer()
-
-    def initRootSizer(self):
-        rootSizer = wx.BoxSizer(wx.VERTICAL)
-        rootSizer.AddSpacer(20)
-        rootSizer.Add(self.chosenSetSizer, 0, wx.CENTER)
-        rootSizer.AddSpacer(10)
-        rootSizer.Add(wx.StaticLine(self, -1), 0, wx.EXPAND)
-        rootSizer.AddSpacer(75)
-        rootSizer.Add(self.dependenciesSubpanelsHorizontalSizer, 0, wx.CENTER)
-        rootSizer.AddSpacer(75)
-        rootSizer.Add(wx.StaticLine(self, -1), 0, wx.EXPAND)
-        rootSizer.AddSpacer(10)
-        rootSizer.Add(self.image_one_horizontal_sizer, 0, wx.CENTER)
-        rootSizer.AddSpacer(10)
-        rootSizer.Add(self.image_two_horizontal_sizer, 0, wx.CENTER)
-        rootSizer.AddSpacer(10)
-        rootSizer.Add( wx.StaticLine(self, -1), 0, wx.EXPAND)
-        rootSizer.AddSpacer(75)
-        rootSizer.Add(self.buttonsSizer, 0, wx.CENTER)
-        rootSizer.AddSpacer(50)
-        rootSizer.Add(self.graphsSpaces,0,wx.CENTER)
-        rootSizer.AddSpacer(175)
-        rootSizer.SetDimension(0, 0, self.size[0], self.size[1])
-        self.SetSizer(rootSizer)
+        return self.graphsSpaces
 
     def onShow(self, event):
         OnShowUtil().onCreatorPanelShow(self, event)
