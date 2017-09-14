@@ -11,12 +11,11 @@ import entities.Resource;
 public class Resources {
 	private List<String> resourcesNames;
 	private List<Resource> resources;
-	private Map<String, Integer> actualIncomes = new HashMap<String, Integer>();
+	private Map<String, Integer> actualResourcesIncomes = new HashMap<String, Integer>();
 	private Map<String, Integer> actualResourcesValues = new HashMap<>();
-	private final String relativeTexturesPath = "resources\\Textures\\";
 
 	public Resources(DependenciesRepresenter dr){
-		actualIncomes = (Map<String, Integer>) dr.getModuleData("incomes");
+		actualResourcesIncomes = (Map<String, Integer>) dr.getModuleData("incomes");
 		resourcesNames = (List<String>) dr.getModuleData("resourcesNames");
 		resources = (List<Resource>) dr.getModuleData("resourcesList");
 		for (String resourceName : resourcesNames){
@@ -28,30 +27,21 @@ public class Resources {
 	public void updateResources(){
 	    // update current resources values
 		for(String resource : resourcesNames){
-			actualResourcesValues.put(resource, actualResourcesValues.get(resource) + actualIncomes.get(resource));
+			actualResourcesValues.put(resource, actualResourcesValues.get(resource) +
+					actualResourcesIncomes.get(resource));
 
 			// resource amount can't be less than 0
 			if(actualResourcesValues.get(resource) < 0)
 				actualResourcesValues.put(resource, 0);
 		}
-
-
-
-//		JSONObject json = new JSONObject();
-//		json.put("actualResourcesValues", actualResourcesValues);
-//		json.put("actualIncomes", actualIncomes);
-//		JSONObject envelope = new JSONObject();
-//		envelope.put("To", "Map");
-//		envelope.put("Operation", "Update");
-//		envelope.put("Args", json);
 	}
 
 	public Map<String, Integer> getActualResourcesValues(){
 		return this.actualResourcesValues;
 	}
 
-	public Map<String, Integer> getActualIncomes(){
-		return this.actualIncomes;
+	public Map<String, Integer> getActualResourcesIncomes(){
+		return this.actualResourcesIncomes;
 	}
 
 	public List<String> getResourcesNames(){
@@ -67,8 +57,8 @@ public class Resources {
 		this.actualResourcesValues = actualResourcesValues;
 	}
 
-	public void setActualIncomes(Map<String, Integer> actualIncomes){
-		this.actualIncomes = actualIncomes;
+	public void setActualResourcesIncomes(Map<String, Integer> actualResourcesIncomes){
+		this.actualResourcesIncomes = actualResourcesIncomes;
 	}
 
 

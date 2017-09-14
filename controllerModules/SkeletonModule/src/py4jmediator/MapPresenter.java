@@ -11,6 +11,7 @@ public class MapPresenter {
 
     public interface OnMapPresenterCalled{
         void onGoToMenu();
+        void onViewInitialized();
         Response onPlaceBuilding(String buildingName, String buildingId);
         boolean onCheckIfCanAffordOnBuilding(String buildingName);
         Response onDeleteBuilding(String buildingId);
@@ -58,6 +59,11 @@ public class MapPresenter {
         return null;
     }
 
+    public void viewInitialized(){
+        if(onMapPresenterCalled != null)
+            onMapPresenterCalled.onViewInitialized();
+    }
+
     public void displayMap(){
         Presenter.getInstance().getViewModel().getMapViewModel().displayMap();
     }
@@ -74,5 +80,7 @@ public class MapPresenter {
                 actualResourcesIncomes);
     }
 
-
+    public void resumeGame(){
+        Presenter.getInstance().getViewModel().getMapViewModel().resumeGame();
+    }
 }

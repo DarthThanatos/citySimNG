@@ -3,12 +3,17 @@ import uuid
 import pygame
 from RelativePaths import relative_textures_path
 
-from MapView.Consts import BUILDINGS_PANEL_TEXTURE, ARROW_BUTTON_WIDTH, ARROW_BUTTON_HEIGHT, \
-    BUILDINGS_PANEL_RIGHT_ARROW_X, \
-    BUILDINGS_PANEL_ARROW_Y, BUILDINGS_PANEL_LEFT_ARROW_X, BUILDING_WIDTH, BUILDING_HEIGHT, SPACE
+from MapView.Consts import BUILDINGS_PANEL_TEXTURE, ARROW_BUTTON_WIDTH, ARROW_BUTTON_HEIGHT, SPACE
 from MapView.Items.Building import Building
 from MapView.Items.Button import Button
 from MapView.Panels.Panel import Panel
+
+
+BUILDING_HEIGHT = 0.15
+BUILDING_WIDTH = 0.4
+ARROW_Y = 0.85
+LEFT_ARROW_X = 0.1
+RIGHT_ARROW_X = 0.6
 
 
 class BuildingsPanel(Panel):
@@ -30,13 +35,11 @@ class BuildingsPanel(Panel):
         self.last_page = 1
         self.page_buildings = {}
 
-        self.right_arrow = Button(BUILDINGS_PANEL_RIGHT_ARROW_X * self.width + self.pos_x,
-                                  BUILDINGS_PANEL_ARROW_Y * self.height + self.pos_y,
+        self.right_arrow = Button(RIGHT_ARROW_X * self.width + self.pos_x, ARROW_Y * self.height + self.pos_y,
                                   ARROW_BUTTON_WIDTH * self.width, ARROW_BUTTON_HEIGHT * self.height,
                                   relative_textures_path + "RightArrow.png", self.scroll_building_panel_right, self)
 
-        self.left_arrow = Button(self.pos_x + BUILDINGS_PANEL_LEFT_ARROW_X * self.width,
-                                 self.pos_y + BUILDINGS_PANEL_ARROW_Y * self.height,
+        self.left_arrow = Button(self.pos_x + LEFT_ARROW_X * self.width, self.pos_y + ARROW_Y * self.height,
                                  ARROW_BUTTON_WIDTH * self.width, ARROW_BUTTON_HEIGHT * self.height,
                                  relative_textures_path + "LeftArrow.png", self.scroll_building_panel_left, self)
 
@@ -64,15 +67,15 @@ class BuildingsPanel(Panel):
                 curr_y = curr_y + BUILDING_HEIGHT * self.height + SPACE
 
             # we have to go to next page
-            if curr_y + BUILDING_HEIGHT * self.height > BUILDINGS_PANEL_ARROW_Y * self.height:
+            if curr_y + BUILDING_HEIGHT * self.height > ARROW_Y * self.height:
                 curr_y = 0
                 self.curr_page += 1
                 self.last_page = self.curr_page
 
             building_sprite = Building(building.getName(), uuid.uuid4().__str__(), building.getTexturePath(),
                                        building.getResourcesCost(), building.getConsumes(), building.getProduces(),
-                                       curr_x + self.pos_x, curr_y + self.pos_y, int(BUILDING_WIDTH * self.width),
-                                       int(BUILDING_HEIGHT * self.height))
+                                       curr_x + self.pos_x, curr_y + self.pos_y, BUILDING_WIDTH * self.width,
+                                       BUILDING_HEIGHT * self.height)
             curr_x += BUILDING_WIDTH * self.width + SPACE
             if str(self.curr_page) in self.page_buildings:
                 self.page_buildings[str(self.curr_page)].append(building_sprite)

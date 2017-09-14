@@ -55,7 +55,7 @@
 //
 //			JSONObject json = new JSONObject();
 //			json.put("actualValues", resources.getActualResourcesValues());
-//			json.put("actualIncomes", resources.getActualIncomes());
+//			json.put("actualIncomes", resources.getActualResourcesIncomes());
 //			json.put("currDwellersAmount", dwellers.getCurrDwellersAmount());
 //			json.put("currDwellersMaxAmount", dwellers.getCurrDwellersMaxAmount());
 //
@@ -70,7 +70,7 @@
 //
 //			JSONObject json = new JSONObject();
 //			json.put("actualValues", resources.getActualResourcesValues());
-//			json.put("actualIncomes", resources.getActualIncomes());
+//			json.put("actualIncomes", resources.getActualResourcesIncomes());
 //			json.put("currDwellersAmount", dwellers.getCurrDwellersAmount());
 //
 //			envelope.put("Operation", "deleteBuildingResult");
@@ -84,7 +84,7 @@
 //
 //			JSONObject json = new JSONObject();
 //			json.put("actualValues", resources.getActualResourcesValues());
-//			json.put("actualIncomes", resources.getActualIncomes());
+//			json.put("actualIncomes", resources.getActualResourcesIncomes());
 //			json.put("currDwellersAmount", dwellers.getCurrDwellersAmount());
 //			json.put("currDwellersMaxAmount", dwellers.getCurrDwellersMaxAmount());
 //
@@ -117,7 +117,7 @@
 //			json.put("buildings", buildings.getAllBuildings());
 //			json.put("dewellers", dwellers.getAllDewellers());
 //			json.put("initialResourcesValues", resources.getActualResourcesValues());
-//			json.put("initialResourcesIncomes", resources.getActualIncomes());
+//			json.put("initialResourcesIncomes", resources.getActualResourcesIncomes());
 //			json.put("Texture One", dr.getTextureAt(0));
 //			json.put("Texture Two", dr.getTextureAt(1));
 //			JSONObject envelope = new JSONObject();
@@ -176,12 +176,12 @@
 //		Map<String, String> resourceInfoMap = new HashMap<String, String>();
 //
 //		for(String resource : resources.getResourcesNames()){
-//			if(resources.getActualIncomes().get(resource) < 0)
+//			if(resources.getActualResourcesIncomes().get(resource) < 0)
 //				resourceInfoMap.put(resource, resources.getActualResourcesValues().get(resource) +
-//					" " + resources.getActualIncomes().get(resource));
+//					" " + resources.getActualResourcesIncomes().get(resource));
 //			else
 //				resourceInfoMap.put(resource, resources.getActualResourcesValues().get(resource) +
-//						" + " + resources.getActualIncomes().get(resource));
+//						" + " + resources.getActualResourcesIncomes().get(resource));
 //		}
 //		return resourceInfoMap;
 //	}

@@ -10,14 +10,14 @@ from RelativePaths import relative_music_path, relative_textures_path
 from Consts import RESOURCES_PANEL_SIZE, PURPLE, FONT, TEXT_PANEL_HEIGHT, \
     TEXT_PANEL_WIDTH, MENU_BUTTON_WIDTH, NAVIGATION_PANEL_WIDTH, INFO_PANEL_WIDTH, TEXT_PANEL_FONT_SIZE
 from Game import Game
+from GameThread import GameThread
 from Utils import draw_text
 from Converter import Converter
 
 
 class MapView(wx.Panel):
     """ This class represents an instance of map view. It is responsible for communication with model. """
-    listener_thread = None
-    has_reply_arrived = False
+    map_view_initialized = False
     can_afford_on_building = False
     last_res_info = None
     condition = threading.Condition()
@@ -60,8 +60,6 @@ class MapView(wx.Panel):
         self.sizer.Add(self.log, 1, wx.ALL | wx.EXPAND, 5)
         self.SetSizer(self.sizer)
 
-        self.del_button_sprite = None
-
     def init_buttons(self):
         """ Function initializing buttons. """
         menu_btn = wx.Button(self, label="Menu", pos=(self.width - MENU_BUTTON_WIDTH * self.width,
@@ -77,6 +75,7 @@ class MapView(wx.Panel):
             try:
                 pygame.mixer.init()
                 pygame.mixer.music.load(self.music_path)
+                # TODO: uncomment to play music
                 # pygame.mixer.music.play()
             except Exception:
                 print "Problem with music"
@@ -95,6 +94,7 @@ class MapView(wx.Panel):
         import pygame  # this has to happen after setting the environment variables.
         pygame.init()
         pygame.display.init()
+        self.sender.entry_point.getMapPresenter().viewInitialized()
 
 # =================================================================================================================== #
 # Communication with model
@@ -106,6 +106,9 @@ class MapView(wx.Panel):
 
     def ret_to_menu(self, event):
         """ Send node change message to model. """
+        self.game.game_on = False
+        self.game.listener_thread.join()
+        self.map_view_initialized = False
         self.sender.entry_point.getMapPresenter().goToMenu()
 
     def erected_building(self, building):
@@ -158,23 +161,22 @@ class MapView(wx.Panel):
 # =================================================================================================================== #
 # Reading messages from model
 # =================================================================================================================== #
-    def send_mes_and_wait_for_response(self, message):
-        """ Send message to model and wait for response.
-
-        :param message: message that will be sent to model
-        """
-        self.condition.acquire()
-        self.has_reply_arrived = False
-        self.sender.send(message)
-        self.condition.wait()
-        self.condition.release()
-
     def init(self, resources, buildings, texture_one, texture_two, initial_resources_values,
              initial_resources_incomes):
-        # create an instance of the Game class
+        """ Initialize game -> create game instance. After creating game instance send acknowledgement to model. """
         self.game = Game(self.width, self.height, texture_one, texture_two, buildings, resources,
                          initial_resources_values, initial_resources_incomes, self)
+        self.sender.entry_point.getMapPresenter().viewInitialized()
 
     def update_resources_values(self, actual_resources_values, actual_resources_incomes):
+        """ Update resources values """
         self.game.resources_panel.resources_values = Converter().convertJavaMapToDict(actual_resources_values)
         self.game.resources_panel.resources_incomes = Converter().convertJavaMapToDict(actual_resources_incomes)
+
+    def resume_game(self):
+        """ Resume game. """
+        self.game.set_display_mode()
+        self.game.game_on = True
+        self.game.listener_thread = GameThread(self.game)
+        self.game.listener_thread.start()
+

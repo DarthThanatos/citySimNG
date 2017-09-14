@@ -20,16 +20,10 @@ class GameThread(threading.Thread):
         """ Run function. """
         clock = pygame.time.Clock()
         while self.game.game_on:
-            try:
-                self.game.process_events()
-                self.game.update()
-                self.game.display_frame()
+            self.game.process_events()
+            self.game.update()
+            self.game.display_frame()
 
-                pygame.display.flip()
-                clock.tick(FPS)
+            pygame.display.flip()
+            clock.tick(FPS)
 
-            except Exception:
-                pass
-                # print "exception in game thread"
-                print_exc()
-                self.game.set_display_mode()

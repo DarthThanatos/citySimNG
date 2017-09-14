@@ -1,13 +1,18 @@
 import pygame
 from RelativePaths import relative_textures_path
 
-from MapView.Consts import GREEN, RESOURCES_SPACE, RESOURCES_PANEL_TEXTURE, RESOURCES_ARROW_BUTTON_HEIGHT, \
-    RESOURCES_ARROW_BUTTON_WIDTH, \
-    DWELLER_ICON_WIDTH, DWELLER_ICON_HEIGHT, RESOURCE_WIDTH, RESOURCE_HEIGHT
+from MapView.Consts import GREEN, RESOURCES_SPACE, RESOURCES_PANEL_TEXTURE, \
+    DWELLER_ICON_WIDTH, DWELLER_ICON_HEIGHT
 from MapView.Items.Button import Button
 from MapView.Panels.Panel import Panel
 from MapView.Utils import draw_text, calculate_text_size, center_image_y_pos
 from MapView.Items.Resources import resources
+
+
+RESOURCE_WIDTH = 0.05
+RESOURCE_HEIGHT = 0.9
+ARROW_BUTTON_HEIGHT = 0.9
+ARROW_BUTTON_WIDTH = 0.04
 
 
 class ResourcesPanel(Panel):
@@ -34,14 +39,13 @@ class ResourcesPanel(Panel):
         self.curr_dwellers_amount = 0
         self.curr_max_dwellers_amount = 0
 
-        self.right_arrow = Button(self.width - RESOURCES_ARROW_BUTTON_WIDTH * self.width, self.pos_y,
-                                  RESOURCES_ARROW_BUTTON_WIDTH * self.width,
-                                  RESOURCES_ARROW_BUTTON_HEIGHT * self.height,
+        self.right_arrow = Button(self.width - ARROW_BUTTON_WIDTH * self.width, self.pos_y,
+                                  ARROW_BUTTON_WIDTH * self.width, ARROW_BUTTON_HEIGHT * self.height,
                                   relative_textures_path + 'RightArrow.png', self.scroll_resources_panel_right, self)
 
-        self.left_arrow = Button(self.pos_x, self.pos_y, RESOURCES_ARROW_BUTTON_WIDTH * self.width,
-                                 RESOURCES_ARROW_BUTTON_HEIGHT * self.height,
-                                 relative_textures_path + "LeftArrow.png", self.scroll_resources_panel_left, self)
+        self.left_arrow = Button(self.pos_x, self.pos_y, ARROW_BUTTON_WIDTH * self.width,
+                                 ARROW_BUTTON_HEIGHT * self.height, relative_textures_path + "LeftArrow.png",
+                                 self.scroll_resources_panel_left, self)
 
         self.dweller_image = pygame.image.load(relative_textures_path + "dweller.jpg")
         self.dweller_image = pygame.transform.scale(self.dweller_image, (int(DWELLER_ICON_WIDTH * self.width),
@@ -83,7 +87,7 @@ class ResourcesPanel(Panel):
             text_size = calculate_text_size("{} {} {}".format(self.resources_values[resource], sign,
                                                               self.resources_incomes[resource]))
             width = image.get_size()[0] + text_size[0] + curr_x
-            if width > self.width - RESOURCES_ARROW_BUTTON_WIDTH * self.width:
+            if width > self.width - ARROW_BUTTON_WIDTH * self.width:
                 self.displayed_last = False
                 break
 

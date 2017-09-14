@@ -29,8 +29,8 @@ class Building(pygame.sprite.Sprite):
         self.produces = Converter().convertJavaMapToDict(produces)
         self.pos_x = pos_x
         self.pos_y = pos_y
-        self.width = width
-        self.height = height
+        self.width = int(width)
+        self.height = int(height)
 
         self.is_running = True
 

@@ -19,6 +19,7 @@ public interface ViewModel {
 						 Map<String, Integer> initialResourcesValues, Map<String, Integer> initialResourcesIncomes);
 		public void updateResourcesValues(Map<String, Integer> actualResourcesValues,
 										  Map<String, Integer> actualResourcesIncomes);
+		public void resumeGame();
 	}
 	
 	public interface MainMenuViewModel{
