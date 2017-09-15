@@ -43,32 +43,34 @@ class BuildingSheet(ScrolledPanel):
         self.childrenCheckers = []
 
     def initRootSizer(self):
-        vertical_sizer = wx.BoxSizer(wx.VERTICAL)
-        vertical_sizer.AddSpacer(10)
-        vertical_sizer.Add(
+        rootSizer = wx.BoxSizer(wx.VERTICAL)
+        rootSizer.AddSpacer(10)
+        rootSizer.Add(
             SheetBasicViewsFactory(self)
                 .newEntityNameHorizontalSizer(Consts.BUILDING), 0, wx.CENTER)
-        vertical_sizer.AddSpacer(10)
-        vertical_sizer.Add(
+        rootSizer.AddSpacer(10)
+        rootSizer.Add(
             SheetBasicViewsFactory(self).newLine(), 0, wx.EXPAND
         )
-        vertical_sizer.AddSpacer(10)
-        vertical_sizer.Add(
+        rootSizer.AddSpacer(10)
+        rootSizer.Add(
             SheetBasicViewsFactory(self)
                 .newMainSheetPartHorizontalSizer(
                 self.newBuildingCharacteristicsVerticalSizer()
             ), 0, wx.CENTER, 0, wx.CENTER
         )
-        vertical_sizer.Add(SheetBasicViewsFactory(self).newLine(), 0, wx.EXPAND)
-        vertical_sizer.AddSpacer(10)
-        vertical_sizer.Add(
+        rootSizer.Add(
+            SheetBasicViewsFactory(self).newLine(), 0, wx.EXPAND
+        )
+        rootSizer.AddSpacer(10)
+        rootSizer.Add(
             SheetBasicViewsFactory(self)
                 .newButtonsPanelHorizontalSizer(
                     self.submit, self.moveToMainPanel
             ), 0, wx.CENTER, 5)
-        vertical_sizer.AddSpacer(75)
-        self.SetSizer(vertical_sizer)
-        vertical_sizer.SetDimension(0, 0, self.size[0], self.size[1])
+        rootSizer.AddSpacer(75)
+        self.SetSizer(rootSizer)
+        rootSizer.SetDimension(0, 0, self.size[0], self.size[1])
 
 
     def newBuildingCharacteristicsVerticalSizer(self):
@@ -199,6 +201,9 @@ class BuildingSheet(ScrolledPanel):
             self, choices=["Industrial", "Domestic"], style=wx.CB_READONLY, value = "Industrial"
         )
         return self.type_of_building_selector
+
+
+
 
     def resetContents(self):
         self.predecessorSelector.Clear()

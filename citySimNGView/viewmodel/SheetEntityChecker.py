@@ -70,8 +70,12 @@ class SheetEntityChecker(object):
 
     def checkAndDumpPredAndSucc(self, result_struct):
         correct = self.successorAndPredeccessorRelationshipCorrect(result_struct)
-        correct &= self.relationshipBetweenEntititesCorrect(result_struct, self.getEntityName(), self.getSuccessorName(), relationshipType=Consts.SUCCESSOR)
-        correct &= self.relationshipBetweenEntititesCorrect(result_struct, self.getEntityName(), self.getPredecessorName(), relationshipType=Consts.PREDECESSOR)
+        correct &= self.relationshipBetweenEntititesCorrect(
+            result_struct, self.getEntityName(), self.getSuccessorName(), relationshipType=Consts.SUCCESSOR
+        )
+        correct &= self.relationshipBetweenEntititesCorrect(
+            result_struct, self.getEntityName(), self.getPredecessorName(), relationshipType=Consts.PREDECESSOR
+        )
         if correct: self.onSuccAndPredCheckCorrect(result_struct)
         return correct
 
