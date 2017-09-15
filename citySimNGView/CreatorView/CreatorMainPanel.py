@@ -18,7 +18,7 @@ from viewmodel.CreatorData import CreatorData
 from viewmodel.DependenciesFileLoader import DependenciesFileLoader
 
 
-class CreatorMainEntry(ScrolledPanel):
+class CreatorMainPanel(ScrolledPanel):
 
     def __init__(self, parent, size, frame, current_dependencies, sender):
         self.sender = sender

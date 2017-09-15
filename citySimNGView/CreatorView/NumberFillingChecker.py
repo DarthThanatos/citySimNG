@@ -13,8 +13,9 @@ class NumberFillingChecker(ScrolledPanel):
         self.intro_label_txt = intro_label_txt
         self.parentSizer = parentSizer
         self.part_name = part_name
+
         self.reset_init_mode = self.resetContentsInit_AddMode
-        
+
         self.initRootSizer()
         self.fillWithEntries(None)
 
@@ -24,6 +25,26 @@ class NumberFillingChecker(ScrolledPanel):
     def initRootSizer(self):
         self.rootSizer = wx.BoxSizer(wx.VERTICAL)
         self.SetSizer(self.rootSizer)
+
+    def reinitRootSizer(self):
+        self.rootSizer.Clear(True)
+        self.rootSizer.Add(wx.StaticText(self, -1, self.intro_label_txt), 0, wx.CENTER)
+        self.rootSizer.AddSpacer(10)
+        for choice in self.getChoicesList():
+            self.rootSizer.Add(self.newChoiceHorizontalSizer(choice), 0, wx.CENTER)
+            self.rootSizer.AddSpacer(10)
+        self.rootSizer.Layout()
+
+    def newChoiceHorizontalSizer(self, choice):
+        choiceHorizontalSizer = wx.BoxSizer(wx.HORIZONTAL)
+        choiceHorizontalSizer.Add(wx.StaticText(self, -1, self.key_label_txt))
+        choiceHorizontalSizer.AddSpacer(10)
+        choiceHorizontalSizer.Add(self.checked_choices[choice])
+        choiceHorizontalSizer.AddSpacer(10)
+        choiceHorizontalSizer.Add(wx.StaticText(self, -1, self.value_desc_label_txt))
+        choiceHorizontalSizer.AddSpacer(10)
+        choiceHorizontalSizer.Add(self.choices_values[choice])
+        return choiceHorizontalSizer
 
     def getChoicesList(self):
         return self.currentDependencies[self.dependencies_key].keys()
@@ -68,30 +89,12 @@ class NumberFillingChecker(ScrolledPanel):
         for choice in self.getAlreadySelectedChoicesNames(edit_element_name):
             self.onChoiceAlreadySelected(edit_element_name, choice)
 
-    def newChoiceHorizontalSizer(self, choice):
-        choiceHorizontalSizer = wx.BoxSizer(wx.HORIZONTAL)
-        choiceHorizontalSizer.Add(wx.StaticText(self, -1, self.key_label_txt))
-        choiceHorizontalSizer.AddSpacer(10)
-        choiceHorizontalSizer.Add(self.checked_choices[choice])
-        choiceHorizontalSizer.AddSpacer(10)
-        choiceHorizontalSizer.Add(wx.StaticText(self, -1, self.value_desc_label_txt))
-        choiceHorizontalSizer.AddSpacer(10)
-        choiceHorizontalSizer.Add(self.choices_values[choice])
-        return choiceHorizontalSizer
 
     def fillWithEntries(self, arg):
         self.reset_init_mode(arg)
         self.reinitRootSizer()
         self.SetupScrolling()
 
-    def reinitRootSizer(self):
-        self.rootSizer.Clear(True)
-        self.rootSizer.Add(wx.StaticText(self, -1, self.intro_label_txt), 0, wx.CENTER)
-        self.rootSizer.AddSpacer(10)
-        for choice in self.getChoicesList():
-            self.rootSizer.Add(self.newChoiceHorizontalSizer(choice), 0, wx.CENTER)
-            self.rootSizer.AddSpacer(10)
-        self.rootSizer.Layout()
 
     def onBoxChecked(self, event):
         self.choices_values[event.GetEventObject().GetLabel()].Enable(event.GetEventObject().GetValue())

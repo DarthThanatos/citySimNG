@@ -1,8 +1,8 @@
 import wx
 from DwellersPanel import  DwellersPanel
-from ResourcesPanel import ResourcesPanel
+from ResourceSheet import ResourceSheet
 from BuildingsPanel import  BuildingsPanel
-from CreatorMainEntry import CreatorMainEntry
+from CreatorMainPanel import CreatorMainPanel
 from RelativePaths import relative_music_path,relative_dependencies_path
 from utils.OnShowUtil import OnShowUtil
 
@@ -21,8 +21,8 @@ class CreatorSwitcher(wx.Panel):
     def init_views(self):
         current_dependencies = {"Resources" : {}, "Buildings":{}, "Dwellers":{}}
         self.views = {
-            "main_panel": CreatorMainEntry(self, self.size, self, current_dependencies,  self.sender),
-            "Resources": ResourcesPanel(self, self.size, self, current_dependencies),
+            "main_panel": CreatorMainPanel(self, self.size, self, current_dependencies, self.sender),
+            "Resources": ResourceSheet(self, self.size, self, current_dependencies),
             "Dwellers": DwellersPanel(self, self.size, self, current_dependencies),
             "Buildings": BuildingsPanel(self, self.size, self, current_dependencies)
         }
