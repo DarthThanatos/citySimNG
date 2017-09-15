@@ -1,7 +1,7 @@
 import wx
 from DwellersPanel import  DwellersPanel
 from ResourceSheet import ResourceSheet
-from BuildingsPanel import  BuildingsPanel
+from BuildingSheet import  BuildingSheet
 from CreatorMainPanel import CreatorMainPanel
 from RelativePaths import relative_music_path,relative_dependencies_path
 from utils.OnShowUtil import OnShowUtil
@@ -24,7 +24,7 @@ class CreatorSwitcher(wx.Panel):
             "main_panel": CreatorMainPanel(self, self.size, self, current_dependencies, self.sender),
             "Resources": ResourceSheet(self, self.size, self, current_dependencies),
             "Dwellers": DwellersPanel(self, self.size, self, current_dependencies),
-            "Buildings": BuildingsPanel(self, self.size, self, current_dependencies)
+            "Buildings": BuildingSheet(self, self.size, self, current_dependencies)
         }
 
     def setupPanelEditMode(self, panelName, editedElementName):

@@ -3,24 +3,20 @@ from wx.lib.scrolledpanel import ScrolledPanel
 from LogMessages import CHECKER_PANEL_ERROR_MSG
 
 class NumberFillingChecker(ScrolledPanel):
-    def __init__(self, parent, size, currentDependencies, key_label_txt, value_desc_label_txt, intro_label_txt, parentSizer, json_key, part_name, dependencies_key ="Resources"):
+    def __init__(self, parent, key_label_txt, value_desc_label_txt, intro_label_txt, json_key, dependencies_key ="Resources"):
         ScrolledPanel.__init__(self, id = -1, size = (500,100), parent = parent, style = wx.SIMPLE_BORDER)
-        self.currentDependencies = currentDependencies
+        self.currentDependencies = parent.currentDependencies
         self.dependencies_key = dependencies_key
         self.json_key = json_key
         self.key_label_txt = key_label_txt
         self.value_desc_label_txt = value_desc_label_txt
         self.intro_label_txt = intro_label_txt
-        self.parentSizer = parentSizer
-        self.part_name = part_name
+        self.part_name = parent.sheet_name
 
         self.reset_init_mode = self.resetContentsInit_AddMode
 
         self.initRootSizer()
         self.fillWithEntries(None)
-
-        self.parentSizer.Add(self, 0, wx.CENTER)
-        self.parentSizer.AddSpacer(10)
 
     def initRootSizer(self):
         self.rootSizer = wx.BoxSizer(wx.VERTICAL)

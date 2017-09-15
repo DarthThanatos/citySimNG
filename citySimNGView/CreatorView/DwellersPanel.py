@@ -15,6 +15,7 @@ class DwellersPanel(ScrolledPanel):
 
         self.frame = frame
         self.currentDependencies = currentDependencies
+        self.sheet_name = Consts.DWELLERS
 
         vertical_sizer = wx.BoxSizer(wx.VERTICAL)
         dweller_name_horizontal_sizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -87,14 +88,10 @@ class DwellersPanel(ScrolledPanel):
         between_lines_part_vertical_sizer.AddSpacer(10)
 
         self.resources_consumed_panel = NumberFillingChecker(self,
-                                                             size,
-                                                             self.currentDependencies,
                                                              "Resource:",
                                                              "Consumed in quantity:",
                                                              "Consumed resources",
-                                                             between_lines_part_vertical_sizer,
-                                                             json_key="Consumes",
-                                                             part_name="Dwellers")
+                                                             json_key="Consumes")
 
         between_lines_part_horizontal_sizer.Add(between_lines_part_vertical_sizer,0, wx.LEFT)
         log_area_label = wx.StaticText(self,-1,"Below lies logging area, showing error msgs")

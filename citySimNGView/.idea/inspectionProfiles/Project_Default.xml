@@ -1,0 +1,17 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="CreatorView.ResourceSheet.ResourceSheet.NameInput" />
+          <option value="CreatorView.ResourceSheet.ResourceSheet.log_area" />
+          <option value="CreatorView.ResourceSheet.ResourceSheet.descriptionArea" />
+          <option value="CreatorView.ResourceSheet.ResourceSheet.imageBitmap" />
+          <option value="CreatorView.ResourceSheet.ResourceSheet.predecessorSelector" />
+          <option value="CreatorView.ResourceSheet.ResourceSheet.successorSelector" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
