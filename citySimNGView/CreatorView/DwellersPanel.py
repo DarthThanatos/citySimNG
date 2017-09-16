@@ -130,6 +130,11 @@ class DwellersPanel(ScrolledPanel):
         self.check_and_dump_name = self.checkAndDumpNameAddMode
         self.mount_exit_msg = self.mountSuccessAddMsg
 
+    def getEntityType(self):
+        return Consts.DWELLER
+
+    def getEntityNameKey(self):
+        return Consts.DWELLER_NAME
 
     def resetContents(self):
         self.predecessorSelector.Clear()
@@ -161,8 +166,7 @@ class DwellersPanel(ScrolledPanel):
         image = wx.Image(relative_textures_path + self.texture_name) #"..\\..\\resources\\Textures\\"
         image = image.Scale(32,32)
         self.imageBitmap.SetBitmap(wx.BitmapFromImage(image))
-        self.resources_consumed_panel.reset_init_mode = self.resources_consumed_panel.resetContentsInit_AddMode
-        self.resources_consumed_panel.resetContents(None)
+        self.resources_consumed_panel.fillWithEntries()
 
 
     def setUpEditMode(self, edit_element_name):
@@ -181,8 +185,7 @@ class DwellersPanel(ScrolledPanel):
         except Exception:
             traceback.print_exc()
 
-        self.resources_consumed_panel.reset_init_mode = self.resources_consumed_panel.resetContentsInit_EditMode
-        self.resources_consumed_panel.resetContents(edit_element_name)
+        self.resources_consumed_panel.fillWithEntries(edit_element_name)
         successorVal = self.currentDependencies["Dwellers"][edit_element_name]["Successor"]
         successorVal = successorVal if successorVal in self.currentDependencies["Dwellers"].keys() else "None"
         predecessorVal = self.currentDependencies["Dwellers"][edit_element_name]["Predecessor"]
@@ -289,6 +292,9 @@ class DwellersPanel(ScrolledPanel):
             image = image.Scale(32,32)
             self.imageBitmap.SetBitmap(wx.BitmapFromImage(image))
 
+    def moveToMainPanel(self,event):
+        self.frame.showPanel("main_panel", initDataForSearchedPanel=None)
+
     def fillDepenendenciesPanelWithContent(self, content_dict):
         self.resetContents()
         try:
@@ -305,6 +311,3 @@ class DwellersPanel(ScrolledPanel):
 
     def checkDependenciesPanelsCorrectness(self):
         pass
-
-    def moveToMainPanel(self,event):
-        self.frame.showPanel("main_panel", initDataForSearchedPanel=None)

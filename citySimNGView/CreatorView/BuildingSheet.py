@@ -2,12 +2,12 @@ import wx
 from wx.lib.scrolledpanel import ScrolledPanel
 
 import Consts
-from CreatorView.SheetBasicViewsFactory import SheetBasicViewsFactory
+from CreatorView.SheetBasicViewsUtils import SheetBasicViewsUtils
 from NumberFillingChecker import NumberFillingChecker
-import json
-import traceback
-import re
-from RelativePaths import relative_textures_path
+from utils.OnShowUtil import OnShowUtil
+from viewmodel.SheetEntityChecker import BuildingSheetChecker, AddModeSheetEntityChecker, EditModeSheetEntityChecker, \
+    ADD_MODE, EDIT_MODE
+
 
 class BuildingSheet(ScrolledPanel):
     def __init__(self,parent, size, frame, currentDependencies):
@@ -19,55 +19,28 @@ class BuildingSheet(ScrolledPanel):
         self.wakeUpData = None
         self.entityIconRelativePath = "house.png"
         self.sheet_name =  Consts.BUILDINGS
+        self.Bind(wx.EVT_SHOW, self.onShow, self)
+        self.sheetChecker = AddModeSheetEntityChecker(self)
         self.initSheetSubViews()
         self.initRootSizer()
 
-        self.Bind(wx.EVT_SHOW, self.onShow, self)
+    def getEntityType(self):
+        return Consts.BUILDING
 
-        self.check_and_dump_name = self.checkAndDumpNameAddMode
-        self.mount_exit_msg = self.mountSuccessAddMsg
-
-    def initSheetSubViews(self):
-        self.NameInput = None
-        self.descriptionArea = None
-        self.imageBitmap = None
-        self.predecessorSelector = None
-        self.successorSelector = None
-        self.type_of_building_selector = None
-        self.log_area = None
-        self.dwellers_names_selector = None
-        self.dwellers_amount = None
-        self.resources_produced_panel = None
-        self.resources_consumed_panel = None
-        self.cost_in_resources_panel = None
-        self.childrenCheckers = []
+    def getEntityNameKey(self):
+        return Consts.BUILDING_NAME
 
     def initRootSizer(self):
         rootSizer = wx.BoxSizer(wx.VERTICAL)
         rootSizer.AddSpacer(10)
-        rootSizer.Add(
-            SheetBasicViewsFactory(self)
-                .newEntityNameHorizontalSizer(Consts.BUILDING), 0, wx.CENTER)
+        rootSizer.Add(SheetBasicViewsUtils(self).newEntityNameHorizontalSizer(Consts.BUILDING), 0, wx.CENTER)
         rootSizer.AddSpacer(10)
-        rootSizer.Add(
-            SheetBasicViewsFactory(self).newLine(), 0, wx.EXPAND
-        )
+        rootSizer.Add(SheetBasicViewsUtils(self).newLine(), 0, wx.EXPAND)
         rootSizer.AddSpacer(10)
-        rootSizer.Add(
-            SheetBasicViewsFactory(self)
-                .newMainSheetPartHorizontalSizer(
-                self.newBuildingCharacteristicsVerticalSizer()
-            ), 0, wx.CENTER, 0, wx.CENTER
-        )
-        rootSizer.Add(
-            SheetBasicViewsFactory(self).newLine(), 0, wx.EXPAND
-        )
+        rootSizer.Add(SheetBasicViewsUtils(self).newMainSheetPartHorizontalSizer(self.newBuildingCharacteristicsVerticalSizer()), 0, wx.CENTER, 0, wx.CENTER)
+        rootSizer.Add(SheetBasicViewsUtils(self).newLine(), 0, wx.EXPAND)
         rootSizer.AddSpacer(10)
-        rootSizer.Add(
-            SheetBasicViewsFactory(self)
-                .newButtonsPanelHorizontalSizer(
-                    self.submit, self.moveToMainPanel
-            ), 0, wx.CENTER, 5)
+        rootSizer.Add(SheetBasicViewsUtils(self).newButtonsPanelHorizontalSizer(self.submit), 0, wx.CENTER, 5)
         rootSizer.AddSpacer(75)
         self.SetSizer(rootSizer)
         rootSizer.SetDimension(0, 0, self.size[0], self.size[1])
@@ -75,57 +48,29 @@ class BuildingSheet(ScrolledPanel):
 
     def newBuildingCharacteristicsVerticalSizer(self):
         buildingCharacteristicsVerticalSizer = wx.BoxSizer(wx.VERTICAL)
-        buildingCharacteristicsVerticalSizer.Add(
-            SheetBasicViewsFactory(self)
-                .newDescriptionAreaVerticalSizer(Consts.BUILDING), 0, wx.CENTER
-        )
+        buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newDescriptionAreaVerticalSizer(Consts.BUILDING), 0, wx.CENTER)
         buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(
-            SheetBasicViewsFactory(self)
-                .newPredecessorPickerHorizontalSizer(Consts.BUILDING), 0, wx.CENTER
-        )
+        buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newPredecessorPickerHorizontalSizer(Consts.BUILDING), 0, wx.CENTER)
         buildingCharacteristicsVerticalSizer.AddSpacer(5)
-        buildingCharacteristicsVerticalSizer.Add(
-            SheetBasicViewsFactory(self)
-                .newSuccesorPickerHorizontalSizer(Consts.BUILDING), 0, wx.CENTER
-        )
+        buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newSuccesorPickerHorizontalSizer(Consts.BUILDING), 0, wx.CENTER)
         buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(
-            SheetBasicViewsFactory(self)
-                .newEntityIconHorizontalSizer(self.selectImage), 0, wx.CENTER
-        )
+        buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newEntityIconHorizontalSizer(), 0, wx.CENTER)
         buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(
-            self.newDwellersHorizontalSizer(), 0, wx.CENTER
-        )
+        buildingCharacteristicsVerticalSizer.Add(self.newDwellersHorizontalSizer(), 0, wx.CENTER)
         buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(
-            self.newBuildingTypeHorizontalSizer(), 0, wx.CENTER
-        )
+        buildingCharacteristicsVerticalSizer.Add(self.newBuildingTypeHorizontalSizer(), 0, wx.CENTER)
         buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(
-            SheetBasicViewsFactory(self).newLine(), 0, wx.EXPAND
-        )
+        buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newLine(), 0, wx.EXPAND)
         buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(
-            self.newResourcesProducedChecker(), 0, wx.CENTER
-        )
+        buildingCharacteristicsVerticalSizer.Add(self.newResourcesProducedChecker(), 0, wx.CENTER)
         buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(
-            SheetBasicViewsFactory(self).newLine(), 0, wx.EXPAND
-        )
+        buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newLine(), 0, wx.EXPAND)
         buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(
-            self.newResourcesConsumedChecker(), 0, wx.CENTER
-        )
+        buildingCharacteristicsVerticalSizer.Add(self.newResourcesConsumedChecker(), 0, wx.CENTER)
         buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(
-            SheetBasicViewsFactory(self).newLine(), 0, wx.EXPAND
-        )
+        buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newLine(), 0, wx.EXPAND)
         buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(
-            self.newCostInResourcesChecker(), 0, wx.CENTER
-        )
+        buildingCharacteristicsVerticalSizer.Add(self.newCostInResourcesChecker(), 0, wx.CENTER)
         buildingCharacteristicsVerticalSizer.AddSpacer(10)
         return buildingCharacteristicsVerticalSizer
 
@@ -197,221 +142,70 @@ class BuildingSheet(ScrolledPanel):
         return wx.StaticText(self, -1, "Type of building: ")
 
     def newBuildingTypeSelector(self):
-        self.type_of_building_selector = wx.ComboBox(
-            self, choices=["Industrial", "Domestic"], style=wx.CB_READONLY, value = "Industrial"
-        )
+        self.type_of_building_selector =wx.ComboBox(self, choices=["Industrial", "Domestic"], style=wx.CB_READONLY, value = "Industrial")
         return self.type_of_building_selector
 
+    def initSheetSubViews(self):
+        self.NameInput = None
+        self.descriptionArea = None
+        self.imageBitmap = None
+        self.predecessorSelector = None
+        self.successorSelector = None
+        self.type_of_building_selector = None
+        self.dwellers_names_selector = None
+        self.log_area = None
+        self.dwellers_amount = None
+        self.resources_produced_panel = None
+        self.resources_consumed_panel = None
+        self.cost_in_resources_panel = None
+        self.childrenCheckers = []
 
+    def getAllDwellerEntities(self):
+        return self.currentDependencies["Dwellers"].keys()
 
-
-    def resetContents(self):
-        self.predecessorSelector.Clear()
-        self.successorSelector.Clear()
-        self.dwellers_names_selector.Clear()
-        for buildingName in self.currentDependencies["Buildings"].keys() + ["None"]:
-            self.predecessorSelector.Append(buildingName)
-            self.successorSelector.Append(buildingName)
-        for dwellerName in self.currentDependencies["Dwellers"].keys():
-            self.dwellers_names_selector.Append(dwellerName)
-        self.dwellers_amount.SetValue(0)
-        self.predecessorSelector.SetStringSelection("None")
-        self.successorSelector.SetStringSelection("None")
+    def resetSheetValues(
+         self,
+         sheetMode,
+         entityNameInput = Consts.BUILDING,
+         descriptionAreaValue = "",
+         entityIconRelativePath = "house.png",
+         predecessorStringSelection = "None",
+         successorStringSelection = "None",
+         dwellerNameSelection = "None",
+         typeOfBuilding = "Industrial",
+         dwellersAmount = 0
+    ):
+        self.sheetChecker = sheetMode
+        self.entityIconRelativePath = entityIconRelativePath
+        SheetBasicViewsUtils(self).reinitNameInput(entityNameInput, enabled = sheetMode.getMode() == ADD_MODE)
+        self.descriptionArea.SetValue(descriptionAreaValue)
+        SheetBasicViewsUtils(self).setEntityImageBmp()
+        SheetBasicViewsUtils(self).clearSelector(self.predecessorSelector, predecessorStringSelection)
+        SheetBasicViewsUtils(self).clearSelector(self.successorSelector, successorStringSelection)
+        SheetBasicViewsUtils(self).clearSelector(self.dwellers_names_selector, dwellerNameSelection, self.getAllDwellerEntities())
+        self.type_of_building_selector.SetStringSelection(typeOfBuilding)
+        self.dwellers_amount.SetValue(dwellersAmount)
         self.log_area.SetValue("")
-
-
-    def mountSuccessAddMsg(self, building_name):
-        return {"Log": "Successfully added " + building_name + " to buildings list\n"}
-
-    def mountSuccessEditMsg(self, building_name):
-        return {"Log": "Successfully edited " + building_name + " building\n"}
-
-
-    def setUpAddMode(self):
-        print "Add mode"
-        self.check_and_dump_name = self.checkAndDumpNameAddMode
-        self.NameInput.SetValue("Building")
-        self.NameInput.Enable()
-        self.mount_exit_msg = self.mountSuccessAddMsg
-        self.descriptionArea.SetValue("")
-
-        self.texture_name = "house.png"
-        image = wx.Image(relative_textures_path + self.texture_name) #"..\\..\\resources\\Textures\\"
-        image = image.Scale(32,32)
-        self.imageBitmap.SetBitmap(wx.BitmapFromImage(image))
-        for child in self.childrenCheckers:
-            child.reset_init_mode = child.resetContentsInit_AddMode
-            child.resetContents(None)
+        for child in self.childrenCheckers: child.fillWithEntries(entityNameInput if sheetMode.getMode() == EDIT_MODE else None)
 
     def setUpEditMode(self, edit_element_name):
-        print "Editing", edit_element_name
-        self.check_and_dump_name = self.checkAndDumpNameEditMode
-        self.NameInput.SetValue(edit_element_name)
-        self.NameInput.Disable()
-        self.mount_exit_msg = self.mountSuccessEditMsg
-        self.descriptionArea.SetValue(self.currentDependencies["Buildings"][edit_element_name][Consts.DESCRIPTION])
+        self.resetSheetValues(
+            sheetMode= EditModeSheetEntityChecker(self),
+            entityNameInput= edit_element_name,
+            descriptionAreaValue=SheetBasicViewsUtils(self).getEntityCharacteristic(edit_element_name, Consts.DESCRIPTION),
+            entityIconRelativePath=SheetBasicViewsUtils(self).getEntityCharacteristic(edit_element_name, Consts.TEXTURE_PATH),
+            predecessorStringSelection=SheetBasicViewsUtils(self).getEntityCharacteristicFromEntitiesSet(edit_element_name, Consts.PREDECESSOR),
+            successorStringSelection=SheetBasicViewsUtils(self).getEntityCharacteristicFromEntitiesSet(edit_element_name, Consts.SUCCESSOR),
+            dwellerNameSelection = SheetBasicViewsUtils(self).getEntityCharacteristic(edit_element_name, Consts.DWELLER_NAME),
+            typeOfBuilding = SheetBasicViewsUtils(self).getEntityCharacteristic(edit_element_name, Consts.TYPE),
+            dwellersAmount = int(SheetBasicViewsUtils(self).getEntityCharacteristic(edit_element_name, Consts.DWELLERS_AMOUNT))
+        )
 
-        self.texture_name = self.currentDependencies["Buildings"][edit_element_name][Consts.TEXTURE_PATH]
-        try:
-            image = wx.Image(relative_textures_path + self.texture_name) #"..\\..\\resources\\Textures\\"
-            image = image.Scale(32,32)
-            self.imageBitmap.SetBitmap(wx.BitmapFromImage(image))
-        except Exception:
-            traceback.print_exc()
-
-        for child in self.childrenCheckers:
-            child.reset_init_mode = child.resetContentsInit_EditMode
-            child.resetContents(edit_element_name)
-        successorVal = self.currentDependencies["Buildings"][edit_element_name]["Successor"]
-        successorVal = successorVal if successorVal in self.currentDependencies["Buildings"].keys() else "None"
-        predecessorVal = self.currentDependencies["Buildings"][edit_element_name]["Predecessor"]
-        predecessorVal = predecessorVal if predecessorVal in self.currentDependencies["Buildings"].keys() else "None"
-        self.predecessorSelector.SetStringSelection(predecessorVal)
-        self.successorSelector.SetStringSelection(successorVal)
-
-        dwellerTypeVal = self.currentDependencies["Buildings"][edit_element_name]["Dweller\nName"]
-        amount_of_dwellers_val = self.currentDependencies["Buildings"][edit_element_name][Consts.DWELLERS_AMOUNT]
-        if not dwellerTypeVal in self.currentDependencies["Dwellers"].keys():
-            dwellerTypeVal = ""
-            amount_of_dwellers_val = 0
-        self.dwellers_amount.SetValue(amount_of_dwellers_val)
-        self.dwellers_names_selector.SetStringSelection(dwellerTypeVal)
-
-        print "Dweller living here: ", dwellerTypeVal
-        building_type_val = self.currentDependencies["Buildings"][edit_element_name][Consts.TYPE]
-        self.type_of_building_selector.SetStringSelection(building_type_val)
+    def setUpAddMode(self):
+        self.resetSheetValues(sheetMode=AddModeSheetEntityChecker(self))
 
     def onShow(self, event):
-        if event.GetShow():
-            self.resetContents()
-            self.setUpAddMode()
-            if not self.wakeUpData == None:
-                try:
-                    edit_element_name = self.wakeUpData["Edit"]
-                    self.setUpEditMode(edit_element_name)
-                except:
-                    traceback.print_exc()
-                self.wakeUpData = None
-
-    def checkAndDumpNameEditMode(self, result_struct):
-        result_struct["Result"][Consts.BUILDING_NAME] = self.NameInput.GetValue()
-        return True
-
-    def checkAndDumpNameAddMode(self,result_struct):
-        buildings_names = self.currentDependencies["Buildings"].keys()
-        building_name = self.NameInput.GetValue()
-        if  re.sub(r'\s', "", building_name) == "":
-            error_msg =  "-> Not a valid name\n"
-            result_struct["ErrorMsg"] += error_msg
-            return False
-        if building_name in buildings_names:
-            error_msg ="-> Building name already taken\n"
-            result_struct["ErrorMsg"] += error_msg
-            return False
-        result_struct["Result"][Consts.BUILDING_NAME] = building_name
-        return True
-
-    def checkAndDumpPredAndSucc(self, result_struct):
-        predecessor_name = self.predecessorSelector.GetStringSelection()
-        successor_name = self.successorSelector.GetStringSelection()
-        building_name = self.NameInput.GetValue()
-        if successor_name == predecessor_name and successor_name != "None":
-            result_struct["ErrorMsg"] += "-> Predecessor and Successor cannot be the same (both can be None though)\n"
-            return False
-        if successor_name == building_name :
-            result_struct["ErrorMsg"] += "-> A building cannot be its own successor\n"
-            return False
-        if predecessor_name == building_name :
-            result_struct["ErrorMsg"] += "-> A building cannot be its own predeccessor\n"
-            return False
-        result_struct["Result"][Consts.PREDECESSOR] = predecessor_name
-        result_struct["Result"][Consts.SUCCESSOR] = successor_name
-        return True
-
-    def checkAndDumpDescriptionArea(self, result_struct):
-        description_content = self.descriptionArea.GetValue()
-        if re.sub(r'\s', "", description_content) == "":
-            result_struct["ErrorMsg"] += "-> Please enter description of this building\n"
-            return False
-        result_struct["Result"][Consts.DESCRIPTION] = description_content
-        return True
-
-    def checkAndDumpTexture(self, result_struct):
-        result_struct["Result"][Consts.TEXTURE_PATH] = self.texture_name
-        return True
-
-    def checkAndDumpDweller(self, result_struct):
-        dweller_name = self.dwellers_names_selector.GetStringSelection()
-        if dweller_name == "":
-            result_struct["ErrorMsg"] += "-> Please select a dweller that lives here\n"
-            return False
-        result_struct["Result"][Consts.DWELLER_NAME] = dweller_name
-        return True
-
-    def checkAndDumpDwellersAmount(self, result_struct):
-        result_struct["Result"][Consts.DWELLERS_AMOUNT] = self.dwellers_amount.GetValue()
-        return True
-
-    def checkAndDumpTypeOfBuilding(self, result_struct):
-        result_struct["Result"][Consts.TYPE] = self.type_of_building_selector.GetValue()
-        return True
+        OnShowUtil().onCreatorSheetShow(self, event)
 
     def submit(self, event):
-        correct = True
-        result_struct = {"ErrorMsg":"Errors detected:\n", "Result":{}} # init error msg displayed if sth went wrong
-
-        correct &= self.check_and_dump_name(result_struct)
-        correct &= self.checkAndDumpPredAndSucc(result_struct)
-        correct &= self.checkAndDumpDescriptionArea(result_struct)
-        correct &= self.checkAndDumpTexture(result_struct)
-        correct &= self.checkAndDumpDweller(result_struct)
-        correct &= self.checkAndDumpDwellersAmount(result_struct)
-        correct &= self.checkAndDumpTypeOfBuilding(result_struct)
-        for child in self.childrenCheckers:
-            correct &= child.checkAndDumpCheckers(result_struct)
-        if not correct:
-            self.log_area.SetValue(result_struct["ErrorMsg"])
-            return
-
-        building_name = self.NameInput.GetValue()
-        result_msg = self.mount_exit_msg(building_name)
-        self.currentDependencies["Buildings"][building_name] = result_struct["Result"]
-        print json.dumps(result_struct["Result"])
-        self.frame.showPanel("main_panel", initDataForSearchedPanel=result_msg)
-
-    def onSuccessorSelected(self, event):
-        pass
-
-    def onPredecessorSelected(self, event):
-        pass
-
-    def fillDepenendenciesPanelWithContent(self, content_dict):
-        self.resetContents()
-        try:
-            pass
-        except Exception:
-            return False
-        return True
-
-    def checkDependenciesPanelsCorrectness(self):
-        pass
-
-    def moveToMainPanel(self,event):
-        self.frame.showPanel("main_panel",initDataForSearchedPanel=None)
-
-
-    def selectImage(self, event):
-        dlg = wx.FileDialog(
-            self,
-            defaultDir= relative_textures_path,#"..\\..\\resources\\Textures\\",
-            message="Choose an image",
-            wildcard="*.png | *.jpg",
-            style=wx.FD_OPEN
-        )
-        if dlg.ShowModal() == wx.ID_OK:
-            path = dlg.GetPath()
-            print "Filename:", dlg.GetFilename()
-            self.texture_name = dlg.GetFilename()
-            image = wx.Image(path)
-            image = image.Scale(32,32)
-            self.imageBitmap.SetBitmap(wx.BitmapFromImage(image))
+        self.sheetChecker.onCheck(BuildingSheetChecker())

@@ -4,7 +4,7 @@ from utils.ButtonsFactory import ButtonsFactory
 from utils.RelativePaths import relative_textures_path
 
 
-class SheetBasicViewsFactory(object):
+class SheetBasicViewsUtils(object):
 
     def __init__(self, sheet_view):
         self.sheet_view = sheet_view
@@ -13,7 +13,7 @@ class SheetBasicViewsFactory(object):
         entityNameHorizontalSizer = wx.BoxSizer(wx.HORIZONTAL)
         entityNameHorizontalSizer.Add(self.newNameFieldLabel(entity_type))
         entityNameHorizontalSizer.AddSpacer(5)
-        entityNameHorizontalSizer.Add(self.newNameInput(defaultName if defaultName != None else entity_type))
+        entityNameHorizontalSizer.Add(self.newNameInput(defaultName if defaultName is not None else entity_type))
         return entityNameHorizontalSizer
 
     def newNameFieldLabel(self, entity_type):
@@ -49,10 +49,10 @@ class SheetBasicViewsFactory(object):
         self.sheet_view.log_area = wx.TextCtrl(self.sheet_view, -1, size = (500,350), style=wx.TE_MULTILINE | wx.TE_READONLY)
         return self.sheet_view.log_area
 
-    def newButtonsPanelHorizontalSizer(self, onSubmit, onCancel):
+    def newButtonsPanelHorizontalSizer(self, onSubmit):
         buttons_panel_horizontal_sizer = wx.BoxSizer(wx.HORIZONTAL)
         buttons_panel_horizontal_sizer.Add(self.newCreateEntityButton(onSubmit))
-        buttons_panel_horizontal_sizer.Add(self.newCancelButton(onCancel))
+        buttons_panel_horizontal_sizer.Add(self.newCancelButton(self.moveToMainPanel))
         return buttons_panel_horizontal_sizer
 
     def newCreateEntityButton(self, onSubmit):
@@ -105,13 +105,13 @@ class SheetBasicViewsFactory(object):
     def newSuccesorLabel(self,entity_type):
         return wx.StaticText(self.sheet_view, -1, "Successor " + entity_type + ":", size = (125,-1))
 
-    def newEntityIconHorizontalSizer(self, onImgBtnClicked):
+    def newEntityIconHorizontalSizer(self):
         entityIconHorizontalSizer = wx.BoxSizer(wx.HORIZONTAL)
         entityIconHorizontalSizer.Add(self.newImageInfoLabel())
         entityIconHorizontalSizer.AddSpacer(10)
         entityIconHorizontalSizer.Add(self.newEntityBmp())
         entityIconHorizontalSizer.AddSpacer(10)
-        entityIconHorizontalSizer.Add(self.newImageSelectorButton(onImgBtnClicked))
+        entityIconHorizontalSizer.Add(self.newImageSelectorButton())
         return entityIconHorizontalSizer
 
     def newImageInfoLabel(self):
@@ -121,12 +121,66 @@ class SheetBasicViewsFactory(object):
         self.sheet_view.imageBitmap = self.newScaledImgBitmap(relative_textures_path + "DefaultBuilding.jpg")
         return self.sheet_view.imageBitmap
 
-    def newScaledImg(self, non_relative_path):
+    @staticmethod
+    def newScaledImg(non_relative_path):
         image = wx.Image(name = non_relative_path) #"..\\..\\resources\\Textures\\DefaultBuilding.jpg"
         return image.Scale(32,32)
 
     def newScaledImgBitmap(self, non_relative_path):
         return wx.StaticBitmap(self.sheet_view, wx.ID_ANY, wx.BitmapFromImage(self.newScaledImg(non_relative_path)), size = (32,32))
 
-    def newImageSelectorButton(self, onImgBtnClicked):
-        return ButtonsFactory().newButton(self.sheet_view, "Choose another texture", onImgBtnClicked, size = (-1, 32))
+    def newImageSelectorButton(self):
+        return ButtonsFactory().newButton(self.sheet_view, "Choose another texture", self.selectImage, size = (-1, 32))
+
+    def selectImage(self, event):
+        dlg = self.newImgDialog()
+        self.onImageSelected(dlg)
+
+    def newImgDialog(self):
+        return wx.FileDialog(
+            self,
+            defaultDir= relative_textures_path, #"..\\..\\resources\\Textures\\",
+            message="Choose an image",
+            wildcard="*.png|*.jpg",
+            style=wx.FD_OPEN
+        )
+
+    def onImageSelected(self, dlg):
+        if dlg.ShowModal() == wx.ID_OK:
+            path = dlg.GetPath()
+            self.sheet_view.entityIconRelativePath = dlg.GetFilename()
+            self.sheet_view.imageBitmap.SetBitmap(wx.BitmapFromImage(self.newScaledImg(path)))
+
+    def moveToMainPanel(self,event):
+        self.sheet_view.frame.showPanel("main_panel",initDataForSearchedPanel=None)
+
+    def getAllSheetEntities(self):
+        return self.sheet_view.currentDependencies[self.sheet_view.sheet_name].keys()
+
+    def clearSelector(self, selector, stringSelection="None", selectionList = None):
+        selector.Clear()
+        selectionList = self.getAllSheetEntities() + ["None"] if selectionList is None else selectionList
+        for entityName in selectionList:
+            selector.Append(entityName)
+        selector.SetStringSelection(stringSelection)
+
+    def reinitNameInput(self, input, enabled):
+        self.sheet_view.NameInput.SetValue(input)
+        self.sheet_view.NameInput.Enable(enabled)
+
+    def setEntityImageBmp(self):
+        self.sheet_view.imageBitmap.SetBitmap(
+            wx.BitmapFromImage(
+                self.newScaledImg(relative_textures_path + self.sheet_view.entityIconRelativePath)
+            )
+        )
+
+    def getEntityCharacteristic(self, edit_element_name, characteristic):
+        return self.sheet_view.currentDependencies[self.sheet_view.sheet_name][edit_element_name][characteristic]
+
+    def getSheetEntitiesNames(self):
+        return self.sheet_view.currentDependencies[self.sheet_view.sheet_name].keys()
+
+    def getEntityCharacteristicFromEntitiesSet(self, edit_element_name, characteristic):
+        characteristic = self.getEntityCharacteristic(edit_element_name, characteristic)
+        return characteristic if characteristic in self.getSheetEntitiesNames() else "None"

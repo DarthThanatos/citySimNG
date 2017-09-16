@@ -12,11 +12,8 @@ class NumberFillingChecker(ScrolledPanel):
         self.value_desc_label_txt = value_desc_label_txt
         self.intro_label_txt = intro_label_txt
         self.part_name = parent.sheet_name
-
-        self.reset_init_mode = self.resetContentsInit_AddMode
-
         self.initRootSizer()
-        self.fillWithEntries(None)
+        self.fillWithEntries()
 
     def initRootSizer(self):
         self.rootSizer = wx.BoxSizer(wx.VERTICAL)
@@ -59,9 +56,6 @@ class NumberFillingChecker(ScrolledPanel):
         self.newChoicesCheckBoxes()
         self.newChoicesValuesSpinners()
 
-    def resetContentsInit_AddMode(self,unused):
-        self.init_choices()
-
     def getChoicesDict(self, edit_element_name):
         return self.currentDependencies[self.part_name][edit_element_name][self.json_key]
 
@@ -80,17 +74,10 @@ class NumberFillingChecker(ScrolledPanel):
         self.restoreChoiceCheckBox(choice)
         self.restoreChoiceSpinner(edit_element_name, choice)
 
-    def resetContentsInit_EditMode(self, edit_element_name):
-        self.init_choices()
-        for choice in self.getAlreadySelectedChoicesNames(edit_element_name):
-            self.onChoiceAlreadySelected(edit_element_name, choice)
-
-
-    def fillWithEntries(self, arg):
-        self.reset_init_mode(arg)
+    def fillWithEntries(self, edit_element_name = None):
+        self.resetContents(edit_element_name)
         self.reinitRootSizer()
         self.SetupScrolling()
-
 
     def onBoxChecked(self, event):
         self.choices_values[event.GetEventObject().GetLabel()].Enable(event.GetEventObject().GetValue())
@@ -107,6 +94,8 @@ class NumberFillingChecker(ScrolledPanel):
         result_struct["ErrorMsg"] += CHECKER_PANEL_ERROR_MSG.format(self.intro_label_txt) if not at_least_one_checked else ""
         return at_least_one_checked
 
-    def resetContents(self, arg):
-        self.fillWithEntries(arg)
-
+    def resetContents(self, edit_element_name):
+        self.init_choices()
+        if edit_element_name is not None:
+            for choice in self.getAlreadySelectedChoicesNames(edit_element_name):
+                self.onChoiceAlreadySelected(edit_element_name, choice)

@@ -22,16 +22,8 @@ class SheetEntityChecker(object):
     def newResultStruct(self):
         return {"ErrorMsg":"Errors detected:\n", "Result":{}} # init error msg displayed if sth went wrong
 
-    def onCheck(self):
-        self.checkCorectness(self.newResultStruct())
-
-    def checkCorectness(self, result_struct):
-        correct = self.checkAndDumpName(result_struct)
-        correct &= self.checkAndDumpPredAndSucc(result_struct)
-        correct &= self.checkAndDumpDescriptionArea(result_struct)
-        correct &= self.checkAndDumpTexture(result_struct)
-        correct &= self.checkAndDumpStartIncome(result_struct)
-        self.onCorrectnessCheckFinished(correct, result_struct)
+    def onCheck(self, entityChecker):
+        entityChecker.onCheck(self, self.newResultStruct())
 
     def onCorrectnessCheckFinished(self, correct, result_struct):
         if not correct:
@@ -39,15 +31,14 @@ class SheetEntityChecker(object):
             return
         self.onSheetCorrectlyFilled(result_struct)
 
-    def getAllResourcesNames(self):
-        return self.sheet_view.currentDependencies["Resources"].keys()
+    def getAllSheetEntitieNames(self):
+        return self.sheet_view.currentDependencies[self.sheet_view.sheet_name].keys()
 
     def getEntityName(self):
         return self.sheet_view.NameInput.GetValue()
 
     def onSheetCorrectlyFilled(self, result_struct):
-        self.getAllResourcesNames().append(self.getEntityName())
-        self.sheet_view.currentDependencies["Resources"][self.getEntityName()] = result_struct["Result"]
+        self.sheet_view.currentDependencies[self.sheet_view.sheet_name][self.getEntityName()] = result_struct["Result"]
         self.sheet_view.frame.showPanel("main_panel", initDataForSearchedPanel=self.newSuccessExitMsg(self.getEntityName()))
 
     def getPredecessorName(self):
@@ -88,7 +79,7 @@ class SheetEntityChecker(object):
 
     def descriptionCorrect(self, result_struct):
         if re.sub(r'\s', "", self.getDescriptionContent()) == "":
-            result_struct["ErrorMsg"] += "-> Please enter description of this resource\n"
+            result_struct["ErrorMsg"] += "-> Please enter description of this {}\n".format(self.sheet_view.getEntityType())
             return False
         return True
 
@@ -108,6 +99,42 @@ class SheetEntityChecker(object):
         result_struct["Result"][Consts.START_INCOME] = str(self.sheet_view.start_income_picker.GetValue())
         return True # for now, nothing can go wrong here
 
+    def getDwellerName(self):
+        return self.sheet_view.dwellers_names_selector.GetStringSelection()
+
+    def checkAndDumpDweller(self, result_struct):
+        correct = self.dwellerSelected(result_struct)
+        if correct: self.onDwellerSelectedCorrectly(result_struct)
+        return correct
+
+    def dwellerSelected(self, result_struct):
+        if self.getDwellerName() == "":
+            result_struct["ErrorMsg"] += "-> Please select a dweller that lives here\n"
+            return False
+        return True
+
+    def onDwellerSelectedCorrectly(self, result_struct):
+        result_struct["Result"][Consts.DWELLER_NAME] = self.getDwellerName()
+
+    def checkAndDumpDwellersAmount(self, result_struct):
+        result_struct["Result"][Consts.DWELLERS_AMOUNT] = self.getDwellersAmount()
+        return True
+
+    def checkAndDumpTypeOfBuilding(self, result_struct):
+        result_struct["Result"][Consts.TYPE] = self.getTypeOfBuilding()
+        return True
+
+    def getDwellersAmount(self):
+        return self.sheet_view.dwellers_amount.GetValue()
+
+    def getTypeOfBuilding(self):
+        return self.sheet_view.type_of_building_selector.GetValue()
+
+    def childrenInputCorrect(self, result_struct):
+        correct = True
+        for child in self.sheet_view.childrenCheckers:
+            correct &= child.checkAndDumpCheckers(result_struct)
+        return correct
 
 class AddModeSheetEntityChecker(SheetEntityChecker):
 
@@ -118,11 +145,11 @@ class AddModeSheetEntityChecker(SheetEntityChecker):
         return correct
 
     def onEntityNameCorrect(self, result_struct):
-        result_struct["Result"]["Resource\nName"] = self.getEntityName()
+        result_struct["Result"][self.sheet_view.getEntityNameKey()] = self.getEntityName()
 
     def entityNameNotTakenYet(self, result_struct):
-        if self.getEntityName() in self.getAllResourcesNames():
-            error_msg ="-> Resource name already taken\n"
+        if self.getEntityName() in self.getAllSheetEntitieNames():
+            error_msg ="-> {} name already taken\n".format(self.sheet_view.getEntityType())
             result_struct["ErrorMsg"] += error_msg
             return False
         return True
@@ -138,16 +165,51 @@ class AddModeSheetEntityChecker(SheetEntityChecker):
         return ADD_MODE
 
     def newSuccessExitMsg(self, entity_name):
-        return {"Log": "Successfully added " + entity_name + " to resources list\n"}
+        return {"Log": "Successfully added " + entity_name + " to entities list\n"}
 
 class EditModeSheetEntityChecker(SheetEntityChecker):
 
     def checkAndDumpName(self, result_struct):
-        result_struct["Result"]["Resource\nName"] = self.getEntityName()
+        result_struct["Result"][self.sheet_view.getEntityNameKey()] = self.getEntityName()
         return True # for now, nothing can go wrong here
 
     def getMode(self):
         return EDIT_MODE
 
-    def newSuccessExitMsg(self, resource_name):
-        return {"Log": "Successfully edited " + resource_name + " resource\n"}
+    def newSuccessExitMsg(self, entity_name):
+        return {"Log": "Successfully edited " + entity_name + "\n"}
+
+class OnEntityCheck(object):
+
+    def onCheck(self, sheetEntityChecker, result_struct):
+        correct = self.mainCheckPipeline(sheetEntityChecker, result_struct)
+        sheetEntityChecker.onCorrectnessCheckFinished(correct, result_struct)
+
+    def mainCheckPipeline(self, sheetEntityChecker, result_struct):
+        raise Exception("onCheck not implemented")
+
+class ResourceSheetChecker(OnEntityCheck):
+
+    def mainCheckPipeline(self, sheetEntityChecker, result_struct):
+        correct = sheetEntityChecker.checkAndDumpName(result_struct)
+        correct &= sheetEntityChecker.checkAndDumpPredAndSucc(result_struct)
+        correct &= sheetEntityChecker.checkAndDumpDescriptionArea(result_struct)
+        correct &= sheetEntityChecker.checkAndDumpTexture(result_struct)
+        return correct & sheetEntityChecker.checkAndDumpStartIncome(result_struct)
+
+class BuildingSheetChecker(OnEntityCheck):
+
+    def mainCheckPipeline(self, sheetEntityChecker, result_struct):
+        correct = sheetEntityChecker.checkAndDumpName(result_struct)
+        correct &= sheetEntityChecker.checkAndDumpPredAndSucc(result_struct)
+        correct &= sheetEntityChecker.checkAndDumpDescriptionArea(result_struct)
+        correct &= sheetEntityChecker.checkAndDumpTexture(result_struct)
+        correct &= sheetEntityChecker.checkAndDumpDweller(result_struct)
+        correct &= sheetEntityChecker.checkAndDumpDwellersAmount(result_struct)
+        correct &= sheetEntityChecker.checkAndDumpTypeOfBuilding(result_struct)
+        return correct & sheetEntityChecker.childrenInputCorrect(result_struct)
+
+class DwellerSheetChecker(OnEntityCheck):
+
+    def mainCheckPipeline(self, sheetEntityChecker, result_struct):
+        pass
