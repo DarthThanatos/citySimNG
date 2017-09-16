@@ -3,11 +3,11 @@ import wx
 from wx.lib.scrolledpanel import ScrolledPanel
 
 from CreatorView import Consts
+from CreatorView.RestorableView import RestorableStartIncomePicker
 from CreatorView.SheetBasicViewsUtils import SheetBasicViewsUtils
 
 from utils.OnShowUtil import OnShowUtil
-from viewmodel.SheetEntityChecker import AddModeSheetEntityChecker, EditModeSheetEntityChecker, ADD_MODE, \
-    ResourceSheetChecker
+from viewmodel.SheetEntityChecker import AddModeSheetEntityChecker, EditModeSheetEntityChecker, ResourceSheetChecker
 
 
 class ResourceSheet(ScrolledPanel):
@@ -18,46 +18,26 @@ class ResourceSheet(ScrolledPanel):
         self.frame = frame
         self.currentDependencies = currentDependencies
         self.wakeUpData = None
-        self.entityIconRelativePath = "DefaultBuilding.jpg"
+        self.entityIconRelativePath = self.getDefaultIconRelativePath()
         self.sheet_name =  "Resources"
         self.Bind(wx.EVT_SHOW, self.onShow, self)
-        self.initSheetSubViews()
+        self.restorableViews = []
         self.sheetChecker = AddModeSheetEntityChecker(self)
-        self.initRootSizer()
+        SheetBasicViewsUtils(self).initRootSizer(self.newResourceCharacteristicsVerticalSizer(), topPadding=75)
 
-    def getEntityType(self):
-        return Consts.RESOURCE
 
-    def getEntityNameKey(self):
-        return Consts.RESOURCE_NAME
-
-    def initRootSizer(self):
-        rootSizer = wx.BoxSizer(wx.VERTICAL)
-        rootSizer.AddSpacer(75)
-        rootSizer.Add(SheetBasicViewsUtils(self).newEntityNameHorizontalSizer(Consts.RESOURCE), 0, wx.CENTER)
-        rootSizer.AddSpacer(10)
-        rootSizer.Add(SheetBasicViewsUtils(self).newLine(), 0, wx.EXPAND)
-        rootSizer.AddSpacer(10)
-        rootSizer.Add(SheetBasicViewsUtils(self).newMainSheetPartHorizontalSizer(self.newResourceCharacteristicsVerticalSizer()), 0, wx.CENTER)
-        rootSizer.Add(SheetBasicViewsUtils(self).newLine(), 0, wx.EXPAND)
-        rootSizer.AddSpacer(10)
-        rootSizer.Add(SheetBasicViewsUtils(self).newButtonsPanelHorizontalSizer(self.submit), 0, wx.CENTER, 5)
-        self.SetSizer(rootSizer)
-        rootSizer.SetDimension(0, 0, self.size[0], self.size[1])
+    def addViewToCharacteristicsSizerWithSpace(self, view, space= 0, alignment = wx.CENTER):
+        self.resourceCharacteristicsVerticalSizer.Add(view, 0, alignment)
+        self.resourceCharacteristicsVerticalSizer.AddSpacer(space)
 
     def newResourceCharacteristicsVerticalSizer(self):
-        resourceCharacteristicsVerticalSizer = wx.BoxSizer(wx.VERTICAL)
-        resourceCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newDescriptionAreaVerticalSizer(Consts.RESOURCE), 0, wx.CENTER)
-        resourceCharacteristicsVerticalSizer.AddSpacer(10)
-        resourceCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newPredecessorPickerHorizontalSizer(Consts.RESOURCE), 0, wx.CENTER)
-        resourceCharacteristicsVerticalSizer.AddSpacer(5)
-        resourceCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newSuccesorPickerHorizontalSizer(Consts.RESOURCE), 0, wx.CENTER)
-        resourceCharacteristicsVerticalSizer.AddSpacer(10)
-        resourceCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newEntityIconHorizontalSizer(), 0, wx.CENTER)
-        resourceCharacteristicsVerticalSizer.AddSpacer(10)
-        resourceCharacteristicsVerticalSizer.Add(self.newStartIncomePickerHorizontalSizer(), 0, wx.CENTER)
-        resourceCharacteristicsVerticalSizer.AddSpacer(10)
-        return resourceCharacteristicsVerticalSizer
+        self.resourceCharacteristicsVerticalSizer = wx.BoxSizer(wx.VERTICAL)
+        self.addViewToCharacteristicsSizerWithSpace(SheetBasicViewsUtils(self).newDescriptionAreaVerticalSizer(Consts.RESOURCE), space = 10)
+        self.addViewToCharacteristicsSizerWithSpace(SheetBasicViewsUtils(self).newPredecessorPickerHorizontalSizer(Consts.RESOURCE), space = 5)
+        self.addViewToCharacteristicsSizerWithSpace(SheetBasicViewsUtils(self).newSuccesorPickerHorizontalSizer(Consts.RESOURCE), space = 10)
+        self.addViewToCharacteristicsSizerWithSpace(SheetBasicViewsUtils(self).newEntityIconHorizontalSizer(), space=10)
+        self.addViewToCharacteristicsSizerWithSpace(self.newStartIncomePickerHorizontalSizer(), space = 10)
+        return self.resourceCharacteristicsVerticalSizer
 
     def newStartIncomePickerHorizontalSizer(self):
         startIncomePickerHorizontalSizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -71,56 +51,26 @@ class ResourceSheet(ScrolledPanel):
 
     def newStartIncomePicker(self):
         self.start_income_picker =  wx.SpinCtrl(self, value='0', size=(60, -1), min=0, max = 5000)
+        self.restorableViews.append(RestorableStartIncomePicker(self, self.start_income_picker))
         return self.start_income_picker
 
+    def getDefaultIconRelativePath(self):
+        return "DefaultBuilding.jpg"
 
-    def initSheetSubViews(self):
-        self.NameInput = None
-        self.descriptionArea = None
-        self.imageBitmap = None
-        self.predecessorSelector = None
-        self.successorSelector = None
-        self.log_area = None
-        self.start_income_picker = None
+    def getEntityType(self):
+        return Consts.RESOURCE
 
-    def resetSheetValues(
-         self,
-         sheetMode,
-         entityNameInput = Consts.RESOURCE,
-         descriptionAreaValue = "",
-         startIncomePickerValue = 0,
-         entityIconRelativePath = "DefaultBuilding.jpg",
-         predecessorStringSelection = "None",
-         successorStringSelection = "None"
-    ):
-        self.sheetChecker = sheetMode
-        SheetBasicViewsUtils(self).reinitNameInput(entityNameInput, enabled = sheetMode.getMode() == ADD_MODE)
-        self.descriptionArea.SetValue(descriptionAreaValue)
-        self.start_income_picker.SetValue(startIncomePickerValue)
-        self.entityIconRelativePath = entityIconRelativePath
-        SheetBasicViewsUtils(self).setEntityImageBmp()
-        SheetBasicViewsUtils(self).clearSelector(self.predecessorSelector, predecessorStringSelection)
-        SheetBasicViewsUtils(self).clearSelector(self.successorSelector, successorStringSelection)
-        self.log_area.SetValue("")
+    def getEntityNameKey(self):
+        return Consts.RESOURCE_NAME
 
     def setUpEditMode(self, edit_element_name):
-        self.resetSheetValues(
-            sheetMode= EditModeSheetEntityChecker(self),
-            entityNameInput= edit_element_name,
-            descriptionAreaValue=SheetBasicViewsUtils(self).getEntityCharacteristic(edit_element_name, Consts.DESCRIPTION),
-            startIncomePickerValue=int(SheetBasicViewsUtils(self).getEntityCharacteristic(edit_element_name, Consts.START_INCOME)),
-            entityIconRelativePath=SheetBasicViewsUtils(self).getEntityCharacteristic(edit_element_name, Consts.TEXTURE_PATH),
-            predecessorStringSelection= SheetBasicViewsUtils(self).getEntityCharacteristicFromEntitiesSet(edit_element_name, Consts.PREDECESSOR),
-            successorStringSelection=SheetBasicViewsUtils(self).getEntityCharacteristicFromEntitiesSet(edit_element_name, Consts.SUCCESSOR)
-        )
+        SheetBasicViewsUtils(self).setupMode( EditModeSheetEntityChecker(self), edit_element_name)
 
     def setUpAddMode(self):
-        self.resetSheetValues(sheetMode=AddModeSheetEntityChecker(self))
+        SheetBasicViewsUtils(self).setupMode( AddModeSheetEntityChecker(self))
 
     def onShow(self, event):
         OnShowUtil().onCreatorSheetShow(self, event)
 
     def submit(self, event):
         self.sheetChecker.onCheck(ResourceSheetChecker())
-
-

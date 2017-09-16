@@ -35,8 +35,10 @@ class OnShowUtil(object):
 
     def onCreatorSheetShow(self, sheetView, event):
         if event.GetShow():
+            print sheetView.wakeUpData
             if not sheetView.wakeUpData == None:
                 try:
+                    print "setting edit in onshow util"
                     sheetView.setUpEditMode(edit_element_name = sheetView.wakeUpData["Edit"])
                 except:
                     traceback.print_exc()

@@ -1,5 +1,8 @@
 from wx import wx
 
+from CreatorView import Consts
+from CreatorView.RestorableView import RestorableNameInput, RestorableDescriptionArea, RestorableImageBmp, \
+    RestorableSelector, RestorableLogArea
 from utils.ButtonsFactory import ButtonsFactory
 from utils.RelativePaths import relative_textures_path
 
@@ -9,11 +12,26 @@ class SheetBasicViewsUtils(object):
     def __init__(self, sheet_view):
         self.sheet_view = sheet_view
 
-    def newEntityNameHorizontalSizer(self, entity_type, defaultName= None):
+    def addViewToRootSizerWithSpace(self, view, space = 0, alignment = wx.CENTER):
+        self.sheet_view.rootSizer.Add(view,0,alignment)
+        self.sheet_view.rootSizer.AddSpacer(space)
+
+    def initRootSizer(self, characteristicVerticalSizer, topPadding = 10):
+        self.sheet_view.rootSizer = wx.BoxSizer(wx.VERTICAL)
+        self.sheet_view.rootSizer.AddSpacer(topPadding)
+        self.addViewToRootSizerWithSpace(self.newEntityNameHorizontalSizer(self.sheet_view.getEntityType()), 10)
+        self.addViewToRootSizerWithSpace(self.newLine(), space= 10, alignment=wx.EXPAND)
+        self.addViewToRootSizerWithSpace(self.newMainSheetPartHorizontalSizer(characteristicVerticalSizer))
+        self.addViewToRootSizerWithSpace(self.newLine(), space=10, alignment=wx.EXPAND)
+        self.addViewToRootSizerWithSpace(self.newButtonsPanelHorizontalSizer(self.sheet_view.submit), 75)
+        self.sheet_view.SetSizer(self.sheet_view.rootSizer)
+        self.sheet_view.rootSizer.SetDimension(0, 0, self.sheet_view.size[0], self.sheet_view.size[1])
+
+    def newEntityNameHorizontalSizer(self, defaultName= None):
         entityNameHorizontalSizer = wx.BoxSizer(wx.HORIZONTAL)
-        entityNameHorizontalSizer.Add(self.newNameFieldLabel(entity_type))
+        entityNameHorizontalSizer.Add(self.newNameFieldLabel(self.sheet_view.getEntityType()))
         entityNameHorizontalSizer.AddSpacer(5)
-        entityNameHorizontalSizer.Add(self.newNameInput(defaultName if defaultName is not None else entity_type))
+        entityNameHorizontalSizer.Add(self.newNameInput(defaultName if defaultName is not None else self.sheet_view.getEntityType()))
         return entityNameHorizontalSizer
 
     def newNameFieldLabel(self, entity_type):
@@ -21,6 +39,7 @@ class SheetBasicViewsUtils(object):
 
     def newNameInput(self, defaultName):
         self.sheet_view.NameInput = wx.TextCtrl(self.sheet_view, -1, defaultName)
+        self.sheet_view.restorableViews.append(RestorableNameInput(self.sheet_view, self.sheet_view.NameInput))
         return self.sheet_view.NameInput
 
     def newLine(self, style = wx.HORIZONTAL):
@@ -47,6 +66,7 @@ class SheetBasicViewsUtils(object):
 
     def newLogArea(self):
         self.sheet_view.log_area = wx.TextCtrl(self.sheet_view, -1, size = (500,350), style=wx.TE_MULTILINE | wx.TE_READONLY)
+        self.sheet_view.restorableViews.append(RestorableLogArea(self.sheet_view, self.sheet_view.log_area))
         return self.sheet_view.log_area
 
     def newButtonsPanelHorizontalSizer(self, onSubmit):
@@ -72,6 +92,7 @@ class SheetBasicViewsUtils(object):
 
     def newDescriptionArea(self):
         self.sheet_view.descriptionArea = wx.TextCtrl(self.sheet_view, -1,size=(400, 200), style=wx.TE_MULTILINE)
+        self.sheet_view.restorableViews.append(RestorableDescriptionArea(self.sheet_view, self.sheet_view.descriptionArea))
         return self.sheet_view.descriptionArea
 
     def newPredecessorPickerHorizontalSizer(self,entity_type):
@@ -86,6 +107,7 @@ class SheetBasicViewsUtils(object):
 
     def newPredecessorSelector(self):
         self.sheet_view.predecessorSelector = self.newSelector()
+        self.sheet_view.restorableViews.append(RestorableSelector(self.sheet_view, self.sheet_view.predecessorSelector, Consts.PREDECESSOR))
         return self.sheet_view.predecessorSelector
 
     def newSuccesorPickerHorizontalSizer(self, entity_type):
@@ -97,6 +119,7 @@ class SheetBasicViewsUtils(object):
 
     def newSuccessorSelector(self):
         self.sheet_view.successorSelector = self.newSelector()
+        self.sheet_view.restorableViews.append(RestorableSelector(self.sheet_view, self.sheet_view.successorSelector, Consts.SUCCESSOR))
         return self.sheet_view.successorSelector
 
     def newPredeccesorLabel(self, entity_type):
@@ -119,10 +142,10 @@ class SheetBasicViewsUtils(object):
 
     def newEntityBmp(self):
         self.sheet_view.imageBitmap = self.newScaledImgBitmap(relative_textures_path + "DefaultBuilding.jpg")
+        self.sheet_view.restorableViews.append(RestorableImageBmp(self.sheet_view, self.sheet_view.imageBitmap))
         return self.sheet_view.imageBitmap
 
-    @staticmethod
-    def newScaledImg(non_relative_path):
+    def newScaledImg(self, non_relative_path):
         image = wx.Image(name = non_relative_path) #"..\\..\\resources\\Textures\\DefaultBuilding.jpg"
         return image.Scale(32,32)
 
@@ -138,7 +161,7 @@ class SheetBasicViewsUtils(object):
 
     def newImgDialog(self):
         return wx.FileDialog(
-            self,
+            self.sheet_view,
             defaultDir= relative_textures_path, #"..\\..\\resources\\Textures\\",
             message="Choose an image",
             wildcard="*.png|*.jpg",
@@ -154,33 +177,7 @@ class SheetBasicViewsUtils(object):
     def moveToMainPanel(self,event):
         self.sheet_view.frame.showPanel("main_panel",initDataForSearchedPanel=None)
 
-    def getAllSheetEntities(self):
-        return self.sheet_view.currentDependencies[self.sheet_view.sheet_name].keys()
-
-    def clearSelector(self, selector, stringSelection="None", selectionList = None):
-        selector.Clear()
-        selectionList = self.getAllSheetEntities() + ["None"] if selectionList is None else selectionList
-        for entityName in selectionList:
-            selector.Append(entityName)
-        selector.SetStringSelection(stringSelection)
-
-    def reinitNameInput(self, input, enabled):
-        self.sheet_view.NameInput.SetValue(input)
-        self.sheet_view.NameInput.Enable(enabled)
-
-    def setEntityImageBmp(self):
-        self.sheet_view.imageBitmap.SetBitmap(
-            wx.BitmapFromImage(
-                self.newScaledImg(relative_textures_path + self.sheet_view.entityIconRelativePath)
-            )
-        )
-
-    def getEntityCharacteristic(self, edit_element_name, characteristic):
-        return self.sheet_view.currentDependencies[self.sheet_view.sheet_name][edit_element_name][characteristic]
-
-    def getSheetEntitiesNames(self):
-        return self.sheet_view.currentDependencies[self.sheet_view.sheet_name].keys()
-
-    def getEntityCharacteristicFromEntitiesSet(self, edit_element_name, characteristic):
-        characteristic = self.getEntityCharacteristic(edit_element_name, characteristic)
-        return characteristic if characteristic in self.getSheetEntitiesNames() else "None"
+    def setupMode(self, modeChecker, entity_name = None):
+        self.sheet_view.sheetChecker = modeChecker
+        for restorableView in self.sheet_view.restorableViews:
+            restorableView.restoreView(entity_name)

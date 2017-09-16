@@ -2,11 +2,11 @@ import wx
 from wx.lib.scrolledpanel import ScrolledPanel
 
 import Consts
+from CreatorView.RestorableView import RestorableSelector, RestorableDwellersAmount, RestorableTypeOfBuilding
 from CreatorView.SheetBasicViewsUtils import SheetBasicViewsUtils
 from NumberFillingChecker import NumberFillingChecker
 from utils.OnShowUtil import OnShowUtil
-from viewmodel.SheetEntityChecker import BuildingSheetChecker, AddModeSheetEntityChecker, EditModeSheetEntityChecker, \
-    ADD_MODE, EDIT_MODE
+from viewmodel.SheetEntityChecker import BuildingSheetChecker, AddModeSheetEntityChecker, EditModeSheetEntityChecker, EDIT_MODE
 
 
 class BuildingSheet(ScrolledPanel):
@@ -17,34 +17,13 @@ class BuildingSheet(ScrolledPanel):
         self.frame = frame
         self.currentDependencies = currentDependencies
         self.wakeUpData = None
-        self.entityIconRelativePath = "house.png"
+        self.entityIconRelativePath = self.getDefaultIconRelativePath()
         self.sheet_name =  Consts.BUILDINGS
         self.Bind(wx.EVT_SHOW, self.onShow, self)
         self.sheetChecker = AddModeSheetEntityChecker(self)
-        self.initSheetSubViews()
-        self.initRootSizer()
-
-    def getEntityType(self):
-        return Consts.BUILDING
-
-    def getEntityNameKey(self):
-        return Consts.BUILDING_NAME
-
-    def initRootSizer(self):
-        rootSizer = wx.BoxSizer(wx.VERTICAL)
-        rootSizer.AddSpacer(10)
-        rootSizer.Add(SheetBasicViewsUtils(self).newEntityNameHorizontalSizer(Consts.BUILDING), 0, wx.CENTER)
-        rootSizer.AddSpacer(10)
-        rootSizer.Add(SheetBasicViewsUtils(self).newLine(), 0, wx.EXPAND)
-        rootSizer.AddSpacer(10)
-        rootSizer.Add(SheetBasicViewsUtils(self).newMainSheetPartHorizontalSizer(self.newBuildingCharacteristicsVerticalSizer()), 0, wx.CENTER, 0, wx.CENTER)
-        rootSizer.Add(SheetBasicViewsUtils(self).newLine(), 0, wx.EXPAND)
-        rootSizer.AddSpacer(10)
-        rootSizer.Add(SheetBasicViewsUtils(self).newButtonsPanelHorizontalSizer(self.submit), 0, wx.CENTER, 5)
-        rootSizer.AddSpacer(75)
-        self.SetSizer(rootSizer)
-        rootSizer.SetDimension(0, 0, self.size[0], self.size[1])
-
+        self.childrenCheckers = []
+        self.restorableViews = []
+        SheetBasicViewsUtils(self).initRootSizer(self.newBuildingCharacteristicsVerticalSizer(), topPadding=10)
 
     def newBuildingCharacteristicsVerticalSizer(self):
         buildingCharacteristicsVerticalSizer = wx.BoxSizer(wx.VERTICAL)
@@ -119,6 +98,7 @@ class BuildingSheet(ScrolledPanel):
 
     def newDwellersNamesSelector(self):
         self.dwellers_names_selector = wx.ComboBox(self, choices=["None"], style=wx.CB_READONLY)
+        self.restorableViews.append(RestorableSelector(self, self.dwellers_names_selector, Consts.DWELLER_NAME))
         return self.dwellers_names_selector
 
     def newDwellerNameLabel(self):
@@ -129,6 +109,7 @@ class BuildingSheet(ScrolledPanel):
 
     def newDwellersAmountSpinner(self):
         self.dwellers_amount =  wx.SpinCtrl(self, value='0', size=(60, -1), min=0, max = 50)
+        self.restorableViews.append(RestorableDwellersAmount(self, self.dwellers_amount))
         return self.dwellers_amount
 
     def newBuildingTypeHorizontalSizer(self):
@@ -143,66 +124,32 @@ class BuildingSheet(ScrolledPanel):
 
     def newBuildingTypeSelector(self):
         self.type_of_building_selector =wx.ComboBox(self, choices=["Industrial", "Domestic"], style=wx.CB_READONLY, value = "Industrial")
+        self.restorableViews.append(RestorableTypeOfBuilding(self, self.type_of_building_selector))
         return self.type_of_building_selector
 
-    def initSheetSubViews(self):
-        self.NameInput = None
-        self.descriptionArea = None
-        self.imageBitmap = None
-        self.predecessorSelector = None
-        self.successorSelector = None
-        self.type_of_building_selector = None
-        self.dwellers_names_selector = None
-        self.log_area = None
-        self.dwellers_amount = None
-        self.resources_produced_panel = None
-        self.resources_consumed_panel = None
-        self.cost_in_resources_panel = None
-        self.childrenCheckers = []
+    def getDefaultIconRelativePath(self):
+        return "house.png"
+
+    def getEntityType(self):
+        return Consts.BUILDING
+
+    def getEntityNameKey(self):
+        return Consts.BUILDING_NAME
 
     def getAllDwellerEntities(self):
         return self.currentDependencies["Dwellers"].keys()
 
-    def resetSheetValues(
-         self,
-         sheetMode,
-         entityNameInput = Consts.BUILDING,
-         descriptionAreaValue = "",
-         entityIconRelativePath = "house.png",
-         predecessorStringSelection = "None",
-         successorStringSelection = "None",
-         dwellerNameSelection = "None",
-         typeOfBuilding = "Industrial",
-         dwellersAmount = 0
-    ):
-        self.sheetChecker = sheetMode
-        self.entityIconRelativePath = entityIconRelativePath
-        SheetBasicViewsUtils(self).reinitNameInput(entityNameInput, enabled = sheetMode.getMode() == ADD_MODE)
-        self.descriptionArea.SetValue(descriptionAreaValue)
-        SheetBasicViewsUtils(self).setEntityImageBmp()
-        SheetBasicViewsUtils(self).clearSelector(self.predecessorSelector, predecessorStringSelection)
-        SheetBasicViewsUtils(self).clearSelector(self.successorSelector, successorStringSelection)
-        SheetBasicViewsUtils(self).clearSelector(self.dwellers_names_selector, dwellerNameSelection, self.getAllDwellerEntities())
-        self.type_of_building_selector.SetStringSelection(typeOfBuilding)
-        self.dwellers_amount.SetValue(dwellersAmount)
-        self.log_area.SetValue("")
-        for child in self.childrenCheckers: child.fillWithEntries(entityNameInput if sheetMode.getMode() == EDIT_MODE else None)
+    def setupSheetMode(self, sheetMode, edit_element_name = None):
+        SheetBasicViewsUtils(self).setupMode(sheetMode,edit_element_name)
+        for child in self.childrenCheckers: child.fillWithEntries(edit_element_name if sheetMode.getMode() == EDIT_MODE else None)
 
     def setUpEditMode(self, edit_element_name):
-        self.resetSheetValues(
-            sheetMode= EditModeSheetEntityChecker(self),
-            entityNameInput= edit_element_name,
-            descriptionAreaValue=SheetBasicViewsUtils(self).getEntityCharacteristic(edit_element_name, Consts.DESCRIPTION),
-            entityIconRelativePath=SheetBasicViewsUtils(self).getEntityCharacteristic(edit_element_name, Consts.TEXTURE_PATH),
-            predecessorStringSelection=SheetBasicViewsUtils(self).getEntityCharacteristicFromEntitiesSet(edit_element_name, Consts.PREDECESSOR),
-            successorStringSelection=SheetBasicViewsUtils(self).getEntityCharacteristicFromEntitiesSet(edit_element_name, Consts.SUCCESSOR),
-            dwellerNameSelection = SheetBasicViewsUtils(self).getEntityCharacteristic(edit_element_name, Consts.DWELLER_NAME),
-            typeOfBuilding = SheetBasicViewsUtils(self).getEntityCharacteristic(edit_element_name, Consts.TYPE),
-            dwellersAmount = int(SheetBasicViewsUtils(self).getEntityCharacteristic(edit_element_name, Consts.DWELLERS_AMOUNT))
-        )
+        print "setting building edit mode"
+        self.setupSheetMode(EditModeSheetEntityChecker(self), edit_element_name)
 
     def setUpAddMode(self):
-        self.resetSheetValues(sheetMode=AddModeSheetEntityChecker(self))
+        print "setting building add mode"
+        self.setupSheetMode(AddModeSheetEntityChecker(self))
 
     def onShow(self, event):
         OnShowUtil().onCreatorSheetShow(self, event)

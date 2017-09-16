@@ -12,12 +12,12 @@ class DwellersPanel(ScrolledPanel):
         ScrolledPanel.__init__(self, size = size, parent = parent, style = wx.SIMPLE_BORDER)
         self.SetupScrolling()
         self.wakeUpData = None
+        self.restorableViews = []
 
         self.frame = frame
         self.currentDependencies = currentDependencies
         self.sheet_name = Consts.DWELLERS
 
-        vertical_sizer = wx.BoxSizer(wx.VERTICAL)
         dweller_name_horizontal_sizer = wx.BoxSizer(wx.HORIZONTAL)
         buttons_horizontal_sizer = wx.BoxSizer(wx.HORIZONTAL)
         predecessor_horizontal_sizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -32,14 +32,8 @@ class DwellersPanel(ScrolledPanel):
         dweller_name_horizontal_sizer.Add(self.NameLabel)
         dweller_name_horizontal_sizer.AddSpacer(5)
         dweller_name_horizontal_sizer.Add(self.NameInput)
-        vertical_sizer.AddSpacer(75)
-
-        vertical_sizer.Add(dweller_name_horizontal_sizer, 0, wx.CENTER)
-        vertical_sizer.AddSpacer(10)
 
         header_ln = wx.StaticLine(self, -1)
-        vertical_sizer.Add(header_ln, 0, wx.EXPAND)
-        vertical_sizer.AddSpacer(10)
 
         #===============================================================================================================
         descriptionFieldLabel = wx.StaticText(self, -1, "Description of this dweller for Tutorial module")
@@ -106,12 +100,9 @@ class DwellersPanel(ScrolledPanel):
         between_lines_part_horizontal_sizer.AddSpacer(50)
 
         between_lines_part_horizontal_sizer.Add(log_area_vertical_sizer,0,wx.RIGHT)
-        vertical_sizer.Add(between_lines_part_horizontal_sizer, 0, wx.CENTER)
 
         #===============================================================================================================
         bottom_line = wx.StaticLine(self, -1)
-        vertical_sizer.Add(bottom_line, 0, wx.EXPAND)
-        vertical_sizer.AddSpacer(10)
 
         main_panel_btn = wx.Button(self, label="Cancel")
         self.Bind(wx.EVT_BUTTON, self.moveToMainPanel, main_panel_btn)
@@ -120,15 +111,31 @@ class DwellersPanel(ScrolledPanel):
 
         buttons_horizontal_sizer.Add(create_resource_btn)
         buttons_horizontal_sizer.Add(main_panel_btn)
-        vertical_sizer.Add(buttons_horizontal_sizer, 0, wx.CENTER, 5)
-        vertical_sizer.AddSpacer(75)
 
-        self.SetSizer(vertical_sizer)
-        vertical_sizer.SetDimension(0, 0, size[0], size[1])
         self.Bind(wx.EVT_SHOW, self.onShow, self)
 
         self.check_and_dump_name = self.checkAndDumpNameAddMode
         self.mount_exit_msg = self.mountSuccessAddMsg
+
+
+        vertical_sizer = wx.BoxSizer(wx.VERTICAL)
+        vertical_sizer.AddSpacer(75)
+
+        vertical_sizer.Add(dweller_name_horizontal_sizer, 0, wx.CENTER)
+        vertical_sizer.AddSpacer(10)
+        vertical_sizer.Add(header_ln, 0, wx.EXPAND)
+        vertical_sizer.AddSpacer(10)
+        vertical_sizer.Add(between_lines_part_horizontal_sizer, 0, wx.CENTER)
+        vertical_sizer.Add(bottom_line, 0, wx.EXPAND)
+        vertical_sizer.AddSpacer(10)
+        vertical_sizer.Add(buttons_horizontal_sizer, 0, wx.CENTER, 5)
+        vertical_sizer.AddSpacer(75)
+        self.SetSizer(vertical_sizer)
+        vertical_sizer.SetDimension(0, 0, size[0], size[1])
+
+    def getDefaultIconRelativePath(self):
+        return "dweller.jpg"
+
 
     def getEntityType(self):
         return Consts.DWELLER
