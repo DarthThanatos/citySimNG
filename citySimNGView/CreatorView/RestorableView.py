@@ -2,36 +2,17 @@ from wx import wx
 
 from CreatorView import Consts
 from CreatorView.RelativePaths import relative_textures_path
+from utils.SheetEntitiesUtils import SheetEntitiesUtils
 
 
 class RestorableView(object):
 
     def __init__(self, sheet_view):
         self.sheet_view = sheet_view
+        self.entityUtils = SheetEntitiesUtils(sheet_view)
 
     def restoreView(self, entity_name=None):
         raise Exception("restoreView not implemented")
-
-    def getEntityCharacteristic(self, edit_element_name, characteristic):
-        return self.sheet_view.currentDependencies[self.sheet_view.sheet_name][edit_element_name][characteristic]
-
-    def getSheetEntitiesNames(self):
-        return self.sheet_view.currentDependencies[self.sheet_view.sheet_name].keys()
-
-    def getEntityCharacteristicFromEntitiesSet(self, edit_element_name, characteristic):
-        characteristic = self.getEntityCharacteristic(edit_element_name, characteristic)
-        return characteristic if characteristic in self.getSheetEntitiesNames() else "None"
-
-    def newScaledImg(self, non_relative_path):
-        image = wx.Image(name = non_relative_path) #"..\\..\\resources\\Textures\\DefaultBuilding.jpg"
-        return image.Scale(32,32)
-
-    def clearSelector(self, selector, stringSelection="None", selectionList = None):
-        selector.Clear()
-        selectionList = self.getSheetEntitiesNames() + ["None"] if selectionList is None else selectionList
-        for entityName in selectionList:
-            selector.Append(entityName)
-        selector.SetStringSelection(stringSelection)
 
 class RestorableNameInput(RestorableView):
 
@@ -41,7 +22,9 @@ class RestorableNameInput(RestorableView):
         self.NameInput = NameInput
 
     def restoreView(self, entity_name = None):
-        self.NameInput.SetValue(entity_name if entity_name != None else self.sheet_view.getEntityType())
+        self.NameInput.SetValue(
+            entity_name if entity_name != None else self.sheet_view.getEntityType()
+        )
         self.NameInput.Enable(entity_name == None)
 
 
@@ -53,7 +36,8 @@ class RestorableDescriptionArea(RestorableView):
 
     def restoreView(self, entity_name = None):
         descriptionAreaValue = \
-            self.getEntityCharacteristic(entity_name, Consts.DESCRIPTION) if entity_name is not None else ""
+            self.entityUtils.getEntityCharacteristic(entity_name, Consts.DESCRIPTION) \
+                if entity_name is not None else ""
         self.descriptionArea.SetValue(descriptionAreaValue)
 
 class RestorableImageBmp(RestorableView):
@@ -62,10 +46,14 @@ class RestorableImageBmp(RestorableView):
         super(RestorableImageBmp, self).__init__(sheet_view)
         self.imageBitmap = imageBitmap
 
+    def newScaledImg(self, non_relative_path):
+        image = wx.Image(name = non_relative_path) #"..\\..\\resources\\Textures\\DefaultBuilding.jpg"
+        return image.Scale(32,32)
+
     def restoreView(self, entity_name=None):
         self.sheet_view.entityIconRelativePath  = \
             self.sheet_view.getDefaultIconRelativePath() if entity_name is None \
-                else self.getEntityCharacteristic(entity_name, Consts.TEXTURE_PATH)
+                else self.entityUtils.getEntityCharacteristic(entity_name, Consts.TEXTURE_PATH)
         self.imageBitmap.SetBitmap(
             wx.BitmapFromImage(
                 self.newScaledImg(relative_textures_path + self.sheet_view.entityIconRelativePath)
@@ -74,15 +62,36 @@ class RestorableImageBmp(RestorableView):
 
 class RestorableSelector(RestorableView):
 
-    def __init__(self, sheet_view, selector, key):
+    def __init__(self, sheet_view, selector, restoreKey):
         super(RestorableSelector, self).__init__(sheet_view)
         self.selector = selector
-        self.key = key
+        self.restoreKey = restoreKey
+
+    def getSelectionList(self):
+        raise Exception("getSelectionList not implemented")
+
+    def clearSelector(self, selector, stringSelection="None"):
+        selector.Clear()
+        selectionList = self.getSelectionList() + ["None"]
+        for entityName in selectionList:
+            selector.Append(entityName)
+        selector.SetStringSelection(stringSelection)
 
     def restoreView(self, entity_name=None):
         stringSelection = \
-            self.getEntityCharacteristicFromEntitiesSet(entity_name, self.key) if entity_name is not None else "None"
+            self.entityUtils.getEntityCharacteristic(entity_name, self.restoreKey) \
+                if entity_name is not None else "None"
         self.clearSelector(self.selector, stringSelection)
+
+class RestorableStdSelector(RestorableSelector):
+
+    def getSelectionList(self):
+        return self.entityUtils.getSheetEntitiesNames()
+
+class RestorableDwellersNamesSelector(RestorableSelector):
+
+    def getSelectionList(self):
+        return SheetEntitiesUtils(self.sheet_view).getAllDwellerEntities()
 
 class RestorableLogArea(RestorableView):
 
@@ -101,7 +110,8 @@ class RestorableStartIncomePicker(RestorableView):
 
     def restoreView(self, entity_name=None):
         startIncomePickerValue = \
-            int(self.getEntityCharacteristic(entity_name, Consts.START_INCOME)) if entity_name is not None else 0
+            int(self.entityUtils.getEntityCharacteristic(entity_name, Consts.START_INCOME)) \
+                if entity_name is not None else 0
         self.start_income_picker.SetValue(startIncomePickerValue)
 
 class RestorableDwellersAmount(RestorableView):
@@ -112,7 +122,7 @@ class RestorableDwellersAmount(RestorableView):
 
     def restoreView(self, entity_name=None):
         dwellersAmount = \
-            int(self.getEntityCharacteristic(entity_name, Consts.DWELLERS_AMOUNT))\
+            int(self.entityUtils.getEntityCharacteristic(entity_name, Consts.DWELLERS_AMOUNT))\
                 if entity_name is not None else 0
         self.dwellers_amount.SetValue(dwellersAmount)
 
@@ -124,7 +134,6 @@ class RestorableTypeOfBuilding(RestorableView):
 
     def restoreView(self, entity_name=None):
         typeOfBuilding = \
-            self.getEntityCharacteristic(entity_name, Consts.TYPE) \
+            self.entityUtils.getEntityCharacteristic(entity_name, Consts.TYPE) \
                 if entity_name is not None else "Industrial"
         self.type_of_building_selector.SetStringSelection(typeOfBuilding)
-

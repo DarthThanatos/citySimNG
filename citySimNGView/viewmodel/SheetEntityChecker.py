@@ -182,8 +182,15 @@ class EditModeSheetEntityChecker(SheetEntityChecker):
 class OnEntityCheck(object):
 
     def onCheck(self, sheetEntityChecker, result_struct):
-        correct = self.mainCheckPipeline(sheetEntityChecker, result_struct)
+        correct = self.checkAndDumpBasicCharacteristics(sheetEntityChecker, result_struct)
+        correct &= self.mainCheckPipeline(sheetEntityChecker, result_struct)
         sheetEntityChecker.onCorrectnessCheckFinished(correct, result_struct)
+
+    def checkAndDumpBasicCharacteristics(self,  sheetEntityChecker, result_struct):
+        correct = sheetEntityChecker.checkAndDumpName(result_struct)
+        correct &= sheetEntityChecker.checkAndDumpPredAndSucc(result_struct)
+        correct &= sheetEntityChecker.checkAndDumpDescriptionArea(result_struct)
+        return correct & sheetEntityChecker.checkAndDumpTexture(result_struct)
 
     def mainCheckPipeline(self, sheetEntityChecker, result_struct):
         raise Exception("onCheck not implemented")
@@ -191,20 +198,12 @@ class OnEntityCheck(object):
 class ResourceSheetChecker(OnEntityCheck):
 
     def mainCheckPipeline(self, sheetEntityChecker, result_struct):
-        correct = sheetEntityChecker.checkAndDumpName(result_struct)
-        correct &= sheetEntityChecker.checkAndDumpPredAndSucc(result_struct)
-        correct &= sheetEntityChecker.checkAndDumpDescriptionArea(result_struct)
-        correct &= sheetEntityChecker.checkAndDumpTexture(result_struct)
-        return correct & sheetEntityChecker.checkAndDumpStartIncome(result_struct)
+        return sheetEntityChecker.checkAndDumpStartIncome(result_struct)
 
 class BuildingSheetChecker(OnEntityCheck):
 
     def mainCheckPipeline(self, sheetEntityChecker, result_struct):
-        correct = sheetEntityChecker.checkAndDumpName(result_struct)
-        correct &= sheetEntityChecker.checkAndDumpPredAndSucc(result_struct)
-        correct &= sheetEntityChecker.checkAndDumpDescriptionArea(result_struct)
-        correct &= sheetEntityChecker.checkAndDumpTexture(result_struct)
-        correct &= sheetEntityChecker.checkAndDumpDweller(result_struct)
+        correct = sheetEntityChecker.checkAndDumpDweller(result_struct)
         correct &= sheetEntityChecker.checkAndDumpDwellersAmount(result_struct)
         correct &= sheetEntityChecker.checkAndDumpTypeOfBuilding(result_struct)
         return correct & sheetEntityChecker.childrenInputCorrect(result_struct)
@@ -212,4 +211,4 @@ class BuildingSheetChecker(OnEntityCheck):
 class DwellerSheetChecker(OnEntityCheck):
 
     def mainCheckPipeline(self, sheetEntityChecker, result_struct):
-        pass
+        return sheetEntityChecker.childrenInputCorrect(result_struct)

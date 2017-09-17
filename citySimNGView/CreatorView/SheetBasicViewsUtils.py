@@ -1,8 +1,8 @@
 from wx import wx
 
 from CreatorView import Consts
-from CreatorView.RestorableView import RestorableNameInput, RestorableDescriptionArea, RestorableImageBmp, \
-    RestorableSelector, RestorableLogArea
+from CreatorView.NumberFillingChecker import NumberFillingChecker
+from CreatorView.RestorableView import RestorableNameInput, RestorableDescriptionArea, RestorableImageBmp, RestorableLogArea, RestorableStdSelector
 from utils.ButtonsFactory import ButtonsFactory
 from utils.RelativePaths import relative_textures_path
 
@@ -15,6 +15,18 @@ class SheetBasicViewsUtils(object):
     def addViewToRootSizerWithSpace(self, view, space = 0, alignment = wx.CENTER):
         self.sheet_view.rootSizer.Add(view,0,alignment)
         self.sheet_view.rootSizer.AddSpacer(space)
+
+    def newBasicCharacteristicsVerticalSizer(self):
+        basicCharacteristicsVerticalSizer = wx.BoxSizer(wx.VERTICAL)
+        basicCharacteristicsVerticalSizer.Add(self.newDescriptionAreaVerticalSizer(),0,wx.CENTER)
+        basicCharacteristicsVerticalSizer.AddSpacer(10)
+        basicCharacteristicsVerticalSizer.Add(self.newPredecessorPickerHorizontalSizer(), 0, wx.CENTER)
+        basicCharacteristicsVerticalSizer.AddSpacer(5)
+        basicCharacteristicsVerticalSizer.Add(self.newSuccesorPickerHorizontalSizer(), 0, wx.CENTER)
+        basicCharacteristicsVerticalSizer.AddSpacer(10)
+        basicCharacteristicsVerticalSizer.Add(self.newEntityIconHorizontalSizer(), 0, wx.CENTER)
+        basicCharacteristicsVerticalSizer.AddSpacer(10)
+        return basicCharacteristicsVerticalSizer
 
     def initRootSizer(self, characteristicVerticalSizer, topPadding = 10):
         self.sheet_view.rootSizer = wx.BoxSizer(wx.VERTICAL)
@@ -81,9 +93,9 @@ class SheetBasicViewsUtils(object):
     def newCancelButton(self, onCancel):
         return ButtonsFactory().newButton(self.sheet_view, "Cancel", onCancel)
 
-    def newDescriptionAreaVerticalSizer(self, entity_type):
+    def newDescriptionAreaVerticalSizer(self):
         descriptionAreaVerticalSizer =  wx.BoxSizer(wx.VERTICAL)
-        descriptionAreaVerticalSizer.Add(self.newDescriptionFieldLabel(entity_type), 0, wx.CENTER)
+        descriptionAreaVerticalSizer.Add(self.newDescriptionFieldLabel(self.sheet_view.getEntityType()), 0, wx.CENTER)
         descriptionAreaVerticalSizer.Add(self.newDescriptionArea(), 0, wx.CENTER)
         return descriptionAreaVerticalSizer
 
@@ -95,9 +107,9 @@ class SheetBasicViewsUtils(object):
         self.sheet_view.restorableViews.append(RestorableDescriptionArea(self.sheet_view, self.sheet_view.descriptionArea))
         return self.sheet_view.descriptionArea
 
-    def newPredecessorPickerHorizontalSizer(self,entity_type):
+    def newPredecessorPickerHorizontalSizer(self,):
         predecessor_picker_horizontal_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        predecessor_picker_horizontal_sizer.Add(self.newPredeccesorLabel(entity_type))
+        predecessor_picker_horizontal_sizer.Add(self.newPredeccesorLabel(self.sheet_view.getEntityType()))
         predecessor_picker_horizontal_sizer.AddSpacer(10)
         predecessor_picker_horizontal_sizer.Add(self.newPredecessorSelector())
         return predecessor_picker_horizontal_sizer
@@ -107,19 +119,23 @@ class SheetBasicViewsUtils(object):
 
     def newPredecessorSelector(self):
         self.sheet_view.predecessorSelector = self.newSelector()
-        self.sheet_view.restorableViews.append(RestorableSelector(self.sheet_view, self.sheet_view.predecessorSelector, Consts.PREDECESSOR))
+        self.sheet_view.restorableViews.append(
+            RestorableStdSelector(self.sheet_view, self.sheet_view.predecessorSelector, Consts.PREDECESSOR)
+        )
         return self.sheet_view.predecessorSelector
 
-    def newSuccesorPickerHorizontalSizer(self, entity_type):
+    def newSuccesorPickerHorizontalSizer(self):
         successor_picker_horizontal_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        successor_picker_horizontal_sizer.Add(self.newSuccesorLabel(entity_type))
+        successor_picker_horizontal_sizer.Add(self.newSuccesorLabel(self.sheet_view.getEntityType()))
         successor_picker_horizontal_sizer.AddSpacer(10)
         successor_picker_horizontal_sizer.Add(self.newSuccessorSelector())
         return successor_picker_horizontal_sizer
 
     def newSuccessorSelector(self):
         self.sheet_view.successorSelector = self.newSelector()
-        self.sheet_view.restorableViews.append(RestorableSelector(self.sheet_view, self.sheet_view.successorSelector, Consts.SUCCESSOR))
+        self.sheet_view.restorableViews.append(
+            RestorableStdSelector(self.sheet_view, self.sheet_view.successorSelector, Consts.SUCCESSOR)
+        )
         return self.sheet_view.successorSelector
 
     def newPredeccesorLabel(self, entity_type):
@@ -181,3 +197,21 @@ class SheetBasicViewsUtils(object):
         self.sheet_view.sheetChecker = modeChecker
         for restorableView in self.sheet_view.restorableViews:
             restorableView.restoreView(entity_name)
+
+    def newNumberFillingChecker(self, value_desc_label_txt, intro_label_txt, json_key):
+        numberFillingChecker =  NumberFillingChecker(
+            self.sheet_view,
+            key_label_txt="Resource:",
+            value_desc_label_txt=value_desc_label_txt,
+            intro_label_txt=intro_label_txt,
+            json_key=json_key
+        )
+        self.sheet_view.childrenCheckers.append(numberFillingChecker)
+        return numberFillingChecker
+
+    def newResourcesConsumedChecker(self):
+        return self.newNumberFillingChecker(
+            "Consumed in quantity:",
+            "Consumed resources",
+            Consts.CONSUMES
+        )

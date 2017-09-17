@@ -2,10 +2,12 @@ import wx
 from wx.lib.scrolledpanel import ScrolledPanel
 
 import Consts
-from CreatorView.RestorableView import RestorableSelector, RestorableDwellersAmount, RestorableTypeOfBuilding
+from CreatorView.RestorableView import RestorableSelector, RestorableDwellersAmount, RestorableTypeOfBuilding, \
+    RestorableDwellersNamesSelector
 from CreatorView.SheetBasicViewsUtils import SheetBasicViewsUtils
 from NumberFillingChecker import NumberFillingChecker
 from utils.OnShowUtil import OnShowUtil
+from utils.SheetEntitiesUtils import SheetEntitiesUtils
 from viewmodel.SheetEntityChecker import BuildingSheetChecker, AddModeSheetEntityChecker, EditModeSheetEntityChecker, EDIT_MODE
 
 
@@ -27,14 +29,7 @@ class BuildingSheet(ScrolledPanel):
 
     def newBuildingCharacteristicsVerticalSizer(self):
         buildingCharacteristicsVerticalSizer = wx.BoxSizer(wx.VERTICAL)
-        buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newDescriptionAreaVerticalSizer(Consts.BUILDING), 0, wx.CENTER)
-        buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newPredecessorPickerHorizontalSizer(Consts.BUILDING), 0, wx.CENTER)
-        buildingCharacteristicsVerticalSizer.AddSpacer(5)
-        buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newSuccesorPickerHorizontalSizer(Consts.BUILDING), 0, wx.CENTER)
-        buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newEntityIconHorizontalSizer(), 0, wx.CENTER)
-        buildingCharacteristicsVerticalSizer.AddSpacer(10)
+        buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newBasicCharacteristicsVerticalSizer(), 0, wx.CENTER)
         buildingCharacteristicsVerticalSizer.Add(self.newDwellersHorizontalSizer(), 0, wx.CENTER)
         buildingCharacteristicsVerticalSizer.AddSpacer(10)
         buildingCharacteristicsVerticalSizer.Add(self.newBuildingTypeHorizontalSizer(), 0, wx.CENTER)
@@ -45,7 +40,7 @@ class BuildingSheet(ScrolledPanel):
         buildingCharacteristicsVerticalSizer.AddSpacer(10)
         buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newLine(), 0, wx.EXPAND)
         buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(self.newResourcesConsumedChecker(), 0, wx.CENTER)
+        buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newResourcesConsumedChecker(), 0, wx.CENTER)
         buildingCharacteristicsVerticalSizer.AddSpacer(10)
         buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newLine(), 0, wx.EXPAND)
         buildingCharacteristicsVerticalSizer.AddSpacer(10)
@@ -53,33 +48,16 @@ class BuildingSheet(ScrolledPanel):
         buildingCharacteristicsVerticalSizer.AddSpacer(10)
         return buildingCharacteristicsVerticalSizer
 
-    def newNumberFillingChecker(self, value_desc_label_txt, intro_label_txt, json_key):
-        numberFillingChecker =  NumberFillingChecker(
-            self,
-            key_label_txt="Resource:",
-            value_desc_label_txt=value_desc_label_txt,
-            intro_label_txt=intro_label_txt,
-            json_key=json_key
-        )
-        self.childrenCheckers.append(numberFillingChecker)
-        return numberFillingChecker
 
     def newResourcesProducedChecker(self):
-        return self.newNumberFillingChecker(
+        return SheetBasicViewsUtils(self).newNumberFillingChecker(
             "Produced in quantity:",
             "Produced resources",
             Consts.PRODUCES
         )
 
-    def newResourcesConsumedChecker(self):
-        return self.newNumberFillingChecker(
-            "Consumed in quantity:",
-            "Consumed resources",
-            Consts.CONSUMES
-        )
-
     def newCostInResourcesChecker(self):
-        return self.newNumberFillingChecker(
+        return SheetBasicViewsUtils(self).newNumberFillingChecker(
             "Costs:",
             "Cost of placing a building in resources",
             Consts.COST_IN_RESOURCES
@@ -98,7 +76,13 @@ class BuildingSheet(ScrolledPanel):
 
     def newDwellersNamesSelector(self):
         self.dwellers_names_selector = wx.ComboBox(self, choices=["None"], style=wx.CB_READONLY)
-        self.restorableViews.append(RestorableSelector(self, self.dwellers_names_selector, Consts.DWELLER_NAME))
+        self.restorableViews.append(
+            RestorableDwellersNamesSelector(
+                sheet_view=self,
+                selector=self.dwellers_names_selector,
+                restoreKey = Consts.DWELLER_NAME
+            )
+        )
         return self.dwellers_names_selector
 
     def newDwellerNameLabel(self):
@@ -136,19 +120,14 @@ class BuildingSheet(ScrolledPanel):
     def getEntityNameKey(self):
         return Consts.BUILDING_NAME
 
-    def getAllDwellerEntities(self):
-        return self.currentDependencies["Dwellers"].keys()
-
     def setupSheetMode(self, sheetMode, edit_element_name = None):
         SheetBasicViewsUtils(self).setupMode(sheetMode,edit_element_name)
         for child in self.childrenCheckers: child.fillWithEntries(edit_element_name if sheetMode.getMode() == EDIT_MODE else None)
 
     def setUpEditMode(self, edit_element_name):
-        print "setting building edit mode"
         self.setupSheetMode(EditModeSheetEntityChecker(self), edit_element_name)
 
     def setUpAddMode(self):
-        print "setting building add mode"
         self.setupSheetMode(AddModeSheetEntityChecker(self))
 
     def onShow(self, event):

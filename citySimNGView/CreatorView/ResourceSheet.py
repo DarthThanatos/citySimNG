@@ -25,17 +25,13 @@ class ResourceSheet(ScrolledPanel):
         self.sheetChecker = AddModeSheetEntityChecker(self)
         SheetBasicViewsUtils(self).initRootSizer(self.newResourceCharacteristicsVerticalSizer(), topPadding=75)
 
-
     def addViewToCharacteristicsSizerWithSpace(self, view, space= 0, alignment = wx.CENTER):
         self.resourceCharacteristicsVerticalSizer.Add(view, 0, alignment)
         self.resourceCharacteristicsVerticalSizer.AddSpacer(space)
 
     def newResourceCharacteristicsVerticalSizer(self):
         self.resourceCharacteristicsVerticalSizer = wx.BoxSizer(wx.VERTICAL)
-        self.addViewToCharacteristicsSizerWithSpace(SheetBasicViewsUtils(self).newDescriptionAreaVerticalSizer(Consts.RESOURCE), space = 10)
-        self.addViewToCharacteristicsSizerWithSpace(SheetBasicViewsUtils(self).newPredecessorPickerHorizontalSizer(Consts.RESOURCE), space = 5)
-        self.addViewToCharacteristicsSizerWithSpace(SheetBasicViewsUtils(self).newSuccesorPickerHorizontalSizer(Consts.RESOURCE), space = 10)
-        self.addViewToCharacteristicsSizerWithSpace(SheetBasicViewsUtils(self).newEntityIconHorizontalSizer(), space=10)
+        self.resourceCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newBasicCharacteristicsVerticalSizer(), 0, wx.CENTER)
         self.addViewToCharacteristicsSizerWithSpace(self.newStartIncomePickerHorizontalSizer(), space = 10)
         return self.resourceCharacteristicsVerticalSizer
 
