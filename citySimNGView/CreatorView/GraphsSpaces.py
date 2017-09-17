@@ -6,14 +6,19 @@ class GraphsSpaces(wx.Panel):
         super(GraphsSpaces, self).__init__(parent, size =(1500,500),style = wx.SIMPLE_BORDER)
         self.initRootSizer()
 
-    def initRootSizer(self):
+    def addToSizerWithSpace(self, sizer, view, space = 10, alignment = wx.CENTER):
+        sizer.Add(view, 0, alignment)
+        sizer.AddSpacer(space)
+
+    def newRootSizer(self):
         self.rootSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self.rootSizer.Add(self.newResourcesGraphSpace())
-        self.rootSizer.AddSpacer(10)
-        self.rootSizer.Add(self.newDwellersGraphSpace())
-        self.rootSizer.AddSpacer(10)
-        self.rootSizer.Add(self.newBuildingsGraphSpace())
-        self.rootSizer.AddSpacer(10)
+        self.addToSizerWithSpace(self.rootSizer, self.newResourcesGraphSpace())
+        self.addToSizerWithSpace(self.rootSizer, self.newDwellersGraphSpace())
+        self.addToSizerWithSpace(self.rootSizer, self.newBuildingsGraphSpace())
+        return self.rootSizer
+
+    def initRootSizer(self):
+        self.rootSizer = self.newRootSizer()
         self.SetSizer(self.rootSizer)
         self.rootSizer.Layout()
 

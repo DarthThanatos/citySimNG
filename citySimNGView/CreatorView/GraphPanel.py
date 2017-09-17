@@ -6,6 +6,7 @@ class GraphPanel(ScrolledPanel):
     def __init__(self, parent, space_name):
         super(GraphPanel, self).__init__(parent, size =(500,500),style = wx.SIMPLE_BORDER)
         self.space_name = space_name
+        self.parent = parent
         self.tree = [[],[],[]]
         self.jsonDesc = {"Dwellers":[], "Buildings":[], "Resources":[]}
         self.initRootSizer()
@@ -26,18 +27,15 @@ class GraphPanel(ScrolledPanel):
 
     def triggerGraphResetFromJSON(self,jsonGraphDesc):
         self.jsonDesc = jsonGraphDesc[self.space_name]
-        self.Hide()
-        self.Show()
+        self.Hide(); self.Show()
 
     def onShow(self, ev):
-        if ev.GetShow():
-            self.resetViewFromJSON()
+        if ev.GetShow(): self.resetViewFromJSON()
 
     def resetViewFromJSON(self):
         self.rootSizer.Clear(True)
         rootVerticalSizer = self.rootSizer
-        rootVerticalSizer.Add(self.newDescriptionLabelSizer(), 0, wx.CENTER)
-        rootVerticalSizer.AddSpacer(20)
+        self.parent.addToSizerWithSpace(rootVerticalSizer, self.newDescriptionLabelSizer(), space=20)
         rootVerticalSizer.Add(self.newJSONTreeLvlVerticalSizer(0, self.jsonDesc), 0, wx.CENTER)
         rootVerticalSizer.Layout()
         self.SetupScrolling()
@@ -49,8 +47,9 @@ class GraphPanel(ScrolledPanel):
 
     def attachHorizontalBranchesToSizer(self, root, childrenJsonDesc, root_lvl):
         for childJsonDesc in childrenJsonDesc:
-            root.Add(self.newTreeLvlHorizontalSizer(root_lvl, childJsonDesc))
-            root.AddSpacer(10)
+            self.parent.addToSizerWithSpace(
+                root, self.newTreeLvlHorizontalSizer(root_lvl, childJsonDesc), alignment=wx.LEFT
+            )
 
     def newScaledBmp(self, imagePath):
         img = wx.Image(name = imagePath)
@@ -58,21 +57,21 @@ class GraphPanel(ScrolledPanel):
         return wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(img), size = (32,32))
 
     def newArrowBmp(self, lvl_index):
-        return self.newScaledBmp(relative_textures_path + ("graph_right_arrow.png" if lvl_index % 2 == 0 else "rightBlueArrow.png"))
+        return self.newScaledBmp(
+            relative_textures_path + ("graph_right_arrow.png" if lvl_index % 2 == 0 else "rightBlueArrow.png")
+        )
 
     def newEntityBmp(self, tree_lvl_json_desc):
         return self.newScaledBmp(tree_lvl_json_desc["Texture path"])
 
     def newTreeLvlImagesSizer(self, lvl_index, tree):
         tree_lvl_images_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        tree_lvl_images_sizer.Add(self.newArrowBmp(lvl_index))
-        tree_lvl_images_sizer.AddSpacer(10)
+        self.parent.addToSizerWithSpace(tree_lvl_images_sizer, self.newArrowBmp(lvl_index))
         tree_lvl_images_sizer.Add(self.newEntityBmp(tree))
         return tree_lvl_images_sizer
 
     def newTreeLvlHorizontalSizer(self, lvl_index, tree_lvl_json_desc):
         lvlHorizontalSizer = wx.BoxSizer(wx.HORIZONTAL)
-        lvlHorizontalSizer.Add(self.newTreeLvlImagesSizer(lvl_index, tree_lvl_json_desc), 0, wx.CENTER)
-        lvlHorizontalSizer.AddSpacer(10)
+        self.parent.addToSizerWithSpace(lvlHorizontalSizer, self.newTreeLvlImagesSizer(lvl_index, tree_lvl_json_desc))
         lvlHorizontalSizer.Add(self.newJSONTreeLvlVerticalSizer(lvl_index + 1, tree_lvl_json_desc["Children"]), 0, wx.CENTER)
         return lvlHorizontalSizer
