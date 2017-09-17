@@ -42,27 +42,27 @@ class CreatorMainPanel(ScrolledPanel):
     def newLine(self):
         return wx.StaticLine(self, -1)
 
-    def initRootSizer(self):
+    def addToSizerWithSpace(self, sizer, view, space = 10, alignment = wx.CENTER):
+        sizer.Add(view, 0, alignment)
+        sizer.AddSpacer(space)
+
+    def addToSizerWithSpaceAndLine(self, sizer, view, linePadding = 75, viewSpace = 10):
+        self.addToSizerWithSpace(sizer, view, space=viewSpace)
+        self.addToSizerWithSpace(sizer, self.newLine(), alignment=wx.EXPAND, space=linePadding)
+
+    def newRootSizer(self, topPadding):
         rootSizer = wx.BoxSizer(wx.VERTICAL)
-        rootSizer.AddSpacer(20)
-        rootSizer.Add(self.newChosenSetNameSizer(), 0, wx.CENTER)
-        rootSizer.AddSpacer(10)
-        rootSizer.Add(self.newLine(), 0, wx.EXPAND)
-        rootSizer.AddSpacer(75)
-        rootSizer.Add(self.newDependenciesSubpanelsHorizontalSizer(), 0, wx.CENTER)
-        rootSizer.AddSpacer(75)
-        rootSizer.Add(self.newLine(), 0, wx.EXPAND)
-        rootSizer.AddSpacer(10)
-        rootSizer.Add(self.newBackgroundTextureOneHorizontalSizer(), 0, wx.CENTER)
-        rootSizer.AddSpacer(10)
-        rootSizer.Add(self.newBackgroundTextureTwoHorizontalSizer(), 0, wx.CENTER)
-        rootSizer.AddSpacer(10)
-        rootSizer.Add(self.newLine(), 0, wx.EXPAND)
-        rootSizer.AddSpacer(75)
-        rootSizer.Add(self.newButtonsSizer(), 0, wx.CENTER)
-        rootSizer.AddSpacer(50)
-        rootSizer.Add(self.newGraphSpaces(),0,wx.CENTER)
-        rootSizer.AddSpacer(175)
+        rootSizer.AddSpacer(topPadding)
+        self.addToSizerWithSpaceAndLine(rootSizer, self.newChosenSetNameSizer())
+        self.addToSizerWithSpaceAndLine(rootSizer,self.newDependenciesSubpanelsHorizontalSizer(), linePadding=10, viewSpace=75)
+        self.addToSizerWithSpace(rootSizer, self.newBackgroundTextureOneHorizontalSizer())
+        self.addToSizerWithSpaceAndLine(rootSizer, self.newBackgroundTextureTwoHorizontalSizer())
+        self.addToSizerWithSpace(rootSizer, self.newButtonsSizer(), space = 50)
+        self.addToSizerWithSpace(rootSizer, self.newGraphSpaces(), space=175)
+        return rootSizer
+
+    def initRootSizer(self, topPadding = 20):
+        rootSizer = self.newRootSizer(topPadding)
         rootSizer.SetDimension(0, 0, self.size[0], self.size[1])
         self.SetSizer(rootSizer)
 
@@ -75,8 +75,7 @@ class CreatorMainPanel(ScrolledPanel):
 
     def newChosenSetNameSizer(self):
         self.chosenSetSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self.chosenSetSizer.Add(self.newInfoST("Name of this dependencies set"))
-        self.chosenSetSizer.AddSpacer(5)
+        self.addToSizerWithSpace(self.chosenSetSizer, self.newInfoST("Name of this dependencies set"))
         self.chosenSetSizer.Add(self.newNameInput())
         return self.chosenSetSizer
 
@@ -106,8 +105,7 @@ class CreatorMainPanel(ScrolledPanel):
 
     def newDependenciesSubpanelsHorizontalSizer(self):
         self.dependenciesSubpanelsHorizontalSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self.dependenciesSubpanelsHorizontalSizer.Add(self.newDependenciesSubPanelsVerticalSizer())
-        self.dependenciesSubpanelsHorizontalSizer.AddSpacer(10)
+        self.addToSizerWithSpace(self.dependenciesSubpanelsHorizontalSizer, self.newDependenciesSubPanelsVerticalSizer())
         self.dependenciesSubpanelsHorizontalSizer.Add(self.newLogAreaSizer())
         return self.dependenciesSubpanelsHorizontalSizer
 
@@ -134,10 +132,8 @@ class CreatorMainPanel(ScrolledPanel):
 
     def newBackgroundTextureHorizontalSizer(self, imageBitmap, info, onImageChangeCallback):
         texture_horizontal_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        texture_horizontal_sizer.Add(self.newInfoST(info))
-        texture_horizontal_sizer.AddSpacer(10)
-        texture_horizontal_sizer.Add(imageBitmap)
-        texture_horizontal_sizer.AddSpacer(10)
+        self.addToSizerWithSpace(texture_horizontal_sizer, self.newInfoST(info))
+        self.addToSizerWithSpace(texture_horizontal_sizer, imageBitmap)
         texture_horizontal_sizer.Add(self.newImageSelectorButton(onImageChangeCallback))
         return texture_horizontal_sizer
 

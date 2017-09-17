@@ -3,15 +3,16 @@ from wx.lib.scrolledpanel import ScrolledPanel
 from LogMessages import CHECKER_PANEL_ERROR_MSG
 
 class NumberFillingChecker(ScrolledPanel):
-    def __init__(self, parent, key_label_txt, value_desc_label_txt, intro_label_txt, json_key, dependencies_key ="Resources"):
-        ScrolledPanel.__init__(self, id = -1, size = (500,100), parent = parent, style = wx.SIMPLE_BORDER)
-        self.currentDependencies = parent.currentDependencies
+    def __init__(self, parent_sheet_view, key_label_txt, value_desc_label_txt, intro_label_txt, json_key, dependencies_key ="Resources"):
+        ScrolledPanel.__init__(self, id = -1, size = (500,100), parent = parent_sheet_view, style = wx.SIMPLE_BORDER)
+        self.parent_sheet_view = parent_sheet_view
+        self.currentDependencies = parent_sheet_view.currentDependencies
         self.dependencies_key = dependencies_key
         self.json_key = json_key
         self.key_label_txt = key_label_txt
         self.value_desc_label_txt = value_desc_label_txt
         self.intro_label_txt = intro_label_txt
-        self.part_name = parent.sheet_name
+        self.part_name = parent_sheet_view.sheet_name
         self.initRootSizer()
         self.fillWithEntries()
 
@@ -21,21 +22,16 @@ class NumberFillingChecker(ScrolledPanel):
 
     def reinitRootSizer(self):
         self.rootSizer.Clear(True)
-        self.rootSizer.Add(wx.StaticText(self, -1, self.intro_label_txt), 0, wx.CENTER)
-        self.rootSizer.AddSpacer(10)
+        self.parent_sheet_view.addToSizerWithSpace(self.rootSizer,wx.StaticText(self, -1, self.intro_label_txt))
         for choice in self.getChoicesList():
-            self.rootSizer.Add(self.newChoiceHorizontalSizer(choice), 0, wx.CENTER)
-            self.rootSizer.AddSpacer(10)
+            self.parent_sheet_view.addToSizerWithSpace(self.rootSizer,self.newChoiceHorizontalSizer(choice))
         self.rootSizer.Layout()
 
     def newChoiceHorizontalSizer(self, choice):
         choiceHorizontalSizer = wx.BoxSizer(wx.HORIZONTAL)
-        choiceHorizontalSizer.Add(wx.StaticText(self, -1, self.key_label_txt))
-        choiceHorizontalSizer.AddSpacer(10)
-        choiceHorizontalSizer.Add(self.checked_choices[choice])
-        choiceHorizontalSizer.AddSpacer(10)
-        choiceHorizontalSizer.Add(wx.StaticText(self, -1, self.value_desc_label_txt))
-        choiceHorizontalSizer.AddSpacer(10)
+        self.parent_sheet_view.addToSizerWithSpace(choiceHorizontalSizer,wx.StaticText(self, -1, self.key_label_txt))
+        self.parent_sheet_view.addToSizerWithSpace(choiceHorizontalSizer,self.checked_choices[choice])
+        self.parent_sheet_view.addToSizerWithSpace(choiceHorizontalSizer,wx.StaticText(self, -1, self.value_desc_label_txt))
         choiceHorizontalSizer.Add(self.choices_values[choice])
         return choiceHorizontalSizer
 

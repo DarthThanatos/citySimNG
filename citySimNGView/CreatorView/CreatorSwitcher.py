@@ -1,5 +1,5 @@
 import wx
-from DwellersPanel import  DwellersPanel
+from DwellersSheet import  DwellersSheet
 from ResourceSheet import ResourceSheet
 from BuildingSheet import  BuildingSheet
 from CreatorMainPanel import CreatorMainPanel
@@ -23,7 +23,7 @@ class CreatorSwitcher(wx.Panel):
         self.views = {
             "main_panel": CreatorMainPanel(self, self.size, self, current_dependencies, self.sender),
             "Resources": ResourceSheet(self, self.size, self, current_dependencies),
-            "Dwellers": DwellersPanel(self, self.size, self, current_dependencies),
+            "Dwellers": DwellersSheet(self, self.size, self, current_dependencies),
             "Buildings": BuildingSheet(self, self.size, self, current_dependencies)
         }
 

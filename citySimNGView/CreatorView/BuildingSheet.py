@@ -1,76 +1,67 @@
 import wx
-from wx.lib.scrolledpanel import ScrolledPanel
 
 import Consts
-from CreatorView.RestorableView import RestorableSelector, RestorableDwellersAmount, RestorableTypeOfBuilding, \
+from CreatorView.RestorableView import  RestorableDwellersAmount, RestorableTypeOfBuilding, \
     RestorableDwellersNamesSelector
-from CreatorView.SheetBasicViewsUtils import SheetBasicViewsUtils
-from NumberFillingChecker import NumberFillingChecker
-from utils.OnShowUtil import OnShowUtil
-from utils.SheetEntitiesUtils import SheetEntitiesUtils
-from viewmodel.SheetEntityChecker import BuildingSheetChecker, AddModeSheetEntityChecker, EditModeSheetEntityChecker, EDIT_MODE
+from CreatorView.SheetView import SheetView
+from viewmodel.SheetEntityChecker import BuildingSheetChecker
 
 
-class BuildingSheet(ScrolledPanel):
-    def __init__(self,parent, size, frame, currentDependencies):
-        ScrolledPanel.__init__(self, size = size, parent = parent, style = wx.SIMPLE_BORDER)
-        self.SetupScrolling()
-        self.size = size
-        self.frame = frame
-        self.currentDependencies = currentDependencies
-        self.wakeUpData = None
-        self.entityIconRelativePath = self.getDefaultIconRelativePath()
-        self.sheet_name =  Consts.BUILDINGS
-        self.Bind(wx.EVT_SHOW, self.onShow, self)
-        self.sheetChecker = AddModeSheetEntityChecker(self)
-        self.childrenCheckers = []
-        self.restorableViews = []
-        SheetBasicViewsUtils(self).initRootSizer(self.newBuildingCharacteristicsVerticalSizer(), topPadding=10)
+class BuildingSheet(SheetView):
+    def __init__(self, parent, size, frame, currentDependencies):
+        super(BuildingSheet, self).__init__(parent, size, frame, currentDependencies)
+        self.initRootSizer(self.newBuildingCharacteristicsVerticalSizer(), topPadding=10)
+
+    def getDefaultIconRelativePath(self):
+        return "house.png"
+
+    def getEntityType(self):
+        return Consts.BUILDING
+
+    def getEntityNameKey(self):
+        return Consts.BUILDING_NAME
+
+    def getSheetName(self):
+        return Consts.BUILDINGS
+
+    def submit(self, event):
+        self.sheetChecker.onCheck(BuildingSheetChecker())
+
+    def addToViewWithSpaceAndLine(self, sizer, view):
+        self.addToSizerWithSpace(sizer, view)
+        self.addToSizerWithSpace(sizer, self.newLine(), alignment=wx.EXPAND)
+
+    def addSubViewsWithSpacesAndLinesToBuildingsCharacteristicsSizer(self, buildings_characteristics_sizer):
+        self.addToViewWithSpaceAndLine(buildings_characteristics_sizer, self.newBuildingTypeHorizontalSizer())
+        self.addToViewWithSpaceAndLine(buildings_characteristics_sizer, self.newResourcesProducedChecker())
+        self.addToViewWithSpaceAndLine(buildings_characteristics_sizer, self.newResourcesConsumedChecker())
 
     def newBuildingCharacteristicsVerticalSizer(self):
         buildingCharacteristicsVerticalSizer = wx.BoxSizer(wx.VERTICAL)
-        buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newBasicCharacteristicsVerticalSizer(), 0, wx.CENTER)
-        buildingCharacteristicsVerticalSizer.Add(self.newDwellersHorizontalSizer(), 0, wx.CENTER)
-        buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(self.newBuildingTypeHorizontalSizer(), 0, wx.CENTER)
-        buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newLine(), 0, wx.EXPAND)
-        buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(self.newResourcesProducedChecker(), 0, wx.CENTER)
-        buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newLine(), 0, wx.EXPAND)
-        buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newResourcesConsumedChecker(), 0, wx.CENTER)
-        buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(SheetBasicViewsUtils(self).newLine(), 0, wx.EXPAND)
-        buildingCharacteristicsVerticalSizer.AddSpacer(10)
-        buildingCharacteristicsVerticalSizer.Add(self.newCostInResourcesChecker(), 0, wx.CENTER)
-        buildingCharacteristicsVerticalSizer.AddSpacer(10)
+        buildingCharacteristicsVerticalSizer.Add(self.newBasicCharacteristicsVerticalSizer(), 0, wx.CENTER)
+        self.addToSizerWithSpace(buildingCharacteristicsVerticalSizer, self.newDwellersHorizontalSizer())
+        self.addSubViewsWithSpacesAndLinesToBuildingsCharacteristicsSizer(buildingCharacteristicsVerticalSizer)
+        self.addToSizerWithSpace(buildingCharacteristicsVerticalSizer, self.newCostInResourcesChecker())
         return buildingCharacteristicsVerticalSizer
 
 
     def newResourcesProducedChecker(self):
-        return SheetBasicViewsUtils(self).newNumberFillingChecker(
+        return self.newNumberFillingChecker(
             "Produced in quantity:",
             "Produced resources",
-            Consts.PRODUCES
-        )
+            Consts.PRODUCES)
 
     def newCostInResourcesChecker(self):
-        return SheetBasicViewsUtils(self).newNumberFillingChecker(
+        return self.newNumberFillingChecker(
             "Costs:",
             "Cost of placing a building in resources",
-            Consts.COST_IN_RESOURCES
-        )
+            Consts.COST_IN_RESOURCES)
 
     def newDwellersHorizontalSizer(self):
         dwellers_horizontal_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        dwellers_horizontal_sizer.Add(self.newDwellerNameLabel())
-        dwellers_horizontal_sizer.AddSpacer(10)
-        dwellers_horizontal_sizer.Add(self.newDwellersNamesSelector())
-        dwellers_horizontal_sizer.AddSpacer(10)
-        dwellers_horizontal_sizer.Add(self.newDwellersAmountLabel())
-        dwellers_horizontal_sizer.AddSpacer(10)
+        self.addToSizerWithSpace(dwellers_horizontal_sizer, self.newDwellerNameLabel())
+        self.addToSizerWithSpace(dwellers_horizontal_sizer, self.newDwellersNamesSelector())
+        self.addToSizerWithSpace(dwellers_horizontal_sizer, self.newDwellersAmountLabel())
         dwellers_horizontal_sizer.Add(self.newDwellersAmountSpinner())
         return dwellers_horizontal_sizer
 
@@ -98,8 +89,7 @@ class BuildingSheet(ScrolledPanel):
 
     def newBuildingTypeHorizontalSizer(self):
         type_horizontal_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        type_horizontal_sizer.Add(self.newBuildingTypeInfoLabel())
-        type_horizontal_sizer.AddSpacer(10)
+        self.addToSizerWithSpace(type_horizontal_sizer, self.newBuildingTypeInfoLabel())
         type_horizontal_sizer.Add(self.newBuildingTypeSelector())
         return type_horizontal_sizer
 
@@ -110,28 +100,3 @@ class BuildingSheet(ScrolledPanel):
         self.type_of_building_selector =wx.ComboBox(self, choices=["Industrial", "Domestic"], style=wx.CB_READONLY, value = "Industrial")
         self.restorableViews.append(RestorableTypeOfBuilding(self, self.type_of_building_selector))
         return self.type_of_building_selector
-
-    def getDefaultIconRelativePath(self):
-        return "house.png"
-
-    def getEntityType(self):
-        return Consts.BUILDING
-
-    def getEntityNameKey(self):
-        return Consts.BUILDING_NAME
-
-    def setupSheetMode(self, sheetMode, edit_element_name = None):
-        SheetBasicViewsUtils(self).setupMode(sheetMode,edit_element_name)
-        for child in self.childrenCheckers: child.fillWithEntries(edit_element_name if sheetMode.getMode() == EDIT_MODE else None)
-
-    def setUpEditMode(self, edit_element_name):
-        self.setupSheetMode(EditModeSheetEntityChecker(self), edit_element_name)
-
-    def setUpAddMode(self):
-        self.setupSheetMode(AddModeSheetEntityChecker(self))
-
-    def onShow(self, event):
-        OnShowUtil().onCreatorSheetShow(self, event)
-
-    def submit(self, event):
-        self.sheetChecker.onCheck(BuildingSheetChecker())
