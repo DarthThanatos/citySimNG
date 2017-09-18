@@ -1,58 +1,48 @@
 package mapnode;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import model.DependenciesRepresenter;
 
-import org.json.JSONObject;
-
-import controlnode.SocketStreamSender;
 import entities.Building;
 
 public class Buildings {
 	private List<Building> allBuildings;
 	private Map<String, Building> playerBuildings;
-	private SocketStreamSender sender;
-	private final String relativeTexturesPath = "resources\\Textures\\";
-	
-	public Buildings(SocketStreamSender sender, DependenciesRepresenter dr){
+
+	public Buildings(DependenciesRepresenter dr){
 		allBuildings = (List<Building>) dr.getModuleData("allBuildings");
-		playerBuildings = new HashMap();
-		this.sender = sender;
+		playerBuildings = new HashMap<>();
 	}
 	
-	public boolean canAffordOnBuilding(String buildingName, Resources resources){
-		Map<String, Integer> actualValues = resources.getActualValues();
-		Building b = findBuildingWithName(buildingName);
+	public boolean canAffordOnBuilding(String buildingName, Map<String, Integer> actualResourcesValues){
+		Building building = findBuildingWithName(buildingName);
 		
-		for(Map.Entry<String, Integer> entry : b.getResourcesCost().entrySet()) {
-		    String resource = entry.getKey();
-		    Integer cost = entry.getValue();
-		    if(actualValues.get(resource) < cost){
-		    	return false;
-		    }
+		for(Map.Entry<String, Integer> entry : building.getResourcesCost().entrySet()) {
+			String resource = entry.getKey();
+			Integer cost = entry.getValue();
+			if (actualResourcesValues.get(resource) < cost) {
+				return false;
+			}
 		}
-		
 		return true;
 	}
 	
 	public void placeBuilding(String buildingName, String buildingId, Resources resources, Dwellers dwellers){
-		Map<String, Integer> actualValues = resources.getActualValues();
-		Map<String, Integer> incomes = resources.getIncomes();
-		Building b = findBuildingWithName(buildingName);
+		Map<String, Integer> actualResourcesValues = resources.getActualResourcesValues();
+		Map<String, Integer> actualResourcesIncomes = resources.getActualResourcesIncomes();
+		Building building = findBuildingWithName(buildingName);
+		Map<String, Integer> consumes = building.getConsumes();
+		Map<String, Integer> produces = building.getProduces();
 		
-		Map<String, Integer> consumes = b.getConsumes();
-		Map<String, Integer> produces = b.getProduces();
-		
-		for(Map.Entry<String, Integer> entry : b.getResourcesCost().entrySet()) {
+		for(Map.Entry<String, Integer> entry : building.getResourcesCost().entrySet()) {
 		    String resource = entry.getKey();
 		    Integer cost = entry.getValue();
 			
-		    actualValues.put(resource, actualValues.get(resource) - cost);
-		    incomes.put(resource, incomes.get(resource) 
+		    actualResourcesValues.put(resource, actualResourcesValues.get(resource) - cost);
+		    actualResourcesIncomes.put(resource, actualResourcesIncomes.get(resource)
 		    		+ produces.get(resource) 
 		    		- consumes.get(resource));
 		}
@@ -66,33 +56,36 @@ public class Buildings {
 			dwellers.setCurrDwellersAmount(dwellers.getCurrDwellersAmount() + amount);
 		}
 		
-		Building playerBuilding = new Building(b);
-		playerBuilding.setId(buildingId);
-		playerBuildings.put(buildingId, new Building(b));
+		Building newBuilding = new Building(building);
+		newBuilding.setId(buildingId);
+		playerBuildings.put(buildingId, newBuilding);
 	}
 	
 	public void deleteBuilding(String buildingId, Resources resources, Dwellers dwellers){
-		Map<String, Integer> actualValues = resources.getActualValues();
-		Map<String, Integer> incomes = resources.getIncomes();
-		Building b = findBuildingWithId(buildingId);
+		Building building = findBuildingWithId(buildingId);
+//		if(building == null)
+//			return;
+		Map<String, Integer> actualResourcesValues = resources.getActualResourcesValues();
+		Map<String, Integer> actualResourcesIncomes = resources.getActualResourcesIncomes();
 		
 		// if building is not running we don't have to modify incomes 
-		if(!b.isRunning()){
+		if(!building.isRunning()){
 			playerBuildings.remove(buildingId);
 			return;
 		}
 			
-		Map<String, Integer> consumes = b.getConsumes();
-		Map<String, Integer> produces = b.getProduces();
+		Map<String, Integer> consumes = building.getConsumes();
+		Map<String, Integer> produces = building.getProduces();
 		
-		for(Map.Entry<String, Integer> entry : b.getResourcesCost().entrySet()) {
+		for(Map.Entry<String, Integer> entry : building.getResourcesCost().entrySet()) {
 		    String resource = entry.getKey();
 		    Integer cost = entry.getValue();
-		    incomes.put(resource, incomes.get(resource) - 
+		    actualResourcesIncomes.put(resource, actualResourcesIncomes.get(resource) -
 		    		produces.get(resource) +
 		    		consumes.get(resource));
 		}
-		
+
+		// TODO:
 		Map<String, Integer> tmp = new HashMap();
 		tmp.put("Zbychu", 3);
 		for(Map.Entry<String, Integer> entry : tmp.entrySet()){
@@ -105,16 +98,17 @@ public class Buildings {
 	}
 
 	public void stopProduction(String buildingId, Resources resources, Dwellers dwellers){
-		Building b = findBuildingWithId(buildingId);
-		Map<String, Integer> incomes = resources.getIncomes();
-		Map<String, Integer> consumes = b.getConsumes();
-		Map<String, Integer> produces = b.getProduces();
+		Building building = findBuildingWithId(buildingId);
+//		if(b == null)
+//			return;
+		Map<String, Integer> incomes = resources.getActualResourcesIncomes();
+		Map<String, Integer> consumes = building.getConsumes();
+		Map<String, Integer> produces = building.getProduces();
 		
-		if(b.isRunning()){
+		if(building.isRunning()){
 			for(Map.Entry<String, Integer> entry : produces.entrySet()) {
 			    String resource = entry.getKey();
-			    Integer prod = entry.getValue();
-			    incomes.put(resource, incomes.get(resource) - prod + consumes.get(resource));
+			    incomes.put(resource, incomes.get(resource) - produces.get(resource) + consumes.get(resource));
 			}
 			
 			Map<String, Integer> tmp = new HashMap();
@@ -125,14 +119,13 @@ public class Buildings {
 				dwellers.setCurrDwellersAmount(dwellers.getCurrDwellersAmount() - amount);
 			}
 			
-			b.setRunning(false);
+			building.setRunning(false);
 		}
 		
 		else{
 			for(Map.Entry<String, Integer> entry : produces.entrySet()) {
 			    String resource = entry.getKey();
-			    Integer prod = entry.getValue();
-			    incomes.put(resource, incomes.get(resource) + prod - consumes.get(resource));
+			    incomes.put(resource, incomes.get(resource) + produces.get(resource) - consumes.get(resource));
 			}
 			
 			Map<String, Integer> tmp = new HashMap();
@@ -143,20 +136,11 @@ public class Buildings {
 				dwellers.setCurrDwellersAmount(dwellers.getCurrDwellersAmount() + amount);
 			}
 			
-			b.setRunning(true);
+			building.setRunning(true);
 		}
 	}
 	
-	public JSONObject getBuildingState(String buildingId){
-		Building b = findBuildingWithId(buildingId);
-		
-		JSONObject json = new JSONObject();
-		json.put("isRunning", b.isRunning());
-		
-		return json;
-	}
-	
-	private Building findBuildingWithId(String buildingId){
+	public Building findBuildingWithId(String buildingId){
 		for(String id: playerBuildings.keySet()){
 			if(id.equals(buildingId)){
 				return playerBuildings.get(id);

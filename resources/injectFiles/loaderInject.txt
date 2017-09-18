@@ -6,7 +6,7 @@ Mode Nodes
 MenuModule menunode.GameMenuPy4jNode GameMenuNode
 TutorialModule tutorialnode.TutorialNode TutorialNode 
 ExchangeModule exchangenode.ExchangeNode ExchangeNode
-MapModule mapnode.MapNode MapNode
+MapModule mapnode.MapPy4JNode MapNode
 RankingModule rankingnode.RankingNode RankingNode
 
 Mode Edges

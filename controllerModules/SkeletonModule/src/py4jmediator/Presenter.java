@@ -10,9 +10,10 @@ public class Presenter {
     
     private static MainMenuPresenter mainMenuPresenter = new MainMenuPresenter();
     private static CreatorPresenter creatorPresenter = new CreatorPresenter(); 
+    private static MapPresenter mapPresenter = new MapPresenter();
     private static LoaderPresenter loaderPresenter = new LoaderPresenter();
     private static GameMenuPresenter gameMenuPresenter = new GameMenuPresenter();
-    
+
     public static void initViewModel(){
         // We get an entry point from the Python side
         clientServer = new ClientServer(null);
@@ -39,15 +40,19 @@ public class Presenter {
     public CreatorPresenter getCreatorPresenter(){
     	return creatorPresenter;
     }
-    
+
+    public MapPresenter getMapPresenter() {
+        return mapPresenter;
+    }
+
     public GameMenuPresenter getGameMenuPresenter(){
     	return gameMenuPresenter;
     }
-    
+
     public LoaderPresenter getLoaderPresenter(){
     	return loaderPresenter;
     }
-    
+
     public static void cleanup(){
     	clientServer.shutdown();
     	gatewayServer.shutdown();

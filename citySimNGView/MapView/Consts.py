@@ -19,7 +19,7 @@ WHITE = (255, 255, 255)
 # =================================================================================================================== #
 # PYGAME CONSTS #
 # =================================================================================================================== #
-FPS = 60
+FPS = 1000
 LEFT = 1
 RIGHT = 3
 
@@ -32,8 +32,7 @@ RESOURCES_PANEL_TEXTURE = relative_textures_path + 'BuildingsPanelTexture.jpg'
 RESOURCES_PANEL_ARROW_Y = 0.5
 RESOURCES_PANEL_RIGHT_ARROW_X = 0.7
 RESOURCES_PANEL_LEFT_ARROW_X = 0.1
-RESOURCES_ARROW_BUTTON_WIDTH = 0.04
-RESOURCES_ARROW_BUTTON_HEIGHT = 0.9
+
 
 # =================================================================================================================== #
 # BUILDINGS PANEL CONSTS #
@@ -92,7 +91,11 @@ DWELLER_ICON_HEIGHT = 0.9
 # OTHERS #
 # =================================================================================================================== #
 RESOURCE_SIZE = 0.03
+
+BUILDING_WIDTH = 0.4
+BUILDING_HEIGHT = 0.2
 BUILDING_SIZE = 0.1
+# TODO:
 RESOURCES_SPACE = 10
 
 ARROW_BUTTON_WIDTH = 0.3

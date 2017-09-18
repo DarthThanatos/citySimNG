@@ -31,7 +31,7 @@ class MyFrame(wx.Frame):
             "MainMenu": MainMenuView(self, self.tplSize, "MainMenu", relative_music_path + "NWN2.mp3", self.gateway),
             "Creator":CreatorSwitcher(self,self.tplSize,"Creator",sender = self.gateway),
             "Exchange": ExchangeView(self, self.tplSize, "Exchange", self.sender),
-            "Map": MapView(self, self.tplSize, "Map", self.sender),
+            "Map": MapView(self, self.tplSize, "Map", sender = self.gateway),
             "Tutorial": TutorialView(self, self.tplSize, "Tutorial", sender = self.sender),
             "Ranking": RankingView(self, self.tplSize, "Ranking", sender = self.sender)
         }
