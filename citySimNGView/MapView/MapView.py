@@ -5,7 +5,7 @@ import traceback
 import pygame
 
 import wx
-from RelativePaths import relative_music_path, relative_textures_path
+from CreatorView.RelativePaths import relative_music_path, relative_textures_path
 
 from Consts import RESOURCES_PANEL_SIZE, PURPLE, FONT, TEXT_PANEL_HEIGHT, \
     TEXT_PANEL_WIDTH, MENU_BUTTON_WIDTH, NAVIGATION_PANEL_WIDTH, INFO_PANEL_WIDTH, TEXT_PANEL_FONT_SIZE

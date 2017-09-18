@@ -6,11 +6,16 @@ import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import org.json.JSONObject;
 
 public interface ViewModel {
 	
 	public MainMenuViewModel getMainMenuViewModel();
 	public CreatorViewModel getCreatorViewModel();
+	public GameMenuViewModel getGameMenuViewModel();
+	public LoaderViewModel getLoaderViewModel ();
 	public MapViewModel getMapViewModel();
 
 	public interface MapViewModel{
@@ -21,17 +26,24 @@ public interface ViewModel {
 										  Map<String, Integer> actualResourcesIncomes);
 		public void resumeGame();
 	}
-	
+
 	public interface MainMenuViewModel{
 		public void displayMainMenu();
-		public void displayLoader();
-		public void displayCreator();
 	}
-	
+
+	public interface GameMenuViewModel{
+		public void displayGameMenu();
+	}
+
 	public interface CreatorViewModel{
-		public void displayMainMenu();
 		public void displayCreator();
 		public void displayDependenciesGraph(JSONObject jsonGraph);
 		public void displayMsg(String errorMsg);
+	}
+
+	public interface LoaderViewModel{
+		public void displayLoader();
+		public void displayDependenciesGraph(JSONObject graphDesc);
+		public void displayPossibleDependenciesSets(Set<String> possibleSets);
 	}
 }

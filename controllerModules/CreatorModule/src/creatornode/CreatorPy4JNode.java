@@ -2,7 +2,6 @@ package creatornode;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -19,7 +18,6 @@ import constants.CreatorConfig;
 import controlnode.DispatchCenter;
 import controlnode.Py4JNode;
 import corectness.checker.CheckException;
-import corectness.checker.RootChecker;
 import dependencies.graph.monter.BuildingsMonter;
 import dependencies.graph.monter.DwellersMonter;
 import dependencies.graph.monter.ResourcesMonter;
@@ -139,8 +137,8 @@ public class CreatorPy4JNode extends Py4JNode implements CreatorPresenter.OnCrea
 	    bm.mountDependenciesGraph();
 		String textureOne = creatorData.getTextureOne();
 		String textureTwo =  creatorData.getTextureTwo();
-		dr.setTextureAt(0, textureOne != null ? textureOne : CreatorConfig.TEXTURE_ONE_DEFAULT_NAME);
-		dr.setTextureAt(1, textureTwo != null ? textureTwo : CreatorConfig.TEXTURE_TWO_DEFAULT_NAME);
+		dr.setTextureAt(0, textureOne);
+		dr.setTextureAt(1, textureTwo);
 		return dr;
 		
 	}

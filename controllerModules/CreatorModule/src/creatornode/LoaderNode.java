@@ -86,7 +86,6 @@ public class LoaderNode extends SocketNode{
 	
 	@Override
 	public void atStart() {
-
 		giveDependencies("Loader");
 	}
 

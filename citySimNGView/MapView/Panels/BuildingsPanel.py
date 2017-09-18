@@ -1,7 +1,7 @@
 import uuid
 
 import pygame
-from RelativePaths import relative_textures_path
+from CreatorView.RelativePaths import relative_textures_path
 
 from MapView.Consts import BUILDINGS_PANEL_TEXTURE, ARROW_BUTTON_WIDTH, ARROW_BUTTON_HEIGHT, SPACE
 from MapView.Items.Building import Building

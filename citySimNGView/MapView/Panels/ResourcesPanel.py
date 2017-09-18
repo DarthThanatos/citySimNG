@@ -1,5 +1,5 @@
 import pygame
-from RelativePaths import relative_textures_path
+from CreatorView.RelativePaths import relative_textures_path
 
 from MapView.Consts import GREEN, RESOURCES_SPACE, RESOURCES_PANEL_TEXTURE, \
     DWELLER_ICON_WIDTH, DWELLER_ICON_HEIGHT

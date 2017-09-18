@@ -17,14 +17,12 @@ public class MainMenuPresenter {
 	
 	public void goToLoader(){
 		if(onMenuPresenterCalled != null) {
-//			Presenter.getInstance().getViewModel().getMainMenuViewModel().displayLoader();
 			onMenuPresenterCalled.onGoToLoader();
 		}
 	}
 	
 	public void goToCreator(){
 		if(onMenuPresenterCalled != null) {
-//			Presenter.getInstance().getViewModel().getMainMenuViewModel().displayCreator();
 			onMenuPresenterCalled.onGoToCreator();
 		}
 	}

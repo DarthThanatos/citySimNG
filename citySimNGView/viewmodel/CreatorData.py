@@ -1,5 +1,6 @@
 from CreatorView import Consts
-from py4j.java_collections import MapConverter, ListConverter
+from utils.Converter import Converter
+
 
 class CreatorData(object):
 
@@ -13,12 +14,16 @@ class CreatorData(object):
         creatorData.setDwellers(self.getDwellersList(dataDict))
         return creatorData
 
-    def createNonSparseResourcesMap(self, map, resources):
+    def createNonSparseResourcesDict(self, map, resources):
         res_map = dict(map)
         for resource in resources:
             if resource not in res_map.keys():
                 res_map[resource] = 0
         return res_map
+
+    def fetchProcessedMap(self, inputDict, resources):
+        nonSparseDict = self.createNonSparseResourcesDict(inputDict, resources)
+        return Converter(self.javaGateway).convertDictToMap(nonSparseDict)
 
     def mapResourcesDictToNamesList(self, resourcesDict):
         return [resource[Consts.RESOURCE_NAME] for resource in resourcesDict]
@@ -29,19 +34,19 @@ class CreatorData(object):
         resources = self.mapResourcesDictToNamesList(dataDict[Consts.RESOURCES])
         for dwellerFromDict in dwellersFromDict:
             dwellers.append(self.getDweller(dwellerFromDict, resources))
-        return self.convertCollectionToList(dwellers)
+        return Converter(self.javaGateway).convertCollectionToList(dwellers)
+
+    def fillEntityWithBasicInformation(self, entity, dict_with_info, name_key):
+        entity.setPredecessor(dict_with_info[Consts.PREDECESSOR])
+        entity.setSuccessor(dict_with_info[Consts.SUCCESSOR])
+        entity.setDescription(dict_with_info[Consts.DESCRIPTION])
+        entity.setTexturePath(Consts.relative_textures_path + dict_with_info[Consts.TEXTURE_PATH])
+        entity.setName(dict_with_info[name_key])
 
     def getDweller(self, dwellerFromDict, resources):
         dweller = self.javaGateway.jvm.entities.Dweller()
-        dweller.setPredecessor(dwellerFromDict[Consts.PREDECESSOR])
-        dweller.setSuccessor(dwellerFromDict[Consts.SUCCESSOR])
-        dweller.setDescription(dwellerFromDict[Consts.DESCRIPTION])
-        dweller.setTexturePath(Consts.relative_textures_path + dwellerFromDict[Consts.TEXTURE_PATH])
-        dweller.setName(dwellerFromDict[Consts.DWELLER_NAME])
-
-        consumesMap = self.createNonSparseResourcesMap(dwellerFromDict[Consts.CONSUMES], resources)
-        consumesMap = self.convertDictToMap(consumesMap)
-        dweller.setConsumes(consumesMap)
+        self.fillEntityWithBasicInformation(dweller, dwellerFromDict,Consts.DWELLER_NAME)
+        dweller.setConsumes(self.fetchProcessedMap(dwellerFromDict[Consts.CONSUMES], resources))
         return dweller
 
     def getResourcesList(self, dataDict):
@@ -49,15 +54,11 @@ class CreatorData(object):
         resources = []
         for resourceFromDict in resourcesFromDict:
             resources.append(self.getResource(resourceFromDict))
-        return self.convertCollectionToList(resources)
+        return Converter(self.javaGateway).convertCollectionToList(resources)
 
     def getResource(self, resourceFromDict):
         resource = self.javaGateway.jvm.entities.Resource()
-        resource.setPredecessor(resourceFromDict[Consts.PREDECESSOR])
-        resource.setSuccessor(resourceFromDict[Consts.SUCCESSOR])
-        resource.setDescription(resourceFromDict[Consts.DESCRIPTION])
-        resource.setTexturePath(Consts.relative_textures_path + resourceFromDict[Consts.TEXTURE_PATH])
-        resource.setName(resourceFromDict[Consts.RESOURCE_NAME])
+        self.fillEntityWithBasicInformation(resource, resourceFromDict,Consts.RESOURCE_NAME)
         resource.setStartingIncome(int(resourceFromDict[Consts.START_INCOME]))
         return resource
 
@@ -67,32 +68,12 @@ class CreatorData(object):
         resources = self.mapResourcesDictToNamesList(dataDict[Consts.RESOURCES])
         for buildingFromDict in buildingsFromDict:
             buildings.append(self.getBuilding(buildingFromDict, resources))
-        return self.convertCollectionToList(buildings)
+        return Converter(self.javaGateway).convertCollectionToList(buildings)
 
     def getBuilding(self, buildingFromDict, resources):
         building = self.javaGateway.jvm.entities.Building()
-        building.setPredecessor(buildingFromDict[Consts.PREDECESSOR])
-        building.setSuccessor(buildingFromDict[Consts.SUCCESSOR])
-        building.setDescription(buildingFromDict[Consts.DESCRIPTION])
-
-        producesMap = self.createNonSparseResourcesMap(buildingFromDict[Consts.PRODUCES],resources)
-        producesMap = self.convertDictToMap(producesMap)
-        building.setProduces(producesMap)
-
-        consumesMap = self.createNonSparseResourcesMap(buildingFromDict[Consts.CONSUMES], resources)
-        consumesMap = self.convertDictToMap(consumesMap)
-        building.setConsumes(consumesMap)
-
-        resourcesCost = self.createNonSparseResourcesMap(buildingFromDict[Consts.COST_IN_RESOURCES], resources)
-        resourcesCost = self.convertDictToMap(resourcesCost)
-        building.setResourcesCost(resourcesCost)
-
-        building.setName(buildingFromDict[Consts.BUILDING_NAME])
-        building.setTexturePath(Consts.relative_textures_path + buildingFromDict[Consts.TEXTURE_PATH])
+        self.fillEntityWithBasicInformation(building, buildingFromDict,Consts.BUILDING_NAME)
+        building.setProduces(self.fetchProcessedMap(buildingFromDict[Consts.PRODUCES], resources))
+        building.setConsumes(self.fetchProcessedMap(buildingFromDict[Consts.CONSUMES], resources))
+        building.setResourcesCost(self.fetchProcessedMap(buildingFromDict[Consts.COST_IN_RESOURCES], resources))
         return building
-
-    def convertDictToMap(self, dictToConvert):
-        return MapConverter().convert(dictToConvert, self.javaGateway._gateway_client)
-
-    def convertCollectionToList(self, collectionToConvert):
-        return ListConverter().convert(collectionToConvert, self.javaGateway._gateway_client)

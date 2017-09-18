@@ -1,4 +1,4 @@
-from RelativePaths import relative_textures_path
+from CreatorView.RelativePaths import relative_textures_path
 
 from MapView.Consts import BUILDINGS_PANEL_TEXTURE, GREEN, RED
 from MapView.Items.Button import Button

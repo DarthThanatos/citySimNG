@@ -1,4 +1,4 @@
-from RelativePaths import relative_textures_path, relative_fonts_path
+from utils.RelativePaths import relative_textures_path, relative_fonts_path
 
 
 # =================================================================================================================== #

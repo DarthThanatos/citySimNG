@@ -9,3 +9,5 @@ WELCOME_MSG = \
     "At any point, you may just stop your work and save it by pressing save button.\nChanges will be saved to a .dep file\n" +\
     "You can then load dependencies created at some point in the past by pressing \"Load dependencies from file\" button.\n" +\
     "To return to menu, click the menu button on the bottom of the screen."
+
+CHECKER_PANEL_ERROR_MSG = "-> Pick at least one element in the section \"{}\". If there is nothing to choose there, consider creating some elements in other panels\n"

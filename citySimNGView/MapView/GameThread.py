@@ -1,8 +1,6 @@
 import threading
 
 import pygame
-from traceback import print_exc
-
 from Consts import FPS
 
 

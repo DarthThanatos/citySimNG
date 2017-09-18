@@ -1,12 +1,12 @@
-import wx
 import os
 
-
 import matplotlib
+import wx
+
 matplotlib.use("Agg")
 import matplotlib.backends.backend_agg as agg
 import pylab
-from RelativePaths import relative_music_path
+from utils.RelativePaths import relative_music_path
 
 
 class ExchangeViewCenterPart(wx.Panel):
@@ -18,8 +18,7 @@ class ExchangeViewCenterPart(wx.Panel):
         wx.Panel.__init__(self, self.parent, self.ID, size=self.tplSize)
 
     def onShow(self, event):
-        if event.GetShow(): 
-            print "shown exchange"
+        if event.GetShow():
             self.initView()
             try:        
                 pygame.mixer.init()
@@ -31,7 +30,6 @@ class ExchangeViewCenterPart(wx.Panel):
                 print "Problem with music"
         else:
             try:
-                print "exch: quitting"
                 pygame.quit()
             except Exception:
                 print "first appearance of ExchangeView: pygame not initialized in exch"
@@ -44,7 +42,6 @@ class ExchangeViewCenterPart(wx.Panel):
         pygame.init()
         pygame.display.init()
         window = pygame.display.set_mode(self.tplSize)
-        print "exch: tplsize", self.tplSize
         self.color = (255, 0, 0)
         self.rect = (10, 10, 100, 100)
         window.fill(self.color, self.rect)

@@ -1,10 +1,10 @@
+import json
+
 import wx
 import wx.grid as gridlib
-from wx.lib.scrolledpanel import ScrolledPanel
-import os
-import json
-import csv
-from RelativePaths import relative_music_path
+
+from utils.RelativePaths import relative_music_path
+
 
 class RankingView(wx.Panel):
     def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):

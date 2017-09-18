@@ -1,5 +1,5 @@
 import pygame
-from RelativePaths import relative_music_path
+from CreatorView.RelativePaths import relative_music_path
 
 
 class Button(pygame.sprite.Sprite):

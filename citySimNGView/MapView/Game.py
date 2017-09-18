@@ -1,5 +1,5 @@
 import pygame
-from RelativePaths import relative_textures_path
+from CreatorView.RelativePaths import relative_textures_path
 
 from Consts import (LEFT, RIGHT, RED, RESOURCES_PANEL_SIZE, BUILDINGS_PANEL_SIZE, NAVIGATION_PANEL_HEIGHT,
                     NAVIGATION_PANEL_WIDTH, TEXT_PANEL_HEIGHT, GREEN, INFO_PANEL_WIDTH, INFO_PANEL_HEIGHT)

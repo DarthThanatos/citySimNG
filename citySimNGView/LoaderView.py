@@ -1,8 +1,14 @@
-import wx
-import json
 from uuid import uuid4
-from RelativePaths import relative_music_path, relative_textures_path
+
+import wx
+
 from CreatorView.GraphsSpaces import GraphsSpaces
+from utils.ButtonsFactory import ButtonsFactory
+from utils.JSONMonter import JSONMonter
+from utils.OnShowUtil import OnShowUtil
+from utils.RelativePaths import relative_music_path, relative_textures_path
+from utils.SocketMsgReader.LoaderMsgReader import LoaderMsgReader
+
 
 class LoaderView(wx.Panel):
     def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender=None):
@@ -13,116 +19,110 @@ class LoaderView(wx.Panel):
         self.size = size
         self.sender = sender
         self.ackMsgs = {}
-
         self.musicPath = musicPath
-        self.initLoader()
+        self.initMainSizer()
         self.SetBackgroundColour((255, 255, 255))
 
-    def initLoader(self):
+    def initMainSizer(self):
         mainSizer = wx.BoxSizer(wx.VERTICAL)
-
-        # Load, add and set position for header
-        headerSizer = wx.BoxSizer(wx.HORIZONTAL)
-        headerImage = wx.Image(relative_textures_path + "headerCS.jpg", wx.BITMAP_TYPE_JPEG)
-        headerBmp = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(headerImage))
-        headerSizer.Add(headerBmp)
-        mainSizer.Add(headerSizer, 0, wx.CENTER)
-
-        # Create dependencies selector
-        self.ruleSetsList = []
-        self.ruleSelector = wx.ListBox(self,  choices=self.ruleSetsList)
-        mainSizer.Add(self.ruleSelector, 0, wx.CENTER)
-        # Set space between dialog and exit button
+        mainSizer.Add(self.newHeaderSizer(), 0, wx.CENTER)
+        mainSizer.Add(self.newRulesSelector(), 0, wx.CENTER)
         mainSizer.AddSpacer(50)
-
-        menu_btn = wx.Button(self, label="Main Menu")
-        new_game_btn = wx.Button(self, label = "New Game Menu")
-        show_graph_btn = wx.Button(self, label = "Show Graph")
-
-        self.Bind(wx.EVT_BUTTON, self.moveToMenu, menu_btn)
-        self.Bind(wx.EVT_BUTTON, self.moveToNewGameMenu, new_game_btn)
-        self.Bind(wx.EVT_BUTTON, self.showGraph, show_graph_btn)
-
-        mainSizer.Add(new_game_btn, 0, wx.CENTER | wx.ALL, 5)
-        mainSizer.Add(show_graph_btn, 0, wx.CENTER)
-        mainSizer.Add(menu_btn, 0, wx.CENTER | wx.ALL, 5)
-
+        mainSizer.Add(self.newButtonsSizer(), 0, wx.CENTER | wx.ALL, 5)
         mainSizer.AddSpacer(30)
-        self.graphsSpaces = GraphsSpaces(self)
-        mainSizer.Add(self.graphsSpaces,0,wx.CENTER)
-
+        mainSizer.Add(self.newGraphSpaces(),0,wx.CENTER)
         self.SetSizer(mainSizer)
         mainSizer.SetDimension(0, 0, self.size[0], self.size[1])
         mainSizer.Layout()
 
+    def newHeaderBmp(self):
+        headerImage = wx.Image(relative_textures_path + "headerCS.jpg", wx.BITMAP_TYPE_JPEG)
+        return wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(headerImage))
+
+    def newHeaderSizer(self):
+        # Load, add and set position for header
+        self.headerSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.headerSizer.Add(self.newHeaderBmp())
+        return self.headerSizer
+
+    def newButtonsSizer(self):
+        self.buttons_vertical_sizer = wx.BoxSizer(wx.VERTICAL)
+        self.buttons_vertical_sizer.Add(self.newGameButton(), 0, wx.CENTER | wx.ALL, 15)
+        self.buttons_vertical_sizer.Add(self.newShowGraphButton(), 0, wx.CENTER, 0)
+        self.buttons_vertical_sizer.Add(self.newMenuButton(), 0, wx.CENTER, 0)
+        return self.buttons_vertical_sizer
+
+    def newRulesSelector(self):
+        # Create dependencies selector
+        self.ruleSetsList = []
+        self.ruleSelector = wx.ListBox(self,  choices=self.ruleSetsList)
+        return self.ruleSelector
+
+    def newGraphSpaces(self):
+        self.graphsSpaces = GraphsSpaces(self)
+        return self.graphsSpaces
+
+    def newGameButton(self):
+        self.new_game_btn = ButtonsFactory().newButton(self, "Game Menu", self.goToNewGameMenu)
+        return self.new_game_btn
+
+    def newShowGraphButton(self):
+        self.show_graph_btn = ButtonsFactory().newButton(self, "Show Graph", self.onShowGraphClicked)
+        return self.show_graph_btn
+
+    def newMenuButton(self):
+        self.menu_btn = ButtonsFactory().newButton(self, "MainMenu", self.goToMenu)
+        return self.menu_btn
+
+    def goToMenu(self, event):
+        self.sender.entry_point.getLoaderPresenter().goToMainMenu()
+
+    def goToNewGameMenu(self, event):
+        chosenSet = self.ruleSelector.GetStringSelection()
+        if chosenSet == "": return
+        self.sender.entry_point.getLoaderPresenter().selectDependenciesGraph(chosenSet)
+        self.sender.entry_point.getLoaderPresenter().goToGameMenu()
+
+    def onShowGraphClicked(self, event):
+        chosenSet = self.ruleSelector.GetStringSelection()
+        self.sender.entry_point.getLoaderPresenter().onShowGraph(chosenSet)
+
+    def displayDependenciesGraph(self, jsonGraph):
+        # input - jsonGraph : dict
+        self.graphsSpaces.resetViewFromJSON(jsonGraph)
+
+    def displayPossibleDependenciesSets(self, ruleSetsList):
+        self.ruleSetsList = ruleSetsList
+        self.ruleSelector.Set(self.ruleSetsList)
+
     def showGraph(self, evt):
         setChosen = self.ruleSelector.GetStringSelection()
-        print "SetChosen:",setChosen
         if setChosen == "": return
-
-        msg = {}
-        msg["To"] = "LoaderNode"
-        msg["Operation"] = "ShowGraph"
-        msg["Args"] = {}
-        msg["Args"]["SetChosen"] = setChosen
-        self.sender.send(json.dumps(msg))
-
-    def mountMoveToMsg (self, target):
-        msg = {}
-        msg["To"] = "LoaderNode"
-        msg["Operation"] = "MoveTo"
-        msg["Args"] = {}
-        msg["Args"]["TargetView"] = target
-        msg["Args"]["TargetControlNode"] = target + "Node"
-        return json.dumps(msg)
+        self.sender.send(JSONMonter().mountShowGraphMsg(setChosen))
 
     def moveToNewGameMenu(self, event):
         setChosen = self.ruleSelector.GetStringSelection()
-        print "SetChosen:",setChosen
         if setChosen == "": return
+        self.sendAndWaitSelectMsg(setChosen)
+        self.moveToGameMenu()
+
+    def sendAndWaitSelectMsg(self, setChosen):
         operationId = uuid4().__str__()
         self.ackMsgs[operationId] = False
-        msg = {}
-        msg["To"] = "LoaderNode"
-        msg["Operation"] = "Select"
-        msg["Args"] = {}
-        msg["Args"]["SetChosen"] = setChosen
-        msg["Args"]["UUID"] = operationId
-        self.sender.send(json.dumps(msg))
+        self.sender.send(JSONMonter().mountSelectMsg(setChosen, operationId))
+        # wait for controller confirmation
         while not self.ackMsgs[operationId]: pass
-        print "Select block ended"
-        # ^ wait for controller confirmation
-        moveToMsg = self.mountMoveToMsg("GameMenu")
+
+    def moveToGameMenu(self):
+        moveToMsg = JSONMonter().mountMoveToMsg("LoaderNode", "GameMenu")
         self.sender.send(moveToMsg)
 
     def moveToMenu(self, event):
-        msg = self.mountMoveToMsg("MainMenu")
+        msg = JSONMonter().mountMoveToMsg("LoaderNode", "MainMenu")
         self.sender.send(msg)
 
-    def readMsg(self, msg):
-        msgObj = json.loads(msg)
-        operation = msgObj["Operation"]
-        if operation == "Init":
-            ruleSetsList = msgObj["Args"]["DependenciesNames"]
-            self.ruleSetsList = ruleSetsList
-            self.ruleSelector.Set(self.ruleSetsList)
-        if operation == "SelectConfirm":
-            operationId = msgObj["Args"]["UUID"]
-            self.ackMsgs[operationId] = True
-        if operation == "ShowGraphRes":
-            self.graphsSpaces.resetViewFromJSON(msgObj["Args"]["Graph"])
-
     def onShow(self, event):
-        global pygame
-        if event.GetShow():
-            import pygame
-            pygame.init()
-            pygame.mixer.init()
-            pygame.mixer.music.load(
-                self.musicPath)
-            pygame.mixer.music.play()
-        else:
-            try:
-                pygame.quit()
-            except Exception:
-                pass
+        OnShowUtil().switch_music_on_show_changed(event,self.musicPath)
+
+    def readMsg(self, msg):
+        LoaderMsgReader(self).reactOnMsg(msg)

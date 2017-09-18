@@ -1,9 +1,11 @@
-import sys
-import wx
-import os
 import json
-from RelativePaths import relative_music_path, relative_textures_path, relative_text_files_path
 
+import wx
+
+from utils.ButtonsFactory import ButtonsFactory
+from utils.JSONMonter import JSONMonter
+from utils.OnShowUtil import OnShowUtil
+from utils.RelativePaths import relative_music_path, relative_textures_path, relative_text_files_path
 
 class MainMenuView(wx.Panel):
     def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender=None):
@@ -13,89 +15,54 @@ class MainMenuView(wx.Panel):
         self.name = name
         self.size = size
         self.sender = sender
-
         self.musicPath = musicPath
         self.initMenu()
-        self.SetBackgroundColour((255, 255, 255))
-
-    def onShow(self, event):
-        # print "Menu on show"
-        global pygame
-        if event.GetShow():
-            print "Main menu shown"
-            # print "menu: setting up music"
-            import pygame
-            print "Main Menu:", os.path.dirname(os.path.abspath(__file__))
-            pygame.init()
-            pygame.mixer.init()
-            pygame.mixer.music.load(
-                # os.path.dirname(os.path.abspath(__file__)) + "\\" +
-                self.musicPath)
-            pygame.mixer.music.play()
-        else:
-            print "Main menu hidden"
-            try:
-                # print "Menu, quitting"
-                pygame.quit()
-            except Exception:
-                # print "menu: problem with pygame quit"
-                pass
 
     def initMenu(self):
-        """ This function creates view for menu.
-            It creates and sets position for header.
-            It creates, binds and sets position for buttons."""
         self.printHeader()
-        self.initHeaderSizer()
-        self.createButtons()
-        self.addLogicToButtonsPy4J()
-        # self.addLogicToButtonsSockets()
         self.initRootSizer()
-
-
-    def initRootSizer(self):
-        rootSizer = wx.BoxSizer(wx.VERTICAL)
-        rootSizer.Add(self.headerSizer, 0, wx.CENTER)
-        rootSizer.AddSpacer(50)
-        self.addButtonsToSizer(rootSizer)
-        self.SetSizer(rootSizer)
-        rootSizer.SetDimension(0, 0, self.size[0], self.size[1])
-
+        self.SetBackgroundColour((255, 255, 255))
 
     def printHeader(self):
         with open(relative_text_files_path + "headerCS.txt", "r+") as headerFile:
             headerTxt = headerFile.read()
             print headerTxt
 
-    def createButtons(self):
-        # Create buttons
-        self.newgame_btn = wx.Button(self, label="Load and mount New Game")
-        self.creator_btn = wx.Button(self, label="Creator")
-        self.exit_btn = wx.Button(self, label="Exit")
+    def initRootSizer(self):
+        rootSizer = wx.BoxSizer(wx.VERTICAL)
+        rootSizer.Add(self.newHeaderSizer(), 0, wx.CENTER)
+        rootSizer.AddSpacer(50)
+        rootSizer.Add(self.newButtonsSizer(), 0, wx.CENTER)
+        self.SetSizer(rootSizer)
+        rootSizer.SetDimension(0, 0, self.size[0], self.size[1])
 
-    def initHeaderSizer(self):
-        self.headerSizer = wx.BoxSizer(wx.HORIZONTAL)
+    def newHeaderBmp(self):
         headerImage = wx.Image(relative_textures_path + "headerCS.jpg", wx.BITMAP_TYPE_JPEG)
-        headerBmp = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(headerImage))
-        self.headerSizer.Add(headerBmp)
+        return wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(headerImage))
 
-    def addButtonsToSizer(self, buttonsSizer):
-        # Set buttons positions
-        buttonsSizer.Add(self.newgame_btn, 0, wx.CENTER | wx.ALL, 5)
-        buttonsSizer.Add(self.creator_btn, 0, wx.CENTER | wx.ALL)
-        buttonsSizer.Add(self.exit_btn, 0, wx.CENTER | wx.ALL, 5)
+    def newHeaderSizer(self):
+        self.headerSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.headerSizer.Add(self.newHeaderBmp())
+        return self.headerSizer
 
-    def addLogicToButtonsSockets(self):
-        # Add logic to buttons using plain sockets
-        self.Bind(wx.EVT_BUTTON, self.closeButton, self.exit_btn)
-        self.Bind(wx.EVT_BUTTON, self.moveToCreator, self.creator_btn)
-        self.Bind(wx.EVT_BUTTON, self.moveToNewGame, self.newgame_btn)
+    def newLoaderButton(self):
+        self.loader_btn = ButtonsFactory().newButton(self, "Load and mount New Game", self.onGoToLoader)
+        return self.loader_btn
 
-    def addLogicToButtonsPy4J(self):
-        # Add logic to buttons using Py4J API
-        self.Bind(wx.EVT_BUTTON, self.onExitSystem, self.exit_btn)
-        self.Bind(wx.EVT_BUTTON, self.onGoToCreator, self.creator_btn)
-        self.Bind(wx.EVT_BUTTON, self.onGoToLoader, self.newgame_btn)
+    def newCreatorButton(self):
+        self.creator_btn = ButtonsFactory().newButton(self, "Creator", self.onGoToCreator)
+        return self.creator_btn
+
+    def newExitButton(self):
+        self.exit_btn = ButtonsFactory().newButton(self, "Exit", self.onExitSystem)
+        return self.exit_btn
+
+    def newButtonsSizer(self):
+        self.buttons_vertical_sizer = wx.BoxSizer(wx.VERTICAL)
+        self.buttons_vertical_sizer.Add(self.newLoaderButton(), 0, wx.CENTER | wx.ALL, 5)
+        self.buttons_vertical_sizer.Add(self.newCreatorButton(), 0, wx.CENTER | wx.ALL)
+        self.buttons_vertical_sizer.Add(self.newExitButton(), 0, wx.CENTER | wx.ALL, 5)
+        return self.buttons_vertical_sizer
 
     def onGoToLoader(self, event):
         self.sender.entry_point.getMainMenuPresenter().goToLoader()
@@ -108,39 +75,24 @@ class MainMenuView(wx.Panel):
         self.Close(True)
         self.parent.closeWindow(None)
 
-    def mountMoveToMsg(self, target):
-        msg = {}
-        msg["To"] = "MainMenuNode"
-        msg["Operation"] = "MoveTo"
-        msg["Args"] = {}
-        msg["Args"]["TargetView"] = target
-        msg["Args"]["TargetControlNode"] = target + "Node"
-        return json.dumps(msg)
-
     def closeButton(self, event):
         """ This function defines logic for exit button. """
-        msg = {}
-        msg["To"] = "MainMenuNode"
-        msg["Args"] = {}
-        msg["Operation"] = "Exit"
-        self.sender.send(json.dumps(msg))
-        # self.sender.send("MenuNode@Exit")
+        self.sender.send(json.dumps(JSONMonter().mountExitMsg()))
         self.Close(True)
         self.parent.closeWindow(None)
 
-    def moveToNewGame(self, event):
+    def moveToLoader(self, event):
         """ This function switches to map view """
-        # self.parent.setView("Map")
-        msg = self.mountMoveToMsg("Loader")
+        msg = JSONMonter().mountMoveToMsg("MainMenuNode","Loader")
         self.sender.send(msg)
-        # self.sender.send("MenuNode@MoveTo@MapNode")
 
     def moveToCreator(self, event):
         """ This function switches to creator view """
-        # self.parent.setView("Creator")
-        msg = self.mountMoveToMsg("Creator")
+        msg = JSONMonter().mountMoveToMsg("MainMenuNode","Creator")
         self.sender.send(msg)
-        # self.sender.send("MenuNode@MoveTo@CreatorNode")
+
+    def onShow(self, event):
+        OnShowUtil().switch_music_on_show_changed(event, self.musicPath)
 
     def readMsg(self, msg):
-        print "Menu view got msg", msg
+        pass
