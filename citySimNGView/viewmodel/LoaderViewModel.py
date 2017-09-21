@@ -16,13 +16,13 @@ class LoaderViewModel(object):
 
     def displayDependenciesGraph(self, jsonGraph):
         wx.CallAfter(
-            self.viewSetter.views["Loader"].displayDependenciesGraph,
+            self.viewSetter.getView("Loader").displayDependenciesGraph,
             json.loads(jsonGraph.toString())
         )
 
     def displayPossibleDependenciesSets(self, possibleSets):
         wx.CallAfter(
-            self.viewSetter.views["Loader"].displayPossibleDependenciesSets,
+            self.viewSetter.getView("Loader").displayPossibleDependenciesSets,
             Converter(self.viewSetter.gateway).convertCollectionToList(possibleSets)
         )
 

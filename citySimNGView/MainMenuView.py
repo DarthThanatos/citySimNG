@@ -53,7 +53,7 @@ class MainMenuView(wx.Panel):
         self.creator_btn = ButtonsFactory().newButton(self, "Creator", self.onGoToCreator)
         return self.creator_btn
 
-    def newExitButton(self):
+    def newExitButton( self):
         self.exit_btn = ButtonsFactory().newButton(self, "Exit", self.onExitSystem)
         return self.exit_btn
 

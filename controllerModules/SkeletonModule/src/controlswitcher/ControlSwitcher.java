@@ -51,7 +51,8 @@ public class ControlSwitcher {
 		 */
 		
 		while (currentNode != null){
-			currentNode = currentNode.nodeLoop(); 
+			System.out.println("Current node: " + currentNode.getNodeName());
+			currentNode = currentNode.nodeLoop();
 		}
 	}
 	

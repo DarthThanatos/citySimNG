@@ -72,13 +72,13 @@ class RankingView(wx.Panel):
                 #os.path.dirname(os.path.abspath(__file__)) + "\\" +
                 self.musicPath)
             pygame.mixer.music.play()
-        else:
-            try:
-                # print "Menu, quitting"
-                pygame.quit()
-            except Exception:
-                # print "menu: problem with pygame quit"
-                pass
+        # else:
+        #     try:
+        #         # print "Menu, quitting"
+        #         pygame.quit()
+        #     except Exception:
+        #         # print "menu: problem with pygame quit"
+        #         pass
 
     def initRanking(self):
         """ This function creates view for ranking, sets essential buttons' properties - 

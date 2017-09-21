@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="CreatorModule_main" target="1.8" />
+      <module name="CreatorModule_test" target="1.8" />
+      <module name="ExchangeModule_main" target="1.8" />
+      <module name="ExchangeModule_test" target="1.8" />
+      <module name="MapModule_main" target="1.8" />
+      <module name="MapModule_test" target="1.8" />
+      <module name="MenuModule_main" target="1.8" />
+      <module name="MenuModule_test" target="1.8" />
+      <module name="RankingModule_main" target="1.8" />
+      <module name="RankingModule_test" target="1.8" />
+      <module name="SkeletonModule_main" target="1.8" />
+      <module name="SkeletonModule_test" target="1.8" />
+      <module name="TutorialModule_main" target="1.8" />
+      <module name="TutorialModule_test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

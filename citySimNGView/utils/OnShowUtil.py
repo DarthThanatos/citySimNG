@@ -1,5 +1,7 @@
 import traceback
 
+from wx import wx
+
 
 class OnShowUtil(object):
 
@@ -16,11 +18,11 @@ class OnShowUtil(object):
                 pygame.mixer.music.play()
             except Exception:
                 print "Problem with music"
-        else:
-            try:
-                pygame.quit()
-            except Exception:
-                pass
+        # else:
+        #     try:
+        #         pygame.quit()
+        #     except Exception:
+        #         pass
 
     def onCreatorPanelShow(self, view, event):
         if event.GetShow():
@@ -43,3 +45,4 @@ class OnShowUtil(object):
                 sheetView.wakeUpData = None
             else:
                 sheetView.setUpAddMode()
+

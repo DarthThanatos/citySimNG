@@ -28,6 +28,7 @@ public class GameMenuPy4jNode extends Py4JNode implements GameMenuPresenter.OnGa
 		GameMenuPresenter gameMenuPresenter = Presenter.getInstance().getGameMenuPresenter();
 		gameMenuPresenter.setOnGameMenuPresenterCalled(this);
 		gameMenuPresenter.displayGameMenu();
+		System.out.println("atStart gamemenu");
 		
 	}
 	
