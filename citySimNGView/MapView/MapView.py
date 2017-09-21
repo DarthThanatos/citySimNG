@@ -100,7 +100,7 @@ class MapView(wx.Panel):
         os.environ['SDL_VIDEODRIVER'] = 'windib'
         import pygame  # this has to happen after setting the environment variables.
         pygame.init()
-        pygame.quit() 
+        pygame.quit()
 # =================================================================================================================== #
 # Communication with model
 # =================================================================================================================== #

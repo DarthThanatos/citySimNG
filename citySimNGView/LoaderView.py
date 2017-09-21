@@ -24,16 +24,22 @@ class LoaderView(wx.Panel):
         self.SetBackgroundColour((255, 255, 255))
 
     def initMainSizer(self):
-        mainSizer = wx.BoxSizer(wx.VERTICAL)
-        mainSizer.Add(self.newHeaderSizer(), 0, wx.CENTER)
-        mainSizer.Add(self.newRulesSelector(), 0, wx.CENTER)
-        mainSizer.AddSpacer(50)
-        mainSizer.Add(self.newButtonsSizer(), 0, wx.CENTER | wx.ALL, 5)
-        mainSizer.AddSpacer(30)
-        mainSizer.Add(self.newGraphSpaces(),0,wx.CENTER)
+        mainSizer = self.newMainSizer()
         self.SetSizer(mainSizer)
         mainSizer.SetDimension(0, 0, self.size[0], self.size[1])
         mainSizer.Layout()
+
+    def newMainSizer(self):
+        mainSizer = wx.BoxSizer(wx.VERTICAL)
+        mainSizer.Add(self.newHeaderSizer(), 0, wx.CENTER)
+        self.addToSizerWithSpace(mainSizer,self.newRulesSelector(), space=50)
+        self.addToSizerWithSpace(mainSizer,self.newButtonsSizer(), space=30)
+        mainSizer.Add(self.newGraphSpaces(),0,wx.CENTER)
+        return mainSizer
+
+    def addToSizerWithSpace(self, sizer, view, space = 10, alignment = wx.CENTER):
+        sizer.Add(view, 0, alignment)
+        sizer.AddSpacer(space)
 
     def newHeaderBmp(self):
         headerImage = wx.Image(relative_textures_path + "headerCS.jpg", wx.BITMAP_TYPE_JPEG)

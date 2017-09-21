@@ -204,7 +204,6 @@ class MainMenuHolder(ViewHolder):
         self.SetTransparent(self.alpha)
         self.alpha -= 5
 
-
     def onPostAnimateHiding(self):
         self.timer.Stop()
         self.parent.closeWindowSystem(None)

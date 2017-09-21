@@ -2,6 +2,7 @@ import json
 
 import wx
 import wx.grid as gridlib
+import traceback
 
 from utils.RelativePaths import relative_music_path
 
