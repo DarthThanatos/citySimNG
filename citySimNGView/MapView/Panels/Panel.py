@@ -4,7 +4,7 @@ from MapView.Consts import WHITE
 
 class Panel(pygame.sprite.Sprite):
     """ Base class for panels """
-    def __init__(self, pos_x, pos_y, width, height, texture_path, surface):
+    def __init__(self, pos_x, pos_y, width, height, texture_path, surface, name):
         """ Constructor. Initialize panel.
 
         :param pos_x: panel's x position
@@ -15,6 +15,7 @@ class Panel(pygame.sprite.Sprite):
         :param surface: surface on which panel should be drawn
         """
         pygame.sprite.Sprite.__init__(self)
+        self.name = name
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.width = int(width)

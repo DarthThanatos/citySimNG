@@ -30,7 +30,7 @@ class ResourcesPanel(Panel):
         :param initial_resources_values: initial amount of resources
         :param initial_resources_incomes: initial incomes of resources
         """
-        Panel.__init__(self, pos_x, pos_y, width, height, RESOURCES_PANEL_TEXTURE, surface)
+        Panel.__init__(self, pos_x, pos_y, width, height, RESOURCES_PANEL_TEXTURE, surface, "Resources Panel")
         self.resources_values = initial_resources_values
         self.resources_incomes = initial_resources_incomes
 
