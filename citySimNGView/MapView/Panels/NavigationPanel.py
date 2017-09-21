@@ -17,7 +17,7 @@ class NavigationPanel(Panel):
         :param height: panel's height
         :param action: action performed when navigation arrow is clicked
         """
-        Panel.__init__(self, pos_x, pos_y, width, height, NAV_PANEL_TEX, surface)
+        Panel.__init__(self, pos_x, pos_y, width, height, NAV_PANEL_TEX, surface, 'Naigation Panel')
         self.action = action
         self.map_position_x = 0
         self.map_position_y = 0

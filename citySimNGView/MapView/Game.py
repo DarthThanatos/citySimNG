@@ -1,20 +1,21 @@
+import uuid
+
 import pygame
+from Converter import Converter
 from CreatorView.RelativePaths import relative_textures_path
 
 from Consts import (LEFT, RIGHT, RED, RESOURCES_PANEL_SIZE, BUILDINGS_PANEL_SIZE, NAVIGATION_PANEL_HEIGHT,
                     NAVIGATION_PANEL_WIDTH, TEXT_PANEL_HEIGHT, GREEN, INFO_PANEL_WIDTH, INFO_PANEL_HEIGHT)
-from MapTile import MapTile
 from GameThread import GameThread
-from Utils import draw_text
 from Items.Building import Building
-from Items.Resource import Resource
-from Items.Resources import resources, parse_resources_data
+from Items.Resources import parse_resources_data
+from MapTile import MapTile
 from Panels.BuildingsPanel import BuildingsPanel
+from Panels.InfoPanel import InfoPanel
 from Panels.NavigationPanel import NavigationPanel
 from Panels.ResourcesPanel import ResourcesPanel
-from Panels.InfoPanel import InfoPanel
-import uuid
-from Converter import Converter
+from Popups.BuildingsPanelPopup import BuildingsPanelPopup
+from Popups.Popup import Popup
 
 
 class Game(object):
@@ -83,6 +84,9 @@ class Game(object):
         self.shadow = None
         self.selected_building = None
         self.clicked_button = None
+
+        self.time = 0
+        self.popup = None
 
         # start new thread that will be responsible for running game
         self.game_on = True
@@ -183,6 +187,41 @@ class Game(object):
                 if self.shadow is not None:
                     self.shadow = None
 
+            if event.type == pygame.MOUSEMOTION:
+                building = [b for b in self.buildings_panel.buildings_sprites if b.rect.collidepoint(mouse_pos)]
+                if building:
+                    building = building[0]
+                    if not self.popup or building != self.popup.sprite:
+                        self.popup = BuildingsPanelPopup(self.buildings_panel.pos_x,
+                                                         self.resources_panel.pos_y + self.resources_panel.height,
+                                                         0.7 * self.buildings_panel.width, self.buildings_panel.height,
+                                                         building, self.game_board)
+                else:
+                    self.popup = None
+
+                # TODO: make popups for all sprites?
+                # sprite = [s for s in self.all_sprites if s.rect.collidepoint(mouse_pos)]
+                # if sprite:
+                #     try:
+                #         inner_sprite = [s for s in sprite[0].all_sprites if s.rect.collidepoint(mouse_pos)]
+                #     except AttributeError:
+                #         if not self.popup or sprite[0] != self.popup.sprite:
+                #             self.popup = Popup(mouse_pos[0], mouse_pos[1] + pygame.mouse.get_cursor()[0][1],
+                #                                sprite[0], 100, 100, self.game_board)
+                #     else:
+                #         if inner_sprite:
+                #             sprite = inner_sprite
+                #         if not self.popup or sprite[0] != self.popup.sprite:
+                #             if sprite[0] in self.buildings_panel.buildings_sprites:
+                #                 self.popup = BuildingsPanelPopup(self.buildings_panel.pos_x, self.info_panel.pos_y,
+                #                                                  0.7 * self.buildings_panel.width,
+                #                                                  self.buildings_panel.height,
+                #                                                  sprite[0],
+                #                                                  self.game_board)
+                #             else:
+                #                 self.popup = Popup(mouse_pos[0], mouse_pos[1] + pygame.mouse.get_cursor()[0][1],
+                #                                    sprite[0], sprite[0].width, sprite[0].height, self.game_board)
+
     def update(self):
         """ Update all elements before they will be drawn. """
         if self.shadow is not None:
@@ -200,7 +239,10 @@ class Game(object):
             panel.draw()
 
         for building in self.buildings_sprites:
-            self.game_board.blit(building.image, (building.pos_x, building.pos_y))
+            building.draw(self.game_board, building.pos_x, building.pos_y)
+
+        if self.popup and self.shadow is None:
+            self.popup.draw()
 
         # draw building's shadow
         if self.shadow is not None:

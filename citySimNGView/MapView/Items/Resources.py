@@ -37,27 +37,30 @@ def draw_resources_info(resources_info, start_x, start_y, max_x, surface, image_
     curr_x, curr_y = start_x, start_y
     text_size = (0, 0)
 
-    for (resource, value) in resources_info.iteritems():
+    if resources_info:
+        for (resource, value) in resources_info.iteritems():
 
-        # skip if value is 0
-        # TODO: we have to take care of this in logic
-        if value == 0:
-            continue
+            # skip if value is 0
+            # TODO: we have to take care of this in logic
+            if value == 0:
+                continue
 
-        # get image for current resource and scale it
-        image = resources[resource].image
-        image = pygame.transform.scale(image, (image_width, image_height))
+            # get image for current resource and scale it
+            image = resources[resource].image
+            image = pygame.transform.scale(image, (int(image_width), int(image_height)))
 
-        # calculate text size for current resource
-        text_size = calculate_text_size("{}".format(resources_info[resource]))
-        info_width = image.get_size()[0] + text_size[0]
+            # calculate text size for current resource
+            text_size = calculate_text_size("{}".format(resources_info[resource]))
+            info_width = image.get_size()[0] + text_size[0]
 
-        if info_width + curr_x > max_x:
-            curr_x = start_x
-            curr_y += text_size[1]
+            if info_width + curr_x > max_x:
+                curr_x = start_x
+                curr_y += text_size[1]
 
-        surface.blit(image, (curr_x, curr_y))
-        draw_text(curr_x + image.get_size()[0], curr_y, '{}'.format(resources_info[resource]), GREEN, surface)
-        curr_x += info_width + RESOURCES_SPACE
+            surface.blit(image, (curr_x, curr_y))
+            draw_text(curr_x + image.get_size()[0], curr_y, '{}'.format(resources_info[resource]), GREEN, surface)
+            curr_x += info_width + RESOURCES_SPACE
+    else:
+        text_size = draw_text(curr_x, curr_y, '-', GREEN, surface)
 
     return curr_y + text_size[1]

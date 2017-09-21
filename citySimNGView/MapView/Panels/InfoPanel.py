@@ -27,7 +27,7 @@ class InfoPanel(Panel):
         :param del_building_fun: function performed when delete building button is clicked
         :param stop_production_fun: function performed when stop production button is clicked
         """
-        Panel.__init__(self, pos_x, pos_y, width, height, BUILDINGS_PANEL_TEXTURE, surface)
+        Panel.__init__(self, pos_x, pos_y, width, height, BUILDINGS_PANEL_TEXTURE, surface, 'Info Panel')
         self.curr_building = None
         self.buttons_sprites = pygame.sprite.Group()
 

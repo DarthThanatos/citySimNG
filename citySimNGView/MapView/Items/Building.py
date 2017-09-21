@@ -46,3 +46,6 @@ class Building(pygame.sprite.Sprite):
         self.image.set_colorkey(WHITE)
         self.image = pygame.transform.scale(self.image, (self.width, self.height))
         self.rect = self.image.get_rect(topleft=(self.pos_x, self.pos_y))
+
+    def draw(self, surface, pos_x, pos_y):
+        surface.blit(self.image, (pos_x, pos_y))

@@ -3,7 +3,7 @@ import uuid
 import pygame
 from CreatorView.RelativePaths import relative_textures_path
 
-from MapView.Consts import BUILDINGS_PANEL_TEXTURE, ARROW_BUTTON_WIDTH, ARROW_BUTTON_HEIGHT, SPACE
+from MapView.Consts import BUILDINGS_PANEL_TEXTURE, ARROW_BUTTON_WIDTH, ARROW_BUTTON_HEIGHT, SPACE, GREEN
 from MapView.Items.Building import Building
 from MapView.Items.Button import Button
 from MapView.Panels.Panel import Panel
@@ -28,7 +28,7 @@ class BuildingsPanel(Panel):
         :param surface: surface on which panel should be drawn
         :param buildings_data: information about buildings available in game
         """
-        Panel.__init__(self, pos_x, pos_y, width, height, BUILDINGS_PANEL_TEXTURE, surface)
+        Panel.__init__(self, pos_x, pos_y, width, height, BUILDINGS_PANEL_TEXTURE, surface, 'Buildings Panel')
         self.buildings_data = buildings_data
         self.buildings_sprites = pygame.sprite.Group()
         self.curr_page = 1
@@ -87,17 +87,15 @@ class BuildingsPanel(Panel):
         """ Draw buildings from current page. """
         self.buildings_sprites = pygame.sprite.Group()
         for building in self.page_buildings[str(self.curr_page)]:
-            self.panels_surface.blit(building.image, (building.pos_x - self.pos_x, building.pos_y - self.pos_y))
+            building.draw(self.panels_surface, building.pos_x - self.pos_x, building.pos_y - self.pos_y)
             self.buildings_sprites.add(building)
 
     def scroll_building_panel_right(self):
         """ Go to next page with buildings. """
         if self.curr_page < self.last_page:
             self.curr_page += 1
-            # self.draw()
 
     def scroll_building_panel_left(self):
         """ Go to previous page with buildings. """
         if self.curr_page > 1:
             self.curr_page -= 1
-            # self.draw()

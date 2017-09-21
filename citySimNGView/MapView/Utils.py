@@ -34,7 +34,7 @@ def calculate_text_size(msg):
 
 
 # TODO: better dealing with newlines
-def draw_text_with_wrapping(pos_x, pos_y, max_x, msg, color, surface):
+def draw_text_with_wrapping(pos_x, pos_y, max_x, msg, color, surface, font_size=FONT_SIZE):
     """ Draw text with wrapping so that it does not exceed given x value.
 
     :param pos_x: initial x position
@@ -44,17 +44,21 @@ def draw_text_with_wrapping(pos_x, pos_y, max_x, msg, color, surface):
     :param color: font color
     :param surface: surface on which text should be drawn
     """
-    font = pygame.font.SysFont(FONT, FONT_SIZE)
+    widest_line = 0
+    font = pygame.font.SysFont(FONT, font_size)
     space_width = font.size(' ')[0]  # get space width
     curr_x, curr_y = pos_x, pos_y
+    text_size = (0, 0)
     for word in msg.split(" "):
         word_surface = font.render(word, True, color)
-        word_width, word_height = word_surface.get_size()
+        text_size = word_width, word_height = word_surface.get_size()
         if curr_x + word_width >= max_x:
+            widest_line = max(curr_x, widest_line)
             curr_x = pos_x  # Reset the x.
             curr_y += word_height  # Start on new row.
         surface.blit(word_surface, (curr_x, curr_y))
         curr_x += word_width + space_width
+    return curr_y + text_size[1], widest_line
 
 
 def center_image_y_pos(height, y_min, y_max):
