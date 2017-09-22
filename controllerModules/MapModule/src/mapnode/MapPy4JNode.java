@@ -85,6 +85,7 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
 
     @Override
     public void atUnload(){
+        super.atUnload();
     }
 
     @Override

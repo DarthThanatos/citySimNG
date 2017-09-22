@@ -1,3 +1,5 @@
+from RelativePaths import relative_textures_path
+
 DWELLER_NAME = "Dweller\nName"
 PREDECESSOR = "Predecessor"
 SUCCESSOR = "Successor"
@@ -17,3 +19,6 @@ CONSUMES = "Consumes"
 COST_IN_RESOURCES = "Cost\nin\nresources"
 RESOURCE_NAME = "Resource\nName"
 START_INCOME = "Start income"
+SET_NAME = "Set Name"
+TEXTURE_ONE = "Texture One"
+TEXTURE_TWO = "Texture Two"

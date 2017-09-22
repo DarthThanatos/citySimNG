@@ -1,4 +1,8 @@
-{"Dwellers": {"Dweller": {"Predecessor": "None",
+{
+"Set Name":"New Stronghold",
+"Texture One": "Grass.png",
+"Texture Two": "Grass2.jpg",
+"Dwellers": {"Dweller": {"Predecessor": "None",
  "Description": "-",
  "Dweller\nName": "Dweller",
  "Texture path": "dweller.jpg",

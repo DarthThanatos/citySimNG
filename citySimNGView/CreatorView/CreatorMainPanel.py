@@ -3,9 +3,11 @@ import re
 import traceback
 from uuid import uuid4
 
+import os.path
 import wx
 from wx.lib.scrolledpanel import ScrolledPanel
 
+from CreatorView import Consts
 from DependenciesSubPanel import DependenciesSubPanel
 from GraphsSpaces import GraphsSpaces
 from RelativePaths import relative_dependencies_path, relative_textures_path
@@ -17,6 +19,7 @@ from utils.OnShowUtil import OnShowUtil
 from utils.SocketMsgReader.CreatorMsgReader import CreatorMsgReader
 from viewmodel.CreatorData import CreatorData
 from viewmodel.DependenciesFileLoader import DependenciesFileLoader
+from viewmodel.SheetEntityChecker import EditModeSheetEntityChecker
 
 
 class CreatorMainPanel(ScrolledPanel):
@@ -27,8 +30,6 @@ class CreatorMainPanel(ScrolledPanel):
         self.parent = parent
         self.size = size
         self.ackMsgs = {}
-        self.texture_one_name = "Grass.png"
-        self.texture_two_name = "Grass2.jpg"
         self.wakeUpData = None
         self.current_dependencies = current_dependencies # all dependencies will be stored here
         self.frame = frame
@@ -86,15 +87,15 @@ class CreatorMainPanel(ScrolledPanel):
        return subpanel
 
     def newResourcesSubpanel(self):
-        self.resourcesDependenciesSubPanel = self.newSubPanel("Resources", self.getCurrentResourcesNames())
+        self.resourcesDependenciesSubPanel = self.newSubPanel(Consts.RESOURCES, self.getCurrentResourcesNames())
         return self.resourcesDependenciesSubPanel
 
     def newBuildingsSubpanel(self):
-        self.buildingsDependenciesSubPanel = self.newSubPanel("Buildings", self.getCurrentBuildingsNames())
+        self.buildingsDependenciesSubPanel = self.newSubPanel(Consts.BUILDINGS, self.getCurrentBuildingsNames())
         return self.buildingsDependenciesSubPanel
 
     def newDwellersSubpanel(self):
-        self.dwellersDependenciesSubPanel = self.newSubPanel("Dwellers", self.getCurrentDwellersNames())
+        self.dwellersDependenciesSubPanel = self.newSubPanel(Consts.DWELLERS, self.getCurrentDwellersNames())
         return self.dwellersDependenciesSubPanel
 
     def newDependenciesSubPanelsVerticalSizer(self):
@@ -137,7 +138,7 @@ class CreatorMainPanel(ScrolledPanel):
         return texture_horizontal_sizer
 
     def newBackgroundBitmapOne(self):
-        self.imageBitmapOne = self.newBitmap(self.texture_one_name)
+        self.imageBitmapOne = self.newBitmap(self.current_dependencies[Consts.TEXTURE_ONE])
         return self.imageBitmapOne
 
     def newBackgroundTextureOneHorizontalSizer(self):
@@ -149,7 +150,7 @@ class CreatorMainPanel(ScrolledPanel):
         return self.image_one_horizontal_sizer
 
     def newBackgroundBitmapTwo(self):
-        self.imageBitmapTwo = self.newBitmap(self.texture_two_name)
+        self.imageBitmapTwo = self.newBitmap(self.current_dependencies[Consts.TEXTURE_TWO])
         return self.imageBitmapTwo
 
     def newBackgroundTextureTwoHorizontalSizer(self):
@@ -215,12 +216,12 @@ class CreatorMainPanel(ScrolledPanel):
     def onSelectImageOne(self, event):
         dlg = self.createImageSelectionDialog()
         self.onImageSelected(dlg, self.imageBitmapOne)
-        self.texture_one_name = dlg.GetFilename()
+        self.current_dependencies[Consts.TEXTURE_ONE] = dlg.GetFilename()
 
     def onSelectImageTwo(self, event):
         dlg = self.createImageSelectionDialog()
         self.onImageSelected(dlg, self.imageBitmapTwo)
-        self.texture_two_name = dlg.GetFilename()
+        self.current_dependencies[Consts.TEXTURE_TWO] = dlg.GetFilename()
 
     def retToMenu(self, event):
         self.sender.entry_point.getCreatorPresenter().returnToMenu()
@@ -252,14 +253,14 @@ class CreatorMainPanel(ScrolledPanel):
         self.logArea.SetValue(errorMsg)
 
     def cleanCurrentDependencies(self):
-        self.current_dependencies["Buildings"] = {}
-        self.current_dependencies["Resources"] = {}
-        self.current_dependencies["Dwellers"] = {}
+        self.current_dependencies[Consts.BUILDINGS] = {}
+        self.current_dependencies[Consts.RESOURCES] = {}
+        self.current_dependencies[Consts.DWELLERS] = {}
 
     def clean(self, event):
         self.cleanCurrentDependencies()
         self.resetContents()
-        self.graphsSpaces.resetViewFromJSON({"Dwellers":[], "Buildings":[], "Resources":[]})
+        self.graphsSpaces.resetViewFromJSON({Consts.DWELLERS:[], Consts.BUILDINGS:[], Consts.RESOURCES:[]})
         self.logArea.SetValue("Restored default settings")
 
     def createScaledBitmap(self, bmp, img_path):
@@ -267,95 +268,100 @@ class CreatorMainPanel(ScrolledPanel):
         image = image.Scale(32,32)
         bmp.SetBitmap(wx.BitmapFromImage(image))
 
-    def refreshDependenciesPanel(self, dependenciesPanel, values):
-        dependenciesPanel.entities_names_listbox.Clear()
-        for value in values: dependenciesPanel.entities_names_listbox.Append(value)
-
-    def refreshDependenciesPanels(self):
-        self.refreshDependenciesPanel(self.resourcesDependenciesSubPanel, self.getCurrentResourcesNames())
-        self.refreshDependenciesPanel(self.buildingsDependenciesSubPanel, self.getCurrentBuildingsNames())
-        self.refreshDependenciesPanel(self.dwellersDependenciesSubPanel, self.getCurrentDwellersNames())
 
     def getCurrentBuildingsNames(self):
-        return self.current_dependencies["Buildings"].keys()
+        return self.current_dependencies[Consts.BUILDINGS].keys()
 
     def getCurrentResourcesNames(self):
-        return self.current_dependencies["Resources"].keys()
+        return self.current_dependencies[Consts.RESOURCES].keys()
 
     def getCurrentDwellersNames(self):
-        return self.current_dependencies["Dwellers"].keys()
+        return self.current_dependencies[Consts.DWELLERS].keys()
 
-    def refreshChildren(self):
-        for child in self.subpanels: child.resetContents()
+    def refreshSubPanels(self):
+        for subpanel in self.subpanels: subpanel.resetContents()
 
-    def updateTextureOne(self, imageName):
-        self.createScaledBitmap(self.imageBitmapOne, relative_textures_path +imageName)
-        self.texture_one_name = imageName
+    def updateTextureOne(self):
+        self.createScaledBitmap(self.imageBitmapOne, relative_textures_path + self.current_dependencies[Consts.TEXTURE_ONE])
 
-    def updateTextureTwo(self, imageName):
-        self.createScaledBitmap(self.imageBitmapTwo, relative_textures_path+imageName)
-        self.texture_two_name = imageName
+    def updateTextureTwo(self):
+        self.createScaledBitmap(self.imageBitmapTwo, relative_textures_path + self.current_dependencies[Consts.TEXTURE_TWO])
 
     def refreshBackgroundTextures(self):
-        self.updateTextureOne("Grass.png")
-        self.updateTextureTwo("Grass2.jpg")
+        self.updateTextureOne()
+        self.updateTextureTwo()
 
     def resetContents(self):
-        self.dependenciesSetNameInput.SetValue("Default Set")
+        self.dependenciesSetNameInput.SetValue(self.current_dependencies[Consts.SET_NAME])
         self.refreshBackgroundTextures()
-        self.refreshChildren()
-        self.refreshDependenciesPanels()
+        self.refreshSubPanels()
 
     def resetView(self):
         self.resetContents()
         self.logArea.SetValue(WELCOME_MSG)
 
-    def fillCurrentDependenciesWithContent(self, content_dict):
-        for key in content_dict: self.current_dependencies[key] = content_dict[key]
+    def fillCurrentDependenciesWithValidContent(self, content_dict):
+        validKeys = self.parent.newCurrentDependenciesKeys()
+        for key in content_dict:
+            if key not in validKeys: raise Exception
+            self.current_dependencies[key] = content_dict[key]
 
-    def checkCorrectnessOf(self, dependencyName):
+    def checkCorrectnessOf(self, dependencyPanelName):
         # checks if filling ends correctly and there is no exception
+        correct = True
         try:
-            for dependency in self.current_dependencies[dependencyName]:
-                self.frame.setupPanelEditMode(panelName = dependencyName, editedElementName = dependency)
+            for dependency in self.current_dependencies[dependencyPanelName]:
+                self.frame.setupPanelEditMode(panelName = dependencyPanelName, editedElementName = dependency)
+                panel = self.frame.views[dependencyPanelName]
+                correct &= panel.getEntityChecker().entityCorrect(EditModeSheetEntityChecker(panel))
         except Exception:
             traceback.print_exc()
             return False
-        return True
+        return correct
 
-    def fileContentsCorrect(self):
-        self.resetContents()
-        input_correct = self.checkCorrectnessOf("Resources")
-        input_correct &= self.checkCorrectnessOf("Buildings")
-        input_correct &= self.checkCorrectnessOf("Dwellers")
+    def textureExists(self, path):
+        return os.path.isfile(relative_textures_path + path)
+
+    def currentDependenciesCorrect(self, updateNameFromInput):
+        input_correct = self.dependenciesSetNameTypedCorrectly(updateNameFromInput=updateNameFromInput)
+        input_correct &= self.textureExists(self.current_dependencies[Consts.TEXTURE_ONE])
+        input_correct &= self.textureExists(self.current_dependencies[Consts.TEXTURE_TWO])
+        input_correct &= self.checkCorrectnessOf(Consts.RESOURCES)
+        input_correct &= self.checkCorrectnessOf(Consts.BUILDINGS)
+        input_correct &= self.checkCorrectnessOf(Consts.DWELLERS)
         return input_correct
 
-    def dependenciesSetNameTypedCorrectly(self, setName):
+    def dependenciesSetNameTypedCorrectly(self, updateNameFromInput):
+        if updateNameFromInput:
+            self.current_dependencies[Consts.SET_NAME] = self.dependenciesSetNameInput.GetValue()
+        setName = self.current_dependencies[Consts.SET_NAME]
         if re.sub(r'\s', "", setName) == "":
-            errorMsg = "Please, fill dependencies set name field"
+            errorMsg = "Dependencies set name field not correct"
             self.logArea.SetValue(errorMsg)
             return False
         return True
 
     def createDependencies(self, event):
+        if not self.currentDependenciesCorrect(updateNameFromInput=True): return
         dependencies = self.fetchDependenciesDictStrippedOfEntitiesNameKeys()
-        setName = self.dependenciesSetNameInput.GetValue()
-        if not self.dependenciesSetNameTypedCorrectly(setName): return
-        msg = "Dependencies sent to further processing to creator controller"
-        self.logArea.SetLabelText(msg)
-        self.sendDependenciesPy4J(dependencies, setName)
+        self.logArea.SetLabelText(LogMessages.DEPENDENCIES_SENT_MSG)
+        self.sendDependenciesPy4J(dependencies)
 
     def fetchDependenciesDictStrippedOfEntitiesNameKeys(self):
-        buildings = self.current_dependencies["Buildings"]
-        resources = self.current_dependencies["Resources"]
-        dwellers = self.current_dependencies["Dwellers"]
-        return {"Buildings": buildings.values(), "Resources": resources.values(), "Dwellers": dwellers.values()}
+        buildings = self.current_dependencies[Consts.BUILDINGS]
+        resources = self.current_dependencies[Consts.RESOURCES]
+        dwellers = self.current_dependencies[Consts.DWELLERS]
+        return {
+            Consts.SET_NAME: self.current_dependencies[Consts.SET_NAME],
+            Consts.TEXTURE_ONE: self.current_dependencies[Consts.TEXTURE_ONE],
+            Consts.TEXTURE_TWO: self.current_dependencies[Consts.TEXTURE_TWO],
+            Consts.BUILDINGS: buildings.values(),
+            Consts.RESOURCES: resources.values(),
+            Consts.DWELLERS: dwellers.values()
+        }
 
-    def sendDependenciesPy4J(self, dependencies, setName):
+    def sendDependenciesPy4J(self, dependencies):
         creatorData = CreatorData(self.sender).receiveFromDict(dependencies)
-        creatorData.setDependenciesSetName(setName)
-        creatorData.setTextureOne(self.texture_one_name)
-        creatorData.setTextureTwo(self.texture_two_name)
         self.sender.entry_point.getCreatorPresenter().createDependencies(creatorData)
 
     def displayDependenciesGraph(self, jsonGraph):
@@ -367,7 +373,6 @@ class CreatorMainPanel(ScrolledPanel):
     def loadDependencies(self, event):
         dlg = self.createLoadDialog()
         self.onLoadFileSelected(dlg)
-
 
     def createLoadDialog(self):
         return wx.FileDialog(

@@ -48,3 +48,5 @@ TUTORIAL_BTN_HINT = "Shows the Tutorial panel with all its information, includin
 
 EXCHANGE_BTN_HINT = "Goes into the Exchange panel. This panel is a place where you can try boost your domain development by selling, buying or playing for additional resources." \
                     " All changes will have an effect to your stock pile (its state can be checked in a game's map top-most panel)"
+
+DEPENDENCIES_SENT_MSG = "Dependencies sent to further processing to creator controller"

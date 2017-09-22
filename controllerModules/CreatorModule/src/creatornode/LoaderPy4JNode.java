@@ -3,9 +3,6 @@ package creatornode;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import model.DependenciesRepresenter;
 import monter.LoaderMonter;
 import controlnode.DispatchCenter;
@@ -14,6 +11,8 @@ import controlnode.Py4JNode;
 import py4jmediator.*;
 
 public class LoaderPy4JNode extends Py4JNode implements LoaderPresenter.OnLoaderPresenterCalled{
+
+	private Node currentGameMenuNode = null;
 
 	public LoaderPy4JNode(DependenciesRepresenter dr,
 			DispatchCenter dispatchCenter, String nodeName) {
@@ -83,8 +82,10 @@ public class LoaderPy4JNode extends Py4JNode implements LoaderPresenter.OnLoader
 	
 	private void mountDependenciesRules(DependenciesRepresenter chosenDR){
 		//dynamically mount new set of rules
-		Node menu = mountGraph(chosenDR);
-		connectMountedGraph(menu);
+		System.out.println("Current game menu node: " + (currentGameMenuNode == null ? "none" : currentGameMenuNode.getNodeName()));
+		if(currentGameMenuNode != null) currentGameMenuNode.atUnload();
+		currentGameMenuNode = mountGraph(chosenDR);
+		connectMountedGraph(currentGameMenuNode);
 	}
 	
 	@Override

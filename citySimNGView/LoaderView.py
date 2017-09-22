@@ -102,6 +102,7 @@ class LoaderView(wx.Panel):
     def displayPossibleDependenciesSets(self, ruleSetsList):
         self.ruleSetsList = ruleSetsList
         self.ruleSelector.Set(self.ruleSetsList)
+        self.ruleSelector.SetSelection(0)
 
     def showGraph(self, evt):
         setChosen = self.ruleSelector.GetStringSelection()

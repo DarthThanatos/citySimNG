@@ -9,6 +9,9 @@ class CreatorData(object):
 
     def receiveFromDict(self, dataDict):
         creatorData = self.javaGateway.jvm.py4jmediator.CreatorData()
+        creatorData.setDependenciesSetName(dataDict[Consts.SET_NAME])
+        creatorData.setTextureOne(dataDict[Consts.TEXTURE_ONE])
+        creatorData.setTextureTwo(dataDict[Consts.TEXTURE_TWO])
         creatorData.setBuildings(self.getBuildingsList(dataDict))
         creatorData.setResources(self.getResourcesList(dataDict))
         creatorData.setDwellers(self.getDwellersList(dataDict))

@@ -56,7 +56,7 @@ public class ExchangeNode implements Node {
 
     @Override
     public void atUnload() {
-        // TODO Auto-generated method stub
+        System.out.println("At unload Exchange");
     }
 
     public String getNodeName() {

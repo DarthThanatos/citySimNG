@@ -44,6 +44,9 @@ class SheetView(ScrolledPanel):
     def submit(self, event):
         raise Exception("submit not implemented")
 
+    def getEntityChecker(self):
+        raise Exception("getEntityChecker not implemented")
+
     def addToSizerWithSpace(self, sizer, view, space = 10, alignment = wx.CENTER):
         sizer.Add(view, 0, alignment)
         sizer.AddSpacer(space)

@@ -1,22 +1,4 @@
 {
-    "Dwellers": {
-        "Dweller": {
-            "Predecessor": "None",
- 
-            "Description": "-",
- 
-            "Dweller\nName": "Dweller",
- 
-            "Texture path": "dweller.jpg",
- 
-            "Consumes": {
-                "Bread": 2
-            },
- 
-            "Successor": "None"
-        }
-    },
- 
     "Buildings": {
         "Field": {
             "Predecessor": "None",
@@ -165,6 +147,30 @@
  
             "Cost\nin\nresources": {
                 "Gold": 3
+            },
+ 
+            "Successor": "None"
+        }
+    },
+ 
+    "Set Name": "New Stronghold 1",
+ 
+    "Texture Two": "Meadow.jpg",
+ 
+    "Texture One": "NavPanelTex.jpg",
+ 
+    "Dwellers": {
+        "Dweller": {
+            "Predecessor": "None",
+ 
+            "Description": "-",
+ 
+            "Dweller\nName": "Dweller",
+ 
+            "Texture path": "dweller.jpg",
+ 
+            "Consumes": {
+                "Bread": 2
             },
  
             "Successor": "None"

@@ -62,7 +62,8 @@ def startViewModelListener(viewSetter):
 def main():
     sender = Sender(sock)
 
-    app = wx.PySimpleApp()
+    # app = wx.PySimpleApp()
+    app = wx.App(False)
     screenDims = wx.GetDisplaySize()
 
     javagateway = JavaGateway(gateway_parameters=GatewayParameters(port=25335))

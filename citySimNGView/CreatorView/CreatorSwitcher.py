@@ -1,4 +1,6 @@
 import wx
+
+from CreatorView import Consts
 from DwellersSheet import  DwellersSheet
 from ResourceSheet import ResourceSheet
 from BuildingSheet import  BuildingSheet
@@ -18,8 +20,21 @@ class CreatorSwitcher(wx.Panel):
         self.showPanel("main_panel", initDataForSearchedPanel=None)
         self.Bind(wx.EVT_SHOW, self.onShow, self)
 
+    def newCurrentDependencies(self):
+        return {
+            Consts.SET_NAME : "Default Set",
+            Consts.TEXTURE_ONE: "Grass.png",
+            Consts.TEXTURE_TWO: "Grass2.jpg",
+            Consts.RESOURCES: {},
+            Consts.BUILDINGS: {},
+            Consts.DWELLERS: {}
+        }
+
+    def newCurrentDependenciesKeys(self):
+        return self.newCurrentDependencies().keys()
+
     def init_views(self):
-        current_dependencies = {"Resources" : {}, "Buildings":{}, "Dwellers":{}}
+        current_dependencies = self.newCurrentDependencies()
         self.views = {
             "main_panel": CreatorMainPanel(self, self.size, self, current_dependencies, self.sender),
             "Resources": ResourceSheet(self, self.size, self, current_dependencies),

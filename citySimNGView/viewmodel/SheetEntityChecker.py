@@ -182,9 +182,14 @@ class EditModeSheetEntityChecker(SheetEntityChecker):
 class OnEntityCheck(object):
 
     def onCheck(self, sheetEntityChecker, result_struct):
+        correct = self.entityCorrect(sheetEntityChecker, result_struct)
+        sheetEntityChecker.onCorrectnessCheckFinished(correct, result_struct)
+
+    def entityCorrect(self, sheetEntityChecker, result_struct = None):
+        result_struct = sheetEntityChecker.newResultStruct() if result_struct is None else result_struct
         correct = self.checkAndDumpBasicCharacteristics(sheetEntityChecker, result_struct)
         correct &= self.mainCheckPipeline(sheetEntityChecker, result_struct)
-        sheetEntityChecker.onCorrectnessCheckFinished(correct, result_struct)
+        return correct
 
     def checkAndDumpBasicCharacteristics(self,  sheetEntityChecker, result_struct):
         correct = sheetEntityChecker.checkAndDumpName(result_struct)
