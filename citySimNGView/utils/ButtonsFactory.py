@@ -9,7 +9,15 @@ class ButtonsFactory(object):
     def bindButton(self, binder, onClickCallback, btn):
         binder.Bind(wx.EVT_BUTTON, onClickCallback, btn)
 
-    def newButton(self, binder, label, onClickCallback = None, size = None):
+    def newTip(self, hint):
+        tip = wx.ToolTip(hint)
+        tip.SetAutoPop(30 * 1000)
+        tip.SetReshow(0)
+        tip.SetDelay(0)
+        return tip
+
+    def newButton(self, binder, label, onClickCallback = None, size = None, hint = None):
         btn = self.createButton(binder, label, size)
         if onClickCallback != None: self.bindButton(binder, onClickCallback, btn)
+        if hint is not None: btn.SetToolTip(self.newTip(hint))
         return btn

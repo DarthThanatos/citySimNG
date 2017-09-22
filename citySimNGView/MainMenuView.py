@@ -2,6 +2,7 @@ import json
 
 import wx
 
+from utils import LogMessages
 from utils.ButtonsFactory import ButtonsFactory
 from utils.JSONMonter import JSONMonter
 from utils.OnShowUtil import OnShowUtil
@@ -46,15 +47,15 @@ class MainMenuView(wx.Panel):
         return self.headerSizer
 
     def newLoaderButton(self):
-        self.loader_btn = ButtonsFactory().newButton(self, "Load and mount New Game", self.onGoToLoader)
+        self.loader_btn = ButtonsFactory().newButton(self, "Load and mount New Game", self.onGoToLoader, hint = LogMessages.LOADER_BTN_HINT)
         return self.loader_btn
 
     def newCreatorButton(self):
-        self.creator_btn = ButtonsFactory().newButton(self, "Creator", self.onGoToCreator)
+        self.creator_btn = ButtonsFactory().newButton(self, "Creator", self.onGoToCreator, hint = LogMessages.CREATOR_BTN_HINT)
         return self.creator_btn
 
     def newExitButton( self):
-        self.exit_btn = ButtonsFactory().newButton(self, "Exit", self.onExitSystem)
+        self.exit_btn = ButtonsFactory().newButton(self, "Exit", self.onExitSystem, hint = LogMessages.EXIT_BTN_HINT)
         return self.exit_btn
 
     def newButtonsSizer(self):

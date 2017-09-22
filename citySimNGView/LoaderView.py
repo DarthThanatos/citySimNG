@@ -3,6 +3,7 @@ from uuid import uuid4
 import wx
 
 from CreatorView.GraphsSpaces import GraphsSpaces
+from utils import LogMessages
 from utils.ButtonsFactory import ButtonsFactory
 from utils.JSONMonter import JSONMonter
 from utils.OnShowUtil import OnShowUtil
@@ -70,15 +71,15 @@ class LoaderView(wx.Panel):
         return self.graphsSpaces
 
     def newGameButton(self):
-        self.new_game_btn = ButtonsFactory().newButton(self, "Game Menu", self.goToNewGameMenu)
+        self.new_game_btn = ButtonsFactory().newButton(self, "Game Menu", self.goToNewGameMenu, hint = LogMessages.MOUNT_GAME_BTN_HINT)
         return self.new_game_btn
 
     def newShowGraphButton(self):
-        self.show_graph_btn = ButtonsFactory().newButton(self, "Show Graph", self.onShowGraphClicked)
+        self.show_graph_btn = ButtonsFactory().newButton(self, "Show Graph", self.onShowGraphClicked, hint = LogMessages.SHOW_GRAPH_BTN_HINT)
         return self.show_graph_btn
 
     def newMenuButton(self):
-        self.menu_btn = ButtonsFactory().newButton(self, "MainMenu", self.goToMenu)
+        self.menu_btn = ButtonsFactory().newButton(self, "Main Menu", self.goToMenu, hint = LogMessages.MENU_BTN_HINT)
         return self.menu_btn
 
     def goToMenu(self, event):

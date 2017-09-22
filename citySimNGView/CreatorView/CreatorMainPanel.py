@@ -8,10 +8,11 @@ from wx.lib.scrolledpanel import ScrolledPanel
 
 from DependenciesSubPanel import DependenciesSubPanel
 from GraphsSpaces import GraphsSpaces
-from LogMessages import WELCOME_MSG
-from RelativePaths import relative_dependencies_path,relative_textures_path
+from RelativePaths import relative_dependencies_path, relative_textures_path
+from utils import LogMessages
 from utils.ButtonsFactory import ButtonsFactory
 from utils.JSONMonter import JSONMonter
+from utils.LogMessages import WELCOME_MSG
 from utils.OnShowUtil import OnShowUtil
 from utils.SocketMsgReader.CreatorMsgReader import CreatorMsgReader
 from viewmodel.CreatorData import CreatorData
@@ -122,9 +123,7 @@ class CreatorMainPanel(ScrolledPanel):
         return self.logAreaVerticalSizer
 
     def newImageSelectorButton(self, onImgChangeCallback):
-        img_selector_btn = wx.Button(self, -1, label = "Choose another texture", size = (-1, 32))
-        self.Bind(wx.EVT_BUTTON, onImgChangeCallback, img_selector_btn)
-        return img_selector_btn
+        return ButtonsFactory().newButton(self, "Choose another texture", onImgChangeCallback, size=(-1, 32), hint = LogMessages.BACKGROUND_TEXTURE_SELECTION_BTN_HINT)
 
     def newBitmap(self, textureName):
         image = wx.Image(name = relative_textures_path + textureName)#"..\\..\\resources\\Textures\\Grass.png"
@@ -162,23 +161,23 @@ class CreatorMainPanel(ScrolledPanel):
         return self.image_two_horizontal_sizer
 
     def newMenuButton(self):
-        self.menu_btn = ButtonsFactory().newButton(self, "Menu", self.retToMenu)
+        self.menu_btn = ButtonsFactory().newButton(self, "Menu", self.retToMenu, hint = LogMessages.MENU_BTN_HINT)
         return self.menu_btn
 
     def newLoadButton(self):
-        self.load_btn = ButtonsFactory().newButton(self, "Load dependencies From File", self.loadDependencies)
+        self.load_btn = ButtonsFactory().newButton(self, "Load dependencies From File", self.loadDependencies, hint = LogMessages.LOAD_DEPS_BTN_HINT)
         return self.load_btn
 
     def newSaveButton(self):
-        self.save_btn = ButtonsFactory().newButton(self, "Save these dependencies to File", self.save)
+        self.save_btn = ButtonsFactory().newButton(self, "Save these dependencies to File", self.save, hint = LogMessages.SAVE_DEPS_BTN_HINT)
         return self.save_btn
 
     def newCreateButton(self):
-        self.create_btn = ButtonsFactory().newButton(self, "Create", self.createDependencies)
+        self.create_btn = ButtonsFactory().newButton(self, "Create", self.createDependencies, hint = LogMessages.CREATE_DEPS_BTN_HINT)
         return self.create_btn
 
     def newCleanButton(self):
-        self.clean_btn = ButtonsFactory().newButton(self, "Clean and Start Again", self.clean)
+        self.clean_btn = ButtonsFactory().newButton(self, "Clean and Start Again", self.clean, hint = LogMessages.CLEAN_DEPS_BTN_HINT)
         return self.clean_btn
 
     def newButtonsSizer(self):

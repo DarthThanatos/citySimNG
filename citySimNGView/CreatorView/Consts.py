@@ -1,5 +1,3 @@
-from RelativePaths import relative_textures_path
-
 DWELLER_NAME = "Dweller\nName"
 PREDECESSOR = "Predecessor"
 SUCCESSOR = "Successor"
