@@ -37,9 +37,9 @@ class CreatorSwitcher(wx.Panel):
         current_dependencies = self.newCurrentDependencies()
         self.views = {
             "main_panel": CreatorMainPanel(self, self.size, self, current_dependencies, self.sender),
-            "Resources": ResourceSheet(self, self.size, self, current_dependencies),
-            "Dwellers": DwellersSheet(self, self.size, self, current_dependencies),
-            "Buildings": BuildingSheet(self, self.size, self, current_dependencies)
+            Consts.RESOURCES: ResourceSheet(self, self.size, self, current_dependencies),
+            Consts.DWELLERS: DwellersSheet(self, self.size, self, current_dependencies),
+            Consts.BUILDINGS: BuildingSheet(self, self.size, self, current_dependencies)
         }
 
     def setupPanelEditMode(self, panelName, editedElementName):
