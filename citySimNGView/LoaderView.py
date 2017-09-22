@@ -62,6 +62,7 @@ class LoaderView(wx.Panel):
         # Create dependencies selector
         self.ruleSetsList = []
         self.ruleSelector = wx.ListBox(self,  choices=self.ruleSetsList)
+        self.Bind(wx.EVT_LISTBOX_DCLICK, self.onShowGraphClicked, self.ruleSelector)
         return self.ruleSelector
 
     def newGraphSpaces(self):
