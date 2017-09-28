@@ -1,6 +1,7 @@
 import json
 
 import wx
+import wx.animate
 
 from utils import LogMessages
 from utils.ButtonsFactory import ButtonsFactory

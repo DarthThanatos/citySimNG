@@ -1,3 +1,4 @@
+
 import wx
 from wx.lib.scrolledpanel import ScrolledPanel
 from RelativePaths import relative_textures_path
@@ -7,7 +8,6 @@ class GraphPanel(ScrolledPanel):
         super(GraphPanel, self).__init__(parent, size =(500,500),style = wx.SIMPLE_BORDER)
         self.space_name = space_name
         self.parent = parent
-        self.tree = [[],[],[]]
         self.jsonDesc = {"Dwellers":[], "Buildings":[], "Resources":[]}
         self.initRootSizer()
         self.Bind(wx.EVT_SHOW, self.onShow, self)
