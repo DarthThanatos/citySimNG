@@ -6,6 +6,7 @@ import wx
 from math import sqrt
 from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigCanvas
 import matplotlib.image as mpimg
+from matplotlib.patches import Rectangle
 from networkx.drawing.nx_agraph import graphviz_layout
 
 relative_textures_path = "resources\\Textures\\"
@@ -20,6 +21,7 @@ class NetworkPanel(wx.Panel):
         self.Bind(wx.EVT_SHOW, self.onShow, self)
         self.G = None
         self.pos = None
+        self.main_axis = None
         self.initRootSizer()
 
     def initRootSizer(self):
@@ -29,9 +31,26 @@ class NetworkPanel(wx.Panel):
         rootSizer.Fit(self)
 
     def newCanvas(self):
-        canvas = FigCanvas(self, -1, plt.gcf())
-        canvas.mpl_connect('button_press_event', self.onClick)
-        return canvas
+        self.canvas = FigCanvas(self, -1, plt.gcf())
+        self.canvas.mpl_connect('button_press_event', self.onClick)
+        return self.canvas
+
+    def onClick(self, event):
+        if self.G is None or self.pos is None: return
+        if event.inaxes is self.main_axis: return
+        (x,y)   = event.inaxes.transData.transform((event.xdata, event.ydata))
+        xs, xe = event.inaxes.get_xlim()
+        ys, ye = event.inaxes.get_ylim()
+        xs_disp, ys_disp = event.inaxes.transData.transform((xs, ys))
+        xe_dips, ye_disp = event.inaxes.transData.transform((xe, ye))
+        radius = max(xe_dips - xs_disp, ye_disp - ys_disp) / 2
+
+        for i in self.G.nodes():
+            node = self.main_axis.transData.transform(self.pos[i])
+            distance = sqrt(pow(x-node[0],2)+pow(y-node[1],2))
+            if distance < radius:
+                print "clicked:", i
+        print
 
     def neDefaultJSONDesc(self):
         return {"Dwellers":[], "Buildings":[], "Resources":[]}
@@ -60,7 +79,8 @@ class NetworkPanel(wx.Panel):
     def fetchLabelsOfVertices(self, G):
         return {name: name for name in G.nodes()}
 
-    def newLabelsPos(self, G, pos, imgSize = 75):
+    def newLabelsPos(self, G, pos, imgSize = 131.14706 ):
+        # 125.42134 - resources, 38.736335 - dwellers,  131.14706 - buildings
         return {vertexName : (x , y - imgSize) for vertexName, (x,y) in zip(pos.keys(), pos.values())}
 
     def fillGraph(self, G, pos):
@@ -69,32 +89,49 @@ class NetworkPanel(wx.Panel):
         self.pos = pos
         nx.draw(G, pos,arrows=True)
         nx.draw_networkx_edges(G, pos)
-        nx.draw_networkx_labels(G, self.newLabelsPos(G, pos), self.fetchLabelsOfVertices(G))
-        self.drawNodes(G, pos)
+        self.main_axis = plt.gca()
+        ax =  plt.gca()
+        labelsPosDict = self.drawNodesYieldingNewPos(G, pos)
+        nx.draw_networkx_labels(G, labelsPosDict, self.fetchLabelsOfVertices(G), ax = ax, font_size=10)
 
-    def onClick(self, event):
-        if self.G is None or self.pos is None: return
-        (x,y)   = (event.xdata, event.ydata)
-        print x,y
-        for i in self.G.nodes():
-            node = self.pos[i]
-            distance = sqrt(pow(x-node[0],2)+pow(y-node[1],2))
-            print node, distance
-            if distance < 500:
-                print i, "clicked"
-        print
+    def drawRectsRoundLabels(self, G, labelsPosDict):
+        fig = plt.gcf()
+        for nodeName in G.nodes():
+            label_x, label_y = fig.transFigure.inverted().transform(self.main_axis.transData.transform(labelsPosDict[nodeName]))
+            txt = fig.text(label_x, label_y, nodeName, fontsize = 10)
+            renderer = self.canvas.get_renderer()
+            bbox = txt.get_window_extent(renderer)
+            rect = Rectangle([bbox.x0 - bbox.width/2, bbox.y0 - bbox.height/4], bbox.width, bbox.height, color = [0,0,0], fill = False)
+            fig.patches.append(rect)
+            txt.remove()
 
-    def drawNodes(self, G, pos):
+    def getLabelHeight(self, nodeName):
+        txt = plt.gcf().text(0, 0, nodeName, fontsize=10)
+        renderer = self.canvas.get_renderer()
+        bbox = txt.get_window_extent(renderer)
+        txt.remove()
+        return self.main_axis.transData.inverted().transform((bbox.width, bbox.height))[1]
+
+
+    def drawNodesYieldingNewPos(self, G, pos):
         ax_transData = plt.gca().transData.transform
+        ax_inv_trans = plt.gca().transData.inverted().transform
         fig_invtrans = plt.gcf().transFigure.inverted().transform
+        newLabelsPos = {}
         for node in G.nodes():
             xa, ya = fig_invtrans(ax_transData(pos[node]))  # axes coordinates
-            self.addImageAxis(xa, ya, img = G.node[node]['image'], label = node)
+            self.addImageAxis(xa, ya, img = G.node[node]['image'], nodeName= node, pos = pos, ax_inv_trans = ax_inv_trans, newLabelsPos=newLabelsPos)
+        return newLabelsPos
 
-    def addImageAxis(self, xa, ya, img, label, imsize = 0.1):
-        a = plt.axes([xa - imsize / 2.0, ya - imsize / 2.0, imsize, imsize])
-        a.imshow(mpimg.imread(img))
-        a.set_aspect('equal')
+    def addImageAxis(self, xa, ya, img, nodeName,  pos, newLabelsPos, ax_inv_trans, imsize = 0.1):
+        a = plt.axes([xa - imsize / 2.0, ya - imsize / 2.0, imsize, imsize]) # normalized units from (0,1)
+        xs, xe = a.get_xlim()
+        ys, ye = a.get_ylim()
+        xs_disp,ys_disp = ax_inv_trans(a.transData.transform((xs,ys)))
+        xe_disp, ye_disp = ax_inv_trans(a.transData.transform([xe, ye]))
+        newLabelsPos[nodeName] = pos[nodeName][0], pos[nodeName][1] - (ye_disp - ys_disp + self.getLabelHeight(nodeName))/2
+
+        a.imshow( mpimg.imread(img) )
         a.axis('off')
 
     def resetViewFromJSON(self):
@@ -157,7 +194,7 @@ screenDims = wx.GetDisplaySize()
 
 with open("resources\\sysFiles\modelFiles\graph_json_desc_example.txt", "rb+") as f:
     json_desc = json.loads(f.read().replace("u'", "'").replace("'", "\""))
-    print json.dumps(json_desc, indent=4)
+    # print json.dumps(json_desc, indent=4)
     frm = MainFrame(json_desc)
     frm.Show()
 
