@@ -1,11 +1,13 @@
 import json
 
 import math
+
 import matplotlib.pyplot as plt
 import networkx as nx
 import wx
 from math import sqrt
 from math import pi
+
 from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigCanvas
 import matplotlib.image as mpimg
 from matplotlib.patches import Rectangle
@@ -35,11 +37,7 @@ class NetworkPanel(wx.Panel):
 
     def newCanvas(self):
         self.canvas = FigCanvas(self, -1, plt.gcf())
-        self.canvas.SetSize((400,400))
-        plt.gcf().set_size_inches(400,400)
         self.canvas.mpl_connect('button_press_event', self.onClick)
-        # self.canvas.SetScrollbar(wx.HORIZONTAL,0,16,400)
-        # self.canvas.SetScrollbar(wx.VERTICAL,0,16,400)
         return self.canvas
 
     def onClick(self, event):
@@ -51,13 +49,11 @@ class NetworkPanel(wx.Panel):
         xs_disp, ys_disp = event.inaxes.transData.transform((xs, ys))
         xe_dips, ye_disp = event.inaxes.transData.transform((xe, ye))
         radius = max(xe_dips - xs_disp, ye_disp - ys_disp) / 2
-
         for i in self.G.nodes():
             node = self.main_axis.transData.transform(self.pos[i])
             distance = sqrt(pow(x-node[0],2)+pow(y-node[1],2))
             if distance < radius:
                 print "clicked:", i
-        print
 
     def neDefaultJSONDesc(self):
         return {"Dwellers":[], "Buildings":[], "Resources":[]}
@@ -127,6 +123,9 @@ class NetworkPanel(wx.Panel):
         for e in G.edges():
             self.addArrowTo(e,r)
 
+    def jsonTreeHeight(self, lvlList):
+        return (max([self.jsonTreeHeight(childDesc["Children"]) for childDesc in lvlList]) if lvlList.__len__() != 0 else 0)+ 1
+
     def mountRec(self, G, lvlList):
         for childDesc in lvlList:
             self.mountTreeLvl(G, childDesc)
@@ -146,21 +145,18 @@ class NetworkPanel(wx.Panel):
     def fetchLabelsOfVertices(self, G):
         return {name: name for name in G.nodes()}
 
-    def newLabelsPos(self, G, pos, imgSize = 131.14706 ):
-        # 125.42134 - resources, 38.736335 - dwellers,  131.14706 - buildings
-        return {vertexName : (x , y - imgSize) for vertexName, (x,y) in zip(pos.keys(), pos.values())}
-
-
     def fillGraph(self, G, pos):
         plt.clf()
         self.axesDict = {}
         self.G = G
         self.pos = pos
+        treeHeight = self.jsonTreeHeight(self.jsonDesc) - 1
         nx.draw(G, pos, arrows = False)
         self.main_axis = plt.gca()
         ax =  plt.gca()
-        labelsPosDict = self.drawNodesYieldingNewPos(G, pos)
-        nx.draw_networkx_labels(G, labelsPosDict, self.fetchLabelsOfVertices(G), ax = ax, font_size=10)
+        labelsPosDict = self.drawNodesYieldingNewPos(G, pos, treeHeight)
+        if treeHeight <= 5:
+            nx.draw_networkx_labels(G, labelsPosDict, self.fetchLabelsOfVertices(G), ax = ax, font_size=10)
         self.addArrowsToGraph(G)
 
     def drawRectsRoundLabels(self, G, labelsPosDict):
@@ -181,25 +177,24 @@ class NetworkPanel(wx.Panel):
         txt.remove()
         return self.main_axis.transData.inverted().transform((bbox.width, bbox.height))[1]
 
-
-    def drawNodesYieldingNewPos(self, G, pos):
+    def drawNodesYieldingNewPos(self, G, pos, treeHeight):
         ax_transData = plt.gca().transData.transform
         ax_inv_trans = plt.gca().transData.inverted().transform
         fig_invtrans = plt.gcf().transFigure.inverted().transform
         newLabelsPos = {}
         for node in G.nodes():
             xa, ya = fig_invtrans(ax_transData(pos[node]))  # axes coordinates
-            self.addImageAxis(xa, ya, img = G.node[node]['image'], nodeName= node, pos = pos, ax_inv_trans = ax_inv_trans, newLabelsPos=newLabelsPos)
+            self.addImageAxis(xa, ya, img = G.node[node]['image'], nodeName= node, pos = pos, ax_inv_trans = ax_inv_trans, newLabelsPos=newLabelsPos, treeHeight=treeHeight)
         return newLabelsPos
 
-    def addImageAxis(self, xa, ya, img, nodeName,  pos, newLabelsPos, ax_inv_trans, imsize = 0.1):
+    def addImageAxis(self, xa, ya, img, nodeName,  pos, newLabelsPos, treeHeight, ax_inv_trans):
+        imsize = max (0.04, 0.1 - 0.02 * (treeHeight - 1) / 5)
         a = plt.axes([xa - imsize / 2.0, ya - imsize / 2.0, imsize, imsize]) # normalized units from (0,1)
         xs, xe = a.get_xlim()
         ys, ye = a.get_ylim()
         xs_disp,ys_disp = ax_inv_trans(a.transData.transform((xs,ys)))
         xe_disp, ye_disp = ax_inv_trans(a.transData.transform([xe, ye]))
         newLabelsPos[nodeName] = pos[nodeName][0], pos[nodeName][1] - (ye_disp - ys_disp + self.getLabelHeight(nodeName))/2
-
         a.imshow( mpimg.imread(img) )
         a.axis('off')
         self.axesDict[nodeName] = a
@@ -264,7 +259,6 @@ screenDims = wx.GetDisplaySize()
 
 with open("resources\\sysFiles\modelFiles\graph_json_desc_example.txt", "rb+") as f:
     json_desc = json.loads(f.read().replace("u'", "'").replace("'", "\""))
-    # print json.dumps(json_desc, indent=4)
     frm = MainFrame(json_desc)
     frm.Show()
 
