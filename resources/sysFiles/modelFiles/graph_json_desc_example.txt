@@ -170,7 +170,20 @@
 						},
 						{
 							"Texture path": "resources\\Textures\\Gold2.png",
-							"Children": [],
+							"Children": [
+								{
+									"Texture path": "resources\\Textures\\Gold2.png",
+									"Children": [
+										
+										{
+											"Texture path": "resources\\Textures\\Gold2.png",
+											"Children": [],
+											"Name": "Gold262"
+										}
+									],
+									"Name": "Gold261"
+								}
+							],
 							"Name": "Gold26"
 						},
 						{

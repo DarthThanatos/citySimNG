@@ -1,15 +1,17 @@
 import json
 
+import math
 import matplotlib.pyplot as plt
 import networkx as nx
 import wx
 from math import sqrt
+from math import pi
 from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigCanvas
 import matplotlib.image as mpimg
 from matplotlib.patches import Rectangle
 from networkx.drawing.nx_agraph import graphviz_layout
-
 relative_textures_path = "resources\\Textures\\"
+import matplotlib.lines as mlines
 
 class NetworkPanel(wx.Panel):
 
@@ -22,6 +24,7 @@ class NetworkPanel(wx.Panel):
         self.G = None
         self.pos = None
         self.main_axis = None
+        self.axesDict = None
         self.initRootSizer()
 
     def initRootSizer(self):
@@ -32,7 +35,11 @@ class NetworkPanel(wx.Panel):
 
     def newCanvas(self):
         self.canvas = FigCanvas(self, -1, plt.gcf())
+        self.canvas.SetSize((400,400))
+        plt.gcf().set_size_inches(400,400)
         self.canvas.mpl_connect('button_press_event', self.onClick)
+        # self.canvas.SetScrollbar(wx.HORIZONTAL,0,16,400)
+        # self.canvas.SetScrollbar(wx.VERTICAL,0,16,400)
         return self.canvas
 
     def onClick(self, event):
@@ -60,6 +67,66 @@ class NetworkPanel(wx.Panel):
         self.mountRec(G, self.jsonDesc)
         return G
 
+    def angleToRad(self, angle):
+        return math.pi / 180 * angle
+
+    def k(self, r, gamma):
+        return r / sqrt(1 / pow(math.tan(gamma), 2) + 1)
+
+    def xFromY(self, y, xlim, ylim, gamma):
+        return (y - ylim) / math.tan(gamma) + xlim
+
+    def arrowLine(self, r, gamma, xlim, ylim):
+        if gamma != pi/2:
+            y = ylim + self.k(r, gamma)
+            x = self.xFromY(y, xlim, ylim, gamma)
+        else:
+            x = xlim
+            y = ylim + r
+        self.drawLine(xlim,x,ylim,y)
+
+    def drawLine(self, x1, x2, y1, y2):
+        l = mlines.Line2D([x1, x2], [y1, y2], color="black", linewidth=1)
+        self.main_axis.add_line(l)
+
+    def startEndPoints(self, edge):
+        n1, n2 = edge
+        return self.pos[n1], self.pos[n2]
+
+    def r(self, edge, arrowLength = 0.125):
+        (xs, ys), (xe, ye) = self.startEndPoints(edge)
+        edgeLength = sqrt(pow(xs - xe,2) + pow(ys - ye, 2))
+        return edgeLength * arrowLength
+
+    def radBeta(self, edge):
+        (xs, ys), (xe, ye) = self.startEndPoints(edge)
+        return math.atan((ye - ys) / (xe - xs)) if xe - xs != 0 else math.pi / 2
+
+    def yLim(self, endNode):
+        ax = self.axesDict[endNode]
+        (ylim_neg, ylim_pos) = self.main_axis.transData.inverted().transform(ax.transData.transform(ax.get_ylim()))
+        return ylim_pos
+
+    def xLim(self, y_lim, edge):
+        (xs, ys), (xe, ye) = self.startEndPoints(edge)
+        return (y_lim - ys + (ye - ys) / (xe - xs) * xs) * (xe - xs )/ (ye - ys) if xs != xe and ys != ye else xe
+
+    def addArrowTo(self, (n1,n2), r, alpha = 10):
+        rad_beta = self.radBeta((n1,n2))
+        rad_alpha = self.angleToRad(alpha)
+        y_lim = self.yLim(n2)
+        x_lim = self.xLim(y_lim, (n1,n2))
+        self.arrowLine(r, rad_beta - rad_alpha, x_lim, y_lim)
+        self.arrowLine(r,rad_beta + rad_alpha, x_lim, y_lim)
+
+    def findMinR(self, G):
+        return min([self.r(edge) for edge in G.edges()])
+
+    def addArrowsToGraph(self,G):
+        r = self.findMinR(G)
+        for e in G.edges():
+            self.addArrowTo(e,r)
+
     def mountRec(self, G, lvlList):
         for childDesc in lvlList:
             self.mountTreeLvl(G, childDesc)
@@ -83,16 +150,18 @@ class NetworkPanel(wx.Panel):
         # 125.42134 - resources, 38.736335 - dwellers,  131.14706 - buildings
         return {vertexName : (x , y - imgSize) for vertexName, (x,y) in zip(pos.keys(), pos.values())}
 
+
     def fillGraph(self, G, pos):
         plt.clf()
+        self.axesDict = {}
         self.G = G
         self.pos = pos
-        nx.draw(G, pos,arrows=True)
-        nx.draw_networkx_edges(G, pos)
+        nx.draw(G, pos, arrows = False)
         self.main_axis = plt.gca()
         ax =  plt.gca()
         labelsPosDict = self.drawNodesYieldingNewPos(G, pos)
         nx.draw_networkx_labels(G, labelsPosDict, self.fetchLabelsOfVertices(G), ax = ax, font_size=10)
+        self.addArrowsToGraph(G)
 
     def drawRectsRoundLabels(self, G, labelsPosDict):
         fig = plt.gcf()
@@ -133,6 +202,7 @@ class NetworkPanel(wx.Panel):
 
         a.imshow( mpimg.imread(img) )
         a.axis('off')
+        self.axesDict[nodeName] = a
 
     def resetViewFromJSON(self):
         G = self.newGraphFromJSON()
