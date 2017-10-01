@@ -242,7 +242,7 @@ class NetworkPanel(wx.Panel):
         renderer = self.canvas.get_renderer()
         bbox = txt.get_window_extent(renderer)
         txt.remove()
-        return self.main_axis.transData.inverted().transform((bbox.width, bbox.height))[1]
+        return self.main_axis.transData.inverted().transform((bbox.width, bbox.height))[1] - self.main_axis.get_ylim()[0]
 
     def drawNodesYieldingNewPos(self, G, pos, treeHeight):
         ax_transData = plt.gca().transData.transform
@@ -261,8 +261,9 @@ class NetworkPanel(wx.Panel):
         ys, ye = a.get_ylim()
         xs_disp,ys_disp = ax_inv_trans(a.transData.transform((xs,ys)))
         xe_disp, ye_disp = ax_inv_trans(a.transData.transform([xe, ye]))
-        print nodeName, "ys_disp",ys_disp,"ye_disp",ye_disp,"label_height", self.getLabelHeight(nodeName),"posy", pos[nodeName][1]
-        newLabelsPos[nodeName] = pos[nodeName][0], pos[nodeName][1] - (ye_disp - ys_disp)/2
+        newLabelsPos[nodeName] = pos[nodeName][0], ys_disp -  self.getLabelHeight(nodeName) / 2 # pos[nodeName][1] - (ye_disp - ys_disp + self.getLabelHeight(nodeName))/2
+        # print nodeName, "size", (ye_disp - ys_disp), "ys_disp",ys_disp,"ye_disp",ye_disp,"label_height", self.getLabelHeight(nodeName),\
+        #     "posy", pos[nodeName][1],"label_height/2", self.getLabelHeight(nodeName)/2, "newposy", newLabelsPos[nodeName][1]
         a.imshow( mpimg.imread(img) )
         a.axis('off')
         self.axesDict[nodeName] = a
