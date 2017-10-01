@@ -1,92 +1,60 @@
 {
     "Buildings": {
-        "Field": {
-            "Predecessor": "None",
+        "Building": {
+            "Predecessor": "kamieniolom",
  
-            "Description": "-",
+            "Description": "1",
  
             "Produces": {
-                "Crop": 2
+                "Resource": 0
             },
  
-            "Dwellers\namount": 1,
+            "Dwellers\namount": 0,
  
-            "Building\nName": "Field",
+            "Building\nName": "Building",
  
             "Dweller\nName": "Dweller",
  
-            "Consumes": {
-                "Wood": 1
+            "Cost\nin\nresources": {
+                "Resource": 0
             },
  
-            "Texture path": "CiderFarm.png",
+            "Texture path": "house.png",
  
             "Type": "Industrial",
  
-            "Cost\nin\nresources": {
-                "Wood": 10
+            "Consumes": {
+                "Resource": 0
             },
  
             "Successor": "None"
         },
  
-        "Mill": {
-            "Predecessor": "Field",
+        "Building1": {
+            "Predecessor": "kamieniolom",
  
             "Description": "-",
  
             "Produces": {
-                "Flour": 3
+                "Resource": 0
             },
  
-            "Dwellers\namount": 3,
+            "Dwellers\namount": 0,
  
-            "Building\nName": "Mill",
+            "Building\nName": "Building1",
  
-            "Dweller\nName": "Dweller",
+            "Dweller\nName": "None",
  
             "Cost\nin\nresources": {
-                "Wood": 2,
- 
-                "Rock": 2
+                "Resource": 0
             },
  
-            "Texture path": "Mill.png",
+            "Texture path": "house.png",
  
             "Type": "Industrial",
  
             "Consumes": {
-                "Crop": 2
-            },
- 
-            "Successor": "None"
-        },
- 
-        "Bakery": {
-            "Predecessor": "Mill",
- 
-            "Description": "-",
- 
-            "Produces": {
-                "Bread": 4
-            },
- 
-            "Dwellers\namount": 1,
- 
-            "Building\nName": "Bakery",
- 
-            "Dweller\nName": "Dweller",
- 
-            "Consumes": {
-                "Flour": 3
-            },
- 
-            "Texture path": "Bakery2.png",
- 
-            "Type": "Industrial",
- 
-            "Cost\nin\nresources": {
-                "Gold": 2
+                "Resource": 0
             },
  
             "Successor": "None"
@@ -107,16 +75,108 @@
  
             "Dweller\nName": "Dweller",
  
-            "Cost\nin\nresources": {
-                "Wood": 20
+            "Consumes": {
+                "Gold": 0
             },
  
             "Texture path": "Quarry.png",
  
             "Type": "Industrial",
  
+            "Cost\nin\nresources": {
+                "Wood": 20
+            },
+ 
+            "Successor": "None"
+        },
+ 
+        "Field": {
+            "Predecessor": "None",
+ 
+            "Description": "-",
+ 
+            "Produces": {
+                "Crop": 2
+            },
+ 
+            "Dwellers\namount": 1,
+ 
+            "Building\nName": "Field",
+ 
+            "Dweller\nName": "Dweller",
+ 
+            "Cost\nin\nresources": {
+                "Wood": 10
+            },
+ 
+            "Texture path": "CiderFarm.png",
+ 
+            "Type": "Industrial",
+ 
             "Consumes": {
-                "Gold": 0
+                "Wood": 1
+            },
+ 
+            "Successor": "None"
+        },
+ 
+        "Bakery": {
+            "Predecessor": "Mill",
+ 
+            "Description": "-",
+ 
+            "Produces": {
+                "Bread": 4
+            },
+ 
+            "Dwellers\namount": 1,
+ 
+            "Building\nName": "Bakery",
+ 
+            "Dweller\nName": "Dweller",
+ 
+            "Cost\nin\nresources": {
+                "Gold": 2
+            },
+ 
+            "Texture path": "Bakery2.png",
+ 
+            "Type": "Industrial",
+ 
+            "Consumes": {
+                "Flour": 3
+            },
+ 
+            "Successor": "None"
+        },
+ 
+        "Mill": {
+            "Predecessor": "Field",
+ 
+            "Description": "-",
+ 
+            "Produces": {
+                "Flour": 3
+            },
+ 
+            "Dwellers\namount": 3,
+ 
+            "Building\nName": "Mill",
+ 
+            "Dweller\nName": "Dweller",
+ 
+            "Consumes": {
+                "Crop": 2
+            },
+ 
+            "Texture path": "Mill.png",
+ 
+            "Type": "Industrial",
+ 
+            "Cost\nin\nresources": {
+                "Wood": 2,
+ 
+                "Rock": 2
             },
  
             "Successor": "None"
@@ -137,16 +197,16 @@
  
             "Dweller\nName": "Dweller",
  
-            "Consumes": {
-                "Gold": 0
+            "Cost\nin\nresources": {
+                "Gold": 3
             },
  
             "Texture path": "Lunmbermill2.png",
  
             "Type": "Industrial",
  
-            "Cost\nin\nresources": {
-                "Gold": 3
+            "Consumes": {
+                "Gold": 0
             },
  
             "Successor": "None"
@@ -178,6 +238,20 @@
     },
  
     "Resources": {
+        "Resource": {
+            "Predecessor": "Wood",
+ 
+            "Description": "1",
+ 
+            "Start income": "0",
+ 
+            "Texture path": "DefaultBuilding.jpg",
+ 
+            "Resource\nName": "Resource",
+ 
+            "Successor": "None"
+        },
+ 
         "Gold": {
             "Predecessor": "None",
  

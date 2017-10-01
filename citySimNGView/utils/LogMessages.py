@@ -50,3 +50,6 @@ EXCHANGE_BTN_HINT = "Goes into the Exchange panel. This panel is a place where y
                     " All changes will have an effect to your stock pile (its state can be checked in a game's map top-most panel)"
 
 DEPENDENCIES_SENT_MSG = "Dependencies sent to further processing to creator controller"
+
+GRAPH_DETAILS_BTN_HINT = "Click here to see a detailed graph description. Nodes representing entities will be organized with attached names (if appropriate); by clicking on a node, you will be able to see" \
+                         " important information in a panel to the right"

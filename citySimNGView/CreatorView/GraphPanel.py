@@ -1,7 +1,12 @@
 
 import wx
 from wx.lib.scrolledpanel import ScrolledPanel
+
+from CreatorView.GraphDetails.GraphDetails import DetailsFrame
 from RelativePaths import relative_textures_path
+from utils import LogMessages
+from utils.ButtonsFactory import ButtonsFactory
+
 
 class GraphPanel(ScrolledPanel):
     def __init__(self, parent, space_name):
@@ -14,13 +19,24 @@ class GraphPanel(ScrolledPanel):
 
     def initRootSizer(self):
         self.rootSizer = wx.BoxSizer(wx.VERTICAL)
-        self.rootSizer.Add(self.newDescriptionLabelSizer(), 0, wx.CENTER)
+        self.rootSizer.Add(self.newHeaderSizer(), 0, wx.CENTER)
         self.SetSizer(self.rootSizer)
 
-    def newDescriptionLabelSizer(self):
-        description_label_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        description_label_sizer.Add(self.newDescriptionLabel(),0,wx.CENTER)
-        return description_label_sizer
+    def newHeaderSizer(self):
+        header_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.parent.addToSizerWithSpace(header_sizer, self.newDescriptionLabel(), space=20)
+        header_sizer.Add(self.newDetailsButton(), flag=wx.CENTER)
+        return header_sizer
+
+    def newDetailsButton(self):
+        self.detailsButton =  ButtonsFactory().newButton(
+            self, "Show details", self.onShowDetails, hint=LogMessages.GRAPH_DETAILS_BTN_HINT
+        )
+        self.detailsButton.Enable(False)
+        return self.detailsButton
+
+    def onShowDetails(self, event):
+        DetailsFrame(self, self.space_name).showDetailsFromJSON(self.jsonDesc)
 
     def newDescriptionLabel(self):
         return wx.StaticText(self, -1, self.space_name)
@@ -30,15 +46,23 @@ class GraphPanel(ScrolledPanel):
         self.Hide(); self.Show()
 
     def onShow(self, ev):
-        if ev.GetShow(): self.resetViewFromJSON()
+        if ev.GetShow():
+            self.resetViewFromJSON()
+
+    def setupDetailsButton(self):
+        self.detailsButton.Enable(self.jsonDesc != [])
 
     def resetViewFromJSON(self):
+        self.setupRootSizer()
+        self.setupDetailsButton()
+        self.SetupScrolling()
+
+    def setupRootSizer(self):
         self.rootSizer.Clear(True)
         rootVerticalSizer = self.rootSizer
-        self.parent.addToSizerWithSpace(rootVerticalSizer, self.newDescriptionLabelSizer(), space=20)
+        self.parent.addToSizerWithSpace(rootVerticalSizer, self.newHeaderSizer(), space=20)
         rootVerticalSizer.Add(self.newJSONTreeLvlVerticalSizer(0, self.jsonDesc), 0, wx.CENTER)
         rootVerticalSizer.Layout()
-        self.SetupScrolling()
 
     def newJSONTreeLvlVerticalSizer(self, lvl_index, childrenJSONDesc):
         lvlVerticalSizer = wx.BoxSizer(wx.VERTICAL)
