@@ -1,5 +1,3 @@
-
-
 import matplotlib.pyplot as plt
 import networkx as nx
 import wx
@@ -14,7 +12,6 @@ from CreatorView.GraphDetails.ArrowsArtist import ArrowsArtist
 from CreatorView.GraphDetails.TreePasser import TreePasser
 from utils import LogMessages
 from utils.ButtonsFactory import ButtonsFactory
-
 
 class DescriptionPanel(wx.Panel):
     def __init__(self, parent, spaceName, jsonDesc):
