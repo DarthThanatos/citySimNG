@@ -1,5 +1,7 @@
 package entities;
 
+import utils.CollectionConcatenationUtils;
+
 import java.util.List;
 import java.util.Map;
 
@@ -142,18 +144,17 @@ public class Building {
 	
 	@Override
 	public String toString(){
-		return "Name: " + name + "\n"
-				+ "Pred: " + predecessor + "\n"
-				+ "Suc: " + successor + "\n"
+		return "Building name: " + name + "\n"
+				+ "\n=====================\n"
 				+ "Type: " + type + "\n"
-				+ "Texture: " + texturePath + "\n"
-				+ "Produces: " + concatenateMap(produces)
-				+ "Consumes: " + concatenateMap(consumes)
-				+ "Cost in res: " + concatenateMap(resourcesCost);
+				+ "\n=====================\n"
+				+ "Produces: \n" + CollectionConcatenationUtils.filteredMapToString(produces)
+				+ "\n=====================\n"
+				+ "Consumes: \n" + CollectionConcatenationUtils.filteredMapToString(consumes)
+				+ "\n=====================\n"
+				+ "Cost in resources: \n" + CollectionConcatenationUtils.filteredMapToString(resourcesCost);
 				
 	} 
 	
-	private String concatenateMap(Map<String, Integer> map){
-		return map.size() == 0 ? "" : map.entrySet().stream().map( es -> es.getKey() + " -> " + es.getValue() + "\n").reduce((v1, v2) -> v1 + v2).get();
-	}
+
 }

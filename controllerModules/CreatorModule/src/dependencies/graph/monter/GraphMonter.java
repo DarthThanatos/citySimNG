@@ -19,7 +19,6 @@ public class GraphMonter {
 		for (String vertexName: vertices.keySet()){
 			GraphNode vertex = vertices.get(vertexName);
 			String predeccessorName = vertex.getPredeccessorName();
-			System.out.println("vertex: " + vertexName + " predecessor: " + predeccessorName);
 			if (! predeccessorName.equals("None")){
 				GraphNode parent = vertices.get(predeccessorName);
 				parent.addChild(vertexName, vertex);

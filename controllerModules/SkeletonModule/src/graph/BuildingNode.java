@@ -23,6 +23,11 @@ public class BuildingNode extends GraphNode{
 	}
 
 	@Override
+	public String getConcatenatedDescription() {
+		return building.toString();
+	}
+
+	@Override
 	public String getTexturePath() {
 		return building.getTexturePath();
 	}

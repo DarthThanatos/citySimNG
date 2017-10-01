@@ -8,6 +8,7 @@ import constants.Consts;
 import entities.Building;
 import entities.Dweller;
 import entities.Resource;
+import utils.CollectionConcatenationUtils;
 
 public class CreatorData {
 
@@ -61,19 +62,7 @@ public class CreatorData {
 		return "Dependencies set name: " + dependenciesSetName + "\n"
 				+ "Texture One: " + textureOne + "\n"
 				+ "Texture two: " + textureTwo + "\n"
-				+ "Buildings: " + concatenateBuildings();
+				+ "Buildings: " + CollectionConcatenationUtils.listToString(buildings);
 	}
-	
-	private String concatenateBuildings(){
-		return buildings.size() == 0 ? "" : buildings.stream().map(Object::toString).reduce((b1, b2) -> b1 + b2).get(); 
-	}
-	
-	private String concatenateDwellers(){
-		return dwellers.size() == 0 ? "" : dwellers.stream().map(Object::toString).reduce((d1, d2) -> d1 + d2).get(); 
-	}
-	
-	private String concatenateResources(){
-		return resources.size() == 0 ? "" : resources.stream().map(Object::toString).reduce((r1, r2) -> r1 + r2).get();
-		
-	}
+
 }

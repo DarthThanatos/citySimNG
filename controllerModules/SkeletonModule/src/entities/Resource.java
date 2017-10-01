@@ -66,4 +66,13 @@ public class Resource {
 	public void setTexturePath(String texturePath) {
 		this.texturePath = texturePath;
 	}
+
+	@Override public String toString(){
+		return "Resource name: " + name
+				+ "\n=====================\n"
+				+ "Description:\n" + description
+				+ "\n=====================\n"
+				+ "Starting income: " + startingIncome;
+
+	}
 }

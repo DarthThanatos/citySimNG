@@ -1,5 +1,7 @@
 package entities;
 
+import utils.CollectionConcatenationUtils;
+
 import java.util.Map;
 
 public class Dweller {
@@ -61,5 +63,13 @@ public class Dweller {
 	public void setTexturePath(String texturePath) {
 		this.texturePath = texturePath;
 	}
-	
+
+	@Override public String toString(){
+		return "Dweller name: " + name
+				+ "\n=====================\n"
+				+ "Description:\n" + description
+				+ "\n=====================\n"
+				+ "Consumes:\n" + CollectionConcatenationUtils.filteredMapToString(consumes);
+
+	}
 }

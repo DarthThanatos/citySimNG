@@ -21,6 +21,11 @@ public class DwellerNode extends GraphNode{
 	}
 
 	@Override
+	public String getConcatenatedDescription() {
+		return dweller.toString();
+	}
+
+	@Override
 	public String getTexturePath() {
 		return dweller.getTexturePath();
 	}

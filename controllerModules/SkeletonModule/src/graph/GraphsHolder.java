@@ -47,6 +47,7 @@ public class GraphsHolder {
 		nodeDisplayRepresentation.put(Consts.TEXTURE_PATH, node.getTexturePath());
 		nodeDisplayRepresentation.put(Consts.ENTITY_NAME, node.getName());
 		nodeDisplayRepresentation.put(Consts.CHILDREN, children);
+		nodeDisplayRepresentation.put(Consts.DETAILS, node.getConcatenatedDescription());
 		return nodeDisplayRepresentation;
 	}
 	

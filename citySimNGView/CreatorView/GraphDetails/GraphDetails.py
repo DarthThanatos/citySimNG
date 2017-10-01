@@ -1,3 +1,4 @@
+import json
 import math
 
 import matplotlib.pyplot as plt
@@ -18,7 +19,7 @@ relative_textures_path = "resources\\Textures\\"
 import matplotlib.lines as mlines
 
 class DescriptionPanel(wx.Panel):
-    def __init__(self, parent, spaceName):
+    def __init__(self, parent, spaceName, jsonDesc):
         wx.Panel.__init__(self,parent)
         self.spaceName = spaceName
         self.initRootSizer()
@@ -40,8 +41,9 @@ class DescriptionPanel(wx.Panel):
         self.descriptionArea =  wx.TextCtrl(self, -1, size = (200, 300), style=wx.TE_MULTILINE | wx.TE_READONLY)
         return self.descriptionArea
 
-    def onEntityClicked(self, entityName):
+    def onEntityClicked(self, details, entityName):
         self.log_area.SetValue("Clicked: " + entityName)
+        self.descriptionArea.SetValue(details[entityName])
 
 
 class NetworkPanel(wx.Panel):
@@ -56,6 +58,7 @@ class NetworkPanel(wx.Panel):
         self.pos = None
         self.main_axis = None
         self.axesDict = None
+        self.details = None
         self.initRootSizer()
 
     def calcPopupWidth(self):
@@ -90,7 +93,7 @@ class NetworkPanel(wx.Panel):
 
 
     def newDescriptionPanel(self):
-        self.descriptionPanel = DescriptionPanel(self, self.space_name)
+        self.descriptionPanel = DescriptionPanel(self, self.space_name, self.jsonDesc)
         return self.descriptionPanel
 
     def newExitButton(self):
@@ -117,7 +120,7 @@ class NetworkPanel(wx.Panel):
             node = self.main_axis.transData.transform(self.pos[i])
             distance = sqrt(pow(x-node[0],2)+pow(y-node[1],2))
             if distance < radius:
-                self.descriptionPanel.onEntityClicked(i)
+                self.descriptionPanel.onEntityClicked(self.details, i)
 
     def neDefaultJSONDesc(self):
         return {"Dwellers":[], "Buildings":[], "Resources":[]}
@@ -191,6 +194,13 @@ class NetworkPanel(wx.Panel):
     def jsonTreeHeight(self, lvlList):
         return (max([self.jsonTreeHeight(childDesc["Children"]) for childDesc in lvlList]) if lvlList.__len__() != 0 else 0)+ 1
 
+    def yieldDetails(self, lvlList):
+        res = {}
+        for child in lvlList:
+            res[child["Name"]] = child["Details"]
+            res.update(self.yieldDetails(child["Children"]))
+        return res
+
     def mountRec(self, G, lvlList):
         for childDesc in lvlList:
             self.mountTreeLvl(G, childDesc)
@@ -216,6 +226,7 @@ class NetworkPanel(wx.Panel):
         self.G = G
         self.pos = pos
         treeHeight = self.jsonTreeHeight(self.jsonDesc) - 1
+        self.details = self.yieldDetails(self.jsonDesc)
         nx.draw(G, pos, arrows = False)
         nx.draw_networkx_nodes(G, pos, node_color='w')
         self.main_axis = plt.gca()
@@ -261,9 +272,7 @@ class NetworkPanel(wx.Panel):
         ys, ye = a.get_ylim()
         xs_disp,ys_disp = ax_inv_trans(a.transData.transform((xs,ys)))
         xe_disp, ye_disp = ax_inv_trans(a.transData.transform([xe, ye]))
-        newLabelsPos[nodeName] = pos[nodeName][0], ys_disp -  self.getLabelHeight(nodeName) / 2 # pos[nodeName][1] - (ye_disp - ys_disp + self.getLabelHeight(nodeName))/2
-        # print nodeName, "size", (ye_disp - ys_disp), "ys_disp",ys_disp,"ye_disp",ye_disp,"label_height", self.getLabelHeight(nodeName),\
-        #     "posy", pos[nodeName][1],"label_height/2", self.getLabelHeight(nodeName)/2, "newposy", newLabelsPos[nodeName][1]
+        newLabelsPos[nodeName] = pos[nodeName][0], ys_disp -  self.getLabelHeight(nodeName) / 2
         a.imshow( mpimg.imread(img) )
         a.axis('off')
         self.axesDict[nodeName] = a

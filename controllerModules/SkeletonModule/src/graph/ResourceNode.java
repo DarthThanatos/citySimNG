@@ -30,6 +30,11 @@ public class ResourceNode extends GraphNode{
 	}
 
 	@Override
+	public String getConcatenatedDescription() {
+		return resource.toString();
+	}
+
+	@Override
 	public String getTexturePath() {
 		return resource.getTexturePath();
 	}
