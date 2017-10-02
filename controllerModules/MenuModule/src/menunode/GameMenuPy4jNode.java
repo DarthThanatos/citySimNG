@@ -25,7 +25,11 @@ public class GameMenuPy4jNode extends Py4JNode implements GameMenuPresenter.OnGa
 
 	@Override
 	public void atUnload() {
-		dispatchCenter.getEventBus().unregister(this);
+		try{
+			dispatchCenter.getEventBus().unregister(this);
+		}catch(Exception e){
+
+		}
 		super.atUnload();
 	}
 

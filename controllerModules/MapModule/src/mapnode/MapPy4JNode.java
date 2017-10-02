@@ -94,7 +94,11 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
 
     @Override
     public void atUnload(){
-        dispatchCenter.getEventBus().unregister(this);
+        try{
+            dispatchCenter.getEventBus().unregister(this);
+        }catch(Exception e){
+
+        }
         super.atUnload();
     }
 
