@@ -8,6 +8,9 @@ dependencies {
    compile name: 'json'
    compile name: 'py4j'
    compile name: 'jgrapht-core-1.0.1'
+   compile name: 'guava'
+   compile name: 'reactive-streams'
+   compile name: 'rxjava'
 }
 
 clean.doFirst {

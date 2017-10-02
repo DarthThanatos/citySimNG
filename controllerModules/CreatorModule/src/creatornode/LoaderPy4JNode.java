@@ -40,6 +40,7 @@ public class LoaderPy4JNode extends Py4JNode implements LoaderPresenter.OnLoader
 		loaderPresenter.setOnLoaderPresenterCalled(this);
 		loaderPresenter.displayLoader();		
 		initPossipleDependenciesSets();
+		if(currentGameMenuNode != null) currentGameMenuNode.atUnload();
 	}
 
 
@@ -82,8 +83,6 @@ public class LoaderPy4JNode extends Py4JNode implements LoaderPresenter.OnLoader
 	
 	private void mountDependenciesRules(DependenciesRepresenter chosenDR){
 		//dynamically mount new set of rules
-		System.out.println("Current game menu node: " + (currentGameMenuNode == null ? "none" : currentGameMenuNode.getNodeName()));
-		if(currentGameMenuNode != null) currentGameMenuNode.atUnload();
 		currentGameMenuNode = mountGraph(chosenDR);
 		connectMountedGraph(currentGameMenuNode);
 	}

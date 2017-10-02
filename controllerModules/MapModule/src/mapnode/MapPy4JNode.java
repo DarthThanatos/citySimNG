@@ -1,8 +1,10 @@
 package mapnode;
 
+import com.google.common.eventbus.Subscribe;
 import controlnode.DispatchCenter;
 import controlnode.Py4JNode;
 import model.DependenciesRepresenter;
+import model.TutorialHintEvent;
 import py4jmediator.MapPresenter;
 import py4jmediator.Presenter;
 import py4jmediator.Response;
@@ -30,6 +32,7 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
         resources = new Resources(dr);
         buildings = new Buildings(dr);
         dwellers = new Dwellers(dr);
+        dispatchCenter.getEventBus().register(this);
     }
 
     @Override
@@ -78,6 +81,12 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
         resourcesThread.start();
     }
 
+    @Subscribe
+    public void onTutotialHintEvent(TutorialHintEvent tutorialHintEvent){
+        //TODO - implementing reaction on tutorialHintEvent receipt
+        System.out.println("Map module got hint event with details: " + tutorialHintEvent.getHints());
+    }
+
     @Override
     public void onLoop(){
 
@@ -85,6 +94,7 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
 
     @Override
     public void atUnload(){
+        dispatchCenter.getEventBus().unregister(this);
         super.atUnload();
     }
 

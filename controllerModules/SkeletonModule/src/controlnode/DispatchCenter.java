@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
+import com.google.common.eventbus.EventBus;
 import org.json.JSONObject;
 
 /*
@@ -37,12 +38,22 @@ import org.json.JSONObject;
  */
 
 public class DispatchCenter{
-	HashMap<String,HashMap<String, Object>> dispatchData; 
-	private boolean shouldContinue = true;
-	
+	HashMap<String,HashMap<String, Object>> dispatchData;
+	private EventBus eventBus;
+
+	public DispatchCenter(){
+		dispatchData = new HashMap<>();
+		eventBus = new EventBus();
+		new AcknowledgementWaiter().start();
+	}
+
+	public EventBus getEventBus() {
+		return eventBus;
+	}
+
 	class AcknowledgementWaiter extends Thread{
 		DatagramSocket acknowledgmentsSocket;
-		public AcknowledgementWaiter(){
+		AcknowledgementWaiter(){
 			try {
 				acknowledgmentsSocket = new DatagramSocket(2468);
 			} catch (SocketException e) {
@@ -52,7 +63,7 @@ public class DispatchCenter{
 		
 		@Override
 		public void run(){
-			while(shouldContinue){
+			while(true){
 				byte[] buffer = new byte[1024];
 				DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 				try {
@@ -69,11 +80,7 @@ public class DispatchCenter{
 			}
 		}
 	}
-	
-	public DispatchCenter(){
-		dispatchData = new HashMap<>();
-		new AcknowledgementWaiter().start();
-	}
+
 	
 	public void createDB(List<String> modulesNamesList){
 		for (String moduleName : modulesNamesList){
@@ -82,11 +89,11 @@ public class DispatchCenter{
 		}
 	}
 	
-	public void initHandshake(String moduleName, String uuid){
+	void initHandshake(String moduleName, String uuid){
 		dispatchData.get(moduleName).put(uuid, false);
 	}
 	
-	public boolean confirmed(String moduleName, String uuid){
+	boolean confirmed(String moduleName, String uuid){
 		return (Boolean) dispatchData.get(moduleName).get(uuid); 
 	}
 	

@@ -14,6 +14,7 @@ public class ExchangeNode implements Node {
     private DispatchCenter dispatchCenter;
     private String nodeName;
     private Stock stock;
+    private CurrentPricesSender currentPricesSender;
 
     public ExchangeNode(DependenciesRepresenter dependenciesRepresenter, DispatchCenter dispatchCenter,
                         String nodeName) {
@@ -34,6 +35,8 @@ public class ExchangeNode implements Node {
         // thread for view modelling
         Thread thread = new Thread(() -> StockView.initStockView(stock, dependenciesRepresenter));
         thread.start();
+
+        currentPricesSender = new CurrentPricesSender(this, dispatchCenter.getEventBus());
     }
 
     @Override
@@ -49,6 +52,15 @@ public class ExchangeNode implements Node {
         neighbors.put(parentName, parent);
     }
 
+    public HashMap<String, Integer> getCurrentPrices(){
+        //TODO, actual prices and synchronized block
+        return new HashMap<String, Integer>() {
+            {
+                put("Oil",3);
+            }
+        };
+    }
+
     @Override
     public void addNeighbour(String hashKey, Node neighbor) {
         neighbors.put(hashKey, neighbor);
@@ -56,7 +68,7 @@ public class ExchangeNode implements Node {
 
     @Override
     public void atUnload() {
-        System.out.println("At unload Exchange");
+        currentPricesSender.atUnload();
     }
 
     public String getNodeName() {
