@@ -32,7 +32,6 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
         resources = new Resources(dr);
         buildings = new Buildings(dr);
         dwellers = new Dwellers(dr);
-        dispatchCenter.getEventBus().register(this);
     }
 
     @Override
@@ -79,6 +78,7 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
             }
         };
         resourcesThread.start();
+        registerEvBus();
     }
 
     @Subscribe
@@ -92,18 +92,32 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
 
     }
 
-    @Override
-    public void atUnload(){
+    private void unregisterEvBus(){
         try{
             dispatchCenter.getEventBus().unregister(this);
-        }catch(Exception e){
+        }catch(Exception e) {
 
         }
+    }
+
+    private void registerEvBus(){
+        try {
+            dispatchCenter.getEventBus().register(this);
+        }
+        catch(Exception e){
+
+        }
+
+    }
+
+    @Override
+    public void atUnload(){
         super.atUnload();
     }
 
     @Override
     public void atExit(){
+        unregisterEvBus();
         resourcesThread.interrupt();
         updateResources = false;
         Presenter.getInstance().getMapPresenter().setOnMapPresenterCalled(null);

@@ -13,7 +13,6 @@ public class GameMenuPy4jNode extends Py4JNode implements GameMenuPresenter.OnGa
 	public GameMenuPy4jNode(DependenciesRepresenter dr,
 			DispatchCenter dispatchCenter, String nodeName) {
 		super(dr, dispatchCenter, nodeName);
-		dispatchCenter.getEventBus().register(this);
 	}
 
 
@@ -25,13 +24,28 @@ public class GameMenuPy4jNode extends Py4JNode implements GameMenuPresenter.OnGa
 
 	@Override
 	public void atUnload() {
-		try{
-			dispatchCenter.getEventBus().unregister(this);
-		}catch(Exception e){
-
-		}
 		super.atUnload();
 	}
+
+
+	private void unregisterEvBus(){
+		try{
+			dispatchCenter.getEventBus().unregister(this);
+		}catch(Exception e) {
+
+		}
+	}
+
+	private void registerEvBus(){
+		try {
+			dispatchCenter.getEventBus().register(this);
+		}
+		catch(Exception e){
+
+		}
+
+	}
+
 
 	@Override
 	protected void onLoop() {
@@ -45,11 +59,13 @@ public class GameMenuPy4jNode extends Py4JNode implements GameMenuPresenter.OnGa
 		gameMenuPresenter.setOnGameMenuPresenterCalled(this);
 		gameMenuPresenter.displayGameMenu();
 		System.out.println("atStart gamemenu");
+		registerEvBus();
 		
 	}
 	
 	@Override
 	protected void atExit() {
+		unregisterEvBus();
 		Presenter.getInstance().getGameMenuPresenter().setOnGameMenuPresenterCalled(null);
 	}
 
