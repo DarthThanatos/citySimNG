@@ -16,6 +16,10 @@ from Panels.NavigationPanel import NavigationPanel
 from Panels.ResourcesPanel import ResourcesPanel
 from Popups.BuildingsPanelPopup import BuildingsPanelPopup
 from Popups.Popup import Popup
+import time
+
+
+POPUP_WIDTH, POPUP_HEIGHT = 0.2, 0.1
 
 
 class Game(object):
@@ -51,7 +55,7 @@ class Game(object):
         self.tiles = dict()
 
         # Create sprites groups for new tile
-        self.all_sprites = pygame.sprite.Group()
+        self.all_sprites = pygame.sprite.LayeredUpdates()
         self.panels_sprites = pygame.sprite.Group()
         self.buildings_sprites = pygame.sprite.Group()
 
@@ -75,7 +79,7 @@ class Game(object):
         # Initialize game panels
         initial_resources_values = Converter().convertJavaMapToDict(initial_resources_values)
         initial_resources_incomes = Converter().convertJavaMapToDict(initial_resources_incomes)
-        self.init_panels(buildings_data, initial_resources_values, initial_resources_incomes)
+        self.init_panels(buildings_data, initial_resources_values, initial_resources_incomes, resources_data)
 
         # # TODO: probably should get this from model
         self.resources_panel.curr_dwellers_amount = 0
@@ -131,6 +135,7 @@ class Game(object):
                 clicked_buildings = [b for b in self.buildings_sprites if b.rect.collidepoint(mouse_pos)]
                 if clicked_buildings:
                     self.info_panel.curr_building = clicked_buildings[0]
+                    self.info_panel.create_resources_sprites()
                     self.info_panel.set_stop_production_button_texture()
 
                 clicked_info_panel_buttons = [b for b in self.info_panel.buttons_sprites if
@@ -188,39 +193,35 @@ class Game(object):
                     self.shadow = None
 
             if event.type == pygame.MOUSEMOTION:
-                building = [b for b in self.buildings_panel.buildings_sprites if b.rect.collidepoint(mouse_pos)]
-                if building:
-                    building = building[0]
-                    if not self.popup or building != self.popup.sprite:
-                        self.popup = BuildingsPanelPopup(self.buildings_panel.pos_x,
-                                                         self.resources_panel.pos_y + self.resources_panel.height,
-                                                         0.7 * self.buildings_panel.width, self.buildings_panel.height,
-                                                         building, self.game_board)
+                sprites = [s for s in self.all_sprites.sprites() if s.rect.collidepoint(mouse_pos)]
+                if sprites:
+                    # get the sprite that was last added to all_sprites
+                    sprite = sprites[-1]
+                    try:
+                        inner_sprites = [s for s in sprite.all_sprites.sprites() if s.rect.collidepoint(mouse_pos)]
+                    except AttributeError:
+                        pass
+                    else:
+                        if inner_sprites:
+                            sprite = inner_sprites[-1]
+
+                    if not self.popup or sprite != self.popup.sprite:
+                        if sprite in self.buildings_panel.buildings_sprites:
+                            self.popup = BuildingsPanelPopup(self.buildings_panel.pos_x,
+                                                             self.resources_panel.pos_y + self.resources_panel.height,
+                                                             0.7 * self.buildings_panel.width,
+                                                             self.buildings_panel.height,
+                                                             sprite,
+                                                             self.game_board)
+                        else:
+                            self.popup = Popup(mouse_pos[0], mouse_pos[1] + pygame.mouse.get_cursor()[0][1],
+                                               sprite, POPUP_WIDTH * self.board_width, POPUP_HEIGHT * self.board_height,
+                                               self.game_board)
+                    elif self.popup and sprite == self.popup.sprite and sprite not in self.buildings_panel.buildings_sprites:
+                        self.popup.pos_x, self.popup.pos_y = mouse_pos[0], mouse_pos[1] + pygame.mouse.get_cursor()[0][1]
+                        self.popup.timer = time.time()
                 else:
                     self.popup = None
-
-                # TODO: make popups for all sprites?
-                # sprite = [s for s in self.all_sprites if s.rect.collidepoint(mouse_pos)]
-                # if sprite:
-                #     try:
-                #         inner_sprite = [s for s in sprite[0].all_sprites if s.rect.collidepoint(mouse_pos)]
-                #     except AttributeError:
-                #         if not self.popup or sprite[0] != self.popup.sprite:
-                #             self.popup = Popup(mouse_pos[0], mouse_pos[1] + pygame.mouse.get_cursor()[0][1],
-                #                                sprite[0], 100, 100, self.game_board)
-                #     else:
-                #         if inner_sprite:
-                #             sprite = inner_sprite
-                #         if not self.popup or sprite[0] != self.popup.sprite:
-                #             if sprite[0] in self.buildings_panel.buildings_sprites:
-                #                 self.popup = BuildingsPanelPopup(self.buildings_panel.pos_x, self.info_panel.pos_y,
-                #                                                  0.7 * self.buildings_panel.width,
-                #                                                  self.buildings_panel.height,
-                #                                                  sprite[0],
-                #                                                  self.game_board)
-                #             else:
-                #                 self.popup = Popup(mouse_pos[0], mouse_pos[1] + pygame.mouse.get_cursor()[0][1],
-                #                                    sprite[0], sprite[0].width, sprite[0].height, self.game_board)
 
     def update(self):
         """ Update all elements before they will be drawn. """
@@ -251,17 +252,19 @@ class Game(object):
         # draw game board
         self.background.blit(self.game_board, (0, 0))
 
-    def init_panels(self, buildings_data, initial_resources_values, initial_resources_incomes):
+    def init_panels(self, buildings_data, initial_resources_values, initial_resources_incomes, resources_data):
         """ Create and initialize all game panels. Add panels to appropriate sprite group.
 
         :param buildings_data: information about buildings available in game
         :param initial_resources_values: initial values for all resources
         :param initial_resources_incomes: initial incomes for all resources
+        :param resources_data: list of dictionaries. Each dictionary contains following information about resource:
+        name, texture path, predecessor and successor.
         """
         # Create resources panel
         self.resources_panel = ResourcesPanel(0, 0, self.board_width - BUILDINGS_PANEL_SIZE * self.board_width,
                                               RESOURCES_PANEL_SIZE * self.board_height, self.game_board,
-                                              initial_resources_values, initial_resources_incomes)
+                                              initial_resources_values, initial_resources_incomes, resources_data)
         self.panels_sprites.add(self.resources_panel)
         self.all_sprites.add(self.resources_panel)
 
@@ -335,7 +338,7 @@ class Game(object):
         # update building's position and image
         building.pos_x = pos_x
         building.pos_y = pos_y
-        building.load_image()
+        building.load_texture()
 
         # check if building's position is valid
         if not self.is_building_position_valid(building, True):
@@ -345,6 +348,7 @@ class Game(object):
         self.all_sprites.add(building)
         self.map_view.erected_building(building)
         self.info_panel.curr_building = building
+        self.info_panel.create_resources_sprites()
 
     def switch_game_tile(self, nav_arrow):
         """ Function changing position on map. It saves sprites for current location. Then, if player is first time
@@ -358,13 +362,13 @@ class Game(object):
         self.current_tile.all_sprites = self.all_sprites
 
         # change current position
-        if nav_arrow.direction == "Left":
+        if self.navigation_panel.arrow_direction[nav_arrow.texture_rotation] == "Left":
             self.map_position_x -= 1
-        if nav_arrow.direction == "Right":
+        if self.navigation_panel.arrow_direction[nav_arrow.texture_rotation] == "Right":
             self.map_position_x += 1
-        if nav_arrow.direction == "Up":
+        if self.navigation_panel.arrow_direction[nav_arrow.texture_rotation] == "Up":
             self.map_position_y += 1
-        if nav_arrow.direction == "Down":
+        if self.navigation_panel.arrow_direction[nav_arrow.texture_rotation] == "Down":
             self.map_position_y -= 1
 
         # if we are first time in given location create new MapTile

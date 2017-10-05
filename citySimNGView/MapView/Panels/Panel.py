@@ -1,10 +1,11 @@
 import pygame
 from MapView.Consts import WHITE
+from MapView.CustomSprites.ContainerSprite import ContainerSprite
 
 
-class Panel(pygame.sprite.Sprite):
+class Panel(ContainerSprite):
     """ Base class for panels """
-    def __init__(self, pos_x, pos_y, width, height, texture_path, surface, name):
+    def __init__(self, pos_x, pos_y, width, height, texture_path, blit_surface, name):
         """ Constructor. Initialize panel.
 
         :param pos_x: panel's x position
@@ -12,22 +13,19 @@ class Panel(pygame.sprite.Sprite):
         :param width: panel's width (will be converted on integer)
         :param height: panel's height (will be converted on integer)
         :param texture_path: path to panel's texture
-        :param surface: surface on which panel should be drawn
+        :param blit_surface: surface on which panel should be drawn
         """
-        pygame.sprite.Sprite.__init__(self)
+        ContainerSprite.__init__(self, pos_x, pos_y, width, height, texture_path, name)
         self.name = name
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.width = int(width)
         self.height = int(height)
-        self.surface = surface
+        self.blit_surface = blit_surface
 
-        self.image = pygame.image.load(texture_path)
-        self.image = pygame.transform.scale(self.image, (self.width, self.height))
-        self.image.set_colorkey(WHITE)
-        self.rect = self.image.get_rect(topleft=(self.pos_x, self.pos_y))
+        self.all_sprites = pygame.sprite.Group()
 
-        self.panels_surface = pygame.Surface.copy(self.image)
+        self.surface = pygame.Surface.copy(self.image)
 
     def draw(self):
         """ This function draws panel. """
@@ -35,4 +33,4 @@ class Panel(pygame.sprite.Sprite):
 
     def clean(self):
         """ Clean panel surface. """
-        self.panels_surface = pygame.Surface.copy(self.image)
+        self.surface = pygame.Surface.copy(self.image)

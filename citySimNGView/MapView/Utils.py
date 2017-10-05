@@ -58,7 +58,7 @@ def draw_text_with_wrapping(pos_x, pos_y, max_x, msg, color, surface, font_size=
             curr_y += word_height  # Start on new row.
         surface.blit(word_surface, (curr_x, curr_y))
         curr_x += word_width + space_width
-    return curr_y + text_size[1], widest_line
+    return curr_y + text_size[1], max(widest_line, curr_x)
 
 
 def center_image_y_pos(height, y_min, y_max):

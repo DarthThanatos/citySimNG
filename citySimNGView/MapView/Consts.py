@@ -74,7 +74,7 @@ TEXT_PANEL_FONT_SIZE = 10
 # =================================================================================================================== #
 # TEXTURES #
 # =================================================================================================================== #
-DEFAULT_BUILDING_TEXTURE = relative_textures_path + "DefaultBuilding.jpg"
+DEFAULT_TEXTURE = relative_textures_path + "DefaultBuilding.jpg"
 DEFAULT_RESOURCE_TEXTURE = relative_textures_path + "DefaultBuilding.jpg"
 GRASS_TEXTURE = relative_textures_path + "Grass.png"
 MEADOW_TEXTURE = relative_textures_path + "Meadow.jpg"
