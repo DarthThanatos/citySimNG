@@ -26,6 +26,7 @@ class DependenciesSubPanel(wx.Panel):
 
     def newEntitiesNamesListBox(self):
         self.entities_names_listbox = wx.ListBox(self, -1, size = (300, 90), choices = self.choices)
+        self.Bind(wx.EVT_LISTBOX_DCLICK, self.onEdit, self.entities_names_listbox)
         return self.entities_names_listbox
 
     def newHorizontalSizer(self):

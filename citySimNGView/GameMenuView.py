@@ -1,5 +1,6 @@
 import wx
 
+from utils import LogMessages
 from utils.ButtonsFactory import ButtonsFactory
 from utils.OnShowUtil import OnShowUtil
 from utils.JSONMonter import JSONMonter
@@ -62,19 +63,19 @@ class GameMenuView(wx.Panel):
         return self.buttons_vertical_sizer
 
     def newGameButton(self):
-        self.newgame_btn = ButtonsFactory().newButton(self, "New Game", self.goToNewGame)
+        self.newgame_btn = ButtonsFactory().newButton(self, "Game", self.goToNewGame, hint = LogMessages.GAME_BTN_HINT)
         return self.newgame_btn
 
     def newTutorialButton(self):
-        self.tutorial_btn = ButtonsFactory().newButton(self, "Tutorial", self.goToTutorial)
+        self.tutorial_btn = ButtonsFactory().newButton(self, "Tutorial", self.goToTutorial, hint = LogMessages.TUTORIAL_BTN_HINT)
         return self.tutorial_btn
 
     def newExchangeButton(self):
-        self.exchange_btn = ButtonsFactory().newButton(self, "Exchange", self.goToExchange)
+        self.exchange_btn = ButtonsFactory().newButton(self, "Exchange", self.goToExchange, hint = LogMessages.EXCHANGE_BTN_HINT)
         return self.exchange_btn
 
     def newRankingButton(self):
-        self.ranking_btn = ButtonsFactory().newButton(self, "Ranking", self.goToRanking)
+        self.ranking_btn = ButtonsFactory().newButton(self, "Ranking", self.goToRanking, hint = LogMessages.RANKING_BTN_HINT)
         return self.ranking_btn
 
     def newLoadButton(self):
@@ -86,7 +87,7 @@ class GameMenuView(wx.Panel):
         return self.save_btn
 
     def newLoaderButton(self):
-        self.loader_btn = ButtonsFactory().newButton(self, "Back to Loader", self.goToLoader)
+        self.loader_btn = ButtonsFactory().newButton(self, "Back to Loader", self.goToLoader, hint = LogMessages.MENU_BTN_HINT)
         return self.loader_btn
 
     def moveToNewGame(self, event):

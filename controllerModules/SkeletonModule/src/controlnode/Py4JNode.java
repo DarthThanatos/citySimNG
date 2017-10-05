@@ -62,4 +62,13 @@ public abstract class Py4JNode implements Node{
 		return nextNode;
 	}
 
+	@Override
+	public void atUnload() {
+		System.out.println("Calling atUnload of: " + nodeName);
+		for (Node neighbor : neighbors.values()){
+			if (neighbor != parent){
+				neighbor.atUnload();
+			}
+		}
+	}
 }

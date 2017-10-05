@@ -21,17 +21,19 @@ class DependenciesFileLoader(object):
         with open(path, "r+") as dependency_file:
             try:
                 dependencies_dict = self.loadDependenciesFileContentToDict(dependency_file)
-                self.creator_view.fillCurrentDependenciesWithContent(dependencies_dict)
-                self.onLoadFileNotCorrupted(dependenciesCopy)
+                self.onLoadFileNotCorrupted(dependencies_dict, dependenciesCopy)
             except Exception:
                 traceback.print_exc()
                 self.creator_view.dependencyLoadFail()
 
-    def onLoadFileNotCorrupted(self, dependenciesCopy):
-        if not self.creator_view.fileContentsCorrect():
+    def onLoadFileNotCorrupted(self, dependencies_dict, dependenciesCopy):
+        try:
+            self.creator_view.fillCurrentDependenciesWithValidContent(dependencies_dict)
+            if not self.creator_view.currentDependenciesCorrect(updateNameFromInput=False): raise Exception
+            self.onLoadedCorrectContent()
+        except Exception:
             self.onLoadedUncorrectContent(dependenciesCopy)
             return
-        self.onLoadedCorrectContent()
 
     def onLoadedUncorrectContent(self, dependenciesCopy):
         self.restoreDependenciesCopy(dependenciesCopy)
@@ -50,5 +52,5 @@ class DependenciesFileLoader(object):
         return json.loads(dependency_content)
 
     def restoreDependenciesCopy(self, dependenciesCopy):
-        self.creator_view.fillCurrentDependenciesWithContent(dependenciesCopy)  # here we restore previous state of subpanels
+        self.creator_view.fillCurrentDependenciesWithValidContent(dependenciesCopy)  # here we restore previous state of subpanels
         self.creator_view.resetView()

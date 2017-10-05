@@ -1,5 +1,8 @@
 dependencies {
    compile files('../SkeletonModule/bin')
+   compile name: 'guava'
+   compile name: 'reactive-streams'
+   compile name: 'rxjava'
 } 
 
 clean.doFirst {

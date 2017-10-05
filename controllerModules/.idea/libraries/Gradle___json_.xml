@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: :json:">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/SkeletonModule/lib/json.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

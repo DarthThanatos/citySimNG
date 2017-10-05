@@ -11,7 +11,9 @@ public abstract class GraphNode {
 	public GraphNode(){
 		this.children = new HashMap<>();
 	}
-	
+
+	public abstract String getConcatenatedDescription();
+
 	public void setParent(GraphNode parent){
 		this.parent = parent;
 	}

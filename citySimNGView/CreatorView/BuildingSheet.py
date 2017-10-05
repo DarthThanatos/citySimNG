@@ -24,6 +24,9 @@ class BuildingSheet(SheetView):
     def getSheetName(self):
         return Consts.BUILDINGS
 
+    def getEntityChecker(self):
+        return BuildingSheetChecker()
+
     def submit(self, event):
         self.sheetChecker.onCheck(BuildingSheetChecker())
 

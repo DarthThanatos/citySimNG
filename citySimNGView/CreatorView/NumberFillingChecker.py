@@ -1,6 +1,8 @@
 import wx
 from wx.lib.scrolledpanel import ScrolledPanel
-from LogMessages import CHECKER_PANEL_ERROR_MSG
+
+from utils.LogMessages import CHECKER_PANEL_ERROR_MSG
+
 
 class NumberFillingChecker(ScrolledPanel):
     def __init__(self, parent_sheet_view, key_label_txt, value_desc_label_txt, intro_label_txt, json_key, dependencies_key ="Resources"):

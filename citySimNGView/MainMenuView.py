@@ -1,7 +1,9 @@
 import json
 
 import wx
+import wx.animate
 
+from utils import LogMessages
 from utils.ButtonsFactory import ButtonsFactory
 from utils.JSONMonter import JSONMonter
 from utils.OnShowUtil import OnShowUtil
@@ -21,7 +23,7 @@ class MainMenuView(wx.Panel):
     def initMenu(self):
         self.printHeader()
         self.initRootSizer()
-        self.SetBackgroundColour((255, 255, 255))
+        self.SetBackgroundColour((0,0,0))
 
     def printHeader(self):
         with open(relative_text_files_path + "headerCS.txt", "r+") as headerFile:
@@ -33,11 +35,21 @@ class MainMenuView(wx.Panel):
         rootSizer.Add(self.newHeaderSizer(), 0, wx.CENTER)
         rootSizer.AddSpacer(50)
         rootSizer.Add(self.newButtonsSizer(), 0, wx.CENTER)
+        rootSizer.AddSpacer(50)
+        rootSizer.Add(self.newGifCtrl(), flag = wx.CENTER)
+
         self.SetSizer(rootSizer)
         rootSizer.SetDimension(0, 0, self.size[0], self.size[1])
 
+    def newGifCtrl(self):
+        gif_fname = "resources\\sysFiles\\images\\fireplace1.gif"
+        gif = wx.animate.GIFAnimationCtrl(self, wx.ID_ANY, gif_fname)
+        gif.GetPlayer().UseBackgroundColour(True)
+        gif.Play()
+        return gif
+
     def newHeaderBmp(self):
-        headerImage = wx.Image(relative_textures_path + "headerCS.jpg", wx.BITMAP_TYPE_JPEG)
+        headerImage = wx.Image(relative_textures_path + "headerCS_black.png", wx.BITMAP_TYPE_PNG)
         return wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(headerImage))
 
     def newHeaderSizer(self):
@@ -46,15 +58,15 @@ class MainMenuView(wx.Panel):
         return self.headerSizer
 
     def newLoaderButton(self):
-        self.loader_btn = ButtonsFactory().newButton(self, "Load and mount New Game", self.onGoToLoader)
+        self.loader_btn = ButtonsFactory().newButton(self, "Load and mount New Game", self.onGoToLoader, hint = LogMessages.LOADER_BTN_HINT)
         return self.loader_btn
 
     def newCreatorButton(self):
-        self.creator_btn = ButtonsFactory().newButton(self, "Creator", self.onGoToCreator)
+        self.creator_btn = ButtonsFactory().newButton(self, "Creator", self.onGoToCreator, hint = LogMessages.CREATOR_BTN_HINT)
         return self.creator_btn
 
-    def newExitButton(self):
-        self.exit_btn = ButtonsFactory().newButton(self, "Exit", self.onExitSystem)
+    def newExitButton( self):
+        self.exit_btn = ButtonsFactory().newButton(self, "Exit", self.onExitSystem, hint = LogMessages.EXIT_BTN_HINT)
         return self.exit_btn
 
     def newButtonsSizer(self):

@@ -1,8 +1,10 @@
 package mapnode;
 
+import com.google.common.eventbus.Subscribe;
 import controlnode.DispatchCenter;
 import controlnode.Py4JNode;
 import model.DependenciesRepresenter;
+import model.TutorialHintEvent;
 import py4jmediator.MapPresenter;
 import py4jmediator.Presenter;
 import py4jmediator.Response;
@@ -76,6 +78,13 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
             }
         };
         resourcesThread.start();
+        registerEvBus();
+    }
+
+    @Subscribe
+    public void onTutotialHintEvent(TutorialHintEvent tutorialHintEvent){
+        //TODO - implementing reaction on tutorialHintEvent receipt
+        System.out.println("Map module got hint event with details: " + tutorialHintEvent.getHints());
     }
 
     @Override
@@ -83,12 +92,32 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
 
     }
 
+    private void unregisterEvBus(){
+        try{
+            dispatchCenter.getEventBus().unregister(this);
+        }catch(Exception e) {
+
+        }
+    }
+
+    private void registerEvBus(){
+        try {
+            dispatchCenter.getEventBus().register(this);
+        }
+        catch(Exception e){
+
+        }
+
+    }
+
     @Override
     public void atUnload(){
+        super.atUnload();
     }
 
     @Override
     public void atExit(){
+        unregisterEvBus();
         resourcesThread.interrupt();
         updateResources = false;
         Presenter.getInstance().getMapPresenter().setOnMapPresenterCalled(null);

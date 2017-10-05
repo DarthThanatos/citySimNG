@@ -13,12 +13,12 @@ class CreatorViewModel(object):
 
     def displayDependenciesGraph(self, jsonGraph):
         wx.CallAfter(
-            self.viewSetter.views["Creator"].views["main_panel"].displayDependenciesGraph,
+            self.viewSetter.getView("Creator").views["main_panel"].displayDependenciesGraph,
             json.loads(jsonGraph.toString())
         )
 
     def displayMsg(self, msg):
-        wx.CallAfter(self.viewSetter.views["Creator"].views["main_panel"].displayMsg, msg)
+        wx.CallAfter(self.viewSetter.getView("Creator").views["main_panel"].displayMsg, msg)
 
     class Java:
         implements = ["py4jmediator.ViewModel$CreatorViewModel"]

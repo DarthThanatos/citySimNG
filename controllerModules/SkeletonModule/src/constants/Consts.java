@@ -57,5 +57,6 @@ public class Consts {
 	public static final String GRAPH = "graph";
 	public static final String ERROR_MSG = "errorMsg";
 
-	public static final String CHILDREN = "Children"; 
+	public static final String CHILDREN = "Children";
+	public static final String DETAILS = "Details";
 }

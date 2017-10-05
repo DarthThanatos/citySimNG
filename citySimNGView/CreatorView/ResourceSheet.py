@@ -28,6 +28,9 @@ class ResourceSheet(SheetView):
     def submit(self, event):
         self.sheetChecker.onCheck(ResourceSheetChecker())
 
+    def getEntityChecker(self):
+        return ResourceSheetChecker()
+
     def getSheetName(self):
         return Consts.RESOURCES
 

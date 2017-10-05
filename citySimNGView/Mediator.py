@@ -22,7 +22,7 @@ def receiver_func(viewSetter):
         except Exception:
             traceback.print_exc()
             print "Hold on, Jesus, not so fast"
-        viewSetter.passMsgToCurrentView(data)
+        wx.CallAfter(viewSetter.passMsgToCurrentView, data)
         try:
             jsonObj = json.loads(data)
             uuid = jsonObj["UUID"]
@@ -50,7 +50,6 @@ def wait_for_controller():
     s.bind((TCP_IP, TCP_PORT))
     s.listen(1)
     conn, addr = s.accept()
-    print 'Connection address:', addr
     conn.close()
 
 def startViewModelListener(viewSetter):
@@ -63,7 +62,8 @@ def startViewModelListener(viewSetter):
 def main():
     sender = Sender(sock)
 
-    app = wx.PySimpleApp()
+    # app = wx.PySimpleApp()
+    app = wx.App(False)
     screenDims = wx.GetDisplaySize()
 
     javagateway = JavaGateway(gateway_parameters=GatewayParameters(port=25335))
@@ -71,7 +71,7 @@ def main():
     thread.start_new_thread(receiver_func, (frame,))
     gateway = startViewModelListener(frame)
 
-    frame.Show()
+    # frame.Show()
     wait_for_controller()
     try:
         app.MainLoop()

@@ -76,26 +76,31 @@ class MapView(wx.Panel):
                 pygame.mixer.init()
                 pygame.mixer.music.load(self.music_path)
                 # TODO: uncomment to play music
-                # pygame.mixer.music.play()
+                pygame.mixer.music.play()
             except Exception:
                 print "Problem with music"
-        else:
-            try:
-                pygame.quit()
-            except Exception:
-                print "first appearance of MapView: pygame not initialized in map"
+        # else:
+        #     try:
+        #         pygame.quit()
+        #     except Exception:
+        #         print "first appearance of MapView: pygame not initialized in map"
 
     def init_view(self):
         """ Function initializing map view. """
-        print "Map: initview"
+        print "Map: initview", str(self.GetHandle())
+        self.hackPygame()
+        pygame.init()
+        pygame.display.init()
+        self.sender.entry_point.getMapPresenter().viewInitialized()
+
+    def hackPygame(self):
+        print "hacking pygame :)"
         global pygame
         os.environ['SDL_WINDOWID'] = str(self.GetHandle())
         os.environ['SDL_VIDEODRIVER'] = 'windib'
         import pygame  # this has to happen after setting the environment variables.
         pygame.init()
-        pygame.display.init()
-        self.sender.entry_point.getMapPresenter().viewInitialized()
-
+        pygame.quit()
 # =================================================================================================================== #
 # Communication with model
 # =================================================================================================================== #

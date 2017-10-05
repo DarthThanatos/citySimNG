@@ -12,6 +12,9 @@ controllerModules\RankingModule\bin;^
 controllerModules\TutorialModule\bin;^
 controllerModules\SkeletonModule\lib\json.jar;^
 controllerModules\SkeletonModule\lib\py4j.jar;^
-controllerModules\SkeletonModule\lib\jgrapht-core-1.0.1.jar^
+controllerModules\SkeletonModule\lib\jgrapht-core-1.0.1.jar;^
+controllerModules\SkeletonModule\lib\guava.jar;^
+controllerModules\SkeletonModule\lib\reactive-streams.jar;^
+controllerModules\SkeletonModule\lib\rxjava.jar^
  controlswitcher.ControlSwitcher > javaLog.txt
 python citySimNGView/Mediator.py

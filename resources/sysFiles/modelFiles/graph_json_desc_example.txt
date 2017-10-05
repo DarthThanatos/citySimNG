@@ -1,0 +1,329 @@
+{
+    "Dwellers": [
+        {
+            "Texture path": "resources\\Textures\\dweller.jpg",
+            "Children": [
+				
+				{
+					"Texture path": "resources\\Textures\\dweller.jpg",
+					"Children": [],
+					"Name": "Dweller1"
+				},
+				
+				
+				{
+					"Texture path": "resources\\Textures\\dweller.jpg",
+					"Children": [],
+					"Name": "Dweller2"
+				}
+			],
+            "Name": "Dweller"
+        },
+		
+        {
+            "Texture path": "resources\\Textures\\dweller.jpg",
+            "Children": [
+				
+				{
+					"Texture path": "resources\\Textures\\dweller.jpg",
+					"Children": [],
+					"Name": "Dweller11"
+				},
+				
+				
+				{
+					"Texture path": "resources\\Textures\\dweller.jpg",
+					"Children": [
+					
+						{
+							"Texture path": "resources\\Textures\\dweller.jpg",
+							"Children": [
+								
+								{
+									"Texture path": "resources\\Textures\\dweller.jpg",
+									"Children": [],
+									"Name": "Dweller12"
+								},
+								
+								
+								{
+									"Texture path": "resources\\Textures\\dweller.jpg",
+									"Children": [],
+									"Name": "Dweller22"
+								}
+							],
+							"Name": "Dweller122"
+						}
+					],
+					"Name": "Dweller21"
+				}
+			],
+            "Name": "Dweller81"
+        }
+    ],
+    "Buildings": [
+        {
+            "Texture path": "resources\\Textures\\CiderFarm.png",
+            "Children": [
+                {
+                    "Texture path": "resources\\Textures\\Mill.png",
+                    "Children": [
+                        {
+                            "Texture path": "resources\\Textures\\Bakery2.png",
+                            "Children": [],
+                            "Name": "Bakery"
+                        },
+						
+                        {
+                            "Texture path": "resources\\Textures\\Bakery2.png",
+                            "Children": [
+								{
+									"Texture path": "resources\\Textures\\Bakery2.png",
+									"Children": [],
+									"Name": "Bakery2"
+								},
+								
+								{
+									"Texture path": "resources\\Textures\\Bakery2.png",
+									"Children": [],
+									"Name": "Bakery3"
+								}
+							],
+                            "Name": "Bakery1"
+                        }
+                    ],
+                    "Name": "Mill"
+                }
+            ],
+            "Name": "Field"
+        },
+        {
+            "Texture path": "resources\\Textures\\Quarry.png",
+            "Children": 
+				[
+			
+					{
+						"Texture path": "resources\\Textures\\Bakery2.png",
+						"Children": [],
+						"Name": "Bakery31"
+					},
+					
+					{
+						"Texture path": "resources\\Textures\\Bakery2.png",
+						"Children": [
+							{
+								"Texture path": "resources\\Textures\\Bakery2.png",
+								"Children": [],
+								"Name": "Baker3y2"
+							},
+							
+							{
+								"Texture path": "resources\\Textures\\Bakery2.png",
+								"Children": [],
+								"Name": "Baker3y3"
+							}
+						],
+						"Name": "Bakery221"
+					}
+				],
+            "Name": "kamieniolom"
+        },
+        {
+            "Texture path": "resources\\Textures\\Lunmbermill2.png",
+            "Children": [],
+            "Name": "Tartak"
+        }
+    ],
+    "Resources": [
+        {
+            "Texture path": "resources\\Textures\\Grain.png",
+            "Children": [
+                {
+                    "Texture path": "resources\\Textures\\Flour.png",
+                    "Children": [
+                        {
+                            "Texture path": "resources\\Textures\\Bread.png",
+                            "Children": [],
+                            "Name": "Bread"
+                        }
+                    ],
+                    "Name": "Flour"
+                }
+            ],
+            "Name": "Crop"
+        },
+        {
+            "Texture path": "resources\\Textures\\Gold2.png",
+            "Children": [
+				{
+					"Texture path": "resources\\Textures\\Gold2.png",
+					"Children": [],
+					"Name": "Gold1"
+				},
+				{
+					"Texture path": "resources\\Textures\\Gold2.png",
+					"Children": [
+						{
+							"Texture path": "resources\\Textures\\Gold2.png",
+							"Children": [],
+							"Name": "Gold16"
+						},
+						{
+							"Texture path": "resources\\Textures\\Gold2.png",
+							"Children": [
+								{
+									"Texture path": "resources\\Textures\\Gold2.png",
+									"Children": [
+										
+										{
+											"Texture path": "resources\\Textures\\Gold2.png",
+											"Children": [										
+										
+												
+
+{
+													"Texture path": "resources\\Textures\\Gold2.png",
+													"Children": [
+														
+													{
+														"Texture path": "resources\\Textures\\Gold2.png",
+														"Children": [
+														
+															{
+																"Texture path": "resources\\Textures\\Gold2.png",
+																"Children": [
+																
+																	
+																	{
+																		"Texture path": "resources\\Textures\\Gold2.png",
+																		"Children": [
+																		
+																			{
+																				"Texture path": "resources\\Textures\\Gold2.png",
+																				"Children": [
+																				
+																					
+																					{
+																						"Texture path": "resources\\Textures\\Gold2.png",
+																						"Children": [
+																						
+																							{
+																								"Texture path": "resources\\Textures\\Gold2.png",
+																								"Children": [
+																								
+																									
+																								],
+																								"Name": "Gold269"
+																							},
+																							{
+																								"Texture path": "resources\\Textures\\Gold2.png",
+																								"Children": [
+																								
+																									{
+																										"Texture path": "resources\\Textures\\Gold2.png",
+																										"Children": [
+																										
+																											{
+																												"Texture path": "resources\\Textures\\Gold2.png",
+																												"Children": [
+																												
+																													{
+																														"Texture path": "resources\\Textures\\Gold2.png",
+																														"Children": [
+																														
+																															
+																														],
+																														"Name": "Gold273"
+																													}
+																													
+																												],
+																												"Name": "Gold272"
+																											}
+																											
+																										],
+																										"Name": "Gold271"
+																									}
+																									
+																								],
+																								"Name": "Gold270"
+																							}
+																							
+																						],
+																						"Name": "Gold268"
+																					}
+																				],
+																				"Name": "Gold267"
+																			}
+																			
+																		],
+																		"Name": "Gold266"
+																	}
+																],
+																"Name": "Gold265"
+															},
+															
+															{
+																"Texture path": "resources\\Textures\\Gold2.png",
+																"Children": [
+																
+																	
+																],
+																"Name": "Gold274"
+															}
+															
+														],
+														"Name": "Gold264"
+													}
+													],
+													"Name": "Gold263"
+												}
+											],
+											"Name": "Gold262"
+										}
+									],
+									"Name": "Gold261"
+								}
+							],
+							"Name": "Gold26"
+						},
+						{
+							"Texture path": "resources\\Textures\\Gold2.png",
+							"Children": [],
+							"Name": "Gold36"
+						}
+					],
+					"Name": "Gold6"
+				}
+			],
+            "Name": "Gold"
+        },
+        {
+            "Texture path": "resources\\Textures\\Rock.png",
+            "Children": [
+				{
+					"Texture path": "resources\\Textures\\Rock.png",
+					"Children": [],
+					"Name": "Rock1"
+				},
+				{
+					"Texture path": "resources\\Textures\\Rock.png",
+					"Children": [],
+					"Name": "Rock2"
+				}
+			],
+            "Name": "Rock"
+        },
+        {
+            "Texture path": "resources\\Textures\\Wood.png",
+            "Children": [
+				
+				{
+					"Texture path": "resources\\Textures\\Wood.png",
+					"Children": [],
+					"Name": "Wood1"
+				}
+			],
+            "Name": "Wood"
+        }
+    ]
+}

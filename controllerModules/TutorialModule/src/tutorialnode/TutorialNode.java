@@ -8,20 +8,25 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import hintsender.HintSender;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import model.DependenciesRepresenter;
 import controlnode.DispatchCenter;
 import controlnode.SocketNode;
+import utils.DisposingUtils;
 
 public class TutorialNode extends SocketNode{
 
 	private JSONObject readPage;
 	private BufferedReader tutorialReader;
+	private HintSender hintSender;
+
 	public TutorialNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
 		super(dr, dispatchCenter, nodeName);
 		readPage = new JSONObject("{}");
+		hintSender = new HintSender(this, dispatchCenter.getEventBus());
 	}
 
 
@@ -56,6 +61,10 @@ public class TutorialNode extends SocketNode{
 		} 
 	}
 
+	public String getHints(){
+		//TODO, actual hints and synchronized block
+		return "hints";
+	}
 
 
 	public void readPage(int pageID) throws IOException{
@@ -101,8 +110,7 @@ public class TutorialNode extends SocketNode{
 
 	@Override
 	public void atUnload() {
-		// TODO Auto-generated method stub
-		
+		hintSender.atUnload();
 	}
 
 }

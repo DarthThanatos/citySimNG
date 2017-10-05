@@ -3,6 +3,7 @@ from uuid import uuid4
 import wx
 
 from CreatorView.GraphsSpaces import GraphsSpaces
+from utils import LogMessages
 from utils.ButtonsFactory import ButtonsFactory
 from utils.JSONMonter import JSONMonter
 from utils.OnShowUtil import OnShowUtil
@@ -24,16 +25,22 @@ class LoaderView(wx.Panel):
         self.SetBackgroundColour((255, 255, 255))
 
     def initMainSizer(self):
-        mainSizer = wx.BoxSizer(wx.VERTICAL)
-        mainSizer.Add(self.newHeaderSizer(), 0, wx.CENTER)
-        mainSizer.Add(self.newRulesSelector(), 0, wx.CENTER)
-        mainSizer.AddSpacer(50)
-        mainSizer.Add(self.newButtonsSizer(), 0, wx.CENTER | wx.ALL, 5)
-        mainSizer.AddSpacer(30)
-        mainSizer.Add(self.newGraphSpaces(),0,wx.CENTER)
+        mainSizer = self.newMainSizer()
         self.SetSizer(mainSizer)
         mainSizer.SetDimension(0, 0, self.size[0], self.size[1])
         mainSizer.Layout()
+
+    def newMainSizer(self):
+        mainSizer = wx.BoxSizer(wx.VERTICAL)
+        mainSizer.Add(self.newHeaderSizer(), 0, wx.CENTER)
+        self.addToSizerWithSpace(mainSizer,self.newRulesSelector(), space=50)
+        self.addToSizerWithSpace(mainSizer,self.newButtonsSizer(), space=30)
+        mainSizer.Add(self.newGraphSpaces(),0,wx.CENTER)
+        return mainSizer
+
+    def addToSizerWithSpace(self, sizer, view, space = 10, alignment = wx.CENTER):
+        sizer.Add(view, 0, alignment)
+        sizer.AddSpacer(space)
 
     def newHeaderBmp(self):
         headerImage = wx.Image(relative_textures_path + "headerCS.jpg", wx.BITMAP_TYPE_JPEG)
@@ -56,6 +63,7 @@ class LoaderView(wx.Panel):
         # Create dependencies selector
         self.ruleSetsList = []
         self.ruleSelector = wx.ListBox(self,  choices=self.ruleSetsList)
+        self.Bind(wx.EVT_LISTBOX_DCLICK, self.onShowGraphClicked, self.ruleSelector)
         return self.ruleSelector
 
     def newGraphSpaces(self):
@@ -63,15 +71,15 @@ class LoaderView(wx.Panel):
         return self.graphsSpaces
 
     def newGameButton(self):
-        self.new_game_btn = ButtonsFactory().newButton(self, "Game Menu", self.goToNewGameMenu)
+        self.new_game_btn = ButtonsFactory().newButton(self, "Game Menu", self.goToNewGameMenu, hint = LogMessages.MOUNT_GAME_BTN_HINT)
         return self.new_game_btn
 
     def newShowGraphButton(self):
-        self.show_graph_btn = ButtonsFactory().newButton(self, "Show Graph", self.onShowGraphClicked)
+        self.show_graph_btn = ButtonsFactory().newButton(self, "Show Graph", self.onShowGraphClicked, hint = LogMessages.SHOW_GRAPH_BTN_HINT)
         return self.show_graph_btn
 
     def newMenuButton(self):
-        self.menu_btn = ButtonsFactory().newButton(self, "MainMenu", self.goToMenu)
+        self.menu_btn = ButtonsFactory().newButton(self, "Main Menu", self.goToMenu, hint = LogMessages.MENU_BTN_HINT)
         return self.menu_btn
 
     def goToMenu(self, event):
@@ -94,6 +102,7 @@ class LoaderView(wx.Panel):
     def displayPossibleDependenciesSets(self, ruleSetsList):
         self.ruleSetsList = ruleSetsList
         self.ruleSelector.Set(self.ruleSetsList)
+        self.ruleSelector.SetSelection(0)
 
     def showGraph(self, evt):
         setChosen = self.ruleSelector.GetStringSelection()
