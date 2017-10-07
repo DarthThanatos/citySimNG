@@ -7,7 +7,7 @@ from MapView.Items.Button import Button
 from MapView.Panels.Panel import Panel
 from MapView.Utils import draw_text, calculate_text_size, center_image_y_pos
 from MapView.Items.Resources import resources
-from MapView.Items.Resource import Resource
+from MapView.Items.PanelResource import PanelResource
 from MapView.CustomSprites.BasicSprite import BasicSprite
 
 
@@ -23,7 +23,7 @@ class ResourcesPanel(Panel):
     first_disp_res_index = 0
 
     def __init__(self, pos_x, pos_y, width, height, blit_surface, initial_resources_values, initial_resources_incomes,
-                 resources_data):
+                 initial_resources_consumption, initial_resources_balance, resources_data):
         """ Constructor.
 
         :param pos_x: x position on screen
@@ -37,6 +37,8 @@ class ResourcesPanel(Panel):
         Panel.__init__(self, pos_x, pos_y, width, height, RESOURCES_PANEL_TEXTURE, blit_surface, "Resources Panel")
         self.resources_values = initial_resources_values
         self.resources_incomes = initial_resources_incomes
+        self.resources_consumption = initial_resources_consumption
+        self.resources_balance = initial_resources_balance
         self.resources_data = resources_data
         self.resources_sprites = pygame.sprite.Group()
         self.resources = {}
@@ -87,14 +89,18 @@ class ResourcesPanel(Panel):
             resource_name = resources.keys()[i]
             image = self.resources[resource_name].image
 
-            if self.resources_incomes[resource_name] >= 0:
+            self.resources[resource_name].consumption = self.resources_consumption[resource_name]
+            self.resources[resource_name].production = self.resources_incomes[resource_name]
+            self.resources[resource_name].update_popup_text()
+
+            if self.resources_balance[resource_name] >= 0:
                 sign = "+"
             else:
                 sign = ""
 
             # check if info for current resource will fit in
             text_size = calculate_text_size("{} {} {}".format(self.resources_values[resource_name], sign,
-                                                              self.resources_incomes[resource_name]))
+                                                              self.resources_balance[resource_name]))
             width = image.get_size()[0] + text_size[0] + curr_x
             if width > self.width - ARROW_BUTTON_WIDTH * self.width:
                 self.displayed_last = False
@@ -108,7 +114,7 @@ class ResourcesPanel(Panel):
 
             draw_text(curr_x + image.get_size()[0] + RESOURCES_SPACE,
                       center_image_y_pos(text_size[1], self.pos_y, self.height),
-                      "{} {} {}".format(self.resources_values[resource_name], sign, self.resources_incomes[resource_name]), GREEN,
+                      "{} {} {}".format(self.resources_values[resource_name], sign, self.resources_balance[resource_name]), GREEN,
                       self.surface)
 
             # update current x position
@@ -147,8 +153,10 @@ class ResourcesPanel(Panel):
 
     def parse_resources_data(self):
         for resource in self.resources_data:
-            resource_sprite = Resource(resource.getName(), resource.getTexturePath(), self.width * RESOURCE_WIDTH,
-                                       self.height * RESOURCE_HEIGHT)
+            resource_sprite = PanelResource(resource.getName(), resource.getTexturePath(), self.width * RESOURCE_WIDTH,
+                                            self.height * RESOURCE_HEIGHT,
+                                            self.resources_consumption[resource.getName()],
+                                            self.resources_incomes[resource.getName()])
             self.resources[resource.getName()] = resource_sprite
             self.resources_sprites.add(resource_sprite)
             self.all_sprites.add(resource_sprite)

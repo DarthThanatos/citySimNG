@@ -61,20 +61,19 @@ class InfoPanel(Panel):
             # draw buttons
             self.surface.blit(self.del_building_button.image, (self.del_building_button.rect[0] - self.pos_x,
                                                                self.del_building_button.rect[1] - self.pos_y))
-            self.surface.blit(self.stop_production_button.image,
-                                     (self.stop_production_button.rect[0] - self.pos_x,
-                                      self.stop_production_button.rect[1] - self.pos_y))
+            self.surface.blit(self.stop_production_button.image, (self.stop_production_button.rect[0] - self.pos_x,
+                                                                  self.stop_production_button.rect[1] - self.pos_y))
             self.buttons_sprites.add(self.del_building_button, self.stop_production_button)
             self.all_sprites.add(self.buttons_sprites)
 
             # draw text
             curr_y = draw_text(0, 0, self.curr_building.name, GREEN, self.surface)[1]
             curr_x, curr_y = draw_text(0, curr_y, 'Produces: ', GREEN, self.surface)
-            curr_y = draw_resources_info(self.curr_building.produces, self.produces, curr_x, curr_y, self.width,
-                                         self, 20, 20, self.resources_sprites)
+            curr_y = draw_resources_info(self.curr_building.produces, curr_x, curr_y, self.width,
+                                         self, self.produces, self.resources_sprites)
             curr_x = draw_text(0, curr_y, 'Consumes: ', RED, self.surface)[0]
-            curr_y = draw_resources_info(self.curr_building.consumes, self.consumes, curr_x, curr_y, self.width,
-                                         self, 20, 20, self.resources_sprites)
+            curr_y = draw_resources_info(self.curr_building.consumes, curr_x, curr_y, self.width,
+                                         self, self.consumes, self.resources_sprites)
             self.all_sprites.add(self.resources_sprites)
 
         # draw panel

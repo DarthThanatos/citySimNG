@@ -69,15 +69,28 @@ public class MapPresenter {
     }
 
     public void init(List<Resource> resources, List<Building> buildings, String texture_one, String texture_two,
-                     Map<String, Integer> initialResourcesValues, Map<String, Integer> initialResourcesIncomes){
-        Presenter.getInstance().getViewModel().getMapViewModel().init(resources, buildings, texture_one, texture_two,
-                initialResourcesValues, initialResourcesIncomes);
+                     Map<String, Integer> initialResourcesValues, Map<String, Integer> initialResourcesIncomes,
+                     Map<String, Integer> initialResourcesConsumption, Map<String, Integer> initialResourcesBalance){
+        Presenter.getInstance().getViewModel().getMapViewModel().init(
+                resources,
+                buildings,
+                texture_one,
+                texture_two,
+                initialResourcesValues,
+                initialResourcesIncomes,
+                initialResourcesConsumption,
+                initialResourcesBalance);
     }
 
     public void updateResourcesValues(Map<String, Integer> actualResourcesValues,
-                                      Map<String, Integer> actualResourcesIncomes){
-        Presenter.getInstance().getViewModel().getMapViewModel().updateResourcesValues(actualResourcesValues,
-                actualResourcesIncomes);
+                                      Map<String, Integer> actualResourcesIncomes,
+                                      Map<String, Integer> actualResourcesConsumption,
+                                      Map<String, Integer> resourcesBalance){
+        Presenter.getInstance().getViewModel().getMapViewModel().updateResourcesValues(
+                actualResourcesValues,
+                actualResourcesIncomes,
+                actualResourcesConsumption,
+                resourcesBalance);
     }
 
     public void resumeGame(){

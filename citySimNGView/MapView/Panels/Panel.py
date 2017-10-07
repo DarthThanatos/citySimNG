@@ -27,10 +27,6 @@ class Panel(ContainerSprite):
 
         self.surface = pygame.Surface.copy(self.image)
 
-    def draw(self):
-        """ This function draws panel. """
-        pass
-
     def clean(self):
         """ Clean panel surface. """
         self.surface = pygame.Surface.copy(self.image)

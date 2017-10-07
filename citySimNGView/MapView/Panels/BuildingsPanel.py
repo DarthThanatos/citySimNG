@@ -4,7 +4,7 @@ import pygame
 from CreatorView.RelativePaths import relative_textures_path
 
 from MapView.Consts import BUILDINGS_PANEL_TEXTURE, ARROW_BUTTON_WIDTH, ARROW_BUTTON_HEIGHT, SPACE, GREEN
-from MapView.Items.Building import Building
+from MapView.Items.PanelBuilding import PanelBuilding
 from MapView.Items.Button import Button
 from MapView.Panels.Panel import Panel
 
@@ -18,7 +18,8 @@ RIGHT_ARROW_X = 0.6
 
 class BuildingsPanel(Panel):
     """ This class represents an instance of panel containing buildings. """
-    def __init__(self, pos_x, pos_y, width, height, blit_surface, buildings_data):
+    def __init__(self, pos_x, pos_y, width, height, blit_surface, buildings_data, resources_panel_pos_y,
+                 resources_panel_height):
         """ Constructor.
 
         :param pos_x: x position on screen
@@ -45,7 +46,7 @@ class BuildingsPanel(Panel):
                                  "Go to the previous page")
         self.all_sprites.add(self.right_arrow, self.left_arrow)
 
-        self.parse_buildings_data()
+        self.parse_buildings_data(resources_panel_pos_y, resources_panel_height)
 
     def draw(self):
         """ Draw buildings panel with arrows for changing pages and buildings from current page.
@@ -58,7 +59,7 @@ class BuildingsPanel(Panel):
         self.draw_buildings_in_buildings_panel()
         self.blit_surface.blit(self.surface, (self.pos_x, self.pos_y))
 
-    def parse_buildings_data(self):
+    def parse_buildings_data(self, resources_panel_pos_y, resources_panel_height):
         """ Parse information about buildings available in game sent by model - split buildings into pages and
         create sprite for each building. """
         curr_x, curr_y = 0, 0
@@ -74,10 +75,13 @@ class BuildingsPanel(Panel):
                 self.curr_page += 1
                 self.last_page = self.curr_page
 
-            building_sprite = Building(building.getName(), uuid.uuid4().__str__(), building.getTexturePath(),
-                                       building.getResourcesCost(), building.getConsumes(), building.getProduces(),
-                                       curr_x + self.pos_x, curr_y + self.pos_y, BUILDING_WIDTH * self.width,
-                                       BUILDING_HEIGHT * self.height)
+            building_sprite = PanelBuilding(building.getName(), uuid.uuid4().__str__(), building.getTexturePath(),
+                                            building.getResourcesCost(), building.getConsumes(), building.getProduces(),
+                                            curr_x + self.pos_x, curr_y + self.pos_y, BUILDING_WIDTH * self.width,
+                                            BUILDING_HEIGHT * self.height)
+            building_sprite.popup = building_sprite.create_popup(self.pos_x,  resources_panel_pos_y +
+                                                                 resources_panel_height, 0.7 * self.width,
+                                                                 self.height, self.blit_surface)
             self.all_sprites.add(building_sprite)
             curr_x += BUILDING_WIDTH * self.width + SPACE
             if str(self.curr_page) in self.page_buildings:

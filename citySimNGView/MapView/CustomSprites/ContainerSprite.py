@@ -7,3 +7,7 @@ class ContainerSprite(BasicSprite):
         BasicSprite.__init__(self, pos_x, pos_y, width, height, texture_path, popup_text, rect_point=rect_point)
         self.all_sprites = pygame.sprite.Group()
         self.surface = pygame.Surface.copy(self.image)
+
+    def draw(self):
+        """ This function draws panel. """
+        self.blit_surface.blit(self.surface, self.rect)

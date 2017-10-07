@@ -14,7 +14,6 @@ from Panels.BuildingsPanel import BuildingsPanel
 from Panels.InfoPanel import InfoPanel
 from Panels.NavigationPanel import NavigationPanel
 from Panels.ResourcesPanel import ResourcesPanel
-from Popups.BuildingsPanelPopup import BuildingsPanelPopup
 from Popups.Popup import Popup
 import time
 
@@ -26,7 +25,8 @@ class Game(object):
     """ This class represents an instance of the game. If we need to restart the game we'd just
     need to create a new instance of this class. """
     def __init__(self, width, height, texture_one, texture_two, buildings_data, resources_data,
-                 initial_resources_values, initial_resources_incomes, map_view):
+                 initial_resources_values, initial_resources_incomes, initial_resources_consumption,
+                 initial_resources_balance, map_view):
         """ Constructor. Initialize the game.
 
         :param width: board width
@@ -79,7 +79,11 @@ class Game(object):
         # Initialize game panels
         initial_resources_values = Converter().convertJavaMapToDict(initial_resources_values)
         initial_resources_incomes = Converter().convertJavaMapToDict(initial_resources_incomes)
-        self.init_panels(buildings_data, initial_resources_values, initial_resources_incomes, resources_data)
+        initial_resources_consumption = Converter().convertJavaMapToDict(initial_resources_consumption)
+        initial_resources_balance = Converter().convertJavaMapToDict(initial_resources_balance)
+
+        self.init_panels(buildings_data, initial_resources_values, initial_resources_incomes,
+                         initial_resources_consumption, initial_resources_balance, resources_data)
 
         # # TODO: probably should get this from model
         self.resources_panel.curr_dwellers_amount = 0
@@ -207,12 +211,7 @@ class Game(object):
 
                     if not self.popup or sprite != self.popup.sprite:
                         if sprite in self.buildings_panel.buildings_sprites:
-                            self.popup = BuildingsPanelPopup(self.buildings_panel.pos_x,
-                                                             self.resources_panel.pos_y + self.resources_panel.height,
-                                                             0.7 * self.buildings_panel.width,
-                                                             self.buildings_panel.height,
-                                                             sprite,
-                                                             self.game_board)
+                            self.popup = sprite.popup
                         else:
                             self.popup = Popup(mouse_pos[0], mouse_pos[1] + pygame.mouse.get_cursor()[0][1],
                                                sprite, POPUP_WIDTH * self.board_width, POPUP_HEIGHT * self.board_height,
@@ -225,12 +224,18 @@ class Game(object):
 
     def update(self):
         """ Update all elements before they will be drawn. """
+        mouse_pos = pygame.mouse.get_pos()
+
         if self.shadow is not None:
             self.shadow.rect.center = pygame.mouse.get_pos()
             if self.is_building_position_valid(self.shadow):
                 self.shadow.image.fill(GREEN)
             else:
                 self.shadow.image.fill(RED)
+
+        if self.popup and self.popup.sprite not in self.buildings_panel.buildings_sprites:
+            self.popup.pos_x, self.popup.pos_y = mouse_pos[0], mouse_pos[1] + pygame.mouse.get_cursor()[0][1]
+            self.popup.rect = self.popup.surface.get_rect(midtop=(self.popup.pos_x, self.popup.pos_y))
 
     def display_frame(self):
         """ In this function all elements are drawn. """
@@ -252,7 +257,8 @@ class Game(object):
         # draw game board
         self.background.blit(self.game_board, (0, 0))
 
-    def init_panels(self, buildings_data, initial_resources_values, initial_resources_incomes, resources_data):
+    def init_panels(self, buildings_data, initial_resources_values, initial_resources_incomes,
+                    initial_resources_consumption, initial_resources_balance, resources_data):
         """ Create and initialize all game panels. Add panels to appropriate sprite group.
 
         :param buildings_data: information about buildings available in game
@@ -264,7 +270,8 @@ class Game(object):
         # Create resources panel
         self.resources_panel = ResourcesPanel(0, 0, self.board_width - BUILDINGS_PANEL_SIZE * self.board_width,
                                               RESOURCES_PANEL_SIZE * self.board_height, self.game_board,
-                                              initial_resources_values, initial_resources_incomes, resources_data)
+                                              initial_resources_values, initial_resources_incomes,
+                                              initial_resources_consumption, initial_resources_balance, resources_data)
         self.panels_sprites.add(self.resources_panel)
         self.all_sprites.add(self.resources_panel)
 
@@ -272,7 +279,13 @@ class Game(object):
         self.buildings_panel = BuildingsPanel(self.board_width - BUILDINGS_PANEL_SIZE * self.board_width, 0,
                                               BUILDINGS_PANEL_SIZE * self.board_width,
                                               self.board_height - TEXT_PANEL_HEIGHT * self.board_height,
-                                              self.game_board, buildings_data)
+                                              self.game_board, buildings_data, self.resources_panel.pos_y,
+                                              self.resources_panel.height)
+
+        # Create popups for buildings in panel
+        for building in self.buildings_panel.buildings_sprites:
+            building.popup = building.create_popup()
+
         self.panels_sprites.add(self.buildings_panel)
         self.all_sprites.add(self.buildings_panel)
 

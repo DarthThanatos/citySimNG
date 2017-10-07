@@ -6,7 +6,8 @@ from MapView.CustomSprites.ContainerSprite import ContainerSprite
 
 
 TIME_TO_APPEAR = 1
-FONT_SIZE = 20
+FONT_SIZE = 25
+MARGIN = 2
 
 
 class Popup(ContainerSprite):
@@ -16,20 +17,21 @@ class Popup(ContainerSprite):
         self.sprite = sprite
         self.blit_surface = blit_surface
 
+        self.add_message()
         self.timer = time.time()
 
+    def add_message(self):
+        curr_y, curr_x = MARGIN, MARGIN
+        max_message_width = self.width - 2 * MARGIN
+        curr_y, widest_line = draw_text_with_wrapping(curr_x, curr_y, max_message_width, self.sprite.popup_text,
+                                                      GREEN, self.surface, FONT_SIZE)
+
+        # cut popup
+        self.surface = self.surface.subsurface((0, 0, int(widest_line + MARGIN), int(curr_y + MARGIN)))
+
+        self.rect = self.surface.get_rect(midtop=(self.pos_x, self.pos_y))
+        self.rect.clamp_ip(self.blit_surface.get_rect())
+
     def draw(self):
-        # clean
-        self.load_texture(rect_point='midtop')
-        self.surface = pygame.Surface.copy(self.image)
         if time.time() - self.timer > TIME_TO_APPEAR:
-            curr_y, curr_x = 0, 0
-            curr_y, widest_line = draw_text_with_wrapping(curr_x, curr_y, self.width, self.sprite.popup_text, GREEN,
-                                                          self.surface, FONT_SIZE)
-
-            # cut popup
-            self.surface = self.surface.subsurface((0, 0, int(widest_line), int(curr_y)))
-
-            self.rect = self.surface.get_rect(midtop=(self.pos_x, self.pos_y))
-            self.rect.clamp_ip(self.blit_surface.get_rect())
-            self.blit_surface.blit(self.surface, self.rect, (0, 0, self.width, int(curr_y)))
+            self.blit_surface.blit(self.surface, self.rect)

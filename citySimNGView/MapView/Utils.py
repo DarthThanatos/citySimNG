@@ -49,15 +49,31 @@ def draw_text_with_wrapping(pos_x, pos_y, max_x, msg, color, surface, font_size=
     space_width = font.size(' ')[0]  # get space width
     curr_x, curr_y = pos_x, pos_y
     text_size = (0, 0)
+
+    def _go_to_next_line(curr_x, curr_y, widest_line):
+        widest_line = max(curr_x, widest_line)
+        curr_x = pos_x  # Reset the x.
+        curr_y += word_height  # Start on new row.
+        return curr_x, curr_y, widest_line
+
     for word in msg.split(" "):
+        draw_new_line = False
+        if len(word) > 0 and word[-1] == '\n':
+            word = word[:-1]
+            draw_new_line = True
         word_surface = font.render(word, True, color)
         text_size = word_width, word_height = word_surface.get_size()
+
         if curr_x + word_width >= max_x:
-            widest_line = max(curr_x, widest_line)
-            curr_x = pos_x  # Reset the x.
-            curr_y += word_height  # Start on new row.
+            curr_x, curr_y, widest_line = _go_to_next_line(curr_x, curr_y, widest_line)
+
         surface.blit(word_surface, (curr_x, curr_y))
-        curr_x += word_width + space_width
+
+        if draw_new_line:
+            curr_x, curr_y, widest_line = _go_to_next_line(curr_x + word_width, curr_y, widest_line)
+        else:
+            curr_x += word_width + space_width
+
     return curr_y + text_size[1], max(widest_line, curr_x)
 
 

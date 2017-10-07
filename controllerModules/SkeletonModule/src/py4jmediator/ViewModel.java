@@ -21,9 +21,12 @@ public interface ViewModel {
 	public interface MapViewModel{
 		public void displayMap();
 		public void init(List<Resource> resources, List<Building> buildings, String texture_one, String texture_two,
-						 Map<String, Integer> initialResourcesValues, Map<String, Integer> initialResourcesIncomes);
+						 Map<String, Integer> initialResourcesValues, Map<String, Integer> initialResourcesIncomes,
+						 Map<String, Integer> actualResourcesConsumption, Map<String, Integer> resourcesBalance);
 		public void updateResourcesValues(Map<String, Integer> actualResourcesValues,
-										  Map<String, Integer> actualResourcesIncomes);
+										  Map<String, Integer> actualResourcesIncomes,
+										  Map<String, Integer> actualResourcesConsumption,
+										  Map<String, Integer> resourcesBalance);
 		public void resumeGame();
 	}
 
