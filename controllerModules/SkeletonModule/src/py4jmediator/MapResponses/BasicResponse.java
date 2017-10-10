@@ -1,37 +1,24 @@
-package py4jmediator;
+package py4jmediator.MapResponses;
 
 import java.util.Map;
 
-public class Response {
+public class BasicResponse {
     Map<String, Integer> actualResourcesValues;
     Map<String, Integer> actualResourcesIncomes;
     Map<String, Integer> actualResourcesConsumption;
     Map<String, Integer> resourcesBalance;
     int currentDwellersAmount;
     int currentDwellersMaxAmount;
-    boolean isBuildingRunning;
 
-    public Response(Map<String, Integer> actualResourcesValues, Map<String, Integer> actualResourcesIncomes,
-                    Map<String, Integer> actualResourcesConsumption, Map<String, Integer> resourcesBalance,
-                    int currentDwellersAmount, int currentDwellersMaxAmount){
+    public BasicResponse(Map<String, Integer> actualResourcesValues, Map<String, Integer> actualResourcesIncomes,
+                         Map<String, Integer> actualResourcesConsumption, Map<String, Integer> resourcesBalance,
+                         int currentDwellersAmount, int currentDwellersMaxAmount){
         this.actualResourcesValues = actualResourcesValues;
         this.actualResourcesIncomes = actualResourcesIncomes;
         this.actualResourcesConsumption = actualResourcesConsumption;
         this.resourcesBalance = resourcesBalance;
         this.currentDwellersAmount = currentDwellersAmount;
         this.currentDwellersMaxAmount = currentDwellersMaxAmount;
-    }
-
-    public Response(Map<String, Integer> actualResourcesValues, Map<String, Integer> actualResourcesIncomes,
-                    Map<String, Integer> actualResourcesConsumption, Map<String, Integer> resourcesBalance,
-                    int currentDwellersAmount, int currentDwellersMaxAmount, boolean isBuildingRunning){
-        this.actualResourcesValues = actualResourcesValues;
-        this.actualResourcesIncomes = actualResourcesIncomes;
-        this.actualResourcesConsumption = actualResourcesConsumption;
-        this.resourcesBalance = resourcesBalance;
-        this.currentDwellersAmount = currentDwellersAmount;
-        this.currentDwellersMaxAmount = currentDwellersMaxAmount;
-        this.isBuildingRunning = isBuildingRunning;
     }
 
     public Map<String, Integer> getActualResourcesValues() {
@@ -58,7 +45,4 @@ public class Response {
         return currentDwellersMaxAmount;
     }
 
-    public boolean isBuildingRunning() {
-        return isBuildingRunning;
-    }
 }

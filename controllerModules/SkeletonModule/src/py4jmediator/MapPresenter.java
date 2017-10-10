@@ -2,6 +2,10 @@ package py4jmediator;
 
 import entities.Building;
 import entities.Resource;
+import javafx.scene.paint.Stop;
+import py4jmediator.MapResponses.DeleteBuildingResponse;
+import py4jmediator.MapResponses.PlaceBuildingResponse;
+import py4jmediator.MapResponses.StopProductionResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -12,10 +16,10 @@ public class MapPresenter {
     public interface OnMapPresenterCalled{
         void onGoToMenu();
         void onViewInitialized();
-        Response onPlaceBuilding(String buildingName, String buildingId);
+        PlaceBuildingResponse onPlaceBuilding(String buildingName, String buildingId);
         boolean onCheckIfCanAffordOnBuilding(String buildingName);
-        Response onDeleteBuilding(String buildingId);
-        Response onStopProduction(String buildingId);
+        DeleteBuildingResponse onDeleteBuilding(String buildingId);
+        StopProductionResponse onStopProduction(String buildingId);
     }
 
     public void setOnMapPresenterCalled(OnMapPresenterCalled onMapPresenterCalled){
@@ -30,7 +34,7 @@ public class MapPresenter {
         }
     }
 
-    public Response placeBuilding(String buildingName, String buildingId){
+    public PlaceBuildingResponse placeBuilding(String buildingName, String buildingId){
         if(onMapPresenterCalled != null)
             return onMapPresenterCalled.onPlaceBuilding(buildingName, buildingId);
         return null;
@@ -47,13 +51,13 @@ public class MapPresenter {
         return false;
     }
 
-    public Response deleteBuilding(String buildingId){
+    public DeleteBuildingResponse deleteBuilding(String buildingId){
         if(onMapPresenterCalled != null)
             return onMapPresenterCalled.onDeleteBuilding(buildingId);
         return null;
     }
 
-    public Response stopProduction(String buildingId){
+    public StopProductionResponse stopProduction(String buildingId){
         if(onMapPresenterCalled != null)
             return onMapPresenterCalled.onStopProduction(buildingId);
         return null;

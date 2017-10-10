@@ -128,6 +128,7 @@ class MapView(wx.Panel):
         self.game.resources_panel.resources_balance = Converter().convertJavaMapToDict(result.getResourcesBalance())
         self.game.resources_panel.curr_dwellers_amount = result.getCurrentDwellersAmount()
         self.game.resources_panel.curr_max_dwellers_amount = result.getCurrentDwellersMaxAmount()
+        self.game.buildings_panel.enable_buildings(result.getEnabledBuildings())
 
     def check_if_can_afford(self, building):
         """ Send message to model with the inquiry if player has enough resources to erect building and
@@ -153,6 +154,7 @@ class MapView(wx.Panel):
         self.game.resources_panel.resources_balance = Converter().convertJavaMapToDict(result.getResourcesBalance())
         self.game.resources_panel.curr_dwellers_amount = result.getCurrentDwellersAmount()
         self.game.resources_panel.curr_max_dwellers_amount = result.getCurrentDwellersMaxAmount()
+        self.game.buildings_panel.disable_buildings(result.getDisabledBuildings())
 
     def stop_production(self, building_id):
         """ Stop production in given building.
@@ -169,7 +171,7 @@ class MapView(wx.Panel):
         self.game.resources_panel.resources_balance = Converter().convertJavaMapToDict(result.getResourcesBalance())
         self.game.resources_panel.curr_dwellers_amount = result.getCurrentDwellersAmount()
         self.game.resources_panel.curr_max_dwellers_amount = result.getCurrentDwellersMaxAmount()
-        self.game.info_panel.curr_building.is_running = result.isBuildingRunning()
+        self.game.info_panel.curr_building.is_running = result.isRunning()
         self.game.info_panel.set_stop_production_button_texture()
 
 # =================================================================================================================== #

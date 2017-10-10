@@ -125,10 +125,13 @@ class Game(object):
                                      if b.rect.collidepoint(mouse_pos)]
                 if clicked_buildings:
                     building = clicked_buildings[0]
-                    if self.map_view.check_if_can_afford(building):
+                    if self.map_view.check_if_can_afford(building) and building.is_enabled:
                         self.shadow = Building(building.name, uuid.uuid4().__str__(), building.texture_path,
                                                building.resources_cost, building.consumes, building.produces,
                                                mouse_pos[0], mouse_pos[1], building.width, building.height)
+                    elif not building.is_enabled:
+                        self.map_view.log.AppendText(
+                            "You have to built all successor first\n")
                     else:
                         self.map_view.log.AppendText(
                             "You don't have enough resources to build {}\n".format(building.name))

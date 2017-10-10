@@ -1,10 +1,12 @@
 from Building import Building
 from MapView.Popups.BuildingsPanelPopup import BuildingsPanelPopup
+import pygame
 
 
 class PanelBuilding(Building):
     """ This class represents an instance of building. """
-    def __init__(self, name, id, texture_path, resource_cost, consumes, produces, pos_x, pos_y, width, height):
+    def __init__(self, name, id, texture_path, resource_cost, consumes, produces, pos_x, pos_y, width, height,
+                 is_enabled):
         """ Constructor.
 
         :param name: building's name
@@ -21,6 +23,7 @@ class PanelBuilding(Building):
         Building.__init__(self, name, id, texture_path, resource_cost, consumes, produces, pos_x, pos_y, width, height)
 
         self.popup = None
+        self.is_enabled = is_enabled
 
     def create_popup(self, pos_x, pos_y, width, height, surface):
         """ Create popup for building.
@@ -35,3 +38,11 @@ class PanelBuilding(Building):
         popup = BuildingsPanelPopup(pos_x, pos_y, width, height, self, surface)
 
         return popup
+
+    def draw(self, surface, pos_x, pos_y):
+        surface.blit(self.image, (pos_x, pos_y))
+        if not self.is_enabled:
+            s = pygame.Surface((self.width, self.height))  # the size of your rect
+            s.set_alpha(128)  # alpha level
+            s.fill((255, 0, 0))  # this fills the entire surface
+            surface.blit(s, (pos_x, pos_y))  # (0,0) are the top-left coordinates

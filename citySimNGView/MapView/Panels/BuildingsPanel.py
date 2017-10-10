@@ -31,6 +31,7 @@ class BuildingsPanel(Panel):
         """
         Panel.__init__(self, pos_x, pos_y, width, height, BUILDINGS_PANEL_TEXTURE, blit_surface, 'Buildings Panel')
         self.buildings_data = buildings_data
+        self.buildings = {}
         self.buildings_sprites = pygame.sprite.Group()
         self.curr_page = 1
         self.last_page = 1
@@ -78,7 +79,8 @@ class BuildingsPanel(Panel):
             building_sprite = PanelBuilding(building.getName(), uuid.uuid4().__str__(), building.getTexturePath(),
                                             building.getResourcesCost(), building.getConsumes(), building.getProduces(),
                                             curr_x + self.pos_x, curr_y + self.pos_y, BUILDING_WIDTH * self.width,
-                                            BUILDING_HEIGHT * self.height)
+                                            BUILDING_HEIGHT * self.height, building.isEnabled())
+            self.buildings[building.getName()] = building_sprite
             building_sprite.popup = building_sprite.create_popup(self.pos_x,  resources_panel_pos_y +
                                                                  resources_panel_height, 0.7 * self.width,
                                                                  self.height, self.blit_surface)
@@ -106,3 +108,15 @@ class BuildingsPanel(Panel):
         """ Go to previous page with buildings. """
         if self.curr_page > 1:
             self.curr_page -= 1
+
+    # TODO: None should disappear
+    def enable_buildings(self, buildings):
+        for building in buildings:
+            print building
+            if building != 'None':
+                self.buildings[building].is_enabled = True
+
+    def disable_buildings(self, buildings):
+        for building in buildings:
+            if building != 'None':
+                self.buildings[building].is_enabled = False

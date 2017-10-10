@@ -1,5 +1,6 @@
 package mapnode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,9 @@ import java.util.Map;
 import model.DependenciesRepresenter;
 
 import entities.Building;
+import py4jmediator.MapResponses.DeleteBuildingResponse;
+import py4jmediator.MapResponses.PlaceBuildingResponse;
+import py4jmediator.MapResponses.StopProductionResponse;
 
 public class Buildings {
 	private List<Building> allBuildings;
@@ -14,6 +18,12 @@ public class Buildings {
 
 	public Buildings(DependenciesRepresenter dr){
 		allBuildings = (List<Building>) dr.getModuleData("allBuildings");
+
+		for(Building building: allBuildings){
+			if(building.getPredecessor().equals("None"))
+				building.setEnabled(true);
+		}
+
 		playerBuildings = new HashMap<>();
 	}
 	
@@ -29,13 +39,20 @@ public class Buildings {
 		return true;
 	}
 	
-	public void placeBuilding(String buildingName, String buildingId, Resources resources, Dwellers dwellers){
+	public PlaceBuildingResponse placeBuilding(String buildingName, String buildingId, Resources resources,
+											   Dwellers dwellers){
 		Building building = findBuildingWithName(buildingName);
 
 		resources.subBuildingsCost(building);
 		resources.addBuildingConsumption(building);
 		resources.addBuildingsBalance(building);
-		
+
+		// TODO:
+		//unlockSuccessors(building);
+		List<String> unlockedBuildings = new ArrayList<String>();
+		unlockedBuildings.add(building.getSuccessor());
+		unlockedBuildings.add("Mill");
+
 		// TODO get this map from dwellers when they will work in creator
 		Map<String, Integer> tmp = new HashMap();
 		tmp.put("Zbychu", 3);
@@ -48,15 +65,37 @@ public class Buildings {
 		Building newBuilding = new Building(building);
 		newBuilding.setId(buildingId);
 		playerBuildings.put(buildingId, newBuilding);
+
+		return new PlaceBuildingResponse(
+				resources.getActualResourcesValues(),
+				resources.getActualResourcesIncomes(),
+				resources.getActualResourcesConsumption(),
+				resources.getResourcesBalance(),
+				dwellers.getCurrDwellersAmount(),
+				dwellers.getCurrDwellersMaxAmount(),
+				unlockedBuildings);
 	}
 	
-	public void deleteBuilding(String buildingId, Resources resources, Dwellers dwellers){
+	public DeleteBuildingResponse deleteBuilding(String buildingId, Resources resources, Dwellers dwellers){
 		Building building = findBuildingWithId(buildingId);
+
+		// TODO:
+//		lockSuccessors(building);
+		List<String> lockedBuildings = new ArrayList<String>();
+		lockedBuildings.add(building.getPredecessor());
+		lockedBuildings.add("Mill");
 
 		// if building is not running we don't have to modify incomes 
 		if(!building.isRunning()){
 			playerBuildings.remove(buildingId);
-			return;
+			return new DeleteBuildingResponse(
+					resources.getActualResourcesValues(),
+					resources.getActualResourcesIncomes(),
+					resources.getActualResourcesConsumption(),
+					resources.getResourcesBalance(),
+					dwellers.getCurrDwellersAmount(),
+					dwellers.getCurrDwellersMaxAmount(),
+					lockedBuildings);
 		}
 
 		resources.subBuildingConsumption(building);
@@ -72,9 +111,17 @@ public class Buildings {
 		}
 		
 		playerBuildings.remove(buildingId);
+		return new DeleteBuildingResponse(
+				resources.getActualResourcesValues(),
+				resources.getActualResourcesIncomes(),
+				resources.getActualResourcesConsumption(),
+				resources.getResourcesBalance(),
+				dwellers.getCurrDwellersAmount(),
+				dwellers.getCurrDwellersMaxAmount(),
+				lockedBuildings);
 	}
 
-	public void stopProduction(String buildingId, Resources resources, Dwellers dwellers){
+	public StopProductionResponse stopProduction(String buildingId, Resources resources, Dwellers dwellers){
 		Building building = findBuildingWithId(buildingId);
 
 		if(building.isRunning()){
@@ -106,6 +153,15 @@ public class Buildings {
 			
 			building.setRunning(true);
 		}
+
+		return new StopProductionResponse(
+				resources.getActualResourcesValues(),
+				resources.getActualResourcesIncomes(),
+				resources.getActualResourcesConsumption(),
+				resources.getResourcesBalance(),
+				dwellers.getCurrDwellersAmount(),
+				dwellers.getCurrDwellersMaxAmount(),
+				building.isRunning());
 	}
 	
 	public Building findBuildingWithId(String buildingId){
@@ -126,6 +182,21 @@ public class Buildings {
 		return null;
 	}
 
+	private void unlockSuccessors(Building building){
+		for(Building successor: allBuildings){
+			if(building.getSuccessor().equals(successor.getName()))
+				successor.setEnabled(true);
+		}
+	}
+
+	private void lockSuccessors(Building building){
+		for(String playerBuilding: playerBuildings.keySet())
+			if(playerBuilding.equals(building.getName()))
+				return;
+		for(Building b: allBuildings){
+
+		}
+	}
 	/* Getters and setters */
 
 	public List<Building> getAllBuildings() {

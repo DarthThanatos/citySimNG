@@ -20,6 +20,16 @@ public class Building {
 	private String id;
 	private boolean running = true;
 
+	public boolean isEnabled() {
+		return isEnabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		isEnabled = enabled;
+	}
+
+	private boolean isEnabled = false;
+
 	public boolean isProducing() {
 		return producing;
 	}

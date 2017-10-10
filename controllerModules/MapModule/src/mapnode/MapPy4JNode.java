@@ -6,8 +6,10 @@ import controlnode.Py4JNode;
 import model.DependenciesRepresenter;
 import model.TutorialHintEvent;
 import py4jmediator.MapPresenter;
+import py4jmediator.MapResponses.DeleteBuildingResponse;
+import py4jmediator.MapResponses.PlaceBuildingResponse;
+import py4jmediator.MapResponses.StopProductionResponse;
 import py4jmediator.Presenter;
-import py4jmediator.Response;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -144,15 +146,8 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
 
 
     @Override
-    public Response onPlaceBuilding(String buildingName, String buildingId){
-        buildings.placeBuilding(buildingName, buildingId, resources, dwellers);
-        return new Response(
-                resources.getActualResourcesValues(),
-                resources.getActualResourcesIncomes(),
-                resources.getActualResourcesConsumption(),
-                resources.getResourcesBalance(),
-                dwellers.getCurrDwellersAmount(),
-                dwellers.getCurrDwellersMaxAmount());
+    public PlaceBuildingResponse onPlaceBuilding(String buildingName, String buildingId){
+        return buildings.placeBuilding(buildingName, buildingId, resources, dwellers);
     }
 
     @Override
@@ -161,28 +156,13 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
     }
 
     @Override
-    public Response onDeleteBuilding(String buildingId){
-        buildings.deleteBuilding(buildingId, resources, dwellers);
-        return new Response(
-                resources.getActualResourcesValues(),
-                resources.getActualResourcesIncomes(),
-                resources.getActualResourcesConsumption(),
-                resources.getResourcesBalance(),
-                dwellers.getCurrDwellersAmount(),
-                dwellers.getCurrDwellersMaxAmount());
+    public DeleteBuildingResponse onDeleteBuilding(String buildingId){
+        return buildings.deleteBuilding(buildingId, resources, dwellers);
     }
 
     @Override
-    public Response onStopProduction(String buildingId){
-        buildings.stopProduction(buildingId, resources, dwellers);
-        return new Response(
-                resources.getActualResourcesValues(),
-                resources.getActualResourcesIncomes(),
-                resources.getActualResourcesConsumption(),
-                resources.getResourcesBalance(),
-                dwellers.getCurrDwellersAmount(),
-                dwellers.getCurrDwellersMaxAmount(),
-                buildings.findBuildingWithId(buildingId).isRunning());
+    public StopProductionResponse onStopProduction(String buildingId){
+        return buildings.stopProduction(buildingId, resources, dwellers);
     }
 
     @Override
