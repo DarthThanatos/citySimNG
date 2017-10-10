@@ -1,6 +1,5 @@
 import pygame
 from MapView.CustomSprites.BasicSprite import BasicSprite
-from CreatorView.RelativePaths import relative_music_path
 
 
 class Button(BasicSprite):
@@ -8,10 +7,10 @@ class Button(BasicSprite):
     def __init__(self, pos_x, pos_y, width, height, texture, action, panel, popup_text, texture_rotation=0):
         """ Constructor.
 
-        :param pos_x: x position on screen
-        :param pos_y: y position on screen
-        :param width: button's width
-        :param height: button's height
+        :param pos_x: x position [px]
+        :param pos_y: y position [px]
+        :param width: button's width [px]
+        :param height: button's height [px]
         :param texture: path to button's texture
         :param action: action performed when button is released
         :param panel: panel in which button is located
@@ -42,7 +41,7 @@ class Button(BasicSprite):
         self.rect = self.image.get_rect(topleft=(self.pos_x, self.pos_y))
 
     def set_texture(self, texture):
-        """ Load texture for button from file, scale it and get it's rect.
+        """ Set texture for button. Load texture from file, scale it and get it's rect.
 
         :param texture: path to button's texture
         """

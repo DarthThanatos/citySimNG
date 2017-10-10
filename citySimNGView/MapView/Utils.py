@@ -43,6 +43,7 @@ def draw_text_with_wrapping(pos_x, pos_y, max_x, msg, color, surface, font_size=
     :param msg: text to draw
     :param color: font color
     :param surface: surface on which text should be drawn
+    :param font_size: size of font
     """
     widest_line = 0
     font = pygame.font.SysFont(FONT, font_size)

@@ -13,10 +13,10 @@ class Building(BasicSprite):
         :param resource_cost: amount of resources needed to construct this building
         :param consumes: amount of resources this building consumes
         :param produces: amount of resources this building produces
-        :param pos_x: x position on screen
-        :param pos_y: y position on screen
-        :param width: building's width
-        :param height: building's height
+        :param pos_x: x position [px]
+        :param pos_y: y position [px]
+        :param width: building's width [px]
+        :param height: building's height [px]
         """
         BasicSprite.__init__(self, pos_x, pos_y, width, height, texture_path, name)
 

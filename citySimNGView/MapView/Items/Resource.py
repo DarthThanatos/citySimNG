@@ -9,6 +9,8 @@ class Resource(BasicSprite):
 
         :param name: resources's name
         :param texture_path: path to resource's texture
+        :param width: resource's width [px]
+        :param height: resource's height [px]
         """
         BasicSprite.__init__(self, 0, 0, width, height, texture_path, name)
         self.name = name

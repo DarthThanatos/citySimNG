@@ -23,7 +23,7 @@ def parse_resources_data(resources_data):
         }
 
 
-def draw_resources_info(resources_info, start_x, start_y, max_x, container, resources_sprites=None ,
+def draw_resources_info(resources_info, start_x, start_y, max_x, container, resources_sprites=None,
                         resources_sprites_group=None, image_width=0, image_height=0):
     """ Draw resources info with wrapping so that it does not exceed given x value.
     For each resource this function draw first image and then value.
@@ -32,10 +32,12 @@ def draw_resources_info(resources_info, start_x, start_y, max_x, container, reso
     :param start_x: initial x position
     :param start_y: initial y position
     :param max_x: x value that info should not exceed
-    :param surface: surface on which info should be drawn
-    :param res_image_width: resource image width
-    :param res_image_height: resource image height
-    :return:
+    :param container: container in which info will be drawn
+    :param resources_sprites: list containing resources sprites
+    :param resources_sprites_group: group of sprites to which add sprites
+    :param image_width: resource image width
+    :param image_height: resource image height
+    :return: y position of line under drawn info
     """
     curr_x, curr_y = start_x, start_y
     text_size = (0, 0)

@@ -9,8 +9,8 @@ class BasicSprite(pygame.sprite.DirtySprite):
     def __init__(self, pos_x, pos_y, width, height, texture_path, popup_text, texture_rotation=0, rect_point='topleft'):
         """ Constructor.
 
-        :param pos_x: x position on screen [px]
-        :param pos_y: y position on screen [px]
+        :param pos_x: x position [px]
+        :param pos_y: y position [px]
         :param width: width [px] -> will be cast to integer
         :param height: height [px] -> will be cast to integer
         :param texture_path: path to texture
