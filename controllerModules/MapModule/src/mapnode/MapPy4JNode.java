@@ -51,8 +51,15 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
             resources = new Resources(dr);
             buildings = new Buildings(dr);
             dwellers = new Dwellers(dr);
-            mapPresenter.init(resources.getResources(), buildings.getAllBuildings(), dr.getTextureAt(0),
-                    dr.getTextureAt(1), resources.getActualResourcesValues(), resources.getActualResourcesIncomes());
+            mapPresenter.init(
+                    resources.getResources(),
+                    buildings.getAllBuildings(),
+                    dr.getTextureAt(0),
+                    dr.getTextureAt(1),
+                    resources.getActualResourcesValues(),
+                    resources.getActualResourcesIncomes(),
+                    resources.getActualResourcesConsumption(),
+                    resources.getResourcesBalance());
 
             waitForViewInit();
 
@@ -65,9 +72,12 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
         resourcesThread = new Thread() {
             public void run() {
                 while (updateResources) {
-                    resources.updateResources();
-                    mapPresenter.updateResourcesValues(resources.getActualResourcesValues(),
-                            resources.getActualResourcesIncomes());
+                    resources.updateResources(buildings.getPlayerBuildings());
+                    mapPresenter.updateResourcesValues(
+                            resources.getActualResourcesValues(),
+                            resources.getActualResourcesIncomes(),
+                            resources.getActualResourcesConsumption(),
+                            resources.getResourcesBalance());
                     try {
                         Thread.sleep(3000);
                     } catch (Exception e) {
@@ -112,6 +122,7 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
 
     @Override
     public void atUnload(){
+        startNewGame = true;
         super.atUnload();
     }
 
@@ -138,6 +149,8 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
         return new Response(
                 resources.getActualResourcesValues(),
                 resources.getActualResourcesIncomes(),
+                resources.getActualResourcesConsumption(),
+                resources.getResourcesBalance(),
                 dwellers.getCurrDwellersAmount(),
                 dwellers.getCurrDwellersMaxAmount());
     }
@@ -153,6 +166,8 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
         return new Response(
                 resources.getActualResourcesValues(),
                 resources.getActualResourcesIncomes(),
+                resources.getActualResourcesConsumption(),
+                resources.getResourcesBalance(),
                 dwellers.getCurrDwellersAmount(),
                 dwellers.getCurrDwellersMaxAmount());
     }
@@ -163,6 +178,8 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
         return new Response(
                 resources.getActualResourcesValues(),
                 resources.getActualResourcesIncomes(),
+                resources.getActualResourcesConsumption(),
+                resources.getResourcesBalance(),
                 dwellers.getCurrDwellersAmount(),
                 dwellers.getCurrDwellersMaxAmount(),
                 buildings.findBuildingWithId(buildingId).isRunning());

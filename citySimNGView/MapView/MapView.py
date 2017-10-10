@@ -121,8 +121,11 @@ class MapView(wx.Panel):
         result = self.sender.entry_point.getMapPresenter().placeBuilding(building.name, building.id)
         self.game.resources_panel.resources_values = \
             Converter().convertJavaMapToDict(result.getActualResourcesValues())
-        self.game.resources_panel.resources_incomes = \
-            Converter().convertJavaMapToDict(result.getActualResourcesIncomes())
+        self.game.resources_panel.resources_incomes = Converter().convertJavaMapToDict(
+            result.getActualResourcesIncomes())
+        self.game.resources_panel.resources_consumption = Converter().convertJavaMapToDict(
+            result.getActualResourcesConsumption())
+        self.game.resources_panel.resources_balance = Converter().convertJavaMapToDict(result.getResourcesBalance())
         self.game.resources_panel.curr_dwellers_amount = result.getCurrentDwellersAmount()
         self.game.resources_panel.curr_max_dwellers_amount = result.getCurrentDwellersMaxAmount()
 
@@ -143,8 +146,11 @@ class MapView(wx.Panel):
         result = self.sender.entry_point.getMapPresenter().deleteBuilding(building_id)
         self.game.resources_panel.resources_values = \
             Converter().convertJavaMapToDict(result.getActualResourcesValues())
-        self.game.resources_panel.resources_incomes = \
-            Converter().convertJavaMapToDict(result.getActualResourcesIncomes())
+        self.game.resources_panel.resources_incomes = Converter().convertJavaMapToDict(
+            result.getActualResourcesIncomes())
+        self.game.resources_panel.resources_consumption = Converter().convertJavaMapToDict(
+            result.getActualResourcesConsumption())
+        self.game.resources_panel.resources_balance = Converter().convertJavaMapToDict(result.getResourcesBalance())
         self.game.resources_panel.curr_dwellers_amount = result.getCurrentDwellersAmount()
         self.game.resources_panel.curr_max_dwellers_amount = result.getCurrentDwellersMaxAmount()
 
@@ -156,8 +162,11 @@ class MapView(wx.Panel):
         result = self.sender.entry_point.getMapPresenter().stopProduction(building_id)
         self.game.resources_panel.resources_values = \
             Converter().convertJavaMapToDict(result.getActualResourcesValues())
-        self.game.resources_panel.resources_incomes = \
-            Converter().convertJavaMapToDict(result.getActualResourcesIncomes())
+        self.game.resources_panel.resources_incomes = Converter().convertJavaMapToDict(
+            result.getActualResourcesIncomes())
+        self.game.resources_panel.resources_consumption = Converter().convertJavaMapToDict(
+            result.getActualResourcesConsumption())
+        self.game.resources_panel.resources_balance = Converter().convertJavaMapToDict(result.getResourcesBalance())
         self.game.resources_panel.curr_dwellers_amount = result.getCurrentDwellersAmount()
         self.game.resources_panel.curr_max_dwellers_amount = result.getCurrentDwellersMaxAmount()
         self.game.info_panel.curr_building.is_running = result.isBuildingRunning()
@@ -167,16 +176,20 @@ class MapView(wx.Panel):
 # Reading messages from model
 # =================================================================================================================== #
     def init(self, resources, buildings, texture_one, texture_two, initial_resources_values,
-             initial_resources_incomes):
+             initial_resources_incomes, initial_resources_consumption, initial_resources_balance):
         """ Initialize game -> create game instance. After creating game instance send acknowledgement to model. """
         self.game = Game(self.width, self.height, texture_one, texture_two, buildings, resources,
-                         initial_resources_values, initial_resources_incomes, self)
+                         initial_resources_values, initial_resources_incomes, initial_resources_consumption,
+                         initial_resources_balance, self)
         self.sender.entry_point.getMapPresenter().viewInitialized()
 
-    def update_resources_values(self, actual_resources_values, actual_resources_incomes):
+    def update_resources_values(self, actual_resources_values, actual_resources_incomes, actual_resources_consumption,
+                                resources_balance):
         """ Update resources values """
         self.game.resources_panel.resources_values = Converter().convertJavaMapToDict(actual_resources_values)
         self.game.resources_panel.resources_incomes = Converter().convertJavaMapToDict(actual_resources_incomes)
+        self.game.resources_panel.resources_consumption = Converter().convertJavaMapToDict(actual_resources_consumption)
+        self.game.resources_panel.resources_balance = Converter().convertJavaMapToDict(resources_balance)
 
     def resume_game(self):
         """ Resume game. """

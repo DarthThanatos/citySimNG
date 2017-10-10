@@ -19,6 +19,16 @@ public class Building {
 	private Map<String, Integer> workingDwellers;
 	private String id;
 	private boolean running = true;
+
+	public boolean isProducing() {
+		return producing;
+	}
+
+	public void setProducing(boolean producing) {
+		this.producing = producing;
+	}
+
+	private boolean producing = true;
 	private String description;
 	
 	public String getDescription(){
