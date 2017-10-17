@@ -4,25 +4,15 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyCombination;
-import javafx.scene.text.Font;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.chart.XYChart;
@@ -31,212 +21,72 @@ import model.DependenciesRepresenter;
 public class StockView extends Application {
 
     private static Stage stage;
-    public static Stock stock;
-    private static TableView<Resource> table;
+    public static Stock stock = null;
+    private static TableView<Resource> resourceTable;
     private static LineChart<String, Number> lineChart;
-    private static ObservableList<PieChart.Data> pieChartData;
+    private static ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
     private static Label moneyLabel;
-    private static TableColumn resourceNames;
-    private static TableColumn resourcePrice;
-    private static TableColumn resourceQuantity;
-    private static TableColumn playerResourceQuantity;
-    private static ComboBox resourceComboBox;
+    private static ComboBox<String> resourceComboBox;
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public void start(Stage primaryStage) {
 
-        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-
-        // stage settings
         Platform.setImplicitExit(false);
         stage = primaryStage;
-        stage.setAlwaysOnTop(true);
-        stage.setFullScreen(true);
-        stage.setResizable(true);
-        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        StockViewUtils.setStageSettings(stage);
 
-        // money label
-        moneyLabel = new Label("You have "+String.format("%.2f", stock.getDependenciesRepresenter().getMoney())+" money.");
-        moneyLabel.setFont(new Font("Arial", 20));
-        moneyLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.18, primaryScreenBounds.getHeight() * 0.04);
-        moneyLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.68);
-        moneyLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.77);
+        moneyLabel = StockViewUtils.createMoneyLabel();
 
-        // resources table label
-        final Label tableLabel = new Label("Resource table detailed info:");
-        tableLabel.setFont(new Font("Arial", 20));
-        tableLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.18, primaryScreenBounds.getHeight() * 0.04);
-        tableLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.05);
-        tableLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.60);
+        resourceTable = StockViewUtils.createResourceTable();
+        setResourceTable();
 
-        // resources table settings
-        table = new TableView<>();
-        table.setEditable(false);
-        table.setFixedCellSize(primaryScreenBounds.getHeight() * 0.04);
-        table.setMaxHeight((primaryScreenBounds.getHeight() * 0.04) * 6.8);
-        table.setLayoutX(primaryScreenBounds.getWidth() * 0.05);
-        table.setLayoutY(primaryScreenBounds.getHeight() * 0.65);
+        lineChart = StockViewUtils.createLineChart();
 
-        // settings columns
-        resourceNames = new TableColumn("Name");
-        resourceNames.setMinWidth(primaryScreenBounds.getWidth() * 0.05);
-        resourceNames.setCellValueFactory(new PropertyValueFactory<Resource, String>("name"));
+        PieChart pieChart = StockViewUtils.createPieChart(pieChartData);
+        setPieChartData();
 
-        resourcePrice = new TableColumn("Price");
-        resourcePrice.setMinWidth(primaryScreenBounds.getWidth() * 0.05);
-        resourcePrice.setCellValueFactory(new PropertyValueFactory<Resource, String>("priceString"));
+        resourceComboBox = StockViewUtils.createResourceComboBox();
+        setResourceComboBox();
 
-        resourceQuantity = new TableColumn("In stock");
-        resourceQuantity.setMinWidth(primaryScreenBounds.getWidth() * 0.05);
-        resourceQuantity.setCellValueFactory(new PropertyValueFactory<Resource, Integer>("quantity"));
+        TextField resourceAmountField = StockViewUtils.createResourceAmountField();
 
-        playerResourceQuantity = new TableColumn("Possessed");
-        playerResourceQuantity.setMinWidth(primaryScreenBounds.getWidth() * 0.05);
-        playerResourceQuantity.setCellValueFactory(new PropertyValueFactory<Resource, Integer>("playerQuantity"));
-
-        table.getColumns().addAll(resourceNames, resourcePrice, resourceQuantity, playerResourceQuantity);
-        setTable();
-
-        // axis settings
-        final CategoryAxis xAxis = new CategoryAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Turn");
-
-        // linechart settings
-        lineChart = new LineChart<>(xAxis, yAxis);
-        lineChart.setTitle("Stock Monitoring");
-        lineChart.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
-        lineChart.setLayoutY(primaryScreenBounds.getHeight() * 0.05);
-        lineChart.setPrefSize(primaryScreenBounds.getWidth() * 0.6, primaryScreenBounds.getHeight() * 0.7);
-        lineChart.setStyle("-fx-background-color: rgba(0, 168, 255, 0.05);");
-
-        // piechart settings
-        pieChartData = FXCollections.observableArrayList();
-        for (Resource resource : stock.getResources()) {
-            pieChartData.add(new PieChart.Data(resource.getName(), resource.getQuantity()));
-        }
-        PieChart pieChart = new PieChart(pieChartData);
-        pieChart.setTitle("Stock resources chart");
-        pieChart.setLayoutX(primaryScreenBounds.getWidth() * 0.02);
-        pieChart.setLayoutY(primaryScreenBounds.getHeight() * 0.05);
-        pieChart.setPrefSize(primaryScreenBounds.getWidth() * 0.25, primaryScreenBounds.getHeight() * 0.40);
-
-        // combobox label
-        final Label resourceComboBoxLabel = new Label("Choose resource type:");
-        resourceComboBoxLabel.setFont(new Font("Arial", 20));
-        resourceComboBoxLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.17,
-                primaryScreenBounds.getHeight() * 0.04);
-        resourceComboBoxLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
-        resourceComboBoxLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.77);
-
-        // combo box for resource choosing
-        resourceComboBox = new ComboBox();
-        resourceComboBox.getItems().addAll(stock.getResourcesNames());
-        resourceComboBox.getSelectionModel().selectFirst();
-        resourceComboBox.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
-        resourceComboBox.setLayoutX(primaryScreenBounds.getWidth() * 0.48);
-        resourceComboBox.setLayoutY(primaryScreenBounds.getHeight() * 0.77);
-
-        // text field label
-        final Label resourceAmountLabel = new Label("Enter resource quantity:");
-        resourceAmountLabel.setFont(new Font("Arial", 20));
-        resourceAmountLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.17, primaryScreenBounds.getHeight() * 0.04);
-        resourceAmountLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
-        resourceAmountLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.83);
-
-        // text field settings
-        final TextField resourceAmount = new TextField();
-        resourceAmount.setPromptText("resource quantity");
-        resourceAmount.setPrefColumnCount(10);
-        resourceAmount.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
-        resourceAmount.setLayoutX(primaryScreenBounds.getWidth() * 0.48);
-        resourceAmount.setLayoutY(primaryScreenBounds.getHeight() * 0.83);
-
-        // buy button label
-        final Label buyButtonLabel = new Label("Buy chosen resources: ");
-        buyButtonLabel.setFont(new Font("Arial", 20));
-        buyButtonLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.17, primaryScreenBounds.getHeight() * 0.04);
-        buyButtonLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
-        buyButtonLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.88);
-
-        // buy button settings
-        Button buyButton = new Button("BUY");
+        Button buyButton = StockViewUtils.createBuyButton();
         buyButton.setOnAction(event -> {
-            String message = stock.buyOperation((String) resourceComboBox.getValue(), resourceAmount.getText());
-            updatePieChart();
-            updateMoneyLabel();
-            table.getColumns().get(0).setVisible(false);
-            table.getColumns().get(0).setVisible(true);
-            showAlert(message);
+            String message = stock.buyOperation(resourceComboBox.getValue(), resourceAmountField.getText());
+            performAction(message);
         });
-        buyButton.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
-        buyButton.setLayoutX(primaryScreenBounds.getWidth() * 0.48);
-        buyButton.setLayoutY(primaryScreenBounds.getHeight() * 0.88);
 
-        // sell button label
-        final Label sellButtonLabel = new Label("Sell chosen resources: ");
-        sellButtonLabel.setFont(new Font("Arial", 20));
-        sellButtonLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.17, primaryScreenBounds.getHeight() * 0.04);
-        sellButtonLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
-        sellButtonLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.93);
-
-        // sell button settings
-        Button sellButton = new Button("SELL");
+        Button sellButton = StockViewUtils.createSellButton();
         sellButton.setOnAction(event -> {
-            String message = stock.sellOperation((String) resourceComboBox.getValue(), resourceAmount.getText());
-            updatePieChart();
-            updateMoneyLabel();
-            table.getColumns().get(0).setVisible(false);
-            table.getColumns().get(0).setVisible(true);
-            showAlert(message);
+            String message = stock.sellOperation(resourceComboBox.getValue(), resourceAmountField.getText());
+            performAction(message);
         });
-        sellButton.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
-        sellButton.setLayoutX(primaryScreenBounds.getWidth() * 0.48);
-        sellButton.setLayoutY(primaryScreenBounds.getHeight() * 0.93);
 
-        // dice label
-        final Label diceLabel = new Label("Take part in lottery:");
-        diceLabel.setFont(new Font("Arial", 20));
-        diceLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.14, primaryScreenBounds.getHeight() * 0.04);
-        diceLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.68);
-        diceLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.82);
-
-        // dice button settings
-        Button diceButton = new Button("ROLL THE DICE");
+        Button diceButton = StockViewUtils.createDiceButton();
         diceButton.setOnAction(event -> {
             String message = stock.diceOperation();
-            updateMoneyLabel();
-            table.getColumns().get(0).setVisible(false);
-            table.getColumns().get(0).setVisible(true);
-            showAlert(message);
+            performAction(message);
         });
-        diceButton.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
-        diceButton.setLayoutX(primaryScreenBounds.getWidth() * 0.82);
-        diceButton.setLayoutY(primaryScreenBounds.getHeight() * 0.82);
 
-        // exit label
-        final Label exitLabel = new Label("Leave stock:");
-        exitLabel.setFont(new Font("Arial", 20));
-        exitLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.14, primaryScreenBounds.getHeight() * 0.04);
-        exitLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.68);
-        exitLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.87);
-
-        // exit button settings
-        Button exitButton = new Button("Exit");
+        Button exitButton = StockViewUtils.createExitButton();
         exitButton.setOnAction(event -> {
             stage.hide();
             stock.setWorkingStatus(true);
         });
-        exitButton.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
-        exitButton.setLayoutX(primaryScreenBounds.getWidth() * 0.82);
-        exitButton.setLayoutY(primaryScreenBounds.getHeight() * 0.87);
 
-        // main scene settings
         Scene scene = new Scene(new Group());
-        ((Group) scene.getRoot()).getChildren().addAll(table, lineChart, exitButton, resourceAmount, resourceComboBox,
-                buyButton, sellButton, diceButton, pieChart, resourceComboBoxLabel, resourceAmountLabel, buyButtonLabel,
-                sellButtonLabel, tableLabel, diceLabel, exitLabel, moneyLabel);
+        ((Group) scene.getRoot()).getChildren().addAll(
+                StockViewUtils.createResourceTableLabel(),
+                StockViewUtils.createResourceComboBoxLabel(),
+                StockViewUtils.createResourceAmountLabel(),
+                StockViewUtils.createBuyLabel(),
+                StockViewUtils.createSellLabel(),
+                StockViewUtils.createDiceLabel(),
+                StockViewUtils.createExitLabel(),
+                moneyLabel,
+                buyButton, sellButton, diceButton, exitButton,
+                resourceTable, lineChart, resourceAmountField, resourceComboBox,
+                pieChart);
 
         stage.setScene(scene);
         stage.hide();
@@ -247,80 +97,21 @@ public class StockView extends Application {
         StockView.stock = stock;
         try {
             launch();
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             StockView.stock = tmpStock;
             StockView.stock.setDependenciesRepresenter(dependenciesRepresenter);
             StockView.stock.init();
-            setTable();
-            setPieChart();
-            updateComboBox();
+            setResourceTable();
+            setPieChartData();
+            setResourceComboBox();
         }
     }
 
-    public static void setStock(Stock stock) {
-        StockView.stock = stock;
-    }
-
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    private static void updateLineChart() {
-        lineChart.getData().clear();
-        for (Resource resource : stock.getResources()) {
-            XYChart.Series series = new XYChart.Series();
-            series.setName(resource.getName());
-            Double[] prices = stock.getPriceHistory().get(resource.getName());
-            for (int i = 0; i < Stock.priceHistoryRange; i++) {
-                series.getData().add(new XYChart.Data(String.valueOf(Stock.priceHistoryRange - i - 1), prices[i]));
-            }
-            lineChart.getData().add(series);
-        }
-    }
-
-    private static void setTable() {
-        ObservableList<Resource> lineChartData = FXCollections.observableArrayList(stock.getResources());
-        table.getItems().removeAll();
-        table.setItems(lineChartData);
-    }
-
-    private static void setPieChart() {
-        pieChartData.removeAll();
-        pieChartData.clear();
-        for (Resource resource : stock.getResources()) {
-            pieChartData.add(new PieChart.Data(resource.getName(), resource.getQuantity()));
-        }
-    }
-
-    private static void updatePieChart() {
-        for (Data data : pieChartData) {
-            data.setPieValue(stock.getResource(data.getName()).getQuantity());
-        }
-    }
-
-    private static void updateComboBox() {
-        resourceComboBox.getItems().removeAll();
-        resourceComboBox.getItems().clear();
-        resourceComboBox.getItems().addAll(stock.getResourcesNames());
-        resourceComboBox.getSelectionModel().selectFirst();
-    }
-
-    private static void updateMoneyLabel() {
-        moneyLabel.setText("You have "+String.format("%.2f", stock.getDependenciesRepresenter().getMoney())+" money.");
-    }
-
-    private static void showAlert(String message) {
-        Alert alert;
-        if (message.startsWith("ERROR")) {
-            alert = new Alert(AlertType.ERROR);
-        } else if (message.startsWith("WARNING")) {
-            alert = new Alert(AlertType.WARNING);
-        } else {
-            alert = new Alert(AlertType.INFORMATION);
-        }
-        // alert.initStyle(StageStyle.UNDECORATED);
-        alert.initOwner(stage);
-        alert.setTitle("Info");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.show();
+    private static void performAction(String message) {
+        updatePieChart();
+        updateMoneyLabel();
+        resourceTable.refresh();
+        StockViewUtils.showAlertMessage(message, stage);
     }
 
     public static void show() {
@@ -328,11 +119,54 @@ public class StockView extends Application {
             updateLineChart();
             updatePieChart();
             stock.updatePlayerResource();
-            table.getColumns().get(0).setVisible(false);
-            table.getColumns().get(0).setVisible(true);
+            resourceTable.refresh();
             updateMoneyLabel();
             stage.show();
         });
+    }
+
+    private static void updateLineChart() {
+        lineChart.getData().clear();
+        for (Resource resource : stock.getResources()) {
+            XYChart.Series <String, Number> series = new XYChart.Series<>();
+            series.setName(resource.getName());
+            Double[] pricesHistory = stock.getPriceHistory().get(resource.getName());
+            for (int i = 0; i < Stock.priceHistoryRange; i++) {
+                series.getData().add(new XYChart.Data<>(String.valueOf(Stock.priceHistoryRange - i - 1), pricesHistory[i]));
+            }
+            lineChart.getData().add(series);
+        }
+    }
+
+    private static void updatePieChart() {
+        for (Data data : pieChartData) {
+            data.setPieValue(stock.getResource(data.getName()).getStockQuantity());
+        }
+    }
+
+    private static void updateMoneyLabel() {
+        moneyLabel.setText("You have " + String.format("%.2f", stock.getDependenciesRepresenter().getMoney()) + " money.");
+    }
+
+    private static void setResourceTable() {
+        ObservableList<Resource> lineChartData = FXCollections.observableArrayList(stock.getResources());
+        resourceTable.getItems().removeAll();
+        resourceTable.setItems(lineChartData);
+    }
+
+    private static void setPieChartData() {
+        pieChartData.removeAll();
+        pieChartData.clear();
+        for (Resource resource : stock.getResources()) {
+            pieChartData.add(new PieChart.Data(resource.getName(), resource.getStockQuantity()));
+        }
+    }
+
+    private static void setResourceComboBox() {
+        resourceComboBox.getItems().removeAll();
+        resourceComboBox.getItems().clear();
+        resourceComboBox.getItems().addAll(stock.getResourcesNames());
+        resourceComboBox.getSelectionModel().selectFirst();
     }
 
 }

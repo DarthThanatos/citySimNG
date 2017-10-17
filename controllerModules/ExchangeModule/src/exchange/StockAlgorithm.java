@@ -14,9 +14,9 @@ public class StockAlgorithm {
                 for (Resource resource : stock.getResources()) {
                     double delta = (random.nextDouble() - 0.50) % 0.10;
 
-                    if (averageQuantity > resource.getQuantity() * 2) {
+                    if (averageQuantity > resource.getStockQuantity() * 2) {
                         delta = delta + (random.nextDouble() % 0.05);
-                    } else if (averageQuantity < resource.getQuantity() / 2) {
+                    } else if (averageQuantity < resource.getStockQuantity() / 2) {
                         delta = delta - (random.nextDouble() % 0.05);
                     }
 
@@ -28,7 +28,7 @@ public class StockAlgorithm {
 
                     double newPrice = resource.getPrice() + resource.getPrice() * delta;
                     resource.setPrice(newPrice);
-                    resource.setQuantity(resource.getQuantity() + random.nextInt(2));
+                    resource.setStockQuantity(resource.getStockQuantity() + random.nextInt(2));
                     stock.updatePriceHistory(newPrice, resource.getName());
                 }
             }

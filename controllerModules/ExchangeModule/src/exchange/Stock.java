@@ -6,7 +6,7 @@ import model.DependenciesRepresenter;
 
 public class Stock {
 
-    public static final int priceHistoryRange = 15;
+    static final int priceHistoryRange = 15;
     private DependenciesRepresenter dependenciesRepresenter;
     private List<Resource> resources;
     private List<String> resourcesNames;
@@ -23,19 +23,19 @@ public class Stock {
         this.dependenciesRepresenter = dependenciesRepresenter;
     }
 
-    public DependenciesRepresenter getDependenciesRepresenter() {
+    DependenciesRepresenter getDependenciesRepresenter() {
         return dependenciesRepresenter;
     }
 
-    public List<Resource> getResources() {
+    List<Resource> getResources() {
         return resources;
     }
 
-    public List<String> getResourcesNames() {
+    List<String> getResourcesNames() {
         return resourcesNames;
     }
 
-    public boolean getWorkingStatus() {
+    boolean getWorkingStatus() {
         return workingStatus;
     }
 
@@ -48,7 +48,7 @@ public class Stock {
         this.workingStatus = working;
     }
 
-    public Map<String, Double[]> getPriceHistory() {
+    Map<String, Double[]> getPriceHistory() {
         return priceHistory;
     }
 
@@ -67,7 +67,7 @@ public class Stock {
         }
     }
 
-    public Resource getResource(String name) {
+    Resource getResource(String name) {
         for (Resource resource : resources) {
             if (resource.getName().equals(name)) {
                 return resource;
@@ -76,15 +76,15 @@ public class Stock {
         return null;
     }
 
-    public int getAverageResourceQuantity() {
+    int getAverageResourceQuantity() {
         int averageQuantity = 0;
         for (Resource resource : resources) {
-            averageQuantity = averageQuantity + resource.getQuantity();
+            averageQuantity = averageQuantity + resource.getStockQuantity();
         }
         return averageQuantity / resources.size();
     }
 
-    public double getAverageResourcePrice() {
+    double getAverageResourcePrice() {
         double averagePrice = 0;
         for (Resource resource : resources) {
             averagePrice = averagePrice + resource.getPrice();
@@ -92,33 +92,20 @@ public class Stock {
         return averagePrice / resources.size();
     }
 
-    public void updatePriceHistory(double newPrice, String resourceName) {
+    void updatePriceHistory(double newPrice, String resourceName) {
         Double[] historyTable = priceHistory.get(resourceName);
         System.arraycopy(historyTable, 1, historyTable, 0, priceHistoryRange - 1);
         historyTable[priceHistoryRange - 1] = newPrice;
     }
 
-    public void updatePlayerResource() {
-        for(Resource resource: resources) {
+    void updatePlayerResource() {
+        for (Resource resource : resources) {
             resource.setPlayerQuantity(dependenciesRepresenter.getStockPile().get(resource.getName()));
         }
 
     }
 
-    public void resetStock() {
-        for(Resource resource: resources) {
-            double newPrice = (random.nextDouble() + 1) * 10;
-            resource.setPrice(newPrice);
-            resource.setQuantity(0);
-            Double[] historyTable = priceHistory.get(resource.getName());
-            for(int i = 0; i < historyTable.length - 2; i++) {
-                historyTable[i] = 0d;
-            }
-            historyTable[historyTable.length - 1] = newPrice;
-        }
-    }
-
-    public String buyOperation(String resourceName, String stringQuantity) {
+    String buyOperation(String resourceName, String stringQuantity) {
         int quantity;
         Resource resource = getResource(resourceName);
 
@@ -130,13 +117,13 @@ public class Stock {
 
         if (quantity * resource.getPrice() > dependenciesRepresenter.getMoney()) {
             return "WARNING - you don't have enough money";
-        } else if (quantity > resource.getQuantity()) {
+        } else if (quantity > resource.getStockQuantity()) {
             return "WARNING - not enough resources in stock";
         } else {
             dependenciesRepresenter.setMoney(dependenciesRepresenter.getMoney() - quantity * resource.getPrice());
             dependenciesRepresenter.getStockPile().put(resource.getName(),
                     dependenciesRepresenter.getStockPile().get(resource.getName()) + quantity);
-            resource.setQuantity(resource.getQuantity() - quantity);
+            resource.setStockQuantity(resource.getStockQuantity() - quantity);
             resource.setPlayerQuantity(dependenciesRepresenter.getStockPile().get(resourceName));
             return "You successfully bought " + stringQuantity + " of " + resource.getName() + ", and now have "
                     + dependenciesRepresenter.getStockPile().get(resource.getName()) + " " + resource.getName()
@@ -144,7 +131,7 @@ public class Stock {
         }
     }
 
-    public String sellOperation(String resourceName, String stringQuantity) {
+    String sellOperation(String resourceName, String stringQuantity) {
         int quantity;
         Resource resource = getResource(resourceName);
 
@@ -160,7 +147,7 @@ public class Stock {
             dependenciesRepresenter.setMoney(dependenciesRepresenter.getMoney() + quantity * resource.getPrice());
             dependenciesRepresenter.getStockPile().put(resource.getName(),
                     dependenciesRepresenter.getStockPile().get(resource.getName()) - quantity);
-            resource.setQuantity(resource.getQuantity() + quantity);
+            resource.setStockQuantity(resource.getStockQuantity() + quantity);
             resource.setPlayerQuantity(dependenciesRepresenter.getStockPile().get(resourceName));
             return "You successfully sold " + stringQuantity + " of " + resource.getName() + ", and now have "
                     + dependenciesRepresenter.getStockPile().get(resource.getName()) + " " + resource.getName()
@@ -168,14 +155,14 @@ public class Stock {
         }
     }
 
-    public String diceOperation() {
+    String diceOperation() {
         if (10 > dependenciesRepresenter.getMoney()) {
             return "WARNING - you need 10 money to roll the dice, you have "
                     + String.format("%.2f", dependenciesRepresenter.getMoney()) + " money";
         } else {
             if (random.nextInt(10) % 2 == 0) {
                 dependenciesRepresenter.setMoney(dependenciesRepresenter.getMoney() - 10);
-                return "You won nothing, and now have "+ String.format("%.2f", dependenciesRepresenter.getMoney()) + " money";
+                return "You won nothing, and now have " + String.format("%.2f", dependenciesRepresenter.getMoney()) + " money";
             }
             Resource resource = resources.get(random.nextInt(resources.size() - 1));
             int wonQuantity = (int) (random.nextInt(200) / resource.getPrice());
