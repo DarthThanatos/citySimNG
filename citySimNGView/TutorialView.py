@@ -23,6 +23,7 @@ class TutorialView(wx.Panel):
         #self.showGraph()
         #self.SetBackgroundColour((255, 255, 255))
         self.pageID = 0;
+        self.nrOfPages = 3;
         self.tutorialInfo = "Welcome to our tutorial! If you'd like to find out what are all the functionalities of this cutting-edge game engine, you're in the right place :)"
         self.welcomeField = wx.StaticText(self, label=self.tutorialInfo)
         self.tutorialFont = wx.Font(20, wx.FONTFAMILY_DECORATIVE, 
@@ -112,9 +113,9 @@ class TutorialView(wx.Panel):
             elemField = wx.StaticText(self, label=self.content[i]['name'])
             elemID = self.content[i]['id']
             elemField.SetFont(listFont)
-            #arrowButton = wx.BitmapButton(self, id=elemID, bitmap=arrow, 
-            #    size=(arrow.GetWidth(), arrow.GetHeight()))
-            arrowButton = wx.Button(self, id=elemID, label=">>")
+            arrowButton = wx.Button(self, id=elemID, label="  ", 
+                size=(arrow.GetWidth()+10, arrow.GetHeight()+5))
+            arrowButton.SetBitmap(arrow)
             self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton)
             tmpBox = wx.BoxSizer(wx.HORIZONTAL)
             tmpBox.Add(elemField, 0, wx.CENTER)
@@ -128,9 +129,9 @@ class TutorialView(wx.Panel):
             elemField = wx.StaticText(self, label=self.content[i]['name'])
             elemID = self.content[i]['id']
             elemField.SetFont(listFont)
-            #arrowButton = wx.BitmapButton(self, id=elemID, bitmap=arrow, 
-            #    size=(arrow.GetWidth(), arrow.GetHeight()))
-            arrowButton = wx.Button(self, id=elemID, label=">>")
+            arrowButton = wx.Button(self, id=elemID, label="  ", 
+                size=(arrow.GetWidth()+10, arrow.GetHeight()+5))
+            arrowButton.SetBitmap(arrow)
             self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton)
             tmpBox = wx.BoxSizer(wx.HORIZONTAL)
             tmpBox.Add(elemField, 0, wx.CENTER)
@@ -154,11 +155,17 @@ class TutorialView(wx.Panel):
     def requestPage(self, event):
         print "TutorialView: requestPage executed"
         print "PageID: " + str(event.GetId())
+        #sprawdzamy, czy Id jest prawidlowy, w razie czego poprawiamy
+        realPageID = event.GetId();
+        if realPageID > self.nrOfPages:
+            realPageID = 1
+        elif realPageID <= 0:
+            realPageID = self.nrOfPages;
         msg = {}
         msg["To"] = "TutorialNode"
         msg["Operation"] = "RequestPage"
         msg["Args"] = {}
-        msg["Args"]["PageID"] = event.GetId()
+        msg["Args"]["PageID"] = realPageID
         self.sender.send(json.dumps(msg))
     
 
@@ -223,8 +230,6 @@ class TutorialView(wx.Panel):
             self.pageView.contentField.SetValue(firstSubPageContent)
 
             hyperlinks = pageContentString["link"]
-
-            
             self.pageView.hyperlinks = hyperlinks
 
             image = wx.Image(pageContentString["img"], wx.BITMAP_TYPE_ANY)
@@ -232,12 +237,8 @@ class TutorialView(wx.Panel):
             imgHeight = self.size[1]
             if imgWidth < image.GetWidth():
                 print "scale according to width"
-                #print "image.GetWidth() " + str (image.GetWidth())
-                #print "imgWidth: " + str (imgWidth)
                 ratio = float(image.GetWidth()) / float(imgWidth)
-                #print "ratio: " + str(ratio)
                 imgHeight = float(imgHeight) / ratio
-               # print "imgHeight: " + str(imgHeight)
                 image.Rescale(imgWidth, int(imgHeight))
             if imgHeight < image.GetHeight():
                 print "scale according to height"
@@ -246,9 +247,10 @@ class TutorialView(wx.Panel):
                 image.Rescale(int(imgWidth), imgHeight)
                 
             self.pageView.helperImg = image
-            self.pageView.updateHyperlinksAndImg()
             self.pageView.subPage = 0
             self.pageView.nrOfSubpages = 2 #zmienic na len!!!
+            self.pageView.page = pageContentString["nr"]
+            self.pageView.updateHyperlinksAndImg()
         elif operation == "FetchGraphs":
             self.graphsSpaces.resetViewFromJSON(jsonObj["Args"])
             self.centerSizer.Layout()
