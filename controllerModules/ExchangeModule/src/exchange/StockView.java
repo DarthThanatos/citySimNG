@@ -127,7 +127,7 @@ public class StockView extends Application {
 
     private static void updateLineChart() {
         lineChart.getData().clear();
-        for (Resource resource : stock.getResources()) {
+        for (Resource resource : stock.getStockResources()) {
             XYChart.Series <String, Number> series = new XYChart.Series<>();
             series.setName(resource.getName());
             Double[] pricesHistory = stock.getPriceHistory().get(resource.getName());
@@ -149,7 +149,7 @@ public class StockView extends Application {
     }
 
     private static void setResourceTable() {
-        ObservableList<Resource> lineChartData = FXCollections.observableArrayList(stock.getResources());
+        ObservableList<Resource> lineChartData = FXCollections.observableArrayList(stock.getStockResources());
         resourceTable.getItems().removeAll();
         resourceTable.setItems(lineChartData);
     }
@@ -157,7 +157,7 @@ public class StockView extends Application {
     private static void setPieChartData() {
         pieChartData.removeAll();
         pieChartData.clear();
-        for (Resource resource : stock.getResources()) {
+        for (Resource resource : stock.getStockResources()) {
             pieChartData.add(new PieChart.Data(resource.getName(), resource.getStockQuantity()));
         }
     }
@@ -165,7 +165,7 @@ public class StockView extends Application {
     private static void setResourceComboBox() {
         resourceComboBox.getItems().removeAll();
         resourceComboBox.getItems().clear();
-        resourceComboBox.getItems().addAll(stock.getResourcesNames());
+        resourceComboBox.getItems().addAll(stock.getStockResourcesNames());
         resourceComboBox.getSelectionModel().selectFirst();
     }
 

@@ -11,7 +11,7 @@ public class StockAlgorithm {
             if (stock.getWorkingStatus()) {
                 int averageQuantity = stock.getAverageResourceQuantity();
                 double averagePrice = stock.getAverageResourcePrice();
-                for (Resource resource : stock.getResources()) {
+                for (Resource resource : stock.getStockResources()) {
                     double delta = (random.nextDouble() - 0.50) % 0.10;
 
                     if (averageQuantity > resource.getStockQuantity() * 2) {

@@ -31,13 +31,13 @@ public class CurrentPricesSender {
     }
 
     private boolean notInterrupted(Long aLong) {
-        System.out.println("Sending current prices to game menu");
+        System.out.println("Sending current prices to game menu.");
         eventBus.post(new ExchangeCurrentPricesEvent(exchangeNode.getCurrentPrices()));
         return true;
     }
 
     public void atUnload(){
-        System.out.println("stopping sending prices");
+        System.out.println("Stopping sending prices.");
         DisposingUtils.dispose(curPricesSendingDisposable);
     }
 }

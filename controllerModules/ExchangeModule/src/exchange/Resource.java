@@ -1,6 +1,6 @@
 package exchange;
 
-@SuppressWarnings("unused")
+@SuppressWarnings("ALL")
 public class Resource {
 
     private String name;
@@ -16,7 +16,6 @@ public class Resource {
         this.price = price;
     }
 
-    @SuppressWarnings("WeakerAccess")
     public String getName() {
         return this.name;
     }
@@ -25,15 +24,7 @@ public class Resource {
         this.name = name;
     }
 
-    double getPrice() {
-        return this.price;
-    }
-
-    void setPrice(double price) {
-        this.price = price;
-    }
-
-    int getStockQuantity() {
+    public int getStockQuantity() {
         return this.stockQuantity;
     }
 
@@ -41,7 +32,7 @@ public class Resource {
         this.stockQuantity = stockQuantity;
     }
 
-    int getPlayerQuantity() {
+    public int getPlayerQuantity() {
         return this.playerQuantity;
     }
 
@@ -49,17 +40,16 @@ public class Resource {
         this.playerQuantity = playerQuantity;
     }
 
-    // these three methods are implicitly used by resourceTable in StockView class
+    public Double getPrice() {
+        return this.price;
+    }
+
+    void setPrice(double price) {
+        this.price = price;
+    }
+
     public String getPriceString() {
         return String.format("%.2f", price);
-    }
-
-    public String getStockQuantityString() {
-        return String.valueOf(stockQuantity);
-    }
-
-    public String getPlayerQuantityString() {
-        return String.valueOf(playerQuantity);
     }
 
 }

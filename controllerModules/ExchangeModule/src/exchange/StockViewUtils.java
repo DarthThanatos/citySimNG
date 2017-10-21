@@ -17,9 +17,11 @@ import javafx.stage.Stage;
 class StockViewUtils {
 
     private static Rectangle2D primaryScreenBounds;
+    private static Font font;
 
     static {
         primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+        font = new Font("Arial", 20);
     }
 
     static void setStageSettings(Stage stage) {
@@ -31,7 +33,7 @@ class StockViewUtils {
 
     static Label createMoneyLabel() {
         Label moneyLabel = new Label();
-        moneyLabel.setFont(new Font("Arial", 20));
+        moneyLabel.setFont(font);
         moneyLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.18, primaryScreenBounds.getHeight() * 0.04);
         moneyLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.68);
         moneyLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.77);
@@ -40,7 +42,7 @@ class StockViewUtils {
 
     static Label createResourceTableLabel() {
         Label resourceTableLabel = new Label("Resource table detailed info:");
-        resourceTableLabel.setFont(new Font("Arial", 20));
+        resourceTableLabel.setFont(font);
         resourceTableLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.18, primaryScreenBounds.getHeight() * 0.04);
         resourceTableLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.05);
         resourceTableLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.60);
@@ -49,7 +51,7 @@ class StockViewUtils {
 
     static Label createResourceComboBoxLabel() {
         Label resourceComboBoxLabel = new Label("Choose resource type:");
-        resourceComboBoxLabel.setFont(new Font("Arial", 20));
+        resourceComboBoxLabel.setFont(font);
         resourceComboBoxLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.17,
                 primaryScreenBounds.getHeight() * 0.04);
         resourceComboBoxLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
@@ -59,7 +61,7 @@ class StockViewUtils {
 
     static Label createResourceAmountLabel() {
         Label resourceAmountLabel = new Label("Enter resource quantity:");
-        resourceAmountLabel.setFont(new Font("Arial", 20));
+        resourceAmountLabel.setFont(font);
         resourceAmountLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.17, primaryScreenBounds.getHeight() * 0.04);
         resourceAmountLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
         resourceAmountLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.83);
@@ -68,7 +70,7 @@ class StockViewUtils {
 
     static Label createBuyLabel() {
         Label buyLabel = new Label("Buy chosen resources: ");
-        buyLabel.setFont(new Font("Arial", 20));
+        buyLabel.setFont(font);
         buyLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.17, primaryScreenBounds.getHeight() * 0.04);
         buyLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
         buyLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.88);
@@ -77,7 +79,7 @@ class StockViewUtils {
 
     static Label createSellLabel() {
         Label sellLabel = new Label("Sell chosen resources: ");
-        sellLabel.setFont(new Font("Arial", 20));
+        sellLabel.setFont(font);
         sellLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.17, primaryScreenBounds.getHeight() * 0.04);
         sellLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
         sellLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.93);
@@ -86,8 +88,8 @@ class StockViewUtils {
 
     static Label createDiceLabel() {
         Label diceLabel = new Label("Take part in a lottery:");
-        diceLabel.setFont(new Font("Arial", 20));
-        diceLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.14, primaryScreenBounds.getHeight() * 0.04);
+        diceLabel.setFont(font);
+        diceLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.17, primaryScreenBounds.getHeight() * 0.04);
         diceLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.68);
         diceLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.82);
         return diceLabel;
@@ -95,8 +97,8 @@ class StockViewUtils {
 
     static Label createExitLabel() {
         Label exitLabel = new Label("Leave stock:");
-        exitLabel.setFont(new Font("Arial", 20));
-        exitLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.14, primaryScreenBounds.getHeight() * 0.04);
+        exitLabel.setFont(font);
+        exitLabel.setPrefSize(primaryScreenBounds.getWidth() * 0.17, primaryScreenBounds.getHeight() * 0.04);
         exitLabel.setLayoutX(primaryScreenBounds.getWidth() * 0.68);
         exitLabel.setLayoutY(primaryScreenBounds.getHeight() * 0.87);
         return exitLabel;
@@ -104,11 +106,34 @@ class StockViewUtils {
 
     static TableView<Resource> createResourceTable() {
         TableView<Resource> resourceTable = createEmptyResourceTable();
-        TableColumn<Resource, String> resourceNames = createResourceTableColumn("Name", "name");
-        TableColumn<Resource, String> resourcePrice = createResourceTableColumn("Price", "priceString");
-        TableColumn<Resource, String> resourceQuantity = createResourceTableColumn("In stock", "stockQuantityString");
-        TableColumn<Resource, String> playerResourceQuantity = createResourceTableColumn("Possessed", "playerQuantityString");
-        resourceTable.getColumns().addAll(resourceNames, resourcePrice, resourceQuantity, playerResourceQuantity);
+
+        TableColumn<Resource, String> resourceNames = new TableColumn<>("Name");
+        resourceNames.setMinWidth(primaryScreenBounds.getWidth() * 0.05);
+        resourceNames.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        TableColumn<Resource, String> resourcePrice = new TableColumn("Price");
+        resourcePrice.setMinWidth(primaryScreenBounds.getWidth() * 0.05);
+        resourcePrice.setCellValueFactory(new PropertyValueFactory("priceString"));
+
+        TableColumn<Resource, Integer> stockResourceQuantity = new TableColumn("In stock");
+        stockResourceQuantity.setMinWidth(primaryScreenBounds.getWidth() * 0.05);
+        stockResourceQuantity.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
+
+        TableColumn<Resource, Integer> playerResourceQuantity = new TableColumn("Possessed");
+        playerResourceQuantity.setMinWidth(primaryScreenBounds.getWidth() * 0.05);
+        playerResourceQuantity.setCellValueFactory(new PropertyValueFactory<>("playerQuantity"));
+
+        resourceTable.getColumns().addAll(resourceNames, resourcePrice, stockResourceQuantity, playerResourceQuantity);
+        return resourceTable;
+    }
+
+    static private TableView<Resource> createEmptyResourceTable() {
+        TableView<Resource> resourceTable = new TableView<>();
+        resourceTable.setEditable(false);
+        resourceTable.setFixedCellSize(primaryScreenBounds.getHeight() * 0.04);
+        resourceTable.setMaxHeight((primaryScreenBounds.getHeight() * 0.04) * 6.8);
+        resourceTable.setLayoutX(primaryScreenBounds.getWidth() * 0.05);
+        resourceTable.setLayoutY(primaryScreenBounds.getHeight() * 0.65);
         return resourceTable;
     }
 
@@ -196,7 +221,7 @@ class StockViewUtils {
         } else {
             alert = new Alert(Alert.AlertType.INFORMATION);
         }
-        // alert.initStyle(StageStyle.UNDECORATED);
+        //alert.initStyle(StageStyle.UNDECORATED);
         alert.initOwner(stage);
         alert.setTitle("Info");
         alert.setHeaderText(null);
@@ -204,20 +229,4 @@ class StockViewUtils {
         alert.show();
     }
 
-    static private TableView<Resource> createEmptyResourceTable() {
-        TableView<Resource> resourceTable = new TableView<>();
-        resourceTable.setEditable(false);
-        resourceTable.setFixedCellSize(primaryScreenBounds.getHeight() * 0.04);
-        resourceTable.setMaxHeight((primaryScreenBounds.getHeight() * 0.04) * 6.8);
-        resourceTable.setLayoutX(primaryScreenBounds.getWidth() * 0.05);
-        resourceTable.setLayoutY(primaryScreenBounds.getHeight() * 0.65);
-        return resourceTable;
-    }
-
-    static private TableColumn<Resource, String> createResourceTableColumn(String columnName, String propertName) {
-        TableColumn<Resource, String> resourceColumn = new TableColumn<>(columnName);
-        resourceColumn.setMinWidth(primaryScreenBounds.getWidth() * 0.05);
-        resourceColumn.setCellValueFactory(new PropertyValueFactory<>(propertName));
-        return resourceColumn;
-    }
 }
