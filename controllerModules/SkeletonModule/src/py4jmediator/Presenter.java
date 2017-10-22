@@ -13,6 +13,7 @@ public class Presenter {
     private static MapPresenter mapPresenter = new MapPresenter();
     private static LoaderPresenter loaderPresenter = new LoaderPresenter();
     private static GameMenuPresenter gameMenuPresenter = new GameMenuPresenter();
+    private static TutorialPresenter tutorialPresenter = new TutorialPresenter();
 
     public static void initViewModel(){
         // We get an entry point from the Python side
@@ -51,6 +52,10 @@ public class Presenter {
 
     public LoaderPresenter getLoaderPresenter(){
     	return loaderPresenter;
+    }
+
+    public TutorialPresenter getTutorialPresenter(){
+        return tutorialPresenter;
     }
 
     public static void cleanup(){
