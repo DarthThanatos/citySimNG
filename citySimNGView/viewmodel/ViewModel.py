@@ -3,6 +3,7 @@ from viewmodel.LoaderViewModel import LoaderViewModel
 from viewmodel.MainMenuViewModel import MainMenuViewModel
 from CreatorViewModel import  CreatorViewModel
 from MapViewModel import MapViewModel
+from TutorialViewModel import TutorialViewModel
 
 
 class ViewModel(object):
@@ -13,6 +14,7 @@ class ViewModel(object):
         self.gameMenuViewModel = GameMenuViewModel(viewSetter)
         self.loaderViewModel = LoaderViewModel(viewSetter)
         self.mapViewModel = MapViewModel(viewSetter)
+        self.tutorialViewModel = TutorialViewModel(viewSetter)
 
     def getGameMenuViewModel(self):
         return self.gameMenuViewModel
@@ -28,6 +30,9 @@ class ViewModel(object):
 
     def getMapViewModel(self):
         return self.mapViewModel
+
+    def getTutorialViewModel(self):
+        return self.tutorialViewModel
 
     class Java:
         implements = ["py4jmediator.ViewModel"]

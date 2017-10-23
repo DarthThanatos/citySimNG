@@ -196,31 +196,18 @@ class TutorialView(wx.Panel):
 
         self.SetMenuBar(menuBar)
 
-    def readMsg(self, msg):
-        try:
-            #msg = unicode(msg, errors='ignore')
-            jsonObj = json.loads(msg)
-            
-        except:
-            traceback.print_exc()
-            return
-        print "Tutorial view got message: "
-        print msg
-        operation = jsonObj["Operation"]
-        if operation == "FetchPage":
-            pageContent = []
+    def displayDependenciesGraph(self, jsonGraph):
+        self.graphsSpaces.resetViewFromJSON(jsonGraph["Args"])
+        self.centerSizer.Layout()
+
+    def displayTutorialPage(self, jsonPage):
+         pageContent = []
             args = jsonObj["Args"]["Page"]["page"]
-            #page = json.loads(args)
             for x in args:
                 subpageContent =[]
                 subpageContent.append(x)    
                 pageContent.append(subpageContent)
-            #print "Page:\n" 
-           # print pageContent[0][0]
             pageContentString = pageContent[0][0]
-            #self.pageView.tutorialContent = json.loads(pageContent) #????
-           # print "pageContentString[\"sub0\"]:"
-        #    print pageContentString["sub0"]
             self.pageView.tutorialContent = pageContentString
             firstSubPage = pageContentString["sub0"]
             firstSubPageContent = ""
@@ -236,12 +223,12 @@ class TutorialView(wx.Panel):
             imgWidth = self.size[0] //2
             imgHeight = self.size[1]
             if imgWidth < image.GetWidth():
-                print "scale according to width"
+                #print "scale according to width"
                 ratio = float(image.GetWidth()) / float(imgWidth)
                 imgHeight = float(imgHeight) / ratio
                 image.Rescale(imgWidth, int(imgHeight))
             if imgHeight < image.GetHeight():
-                print "scale according to height"
+                #print "scale according to height"
                 ratio = float(image.GetHeight()) / float(imgHeight)
                 imgWidth = float(imgWidth) / float(ratio)
                 image.Rescale(int(imgWidth), imgHeight)
@@ -251,10 +238,5 @@ class TutorialView(wx.Panel):
             self.pageView.nrOfSubpages = 2 #zmienic na len!!!
             self.pageView.page = pageContentString["nr"]
             self.pageView.updateHyperlinksAndImg()
-        elif operation == "FetchGraphs":
-            self.graphsSpaces.resetViewFromJSON(jsonObj["Args"])
-            self.centerSizer.Layout()
-        else:
-            print "Unknown operation\n"
 
-
+    
