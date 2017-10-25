@@ -1,0 +1,48 @@
+Żeby wygenerować od zera paczkę dającą się uruchomić bez dociągania niczego ręcznie należy przejść przez 2 (dla javy i pythona) etapy:
+
+1. Etap I - java (w skrócie - generujemy jar, a z niego - później - wyjściowy exe):
+Otwieramy okienko konsoli w folderze citySimNG/controllerModules i klepiemy: gradle oneJar.
+Komenda odpala malutki kawałek skryptu który dopisałem w citySimNG/controllerModules/build.gradle. 
+Wynikiem jest plik citySimController.jar. 
+Ściągamy archiwum z https://sourceforge.net/projects/launch4j/files/launch4j-3/3.11/launch4j-3.11-win32.zip/download 
+Rozpakowujemy je na pulpicie i odpalamy launch4j.jar. Przysięgam, że nie ma tam żadnych exploitów windowsa :p
+Pojawia się okienko, w którym klikamy na ikonkę folderu (druga od lewej na górze).
+W okienku selektora wybieramy pliczek citySimNG/controllerModules/citySim_relative_paths.xml - poustawiałem już tam najważniejsze
+rzeczy, trzeba tylko w zakładce Basic wybrać bezwzględną ścieżkę do output file oraz jar.
+Dla output file niech będzie to citySimNG/controllerModules/exeout/citySimController.exe
+Dla jar ma być wygenerowany citySimController.jar w controllerModules.
+Po wybraniu klikamy na 4 od lewej ikonkę kółka zębatego. Po chwili w tekście logów na samym dole powinno pojawić się
+info o sukcesie, a w citySimNG/controllerModules/exeout binarka citySimController.exe.
+
+2. Etap II - python:
+Wykonujemy komendę: python -m pip install pyinstaller.
+Przechodzimy do katalogu citySimNG/citySimNGView i otwieramy w nim konsolę.
+Klepiemy: pyinstaller Mediator.py --onefile
+Wynikiem jest citySimNG/citySimNGView/dist/Mediator.exe
+
+Po pomyślnym wykonaniu tych etapów należy utworzyć nowy folder (np. na pulpicie), nazwać go np. citySimNGOut, przenieść do niego oba wygenerowane exeki
+oraz folder resources z katalogu citySimNG (tego na repo).
+
+Następnie w katalogu citySimNGOut tworzymy folder lib i przeklejamy do niego wszystkie jary które są w folderze citySimNG/controllerModules/SkeletonModules/lib.
+Ostatnia rzecz to utworzyć w katalogu citySimNGOut nowy skrypt citySimNG.bat z dwoma komendami:
+
+start /B citySimController.exe
+Mediator.exe
+
+Paczka ma wyglądać tak:
+.
+| lib
+|| ...
+| resources 
+|| ...
+| citySimController.exe 
+| citySimNG.bat
+| Mediator.exe 
+
+Jeśli zmienimy kod javy lub pythona, trzeba tylko wykonać 1 lub 2 etap i podmienić odpowiednie binarki w citySimNGOut.
+Odpalamy klikając dwukrotnie na citySimNG.bat.
+
+
+
+Żeby była pełna profeska, wchodzimy na: http://www.f2ko.de/en/ob2e.php , wybieramy batch file citySimNG.bat i konwertujemy na citySimNG.exe 
+Pobranego zipa rozpakowujemy podając hasło wypisane przez generator na stronie, i przeklejamy citySimNG.exe do citySimNGOut.
