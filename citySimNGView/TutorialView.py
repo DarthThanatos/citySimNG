@@ -1,5 +1,5 @@
 import json
-import traceback
+#import traceback
 
 import wx
 
@@ -22,8 +22,8 @@ class TutorialView(wx.Panel):
 
         #self.showGraph()
         #self.SetBackgroundColour((255, 255, 255))
-        self.pageID = 0;
-        self.nrOfPages = 3;
+        self.pageID = 0
+        self.nrOfPages = 3
         self.tutorialInfo = "Welcome to our tutorial! If you'd like to find out what are all the functionalities of this cutting-edge game engine, you're in the right place :)"
         self.welcomeField = wx.StaticText(self, label=self.tutorialInfo)
         self.tutorialFont = wx.Font(20, wx.FONTFAMILY_DECORATIVE, 
@@ -156,30 +156,17 @@ class TutorialView(wx.Panel):
         print "TutorialView: requestPage executed"
         print "PageID: " + str(event.GetId())
         #sprawdzamy, czy Id jest prawidlowy, w razie czego poprawiamy
-        realPageID = event.GetId();
+        realPageID = event.GetId()
         if realPageID > self.nrOfPages:
             realPageID = 1
         elif realPageID <= 0:
-            realPageID = self.nrOfPages;
-        msg = {}
-        msg["To"] = "TutorialNode"
-        msg["Operation"] = "RequestPage"
-        msg["Args"] = {}
-        msg["Args"]["PageID"] = realPageID
-        self.sender.send(json.dumps(msg))
+            realPageID = self.nrOfPages
+        self.sender.entry_point.getTutorialPresenter().fetchTutorialPage(realPageID)
     
 
     def retToMenu(self, event):
         """ This function returns to Menu view """
-        #self.parent.setView("Menu")
-        #self.sender.send("TutorialNode@MoveTo@MenuNode")
-        msg = {}
-        msg["To"] = "TutorialNode"
-        msg["Operation"] = "MoveTo"
-        msg["Args"] = {}
-        msg["Args"]["TargetView"] = "GameMenu"
-        msg["Args"]["TargetControlNode"] = "GameMenuNode"
-        self.sender.send(json.dumps(msg))
+        self.sender.entry_point.getTutorialPresenter().returnToMenu()
 
     def initMenuBar(self):
         status = self.CreateStatusBar()
@@ -202,11 +189,11 @@ class TutorialView(wx.Panel):
 
     def displayTutorialPage(self, jsonPage):
          pageContent = []
-            args = jsonObj["Args"]["Page"]["page"]
-            for x in args:
-                subpageContent =[]
-                subpageContent.append(x)    
-                pageContent.append(subpageContent)
+         args = jsonPage["Args"]["Page"]["page"]
+         for x in args:
+            subpageContent =[]
+            subpageContent.append(x)    
+            pageContent.append(subpageContent)
             pageContentString = pageContent[0][0]
             self.pageView.tutorialContent = pageContentString
             firstSubPage = pageContentString["sub0"]

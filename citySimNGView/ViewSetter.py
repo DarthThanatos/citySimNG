@@ -231,7 +231,7 @@ class TutorialHolder(ViewHolder):
 
     def __init__(self, parent, tplSize, sender, gateway):
         super(TutorialHolder, self).__init__(parent, tplSize, sender, gateway)
-        self.tutorialView = TutorialView(self, tplSize, "Tutorial", sender = self.sender)
+        self.tutorialView = TutorialView(self, tplSize, "Tutorial", sender = self.gateway)
         self.tutorialView.Hide()
 
     def getView(self):

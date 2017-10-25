@@ -21,13 +21,13 @@ import py4jmediator.Presenter;
 import controlnode.Py4JNode;
 import py4jmediator.*;
 
-public class TutorialNode extends Py4JNode implements TutorialPresenter.OnTutorialPresenterCalled{
+public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTutorialPresenterCalled{
 
 	private JSONObject readPage;
 	private BufferedReader tutorialReader;
 	private HintSender hintSender;
 
-	public TutorialNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
+	public TutorialPy4JNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
 		super(dr, dispatchCenter, nodeName);
 		readPage = new JSONObject("{}");
 		hintSender = new HintSender(this, dispatchCenter.getEventBus());
@@ -96,7 +96,7 @@ public class TutorialNode extends Py4JNode implements TutorialPresenter.OnTutori
 
 	@Override
 	public void atStart() { //raczej ok
-		TutorialPresenter tutorialPresenter = Presenter.getInstance().getTutorialPresenter(); 
+		TutorialPresenter tutorialPresenter = Presenter.getInstance().getTutorialPresenter();
 		tutorialPresenter.setOnTutorialPresenterCalled(this);
 		tutorialPresenter.displayTutorial();
 
@@ -107,6 +107,11 @@ public class TutorialNode extends Py4JNode implements TutorialPresenter.OnTutori
 			envelope.put("Args", graphs);
 			//sender.pushStream(envelope);
 		Presenter.getInstance().getTutorialPresenter().displayDependenciesGraph(envelope);
+	}
+
+	@Override
+	protected void onLoop() {
+
 	}
 
 
@@ -123,7 +128,7 @@ public class TutorialNode extends Py4JNode implements TutorialPresenter.OnTutori
 
 	@Override
 	public void onReturnToMenu(){ //??
-		moveTo("MainMenuNode");
+		moveTo("GameMenuNode");
 	}
 
 	@Override

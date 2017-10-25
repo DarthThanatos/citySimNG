@@ -17,6 +17,7 @@ public interface ViewModel {
 	public GameMenuViewModel getGameMenuViewModel();
 	public LoaderViewModel getLoaderViewModel ();
 	public MapViewModel getMapViewModel();
+	public TutorialViewModel getTutorialViewModel();
 
 	public interface MapViewModel{
 		public void displayMap();
