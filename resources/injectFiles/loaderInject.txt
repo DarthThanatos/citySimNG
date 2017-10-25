@@ -4,7 +4,7 @@ Mode Nodes
 # third column: hashkey of an instance 
 
 MenuModule menunode.GameMenuPy4jNode GameMenuNode
-TutorialModule tutorialnode.TutorialNode TutorialNode 
+TutorialModule tutorialnode.TutorialPy4JNode TutorialNode 
 ExchangeModule exchangenode.ExchangeNode ExchangeNode
 MapModule mapnode.MapPy4JNode MapNode
 RankingModule rankingnode.RankingNode RankingNode

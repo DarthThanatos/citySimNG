@@ -17,6 +17,7 @@ public interface ViewModel {
 	public GameMenuViewModel getGameMenuViewModel();
 	public LoaderViewModel getLoaderViewModel ();
 	public MapViewModel getMapViewModel();
+	public TutorialViewModel getTutorialViewModel();
 
 	public interface MapViewModel{
 		public void displayMap();
@@ -48,5 +49,11 @@ public interface ViewModel {
 		public void displayLoader();
 		public void displayDependenciesGraph(JSONObject graphDesc);
 		public void displayPossibleDependenciesSets(Set<String> possibleSets);
+	}
+
+	public interface TutorialViewModel {
+		public void displayTutorial();
+		public void displayTutorialPage(JSONObject jsonPage);
+		public void displayDependenciesGraph(JSONObject jsonGraph);
 	}
 }
