@@ -16,7 +16,7 @@ def draw_text(pos_x, pos_y, msg, color, surface):
     :param surface: surface on which text should be drawn
     :return: dimensions of text after drawing
     """
-    font = pygame.font.SysFont(FONT, FONT_SIZE)
+    font = pygame.font.Font(FONT, FONT_SIZE)
     screen_text = font.render(msg, True, color)
     surface.blit(screen_text, [int(pos_x), int(pos_y)])
     return screen_text.get_size()
@@ -28,7 +28,7 @@ def calculate_text_size(msg):
     :param msg: text for which dimensions will be calculated
     :return: dimensions of text after drawing
     """
-    font = pygame.font.SysFont(FONT, FONT_SIZE)
+    font = pygame.font.Font(FONT, FONT_SIZE)
     screen_text = font.render(msg, True, GREEN)
     return screen_text.get_size()
 
@@ -46,7 +46,7 @@ def draw_text_with_wrapping(pos_x, pos_y, max_x, msg, color, surface, font_size=
     :param font_size: size of font
     """
     widest_line = 0
-    font = pygame.font.SysFont(FONT, font_size)
+    font = pygame.font.Font(FONT, font_size)
     space_width = font.size(' ')[0]  # get space width
     curr_x, curr_y = pos_x, pos_y
     text_size = (0, 0)
