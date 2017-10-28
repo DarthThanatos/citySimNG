@@ -42,7 +42,6 @@ MOUNT_GAME_BTN_HINT = "Mounts selected dependencies set into a game itself and g
                       "You can know that a wanted set name has been selected, when its background color is blue."
 
 GAME_BTN_HINT = "Starts a game when none has been started yet, or resumes one if the started game was paused, respectively"
-RANKING_BTN_HINT = "Goes into the Ranking panel"
 
 TUTORIAL_BTN_HINT = "Shows the Tutorial panel with all its information, including the clues to this game mechanics, the chosen set characteristics and the game's entities descriptions."
 

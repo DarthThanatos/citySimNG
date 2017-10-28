@@ -8,7 +8,6 @@ from GameMenuView import GameMenuView
 from LoaderView import LoaderView
 from MainMenuView import MainMenuView
 from MapView.MapView import MapView
-from RankingView import RankingView
 from TutorialView import TutorialView
 from utils.RelativePaths import relative_music_path
 
@@ -39,7 +38,6 @@ class MyFrame(wx.Frame):
             # "Exchange": ExchangeView(self, self.tplSize, "Exchange", self.sender),
             # "Map": MapView(self, self.tplSize, "Map", self.gateway),
             # "Tutorial": TutorialView(self, self.tplSize, "Tutorial", sender = self.sender),
-            # "Ranking": RankingView(self, self.tplSize, "Ranking", sender = self.sender)
         }
 
     def initViewHolders(self):
@@ -50,7 +48,6 @@ class MyFrame(wx.Frame):
             "MainMenu": MainMenuHolder(self, self.tplSize, self.sender, self.gateway),
             "Map": MapHolder(self, self.tplSize, self.sender, self.gateway),
             "Tutorial": TutorialHolder(self, self.tplSize, self.sender, self.gateway),
-            "Ranking": RankingHolder(self, self.tplSize, self.sender, self.gateway)
         }
 
     def getView(self, key):
@@ -236,13 +233,3 @@ class TutorialHolder(ViewHolder):
 
     def getView(self):
         return self.tutorialView
-
-class RankingHolder(ViewHolder):
-
-    def __init__(self, parent, tplSize, sender, gateway):
-        super(RankingHolder, self).__init__(parent, tplSize, sender, gateway)
-        self.rankingView = RankingView(self, tplSize, "Ranking", sender = self.sender)
-        self.rankingView.Hide()
-
-    def getView(self):
-        return self.rankingView

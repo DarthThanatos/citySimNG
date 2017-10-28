@@ -32,12 +32,6 @@ public class GameMenuPresenter {
 			onGameMenuPresenterCalled.onGoToTutorial();
 		}
     }
-       
-    public void goToRanking(){
-		if(onGameMenuPresenterCalled!=null){
-			onGameMenuPresenterCalled.onGoToRanking();
-		}
-    }
         
 	public void displayGameMenu(){
 		Presenter.getInstance().getViewModel().getGameMenuViewModel().displayGameMenu();
@@ -48,6 +42,5 @@ public class GameMenuPresenter {
 		public void onGoToLoader();
 		public void onGoToExchange();
 		public void onGoToTutorial();
-		public void onGoToRanking();
 	}
 }
