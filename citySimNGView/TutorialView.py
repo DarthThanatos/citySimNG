@@ -5,7 +5,7 @@ import wx
 
 from CreatorView.GraphsSpaces import GraphsSpaces
 from TutorialPageView import TutorialPageView
-from utils.RelativePaths import relative_music_path, relative_textures_path
+from utils.RelativePaths import relative_music_path, relative_textures_path, relative_fonts_path
 
 
 class TutorialView(wx.Panel):

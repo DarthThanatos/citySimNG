@@ -1,6 +1,6 @@
 import wx
 import wx.lib.agw.hyperlink as hl
-from utils.RelativePaths import relative_music_path, relative_textures_path
+from utils.RelativePaths import relative_music_path, relative_textures_path, relative_fonts_path
 
 
 class TutorialPageView(wx.Panel):
@@ -28,8 +28,9 @@ class TutorialPageView(wx.Panel):
             style=wx.TE_MULTILINE | wx.TE_READONLY)
         self.contentField.SetValue(self.tutorialContent[self.subPage])
 
-        self.tutorialPageFont = wx.Font(20, wx.FONTFAMILY_SCRIPT, 
-            wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
+        self.tutorialPageFont = wx.Font(20, wx.DECORATIVE, wx.NORMAL, wx.NORMAL, False, "resources\\Fonts\\18cents\\18cents.ttf")
+
+
         self.contentField.SetFont(self.tutorialPageFont)
 
         self.maxNrOfHyperlinks = 10
