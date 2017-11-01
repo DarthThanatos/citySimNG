@@ -15,6 +15,7 @@ class GraphPanel(ScrolledPanel):
         self.space_name = space_name
         self.parent = parent
         self.jsonDesc = {"Dwellers":[], "Buildings":[], "Resources":[]}
+        self.SetForegroundColour((255,255,255))
         self.initRootSizer()
         self.Bind(wx.EVT_SHOW, self.onShow, self)
 

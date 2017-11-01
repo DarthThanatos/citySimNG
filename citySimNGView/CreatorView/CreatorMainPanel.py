@@ -37,6 +37,8 @@ class CreatorMainPanel(ScrolledPanel):
         self.initCreatorView()
 
     def initCreatorView(self):
+        self.SetBackgroundColour((0,0,0))
+        self.SetForegroundColour((255,255,255))
         self.SetupScrolling()
         self.initRootSizer()
         self.Bind(wx.EVT_SHOW, self.onShow, self)

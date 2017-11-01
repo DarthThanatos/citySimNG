@@ -25,7 +25,7 @@ class LoaderView(ScrolledPanel):
         self.ackMsgs = {}
         self.musicPath = musicPath
         self.initMainSizer()
-        self.SetBackgroundColour((255, 255, 255))
+        self.SetBackgroundColour((0, 0, 0))
 
     def initMainSizer(self):
         mainSizer = self.newMainSizer()
@@ -46,7 +46,7 @@ class LoaderView(ScrolledPanel):
         sizer.AddSpacer(space)
 
     def newHeaderBmp(self):
-        headerImage = wx.Image(relative_textures_path + "headerCS.jpg", wx.BITMAP_TYPE_JPEG)
+        headerImage = wx.Image(relative_textures_path + "headerCS_black.png", wx.BITMAP_TYPE_PNG)
         return wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(headerImage))
 
     def newHeaderSizer(self):
@@ -74,15 +74,15 @@ class LoaderView(ScrolledPanel):
         return self.graphsSpaces
 
     def newGameButton(self):
-        self.new_game_btn = ButtonsFactory().newButton(self, "Game Menu", self.goToNewGameMenu, hint = LogMessages.MOUNT_GAME_BTN_HINT)
+        self.new_game_btn = ButtonsFactory().newButton(self, "Game Menu", self.goToNewGameMenu, hint = LogMessages.MOUNT_GAME_BTN_HINT, size=(100,-1))
         return self.new_game_btn
 
     def newShowGraphButton(self):
-        self.show_graph_btn = ButtonsFactory().newButton(self, "Show Graph", self.onShowGraphClicked, hint = LogMessages.SHOW_GRAPH_BTN_HINT)
+        self.show_graph_btn = ButtonsFactory().newButton(self, "Show Graph", self.onShowGraphClicked, hint = LogMessages.SHOW_GRAPH_BTN_HINT, size=(100,-1))
         return self.show_graph_btn
 
     def newMenuButton(self):
-        self.menu_btn = ButtonsFactory().newButton(self, "Main Menu", self.goToMenu, hint = LogMessages.MENU_BTN_HINT)
+        self.menu_btn = ButtonsFactory().newButton(self, "Main Menu", self.goToMenu, hint = LogMessages.MENU_BTN_HINT, size=(100,-1))
         return self.menu_btn
 
     def goToMenu(self, event):
