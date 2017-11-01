@@ -9,12 +9,15 @@ from utils.JSONMonter import JSONMonter
 from utils.OnShowUtil import OnShowUtil
 from utils.RelativePaths import relative_music_path, relative_textures_path
 from utils.SocketMsgReader.LoaderMsgReader import LoaderMsgReader
+from wx.lib.scrolledpanel import ScrolledPanel
 
 
-class LoaderView(wx.Panel):
+class LoaderView(ScrolledPanel):
     def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender=None):
-        wx.Panel.__init__(self, size=size, parent=parent)
+        ScrolledPanel.__init__(self, size = size, parent=parent, style=wx.SIMPLE_BORDER)
+        # wx.Panel.__init__(self, size=size, parent=parent)
         self.Bind(wx.EVT_SHOW, self.onShow, self)
+        self.SetupScrolling()
         self.parent = parent
         self.name = name
         self.size = size
