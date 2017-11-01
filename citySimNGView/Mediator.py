@@ -69,7 +69,7 @@ def main():
     sender = Sender(sock)
 
     # turn on debug mode
-    if '--d' or '--debug' in sys.argv:
+    if '--d' in sys.argv or '--debug' in sys.argv:
         turn_on_debug()
 
     # app = wx.PySimpleApp()
