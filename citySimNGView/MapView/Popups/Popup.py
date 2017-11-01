@@ -34,4 +34,5 @@ class Popup(ContainerSprite):
 
     def draw(self):
         if time.time() - self.timer > TIME_TO_APPEAR:
+            self.rect.clamp_ip(self.blit_surface.get_rect())
             self.blit_surface.blit(self.surface, self.rect)

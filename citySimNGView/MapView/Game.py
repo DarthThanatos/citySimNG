@@ -7,8 +7,9 @@ from CreatorView.RelativePaths import relative_textures_path
 from Consts import (LEFT, RIGHT, RED, RESOURCES_PANEL_SIZE, BUILDINGS_PANEL_SIZE, NAVIGATION_PANEL_HEIGHT,
                     NAVIGATION_PANEL_WIDTH, TEXT_PANEL_HEIGHT, GREEN, INFO_PANEL_WIDTH, INFO_PANEL_HEIGHT)
 from GameThread import GameThread
-from Items.Building import Building
+from Items.GameBuilding import GameBuilding
 from Items.Resources import parse_resources_data
+from Items.Dwellers import parse_dwellers_data
 from MapTile import MapTile
 from Panels.BuildingsPanel import BuildingsPanel
 from Panels.InfoPanel import InfoPanel
@@ -24,9 +25,11 @@ POPUP_WIDTH, POPUP_HEIGHT = 0.2, 0.1
 class Game(object):
     """ This class represents an instance of the game. If we need to restart the game we'd just
     need to create a new instance of this class. """
-    def __init__(self, width, height, texture_one, texture_two, buildings_data, resources_data,
-                 initial_resources_values, initial_resources_incomes, initial_resources_consumption,
-                 initial_resources_balance, map_view):
+    def __init__(self, width, height, texture_one, texture_two, domestic_buildings_data,
+                 industrial_buildings_data, resources_data, dwellers_data,
+                 initial_resources_values, initial_resources_incomes,
+                 initial_resources_consumption, initial_resources_balance, map_view,
+                 available_dwellers):
         """ Constructor. Initialize the game.
 
         :param width: board width
@@ -73,8 +76,9 @@ class Game(object):
                                     self.buildings_sprites)
         self.tiles["{}:{}".format(self.map_position_x, self.map_position_y)] = self.current_tile
 
-        # parse resources data
+        # parse resources and dwellers data
         parse_resources_data(resources_data)
+        parse_dwellers_data(dwellers_data)
 
         # Initialize game panels
         initial_resources_values = Converter().convertJavaMapToDict(initial_resources_values)
@@ -82,8 +86,10 @@ class Game(object):
         initial_resources_consumption = Converter().convertJavaMapToDict(initial_resources_consumption)
         initial_resources_balance = Converter().convertJavaMapToDict(initial_resources_balance)
 
-        self.init_panels(buildings_data, initial_resources_values, initial_resources_incomes,
-                         initial_resources_consumption, initial_resources_balance, resources_data)
+        self.init_panels(domestic_buildings_data, industrial_buildings_data,
+                         initial_resources_values, initial_resources_incomes,
+                         initial_resources_consumption, initial_resources_balance,
+                         resources_data, available_dwellers)
 
         # # TODO: probably should get this from model
         self.resources_panel.curr_dwellers_amount = 0
@@ -125,10 +131,23 @@ class Game(object):
                                      if b.rect.collidepoint(mouse_pos)]
                 if clicked_buildings:
                     building = clicked_buildings[0]
-                    if self.map_view.check_if_can_afford(building):
-                        self.shadow = Building(building.name, uuid.uuid4().__str__(), building.texture_path,
-                                               building.resources_cost, building.consumes, building.produces,
-                                               mouse_pos[0], mouse_pos[1], building.width, building.height)
+                    if self.map_view.check_if_can_afford(building) and building.is_enabled:
+                        self.shadow = GameBuilding(building.name,
+                                                   uuid.uuid4().__str__(),
+                                                   building.texture_path,
+                                                   building.type,
+                                                   building.resources_cost,
+                                                   building.consumes,
+                                                   building.produces,
+                                                   building.required_dwellers,
+                                                   building.dwellers_name,
+                                                   mouse_pos[0],
+                                                   mouse_pos[1],
+                                                   building.width,
+                                                   building.height)
+                    elif not building.is_enabled:
+                        self.map_view.log.AppendText(
+                            "You have to built all successor first\n")
                     else:
                         self.map_view.log.AppendText(
                             "You don't have enough resources to build {}\n".format(building.name))
@@ -139,7 +158,9 @@ class Game(object):
                 clicked_buildings = [b for b in self.buildings_sprites if b.rect.collidepoint(mouse_pos)]
                 if clicked_buildings:
                     self.info_panel.curr_building = clicked_buildings[0]
-                    self.info_panel.create_resources_sprites()
+                    self.set_working_dwellers_for_building(clicked_buildings[0])
+                    self.info_panel.prepare_dwellers_info()
+                    self.info_panel.create_sprites_for_current_building()
                     self.info_panel.set_stop_production_button_texture()
 
                 clicked_info_panel_buttons = [b for b in self.info_panel.buttons_sprites if
@@ -257,8 +278,10 @@ class Game(object):
         # draw game board
         self.background.blit(self.game_board, (0, 0))
 
-    def init_panels(self, buildings_data, initial_resources_values, initial_resources_incomes,
-                    initial_resources_consumption, initial_resources_balance, resources_data):
+    def init_panels(self, domestic_buildings_data, industrial_buildings_data,
+                    initial_resources_values, initial_resources_incomes,
+                    initial_resources_consumption, initial_resources_balance,
+                    resources_data, available_dwellers):
         """ Create and initialize all game panels. Add panels to appropriate sprite group.
 
         :param buildings_data: information about buildings available in game
@@ -271,20 +294,22 @@ class Game(object):
         self.resources_panel = ResourcesPanel(0, 0, self.board_width - BUILDINGS_PANEL_SIZE * self.board_width,
                                               RESOURCES_PANEL_SIZE * self.board_height, self.game_board,
                                               initial_resources_values, initial_resources_incomes,
-                                              initial_resources_consumption, initial_resources_balance, resources_data)
+                                              initial_resources_consumption, initial_resources_balance, resources_data,
+                                              available_dwellers)
         self.panels_sprites.add(self.resources_panel)
         self.all_sprites.add(self.resources_panel)
 
         # Create buildings panel
-        self.buildings_panel = BuildingsPanel(self.board_width - BUILDINGS_PANEL_SIZE * self.board_width, 0,
-                                              BUILDINGS_PANEL_SIZE * self.board_width,
-                                              self.board_height - TEXT_PANEL_HEIGHT * self.board_height,
-                                              self.game_board, buildings_data, self.resources_panel.pos_y,
-                                              self.resources_panel.height)
-
-        # Create popups for buildings in panel
-        for building in self.buildings_panel.buildings_sprites:
-            building.popup = building.create_popup()
+        self.buildings_panel = BuildingsPanel(
+            self.board_width - BUILDINGS_PANEL_SIZE * self.board_width,
+            0,
+            BUILDINGS_PANEL_SIZE * self.board_width,
+            self.board_height - TEXT_PANEL_HEIGHT * self.board_height,
+            self.game_board,
+            domestic_buildings_data,
+            industrial_buildings_data,
+            self.resources_panel.pos_y,
+            self.resources_panel.height)
 
         self.panels_sprites.add(self.buildings_panel)
         self.all_sprites.add(self.buildings_panel)
@@ -361,7 +386,8 @@ class Game(object):
         self.all_sprites.add(building)
         self.map_view.erected_building(building)
         self.info_panel.curr_building = building
-        self.info_panel.create_resources_sprites()
+        self.info_panel.create_sprites_for_current_building()
+        self.info_panel.prepare_dwellers_info()
 
     def switch_game_tile(self, nav_arrow):
         """ Function changing position on map. It saves sprites for current location. Then, if player is first time
@@ -419,3 +445,6 @@ class Game(object):
         self.info_panel.curr_building = None
         self.info_panel.buttons_sprites = pygame.sprite.Group()
         self.map_view.deleted_building(building.id)
+
+    def set_working_dwellers_for_building(self, building):
+        self.map_view.set_dwellers_working_in_building(building.id)

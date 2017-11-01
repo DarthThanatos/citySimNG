@@ -30,7 +30,7 @@ public class Presenter {
     	
     	presenter = presenter == null ? new Presenter() : presenter;
     	gatewayServer = new GatewayServer(presenter,25335);
-    	gatewayServer.start();	
+    	gatewayServer.start();
     	return presenter;
     }
     

@@ -1,4 +1,4 @@
-from Resource import Resource
+from MapView.Items.Resource import Resource
 
 
 class PanelResource(Resource):

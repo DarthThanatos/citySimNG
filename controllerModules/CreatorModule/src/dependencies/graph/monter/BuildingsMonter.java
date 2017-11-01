@@ -2,13 +2,8 @@ package dependencies.graph.monter;
 
 import entities.Building;
 import graph.BuildingNode;
-import graph.GraphsHolder;
 
-import java.awt.dnd.DragGestureEvent;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 import constants.Consts;
 import corectness.checker.BuildingsChecker;
@@ -72,7 +67,10 @@ public class BuildingsMonter extends GraphMonter{
 			building.setName(buildingName);
 			buildingsNames.add(buildingName);
 			building.setTexturePath(relativeTexturesPath + buildingDesc.getString(Consts.TEXTURE_PATH));
-			
+			building.setType(buildingDesc.getString(Consts.TYPE));
+			building.setDwellersName(buildingDesc.getString(Consts.DWELLER_NAME));
+			building.setDwellersAmount(buildingDesc.getInt(Consts.DWELLERS_AMOUNT));
+
 			String predeccessor = buildingDesc.getString(Consts.PREDECESSOR);
 			String successor = buildingDesc.getString(Consts.SUCCESSOR);
 			building.setPredecessor(predeccessor);
@@ -111,7 +109,7 @@ public class BuildingsMonter extends GraphMonter{
 			building.setResourcesCost(costs);
 			building.setConsumes(consumes);
 			building.setProduces(produces);
-			
+
 			allBuildings.add(building);
 			BuildingNode buildingNode = new BuildingNode(building);
 			buildingVertices.put(buildingName, buildingNode);

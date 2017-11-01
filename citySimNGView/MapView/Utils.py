@@ -17,7 +17,7 @@ def draw_text(pos_x, pos_y, msg, color, surface):
     :return: dimensions of text after drawing
     """
     font = pygame.font.Font(FONT, FONT_SIZE)
-    screen_text = font.render(msg, True, color)
+    screen_text = font.render(str(msg), True, color)
     surface.blit(screen_text, [int(pos_x), int(pos_y)])
     return screen_text.get_size()
 
@@ -87,3 +87,44 @@ def center_image_y_pos(height, y_min, y_max):
     :return: y value of centered image's top border
     """
     return (y_min + y_max)/2 - height/2
+
+
+def draw_text_with_wrapping_and_centering(pos_x, pos_y, max_x, msg, surface,
+                                          color, font_size=FONT_SIZE,
+                                          blit=True):
+    font = pygame.font.Font(FONT, font_size)
+    # space_width = font.size(' ')[0]  # get space width
+    curr_x, curr_y = pos_x, pos_y
+    lines_text_width = 0
+    curr_line_words = []
+
+    def _blit_current_line():
+        surface_middle_x = (curr_x + max_x) / 2
+        curr_line_pos_x = surface_middle_x - lines_text_width / 2
+        for w in curr_line_words:
+            word_surface = font.render(w, True, color)
+            surface.blit(word_surface, (int(curr_line_pos_x), curr_y))
+            curr_line_pos_x += word_surface.get_size()[0]
+
+    for word in msg.split(" "):
+        # get word dimensions
+        word_width, word_height = font.render(word, True, color).get_size()
+
+        # check if word will fit in current line, if not blit current line and
+        # go to the next line
+        if curr_x + word_width + lines_text_width >= max_x:
+            _blit_current_line()
+
+            curr_line_words = []
+            lines_text_width = 0
+            curr_y += word_height
+
+        curr_line_words += word
+        lines_text_width += word_width
+
+    # blit rest of the message
+    if curr_line_words:
+        _blit_current_line()
+        curr_y += word_height
+
+    return curr_y
