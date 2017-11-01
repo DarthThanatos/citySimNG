@@ -15,6 +15,8 @@ class NumberFillingChecker(ScrolledPanel):
         self.value_desc_label_txt = value_desc_label_txt
         self.intro_label_txt = intro_label_txt
         self.part_name = parent_sheet_view.sheet_name
+        self.SetBackgroundColour((0,0,0))
+        self.SetForegroundColour((255,255,255))
         self.initRootSizer()
         self.fillWithEntries()
 

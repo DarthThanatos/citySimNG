@@ -13,6 +13,8 @@ from CreatorView.GraphDetails.TreePasser import TreePasser
 from utils import LogMessages
 from utils.ButtonsFactory import ButtonsFactory
 
+import matplotlib
+
 class DescriptionPanel(wx.Panel):
     def __init__(self, parent, spaceName, jsonDesc):
         wx.Panel.__init__(self,parent)
@@ -170,6 +172,8 @@ class NetworkPanel(wx.Panel):
         return bbox
 
     def drawRectsRoundLabels(self, G, labelsPosDict):
+        matplotlib.rcParams['font.family'] = "sans-serif"
+        matplotlib.rcParams['font.style'] = "italic"
         for nodeName in G.nodes():
             label_x, label_y = \
                 plt.gcf().transFigure.inverted().transform(
