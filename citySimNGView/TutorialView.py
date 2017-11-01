@@ -1,11 +1,11 @@
 import json
-import traceback
+#import traceback
 
 import wx
 
 from CreatorView.GraphsSpaces import GraphsSpaces
 from TutorialPageView import TutorialPageView
-from utils.RelativePaths import relative_music_path, relative_textures_path
+from utils.RelativePaths import relative_music_path, relative_textures_path, relative_fonts_path
 
 
 class TutorialView(wx.Panel):
@@ -22,7 +22,8 @@ class TutorialView(wx.Panel):
 
         #self.showGraph()
         #self.SetBackgroundColour((255, 255, 255))
-        self.pageID = 0;
+        self.pageID = 0
+        self.nrOfPages = 3
         self.tutorialInfo = "Welcome to our tutorial! If you'd like to find out what are all the functionalities of this cutting-edge game engine, you're in the right place :)"
         self.welcomeField = wx.StaticText(self, label=self.tutorialInfo)
         self.tutorialFont = wx.Font(20, wx.FONTFAMILY_DECORATIVE, 
@@ -112,9 +113,9 @@ class TutorialView(wx.Panel):
             elemField = wx.StaticText(self, label=self.content[i]['name'])
             elemID = self.content[i]['id']
             elemField.SetFont(listFont)
-            #arrowButton = wx.BitmapButton(self, id=elemID, bitmap=arrow, 
-            #    size=(arrow.GetWidth(), arrow.GetHeight()))
-            arrowButton = wx.Button(self, id=elemID, label=">>")
+            arrowButton = wx.Button(self, id=elemID, label="  ", 
+                size=(arrow.GetWidth()+10, arrow.GetHeight()+5))
+            arrowButton.SetBitmap(arrow)
             self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton)
             tmpBox = wx.BoxSizer(wx.HORIZONTAL)
             tmpBox.Add(elemField, 0, wx.CENTER)
@@ -128,9 +129,9 @@ class TutorialView(wx.Panel):
             elemField = wx.StaticText(self, label=self.content[i]['name'])
             elemID = self.content[i]['id']
             elemField.SetFont(listFont)
-            #arrowButton = wx.BitmapButton(self, id=elemID, bitmap=arrow, 
-            #    size=(arrow.GetWidth(), arrow.GetHeight()))
-            arrowButton = wx.Button(self, id=elemID, label=">>")
+            arrowButton = wx.Button(self, id=elemID, label="  ", 
+                size=(arrow.GetWidth()+10, arrow.GetHeight()+5))
+            arrowButton.SetBitmap(arrow)
             self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton)
             tmpBox = wx.BoxSizer(wx.HORIZONTAL)
             tmpBox.Add(elemField, 0, wx.CENTER)
@@ -154,25 +155,18 @@ class TutorialView(wx.Panel):
     def requestPage(self, event):
         print "TutorialView: requestPage executed"
         print "PageID: " + str(event.GetId())
-        msg = {}
-        msg["To"] = "TutorialNode"
-        msg["Operation"] = "RequestPage"
-        msg["Args"] = {}
-        msg["Args"]["PageID"] = event.GetId()
-        self.sender.send(json.dumps(msg))
+        #sprawdzamy, czy Id jest prawidlowy, w razie czego poprawiamy
+        realPageID = event.GetId()
+        if realPageID > self.nrOfPages:
+            realPageID = 1
+        elif realPageID <= 0:
+            realPageID = self.nrOfPages
+        self.sender.entry_point.getTutorialPresenter().fetchTutorialPage(realPageID)
     
 
     def retToMenu(self, event):
         """ This function returns to Menu view """
-        #self.parent.setView("Menu")
-        #self.sender.send("TutorialNode@MoveTo@MenuNode")
-        msg = {}
-        msg["To"] = "TutorialNode"
-        msg["Operation"] = "MoveTo"
-        msg["Args"] = {}
-        msg["Args"]["TargetView"] = "GameMenu"
-        msg["Args"]["TargetControlNode"] = "GameMenuNode"
-        self.sender.send(json.dumps(msg))
+        self.sender.entry_point.getTutorialPresenter().returnToMenu()
 
     def initMenuBar(self):
         status = self.CreateStatusBar()
@@ -189,31 +183,18 @@ class TutorialView(wx.Panel):
 
         self.SetMenuBar(menuBar)
 
-    def readMsg(self, msg):
-        try:
-            #msg = unicode(msg, errors='ignore')
-            jsonObj = json.loads(msg)
-            
-        except:
-            traceback.print_exc()
-            return
-        print "Tutorial view got message: "
-        print msg
-        operation = jsonObj["Operation"]
-        if operation == "FetchPage":
-            pageContent = []
-            args = jsonObj["Args"]["Page"]["page"]
-            #page = json.loads(args)
-            for x in args:
-                subpageContent =[]
-                subpageContent.append(x)    
-                pageContent.append(subpageContent)
-            #print "Page:\n" 
-           # print pageContent[0][0]
+    def displayDependenciesGraph(self, jsonGraph):
+        self.graphsSpaces.resetViewFromJSON(jsonGraph["Args"])
+        self.centerSizer.Layout()
+
+    def displayTutorialPage(self, jsonPage):
+         pageContent = []
+         args = jsonPage["Args"]["Page"]["page"]
+         for x in args:
+            subpageContent =[]
+            subpageContent.append(x)    
+            pageContent.append(subpageContent)
             pageContentString = pageContent[0][0]
-            #self.pageView.tutorialContent = json.loads(pageContent) #????
-           # print "pageContentString[\"sub0\"]:"
-        #    print pageContentString["sub0"]
             self.pageView.tutorialContent = pageContentString
             firstSubPage = pageContentString["sub0"]
             firstSubPageContent = ""
@@ -223,36 +204,26 @@ class TutorialView(wx.Panel):
             self.pageView.contentField.SetValue(firstSubPageContent)
 
             hyperlinks = pageContentString["link"]
-
-            
             self.pageView.hyperlinks = hyperlinks
 
             image = wx.Image(pageContentString["img"], wx.BITMAP_TYPE_ANY)
             imgWidth = self.size[0] //2
             imgHeight = self.size[1]
             if imgWidth < image.GetWidth():
-                print "scale according to width"
-                #print "image.GetWidth() " + str (image.GetWidth())
-                #print "imgWidth: " + str (imgWidth)
+                #print "scale according to width"
                 ratio = float(image.GetWidth()) / float(imgWidth)
-                #print "ratio: " + str(ratio)
                 imgHeight = float(imgHeight) / ratio
-               # print "imgHeight: " + str(imgHeight)
                 image.Rescale(imgWidth, int(imgHeight))
             if imgHeight < image.GetHeight():
-                print "scale according to height"
+                #print "scale according to height"
                 ratio = float(image.GetHeight()) / float(imgHeight)
                 imgWidth = float(imgWidth) / float(ratio)
                 image.Rescale(int(imgWidth), imgHeight)
                 
             self.pageView.helperImg = image
-            self.pageView.updateHyperlinksAndImg()
             self.pageView.subPage = 0
             self.pageView.nrOfSubpages = 2 #zmienic na len!!!
-        elif operation == "FetchGraphs":
-            self.graphsSpaces.resetViewFromJSON(jsonObj["Args"])
-            self.centerSizer.Layout()
-        else:
-            print "Unknown operation\n"
+            self.pageView.page = pageContentString["nr"]
+            self.pageView.updateHyperlinksAndImg()
 
-
+    

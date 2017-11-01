@@ -1,1 +1,1 @@
-include 'SkeletonModule', 'CreatorModule', 'ExchangeModule', 'MapModule', 'MenuModule', 'RankingModule', 'TutorialModule'
+include 'SkeletonModule', 'CreatorModule', 'ExchangeModule', 'MapModule', 'MenuModule', 'TutorialModule'

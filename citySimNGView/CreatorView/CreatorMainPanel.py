@@ -37,6 +37,8 @@ class CreatorMainPanel(ScrolledPanel):
         self.initCreatorView()
 
     def initCreatorView(self):
+        self.SetBackgroundColour((0,0,0))
+        self.SetForegroundColour((255,255,255))
         self.SetupScrolling()
         self.initRootSizer()
         self.Bind(wx.EVT_SHOW, self.onShow, self)
@@ -57,8 +59,9 @@ class CreatorMainPanel(ScrolledPanel):
         rootSizer.AddSpacer(topPadding)
         self.addToSizerWithSpaceAndLine(rootSizer, self.newChosenSetNameSizer())
         self.addToSizerWithSpaceAndLine(rootSizer,self.newDependenciesSubpanelsHorizontalSizer(), linePadding=10, viewSpace=75)
-        self.addToSizerWithSpace(rootSizer, self.newBackgroundTextureOneHorizontalSizer())
-        self.addToSizerWithSpaceAndLine(rootSizer, self.newBackgroundTextureTwoHorizontalSizer())
+        # self.addToSizerWithSpace(rootSizer, self.newBackgroundTextureOneHorizontalSizer())
+        # self.addToSizerWithSpaceAndLine(rootSizer, self.newBackgroundTextureTwoHorizontalSizer())
+        self.addToSizerWithSpaceAndLine(rootSizer, self.newMapBackgroundHorizontalSizer())
         self.addToSizerWithSpace(rootSizer, self.newButtonsSizer(), space = 50)
         self.addToSizerWithSpace(rootSizer, self.newGraphSpaces(), space=175)
         return rootSizer
@@ -123,18 +126,59 @@ class CreatorMainPanel(ScrolledPanel):
         self.logAreaVerticalSizer.Add(self.newLogArea())
         return self.logAreaVerticalSizer
 
-    def newImageSelectorButton(self, onImgChangeCallback):
-        return ButtonsFactory().newButton(self, "Choose another texture", onImgChangeCallback, size=(-1, 32), hint = LogMessages.BACKGROUND_TEXTURE_SELECTION_BTN_HINT)
+    def newMapBackgroundHorizontalSizer(self):
+        mapBackgroundHorizontalSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.addToSizerWithSpace(mapBackgroundHorizontalSizer, self.newBgTexturesVerticalSizer())
+        mapBackgroundHorizontalSizer.Add(self.newMusicAndPanelTextureVerticalSizer())
+        return mapBackgroundHorizontalSizer
+
+
+    def newMusicAndPanelTextureVerticalSizer(self):
+        musicAndPanelVerticalSizer = wx.BoxSizer(wx.VERTICAL)
+        self.addToSizerWithSpace(musicAndPanelVerticalSizer,self.newMapPanelTextureHorizontalSizer())
+        musicAndPanelVerticalSizer.Add(self.newMusicSelectorHorizontalSizer())
+        return musicAndPanelVerticalSizer
+
+    def newMusicSelectorHorizontalSizer(self):
+        return self.newSelectorHorizontalSizer(
+            self.newBitmap("nutka.jpg"),
+            "The path of music in the Map:     ",
+            self.onMusicSelected,
+            "Choose another .mp3 file"
+        )
+
+    def newMapPanelTextureHorizontalSizer(self):
+        return self.newSelectorHorizontalSizer(
+            self.newBitmap(self.current_dependencies[Consts.PANEL_TEXTURE]),
+            "The texture of panels in the Map: ",
+            self.onMapPanelTextureSelected
+        )
+
+    def onMusicSelected(self, ev):
+        pass
+
+    def onMapPanelTextureSelected(self, ev):
+        pass
+
+    def newBgTexturesVerticalSizer(self):
+        texturesVerticalSizer = wx.BoxSizer(wx.VERTICAL)
+        self.addToSizerWithSpace(texturesVerticalSizer, self.newBackgroundTextureOneHorizontalSizer())
+        self.addToSizerWithSpace(texturesVerticalSizer, self.newBackgroundTextureTwoHorizontalSizer())
+        return texturesVerticalSizer
+
+
+    def newImageSelectorButton(self, onImgChangeCallback, btn_text):
+        return ButtonsFactory().newButton(self, btn_text, onImgChangeCallback, size=(-1, 32), hint = LogMessages.BACKGROUND_TEXTURE_SELECTION_BTN_HINT)
 
     def newBitmap(self, textureName):
         image = wx.Image(name = relative_textures_path + textureName)#"..\\..\\resources\\Textures\\Grass.png"
         return wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(image), size = (32,32))
 
-    def newBackgroundTextureHorizontalSizer(self, imageBitmap, info, onImageChangeCallback):
+    def newSelectorHorizontalSizer(self, imageBitmap, info, onFileSelectedCallback, btn_text ="Choose another texture"):
         texture_horizontal_sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.addToSizerWithSpace(texture_horizontal_sizer, self.newInfoST(info))
         self.addToSizerWithSpace(texture_horizontal_sizer, imageBitmap)
-        texture_horizontal_sizer.Add(self.newImageSelectorButton(onImageChangeCallback))
+        texture_horizontal_sizer.Add(self.newImageSelectorButton(onFileSelectedCallback, btn_text))
         return texture_horizontal_sizer
 
     def newBackgroundBitmapOne(self):
@@ -142,7 +186,7 @@ class CreatorMainPanel(ScrolledPanel):
         return self.imageBitmapOne
 
     def newBackgroundTextureOneHorizontalSizer(self):
-        self.image_one_horizontal_sizer = self.newBackgroundTextureHorizontalSizer(
+        self.image_one_horizontal_sizer = self.newSelectorHorizontalSizer(
             self.newBackgroundBitmapOne(),
             "Your background texture number one: ",
             self.onSelectImageOne
@@ -154,7 +198,7 @@ class CreatorMainPanel(ScrolledPanel):
         return self.imageBitmapTwo
 
     def newBackgroundTextureTwoHorizontalSizer(self):
-        self.image_two_horizontal_sizer = self.newBackgroundTextureHorizontalSizer(
+        self.image_two_horizontal_sizer = self.newSelectorHorizontalSizer(
             self.newBackgroundBitmapTwo(),
             "Your background texture number two: ",
             self.onSelectImageTwo

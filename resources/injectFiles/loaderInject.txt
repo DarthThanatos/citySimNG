@@ -4,10 +4,9 @@ Mode Nodes
 # third column: hashkey of an instance 
 
 MenuModule menunode.GameMenuPy4jNode GameMenuNode
-TutorialModule tutorialnode.TutorialNode TutorialNode 
+TutorialModule tutorialnode.TutorialPy4JNode TutorialNode 
 ExchangeModule exchangenode.ExchangeNode ExchangeNode
 MapModule mapnode.MapPy4JNode MapNode
-RankingModule rankingnode.RankingNode RankingNode
 
 Mode Edges
 # first column: "from" vertex, represented via its hashkey 
@@ -17,7 +16,6 @@ Mode Edges
 GameMenuNode TutorialNode   
 GameMenuNode ExchangeNode
 GameMenuNode MapNode
-GameMenuNode RankingNode
 
 Mode StartNode
 # one row containing the main Node instance hashKey; it can be used to retrieve root Node from which everything is started

@@ -1,9 +1,10 @@
 import wx
 from GraphPanel import GraphPanel
+from Consts import GRAPH_SPACE_PADDING
 
 class GraphsSpaces(wx.Panel):
     def __init__(self, parent):
-        super(GraphsSpaces, self).__init__(parent, size =(1500,500),style = wx.SIMPLE_BORDER)
+        super(GraphsSpaces, self).__init__(parent, size =(wx.GetDisplaySize()[0] - GRAPH_SPACE_PADDING,500),style = wx.SIMPLE_BORDER)
         self.initRootSizer()
 
     def addToSizerWithSpace(self, sizer, view, space = 10, alignment = wx.CENTER):

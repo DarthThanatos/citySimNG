@@ -8,7 +8,6 @@ controllerModules\SkeletonModule\bin;^
 controllerModules\ExchangeModule\bin;^
 controllerModules\MapModule\bin;^
 controllerModules\MenuModule\bin;^
-controllerModules\RankingModule\bin;^
 controllerModules\TutorialModule\bin;^
 controllerModules\SkeletonModule\lib\json.jar;^
 controllerModules\SkeletonModule\lib\py4j.jar;^

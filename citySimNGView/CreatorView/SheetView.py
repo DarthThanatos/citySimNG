@@ -25,6 +25,8 @@ class SheetView(ScrolledPanel):
         self.entityIconRelativePath = self.getDefaultIconRelativePath()
         self.sheetChecker = AddModeSheetEntityChecker(self)
         self.sheet_name = self.getSheetName()
+        self.SetBackgroundColour((0,0,0))
+        self.SetForegroundColour((255,255,255))
 
     def onShow(self, event):
         OnShowUtil().onCreatorSheetShow(self, event)

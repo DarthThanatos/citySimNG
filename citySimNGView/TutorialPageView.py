@@ -1,6 +1,6 @@
 import wx
-
-from utils.RelativePaths import relative_music_path, relative_textures_path
+import wx.lib.agw.hyperlink as hl
+from utils.RelativePaths import relative_music_path, relative_textures_path, relative_fonts_path
 
 
 class TutorialPageView(wx.Panel):
@@ -13,8 +13,10 @@ class TutorialPageView(wx.Panel):
         self.size = size
         self.musicPath = musicPath
         #self.SetBackgroundColour((255, 255, 255))
+        self.page = 0
         self.subPage = 0
         self.nrOfSubpages = 3
+
 
         self.tutorialContent = [
         " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac ex accumsan, commodo tortor a, rhoncus mauris. Mauris gravida vulputate tellus, nec ullamcorper augue pharetra non. Sed ut justo venenatis, ultrices mi gravida, commodo odio. Nulla eu fermentum sem. Proin lobortis dolor ac augue facilisis aliquam. Mauris condimentum metus purus. Duis condimentum sollicitudin diam eget tincidunt. Proin venenatis, lorem et finibus imperdiet, elit ex gravida augue, a rutrum libero odio commodo magna. Proin tempus nec nisi viverra tincidunt. Duis gravida laoreet bibendum. Nulla finibus purus ante. Maecenas sit amet pharetra tellus. Nam vitae velit quam. Duis vel tempus massa. Nam rhoncus sapien quis nulla dictum blandit varius vitae orci.",
@@ -26,15 +28,14 @@ class TutorialPageView(wx.Panel):
             style=wx.TE_MULTILINE | wx.TE_READONLY)
         self.contentField.SetValue(self.tutorialContent[self.subPage])
 
-        self.tutorialPageFont = wx.Font(20, wx.FONTFAMILY_SCRIPT, 
-            wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
+        self.tutorialPageFont = wx.Font(20, wx.DECORATIVE, wx.NORMAL, wx.NORMAL, False, "resources\\Fonts\\18cents\\18cents.ttf")
+
+
         self.contentField.SetFont(self.tutorialPageFont)
 
         self.maxNrOfHyperlinks = 10
         self.hyperlinkCtrls = []
         self.hyperlinks = []
-        self.Bind(wx.EVT_HYPERLINK, self.moveToPage, self)
-        #nie wychodzi z eventem, strona sie laduje, a nie powinna xD
         
 
         self.centerSizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -51,19 +52,30 @@ class TutorialPageView(wx.Panel):
         contentsIcon = wx.Bitmap(relative_textures_path + "small_notepad2.png", wx.BITMAP_TYPE_ANY)
         
         #all needed buttons
-        leftArrowBtn = wx.BitmapButton(self, bitmap=leftArrow,
-            size=(leftArrow.GetWidth(), leftArrow.GetHeight()))
-        rightArrowBtn = wx.BitmapButton(self, bitmap=rightArrow,
-            size=(rightArrow.GetWidth(), rightArrow.GetHeight()))
-        leftLittleArrowBtn = wx.BitmapButton(self, bitmap=leftLittleArrow,
-            size=(leftLittleArrow.GetWidth(), leftLittleArrow.GetHeight()))
-        rightLittleArrowBtn = wx.BitmapButton(self, bitmap=rightLittleArrow,
-            size=(rightLittleArrow.GetWidth(), rightLittleArrow.GetHeight()))
-        contentsBtn = wx.BitmapButton(self, bitmap=contentsIcon,
+        self.leftArrowBtn = wx.Button(self, label="  ", 
+            size=(leftArrow.GetWidth()+10, leftArrow.GetHeight()+5), id=0)
+        self.rightArrowBtn = wx.Button(self, label="  ", 
+            size=(rightArrow.GetWidth()+10, rightArrow.GetHeight()+5), id=0)
+        leftLittleArrowBtn = wx.Button(self, label="  ", 
+            size=(leftLittleArrow.GetWidth()+10, leftLittleArrow.GetHeight()+5))
+        rightLittleArrowBtn = wx.Button(self, label="  ", 
+            size=(rightLittleArrow.GetWidth()+10, rightLittleArrow.GetHeight()+5))
+        contentsBtn = wx.Button(self, label=" ",
             size=(contentsIcon.GetWidth(), contentsIcon.GetHeight()))
+        self.leftArrowBtn.SetBitmap(leftArrow)
+        self.rightArrowBtn.SetBitmap(rightArrow)
+        leftLittleArrowBtn.SetBitmap(leftLittleArrow)
+        rightLittleArrowBtn.SetBitmap(rightLittleArrow)
+        contentsBtn.SetBitmap(contentsIcon)
         self.Bind(wx.EVT_BUTTON, self.showMainView, contentsBtn)
         self.Bind(wx.EVT_BUTTON, self.nextSubPage, rightLittleArrowBtn)
         self.Bind(wx.EVT_BUTTON, self.prevSubPage, leftLittleArrowBtn)
+
+        self.rightArrowBtn.SetToolTip(wx.ToolTip("Next topic"))
+        self.leftArrowBtn.SetToolTip(wx.ToolTip("Previous topic"))
+        rightLittleArrowBtn.SetToolTip(wx.ToolTip("Next subpage"))
+        leftLittleArrowBtn.SetToolTip(wx.ToolTip("Previous subpage"))
+        contentsBtn.SetToolTip(wx.ToolTip("Tutorial menu"))
 
         #place for right image
         self.helperImg = wx.Image(relative_textures_path + "Grass.jpg", wx.BITMAP_TYPE_ANY)
@@ -75,11 +87,11 @@ class TutorialPageView(wx.Panel):
 
         #place everything where needed
         self.rightSizer.Add(self.helperBitmap)
-        self.topBtnSizer.Add(leftArrowBtn, 0, wx.CENTER)
+        self.topBtnSizer.Add(self.leftArrowBtn, 0, wx.CENTER)
         self.topBtnSizer.AddSpacer(10)
         self.topBtnSizer.Add(contentsBtn, 0, wx.CENTER)
         self.topBtnSizer.AddSpacer(10)
-        self.topBtnSizer.Add(rightArrowBtn, 0, wx.CENTER)
+        self.topBtnSizer.Add(self.rightArrowBtn, 0, wx.CENTER)
 
         self.bottomBtnSizer.Add(leftLittleArrowBtn)
         self.bottomBtnSizer.AddSpacer(20)
@@ -105,8 +117,7 @@ class TutorialPageView(wx.Panel):
         self.Bind(wx.EVT_SHOW, self.onShow, self)
 
     def moveToPage(self, event):
-        #event.StopPropagation()
-        print "Page will be changed\n"
+        self.parent.showPageView(event)
 
     def showMainView(self, event):
         self.parent.Show()
@@ -147,7 +158,8 @@ class TutorialPageView(wx.Panel):
 
         for i in range(self.maxNrOfHyperlinks):  
             #hyperLabel ="link"+str(i)
-            hyperlink = wx.HyperlinkCtrl(self, id=i, label="", url="")
+            hyperlink =wx.HyperlinkCtrl(self, id=i, label="", url="")
+            #hyperlink.AutoBrowse(False)
             hyperlink.SetFont(hyperlinksFont)
             self.hyperlinkCtrls.append(hyperlink)
 
@@ -163,13 +175,17 @@ class TutorialPageView(wx.Panel):
             child = self.hyperlinkCtrls[i]
             child.SetLabel(self.hyperlinks[i]['label'])
             child.SetId(self.hyperlinks[i]['id'])
+            self.Bind(wx.EVT_HYPERLINK, self.moveToPage, child)
         for i in range (len(self.hyperlinks), self.maxNrOfHyperlinks):
             child = self.hyperlinkCtrls[i]
             child.SetLabel("")
             child.SetId(-100)
         #self.hyperlinksBox.Show()
         self.helperBitmap.SetBitmap(wx.BitmapFromImage(self.helperImg))
-
+        self.Bind(wx.EVT_BUTTON, self.parent.showPageView, self.leftArrowBtn)
+        self.Bind(wx.EVT_BUTTON, self.parent.showPageView, self.rightArrowBtn)
+        self.rightArrowBtn.SetId(self.page +1)
+        self.leftArrowBtn.SetId(self.page -1)
         self.centerSizer.Layout()
 
     def onShow(self, event):

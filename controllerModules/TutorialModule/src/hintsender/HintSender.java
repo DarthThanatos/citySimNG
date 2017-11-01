@@ -4,17 +4,17 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import model.TutorialHintEvent;
-import tutorialnode.TutorialNode;
+import tutorialnode.TutorialPy4JNode;
 import utils.DisposingUtils;
 
 import java.util.concurrent.TimeUnit;
 
 public class HintSender {
-    private final TutorialNode tutorialNode;
+    private final TutorialPy4JNode tutorialNode;
     private Disposable hintsSendingDisposable;
     private EventBus eventBus;
 
-    public HintSender(TutorialNode tutorialNode, EventBus eventBus){
+    public HintSender(TutorialPy4JNode tutorialNode, EventBus eventBus){
         this.eventBus  = eventBus;
         this.tutorialNode = tutorialNode;
         startSending();

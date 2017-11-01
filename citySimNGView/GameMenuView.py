@@ -16,7 +16,7 @@ class GameMenuView(wx.Panel):
         self.sender = sender
         self.musicPath = musicPath
         self.initRootSizer()
-        self.SetBackgroundColour((255, 255, 255))
+        self.SetBackgroundColour((0, 0, 0))
 
     def goToExchange(self,event):
         self.sender.entry_point.getGameMenuPresenter().goToExchange()
@@ -26,9 +26,6 @@ class GameMenuView(wx.Panel):
 
     def goToTutorial(self, event):
         self.sender.entry_point.getGameMenuPresenter().goToTutorial()
-
-    def goToRanking(self, event):
-        self.sender.entry_point.getGameMenuPresenter().goToRanking()
 
     def goToLoader(self,event):
         self.sender.entry_point.getGameMenuPresenter().goToLoader()
@@ -42,7 +39,7 @@ class GameMenuView(wx.Panel):
         rootSizer.SetDimension(0, 0, self.size[0], self.size[1])
 
     def newHeaderBmp(self):
-        headerImage = wx.Image(relative_textures_path + "headerCS.jpg", wx.BITMAP_TYPE_JPEG)
+        headerImage = wx.Image(relative_textures_path + "headerCS_black.png", wx.BITMAP_TYPE_PNG)
         return wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(headerImage))
 
     def newHeaderSizer(self):
@@ -55,7 +52,6 @@ class GameMenuView(wx.Panel):
         self.buttons_vertical_sizer = wx.BoxSizer(wx.VERTICAL)
         self.buttons_vertical_sizer.Add(self.newGameButton(), 0, wx.CENTER | wx.ALL, 15)
         self.buttons_vertical_sizer.Add(self.newTutorialButton(), 0, wx.CENTER, 0)
-        self.buttons_vertical_sizer.Add(self.newRankingButton(), 0, wx.CENTER, 0)
         self.buttons_vertical_sizer.Add(self.newExchangeButton(), 0, wx.CENTER, 0)
         self.buttons_vertical_sizer.Add(self.newLoadButton(), 0, wx.CENTER, 0)
         self.buttons_vertical_sizer.Add(self.newSaveButton(), 0, wx.CENTER, 0)
@@ -63,31 +59,27 @@ class GameMenuView(wx.Panel):
         return self.buttons_vertical_sizer
 
     def newGameButton(self):
-        self.newgame_btn = ButtonsFactory().newButton(self, "Game", self.goToNewGame, hint = LogMessages.GAME_BTN_HINT)
+        self.newgame_btn = ButtonsFactory().newButton(self, "Game", self.goToNewGame, hint = LogMessages.GAME_BTN_HINT, size=(100,-1))
         return self.newgame_btn
 
     def newTutorialButton(self):
-        self.tutorial_btn = ButtonsFactory().newButton(self, "Tutorial", self.goToTutorial, hint = LogMessages.TUTORIAL_BTN_HINT)
+        self.tutorial_btn = ButtonsFactory().newButton(self, "Tutorial", self.goToTutorial, hint = LogMessages.TUTORIAL_BTN_HINT, size=(100,-1))
         return self.tutorial_btn
 
     def newExchangeButton(self):
-        self.exchange_btn = ButtonsFactory().newButton(self, "Exchange", self.goToExchange, hint = LogMessages.EXCHANGE_BTN_HINT)
+        self.exchange_btn = ButtonsFactory().newButton(self, "Exchange", self.goToExchange, hint = LogMessages.EXCHANGE_BTN_HINT, size=(100,-1))
         return self.exchange_btn
 
-    def newRankingButton(self):
-        self.ranking_btn = ButtonsFactory().newButton(self, "Ranking", self.goToRanking, hint = LogMessages.RANKING_BTN_HINT)
-        return self.ranking_btn
-
     def newLoadButton(self):
-        self.load_btn =  ButtonsFactory().newButton(self, "Load")
+        self.load_btn =  ButtonsFactory().newButton(self, "Load", size=(100,-1))
         return self.load_btn
 
     def newSaveButton(self):
-        self.save_btn =  ButtonsFactory().newButton(self, "Save")
+        self.save_btn =  ButtonsFactory().newButton(self, "Save", size=(100,-1))
         return self.save_btn
 
     def newLoaderButton(self):
-        self.loader_btn = ButtonsFactory().newButton(self, "Back to Loader", self.goToLoader, hint = LogMessages.MENU_BTN_HINT)
+        self.loader_btn = ButtonsFactory().newButton(self, "Back to Loader", self.goToLoader, hint = LogMessages.MENU_BTN_HINT, size=(100,-1))
         return self.loader_btn
 
     def moveToNewGame(self, event):
@@ -107,11 +99,6 @@ class GameMenuView(wx.Panel):
     def moveToTutorial(self, event):
         """ This function switches to tutorial view """
         msg = JSONMonter().mountMoveToMsg("GameMenuNode", "Tutorial")
-        self.sender.send(msg)
-
-    def moveToRanking(self, event):
-        """ This function switches to tutorial view """
-        msg = JSONMonter().mountMoveToMsg("GameMenuNode", "Ranking")
         self.sender.send(msg)
 
     def onShow(self, event):

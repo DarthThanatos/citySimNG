@@ -17,13 +17,17 @@ import controlnode.DispatchCenter;
 import controlnode.SocketNode;
 import utils.DisposingUtils;
 
-public class TutorialNode extends SocketNode{
+import py4jmediator.Presenter;
+import controlnode.Py4JNode;
+import py4jmediator.*;
+
+public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTutorialPresenterCalled{
 
 	private JSONObject readPage;
 	private BufferedReader tutorialReader;
 	private HintSender hintSender;
 
-	public TutorialNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
+	public TutorialPy4JNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
 		super(dr, dispatchCenter, nodeName);
 		readPage = new JSONObject("{}");
 		hintSender = new HintSender(this, dispatchCenter.getEventBus());
@@ -35,7 +39,7 @@ public class TutorialNode extends SocketNode{
 	 * @see controlnode.Node#parseCommand(java.lang.String, java.lang.String[])
 	 * returns - output stream understandable to the current entity in the view layer (here TutorialView)
 	 */
-	@Override
+	/*@Override
 	public String parseCommand(String command, JSONObject args) {
 		if (command.equals("RequestPage")){
 			System.out.println("Tutorial: Received RequestPage");
@@ -59,7 +63,7 @@ public class TutorialNode extends SocketNode{
 			System.out.println("Tutorial: Received unknown message");
 			return "{}";//tu otrzymuje wezwanie wyslania strony i podstrony(?)
 		} 
-	}
+	}*/
 
 	public String getHints(){
 		//TODO, actual hints and synchronized block
@@ -91,26 +95,58 @@ public class TutorialNode extends SocketNode{
 
 
 	@Override
-	public void atStart() {
+	public void atStart() { //raczej ok
+		TutorialPresenter tutorialPresenter = Presenter.getInstance().getTutorialPresenter();
+		tutorialPresenter.setOnTutorialPresenterCalled(this);
+		tutorialPresenter.displayTutorial();
+
 		JSONObject graphs = dr.getGraphsHolder().displayAllGraphs();
 		JSONObject envelope = new JSONObject();
 			envelope.put("To","Tutorial");
 			envelope.put("Operation","FetchGraphs");
 			envelope.put("Args", graphs);
-			sender.pushStream(envelope);
+			//sender.pushStream(envelope);
+		Presenter.getInstance().getTutorialPresenter().displayDependenciesGraph(envelope);
+	}
+
+	@Override
+	protected void onLoop() {
+
 	}
 
 
 	@Override
-	public void atExit() {
-		// TODO Auto-generated method stub
-		
+	public void atExit() { //ok
+		Presenter.getInstance().getTutorialPresenter().setOnTutorialPresenterCalled(null);	
 	}
 
 
 	@Override
-	public void atUnload() {
+	public void atUnload() { //ok
 		hintSender.atUnload();
+	}
+
+	@Override
+	public void onReturnToMenu(){ //??
+		moveTo("GameMenuNode");
+	}
+
+	@Override
+	public void onFetchTutorialPage(int pageNr){ //ok
+		try {
+				readPage(pageNr);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			JSONObject envelope = new JSONObject();
+			envelope.put("To","Tutorial");
+			envelope.put("Operation","FetchPage");
+			JSONObject json = new JSONObject();
+			json.put("Page", readPage);
+			envelope.put("Args", json);
+	//		return envelope.toString();
+			Presenter.getInstance().getTutorialPresenter().displayTutorialPage(envelope);
 	}
 
 }

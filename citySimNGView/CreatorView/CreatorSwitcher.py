@@ -25,6 +25,8 @@ class CreatorSwitcher(wx.Panel):
             Consts.SET_NAME : "Default Set",
             Consts.TEXTURE_ONE: "Grass.png",
             Consts.TEXTURE_TWO: "Grass2.jpg",
+            Consts.PANEL_TEXTURE: "BuildingsPanelTexture.jpg",
+            Consts.MP3 : "TwoMandolins.mp3",
             Consts.RESOURCES: {},
             Consts.BUILDINGS: {},
             Consts.DWELLERS: {}

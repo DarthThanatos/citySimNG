@@ -1,5 +1,6 @@
 {
   "page": [{
+    "nr": 1,
     "sub0": [
       "W celu wywolania gieldy z glownego menu gry wciskamy przycisk gielda. Zostanie wywolany glowny widok gieldy.",
       "W tabeli (Resource table detailed info) znajduja sie informacje na temat nazwy dostepnych surowcow, ich ceny, dostepnej ilosci na gieldzie oraz ilosci posiadanej przez uzytkownika. Jest to glowny element z ktorego uzytkownik czerpie informacje na temat tego co sie dzieje na gieldzie. ",

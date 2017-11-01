@@ -13,6 +13,8 @@ from CreatorView.GraphDetails.TreePasser import TreePasser
 from utils import LogMessages
 from utils.ButtonsFactory import ButtonsFactory
 
+import matplotlib
+
 class DescriptionPanel(wx.Panel):
     def __init__(self, parent, spaceName, jsonDesc):
         wx.Panel.__init__(self,parent)
@@ -170,6 +172,8 @@ class NetworkPanel(wx.Panel):
         return bbox
 
     def drawRectsRoundLabels(self, G, labelsPosDict):
+        matplotlib.rcParams['font.family'] = "sans-serif"
+        matplotlib.rcParams['font.style'] = "italic"
         for nodeName in G.nodes():
             label_x, label_y = \
                 plt.gcf().transFigure.inverted().transform(
@@ -211,11 +215,24 @@ class NetworkPanel(wx.Panel):
 
 class DetailsFrame(wx.Frame):
     def __init__(self, fromPanel,  spaceName,  size=wx.DefaultSize):
-        wx.Frame.__init__(self, None, title='Details of ' + spaceName, size=size, style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER)
+        wx.Frame.__init__(self, None, title='Details of ' + spaceName, size=size, style=wx.DEFAULT_FRAME_STYLE ^ (wx.CAPTION | wx.RESIZE_BORDER) ) #(wx.DEFAULT_FRAME_STYLE |
+        self.ToggleWindowStyle(wx.STAY_ON_TOP)
         self.spaceName = spaceName
         self.fromPanel = fromPanel
+        self.initView()
         self.detailsPanel = NetworkPanel(self, spaceName, size)
         self.SetSize((self.detailsPanel.calcPopupWidth(), self.detailsPanel.calcPopupHeight()))
+        self.SetPosition((self.calculateCenter()))
+
+    def calculateCenter(self):
+        frame_width, frame_height = self.GetSize()
+        desktop_width, desktop_height = wx.GetDisplaySize()
+        return ((desktop_width - frame_width)/2, (desktop_height - frame_height)/2 )
+
+    def initView(self):
+        self.fromPanel.Disable()
+        self.SetBackgroundColour((0,0,0))
+        self.SetForegroundColour((255,255,255))
 
     def onAnimateShowing(self, event):
         self.SetFocus()
@@ -228,7 +245,6 @@ class DetailsFrame(wx.Frame):
     def onPostAnimation(self):
         self.alpha = 255
         self.timer.Stop()
-        self.fromPanel.Enable()
         self.Enable()
 
     def setupAnimation(self):
@@ -246,5 +262,6 @@ class DetailsFrame(wx.Frame):
         self.Show()
 
     def onExit(self):
+        self.fromPanel.Enable()
         self.Close()
         self.Destroy()

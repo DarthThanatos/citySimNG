@@ -90,9 +90,4 @@ public class GameMenuPy4jNode extends Py4JNode implements GameMenuPresenter.OnGa
 		moveTo("TutorialNode");		
 	}
 
-	@Override
-	public void onGoToRanking() {
-		moveTo("RankingNode");
-	}
-
 }

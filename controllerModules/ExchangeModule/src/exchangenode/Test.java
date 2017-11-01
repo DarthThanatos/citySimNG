@@ -31,14 +31,14 @@ public class Test {
         Thread stockAlgorithmThread = new Thread(() -> new StockAlgorithm().simulateStock(stock));
         stockAlgorithmThread.start();
 
-        StockView.setStock(stock);
+        StockView.stock = stock;
         Thread stockTableThread = new Thread(() -> StockView.initStockView(stock, dependenciesRepresenter));
         stockTableThread.start();
 
         Scanner input = new Scanner(System.in);
         String command = "hi";
         try {
-            Thread.sleep(400);
+            Thread.sleep(600);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

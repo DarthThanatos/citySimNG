@@ -18,3 +18,11 @@ subprojects {
 	   compile name: 'json'
 	}
 }
+
+// Create a list of subprojects that you wish to include in the jar.  
+def mainProjects = [':SkeletonModule',':TutorialModule',':MenuModule', ':MapModule', ':ExchangeModule', ':CreatorModule']
+task oneJar( type: Jar , dependsOn: mainProjects.collect{ it+":compileJava"}) {
+    baseName = 'citySimController'
+    from files(mainProjects.collect{ project(it).sourceSets.main.output })
+}
+

@@ -228,7 +228,6 @@ class Game(object):
                         pass
                     else:
                         if inner_sprites:
-                            print inner_sprites
                             sprite = inner_sprites[-1]
 
                     if not self.popup or sprite != self.popup.sprite:

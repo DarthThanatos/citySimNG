@@ -1,55 +1,55 @@
 package exchange;
 
-import javafx.beans.property.*;
-
+@SuppressWarnings("ALL")
 public class Resource {
 
-    private SimpleStringProperty name;
-    private SimpleStringProperty priceString;
-    private SimpleIntegerProperty quantity;
-    private SimpleIntegerProperty playerQuantity;
+    private String name;
+    private int stockQuantity;
+    private int playerQuantity;
     private double price;
 
-    Resource(String name, double price, int quantity) {
+    Resource(String name, double price, int stockQuantity) {
         super();
-        this.name = new SimpleStringProperty(name);
-        this.priceString = new SimpleStringProperty(String.format("%.2f", price));
-        this.quantity = new SimpleIntegerProperty(quantity);
-        this.playerQuantity = new SimpleIntegerProperty(0);
+        this.name = name;
+        this.stockQuantity = stockQuantity;
+        this.playerQuantity = 0;
         this.price = price;
     }
 
     public String getName() {
-        return this.name.get();
+        return this.name;
     }
 
-    public double getPrice() {
+    void setName(String name) {
+        this.name = name;
+    }
+
+    public int getStockQuantity() {
+        return this.stockQuantity;
+    }
+
+    void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
+    }
+
+    public int getPlayerQuantity() {
+        return this.playerQuantity;
+    }
+
+    void setPlayerQuantity(int playerQuantity) {
+        this.playerQuantity = playerQuantity;
+    }
+
+    public Double getPrice() {
         return this.price;
     }
 
     void setPrice(double price) {
         this.price = price;
-        this.priceString.set(String.format("%.2f", price));
     }
 
     public String getPriceString() {
-        return priceString.get();
-    }
-
-    public Integer getQuantity() {
-        return quantity.get();
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity.set(quantity);
-    }
-
-    public Integer getPlayerQuantity() {
-        return playerQuantity.get();
-    }
-
-    public void setPlayerQuantity(Integer playerQuantity) {
-        this.playerQuantity.set(playerQuantity);
+        return String.format("%.2f", price);
     }
 
 }

@@ -18,6 +18,8 @@ class ButtonsFactory(object):
 
     def newButton(self, binder, label, onClickCallback = None, size = None, hint = None):
         btn = self.createButton(binder, label, size)
+        font = wx.Font(14, wx.DECORATIVE, wx.ITALIC, wx.NORMAL)
+        btn.SetFont(font)
         if onClickCallback != None: self.bindButton(binder, onClickCallback, btn)
         if hint is not None: btn.SetToolTip(self.newTip(hint))
         return btn

@@ -2,7 +2,28 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ExchangeModule.iml" filepath="$PROJECT_DIR$/ExchangeModule.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1104227192/CreatorModule.iml" filepath="$PROJECT_DIR$/.idea/modules/1104227192/CreatorModule.iml" group="CreatorModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1104227192/CreatorModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/1104227192/CreatorModule_main.iml" group="CreatorModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1104227192/CreatorModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/1104227192/CreatorModule_test.iml" group="CreatorModule" />
+      <module fileurl="file://$PROJECT_DIR$/ExchangeModule.iml" filepath="$PROJECT_DIR$/ExchangeModule.iml" group="ExchangeModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ExchangeModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ExchangeModule_main.iml" group="ExchangeModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ExchangeModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ExchangeModule_test.iml" group="ExchangeModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-594174808/MapModule.iml" filepath="$PROJECT_DIR$/.idea/modules/-594174808/MapModule.iml" group="MapModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-594174808/MapModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/-594174808/MapModule_main.iml" group="MapModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-594174808/MapModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/-594174808/MapModule_test.iml" group="MapModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-607588693/MenuModule.iml" filepath="$PROJECT_DIR$/.idea/modules/-607588693/MenuModule.iml" group="MenuModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-607588693/MenuModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/-607588693/MenuModule_main.iml" group="MenuModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-607588693/MenuModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/-607588693/MenuModule_test.iml" group="MenuModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1927596034/RankingModule.iml" filepath="$PROJECT_DIR$/.idea/modules/1927596034/RankingModule.iml" group="RankingModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1927596034/RankingModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/1927596034/RankingModule_main.iml" group="RankingModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1927596034/RankingModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/1927596034/RankingModule_test.iml" group="RankingModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2048633063/SkeletonModule.iml" filepath="$PROJECT_DIR$/.idea/modules/-2048633063/SkeletonModule.iml" group="SkeletonModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2048633063/SkeletonModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/-2048633063/SkeletonModule_main.iml" group="SkeletonModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2048633063/SkeletonModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/-2048633063/SkeletonModule_test.iml" group="SkeletonModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-609994390/TutorialModule.iml" filepath="$PROJECT_DIR$/.idea/modules/-609994390/TutorialModule.iml" group="TutorialModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-609994390/TutorialModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/-609994390/TutorialModule_main.iml" group="TutorialModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-609994390/TutorialModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/-609994390/TutorialModule_test.iml" group="TutorialModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1323753455/controllerModules.iml" filepath="$PROJECT_DIR$/.idea/modules/1323753455/controllerModules.iml" />
     </modules>
   </component>
 </project>

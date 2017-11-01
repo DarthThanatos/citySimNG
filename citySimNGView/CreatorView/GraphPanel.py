@@ -6,14 +6,16 @@ from CreatorView.GraphDetails.GraphDetails import DetailsFrame
 from RelativePaths import relative_textures_path
 from utils import LogMessages
 from utils.ButtonsFactory import ButtonsFactory
+from Consts import GRAPH_SPACE_PADDING
 
 
 class GraphPanel(ScrolledPanel):
     def __init__(self, parent, space_name):
-        super(GraphPanel, self).__init__(parent, size =(500,500),style = wx.SIMPLE_BORDER)
+        super(GraphPanel, self).__init__(parent, size =((wx.GetDisplaySize()[0]-GRAPH_SPACE_PADDING) / 3,500),style = wx.SIMPLE_BORDER)
         self.space_name = space_name
         self.parent = parent
         self.jsonDesc = {"Dwellers":[], "Buildings":[], "Resources":[]}
+        self.SetForegroundColour((255,255,255))
         self.initRootSizer()
         self.Bind(wx.EVT_SHOW, self.onShow, self)
 

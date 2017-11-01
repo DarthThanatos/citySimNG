@@ -22,3 +22,7 @@ START_INCOME = "Start income"
 SET_NAME = "Set Name"
 TEXTURE_ONE = "Texture One"
 TEXTURE_TWO = "Texture Two"
+MP3 = "MP3"
+PANEL_TEXTURE = "Panel Texture"
+
+GRAPH_SPACE_PADDING = 60
