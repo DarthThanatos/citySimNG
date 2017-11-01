@@ -3,26 +3,45 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/CreatorModule/CreatorModule.iml" filepath="$PROJECT_DIR$/.idea/modules/CreatorModule/CreatorModule.iml" group="CreatorModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CreatorModule/CreatorModule.iml" filepath="$PROJECT_DIR$/.idea/modules/CreatorModule/CreatorModule.iml" group="CreatorModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CreatorModule/CreatorModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/CreatorModule/CreatorModule_main.iml" group="CreatorModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/CreatorModule/CreatorModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/CreatorModule/CreatorModule_main.iml" group="CreatorModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/CreatorModule/CreatorModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/CreatorModule/CreatorModule_test.iml" group="CreatorModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CreatorModule/CreatorModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/CreatorModule/CreatorModule_test.iml" group="CreatorModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ExchangeModule/ExchangeModule.iml" filepath="$PROJECT_DIR$/.idea/modules/ExchangeModule/ExchangeModule.iml" group="ExchangeModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ExchangeModule/ExchangeModule.iml" filepath="$PROJECT_DIR$/.idea/modules/ExchangeModule/ExchangeModule.iml" group="ExchangeModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ExchangeModule/ExchangeModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ExchangeModule/ExchangeModule_main.iml" group="ExchangeModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ExchangeModule/ExchangeModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ExchangeModule/ExchangeModule_main.iml" group="ExchangeModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ExchangeModule/ExchangeModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ExchangeModule/ExchangeModule_test.iml" group="ExchangeModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ExchangeModule/ExchangeModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ExchangeModule/ExchangeModule_test.iml" group="ExchangeModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/MapModule/MapModule.iml" filepath="$PROJECT_DIR$/.idea/modules/MapModule/MapModule.iml" group="MapModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MapModule/MapModule.iml" filepath="$PROJECT_DIR$/.idea/modules/MapModule/MapModule.iml" group="MapModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MapModule/MapModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/MapModule/MapModule_main.iml" group="MapModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/MapModule/MapModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/MapModule/MapModule_main.iml" group="MapModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/MapModule/MapModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/MapModule/MapModule_test.iml" group="MapModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MapModule/MapModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/MapModule/MapModule_test.iml" group="MapModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MenuModule/MenuModule.iml" filepath="$PROJECT_DIR$/.idea/modules/MenuModule/MenuModule.iml" group="MenuModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/MenuModule/MenuModule.iml" filepath="$PROJECT_DIR$/.idea/modules/MenuModule/MenuModule.iml" group="MenuModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/MenuModule/MenuModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/MenuModule/MenuModule_main.iml" group="MenuModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MenuModule/MenuModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/MenuModule/MenuModule_main.iml" group="MenuModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MenuModule/MenuModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/MenuModule/MenuModule_test.iml" group="MenuModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/MenuModule/MenuModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/MenuModule/MenuModule_test.iml" group="MenuModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/RankingModule/RankingModule.iml" filepath="$PROJECT_DIR$/.idea/modules/RankingModule/RankingModule.iml" group="RankingModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/RankingModule/RankingModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/RankingModule/RankingModule_main.iml" group="RankingModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/RankingModule/RankingModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/RankingModule/RankingModule_test.iml" group="RankingModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SkeletonModule/SkeletonModule.iml" filepath="$PROJECT_DIR$/.idea/modules/SkeletonModule/SkeletonModule.iml" group="SkeletonModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SkeletonModule/SkeletonModule.iml" filepath="$PROJECT_DIR$/.idea/modules/SkeletonModule/SkeletonModule.iml" group="SkeletonModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SkeletonModule/SkeletonModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/SkeletonModule/SkeletonModule_main.iml" group="SkeletonModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SkeletonModule/SkeletonModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/SkeletonModule/SkeletonModule_main.iml" group="SkeletonModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SkeletonModule/SkeletonModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/SkeletonModule/SkeletonModule_test.iml" group="SkeletonModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SkeletonModule/SkeletonModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/SkeletonModule/SkeletonModule_test.iml" group="SkeletonModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TutorialModule/TutorialModule.iml" filepath="$PROJECT_DIR$/.idea/modules/TutorialModule/TutorialModule.iml" group="TutorialModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/TutorialModule/TutorialModule.iml" filepath="$PROJECT_DIR$/.idea/modules/TutorialModule/TutorialModule.iml" group="TutorialModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/TutorialModule/TutorialModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/TutorialModule/TutorialModule_main.iml" group="TutorialModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TutorialModule/TutorialModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/TutorialModule/TutorialModule_main.iml" group="TutorialModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/TutorialModule/TutorialModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/TutorialModule/TutorialModule_test.iml" group="TutorialModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TutorialModule/TutorialModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/TutorialModule/TutorialModule_test.iml" group="TutorialModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/controllerModules.iml" filepath="$PROJECT_DIR$/.idea/modules/controllerModules.iml" />
       <module fileurl="file://$PROJECT_DIR$/controllerModules.iml" filepath="$PROJECT_DIR$/controllerModules.iml" />
     </modules>
   </component>

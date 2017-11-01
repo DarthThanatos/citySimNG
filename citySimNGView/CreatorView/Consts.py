@@ -22,3 +22,5 @@ START_INCOME = "Start income"
 SET_NAME = "Set Name"
 TEXTURE_ONE = "Texture One"
 TEXTURE_TWO = "Texture Two"
+
+GRAPH_SPACE_PADDING = 60
