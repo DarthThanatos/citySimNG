@@ -11,6 +11,7 @@ import py4jmediator.MapResponses.PlaceBuildingResponse;
 import py4jmediator.MapResponses.StopProductionResponse;
 import py4jmediator.Presenter;
 
+import java.util.Map;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -55,13 +56,16 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
             dwellers = new Dwellers(dr);
             mapPresenter.init(
                     resources.getResources(),
-                    buildings.getAllBuildings(),
+                    buildings.getDomesticBuildings(),
+                    buildings.getIndustrialBuildings(),
+                    dwellers.getAllDewellers(),
                     dr.getTextureAt(0),
                     dr.getTextureAt(1),
                     resources.getActualResourcesValues(),
                     resources.getActualResourcesIncomes(),
                     resources.getActualResourcesConsumption(),
-                    resources.getResourcesBalance());
+                    resources.getResourcesBalance(),
+                    dwellers.getAvailableDwellers());
 
             waitForViewInit();
 
@@ -74,12 +78,14 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
         resourcesThread = new Thread() {
             public void run() {
                 while (updateResources) {
-                    resources.updateResources(buildings.getPlayerBuildings());
-                    mapPresenter.updateResourcesValues(
+                    resources.calculateCurrentCycle(dwellers, buildings);
+                    mapPresenter.updateValuesForCycle(
                             resources.getActualResourcesValues(),
                             resources.getActualResourcesIncomes(),
                             resources.getActualResourcesConsumption(),
-                            resources.getResourcesBalance());
+                            resources.getResourcesBalance(),
+                            dwellers.getNeededDwellers(),
+                            dwellers.getAvailableDwellers());
                     try {
                         Thread.sleep(3000);
                     } catch (Exception e) {
@@ -163,6 +169,11 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
     @Override
     public StopProductionResponse onStopProduction(String buildingId){
         return buildings.stopProduction(buildingId, resources, dwellers);
+    }
+
+    @Override
+    public Integer onGetWorkingDwellers(String buildingId){
+        return buildings.getWorkingDwellers(buildingId);
     }
 
     @Override

@@ -7,8 +7,8 @@ public class BasicResponse {
     Map<String, Integer> actualResourcesIncomes;
     Map<String, Integer> actualResourcesConsumption;
     Map<String, Integer> resourcesBalance;
-    int currentDwellersAmount;
-    int currentDwellersMaxAmount;
+    int neededDwellers;
+    int availableDwellers;
 
     public BasicResponse(Map<String, Integer> actualResourcesValues, Map<String, Integer> actualResourcesIncomes,
                          Map<String, Integer> actualResourcesConsumption, Map<String, Integer> resourcesBalance,
@@ -17,8 +17,8 @@ public class BasicResponse {
         this.actualResourcesIncomes = actualResourcesIncomes;
         this.actualResourcesConsumption = actualResourcesConsumption;
         this.resourcesBalance = resourcesBalance;
-        this.currentDwellersAmount = currentDwellersAmount;
-        this.currentDwellersMaxAmount = currentDwellersMaxAmount;
+        this.neededDwellers = currentDwellersAmount;
+        this.availableDwellers = currentDwellersMaxAmount;
     }
 
     public Map<String, Integer> getActualResourcesValues() {
@@ -37,12 +37,12 @@ public class BasicResponse {
     public Map<String, Integer> getResourcesBalance() {
         return resourcesBalance;
     }
-    public int getCurrentDwellersAmount() {
-        return currentDwellersAmount;
+    public int getNeededDwellers() {
+        return neededDwellers;
     }
 
-    public int getCurrentDwellersMaxAmount() {
-        return currentDwellersMaxAmount;
+    public int getAvailableDwellers() {
+        return availableDwellers;
     }
 
 }

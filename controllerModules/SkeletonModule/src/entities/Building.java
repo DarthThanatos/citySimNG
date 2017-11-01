@@ -2,12 +2,10 @@ package entities;
 
 import utils.CollectionConcatenationUtils;
 
-import java.util.List;
 import java.util.Map;
 
 public class Building {
 	private String name;
-	private Map<String, Integer> dwellers;
 	private String predecessor;
 	private String successor;
 	private Map<String, Integer> produces;
@@ -15,8 +13,10 @@ public class Building {
 	private Map<String, Integer> resourcesCost;
 	private String texturePath;
 	private String type;
+	private String dwellersName;
+	private Integer dwellersAmount;
 	
-	private Map<String, Integer> workingDwellers;
+	private Integer workingDwellers = 0;
 	private String id;
 	private boolean running = true;
 
@@ -38,7 +38,7 @@ public class Building {
 		this.producing = producing;
 	}
 
-	private boolean producing = true;
+	private boolean producing = false;
 	private String description;
 	
 	public String getDescription(){
@@ -63,8 +63,8 @@ public class Building {
 
 	public Building(Building b){
 		this.name = b.name;
-		this.dwellers = b.dwellers;
 		this.predecessor = b.predecessor;
+		this.dwellersAmount = b.dwellersAmount;
 		this.successor = b.successor;
 		this.produces = b.produces;
 		this.consumes = b.consumes;
@@ -72,8 +72,25 @@ public class Building {
 		this.texturePath = b.texturePath;
 		this.type = b.type;
 		this.description = b.description;
+		this.workingDwellers = 0;
 	}
-	
+
+	public String getDwellersName() {
+		return dwellersName;
+	}
+
+	public void setDwellersName(String dwellersName) {
+		this.dwellersName = dwellersName;
+	}
+
+	public Integer getDwellersAmount() {
+		return dwellersAmount;
+	}
+
+	public void setDwellersAmount(Integer dwellersAmount) {
+		this.dwellersAmount = dwellersAmount;
+	}
+
 	public String getTexturePath() {
 		return texturePath;
 	}
@@ -114,14 +131,6 @@ public class Building {
 		this.consumes = consumes;
 	}
 
-	public Map<String, Integer> getDwellers() {
-		return dwellers;
-	}
-
-	public void setDwellers(Map<String, Integer> dwellers) {
-		this.dwellers = dwellers;
-	}
-
 	public String getType() {
 		return type;
 	}
@@ -146,11 +155,11 @@ public class Building {
 		this.predecessor = predecessor;
 	}
 
-	public Map<String, Integer> getWorkingDwellers() {
+	public Integer getWorkingDwellers() {
 		return workingDwellers;
 	}
 
-	public void setWorkingDwellers(Map<String, Integer> workingDwellers) {
+	public void setWorkingDwellers(Integer workingDwellers) {
 		this.workingDwellers = workingDwellers;
 	}
 

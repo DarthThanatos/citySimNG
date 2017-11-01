@@ -56,8 +56,8 @@
 //			JSONObject json = new JSONObject();
 //			json.put("actualValues", resources.getActualResourcesValues());
 //			json.put("actualIncomes", resources.getResourcesBalance());
-//			json.put("currDwellersAmount", dwellers.getCurrDwellersAmount());
-//			json.put("currDwellersMaxAmount", dwellers.getCurrDwellersMaxAmount());
+//			json.put("currDwellersAmount", dwellers.getNeededDwellers());
+//			json.put("currDwellersMaxAmount", dwellers.getAvailableDwellers());
 //
 //			envelope.put("Operation", "placeBuildingResult");
 //			envelope.put("Args", json);
@@ -71,7 +71,7 @@
 //			JSONObject json = new JSONObject();
 //			json.put("actualValues", resources.getActualResourcesValues());
 //			json.put("actualIncomes", resources.getResourcesBalance());
-//			json.put("currDwellersAmount", dwellers.getCurrDwellersAmount());
+//			json.put("currDwellersAmount", dwellers.getNeededDwellers());
 //
 //			envelope.put("Operation", "deleteBuildingResult");
 //			envelope.put("Args", json);
@@ -85,8 +85,8 @@
 //			JSONObject json = new JSONObject();
 //			json.put("actualValues", resources.getActualResourcesValues());
 //			json.put("actualIncomes", resources.getResourcesBalance());
-//			json.put("currDwellersAmount", dwellers.getCurrDwellersAmount());
-//			json.put("currDwellersMaxAmount", dwellers.getCurrDwellersMaxAmount());
+//			json.put("currDwellersAmount", dwellers.getNeededDwellers());
+//			json.put("currDwellersMaxAmount", dwellers.getAvailableDwellers());
 //
 //			// TODO: mby we should keep this info in view
 //			json.put("buildingState", buildings.findBuildingWithId(args.getString("BuildingId")).isRunning());
@@ -128,7 +128,7 @@
 //			resourcesThread = new Thread() {
 //				public void run() {
 //					while(update){
-//						resources.updateResources();
+//						resources.calculateCurrentCycle();
 //						try{
 //							Thread.sleep(3000);
 //						}catch(Exception e){
@@ -146,7 +146,7 @@
 //			resourcesThread = new Thread() {
 //				public void run() {
 //					while(update){
-//						resources.updateResources();
+//						resources.calculateCurrentCycle();
 //						try{
 //							Thread.sleep(3000);
 //						}catch(Exception e){

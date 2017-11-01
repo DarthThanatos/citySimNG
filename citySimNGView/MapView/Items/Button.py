@@ -45,7 +45,7 @@ class Button(BasicSprite):
 
         :param texture: path to button's texture
         """
-        self.texture = texture
+        self.texture_path = texture
         self.load_texture(self.texture_rotation)
 
 

@@ -7,6 +7,7 @@ import traceback
 import wx
 from py4j.clientserver import ClientServer, JavaParameters, PythonParameters
 from py4j.java_gateway import JavaGateway, GatewayParameters
+import logging
 
 from ViewSetter import MyFrame
 from viewmodel.ViewModel import ViewModel
@@ -59,8 +60,17 @@ def startViewModelListener(viewSetter):
         python_parameters=PythonParameters(),
         python_server_entry_point=viewModel)
 
+def turn_on_debug():
+    logger = logging.getLogger("py4j")
+    logger.setLevel(logging.DEBUG)
+    logger.addHandler(logging.StreamHandler())
+
 def main():
     sender = Sender(sock)
+
+    # turn on debug mode
+    if '--d' or '--debug' in sys.argv:
+        turn_on_debug()
 
     # app = wx.PySimpleApp()
     app = wx.App(False)
@@ -68,7 +78,7 @@ def main():
 
     javagateway = JavaGateway(gateway_parameters=GatewayParameters(port=25335))
     frame = MyFrame(None, wx.ID_ANY, "SDL Frame", screenDims, sender, javagateway)
-    thread.start_new_thread(receiver_func, (frame,))
+    # thread.start_new_thread(receiver_func, (frame,))
     gateway = startViewModelListener(frame)
 
     # frame.Show()

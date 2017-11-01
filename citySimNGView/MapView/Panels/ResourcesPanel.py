@@ -23,7 +23,7 @@ class ResourcesPanel(Panel):
     first_disp_res_index = 0
 
     def __init__(self, pos_x, pos_y, width, height, blit_surface, initial_resources_values, initial_resources_incomes,
-                 initial_resources_consumption, initial_resources_balance, resources_data):
+                 initial_resources_consumption, initial_resources_balance, resources_data, available_dwellers):
         """ Constructor.
 
         :param pos_x: x position on screen
@@ -48,7 +48,7 @@ class ResourcesPanel(Panel):
         self.displayed_last = True
 
         self.curr_dwellers_amount = 0
-        self.curr_max_dwellers_amount = 0
+        self.curr_max_dwellers_amount = available_dwellers
 
         self.right_arrow = Button(self.width - ARROW_BUTTON_WIDTH * self.width, self.pos_y,
                                   ARROW_BUTTON_WIDTH * self.width, ARROW_BUTTON_HEIGHT * self.height,
@@ -143,10 +143,11 @@ class ResourcesPanel(Panel):
         self.surface.blit(self.dweller_sprite.image, self.dweller_sprite.rect)
 
         # TODO: mby find better way?
-        text_height = calculate_text_size("{}".format(self.curr_dwellers_amount))[1]
+        text_height = calculate_text_size("{} / {}".format(self.curr_dwellers_amount, self.curr_max_dwellers_amount))[1]
         text_x_pos = self.dweller_sprite.image.get_size()[0] + RESOURCES_SPACE
         text_width = draw_text(text_x_pos, center_image_y_pos(text_height, self.pos_y, self.height),
-                               "{}".format(self.curr_dwellers_amount), GREEN, self.surface)[0]
+                               "{} / {}".format(self.curr_dwellers_amount, self.curr_max_dwellers_amount), GREEN,
+                               self.surface)[0]
 
         return (self.dweller_sprite.image.get_size()[0] + text_width + RESOURCES_SPACE,
                 self.dweller_sprite.image.get_size()[1])

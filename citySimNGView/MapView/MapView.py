@@ -126,9 +126,10 @@ class MapView(wx.Panel):
         self.game.resources_panel.resources_consumption = Converter().convertJavaMapToDict(
             result.getActualResourcesConsumption())
         self.game.resources_panel.resources_balance = Converter().convertJavaMapToDict(result.getResourcesBalance())
-        self.game.resources_panel.curr_dwellers_amount = result.getCurrentDwellersAmount()
-        self.game.resources_panel.curr_max_dwellers_amount = result.getCurrentDwellersMaxAmount()
+        self.game.resources_panel.curr_dwellers_amount = result.getNeededDwellers()
+        self.game.resources_panel.curr_max_dwellers_amount = result.getAvailableDwellers()
         self.game.buildings_panel.enable_buildings(result.getEnabledBuildings())
+        building.working_dwellers = result.getWorkingDwellers()
 
     def check_if_can_afford(self, building):
         """ Send message to model with the inquiry if player has enough resources to erect building and
@@ -152,9 +153,8 @@ class MapView(wx.Panel):
         self.game.resources_panel.resources_consumption = Converter().convertJavaMapToDict(
             result.getActualResourcesConsumption())
         self.game.resources_panel.resources_balance = Converter().convertJavaMapToDict(result.getResourcesBalance())
-        self.game.resources_panel.curr_dwellers_amount = result.getCurrentDwellersAmount()
-        self.game.resources_panel.curr_max_dwellers_amount = result.getCurrentDwellersMaxAmount()
-        self.game.buildings_panel.disable_buildings(result.getDisabledBuildings())
+        self.game.resources_panel.curr_dwellers_amount = result.getNeededDwellers()
+        self.game.resources_panel.curr_max_dwellers_amount = result.getAvailableDwellers()
 
     def stop_production(self, building_id):
         """ Stop production in given building.
@@ -169,29 +169,60 @@ class MapView(wx.Panel):
         self.game.resources_panel.resources_consumption = Converter().convertJavaMapToDict(
             result.getActualResourcesConsumption())
         self.game.resources_panel.resources_balance = Converter().convertJavaMapToDict(result.getResourcesBalance())
-        self.game.resources_panel.curr_dwellers_amount = result.getCurrentDwellersAmount()
-        self.game.resources_panel.curr_max_dwellers_amount = result.getCurrentDwellersMaxAmount()
+        self.game.resources_panel.curr_dwellers_amount = result.getNeededDwellers()
+        self.game.resources_panel.curr_max_dwellers_amount = result.getAvailableDwellers()
         self.game.info_panel.curr_building.is_running = result.isRunning()
         self.game.info_panel.set_stop_production_button_texture()
 
-# =================================================================================================================== #
+    def set_dwellers_working_in_building(self, building_id):
+        """ Get number of dwellers working in given building.
+
+        :param building: building for which get information
+        """
+        result = self.sender.entry_point.getMapPresenter().getWorkingDwellers(building_id)
+        self.game.info_panel.curr_building.working_dwellers = result
+
+    # =================================================================================================================== #
 # Reading messages from model
 # =================================================================================================================== #
-    def init(self, resources, buildings, texture_one, texture_two, initial_resources_values,
-             initial_resources_incomes, initial_resources_consumption, initial_resources_balance):
+    def init(self, resources, domestic_buildings, industrial_buildings, dwellers,
+             texture_one, texture_two, initial_resources_values,
+             initial_resources_incomes, initial_resources_consumption,
+             initial_resources_balance, available_dwellers):
         """ Initialize game -> create game instance. After creating game instance send acknowledgement to model. """
-        self.game = Game(self.width, self.height, texture_one, texture_two, buildings, resources,
-                         initial_resources_values, initial_resources_incomes, initial_resources_consumption,
-                         initial_resources_balance, self)
+        self.game = Game(
+            self.width,
+            self.height,
+            texture_one,
+            texture_two,
+            domestic_buildings,
+            industrial_buildings,
+            resources,
+            dwellers,
+            initial_resources_values,
+            initial_resources_incomes,
+            initial_resources_consumption,
+            initial_resources_balance,
+            self,
+            available_dwellers)
         self.sender.entry_point.getMapPresenter().viewInitialized()
 
-    def update_resources_values(self, actual_resources_values, actual_resources_incomes, actual_resources_consumption,
-                                resources_balance):
+    def update_values_for_cycle(self, actual_resources_values,
+                                actual_resources_incomes,
+                                actual_resources_consumption,
+                                resources_balance, needed_dwellers,
+                                available_dwellers):
         """ Update resources values """
-        self.game.resources_panel.resources_values = Converter().convertJavaMapToDict(actual_resources_values)
-        self.game.resources_panel.resources_incomes = Converter().convertJavaMapToDict(actual_resources_incomes)
-        self.game.resources_panel.resources_consumption = Converter().convertJavaMapToDict(actual_resources_consumption)
-        self.game.resources_panel.resources_balance = Converter().convertJavaMapToDict(resources_balance)
+        self.game.resources_panel.resources_values = \
+            Converter().convertJavaMapToDict(actual_resources_values)
+        self.game.resources_panel.resources_incomes = \
+            Converter().convertJavaMapToDict(actual_resources_incomes)
+        self.game.resources_panel.resources_consumption = \
+            Converter().convertJavaMapToDict(actual_resources_consumption)
+        self.game.resources_panel.resources_balance = \
+            Converter().convertJavaMapToDict(resources_balance)
+        self.game.resources_panel.curr_dwellers_amount = needed_dwellers
+        self.game.resources_panel.curr_max_dwellers_amount = available_dwellers
 
     def resume_game(self):
         """ Resume game. """

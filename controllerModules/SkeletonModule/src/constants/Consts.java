@@ -20,12 +20,14 @@ public class Consts {
 	public static final String PREDECESSOR = "Predecessor";
 	public static final String SUCCESSOR = "Successor";
 	public static final String START_INCOME = "Start income";
-	
-	
+
+	public static final String DWELLERS_AMOUNT = "Dwellers\namount";
+	public static final String TYPE = "Type";
 	public static final String PRODUCES = "Produces";
 	public static final String CONSUMES = "Consumes";
 	public static final String COST_IN_RESOURCES = "Cost\nin\nresources";
 	public static final String ALL_BUILDINGS = "allBuildings";
+	public static final String ALL_DWELLERS = "allDwellers";
 	
 	public static final String DEPENDENCIES = "Dependencies";
 	public static final String DEPENDENCIES_SET_NAME = "DependenciesSetName";
