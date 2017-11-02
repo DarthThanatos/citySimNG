@@ -12,6 +12,8 @@ class CreatorData(object):
         creatorData.setDependenciesSetName(dataDict[Consts.SET_NAME])
         creatorData.setTextureOne(dataDict[Consts.TEXTURE_ONE])
         creatorData.setTextureTwo(dataDict[Consts.TEXTURE_TWO])
+        creatorData.setMp3(dataDict[Consts.MP3])
+        creatorData.setPanelTexture(dataDict[Consts.PANEL_TEXTURE])
         creatorData.setBuildings(self.getBuildingsList(dataDict))
         creatorData.setResources(self.getResourcesList(dataDict))
         creatorData.setDwellers(self.getDwellersList(dataDict))

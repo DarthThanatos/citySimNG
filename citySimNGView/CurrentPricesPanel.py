@@ -16,6 +16,9 @@ class CurrentPricesPanel(wx.Panel):
         self.currentPanelPos = 0
         self.timer = wx.Timer(self, wx.ID_ANY)
 
+    def cleanup(self):
+        self.Show(False)
+
     def animateCurrentPrices(self, currentPricesDict):
         self.Bind(wx.EVT_TIMER, self.onAnimate)
         self.onPreAnimate(currentPricesDict)
@@ -34,16 +37,13 @@ class CurrentPricesPanel(wx.Panel):
 
     def onAnimate(self, event):
         if self.currentPanelPos < -self.actualPanelWitdh - 20:
-            self.onPostAnimate()
+            self.timer.Stop()
             return
         self.rootSizer.SetDimension(self.currentPanelPos, 0, self.actualPanelWitdh, 50)
         self.currentPanelPos -= 5
             # ANIMATION_TIME = 10000
             # ANIMATION_STEP = float(ANIMATION_PERIOD)/ANIMATION_TIME
             # int(ANIMATION_STEP * (wx.GetDisplaySize()[0] + self.actualPanelWitdh))
-
-    def onPostAnimate(self):
-        self.timer.Stop()
 
     def newPriceIndicator(self, resource, price):
         priceIndicator  = wx.StaticText(self, -1, resource + ": " + str(price))

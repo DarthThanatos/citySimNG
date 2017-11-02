@@ -97,10 +97,7 @@ public class CreatorPy4JNode extends Py4JNode implements CreatorPresenter.OnCrea
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		
-		dr.setTextureAt(0, CreatorConfig.TEXTURE_ONE_DEFAULT_NAME);
-		dr.setTextureAt(1, CreatorConfig.TEXTURE_TWO_DEFAULT_NAME);
-		
+
 		return dr;
 	}
 	
@@ -141,6 +138,8 @@ public class CreatorPy4JNode extends Py4JNode implements CreatorPresenter.OnCrea
 		String textureTwo =  creatorData.getTextureTwo();
 		dr.setTextureAt(0, textureOne);
 		dr.setTextureAt(1, textureTwo);
+		dr.setPanelTexture(creatorData.getPanelTexture());
+		dr.setMp3(creatorData.getMp3());
 		return dr;
 		
 	}

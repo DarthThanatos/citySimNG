@@ -190,7 +190,11 @@
     "Texture Two": "Grass2.jpg",
  
     "Texture One": "Grass.png",
+	
+    "Panel Texture": "DefaultBuilding.jpg",
  
+    "MP3": "TwoMandolins.mp3",
+	
     "Dwellers": {
         "Dweller": {
             "Predecessor": "None",

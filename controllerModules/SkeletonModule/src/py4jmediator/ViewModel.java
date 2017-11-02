@@ -25,7 +25,7 @@ public interface ViewModel {
 		public void displayMap();
 		public void init(List<Resource> resources, List<Building> domesticBuildings,
 						 List<Building> industrialBuildings, List<Dweller> dwellers,
-						 String texture_one, String texture_two,
+						 String texture_one, String texture_two, String panelTexture, String mp3,
 						 Map<String, Integer> initialResourcesValues,
 						 Map<String, Integer> initialResourcesIncomes,
 						 Map<String, Integer> actualResourcesConsumption,

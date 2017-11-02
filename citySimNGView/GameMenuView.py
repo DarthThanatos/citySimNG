@@ -110,6 +110,7 @@ class GameMenuView(wx.Panel):
 
     def onShow(self, event):
         OnShowUtil().switch_music_on_show_changed(event, self.musicPath)
+        if not event.GetShow(): self.currentPricesPanel.cleanup()
 
     def animateCurrentPrices(self, currentPricesDict):
         self.currentPricesPanel.animateCurrentPrices(currentPricesDict)

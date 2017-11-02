@@ -1,4 +1,8 @@
 {
+    "Texture One": "NavPanelTex.jpg",
+ 
+    "MP3": "Ret Xed OST.mp3",
+ 
     "Buildings": {
         "Building": {
             "Predecessor": "kamieniolom",
@@ -213,16 +217,6 @@
         }
     },
  
-    "Set Name": "New Stronghold 1",
- 
-    "Texture Two": "Meadow.jpg",
- 
-    "Texture One": "NavPanelTex.jpg",
- 
-	"Panel Texture": "BuildingsPanelTexture.jpg",
-	
-	"MP3": "TwoMandolins.mp3",
-	
     "Dwellers": {
         "Dweller": {
             "Predecessor": "None",
@@ -240,6 +234,12 @@
             "Successor": "None"
         }
     },
+ 
+    "Set Name": "New Stronghold 3",
+ 
+    "Texture Two": "Meadow.jpg",
+ 
+    "Panel Texture": "DefaultBuilding.jpg",
  
     "Resources": {
         "Resource": {

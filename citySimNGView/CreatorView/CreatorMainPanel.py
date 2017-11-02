@@ -7,7 +7,7 @@ import os.path
 import wx
 from wx.lib.scrolledpanel import ScrolledPanel
 
-from CreatorView import Consts
+from CreatorView import Consts, CreatorConfig
 from DependenciesSubPanel import DependenciesSubPanel
 from GraphsSpaces import GraphsSpaces
 from RelativePaths import relative_dependencies_path, relative_textures_path
@@ -16,6 +16,7 @@ from utils.ButtonsFactory import ButtonsFactory
 from utils.JSONMonter import JSONMonter
 from utils.LogMessages import WELCOME_MSG
 from utils.OnShowUtil import OnShowUtil
+from utils.RelativePaths import relative_music_path
 from utils.SocketMsgReader.CreatorMsgReader import CreatorMsgReader
 from viewmodel.CreatorData import CreatorData
 from viewmodel.DependenciesFileLoader import DependenciesFileLoader
@@ -59,7 +60,8 @@ class CreatorMainPanel(ScrolledPanel):
         rootSizer.AddSpacer(topPadding)
         self.addToSizerWithSpaceAndLine(rootSizer, self.newChosenSetNameSizer())
         self.addToSizerWithSpaceAndLine(rootSizer,self.newDependenciesSubpanelsHorizontalSizer(), linePadding=10, viewSpace=75)
-        self.addToSizerWithSpaceAndLine(rootSizer, self.newMapBackgroundHorizontalSizer())
+        rootSizer.Add(self.newMapBackgroundHorizontalSizer(), 0, wx.CENTER)
+        self.addToSizerWithSpaceAndLine(rootSizer, self.newMusicNameHorizontalSizer())
         self.addToSizerWithSpace(rootSizer, self.newButtonsSizer(), space = 50)
         self.addToSizerWithSpace(rootSizer, self.newGraphSpaces(), space=175)
         return rootSizer
@@ -74,7 +76,11 @@ class CreatorMainPanel(ScrolledPanel):
 
     def newNameInput(self):
         self.dependenciesSetNameInput = wx.TextCtrl(self, -1, "Default Set")
+        self.dependenciesSetNameInput.Bind(wx.EVT_TEXT, self.onDepSetNameChanged)
         return self.dependenciesSetNameInput
+
+    def onDepSetNameChanged(self,ev):
+        self.current_dependencies[Consts.SET_NAME] = self.dependenciesSetNameInput.GetValue()
 
     def newChosenSetNameSizer(self):
         self.chosenSetSizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -100,22 +106,23 @@ class CreatorMainPanel(ScrolledPanel):
         return self.dwellersDependenciesSubPanel
 
     def newDependenciesSubPanelsVerticalSizer(self):
-        self.dependenciesSubpanelsVerticalSizer = wx.BoxSizer(wx.VERTICAL)
-        self.dependenciesSubpanelsVerticalSizer.Add(self.newResourcesSubpanel(), 0, wx.CENTER)
-        self.dependenciesSubpanelsVerticalSizer.Add(self.newBuildingsSubpanel(), 0, wx.CENTER)
-        self.dependenciesSubpanelsVerticalSizer.Add(self.newDwellersSubpanel(), 0, wx.CENTER)
-        return self.dependenciesSubpanelsVerticalSizer
+        dependenciesSubpanelsVerticalSizer = wx.BoxSizer(wx.VERTICAL)
+        dependenciesSubpanelsVerticalSizer.Add(self.newResourcesSubpanel(), 0, wx.CENTER)
+        dependenciesSubpanelsVerticalSizer.Add(self.newBuildingsSubpanel(), 0, wx.CENTER)
+        dependenciesSubpanelsVerticalSizer.Add(self.newDwellersSubpanel(), 0, wx.CENTER)
+        return dependenciesSubpanelsVerticalSizer
 
     def newDependenciesSubpanelsHorizontalSizer(self):
-        self.dependenciesSubpanelsHorizontalSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self.addToSizerWithSpace(self.dependenciesSubpanelsHorizontalSizer, self.newDependenciesSubPanelsVerticalSizer())
-        self.dependenciesSubpanelsHorizontalSizer.Add(self.newLogAreaSizer())
-        return self.dependenciesSubpanelsHorizontalSizer
+        dependenciesSubpanelsHorizontalSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.addToSizerWithSpace(dependenciesSubpanelsHorizontalSizer, self.newDependenciesSubPanelsVerticalSizer())
+        dependenciesSubpanelsHorizontalSizer.Add(self.newLogAreaSizer())
+        return dependenciesSubpanelsHorizontalSizer
 
     def newLogArea(self):
         # height of a logArea textctrl comes from the equation:
         #  h = dependencyPanel_height * dependenciesPanelsAmount + part_desc_label_height * dependenciesPanelsAmount
         self.logArea = wx.TextCtrl(parent = self, id=-1, size=(400, 90 * 3 + 10 * 3), style=wx.TE_MULTILINE | wx.TE_READONLY)
+        self.logArea.SetLabelText(WELCOME_MSG)
         return self.logArea
 
     def newLogAreaSizer(self):
@@ -130,6 +137,16 @@ class CreatorMainPanel(ScrolledPanel):
         mapBackgroundHorizontalSizer.Add(self.newMusicAndPanelTextureVerticalSizer())
         return mapBackgroundHorizontalSizer
 
+    def newMusicNameHorizontalSizer(self):
+        musicNameHorizontalSizer = wx.BoxSizer(wx.HORIZONTAL)
+        musicNameHorizontalSizer.Add(wx.StaticText(self, label = "Selected .mp3 file: "))
+        musicNameHorizontalSizer.AddSpacer(10)
+        musicNameHorizontalSizer.Add(self.newMusicNameST())
+        return musicNameHorizontalSizer
+
+    def newMusicNameST(self):
+        self.musicNameST = wx.StaticText(self, label = self.current_dependencies[Consts.MP3])
+        return self.musicNameST
 
     def newMusicAndPanelTextureVerticalSizer(self):
         musicAndPanelVerticalSizer = wx.BoxSizer(wx.VERTICAL)
@@ -147,16 +164,26 @@ class CreatorMainPanel(ScrolledPanel):
 
     def newMapPanelTextureHorizontalSizer(self):
         return self.newSelectorHorizontalSizer(
-            self.newBitmap(self.current_dependencies[Consts.PANEL_TEXTURE]),
+            self.newMapPanelTexture(),
             "The texture of panels in the Map: ",
             self.onMapPanelTextureSelected
         )
+    def newMapPanelTexture(self):
+        self.mapPanelTexture = self.newBitmap(self.current_dependencies[Consts.PANEL_TEXTURE])
+        return self.mapPanelTexture
 
     def onMusicSelected(self, ev):
-        pass
+        dlg = self.createFileSelectionDialog(
+            dir=relative_music_path, msg="Choose an MP3 file", wildcard="*.mp3"
+        )
+        if dlg.ShowModal() == wx.ID_OK:
+            self.current_dependencies[Consts.MP3] = dlg.GetFilename()
+            self.musicNameST.SetLabelText(dlg.GetFilename())
 
     def onMapPanelTextureSelected(self, ev):
-        pass
+        dlg = self.createFileSelectionDialog()
+        self.onImageSelected(dlg, self.mapPanelTexture)
+        self.current_dependencies[Consts.PANEL_TEXTURE] = dlg.GetFilename()
 
     def newBgTexturesVerticalSizer(self):
         texturesVerticalSizer = wx.BoxSizer(wx.VERTICAL)
@@ -184,44 +211,37 @@ class CreatorMainPanel(ScrolledPanel):
         return self.imageBitmapOne
 
     def newBackgroundTextureOneHorizontalSizer(self):
-        self.image_one_horizontal_sizer = self.newSelectorHorizontalSizer(
+        return self.newSelectorHorizontalSizer(
             self.newBackgroundBitmapOne(),
             "Your background texture number one: ",
             self.onSelectImageOne
         )
-        return self.image_one_horizontal_sizer
 
     def newBackgroundBitmapTwo(self):
         self.imageBitmapTwo = self.newBitmap(self.current_dependencies[Consts.TEXTURE_TWO])
         return self.imageBitmapTwo
 
     def newBackgroundTextureTwoHorizontalSizer(self):
-        self.image_two_horizontal_sizer = self.newSelectorHorizontalSizer(
+        return self.newSelectorHorizontalSizer(
             self.newBackgroundBitmapTwo(),
             "Your background texture number two: ",
             self.onSelectImageTwo
         )
-        return self.image_two_horizontal_sizer
 
     def newMenuButton(self):
-        self.menu_btn = ButtonsFactory().newButton(self, "Menu", self.retToMenu, hint = LogMessages.MENU_BTN_HINT)
-        return self.menu_btn
+        return ButtonsFactory().newButton(self, "Menu", self.retToMenu, hint = LogMessages.MENU_BTN_HINT)
 
     def newLoadButton(self):
-        self.load_btn = ButtonsFactory().newButton(self, "Load dependencies From File", self.loadDependencies, hint = LogMessages.LOAD_DEPS_BTN_HINT)
-        return self.load_btn
+        return ButtonsFactory().newButton(self, "Load dependencies From File", self.loadDependencies, hint = LogMessages.LOAD_DEPS_BTN_HINT)
 
     def newSaveButton(self):
-        self.save_btn = ButtonsFactory().newButton(self, "Save these dependencies to File", self.save, hint = LogMessages.SAVE_DEPS_BTN_HINT)
-        return self.save_btn
+        return ButtonsFactory().newButton(self, "Save these dependencies to File", self.save, hint = LogMessages.SAVE_DEPS_BTN_HINT)
 
     def newCreateButton(self):
-        self.create_btn = ButtonsFactory().newButton(self, "Create", self.createDependencies, hint = LogMessages.CREATE_DEPS_BTN_HINT)
-        return self.create_btn
+        return ButtonsFactory().newButton(self, "Create", self.createDependencies, hint = LogMessages.CREATE_DEPS_BTN_HINT)
 
     def newCleanButton(self):
-        self.clean_btn = ButtonsFactory().newButton(self, "Clean and Start Again", self.clean, hint = LogMessages.CLEAN_DEPS_BTN_HINT)
-        return self.clean_btn
+        return ButtonsFactory().newButton(self, "Clean and Start Again", self.clean, hint = LogMessages.CLEAN_DEPS_BTN_HINT)
 
     def newButtonsSizer(self):
         self.buttonsSizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -239,12 +259,12 @@ class CreatorMainPanel(ScrolledPanel):
     def onShow(self, event):
         OnShowUtil().onCreatorPanelShow(self, event)
 
-    def createImageSelectionDialog(self):
+    def createFileSelectionDialog(self, dir = relative_textures_path, msg ="Choose an image", wildcard ="*.png|*.jpg"):
         return wx.FileDialog(
             self,
-            defaultDir=relative_textures_path, #"..\\..\\resources\\Textures\\",
-            message="Choose an image",
-            wildcard="*.png|*.jpg",
+            defaultDir=dir, #"..\\..\\resources\\Textures\\",
+            message=msg,
+            wildcard = wildcard,
             style=wx.FD_OPEN
         )
 
@@ -256,12 +276,12 @@ class CreatorMainPanel(ScrolledPanel):
             imageBitmap.SetBitmap(wx.BitmapFromImage(image))
 
     def onSelectImageOne(self, event):
-        dlg = self.createImageSelectionDialog()
+        dlg = self.createFileSelectionDialog()
         self.onImageSelected(dlg, self.imageBitmapOne)
         self.current_dependencies[Consts.TEXTURE_ONE] = dlg.GetFilename()
 
     def onSelectImageTwo(self, event):
-        dlg = self.createImageSelectionDialog()
+        dlg = self.createFileSelectionDialog()
         self.onImageSelected(dlg, self.imageBitmapTwo)
         self.current_dependencies[Consts.TEXTURE_TWO] = dlg.GetFilename()
 
@@ -300,17 +320,53 @@ class CreatorMainPanel(ScrolledPanel):
         self.current_dependencies[Consts.RESOURCES] = {}
         self.current_dependencies[Consts.DWELLERS] = {}
 
-    def clean(self, event):
-        self.cleanCurrentDependencies()
-        self.resetContents()
-        self.graphsSpaces.resetViewFromJSON({Consts.DWELLERS:[], Consts.BUILDINGS:[], Consts.RESOURCES:[]})
-        self.logArea.SetValue("Restored default settings")
 
     def createScaledBitmap(self, bmp, img_path):
         image = wx.Image(img_path)
         image = image.Scale(32,32)
         bmp.SetBitmap(wx.BitmapFromImage(image))
 
+    def refreshSubPanels(self):
+        for subpanel in self.subpanels: subpanel.resetContents()
+
+    def updateTextureOne(self, file = None):
+        file = self.current_dependencies[Consts.TEXTURE_ONE] if file is None else file
+        self.createScaledBitmap(self.imageBitmapOne, relative_textures_path + file)
+
+    def updateTextureTwo(self, file = None):
+        file = self.current_dependencies[Consts.TEXTURE_TWO] if file is None else file
+        self.createScaledBitmap(self.imageBitmapTwo, relative_textures_path + file)
+
+    def updateMapPanelTexture(self, file=None):
+        file = self.current_dependencies[Consts.PANEL_TEXTURE] if file is None else file
+        self.createScaledBitmap(self.mapPanelTexture, relative_textures_path + file)
+
+    def restoreDefaultCurrentDepsValues(self):
+        self.cleanCurrentDependencies()
+        self.current_dependencies[Consts.MP3] = CreatorConfig.MP3_DEFAULT_NAME
+        self.current_dependencies[Consts.SET_NAME] = CreatorConfig.DEPENDENCIES_DEFAULT_SET_NAME
+        self.current_dependencies[Consts.TEXTURE_ONE] = CreatorConfig.TEXTURE_ONE_DEFAULT_NAME
+        self.current_dependencies[Consts.TEXTURE_TWO] = CreatorConfig.TEXTURE_TWO_DEFAULT_NAME
+        self.current_dependencies[Consts.PANEL_TEXTURE] = CreatorConfig.PANEL_TEXURE_DEFAULT_NAME
+        self.graphsSpaces.resetViewFromJSON(
+            {
+                Consts.DWELLERS:[],
+                Consts.BUILDINGS:[],
+                Consts.RESOURCES:[]
+            }
+        )
+
+    def clean(self, event):
+        self.restoreDefaultCurrentDepsValues()
+        self.resetContents("Restored default settings")
+
+    def resetContents(self, logMsg = None):
+        self.dependenciesSetNameInput.SetValue(self.current_dependencies[Consts.SET_NAME])
+        self.updateTextureOne()
+        self.updateTextureTwo()
+        self.updateMapPanelTexture()
+        self.refreshSubPanels()
+        if logMsg is not None: self.logArea.SetValue(logMsg)
 
     def getCurrentBuildingsNames(self):
         return self.current_dependencies[Consts.BUILDINGS].keys()
@@ -321,30 +377,12 @@ class CreatorMainPanel(ScrolledPanel):
     def getCurrentDwellersNames(self):
         return self.current_dependencies[Consts.DWELLERS].keys()
 
-    def refreshSubPanels(self):
-        for subpanel in self.subpanels: subpanel.resetContents()
-
-    def updateTextureOne(self):
-        self.createScaledBitmap(self.imageBitmapOne, relative_textures_path + self.current_dependencies[Consts.TEXTURE_ONE])
-
-    def updateTextureTwo(self):
-        self.createScaledBitmap(self.imageBitmapTwo, relative_textures_path + self.current_dependencies[Consts.TEXTURE_TWO])
-
-    def refreshBackgroundTextures(self):
-        self.updateTextureOne()
-        self.updateTextureTwo()
-
-    def resetContents(self):
-        self.dependenciesSetNameInput.SetValue(self.current_dependencies[Consts.SET_NAME])
-        self.refreshBackgroundTextures()
-        self.refreshSubPanels()
-
-    def resetView(self):
-        self.resetContents()
-        self.logArea.SetValue(WELCOME_MSG)
 
     def fillCurrentDependenciesWithValidContent(self, content_dict):
         validKeys = self.parent.newCurrentDependenciesKeys()
+        contentKeys = content_dict.keys()
+        for key in validKeys:
+            if key not in contentKeys: raise Exception
         for key in content_dict:
             if key not in validKeys: raise Exception
             self.current_dependencies[key] = content_dict[key]
@@ -362,14 +400,16 @@ class CreatorMainPanel(ScrolledPanel):
             return False
         return correct
 
-    def textureExists(self, path):
-        return os.path.isfile(relative_textures_path + path)
+    def fileExists(self, path, dir = relative_textures_path):
+        return os.path.isfile(dir + path)
 
     def currentDependenciesCorrect(self, updateNameFromInput):
         input_correct = self.depsNotEmpty()
         input_correct &= self.dependenciesSetNameTypedCorrectly(updateNameFromInput=updateNameFromInput)
-        input_correct &= self.textureExists(self.current_dependencies[Consts.TEXTURE_ONE])
-        input_correct &= self.textureExists(self.current_dependencies[Consts.TEXTURE_TWO])
+        input_correct &= self.fileExists(self.current_dependencies[Consts.TEXTURE_ONE])
+        input_correct &= self.fileExists(self.current_dependencies[Consts.TEXTURE_TWO])
+        input_correct &= self.fileExists(self.current_dependencies[Consts.MP3], relative_music_path)
+        input_correct &= self.fileExists(self.current_dependencies[Consts.PANEL_TEXTURE])
         input_correct &= self.checkCorrectnessOf(Consts.RESOURCES)
         input_correct &= self.checkCorrectnessOf(Consts.BUILDINGS)
         input_correct &= self.checkCorrectnessOf(Consts.DWELLERS)
@@ -413,6 +453,8 @@ class CreatorMainPanel(ScrolledPanel):
             Consts.SET_NAME: self.current_dependencies[Consts.SET_NAME],
             Consts.TEXTURE_ONE: self.current_dependencies[Consts.TEXTURE_ONE],
             Consts.TEXTURE_TWO: self.current_dependencies[Consts.TEXTURE_TWO],
+            Consts.MP3: self.current_dependencies[Consts.MP3],
+            Consts.PANEL_TEXTURE: self.current_dependencies[Consts.PANEL_TEXTURE],
             Consts.BUILDINGS: buildings.values(),
             Consts.RESOURCES: resources.values(),
             Consts.DWELLERS: dwellers.values()

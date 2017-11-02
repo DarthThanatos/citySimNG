@@ -61,6 +61,8 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
                     dwellers.getAllDewellers(),
                     dr.getTextureAt(0),
                     dr.getTextureAt(1),
+                    dr.getPanelTexture(),
+                    dr.getMp3(),
                     resources.getActualResourcesValues(),
                     resources.getActualResourcesIncomes(),
                     resources.getActualResourcesConsumption(),

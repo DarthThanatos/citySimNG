@@ -1,6 +1,8 @@
 import json
 import traceback
 
+from utils.LogMessages import WELCOME_MSG
+
 
 class DependenciesFileLoader(object):
 
@@ -42,7 +44,7 @@ class DependenciesFileLoader(object):
 
     def onLoadedCorrectContent(self):
         # we're good, just reload view and praise the Lord
-        self.creator_view.resetView()
+        self.creator_view.resetContents(WELCOME_MSG)
         msg = "Dependencies loaded successfully!"
         self.creator_view.logArea.SetLabelText(msg)
 
@@ -53,4 +55,4 @@ class DependenciesFileLoader(object):
 
     def restoreDependenciesCopy(self, dependenciesCopy):
         self.creator_view.fillCurrentDependenciesWithValidContent(dependenciesCopy)  # here we restore previous state of subpanels
-        self.creator_view.resetView()
+        self.creator_view.resetContents(WELCOME_MSG)

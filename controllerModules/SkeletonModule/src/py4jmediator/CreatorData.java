@@ -18,8 +18,17 @@ public class CreatorData {
 	private List<Building> buildings;
 	private List<Resource> resources;
 	private List<Dweller> dwellers;
-	
-	
+	private String mp3;
+	private String panelTexture;
+
+	public void setMp3(String mp3){
+		this.mp3 = mp3;
+	}
+
+	public String getMp3(){
+		return mp3;
+	}
+
 	public String getTextureOne() {
 		return textureOne;
 	}
@@ -65,4 +74,11 @@ public class CreatorData {
 				+ "Buildings: " + CollectionConcatenationUtils.listToString(buildings);
 	}
 
+	public String getPanelTexture() {
+		return panelTexture;
+	}
+
+	public void setPanelTexture(String panelTexture) {
+		this.panelTexture = panelTexture;
+	}
 }

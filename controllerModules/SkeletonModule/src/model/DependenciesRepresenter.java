@@ -1,5 +1,6 @@
 package model;
 
+import constants.CreatorConfig;
 import graph.GraphsHolder;
 
 import java.util.HashMap;
@@ -15,12 +16,29 @@ public class DependenciesRepresenter {
 	private HashMap<String, Object> dependencies;
 	private double money;
 	private Map<String, Integer> stockPile;
-	private String[] texturesNames;
+	private String[] texturesNames = {CreatorConfig.TEXTURE_ONE_DEFAULT_NAME, CreatorConfig.TEXTURE_TWO_DEFAULT_NAME};
 	private GraphsHolder graphsHolder;
-	
+	private String mp3 = CreatorConfig.MP3_DEFAULT_NAME;
+	private String panelTexture = CreatorConfig.PANEL_TEXURE_DEFAULT_NAME;
+
+	public void setMp3(String mp3){
+		this.mp3 = mp3;
+	}
+
+	public String getMp3(){
+		return mp3;
+	}
+
+	public String getPanelTexture() {
+		return panelTexture;
+	}
+
+	public void setPanelTexture(String panelTexture) {
+		this.panelTexture = panelTexture;
+	}
+
 	public DependenciesRepresenter(){
 		dependencies = new HashMap<>();
-		texturesNames = new String[2];
 		graphsHolder = new GraphsHolder();
 	}
 	

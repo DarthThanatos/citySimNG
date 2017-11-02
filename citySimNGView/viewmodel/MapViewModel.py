@@ -11,7 +11,7 @@ class MapViewModel(object):
         wx.CallAfter(self.viewSetter.setView, 'Map')
 
     def init(self, resources, domestic_buildings, industrial_buildings, dwellers,
-             texture_one, texture_two, initial_resources_values,
+             texture_one, texture_two, panelTexture, mp3, initial_resources_values,
              initial_resources_incomes, initial_resources_consumption,
              initial_resources_balance, available_dwellers):
         wx.CallAfter(self.viewSetter.getView('Map').init,
@@ -21,6 +21,8 @@ class MapViewModel(object):
                      dwellers,
                      texture_one,
                      texture_two,
+                     panelTexture,
+                     mp3,
                      initial_resources_values,
                      initial_resources_incomes,
                      initial_resources_consumption,

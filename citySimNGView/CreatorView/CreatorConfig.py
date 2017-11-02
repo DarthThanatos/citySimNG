@@ -1,0 +1,5 @@
+DEPENDENCIES_DEFAULT_SET_NAME = "Default Set"
+TEXTURE_ONE_DEFAULT_NAME = "Grass3.jpg"
+TEXTURE_TWO_DEFAULT_NAME = "Grass2.png"
+PANEL_TEXURE_DEFAULT_NAME = "BuildingsPanelTexture.jpg"
+MP3_DEFAULT_NAME = "TwoMandolins.mp3"

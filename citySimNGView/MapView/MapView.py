@@ -73,9 +73,6 @@ class MapView(wx.Panel):
             self.init_view()
             try:
                 pygame.mixer.init()
-                pygame.mixer.music.load(self.music_path)
-                # TODO: uncomment to play music
-                pygame.mixer.music.play()
             except Exception:
                 print "Problem with music"
         # else:
@@ -183,10 +180,13 @@ class MapView(wx.Panel):
 # Reading messages from model
 # =================================================================================================================== #
     def init(self, resources, domestic_buildings, industrial_buildings, dwellers,
-             texture_one, texture_two, initial_resources_values,
+             texture_one, texture_two,  panelTexture, mp3, initial_resources_values,
              initial_resources_incomes, initial_resources_consumption,
              initial_resources_balance, available_dwellers):
         """ Initialize game -> create game instance. After creating game instance send acknowledgement to model. """
+        self.music_path = relative_music_path + mp3
+        pygame.mixer.music.load(self.music_path)
+        pygame.mixer.music.play()
         self.game = Game(
             self.width,
             self.height,
