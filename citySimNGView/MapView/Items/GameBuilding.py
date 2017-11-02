@@ -1,14 +1,11 @@
-import pygame
-from MapView.Popups.BuildingsPanelPopup import BuildingsPanelPopup
-
 from MapView.Items.Building import Building
 
 
-class PanelBuilding(Building):
+class GameBuilding(Building):
     """ This class represents an instance of building. """
     def __init__(self, name, id, texture_path, type, resource_cost, consumes,
                  produces, dwellers_amount, dwellers_name, pos_x, pos_y, width,
-                 height, is_enabled):
+                 height):
         """ Constructor.
 
         :param name: building's name
@@ -17,7 +14,8 @@ class PanelBuilding(Building):
         :param resource_cost: amount of resources needed to construct this building
         :param consumes: amount of resources this building consumes
         :param produces: amount of resources this building produces
-        :param dwellers_amount: map containing type and amount of dwellers that should work in this building
+        :param dwellers_amount: map containing type and amount of dwellers that
+        should work in this building
         :param pos_x: x position [px]
         :param pos_y: y position [px]
         :param width: building's width [px]
@@ -27,27 +25,8 @@ class PanelBuilding(Building):
                           consumes, produces, dwellers_amount, dwellers_name,
                           pos_x, pos_y, width, height)
 
-        self.popup = None
-        self.is_enabled = is_enabled
-
-    def create_popup(self, pos_x, pos_y, width, height, surface):
-        """ Create popup for building.
-
-        :param pos_x: popup x position [px]
-        :param pos_y: popup y position [px]
-        :param width: popup width [px]
-        :param height: popup height [px]
-        :param surface: surface on which popup should be drawn
-        :return: popup
-        """
-        popup = BuildingsPanelPopup(pos_x, pos_y, width, height, self, surface)
-
-        return popup
+        self.is_running = True
+        self.working_dwellers = 0
 
     def draw(self, surface, pos_x, pos_y):
         surface.blit(self.image, (pos_x, pos_y))
-        if not self.is_enabled:
-            s = pygame.Surface((self.width, self.height))  # the size of your rect
-            s.set_alpha(128)  # alpha level
-            s.fill((255, 0, 0))  # this fills the entire surface
-            surface.blit(s, (pos_x, pos_y))  # (0,0) are the top-left coordinates

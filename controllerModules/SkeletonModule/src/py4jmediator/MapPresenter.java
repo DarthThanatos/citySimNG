@@ -1,8 +1,14 @@
 package py4jmediator;
 
 import entities.Building;
+import entities.Dweller;
 import entities.Resource;
+import javafx.scene.paint.Stop;
+import py4jmediator.MapResponses.DeleteBuildingResponse;
+import py4jmediator.MapResponses.PlaceBuildingResponse;
+import py4jmediator.MapResponses.StopProductionResponse;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,10 +18,11 @@ public class MapPresenter {
     public interface OnMapPresenterCalled{
         void onGoToMenu();
         void onViewInitialized();
-        Response onPlaceBuilding(String buildingName, String buildingId);
+        PlaceBuildingResponse onPlaceBuilding(String buildingName, String buildingId);
         boolean onCheckIfCanAffordOnBuilding(String buildingName);
-        Response onDeleteBuilding(String buildingId);
-        Response onStopProduction(String buildingId);
+        DeleteBuildingResponse onDeleteBuilding(String buildingId);
+        StopProductionResponse onStopProduction(String buildingId);
+        Integer onGetWorkingDwellers(String buildingId);
     }
 
     public void setOnMapPresenterCalled(OnMapPresenterCalled onMapPresenterCalled){
@@ -30,7 +37,7 @@ public class MapPresenter {
         }
     }
 
-    public Response placeBuilding(String buildingName, String buildingId){
+    public PlaceBuildingResponse placeBuilding(String buildingName, String buildingId){
         if(onMapPresenterCalled != null)
             return onMapPresenterCalled.onPlaceBuilding(buildingName, buildingId);
         return null;
@@ -47,16 +54,22 @@ public class MapPresenter {
         return false;
     }
 
-    public Response deleteBuilding(String buildingId){
+    public DeleteBuildingResponse deleteBuilding(String buildingId){
         if(onMapPresenterCalled != null)
             return onMapPresenterCalled.onDeleteBuilding(buildingId);
         return null;
     }
 
-    public Response stopProduction(String buildingId){
+    public StopProductionResponse stopProduction(String buildingId){
         if(onMapPresenterCalled != null)
             return onMapPresenterCalled.onStopProduction(buildingId);
         return null;
+    }
+
+    public Integer getWorkingDwellers(String buildingId){
+        if(onMapPresenterCalled != null)
+            return onMapPresenterCalled.onGetWorkingDwellers(buildingId);
+        return -1;
     }
 
     public void viewInitialized(){
@@ -68,29 +81,41 @@ public class MapPresenter {
         Presenter.getInstance().getViewModel().getMapViewModel().displayMap();
     }
 
-    public void init(List<Resource> resources, List<Building> buildings, String texture_one, String texture_two,
-                     Map<String, Integer> initialResourcesValues, Map<String, Integer> initialResourcesIncomes,
-                     Map<String, Integer> initialResourcesConsumption, Map<String, Integer> initialResourcesBalance){
+    public void init(List<Resource> resources, List<Building> domesticBuildings,
+                     List<Building> industrialBuildings,
+                     List<Dweller> dwellers, String texture_one,
+                     String texture_two, Map<String, Integer> initialResourcesValues,
+                     Map<String, Integer> initialResourcesIncomes,
+                     Map<String, Integer> initialResourcesConsumption,
+                     Map<String, Integer> initialResourcesBalance,
+                     int availableDwellers){
         Presenter.getInstance().getViewModel().getMapViewModel().init(
                 resources,
-                buildings,
+                domesticBuildings,
+                industrialBuildings,
+                dwellers,
                 texture_one,
                 texture_two,
                 initialResourcesValues,
                 initialResourcesIncomes,
                 initialResourcesConsumption,
-                initialResourcesBalance);
+                initialResourcesBalance,
+                availableDwellers);
     }
 
-    public void updateResourcesValues(Map<String, Integer> actualResourcesValues,
-                                      Map<String, Integer> actualResourcesIncomes,
-                                      Map<String, Integer> actualResourcesConsumption,
-                                      Map<String, Integer> resourcesBalance){
-        Presenter.getInstance().getViewModel().getMapViewModel().updateResourcesValues(
+    public void updateValuesForCycle(Map<String, Integer> actualResourcesValues,
+                                     Map<String, Integer> actualResourcesIncomes,
+                                     Map<String, Integer> actualResourcesConsumption,
+                                     Map<String, Integer> resourcesBalance,
+                                     Integer neededDwellers,
+                                     Integer availableDwellers){
+        Presenter.getInstance().getViewModel().getMapViewModel().updateValuesForCycle(
                 actualResourcesValues,
                 actualResourcesIncomes,
                 actualResourcesConsumption,
-                resourcesBalance);
+                resourcesBalance,
+                neededDwellers,
+                availableDwellers);
     }
 
     public void resumeGame(){

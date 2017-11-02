@@ -22,6 +22,7 @@ import corectness.checker.DwellersChecker;
 
 public class DwellersMonter extends GraphMonter{
 
+	private ArrayList<Dweller> allDwellers;
 	private JSONArray dwellersGraphDesc;
 	private HashMap<String, DwellerNode> dwellerVertices;
 	private DependenciesRepresenter dr;
@@ -29,6 +30,7 @@ public class DwellersMonter extends GraphMonter{
 	public DwellersMonter(List<Dweller> dwellers, DependenciesRepresenter dr){
 		this.dwellersGraphDesc = listToJSONArray(dwellers);
 		this.dr = dr;
+		allDwellers = new ArrayList<Dweller>(dwellers);
 		dwellerVertices = new HashMap<>();
 		List<String> dwellersNames = new ArrayList<String>();
 		for (Dweller dweller : dwellers){
@@ -43,6 +45,7 @@ public class DwellersMonter extends GraphMonter{
 	public DwellersMonter(JSONArray dwellersGraphDesc, DependenciesRepresenter dr) {
 		this.dwellersGraphDesc = dwellersGraphDesc;
 		this.dr = dr;
+		allDwellers = new ArrayList<Dweller>();
 		dwellerVertices = new HashMap<>();
 		String relativeTexturesPath = Consts.RELATIVE_TEXTURES_PATH;
 		List<String> resourcesNames = dr.getResourcesNames();
@@ -72,7 +75,11 @@ public class DwellersMonter extends GraphMonter{
 			dweller.setSuccessor(successor);
 			DwellerNode dwellerNode = new DwellerNode(dweller);
 			dwellerVertices.put(dwellerName, dwellerNode);
+
+			allDwellers.add(dweller);
 		}
+
+		dr.putModuleData(Consts.ALL_DWELLERS, allDwellers);
 	}
 
 	

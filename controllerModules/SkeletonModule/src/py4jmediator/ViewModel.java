@@ -1,6 +1,7 @@
 package py4jmediator;
 
 import entities.Building;
+import entities.Dweller;
 import entities.Resource;
 import org.json.JSONObject;
 
@@ -22,13 +23,19 @@ public interface ViewModel {
 
 	public interface MapViewModel{
 		public void displayMap();
-		public void init(List<Resource> resources, List<Building> buildings, String texture_one, String texture_two,
-						 Map<String, Integer> initialResourcesValues, Map<String, Integer> initialResourcesIncomes,
-						 Map<String, Integer> actualResourcesConsumption, Map<String, Integer> resourcesBalance);
-		public void updateResourcesValues(Map<String, Integer> actualResourcesValues,
-										  Map<String, Integer> actualResourcesIncomes,
-										  Map<String, Integer> actualResourcesConsumption,
-										  Map<String, Integer> resourcesBalance);
+		public void init(List<Resource> resources, List<Building> domesticBuildings,
+						 List<Building> industrialBuildings, List<Dweller> dwellers,
+						 String texture_one, String texture_two,
+						 Map<String, Integer> initialResourcesValues,
+						 Map<String, Integer> initialResourcesIncomes,
+						 Map<String, Integer> actualResourcesConsumption,
+						 Map<String, Integer> resourcesBalance, int availableDwellers);
+		public void updateValuesForCycle(Map<String, Integer> actualResourcesValues,
+										 Map<String, Integer> actualResourcesIncomes,
+										 Map<String, Integer> actualResourcesConsumption,
+										 Map<String, Integer> resourcesBalance,
+										 Integer neededDwellers,
+										 Integer availableDwellers);
 		public void resumeGame();
 	}
 

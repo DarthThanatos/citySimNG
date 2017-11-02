@@ -7,6 +7,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 
+import py4j.GatewayServer;
 import py4jmediator.Presenter;
 import controlnode.Node;
 import model.DependenciesRepresenter;
@@ -18,6 +19,11 @@ public class ControlSwitcher {
 	private static Presenter presenter;
 	
 	public static void main(String[] args)throws Exception{
+		for(String arg: args) {
+			if(arg.equals("--d") || arg.equals("--debug")) {
+				GatewayServer.turnLoggingOn();
+			}
+		}
 		presenter = Presenter.getInstance(); 
 		checkIfViewReady();
 		Node currentNode = mountGraph(args);
