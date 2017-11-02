@@ -1,0 +1,89 @@
+
+
+{
+													"Texture path": "resources\\Textures\\Gold2.png",
+													"Children": [
+														
+													{
+														"Texture path": "resources\\Textures\\Gold2.png",
+														"Children": [
+														
+															{
+																"Texture path": "resources\\Textures\\Gold2.png",
+																"Children": [
+																
+																	
+																	{
+																		"Texture path": "resources\\Textures\\Gold2.png",
+																		"Children": [
+																		
+																			{
+																				"Texture path": "resources\\Textures\\Gold2.png",
+																				"Children": [
+																				
+																					
+																					{
+																						"Texture path": "resources\\Textures\\Gold2.png",
+																						"Children": [
+																						
+																							{
+																								"Texture path": "resources\\Textures\\Gold2.png",
+																								"Children": [
+																								
+																									
+																								],
+																								"Name": "Gold269"
+																							},
+																							{
+																								"Texture path": "resources\\Textures\\Gold2.png",
+																								"Children": [
+																								
+																									{
+																										"Texture path": "resources\\Textures\\Gold2.png",
+																										"Children": [
+																										
+																											{
+																												"Texture path": "resources\\Textures\\Gold2.png",
+																												"Children": [
+																												
+																													{
+																														"Texture path": "resources\\Textures\\Gold2.png",
+																														"Children": [
+																														
+																															
+																														],
+																														"Name": "Gold273"
+																													}
+																													
+																												],
+																												"Name": "Gold272"
+																											}
+																											
+																										],
+																										"Name": "Gold271"
+																									}
+																									
+																								],
+																								"Name": "Gold270"
+																							}
+																							
+																						],
+																						"Name": "Gold268"
+																					}
+																				],
+																				"Name": "Gold267"
+																			}
+																			
+																		],
+																		"Name": "Gold266"
+																	}
+																],
+																"Name": "Gold265"
+															}
+															
+														],
+														"Name": "Gold264"
+													}
+													],
+													"Name": "Gold263"
+												}

@@ -1,0 +1,216 @@
+{
+    "Dwellers": [
+        {
+            "Texture path": "resources\\Textures\\dweller.jpg",
+            "Children": [],
+            "Name": "Dweller"
+        }
+    ],
+    "Buildings": [
+        {
+            "Texture path": "resources\\Textures\\CiderFarm.png",
+            "Children": [
+                {
+                    "Texture path": "resources\\Textures\\Mill.png",
+                    "Children": [
+                        {
+                            "Texture path": "resources\\Textures\\Bakery2.png",
+                            "Children": [],
+                            "Name": "Bakery"
+                        }
+                    ],
+                    "Name": "Mill"
+                }
+            ],
+            "Name": "Field"
+        },
+        {
+            "Texture path": "resources\\Textures\\Quarry.png",
+            "Children": [],
+            "Name": "kamieniolom"
+        },
+        {
+            "Texture path": "resources\\Textures\\Lunmbermill2.png",
+            "Children": [],
+            "Name": "Tartak"
+        }
+    ],
+    "Resources": [
+        {
+            "Texture path": "resources\\Textures\\Grain.png",
+            "Children": [
+                {
+                    "Texture path": "resources\\Textures\\Flour.png",
+                    "Children": [
+                        {
+                            "Texture path": "resources\\Textures\\Bread.png",
+                            "Children": [],
+                            "Name": "Bread"
+                        }
+                    ],
+                    "Name": "Flour"
+                }
+            ],
+            "Name": "Crop"
+        },
+        {
+            "Texture path": "resources\\Textures\\Gold2.png",
+            "Children": [],
+            "Name": "Gold"
+        },
+        {
+            "Texture path": "resources\\Textures\\Rock.png",
+            "Children": [],
+            "Name": "Rock"
+        },
+        {
+            "Texture path": "resources\\Textures\\Wood.png",
+            "Children": [],
+            "Name": "Wood"
+        }
+    ]
+}
+{
+    "Dwellers": [
+        {
+            "Texture path": "resources\\Textures\\dweller.jpg",
+            "Children": [],
+            "Name": "Dweller"
+        }
+    ],
+    "Buildings": [
+        {
+            "Texture path": "resources\\Textures\\CiderFarm.png",
+            "Children": [
+                {
+                    "Texture path": "resources\\Textures\\Mill.png",
+                    "Children": [
+                        {
+                            "Texture path": "resources\\Textures\\Bakery2.png",
+                            "Children": [],
+                            "Name": "Bakery"
+                        }
+                    ],
+                    "Name": "Mill"
+                }
+            ],
+            "Name": "Field"
+        },
+        {
+            "Texture path": "resources\\Textures\\Quarry.png",
+            "Children": [],
+            "Name": "kamieniolom"
+        },
+        {
+            "Texture path": "resources\\Textures\\Lunmbermill2.png",
+            "Children": [],
+            "Name": "Tartak"
+        }
+    ],
+    "Resources": [
+        {
+            "Texture path": "resources\\Textures\\Grain.png",
+            "Children": [
+                {
+                    "Texture path": "resources\\Textures\\Flour.png",
+                    "Children": [
+                        {
+                            "Texture path": "resources\\Textures\\Bread.png",
+                            "Children": [],
+                            "Name": "Bread"
+                        }
+                    ],
+                    "Name": "Flour"
+                }
+            ],
+            "Name": "Crop"
+        },
+        {
+            "Texture path": "resources\\Textures\\Gold2.png",
+            "Children": [],
+            "Name": "Gold"
+        },
+        {
+            "Texture path": "resources\\Textures\\Rock.png",
+            "Children": [],
+            "Name": "Rock"
+        },
+        {
+            "Texture path": "resources\\Textures\\Wood.png",
+            "Children": [],
+            "Name": "Wood"
+        }
+    ]
+}
+{
+    "Dwellers": [
+        {
+            "Texture path": "resources\\Textures\\dweller.jpg",
+            "Children": [],
+            "Name": "Dweller"
+        }
+    ],
+    "Buildings": [
+        {
+            "Texture path": "resources\\Textures\\CiderFarm.png",
+            "Children": [
+                {
+                    "Texture path": "resources\\Textures\\Mill.png",
+                    "Children": [
+                        {
+                            "Texture path": "resources\\Textures\\Bakery2.png",
+                            "Children": [],
+                            "Name": "Bakery"
+                        }
+                    ],
+                    "Name": "Mill"
+                }
+            ],
+            "Name": "Field"
+        },
+        {
+            "Texture path": "resources\\Textures\\Quarry.png",
+            "Children": [],
+            "Name": "kamieniolom"
+        },
+        {
+            "Texture path": "resources\\Textures\\Lunmbermill2.png",
+            "Children": [],
+            "Name": "Tartak"
+        }
+    ],
+    "Resources": [
+        {
+            "Texture path": "resources\\Textures\\Grain.png",
+            "Children": [
+                {
+                    "Texture path": "resources\\Textures\\Flour.png",
+                    "Children": [
+                        {
+                            "Texture path": "resources\\Textures\\Bread.png",
+                            "Children": [],
+                            "Name": "Bread"
+                        }
+                    ],
+                    "Name": "Flour"
+                }
+            ],
+            "Name": "Crop"
+        },
+        {
+            "Texture path": "resources\\Textures\\Gold2.png",
+            "Children": [],
+            "Name": "Gold"
+        },
+        {
+            "Texture path": "resources\\Textures\\Rock.png",
+            "Children": [],
+            "Name": "Rock"
+        },
+        {
+            "Texture path": "resources\\Textures\\Wood.png",
+            "Children": [],
+            "Name": "Wood"
+        }
+    ]
+}
