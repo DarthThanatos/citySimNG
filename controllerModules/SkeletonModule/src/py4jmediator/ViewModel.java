@@ -4,6 +4,7 @@ import entities.Building;
 import entities.Resource;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,7 +12,7 @@ import java.util.Set;
 import org.json.JSONObject;
 
 public interface ViewModel {
-	
+
 	public MainMenuViewModel getMainMenuViewModel();
 	public CreatorViewModel getCreatorViewModel();
 	public GameMenuViewModel getGameMenuViewModel();
@@ -37,6 +38,7 @@ public interface ViewModel {
 
 	public interface GameMenuViewModel{
 		public void displayGameMenu();
+		public void animateCurrentPrices(HashMap<String, Integer> currentPrices);
 	}
 
 	public interface CreatorViewModel{

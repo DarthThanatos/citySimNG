@@ -59,8 +59,6 @@ class CreatorMainPanel(ScrolledPanel):
         rootSizer.AddSpacer(topPadding)
         self.addToSizerWithSpaceAndLine(rootSizer, self.newChosenSetNameSizer())
         self.addToSizerWithSpaceAndLine(rootSizer,self.newDependenciesSubpanelsHorizontalSizer(), linePadding=10, viewSpace=75)
-        # self.addToSizerWithSpace(rootSizer, self.newBackgroundTextureOneHorizontalSizer())
-        # self.addToSizerWithSpaceAndLine(rootSizer, self.newBackgroundTextureTwoHorizontalSizer())
         self.addToSizerWithSpaceAndLine(rootSizer, self.newMapBackgroundHorizontalSizer())
         self.addToSizerWithSpace(rootSizer, self.newButtonsSizer(), space = 50)
         self.addToSizerWithSpace(rootSizer, self.newGraphSpaces(), space=175)

@@ -1,5 +1,7 @@
 package py4jmediator;
 
+import java.util.HashMap;
+
 public class GameMenuPresenter {
 
 	private OnGameMenuPresenterCalled onGameMenuPresenterCalled;
@@ -36,7 +38,10 @@ public class GameMenuPresenter {
 	public void displayGameMenu(){
 		Presenter.getInstance().getViewModel().getGameMenuViewModel().displayGameMenu();
 	}
-	
+	public void animateCurrentPrices(HashMap<String, Integer> currentPrices){
+		Presenter.getInstance().getViewModel().getGameMenuViewModel().animateCurrentPrices(currentPrices);
+	}
+
 	public interface OnGameMenuPresenterCalled{
 		public void onGoToNewGame();
 		public void onGoToLoader();

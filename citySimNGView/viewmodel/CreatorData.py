@@ -26,7 +26,7 @@ class CreatorData(object):
 
     def fetchProcessedMap(self, inputDict, resources):
         nonSparseDict = self.createNonSparseResourcesDict(inputDict, resources)
-        return Converter(self.javaGateway).convertDictToMap(nonSparseDict)
+        return Converter(self.javaGateway).convertPyDictToJavaMap(nonSparseDict)
 
     def mapResourcesDictToNamesList(self, resourcesDict):
         return [resource[Consts.RESOURCE_NAME] for resource in resourcesDict]
@@ -37,7 +37,7 @@ class CreatorData(object):
         resources = self.mapResourcesDictToNamesList(dataDict[Consts.RESOURCES])
         for dwellerFromDict in dwellersFromDict:
             dwellers.append(self.getDweller(dwellerFromDict, resources))
-        return Converter(self.javaGateway).convertCollectionToList(dwellers)
+        return Converter(self.javaGateway).convertPyCollectionToJavaList(dwellers)
 
     def fillEntityWithBasicInformation(self, entity, dict_with_info, name_key):
         entity.setPredecessor(dict_with_info[Consts.PREDECESSOR])
@@ -57,7 +57,7 @@ class CreatorData(object):
         resources = []
         for resourceFromDict in resourcesFromDict:
             resources.append(self.getResource(resourceFromDict))
-        return Converter(self.javaGateway).convertCollectionToList(resources)
+        return Converter(self.javaGateway).convertPyCollectionToJavaList(resources)
 
     def getResource(self, resourceFromDict):
         resource = self.javaGateway.jvm.entities.Resource()
@@ -71,7 +71,7 @@ class CreatorData(object):
         resources = self.mapResourcesDictToNamesList(dataDict[Consts.RESOURCES])
         for buildingFromDict in buildingsFromDict:
             buildings.append(self.getBuilding(buildingFromDict, resources))
-        return Converter(self.javaGateway).convertCollectionToList(buildings)
+        return Converter(self.javaGateway).convertPyCollectionToJavaList(buildings)
 
     def getBuilding(self, buildingFromDict, resources):
         building = self.javaGateway.jvm.entities.Building()

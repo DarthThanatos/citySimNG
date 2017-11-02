@@ -1,5 +1,6 @@
 import wx
 
+from CurrentPricesPanel import CurrentPricesPanel
 from utils import LogMessages
 from utils.ButtonsFactory import ButtonsFactory
 from utils.OnShowUtil import OnShowUtil
@@ -34,9 +35,15 @@ class GameMenuView(wx.Panel):
         rootSizer = wx.BoxSizer(wx.VERTICAL)
         rootSizer.Add(self.newHeaderSizer(), 0, wx.CENTER)
         rootSizer.AddSpacer(50)
+        rootSizer.Add(self.newCurrentPricesPanel(),  0, wx.CENTER)
+        rootSizer.AddSpacer(50)
         rootSizer.Add(self.newButtonsSizer(), 0, wx.CENTER)
         self.SetSizer(rootSizer)
         rootSizer.SetDimension(0, 0, self.size[0], self.size[1])
+
+    def newCurrentPricesPanel(self):
+        self.currentPricesPanel = CurrentPricesPanel(self)
+        return self.currentPricesPanel
 
     def newHeaderBmp(self):
         headerImage = wx.Image(relative_textures_path + "headerCS_black.png", wx.BITMAP_TYPE_PNG)
@@ -103,6 +110,9 @@ class GameMenuView(wx.Panel):
 
     def onShow(self, event):
         OnShowUtil().switch_music_on_show_changed(event, self.musicPath)
+
+    def animateCurrentPrices(self, currentPricesDict):
+        self.currentPricesPanel.animateCurrentPrices(currentPricesDict)
 
     def readMsg(self, msg):
         pass

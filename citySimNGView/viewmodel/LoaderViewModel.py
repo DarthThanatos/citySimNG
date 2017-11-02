@@ -23,7 +23,7 @@ class LoaderViewModel(object):
     def displayPossibleDependenciesSets(self, possibleSets):
         wx.CallAfter(
             self.viewSetter.getView("Loader").displayPossibleDependenciesSets,
-            Converter(self.viewSetter.gateway).convertCollectionToList(possibleSets)
+            Converter(self.viewSetter.gateway).convertPyCollectionToJavaList(possibleSets)
         )
 
     class Java:

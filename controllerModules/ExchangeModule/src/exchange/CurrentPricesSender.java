@@ -24,16 +24,21 @@ public class CurrentPricesSender {
     }
 
     private void startSending(){
-        //TODO - more sophisticated algorithm of calculating when prices should be sent needed
-        curPricesSendingDisposable = Observable.interval(5, TimeUnit.SECONDS)
+        curPricesSendingDisposable = Observable.timer(5, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.newThread())
-                .forEachWhile(this::notInterrupted, Throwable::printStackTrace);
+                .subscribe(this::notInterrupted, Throwable::printStackTrace, this::sendPeriodically);
     }
 
     private boolean notInterrupted(Long aLong) {
         System.out.println("Sending current prices to game menu.");
         eventBus.post(new ExchangeCurrentPricesEvent(exchangeNode.getCurrentPrices()));
         return true;
+    }
+
+    private void sendPeriodically(){
+        curPricesSendingDisposable = Observable.interval(2, TimeUnit.MINUTES)
+                .subscribeOn(Schedulers.newThread())
+                .forEachWhile(this::notInterrupted, Throwable::printStackTrace);
     }
 
     public void atUnload(){

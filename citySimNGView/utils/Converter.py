@@ -5,12 +5,12 @@ class Converter(object):
     def __init__(self, javaGateway=None):
         self.javaGateway = javaGateway
 
-    def convertJavaMapToDict(self, map):
+    def convertJavaMapToPyDict(self, map):
         if type(map )!= dict:  return {entry.getKey() : entry.getValue() for entry in map.entrySet() }
         else: return map
 
-    def convertDictToMap(self, dictToConvert):
+    def convertPyDictToJavaMap(self, dictToConvert):
         return MapConverter().convert(dictToConvert, self.javaGateway._gateway_client)
 
-    def convertCollectionToList(self, collectionToConvert):
+    def convertPyCollectionToJavaList(self, collectionToConvert):
         return ListConverter().convert(collectionToConvert, self.javaGateway._gateway_client)
