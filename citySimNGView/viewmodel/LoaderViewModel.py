@@ -11,7 +11,6 @@ class LoaderViewModel(object):
         self.viewSetter = viewSetter
 
     def displayLoader(self):
-        print "displaying loader"
         wx.CallAfter(self.viewSetter.setView, "Loader")
 
     def displayDependenciesGraph(self, jsonGraph):

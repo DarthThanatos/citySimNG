@@ -83,7 +83,7 @@ class NumberFillingChecker(ScrolledPanel):
         self.choices_values[event.GetEventObject().GetLabel()].Enable(event.GetEventObject().GetValue())
 
     def getCheckedChoicesNamesList(self):
-        return filter(lambda x: self.checked_choices[x].GetValue(), self.getChoicesList())
+        return filter(lambda x: self.checked_choices[x].GetValue() and self.choices_values[x].GetValue() > 0, self.getChoicesList())
 
     def getChoiceValue(self, choice):
         return self.choices_values[choice].GetValue()

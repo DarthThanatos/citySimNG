@@ -70,7 +70,6 @@ class MapView(wx.Panel):
     def on_show(self, event):
         """ Function receiving events sent to map view. """
         if event.GetShow():
-            print "shown map"
             self.init_view()
             try:
                 pygame.mixer.init()
@@ -87,14 +86,12 @@ class MapView(wx.Panel):
 
     def init_view(self):
         """ Function initializing map view. """
-        print "Map: initview", str(self.GetHandle())
         self.hackPygame()
         pygame.init()
         pygame.display.init()
         self.sender.entry_point.getMapPresenter().viewInitialized()
 
     def hackPygame(self):
-        print "hacking pygame :)"
         global pygame
         os.environ['SDL_WINDOWID'] = str(self.GetHandle())
         os.environ['SDL_VIDEODRIVER'] = 'windib'

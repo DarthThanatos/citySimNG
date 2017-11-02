@@ -9,7 +9,6 @@ class GameMenuViewModel(object):
         self.viewSetter = viewSetter
 
     def displayGameMenu(self):
-        print "displaying game menu"
         wx.CallAfter(self.viewSetter.setView, "GameMenu")
 
     def animateCurrentPrices(self, currentPricesJavaMap):

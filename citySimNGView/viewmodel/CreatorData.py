@@ -79,4 +79,7 @@ class CreatorData(object):
         building.setProduces(self.fetchProcessedMap(buildingFromDict[Consts.PRODUCES], resources))
         building.setConsumes(self.fetchProcessedMap(buildingFromDict[Consts.CONSUMES], resources))
         building.setResourcesCost(self.fetchProcessedMap(buildingFromDict[Consts.COST_IN_RESOURCES], resources))
+        building.setType(buildingFromDict[Consts.TYPE])
+        building.setDwellersName(buildingFromDict[Consts.DWELLER_NAME])
+        building.setDwellersAmount(buildingFromDict[Consts.DWELLERS_AMOUNT])
         return building

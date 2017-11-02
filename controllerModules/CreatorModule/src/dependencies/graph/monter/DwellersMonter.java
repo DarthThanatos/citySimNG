@@ -32,13 +32,13 @@ public class DwellersMonter extends GraphMonter{
 		this.dr = dr;
 		allDwellers = new ArrayList<Dweller>(dwellers);
 		dwellerVertices = new HashMap<>();
-		List<String> dwellersNames = new ArrayList<String>();
+//		List<String> dwellersNames = new ArrayList<String>();
 		for (Dweller dweller : dwellers){
 			String dwellerName = dweller.getName();
 			DwellerNode dwellerNode = new DwellerNode(dweller);
 			dwellerVertices.put(dwellerName, dwellerNode);
-			dwellersNames.add(dwellerName);
 		}
+		dr.putModuleData(Consts.ALL_DWELLERS, dwellers);
 		
 	}
 

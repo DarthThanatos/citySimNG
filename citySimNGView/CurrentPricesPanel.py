@@ -17,7 +17,6 @@ class CurrentPricesPanel(wx.Panel):
         self.timer = wx.Timer(self, wx.ID_ANY)
 
     def animateCurrentPrices(self, currentPricesDict):
-        print "current prices panel: animating prices:", currentPricesDict
         self.Bind(wx.EVT_TIMER, self.onAnimate)
         self.onPreAnimate(currentPricesDict)
         self.timer.Start(ANIMATION_PERIOD, oneShot=False)
@@ -55,7 +54,6 @@ class CurrentPricesPanel(wx.Panel):
 
     def newPriceIndicatorHorizontalSizer(self, resource, price):
         priceIndicatorHorizontalSizer = wx.BoxSizer(wx.HORIZONTAL)
-        print "creating indicator for:",resource,price
         priceIndicatorHorizontalSizer.Add(
             ImageUtils(self).newScaledImgBmpInDir(relative_system_imgs_path, "green_bolthead.png" if price >= 0 else "red_bolthead.png")
         )

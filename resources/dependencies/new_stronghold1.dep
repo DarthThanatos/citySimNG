@@ -6,7 +6,7 @@
             "Description": "1",
  
             "Produces": {
-                "Resource": 0
+                "Resource": 1
             },
  
             "Dwellers\namount": 0,
@@ -16,7 +16,7 @@
             "Dweller\nName": "Dweller",
  
             "Cost\nin\nresources": {
-                "Resource": 0
+                "Resource": 1
             },
  
             "Texture path": "house.png",
@@ -24,7 +24,7 @@
             "Type": "Industrial",
  
             "Consumes": {
-                "Resource": 0
+                "Resource": 1
             },
  
             "Successor": "None"
@@ -36,17 +36,17 @@
             "Description": "-",
  
             "Produces": {
-                "Resource": 0
+                "Resource": 1
             },
  
             "Dwellers\namount": 0,
  
             "Building\nName": "Building1",
  
-            "Dweller\nName": "None",
+            "Dweller\nName": "Dweller",
  
             "Cost\nin\nresources": {
-                "Resource": 0
+                "Resource": 1
             },
  
             "Texture path": "house.png",
@@ -54,7 +54,7 @@
             "Type": "Industrial",
  
             "Consumes": {
-                "Resource": 0
+                "Resource": 1
             },
  
             "Successor": "None"
@@ -76,7 +76,7 @@
             "Dweller\nName": "Dweller",
  
             "Consumes": {
-                "Gold": 0
+                "Gold": 1
             },
  
             "Texture path": "Quarry.png",
@@ -206,7 +206,7 @@
             "Type": "Industrial",
  
             "Consumes": {
-                "Gold": 0
+                "Gold": 1
             },
  
             "Successor": "None"

@@ -108,7 +108,7 @@ class SheetEntityChecker(object):
         return correct
 
     def dwellerSelected(self, result_struct):
-        if self.getDwellerName() == "":
+        if self.getDwellerName() == "" or self.getDwellerName() == "None":
             result_struct["ErrorMsg"] += "-> Please select a dweller that lives here\n"
             return False
         return True

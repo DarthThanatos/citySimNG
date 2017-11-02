@@ -366,7 +366,8 @@ class CreatorMainPanel(ScrolledPanel):
         return os.path.isfile(relative_textures_path + path)
 
     def currentDependenciesCorrect(self, updateNameFromInput):
-        input_correct = self.dependenciesSetNameTypedCorrectly(updateNameFromInput=updateNameFromInput)
+        input_correct = self.depsNotEmpty()
+        input_correct &= self.dependenciesSetNameTypedCorrectly(updateNameFromInput=updateNameFromInput)
         input_correct &= self.textureExists(self.current_dependencies[Consts.TEXTURE_ONE])
         input_correct &= self.textureExists(self.current_dependencies[Consts.TEXTURE_TWO])
         input_correct &= self.checkCorrectnessOf(Consts.RESOURCES)
@@ -383,6 +384,20 @@ class CreatorMainPanel(ScrolledPanel):
             self.logArea.SetValue(errorMsg)
             return False
         return True
+
+    def depsNotEmpty(self):
+        res = True
+        if self.current_dependencies[Consts.DWELLERS].__len__() == 0:
+            self.logArea.SetLabelText("->Dwellers list empty, please fill it\n")
+            res = False
+        if self.current_dependencies[Consts.BUILDINGS].__len__() == 0:
+            self.logArea.AppendText("->Buildings list empty, please fill it\n")
+            res = False
+        if  self.current_dependencies[Consts.RESOURCES].__len__() == 0:
+            self.logArea.AppendText("-> Resources list empty, please fill it\n")
+            res = False
+        return res
+
 
     def createDependencies(self, event):
         if not self.currentDependenciesCorrect(updateNameFromInput=True): return
