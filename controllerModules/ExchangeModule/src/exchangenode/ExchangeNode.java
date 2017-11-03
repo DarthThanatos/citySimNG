@@ -29,7 +29,7 @@ public class ExchangeNode implements Node {
         stock.init();
 
         // thread for price algorithm
-        Thread stockThread = new Thread(() -> new StockAlgorithm().simulateStock(stock));
+        Thread stockThread = new Thread(() -> new StockAlgorithm(stock).simulateStock());
         stockThread.start();
 
         // thread for view modelling

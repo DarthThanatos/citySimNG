@@ -52,4 +52,8 @@ public class Resource {
         return String.format("%.2f", price);
     }
 
+    public double getQuantityPriceRatio() {
+        return this.stockQuantity / this.price;
+    }
+
 }

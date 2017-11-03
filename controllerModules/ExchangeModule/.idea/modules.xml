@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/1104227192/CreatorModule.iml" filepath="$PROJECT_DIR$/.idea/modules/1104227192/CreatorModule.iml" group="CreatorModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/1104227192/CreatorModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/1104227192/CreatorModule_main.iml" group="CreatorModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/1104227192/CreatorModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/1104227192/CreatorModule_test.iml" group="CreatorModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ExchangeModule.iml" filepath="$PROJECT_DIR$/.idea/modules/ExchangeModule.iml" group="ExchangeModule" />
       <module fileurl="file://$PROJECT_DIR$/ExchangeModule.iml" filepath="$PROJECT_DIR$/ExchangeModule.iml" group="ExchangeModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ExchangeModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ExchangeModule_main.iml" group="ExchangeModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ExchangeModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ExchangeModule_test.iml" group="ExchangeModule" />
@@ -14,9 +15,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-607588693/MenuModule.iml" filepath="$PROJECT_DIR$/.idea/modules/-607588693/MenuModule.iml" group="MenuModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-607588693/MenuModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/-607588693/MenuModule_main.iml" group="MenuModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-607588693/MenuModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/-607588693/MenuModule_test.iml" group="MenuModule" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1927596034/RankingModule.iml" filepath="$PROJECT_DIR$/.idea/modules/1927596034/RankingModule.iml" group="RankingModule" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1927596034/RankingModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/1927596034/RankingModule_main.iml" group="RankingModule" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1927596034/RankingModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/1927596034/RankingModule_test.iml" group="RankingModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2048633063/SkeletonModule.iml" filepath="$PROJECT_DIR$/.idea/modules/-2048633063/SkeletonModule.iml" group="SkeletonModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2048633063/SkeletonModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/-2048633063/SkeletonModule_main.iml" group="SkeletonModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2048633063/SkeletonModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/-2048633063/SkeletonModule_test.iml" group="SkeletonModule" />

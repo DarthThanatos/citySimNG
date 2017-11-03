@@ -28,7 +28,7 @@ public class Test {
         stock.setDependenciesRepresenter(dependenciesRepresenter);
         stock.init();
 
-        Thread stockAlgorithmThread = new Thread(() -> new StockAlgorithm().simulateStock(stock));
+        Thread stockAlgorithmThread = new Thread(() -> new StockAlgorithm(stock).simulateStock());
         stockAlgorithmThread.start();
 
         StockView.stock = stock;

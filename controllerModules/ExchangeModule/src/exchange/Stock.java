@@ -76,20 +76,12 @@ public class Stock {
         return null;
     }
 
-    int getAverageResourceQuantity() {
-        int averageQuantity = 0;
+    double getAverageQuantityPriceRatio() {
+        double ratio = 0.0;
         for (Resource resource : stockResources) {
-            averageQuantity = averageQuantity + resource.getStockQuantity();
+            ratio = resource.getStockQuantity() / resource.getPrice();
         }
-        return averageQuantity / stockResources.size();
-    }
-
-    double getAverageResourcePrice() {
-        double averagePrice = 0;
-        for (Resource resource : stockResources) {
-            averagePrice = averagePrice + resource.getPrice();
-        }
-        return averagePrice / stockResources.size();
+        return ratio / stockResources.size();
     }
 
     void updatePriceHistory(double newPrice, String resourceName) {
