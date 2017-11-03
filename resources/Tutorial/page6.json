@@ -1,0 +1,27 @@
+{
+  "page": {
+    "nr": 6,
+    "sub0": [
+      "Map sub0",
+     ],
+    "sub1":[
+      "Map sub1",
+    ],
+    "sub2": [
+      "Map sub2",
+    ],
+  "img": "resources\\Tutorial\\img1.jpg",
+    "link": [{
+      "id": 4,
+      "label": "Map - overview",
+      },
+    {
+    "id": 5,
+    "label": "Map - settlement panel",
+    },
+    {
+      "id": 2,
+      "label": "Exchange - transactions",
+    }]
+  }
+}

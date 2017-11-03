@@ -19,7 +19,7 @@ class TutorialView(wx.Panel):
 
         #self.SetBackgroundColour((255, 255, 255))
         self.pageID = 0
-        self.nrOfPages = 3
+        self.nrOfPages = 6
         self.tutorialInfo = "Welcome to our tutorial! If you'd like to find out what are all the functionalities of this cutting-edge game engine, you're in the right place :)"
         self.welcomeField = wx.StaticText(self, label=self.tutorialInfo)
         self.tutorialFont = wx.Font(20, wx.FONTFAMILY_DECORATIVE, 
@@ -40,17 +40,29 @@ class TutorialView(wx.Panel):
         self.centerSizer.AddSpacer(10)
         self.content = [
             {
-                'name': 'Gielda',
+                'name': 'Map - overview',
+                'id': 4
+            },
+            {
+                'name': 'Map - settlement panel',
+                'id': 5
+            },
+            {
+                'name': 'Map - resources panel',
+                'id': 6
+            },
+            {
+                'name': 'Exchange - overview',
                 'id': 1
             },
             {
-                'name': 'Gielda - transakcje',
+                'name': 'Exchange - transactions',
                 'id': 2
             },
             {
-                'name': 'Gielda - loteria',
+                'name': 'Exchange - lottery',
                 'id': 3
-            },
+            }
         ]
 
         #page view
@@ -118,7 +130,7 @@ class TutorialView(wx.Panel):
         arrow = wx.Bitmap(relative_textures_path+"new\\arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
 
         contentSize = len(self.content)
-        contentHalf = contentSize // 2 + 1
+        contentHalf = contentSize - (contentSize // 2)
         for i in range(contentHalf):
             self.addListElem(leftBox, listFont, arrow, i)
 
