@@ -79,12 +79,12 @@ class GraphPanel(ScrolledPanel):
 
     def newScaledBmp(self, imagePath):
         img = wx.Image(name = imagePath)
-        img = img.Scale(32,32)
-        return wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(img), size = (32,32))
+        img = img.Scale(40,32)
+        return wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(img), size = (40,32))
 
     def newArrowBmp(self, lvl_index):
         return self.newScaledBmp(
-            relative_textures_path + ("graph_right_arrow.png" if lvl_index % 2 == 0 else "rightBlueArrow.png")
+            relative_textures_path + ("new\\arrow_green_small.png" if lvl_index % 2 == 0 else "new\\arrow_light_small.png")
         )
 
     def newEntityBmp(self, tree_lvl_json_desc):

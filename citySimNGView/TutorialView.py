@@ -108,7 +108,7 @@ class TutorialView(wx.Panel):
         listFont = self.tutorialFont
         listFont.SetPointSize(18)
 
-        arrow = wx.Bitmap(relative_textures_path+"rightGreenArrow.png", wx.BITMAP_TYPE_ANY)
+        arrow = wx.Bitmap(relative_textures_path+"new\\arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
         for i in range(contentHalf):
             elemField = wx.StaticText(self, label=self.content[i]['name'])
             elemID = self.content[i]['id']
@@ -155,7 +155,6 @@ class TutorialView(wx.Panel):
     def requestPage(self, event):
         print "TutorialView: requestPage executed"
         print "PageID: " + str(event.GetId())
-        #sprawdzamy, czy Id jest prawidlowy, w razie czego poprawiamy
         realPageID = event.GetId()
         if realPageID > self.nrOfPages:
             realPageID = 1
