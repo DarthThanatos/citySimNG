@@ -24,7 +24,7 @@
             "Type": "Industrial",
  
             "Consumes": {
-                "Gold": 0
+                "Gold": 10
             },
  
             "Successor": "None"
@@ -170,7 +170,7 @@
             "Dweller\nName": "Dweller",
  
             "Consumes": {
-                "Gold": 0
+                "Gold": 10
             },
  
             "Texture path": "Lunmbermill2.png",
