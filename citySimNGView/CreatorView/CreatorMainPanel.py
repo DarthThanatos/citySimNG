@@ -410,6 +410,20 @@ class CreatorMainPanel(ScrolledPanel):
     def fileExists(self, path, dir = relative_textures_path):
         return os.path.isfile(dir + path)
 
+    def allEntitiesNotRedundant(self, entitiesType, redundancyChecker):
+        res = True
+        for entity in self.current_dependencies[entitiesType]:
+            if redundancyChecker.checkIfRedundant(entity, {"ErrorMsg":""}):
+                self.logArea.AppendText("-> " + entity + " is redundant, use it somehow or delete it\n")
+                res = False
+        return res
+
+    def allResourcesNotRedundant(self):
+        return self.allEntitiesNotRedundant(Consts.RESOURCES, self.resourcesDependenciesSubPanel.redundancyChecker)
+
+    def allDwellersNotRedundant(self):
+        return self.allEntitiesNotRedundant(Consts.DWELLERS, self.dwellersDependenciesSubPanel.redundancyChecker)
+
     def currentDependenciesCorrect(self, updateNameFromInput):
         input_correct = self.depsNotEmpty()
         input_correct &= self.dependenciesSetNameTypedCorrectly(updateNameFromInput=updateNameFromInput)
@@ -420,6 +434,9 @@ class CreatorMainPanel(ScrolledPanel):
         input_correct &= self.checkCorrectnessOf(Consts.RESOURCES)
         input_correct &= self.checkCorrectnessOf(Consts.BUILDINGS)
         input_correct &= self.checkCorrectnessOf(Consts.DWELLERS)
+        input_correct &= self.allResourcesNotRedundant()
+        input_correct &= self.allDwellersNotRedundant()
+        # buildings are never redundant
         return input_correct
 
     def dependenciesSetNameTypedCorrectly(self, updateNameFromInput):
