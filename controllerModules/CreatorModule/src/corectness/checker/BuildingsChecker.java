@@ -75,8 +75,14 @@ public class BuildingsChecker {
 
 	}
 
-	private void checkPredecessorsType(){
-
+	private void checkPredecessorsType(BuildingNode buildingNode) throws CheckException {
+		String buildingType = buildingNode.getBuilding().getType();
+		for(BuildingNode childNode: ((HashMap<String, BuildingNode>) buildingNode.getChildren()).values()){
+			String childType = childNode.getBuilding().getType();
+			if(!buildingType.equals(childType))
+				throw new CheckException("Building " + childNode.getName() + " has type : " + childType + " when its predecessor " + buildingNode.getName() + " has type " + buildingType );
+			checkPredecessorsType(childNode);
+		}
 	}
 
 	public void check() throws CheckException {
@@ -88,7 +94,7 @@ public class BuildingsChecker {
 		checkConsumedResourcesLowerEq(resourcesLvls, buildingsLvls);
 		checkProducedResourcesLowerEq(resourcesLvls,buildingsLvls);
 		checkBuiltResourcesLowerEq(resourcesLvls,buildingsLvls);
-
+		for(BuildingNode buildingNode : dr.getGraphsHolder().getBuildingsGraphs()) checkPredecessorsType(buildingNode);
 	}
 
 	

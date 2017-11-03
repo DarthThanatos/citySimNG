@@ -34,25 +34,24 @@ class BuildingSheet(SheetView):
         self.addToSizerWithSpace(sizer, view)
         self.addToSizerWithSpace(sizer, self.newLine(), alignment=wx.EXPAND)
 
-    def addSubViewsWithSpacesAndLinesToBuildingsCharacteristicsSizer(self, buildings_characteristics_sizer):
-        self.addToViewWithSpaceAndLine(buildings_characteristics_sizer, self.newBuildingTypeHorizontalSizer())
-        self.addToViewWithSpaceAndLine(buildings_characteristics_sizer, self.newResourcesProducedChecker())
-        self.addToViewWithSpaceAndLine(buildings_characteristics_sizer, self.newResourcesConsumedChecker())
 
     def newBuildingCharacteristicsVerticalSizer(self):
         buildingCharacteristicsVerticalSizer = wx.BoxSizer(wx.VERTICAL)
         buildingCharacteristicsVerticalSizer.Add(self.newBasicCharacteristicsVerticalSizer(), 0, wx.CENTER)
         self.addToSizerWithSpace(buildingCharacteristicsVerticalSizer, self.newDwellersHorizontalSizer())
-        self.addSubViewsWithSpacesAndLinesToBuildingsCharacteristicsSizer(buildingCharacteristicsVerticalSizer)
-        self.addToSizerWithSpace(buildingCharacteristicsVerticalSizer, self.newCostInResourcesChecker())
+        self.addToViewWithSpaceAndLine(buildingCharacteristicsVerticalSizer, self.newBuildingTypeHorizontalSizer())
+        self.addToViewWithSpaceAndLine(buildingCharacteristicsVerticalSizer, self.newResourcesConsumedChecker())
+        self.addToViewWithSpaceAndLine(buildingCharacteristicsVerticalSizer, self.newCostInResourcesChecker())
+        self.addToSizerWithSpace(buildingCharacteristicsVerticalSizer, self.newResourcesProducedChecker())
         return buildingCharacteristicsVerticalSizer
 
 
     def newResourcesProducedChecker(self):
-        return self.newNumberFillingChecker(
+        self.resourcesProducedChecker =  self.newNumberFillingChecker(
             "Produced in quantity:",
             "Produced resources",
             Consts.PRODUCES)
+        return self.resourcesProducedChecker
 
     def newCostInResourcesChecker(self):
         return self.newNumberFillingChecker(
@@ -101,5 +100,10 @@ class BuildingSheet(SheetView):
 
     def newBuildingTypeSelector(self):
         self.type_of_building_selector =wx.ComboBox(self, choices=["Industrial", "Domestic"], style=wx.CB_READONLY, value = "Industrial")
+        self.type_of_building_selector.Bind(wx.EVT_TEXT, self.onBuildingTypeChanged)
         self.restorableViews.append(RestorableTypeOfBuilding(self, self.type_of_building_selector))
         return self.type_of_building_selector
+
+    def onBuildingTypeChanged(self, ev):
+        self.resourcesProducedChecker.Show(self.type_of_building_selector.GetValue() == "Industrial")
+
