@@ -45,10 +45,10 @@ class TutorialPageView(wx.Panel):
         self.bottomBtnSizer = wx.BoxSizer(wx.HORIZONTAL)
 
         #all bitmaps for buttons
-        leftArrow = wx.Bitmap(relative_textures_path + "leftBlueArrow.png", wx.BITMAP_TYPE_ANY)
-        rightArrow = wx.Bitmap(relative_textures_path + "rightBlueArrow.png", wx.BITMAP_TYPE_ANY)
-        leftLittleArrow = wx.Bitmap(relative_textures_path + "leftGreenArrow.png", wx.BITMAP_TYPE_ANY)
-        rightLittleArrow = wx.Bitmap(relative_textures_path + "rightGreenArrow.png", wx.BITMAP_TYPE_ANY)
+        leftArrow = wx.Bitmap(relative_textures_path + "new\\arrow_light_small_r.png", wx.BITMAP_TYPE_ANY)
+        rightArrow = wx.Bitmap(relative_textures_path + "new\\arrow_light_small.png", wx.BITMAP_TYPE_ANY)
+        leftLittleArrow = wx.Bitmap(relative_textures_path + "new\\arrow_green_head_small_r.png", wx.BITMAP_TYPE_ANY)
+        rightLittleArrow = wx.Bitmap(relative_textures_path + "new\\arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
         contentsIcon = wx.Bitmap(relative_textures_path + "small_notepad2.png", wx.BITMAP_TYPE_ANY)
         
         #all needed buttons
