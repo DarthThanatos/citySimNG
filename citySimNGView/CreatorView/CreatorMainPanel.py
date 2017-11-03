@@ -8,6 +8,7 @@ import wx
 from wx.lib.scrolledpanel import ScrolledPanel
 
 from CreatorView import Consts, CreatorConfig
+from CreatorView.RedundancyChecker import ResourceRedundancyChecker, BuildingRedundancyChecker, DwellerRedundancyChecker
 from DependenciesSubPanel import DependenciesSubPanel
 from GraphsSpaces import GraphsSpaces
 from RelativePaths import relative_dependencies_path, relative_textures_path
@@ -88,21 +89,24 @@ class CreatorMainPanel(ScrolledPanel):
         self.chosenSetSizer.Add(self.newNameInput())
         return self.chosenSetSizer
 
-    def newSubPanel(self, panelName, displayedEntitiesNames):
-       subpanel = DependenciesSubPanel(self, panelName, displayedEntitiesNames, self.frame, self.current_dependencies)
+    def newSubPanel(self, panelName, displayedEntitiesNames, redundancyChecker):
+       subpanel = DependenciesSubPanel(self, panelName, displayedEntitiesNames, self.frame, self.current_dependencies, redundancyChecker)
        self.subpanels.append(subpanel)
        return subpanel
 
     def newResourcesSubpanel(self):
-        self.resourcesDependenciesSubPanel = self.newSubPanel(Consts.RESOURCES, self.getCurrentResourcesNames())
+        redundancyChecker = ResourceRedundancyChecker(self)
+        self.resourcesDependenciesSubPanel = self.newSubPanel(Consts.RESOURCES, self.getCurrentResourcesNames(), redundancyChecker)
         return self.resourcesDependenciesSubPanel
 
     def newBuildingsSubpanel(self):
-        self.buildingsDependenciesSubPanel = self.newSubPanel(Consts.BUILDINGS, self.getCurrentBuildingsNames())
+        redundancyChecker = BuildingRedundancyChecker(self)
+        self.buildingsDependenciesSubPanel = self.newSubPanel(Consts.BUILDINGS, self.getCurrentBuildingsNames(), redundancyChecker)
         return self.buildingsDependenciesSubPanel
 
     def newDwellersSubpanel(self):
-        self.dwellersDependenciesSubPanel = self.newSubPanel(Consts.DWELLERS, self.getCurrentDwellersNames())
+        redundancyChecker = DwellerRedundancyChecker(self)
+        self.dwellersDependenciesSubPanel = self.newSubPanel(Consts.DWELLERS, self.getCurrentDwellersNames(), redundancyChecker)
         return self.dwellersDependenciesSubPanel
 
     def newDependenciesSubPanelsVerticalSizer(self):
@@ -259,7 +263,7 @@ class CreatorMainPanel(ScrolledPanel):
     def onShow(self, event):
         OnShowUtil().onCreatorPanelShow(self, event)
 
-    def createFileSelectionDialog(self, dir = relative_textures_path, msg ="Choose an image", wildcard ="*.png|*.jpg"):
+    def createFileSelectionDialog(self, dir = relative_textures_path, msg ="Choose an image", wildcard ="*.png;*.jpg"):
         return wx.FileDialog(
             self,
             defaultDir=dir, #"..\\..\\resources\\Textures\\",
@@ -348,24 +352,27 @@ class CreatorMainPanel(ScrolledPanel):
         self.current_dependencies[Consts.TEXTURE_ONE] = CreatorConfig.TEXTURE_ONE_DEFAULT_NAME
         self.current_dependencies[Consts.TEXTURE_TWO] = CreatorConfig.TEXTURE_TWO_DEFAULT_NAME
         self.current_dependencies[Consts.PANEL_TEXTURE] = CreatorConfig.PANEL_TEXURE_DEFAULT_NAME
-        self.graphsSpaces.resetViewFromJSON(
-            {
-                Consts.DWELLERS:[],
-                Consts.BUILDINGS:[],
-                Consts.RESOURCES:[]
-            }
-        )
 
-    def clean(self, event):
+    def clean(self, event = None, msg = "Restored default settings"):
         self.restoreDefaultCurrentDepsValues()
-        self.resetContents("Restored default settings")
+        self.resetContents(msg)
 
-    def resetContents(self, logMsg = None):
+    def resetContents(self, logMsg = None, cleanGraph = True):
         self.dependenciesSetNameInput.SetValue(self.current_dependencies[Consts.SET_NAME])
         self.updateTextureOne()
         self.updateTextureTwo()
         self.updateMapPanelTexture()
         self.refreshSubPanels()
+        self.musicNameST.SetLabelText(self.current_dependencies[Consts.MP3])
+        if cleanGraph:
+            self.graphsSpaces.resetViewFromJSON(
+                {
+                    Consts.DWELLERS:[],
+                    Consts.BUILDINGS:[],
+                    Consts.RESOURCES:[]
+                }
+            )
+
         if logMsg is not None: self.logArea.SetValue(logMsg)
 
     def getCurrentBuildingsNames(self):

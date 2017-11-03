@@ -2,6 +2,8 @@ import json
 
 from wx import wx
 
+from utils.LogMessages import WELCOME_MSG
+
 
 class CreatorViewModel(object):
 
@@ -9,6 +11,7 @@ class CreatorViewModel(object):
         self.viewSetter = viewSetter
 
     def displayCreator(self):
+        wx.CallAfter(self.viewSetter.getView("Creator").views["main_panel"].clean, None, WELCOME_MSG)
         wx.CallAfter(self.viewSetter.setView, "Creator")
 
     def displayDependenciesGraph(self, jsonGraph):

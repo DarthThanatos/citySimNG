@@ -2,6 +2,7 @@ from uuid import uuid4
 
 import wx
 
+from CreatorView import Consts
 from CreatorView.GraphsSpaces import GraphsSpaces
 from utils import LogMessages
 from utils.ButtonsFactory import ButtonsFactory
@@ -135,6 +136,12 @@ class LoaderView(ScrolledPanel):
 
     def onShow(self, event):
         OnShowUtil().switch_music_on_show_changed(event,self.musicPath)
-
+        self.graphsSpaces.resetViewFromJSON(
+            {
+                Consts.DWELLERS: [],
+                Consts.BUILDINGS: [],
+                Consts.RESOURCES: []
+            }
+        )
     def readMsg(self, msg):
         LoaderMsgReader(self).reactOnMsg(msg)

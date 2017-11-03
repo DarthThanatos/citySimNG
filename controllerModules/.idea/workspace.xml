@@ -42,9 +42,22 @@
       <file leaf-file-name="CreatorPy4JNode.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CreatorModule/src/creatornode/CreatorPy4JNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="635">
+            <state relative-caret-position="385">
               <caret line="141" column="40" lean-forward="false" selection-start-line="141" selection-start-column="40" selection-end-line="141" selection-end-column="40" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Building.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/SkeletonModule/src/entities/Building.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="578">
+              <caret line="176" column="45" lean-forward="false" selection-start-line="176" selection-start-column="45" selection-end-line="176" selection-end-column="45" />
+              <folding>
+                <element signature="e#3053#3054#0" expanded="true" />
+                <element signature="e#3082#3083#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -52,7 +65,7 @@
       <file leaf-file-name="CreatorData.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SkeletonModule/src/py4jmediator/CreatorData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
+            <state relative-caret-position="119">
               <caret line="15" column="27" lean-forward="false" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
               <folding>
                 <element signature="e#561#562#0" expanded="true" />
@@ -70,7 +83,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MapPresenter.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MapPresenter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SkeletonModule/src/py4jmediator/MapPresenter.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="689">
@@ -85,7 +98,7 @@
       <file leaf-file-name="ViewModel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SkeletonModule/src/py4jmediator/ViewModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="366">
+            <state relative-caret-position="289">
               <caret line="27" column="97" lean-forward="false" selection-start-line="27" selection-start-column="97" selection-end-line="27" selection-end-column="97" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -128,7 +141,7 @@
       <file leaf-file-name="MapPy4JNode.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MapModule/src/mapnode/MapPy4JNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="536">
+            <state relative-caret-position="850">
               <caret line="64" column="32" lean-forward="false" selection-start-line="64" selection-start-column="32" selection-end-line="64" selection-end-column="32" />
               <folding />
             </state>
@@ -150,16 +163,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="442">
               <caret line="38" column="34" lean-forward="false" selection-start-line="38" selection-start-column="34" selection-end-line="38" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Resource.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SkeletonModule/src/entities/Resource.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="697">
-              <caret line="61" column="24" lean-forward="false" selection-start-line="61" selection-start-column="24" selection-end-line="61" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -1337,7 +1340,6 @@
         <option value="$PROJECT_DIR$/SkeletonModule/src/graph/GraphsHolder.java" />
         <option value="$PROJECT_DIR$/SkeletonModule/src/constants/Consts.java" />
         <option value="$PROJECT_DIR$/SkeletonModule/src/entities/Resource.java" />
-        <option value="$PROJECT_DIR$/SkeletonModule/src/entities/Building.java" />
         <option value="$PROJECT_DIR$/SkeletonModule/src/entities/Dweller.java" />
         <option value="$PROJECT_DIR$/SkeletonModule/src/utils/CollectionConcatenationUtils.java" />
         <option value="$PROJECT_DIR$/SkeletonModule/src/utils/DisposingUtils.java" />
@@ -1361,10 +1363,11 @@
         <option value="$PROJECT_DIR$/MapModule/src/mapnode/MapPy4JNode.java" />
         <option value="$PROJECT_DIR$/SkeletonModule/src/py4jmediator/MapPresenter.java" />
         <option value="$PROJECT_DIR$/SkeletonModule/src/py4jmediator/ViewModel.java" />
+        <option value="$PROJECT_DIR$/SkeletonModule/src/entities/Building.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-7" />
     <option name="width" value="974" />
     <option name="height" value="1047" />
@@ -1384,8 +1387,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -1502,6 +1503,8 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="AndroidView" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -1625,7 +1628,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1818,7 +1822,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="28" lean-forward="false" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1874,10 +1877,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="12" column="36" lean-forward="false" selection-start-line="12" selection-start-column="36" selection-end-line="12" selection-end-column="36" />
-          <folding>
-            <element signature="e#323#324#0" expanded="false" />
-            <element signature="e#359#360#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1945,17 +1944,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="41" column="8" lean-forward="false" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
-          <folding>
-            <marker date="1509635396036" expanded="false" signature="980:988" ph="&lt;~&gt;" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SkeletonModule/src/entities/Building.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="157" column="25" lean-forward="false" selection-start-line="157" selection-start-column="25" selection-end-line="157" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2031,7 +2019,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SkeletonModule/src/py4jmediator/CreatorData.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
+        <state relative-caret-position="119">
           <caret line="15" column="27" lean-forward="false" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
           <folding>
             <element signature="e#561#562#0" expanded="true" />
@@ -2048,14 +2036,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CreatorModule/src/creatornode/CreatorPy4JNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="635">
-          <caret line="141" column="40" lean-forward="false" selection-start-line="141" selection-start-column="40" selection-end-line="141" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SkeletonModule/src/constants/CreatorConfig.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -2066,7 +2046,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MapModule/src/mapnode/MapPy4JNode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="536">
+        <state relative-caret-position="850">
           <caret line="64" column="32" lean-forward="false" selection-start-line="64" selection-start-column="32" selection-end-line="64" selection-end-column="32" />
           <folding />
         </state>
@@ -2074,7 +2054,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SkeletonModule/src/py4jmediator/ViewModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
+        <state relative-caret-position="289">
           <caret line="27" column="97" lean-forward="false" selection-start-line="27" selection-start-column="97" selection-end-line="27" selection-end-column="97" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -2088,6 +2068,25 @@
           <caret line="114" column="7" lean-forward="false" selection-start-line="114" selection-start-column="7" selection-end-line="114" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CreatorModule/src/creatornode/CreatorPy4JNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="385">
+          <caret line="141" column="40" lean-forward="false" selection-start-line="141" selection-start-column="40" selection-end-line="141" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SkeletonModule/src/entities/Building.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="176" column="45" lean-forward="false" selection-start-line="176" selection-start-column="45" selection-end-line="176" selection-end-column="45" />
+          <folding>
+            <element signature="e#3053#3054#0" expanded="true" />
+            <element signature="e#3082#3083#0" expanded="true" />
           </folding>
         </state>
       </provider>

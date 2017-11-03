@@ -177,6 +177,8 @@ public class Building {
 				+ "\n=====================\n"
 				+ "Type: " + type + "\n"
 				+ "\n=====================\n"
+				+ "Dweller living here: " + dwellersName + "\n"
+				+ "\n=====================\n"
 				+ "Produces: \n" + CollectionConcatenationUtils.filteredMapToString(produces)
 				+ "\n=====================\n"
 				+ "Consumes: \n" + CollectionConcatenationUtils.filteredMapToString(consumes)

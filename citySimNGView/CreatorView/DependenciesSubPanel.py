@@ -4,7 +4,7 @@ from utils.ButtonsFactory import ButtonsFactory
 
 
 class DependenciesSubPanel(wx.Panel):
-    def __init__(self, parent, partName, choices, frame, currentDependencies):
+    def __init__(self, parent, partName, choices, frame, currentDependencies, redundancyChecker):
         wx.Panel.__init__(self, parent = parent)
         self.frame = frame
         self.currentDependencies = currentDependencies
@@ -12,6 +12,7 @@ class DependenciesSubPanel(wx.Panel):
         self.choices = choices
         self.parent = parent
         self.partName = partName
+        self.redundancyChecker = redundancyChecker
         self.initRootSizer()
 
     def newDescription(self):
@@ -65,16 +66,19 @@ class DependenciesSubPanel(wx.Panel):
         index = self.entities_names_listbox.GetSelection()
         if not index == -1: self.onDeleteItemSelected(index)
         else: self.onDeleteItemNotSelected()
-        self.parent.resetContents()
 
     def onDeleteItemNotSelected(self):
         self.parent.logArea.SetValue("Please, select element to be removed from " + self.partName + " first")
 
     def onDeleteItemSelected(self, index):
         removed_element = self.entities_names_listbox.GetStringSelection()
+        result_struct = self.redundancyChecker.newResultStruct()
+        if not self.redundancyChecker.checkIfRedundant(removed_element, result_struct):
+            self.parent.resetContents(result_struct["ErrorMsg"], False)
+            return
         self.entities_names_listbox.Delete(index)
         self.currentDependencies[self.partName].__delitem__(removed_element)
-        self.parent.logArea.SetValue("Successfully removed " + removed_element)
+        self.parent.resetContents("Successfully removed " + removed_element, True)
 
     def onEdit(self, event):
         edited_element = self.entities_names_listbox.GetStringSelection()

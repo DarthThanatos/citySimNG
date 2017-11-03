@@ -1,6 +1,7 @@
 import json
 import traceback
 
+from CreatorView import Consts
 from utils.LogMessages import WELCOME_MSG
 
 
@@ -43,11 +44,7 @@ class DependenciesFileLoader(object):
         self.creator_view.logArea.SetValue(errorMsg)
 
     def onLoadedCorrectContent(self):
-        # we're good, just reload view and praise the Lord
-        self.creator_view.resetContents(WELCOME_MSG)
-        msg = "Dependencies loaded successfully!"
-        self.creator_view.logArea.SetLabelText(msg)
-
+        self.creator_view.resetContents("Dependencies loaded successfully!")
 
     def loadDependenciesFileContentToDict(self, dependency_file):
         dependency_content = dependency_file.read().replace("u'", "'").replace("'", "\"")

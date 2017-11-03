@@ -2,6 +2,8 @@ import traceback
 
 from wx import wx
 
+from CreatorView import Consts
+
 
 class OnShowUtil(object):
 
@@ -18,21 +20,16 @@ class OnShowUtil(object):
                 pygame.mixer.music.play()
             except Exception:
                 print "Problem with music"
-        # else:
-        #     try:
-        #         pygame.quit()
-        #     except Exception:
-        #         pass
 
     def onCreatorPanelShow(self, view, event):
         if event.GetShow():
-            view.resetContents()
-            if not view.wakeUpData == None:
-                try:
-                    view.logArea.SetValue(view.wakeUpData["Log"])
-                except:
-                    pass #no need to panic
-                view.wakeUpData = None
+            if view.wakeUpData is not None:
+                log_content = view.wakeUpData["Log"] if "Log" in view.wakeUpData else None
+                cleanGraph = view.wakeUpData["CleanGraph"] if "CleanGraph" in view.wakeUpData else True
+                view.resetContents(log_content, cleanGraph)
+            else:
+                view.resetContents()
+            view.wakeUpData = None
 
 
     def onCreatorSheetShow(self, sheetView, event):

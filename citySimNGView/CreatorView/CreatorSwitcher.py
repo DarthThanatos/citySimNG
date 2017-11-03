@@ -5,8 +5,7 @@ from DwellersSheet import  DwellersSheet
 from ResourceSheet import ResourceSheet
 from BuildingSheet import  BuildingSheet
 from CreatorMainPanel import CreatorMainPanel
-from RelativePaths import relative_music_path,relative_dependencies_path
-from utils.LogMessages import WELCOME_MSG
+from RelativePaths import relative_music_path
 from utils.OnShowUtil import OnShowUtil
 
 

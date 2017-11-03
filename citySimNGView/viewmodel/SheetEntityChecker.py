@@ -47,26 +47,22 @@ class SheetEntityChecker(object):
     def getSuccessorName(self):
         return self.sheet_view.successorSelector.GetStringSelection()
 
-    def relationshipBetweenEntititesCorrect(self, result_struct, entityOneName, entityTwoName, relationshipType):
-        if entityOneName == entityTwoName :
-            result_struct["ErrorMsg"] += "-> " + entityOneName + " cannot be its own " + relationshipType + "\n"
+    def successorCorrect(self, result_struct):
+        if not self.getSuccessorName() in (self.getAllSheetEntitieNames()  + ["None"]):
+            result_struct["ErrorMsg"] += "-> Successor must be one of " + self.sheet_view.sheet_name + "\n"
             return False
         return True
 
-    def successorAndPredeccessorRelationshipCorrect(self, result_struct):
-        if self.getSuccessorName() == self.getPredecessorName() and self.getSuccessorName() != "None":
-            result_struct["ErrorMsg"] += "-> Predecessor and Successor cannot be the same (both can be None though)\n"
+
+    def predecessorCorrect(self, result_struct):
+        if not self.getPredecessorName() in (self.getAllSheetEntitieNames() + ["None"]):
+            result_struct["ErrorMsg"] += "-> Predecessor must be one of " + self.sheet_view.sheet_name + "\n"
             return False
         return True
 
     def checkAndDumpPredAndSucc(self, result_struct):
-        correct = self.successorAndPredeccessorRelationshipCorrect(result_struct)
-        correct &= self.relationshipBetweenEntititesCorrect(
-            result_struct, self.getEntityName(), self.getSuccessorName(), relationshipType=Consts.SUCCESSOR
-        )
-        correct &= self.relationshipBetweenEntititesCorrect(
-            result_struct, self.getEntityName(), self.getPredecessorName(), relationshipType=Consts.PREDECESSOR
-        )
+        correct = self.successorCorrect(result_struct)
+        correct &= self.predecessorCorrect(result_struct)
         if correct: self.onSuccAndPredCheckCorrect(result_struct)
         return correct
 

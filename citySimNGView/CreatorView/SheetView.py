@@ -209,7 +209,7 @@ class SheetView(ScrolledPanel):
             self,
             defaultDir= relative_textures_path, #"..\\..\\resources\\Textures\\",
             message="Choose an image",
-            wildcard="*.png|*.jpg",
+            wildcard="*.png;*.jpg",
             style=wx.FD_OPEN
         )
 
@@ -220,7 +220,7 @@ class SheetView(ScrolledPanel):
             self.imageBitmap.SetBitmap(wx.BitmapFromImage(self.newScaledImg(path)))
 
     def moveToMainPanel(self,event):
-        self.frame.showPanel("main_panel",initDataForSearchedPanel=None)
+        self.frame.showPanel("main_panel",initDataForSearchedPanel={"CleanGraph": False})
 
     def restoreRestorables(self, edit_element_name):
         for restorableView in self.restorableViews:
