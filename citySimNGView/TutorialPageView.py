@@ -29,15 +29,12 @@ class TutorialPageView(wx.Panel):
         self.contentField.SetValue(self.tutorialContent[self.subPage])
 
         self.tutorialPageFont = wx.Font(20, wx.DECORATIVE, wx.NORMAL, wx.NORMAL, False, "resources\\Fonts\\18cents\\18cents.ttf")
-
-
         self.contentField.SetFont(self.tutorialPageFont)
 
         self.maxNrOfHyperlinks = 10
         self.hyperlinkCtrls = []
         self.hyperlinks = []
         
-
         self.centerSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.rightSizer = wx.BoxSizer(wx.VERTICAL)
         self.leftSizer = wx.BoxSizer(wx.VERTICAL)
@@ -128,18 +125,16 @@ class TutorialPageView(wx.Panel):
         self.subPage += 1
         if self.subPage >= self.nrOfSubpages:
             self.subPage = 0
-        subPageName = "sub" + str(self.subPage)
-        subPageContent = self.tutorialContent[subPageName]
-        subPageString = ""
-        for x in subPageContent:
-            subPageString +=  x
-            subPageString += "\n"
-        self.contentField.SetValue(subPageString)
+        self.changeSubPage()
+        
 
     def prevSubPage(self, event):
         self.subPage -= 1;
         if self.subPage < 0:
             self.subPage = self.nrOfSubpages-1
+        self.changeSubPage()
+
+    def changeSubPage(self):
         subPageName = "sub" + str(self.subPage)
         subPageContent = self.tutorialContent[subPageName]
         subPageString = ""
@@ -157,12 +152,9 @@ class TutorialPageView(wx.Panel):
         self.hyperlinksBox.Add(hyperlinksLabel)
 
         for i in range(self.maxNrOfHyperlinks):  
-            #hyperLabel ="link"+str(i)
             hyperlink =wx.HyperlinkCtrl(self, id=i, label="", url="")
-            #hyperlink.AutoBrowse(False)
             hyperlink.SetFont(hyperlinksFont)
             self.hyperlinkCtrls.append(hyperlink)
-
             space = wx.StaticText(self, label="\t")
 
             self.hyperlinksBox.Add(hyperlink)
@@ -170,7 +162,6 @@ class TutorialPageView(wx.Panel):
         self.leftSizer.Add(self.hyperlinksBox)
 
     def updateHyperlinksAndImg(self):
-        #self.hyperlinksBox.Hide()
         for i in range(len(self.hyperlinks)):
             child = self.hyperlinkCtrls[i]
             child.SetLabel(self.hyperlinks[i]['label'])
@@ -180,7 +171,6 @@ class TutorialPageView(wx.Panel):
             child = self.hyperlinkCtrls[i]
             child.SetLabel("")
             child.SetId(-100)
-        #self.hyperlinksBox.Show()
         self.helperBitmap.SetBitmap(wx.BitmapFromImage(self.helperImg))
         self.Bind(wx.EVT_BUTTON, self.parent.showPageView, self.leftArrowBtn)
         self.Bind(wx.EVT_BUTTON, self.parent.showPageView, self.rightArrowBtn)
@@ -207,21 +197,4 @@ class TutorialPageView(wx.Panel):
             except Exception:
                 # print "menu: problem with pygame quit"
                 pass
-
-   
-
-    def initMenuBar(self):
-        status = self.CreateStatusBar()
-        menuBar = wx.MenuBar()
-
-        first = wx.Menu()
-        second = wx.Menu()
-
-        first.Append(wx.NewId(), "New window", "This is a new Window")
-        first.Append(wx.NewId(), "Open...", "This will open a new Window")
-
-        menuBar.Append(first, "File")
-        menuBar.Append(second, "Edit")
-
-        self.SetMenuBar(menuBar)
 

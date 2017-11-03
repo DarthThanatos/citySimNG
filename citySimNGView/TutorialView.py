@@ -1,6 +1,5 @@
 import json
 #import traceback
-
 import wx
 
 from CreatorView.GraphsSpaces import GraphsSpaces
@@ -11,16 +10,13 @@ from utils.RelativePaths import relative_music_path, relative_textures_path, rel
 class TutorialView(wx.Panel):
     def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):
         #ScrolledPanel.__init__(self, size=size, parent=parent, style=wx.SIMPLE_BORDER)
-        wx.Panel.__init__(self, size=size, parent=parent)
-        #TODO 
-        
+        wx.Panel.__init__(self, size=size, parent=parent)        
         self.name = name
         self.sender = sender
 
         self.size = size
         self.musicPath = musicPath
 
-        #self.showGraph()
         #self.SetBackgroundColour((255, 255, 255))
         self.pageID = 0
         self.nrOfPages = 3
@@ -32,7 +28,6 @@ class TutorialView(wx.Panel):
         self.setName = ""
         self.centerSizer = wx.BoxSizer(wx.VERTICAL)
 
-        #self.ctrlMsgField = wx.StaticText(self, label=self.tutorial_info[self.pageID])
         headerImg = wx.Image(relative_textures_path + "Tutorial.png", wx.BITMAP_TYPE_ANY)
         headerBitmap = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(headerImg))
         
@@ -57,7 +52,6 @@ class TutorialView(wx.Panel):
                 'id': 3
             },
         ]
-        #ponizej graf zaleznosci - skierowany
 
         #page view
         self.pageView = TutorialPageView(self, size, "Tutorial Page")
@@ -96,6 +90,22 @@ class TutorialView(wx.Panel):
         #         # print "menu: problem with pygame quit"
         #         pass
 
+    def addListElem(self, box, font, arrow, i):
+        elemField = wx.StaticText(self, label=self.content[i]['name'])
+        elemID = self.content[i]['id']
+        elemField.SetFont(font)
+        arrowButton = wx.Button(self, id=elemID, label="  ", 
+            size=(arrow.GetWidth()+10, arrow.GetHeight()+5))
+        arrowButton.SetBitmap(arrow)
+        self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton)
+        tmpBox = wx.BoxSizer(wx.HORIZONTAL)
+        tmpBox.Add(elemField, 0, wx.CENTER)
+        tmpBox.AddSpacer(10)
+        tmpBox.Add(arrowButton,0, wx.CENTER)
+        box.Add(tmpBox)
+        box.AddSpacer(20)
+
+
     def initContentList(self):
         """ This function creates content list and buttons, sets theirs positions and size and
             binds logic to them."""
@@ -103,42 +113,18 @@ class TutorialView(wx.Panel):
         rightBox = wx.BoxSizer(wx.VERTICAL)
         contentBox = wx.BoxSizer(wx.HORIZONTAL)
 
-        contentSize = len(self.content)
-        contentHalf = contentSize // 2 + 1
         listFont = self.tutorialFont
         listFont.SetPointSize(18)
-
         arrow = wx.Bitmap(relative_textures_path+"new\\arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
-        for i in range(contentHalf):
-            elemField = wx.StaticText(self, label=self.content[i]['name'])
-            elemID = self.content[i]['id']
-            elemField.SetFont(listFont)
-            arrowButton = wx.Button(self, id=elemID, label="  ", 
-                size=(arrow.GetWidth()+10, arrow.GetHeight()+5))
-            arrowButton.SetBitmap(arrow)
-            self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton)
-            tmpBox = wx.BoxSizer(wx.HORIZONTAL)
-            tmpBox.Add(elemField, 0, wx.CENTER)
-            tmpBox.AddSpacer(10)
-            tmpBox.Add(arrowButton,0, wx.CENTER)
-            leftBox.Add(tmpBox)
-            leftBox.AddSpacer(20)
 
-        
+        contentSize = len(self.content)
+        contentHalf = contentSize // 2 + 1
+        for i in range(contentHalf):
+            self.addListElem(leftBox, listFont, arrow, i)
+
         for i in range(contentHalf, contentSize):
-            elemField = wx.StaticText(self, label=self.content[i]['name'])
-            elemID = self.content[i]['id']
-            elemField.SetFont(listFont)
-            arrowButton = wx.Button(self, id=elemID, label="  ", 
-                size=(arrow.GetWidth()+10, arrow.GetHeight()+5))
-            arrowButton.SetBitmap(arrow)
-            self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton)
-            tmpBox = wx.BoxSizer(wx.HORIZONTAL)
-            tmpBox.Add(elemField, 0, wx.CENTER)
-            tmpBox.AddSpacer(10)
-            tmpBox.Add(arrowButton,0, wx.CENTER)
-            rightBox.Add(tmpBox)
-            rightBox.AddSpacer(20)
+            self.addListElem(rightBox, listFont, arrow, i)
+
         contentBox.Add(leftBox)
         contentBox.AddSpacer(50)
         contentBox.Add(rightBox)
@@ -161,68 +147,45 @@ class TutorialView(wx.Panel):
         elif realPageID <= 0:
             realPageID = self.nrOfPages
         self.sender.entry_point.getTutorialPresenter().fetchTutorialPage(realPageID)
-    
 
     def retToMenu(self, event):
         """ This function returns to Menu view """
         self.sender.entry_point.getTutorialPresenter().returnToMenu()
-
-    def initMenuBar(self):
-        status = self.CreateStatusBar()
-        menuBar = wx.MenuBar()
-
-        first = wx.Menu()
-        second = wx.Menu()
-
-        first.Append(wx.NewId(), "New window", "This is a new Window")
-        first.Append(wx.NewId(), "Open...", "This will open a new Window")
-
-        menuBar.Append(first, "File")
-        menuBar.Append(second, "Edit")
-
-        self.SetMenuBar(menuBar)
 
     def displayDependenciesGraph(self, jsonGraph):
         self.graphsSpaces.resetViewFromJSON(jsonGraph["Args"])
         self.centerSizer.Layout()
 
     def displayTutorialPage(self, jsonPage):
-         pageContent = []
-         args = jsonPage["Args"]["Page"]["page"]
-         for x in args:
-            subpageContent =[]
-            subpageContent.append(x)    
-            pageContent.append(subpageContent)
-            pageContentString = pageContent[0][0]
-            self.pageView.tutorialContent = pageContentString
-            firstSubPage = pageContentString["sub0"]
-            firstSubPageContent = ""
-            for x in firstSubPage:
-                firstSubPageContent += x
-                firstSubPageContent += "\n"
-            self.pageView.contentField.SetValue(firstSubPageContent)
+        pageContentString = jsonPage["Args"]["Page"]["page"]
+        self.pageView.tutorialContent = pageContentString
+        firstSubPage = pageContentString["sub0"]
+        firstSubPageContent = ""
+        for x in firstSubPage:
+            firstSubPageContent += x
+            firstSubPageContent += "\n"
+        self.pageView.contentField.SetValue(firstSubPageContent)
 
-            hyperlinks = pageContentString["link"]
-            self.pageView.hyperlinks = hyperlinks
+        hyperlinks = pageContentString["link"]
+        self.pageView.hyperlinks = hyperlinks
 
-            image = wx.Image(pageContentString["img"], wx.BITMAP_TYPE_ANY)
-            imgWidth = self.size[0] //2
-            imgHeight = self.size[1]
-            if imgWidth < image.GetWidth():
-                #print "scale according to width"
-                ratio = float(image.GetWidth()) / float(imgWidth)
-                imgHeight = float(imgHeight) / ratio
-                image.Rescale(imgWidth, int(imgHeight))
-            if imgHeight < image.GetHeight():
-                #print "scale according to height"
-                ratio = float(image.GetHeight()) / float(imgHeight)
-                imgWidth = float(imgWidth) / float(ratio)
-                image.Rescale(int(imgWidth), imgHeight)
-                
-            self.pageView.helperImg = image
-            self.pageView.subPage = 0
-            self.pageView.nrOfSubpages = 2 #zmienic na len!!!
-            self.pageView.page = pageContentString["nr"]
-            self.pageView.updateHyperlinksAndImg()
+        image = wx.Image(pageContentString["img"], wx.BITMAP_TYPE_ANY)
+        imgWidth = self.size[0] //2
+        imgHeight = self.size[1]
+
+        if imgWidth < image.GetWidth():
+            ratio = float(image.GetWidth()) / float(imgWidth)
+            imgHeight = float(imgHeight) / ratio
+            image.Rescale(imgWidth, int(imgHeight))
+        if imgHeight < image.GetHeight():
+            ratio = float(image.GetHeight()) / float(imgHeight)
+            imgWidth = float(imgWidth) / float(ratio)
+            image.Rescale(int(imgWidth), imgHeight)
+            
+        self.pageView.helperImg = image
+        self.pageView.subPage = 0
+        self.pageView.nrOfSubpages = len(pageContentString) - 3
+        self.pageView.page = pageContentString["nr"]
+        self.pageView.updateHyperlinksAndImg()
 
     
