@@ -5,7 +5,11 @@ import entities.Building;
 public class BuildingNode extends GraphNode{
 
 	private Building building;
-	
+
+	public Building getBuilding() {
+		return building;
+	}
+
 	public BuildingNode(Building building) {
 		this.building = building;
 	}

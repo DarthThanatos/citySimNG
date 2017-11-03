@@ -36,7 +36,7 @@ public class GraphsHolder {
 		return displayRepresentation;
 	}
 	
-	public JSONObject displayRecursively(GraphNode node){
+	private JSONObject displayRecursively(GraphNode node){
 		JSONArray children = new JSONArray();
 		for (Object childObj : node.getChildren().values()){
 			GraphNode child = (GraphNode) childObj;
@@ -51,7 +51,7 @@ public class GraphsHolder {
 		return nodeDisplayRepresentation;
 	}
 	
-	public JSONArray displayBuildingsGraphs(){
+	private JSONArray displayBuildingsGraphs(){
 		JSONArray buildingsDisplayRepresentations = new JSONArray();
 		for (BuildingNode buildingNode : buildingsGraphs){
 			JSONObject rootRepresentation = displayRecursively(buildingNode);
@@ -60,7 +60,7 @@ public class GraphsHolder {
 		return buildingsDisplayRepresentations;
 	}
 	
-	public JSONArray displayResourcesGraphs(){
+	private JSONArray displayResourcesGraphs(){
 		JSONArray resourcesDisplayRepresentations = new JSONArray();
 		for (ResourceNode resourceNode : resourcesGraphs){
 			JSONObject rootRepresentation = displayRecursively(resourceNode);
@@ -69,7 +69,7 @@ public class GraphsHolder {
 		return resourcesDisplayRepresentations;
 	}
 	
-	public JSONArray displayDwellersGraphs(){
+	private JSONArray displayDwellersGraphs(){
 		JSONArray dwellersDisplayRepresentations = new JSONArray();
 		for (DwellerNode dwellerNode : dwellersGraphs){
 			JSONObject rootRepresentation = displayRecursively(dwellerNode);

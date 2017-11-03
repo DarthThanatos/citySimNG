@@ -64,8 +64,8 @@ class ResourceRedundancyChecker(RedundancyChecker):
             return False
         return True
 
-    def checkIfRedundant(self, entity, result_struct):
-        redundant = self.checkResourceIsNoPredecessor(entity, result_struct)
+    def checkIfRedundant(self, entity, result_struct, check_predecessor = True):
+        redundant = self.checkResourceIsNoPredecessor(entity, result_struct) if check_predecessor else True
         redundant &= self.checkResourceIsNotProducedByBuildings(entity, result_struct)
         redundant &= self.checkResourceNotCostBuildings(entity, result_struct)
         redundant &= self.checkResourceIsNotConsumedByBuildings(entity, result_struct)
@@ -81,8 +81,8 @@ class BuildingRedundancyChecker(RedundancyChecker):
             return False
         return True
 
-    def checkIfRedundant(self, entity, result_struct):
-        return self.checkIfBuildingIsNoPredecessor(entity, result_struct)
+    def checkIfRedundant(self, entity, result_struct, checkPredecessor = True):
+        return self.checkIfBuildingIsNoPredecessor(entity, result_struct) if checkPredecessor else False
 
 class DwellerRedundancyChecker(RedundancyChecker):
 
@@ -101,7 +101,7 @@ class DwellerRedundancyChecker(RedundancyChecker):
                 return False
         return True
 
-    def checkIfRedundant(self, entity, result_struct):
-        redundant = self.checkIfDwellerIsNoPredecessor(entity, result_struct)
+    def checkIfRedundant(self, entity, result_struct, checkPredecessor = True):
+        redundant = self.checkIfDwellerIsNoPredecessor(entity, result_struct) if checkPredecessor else True
         redundant &= self.checkIfDwellerHasNoBuilding(entity, result_struct)
         return redundant

@@ -1,5 +1,6 @@
 package dependencies.graph.monter;
 
+import corectness.checker.CyclesChecker;
 import entities.Building;
 import entities.Dweller;
 import entities.Resource;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import graph.ResourceNode;
 import model.DependenciesRepresenter;
 
 import org.json.JSONArray;
@@ -26,7 +28,11 @@ public class DwellersMonter extends GraphMonter{
 	private JSONArray dwellersGraphDesc;
 	private HashMap<String, DwellerNode> dwellerVertices;
 	private DependenciesRepresenter dr;
-	
+
+	public HashMap<String, DwellerNode> getDwellerVertices() {
+		return dwellerVertices;
+	}
+
 	public DwellersMonter(List<Dweller> dwellers, DependenciesRepresenter dr){
 		this.dwellersGraphDesc = listToJSONArray(dwellers);
 		this.dr = dr;
@@ -97,12 +103,11 @@ public class DwellersMonter extends GraphMonter{
 	
 
 	public void mountDependendenciesGraph() throws CheckException{
-		DwellersChecker dwellersChecker = new DwellersChecker(dwellersGraphDesc, dwellerVertices);
-		dwellersChecker.check();
-		System.out.println("Dwellerts: ");
+		new CyclesChecker(dwellersGraphDesc, Consts.DWELLER_NAME).check();
 		mountGraph(dwellerVertices);
 		dr.getGraphsHolder().setDwellersGraphs(rootsList);
 		dr.getGraphsHolder().setDwellersVertices(dwellerVertices);
+		new DwellersChecker(dr).check();
 	}
 	
 }

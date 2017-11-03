@@ -7,15 +7,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class GraphMonter {
+class GraphMonter {
 
 	List rootsList;
 	
-	public GraphMonter(){
+	GraphMonter(){
 		rootsList = new ArrayList<>();
 	}
 	
-	public void mountGraph(HashMap<String,? extends GraphNode> vertices){
+	void mountGraph(HashMap<String, ? extends GraphNode> vertices){
 		for (String vertexName: vertices.keySet()){
 			GraphNode vertex = vertices.get(vertexName);
 			String predeccessorName = vertex.getPredeccessorName();

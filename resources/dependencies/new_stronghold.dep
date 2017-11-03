@@ -1,4 +1,8 @@
 {
+    "Texture One": "Grass.png",
+ 
+    "MP3": "TwoMandolins.mp3",
+ 
     "Buildings": {
         "kamieniolom": {
             "Predecessor": "None",
@@ -30,6 +34,68 @@
             "Successor": "None"
         },
  
+        "Largest house": {
+            "Predecessor": "Bigger House",
+ 
+            "Description": "sad",
+ 
+            "Produces": {
+                "Gold": 2
+            },
+ 
+            "Dwellers\namount": 2,
+ 
+            "Building\nName": "Largest house",
+ 
+            "Dweller\nName": "Nobleman",
+ 
+            "Cost\nin\nresources": {
+                "Bread": 2,
+ 
+                "Rock": 2
+            },
+ 
+            "Texture path": "house.png",
+ 
+            "Type": "Domestic",
+ 
+            "Consumes": {
+                "Flour": 2
+            },
+ 
+            "Successor": "None"
+        },
+ 
+        "Bigger House": {
+            "Predecessor": "House",
+ 
+            "Description": "asd",
+ 
+            "Produces": {
+                "Wood": 2
+            },
+ 
+            "Dwellers\namount": 3,
+ 
+            "Building\nName": "Bigger House",
+ 
+            "Dweller\nName": "Worker",
+ 
+            "Cost\nin\nresources": {
+                "Gold": 2
+            },
+ 
+            "Texture path": "house.png",
+ 
+            "Type": "Domestic",
+ 
+            "Consumes": {
+                "Flour": 2
+            },
+ 
+            "Successor": "None"
+        },
+ 
         "House": {
             "Predecessor": "None",
  
@@ -51,12 +117,12 @@
                 "Rock": 1
             },
  
-            "Texture path": "Bakery.JPG",
+            "Texture path": "house.png",
  
             "Type": "Domestic",
  
             "Consumes": {
-                "Bread": 1
+                "Rock": 1
             },
  
             "Successor": "None"
@@ -68,7 +134,7 @@
             "Description": "-",
  
             "Produces": {
-                "Crop": 2
+                "Flour": 2
             },
  
             "Dwellers\namount": 1,
@@ -77,16 +143,16 @@
  
             "Dweller\nName": "Dweller",
  
-            "Consumes": {
-                "Wood": 1
+            "Cost\nin\nresources": {
+                "Wood": 10
             },
  
             "Texture path": "CiderFarm.png",
  
             "Type": "Industrial",
  
-            "Cost\nin\nresources": {
-                "Wood": 10
+            "Consumes": {
+                "Crop": 2
             },
  
             "Successor": "None"
@@ -105,18 +171,18 @@
  
             "Building\nName": "Bakery",
  
-            "Dweller\nName": "Dweller",
+            "Dweller\nName": "Nobleman",
  
-            "Consumes": {
-                "Flour": 3
+            "Cost\nin\nresources": {
+                "Gold": 2
             },
  
             "Texture path": "Bakery2.png",
  
             "Type": "Industrial",
  
-            "Cost\nin\nresources": {
-                "Gold": 2
+            "Consumes": {
+                "Flour": 3
             },
  
             "Successor": "None"
@@ -135,20 +201,20 @@
  
             "Building\nName": "Mill",
  
-            "Dweller\nName": "Dweller",
+            "Dweller\nName": "Worker",
  
-            "Cost\nin\nresources": {
-                "Wood": 2,
- 
-                "Rock": 2
+            "Consumes": {
+                "Crop": 2
             },
  
             "Texture path": "Mill.png",
  
             "Type": "Industrial",
  
-            "Consumes": {
-                "Crop": 2
+            "Cost\nin\nresources": {
+                "Wood": 2,
+ 
+                "Rock": 2
             },
  
             "Successor": "None"
@@ -169,33 +235,55 @@
  
             "Dweller\nName": "Dweller",
  
-            "Consumes": {
-                "Gold": 10
+            "Cost\nin\nresources": {
+                "Gold": 3
             },
  
             "Texture path": "Lunmbermill2.png",
  
             "Type": "Industrial",
  
-            "Cost\nin\nresources": {
-                "Gold": 3
+            "Consumes": {
+                "Gold": 10
             },
  
             "Successor": "None"
         }
     },
  
-    "Set Name": "New Stronghold",
- 
-    "Texture Two": "Grass2.jpg",
- 
-    "Texture One": "Grass.png",
-	
-    "Panel Texture": "DefaultBuilding.jpg",
- 
-    "MP3": "TwoMandolins.mp3",
-	
     "Dwellers": {
+        "Nobleman": {
+            "Predecessor": "Worker",
+ 
+            "Description": "asdsd",
+ 
+            "Dweller\nName": "Nobleman",
+ 
+            "Texture path": "Dweller2.PNG",
+ 
+            "Consumes": {
+                "Bread": 2
+            },
+ 
+            "Successor": "None"
+        },
+ 
+        "Worker": {
+            "Predecessor": "Dweller",
+ 
+            "Description": "asd",
+ 
+            "Dweller\nName": "Worker",
+ 
+            "Texture path": "dweller.jpg",
+ 
+            "Consumes": {
+                "Gold": 2
+            },
+ 
+            "Successor": "None"
+        },
+ 
         "Dweller": {
             "Predecessor": "None",
  
@@ -206,12 +294,18 @@
             "Texture path": "dweller.jpg",
  
             "Consumes": {
-                "Bread": 2
+                "Gold": 2
             },
  
             "Successor": "None"
         }
     },
+ 
+    "Set Name": "New Stronghold",
+ 
+    "Texture Two": "Grass2.jpg",
+ 
+    "Panel Texture": "DefaultBuilding.jpg",
  
     "Resources": {
         "Gold": {

@@ -1,5 +1,6 @@
 package dependencies.graph.monter;
 
+import corectness.checker.CyclesChecker;
 import entities.Building;
 import graph.BuildingNode;
 
@@ -9,6 +10,8 @@ import constants.Consts;
 import corectness.checker.BuildingsChecker;
 import corectness.checker.CheckException;
 
+import graph.DwellerNode;
+import graph.ResourceNode;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -123,11 +126,10 @@ public class BuildingsMonter extends GraphMonter{
 	}
 	
 	public void mountDependenciesGraph() throws CheckException{
-		BuildingsChecker buildingsChecker = new BuildingsChecker(buildingsGraphDesc, buildingVertices);
-		buildingsChecker.check();
-		System.out.println("buildings:");
+		new CyclesChecker(buildingsGraphDesc, Consts.BUILDING_NAME).check();
 		mountGraph(buildingVertices);
 		dr.getGraphsHolder().setBuildingsGraphs(rootsList);
 		dr.getGraphsHolder().setBuildingsVertices(buildingVertices);
+		new BuildingsChecker(dr).check();
 	}
 }

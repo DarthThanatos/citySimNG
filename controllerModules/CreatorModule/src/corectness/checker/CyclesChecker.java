@@ -9,8 +9,8 @@ import constants.Consts;
 
 public class CyclesChecker implements CorrectnessChecker{
 
-	protected JSONArray entities;
-	protected String key;
+	private JSONArray entities;
+	private String key;
 	
 	
 	public CyclesChecker(JSONArray entities, String key) {

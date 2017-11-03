@@ -5,7 +5,11 @@ import entities.Dweller;
 public class DwellerNode extends GraphNode{
 
 	private Dweller dweller;
-	
+
+	public Dweller getDweller() {
+		return dweller;
+	}
+
 	public DwellerNode(Dweller dweller) {
 		this.dweller = dweller;
 	}

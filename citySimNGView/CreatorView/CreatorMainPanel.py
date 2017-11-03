@@ -413,7 +413,7 @@ class CreatorMainPanel(ScrolledPanel):
     def allEntitiesNotRedundant(self, entitiesType, redundancyChecker):
         res = True
         for entity in self.current_dependencies[entitiesType]:
-            if redundancyChecker.checkIfRedundant(entity, {"ErrorMsg":""}):
+            if redundancyChecker.checkIfRedundant(entity, {"ErrorMsg":""}, False):
                 self.logArea.AppendText("-> " + entity + " is redundant, use it somehow or delete it\n")
                 res = False
         return res
@@ -423,6 +423,9 @@ class CreatorMainPanel(ScrolledPanel):
 
     def allDwellersNotRedundant(self):
         return self.allEntitiesNotRedundant(Consts.DWELLERS, self.dwellersDependenciesSubPanel.redundancyChecker)
+
+    def allBuildingsNotRedundant(self):
+        return self.allEntitiesNotRedundant(Consts.BUILDINGS, self.buildingsDependenciesSubPanel.redundancyChecker)
 
     def currentDependenciesCorrect(self, updateNameFromInput):
         input_correct = self.depsNotEmpty()
@@ -436,7 +439,7 @@ class CreatorMainPanel(ScrolledPanel):
         input_correct &= self.checkCorrectnessOf(Consts.DWELLERS)
         input_correct &= self.allResourcesNotRedundant()
         input_correct &= self.allDwellersNotRedundant()
-        # buildings are never redundant
+        input_correct &= self.allBuildingsNotRedundant()
         return input_correct
 
     def dependenciesSetNameTypedCorrectly(self, updateNameFromInput):

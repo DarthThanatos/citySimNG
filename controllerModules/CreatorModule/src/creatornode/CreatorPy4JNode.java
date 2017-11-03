@@ -153,7 +153,7 @@ public class CreatorPy4JNode extends Py4JNode implements CreatorPresenter.OnCrea
 			HashMap<String, DependenciesRepresenter> representers = fetchRepresentersMap();
 			representers.put(creatorData.getDependenciesSetName(), dr);
 			creatorPresenter.displayDependenciesGraph( dr.getGraphsHolder().displayAllGraphs());
-			creatorPresenter.displayMsg("Dependencies created successfully, please go to the Loader menu now to check what was created");
+			creatorPresenter.displayMsg("Dependencies created successfully, please go to the Loader menu now to mapLevels what was created");
 		} catch (CheckException e) {
 			creatorPresenter.displayMsg(e.getMessage());
 		}

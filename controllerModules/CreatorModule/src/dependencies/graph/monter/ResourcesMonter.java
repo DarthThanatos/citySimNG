@@ -1,19 +1,15 @@
 package dependencies.graph.monter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.print.attribute.HashAttributeSet;
-
+import corectness.checker.CyclesChecker;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import constants.Consts;
 import corectness.checker.CheckException;
-import corectness.checker.ResourcesChecker;
-import entities.Building;
 import entities.Resource;
 import graph.ResourceNode;
 import model.DependenciesRepresenter;
@@ -57,7 +53,12 @@ public class ResourcesMonter extends GraphMonter{
 		}
 		return entities;
 	}
-	
+
+
+	public HashMap<String, ResourceNode> getResourceVertices() {
+		return resourceVertices;
+	}
+
 	public ResourcesMonter(JSONArray resourceGraphDesc, DependenciesRepresenter dr){
 		this.resourceGraphDesc = resourceGraphDesc;
 		this.dr = dr;
@@ -89,9 +90,7 @@ public class ResourcesMonter extends GraphMonter{
 	}
 	
 	public void mountDependenciesGraph() throws CheckException{
-		ResourcesChecker resourcesChecker = new ResourcesChecker(resourceGraphDesc, resourceVertices);
-		resourcesChecker.check();
-		System.out.println("Resources: ");
+		new CyclesChecker(resourceGraphDesc, Consts.RESOURCE_NAME).check();
 		mountGraph(resourceVertices);
 		dr.getGraphsHolder().setResourcesGraphs(rootsList);
 		dr.getGraphsHolder().setResourceVertices(resourceVertices);
