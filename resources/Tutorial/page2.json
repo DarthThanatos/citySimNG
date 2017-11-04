@@ -2,18 +2,22 @@
   "page": {
     "nr": 2,
     "sub0": [
-  "W samym panelu gieldy mozna dokonac transakcji posiadanych zasobow. Mozna sprzedac swoje zasoby za okreslona cene, lub je kupic. Aby dokonac transakcji nalezy posiadac wystarczajaca ilosc zasobow lub pieniedzy. Aby dokonac transakcji nalezy podjac nastepujace kroki:",
-   "- z rozwijanego panelu wybrac zasob (choose resource type)",
-   "- wpisac ilosc, ktora chce sprzedac lub kupic (enter resource quantity)",
-   "- nacisnac odpowiedni przycisk kupna (BUY) lub sprzedazy (SELL)",
-  ],
-  "sub1": [
-    "W przypadku niewystarczajacej ilosci zasobow lub pieniedzy jest wyswietlony stosowny komunikat. W tym wypadku nalezy sprawdzic, czy dokonanie danej transakcji jest mozliwe, lub czy nie popelniono jakiegos bledu przy wpisywaniu.", 
-    "W przypadku pomyslnego dokonania transakcji, wyswietlany jest stosowny komunikat.",],
-  "img": "resources\\Tutorial\\img2.jpg",
+      "Map sub0",
+     ],
+    "sub1":[
+      "Map sub1",
+    ],
+    "sub2": [
+      "Map sub2",
+    ],
+  "img": "resources\\Tutorial\\img1.jpg",
     "link": [{
-      "id": 1,
-      "label": "Gielda",
-      }]
+      "id": 3,
+      "label": "Map - settlement panel",
+      },
+    {
+    "id": 4,
+    "label": "Map - resources panel",
+    }]
   }
 }

@@ -26,11 +26,13 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 	private JSONObject readPage;
 	private BufferedReader tutorialReader;
 	private HintSender hintSender;
+	private Map<Integer, String> tutorialIndex;
 
 	public TutorialPy4JNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
 		super(dr, dispatchCenter, nodeName);
 		readPage = new JSONObject("{}");
 		hintSender = new HintSender(this, dispatchCenter.getEventBus());
+		tutorialIndex = new HashMap<Integer, String>();
 	}
 
 
@@ -39,31 +41,6 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 	 * @see controlnode.Node#parseCommand(java.lang.String, java.lang.String[])
 	 * returns - output stream understandable to the current entity in the view layer (here TutorialView)
 	 */
-	/*@Override
-	public String parseCommand(String command, JSONObject args) {
-		if (command.equals("RequestPage")){
-			System.out.println("Tutorial: Received RequestPage");
-			int pageID = args.getInt("PageID");
-			System.out.println("Tutorial: PageID = " + pageID);
-			try {
-				readPage(pageID);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			JSONObject envelope = new JSONObject();
-			envelope.put("To","Tutorial");
-			envelope.put("Operation","FetchPage");
-			JSONObject json = new JSONObject();
-			json.put("Page", readPage);
-			envelope.put("Args", json);
-			return envelope.toString();
-		}
-		else{
-			System.out.println("Tutorial: Received unknown message");
-			return "{}";//tu otrzymuje wezwanie wyslania strony i podstrony(?)
-		} 
-	}*/
 
 	public String getHints(){
 		//TODO, actual hints and synchronized block
@@ -84,12 +61,6 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 			page = page.replaceAll("[\\p{Cc}\\p{Cf}\\p{Co}\\p{Cn}]", "?");
 			System.out.println("Pure string: " + page);
 			readPage = new JSONObject(page);
-			/*JSONObject readPage = (JSONObject) new JSONTokener(page).nextValue();
-			String readPageString = readPage.toString();
-			if (readPageString == null){
-				System.out.println("Something went wrong!");
-				throw new NullPointerException();
-			}*/
 			System.out.println("Read page:" + readPage.toString());
 	}
 
@@ -107,6 +78,22 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 			envelope.put("Args", graphs);
 			//sender.pushStream(envelope);
 		Presenter.getInstance().getTutorialPresenter().displayDependenciesGraph(envelope);
+
+		//fetch tutorialIndex
+		String line;
+		String page = "";
+			tutorialIndexReader = new BufferedReader(new FileReader ("resources\\Tutorial\\tutorialIndex.json"));
+			while ((line = tutorialIndexReader.readLine()) != null) {
+				System.out.println("line = " + line);
+				page = page.concat(line); 
+			}
+			tutorialIndexReader.close();
+
+			page = page.replaceAll("[\\p{Cc}\\p{Cf}\\p{Co}\\p{Cn}]", "?");
+			System.out.println("Pure string: " + page);
+			readPage = new JSONObject(page);
+			System.out.println("Read page:" + readPage.toString());
+		//handle tutorialIndex to python view
 	}
 
 	@Override
