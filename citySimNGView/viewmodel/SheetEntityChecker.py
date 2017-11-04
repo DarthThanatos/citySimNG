@@ -1,6 +1,8 @@
 import re
+import traceback
 
 from CreatorView import Consts
+from utils.FileExistanceChecker import FileExistanceChecker
 
 ADD_MODE = "Add mode"
 EDIT_MODE = "Edit mode"
@@ -88,15 +90,43 @@ class SheetEntityChecker(object):
         result_struct["Result"][Consts.DESCRIPTION] = self.getDescriptionContent()
 
     def checkAndDumpTexture(self, result_struct):
-        result_struct["Result"][Consts.TEXTURE_PATH] = self.sheet_view.entityIconRelativePath
-        return True # for now, nothing can go wrong here
+        correct = FileExistanceChecker().graphicalFileExists(self.sheet_view.entityIconRelativePath)
+        if not correct:
+            result_struct["ErrorMsg"] += "-> Icon path does not contain a valid graphical file\n"
+        else:
+            result_struct["Result"][Consts.TEXTURE_PATH] = self.sheet_view.entityIconRelativePath
+        return correct
+
+    def checkAndDumpTypeOfBuilding(self, result_struct):
+        correct = self.getTypeOfBuilding() in ["Industrial", "Domestic"]
+        print "checker, type of ", self.getEntityName(), "is ", self.getTypeOfBuilding()
+        if not correct:
+            result_struct["ErrorMsg"] += "-> INVALID type of building, can be either Domestic or Industrial\n"
+        else:
+            result_struct["Result"][Consts.TYPE] = self.getTypeOfBuilding()
+        return correct
+
+    def startIncomeCorrect(self):
+        try:
+            income_str = self.sheet_view.currentDependencies[self.sheet_view.getSheetName()][self.getEntityName()][Consts.START_INCOME]
+            income = int(income_str)
+            return income >= 0
+        except Exception:
+            return False
 
     def checkAndDumpStartIncome(self, result_struct):
-        result_struct["Result"][Consts.START_INCOME] = str(self.sheet_view.start_income_picker.GetValue())
-        return True # for now, nothing can go wrong here
+        correct = self.startIncomeCorrect()
+        if not correct:
+            result_struct["ErrorMsg"] += "-> Start income of this {} is not valid, needs to be >= 0 \n".format(self.sheet_view.getEntityType())
+        else:
+            result_struct["Result"][Consts.START_INCOME] = str(self.sheet_view.start_income_picker.GetValue())
+        return correct
 
     def getDwellerName(self):
         return self.sheet_view.dwellers_names_selector.GetStringSelection()
+
+    def getAllDwellers(self):
+        return self.sheet_view.currentDependencies[Consts.DWELLERS].keys()
 
     def checkAndDumpDweller(self, result_struct):
         correct = self.dwellerSelected(result_struct)
@@ -104,8 +134,8 @@ class SheetEntityChecker(object):
         return correct
 
     def dwellerSelected(self, result_struct):
-        if self.getDwellerName() == "" or self.getDwellerName() == "None":
-            result_struct["ErrorMsg"] += "-> Please select a dweller that lives here\n"
+        if self.getDwellerName() not in self.getAllDwellers():
+            result_struct["ErrorMsg"] += "-> INVALID dweller name\n"
             return False
         return True
 
@@ -113,12 +143,12 @@ class SheetEntityChecker(object):
         result_struct["Result"][Consts.DWELLER_NAME] = self.getDwellerName()
 
     def checkAndDumpDwellersAmount(self, result_struct):
-        result_struct["Result"][Consts.DWELLERS_AMOUNT] = self.getDwellersAmount()
-        return True
-
-    def checkAndDumpTypeOfBuilding(self, result_struct):
-        result_struct["Result"][Consts.TYPE] = self.getTypeOfBuilding()
-        return True
+        correct = self.getDwellersAmount() > 0
+        if not correct:
+            result_struct["ErrorMsg"] += "-> Dwellers amount should be bigger than 0\n"
+        else:
+            result_struct["Result"][Consts.DWELLERS_AMOUNT] = self.getDwellersAmount()
+        return correct
 
     def getDwellersAmount(self):
         return self.sheet_view.dwellers_amount.GetValue()

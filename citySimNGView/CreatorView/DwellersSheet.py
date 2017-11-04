@@ -28,6 +28,9 @@ class DwellersSheet(SheetView):
     def getEntityChecker(self):
         return DwellerSheetChecker()
 
+    def getValidKeySet(self):
+        return [Consts.PREDECESSOR, Consts.SUCCESSOR, Consts.DESCRIPTION, Consts.DWELLER_NAME, Consts.TEXTURE_PATH, Consts.CONSUMES]
+
     def newDwellerCharacteristicsVerticalSizer(self):
         dwellerCharacteristicsVerticalSizer = wx.BoxSizer(wx.VERTICAL)
         dwellerCharacteristicsVerticalSizer.Add(self.newBasicCharacteristicsVerticalSizer(), 0, wx.CENTER)

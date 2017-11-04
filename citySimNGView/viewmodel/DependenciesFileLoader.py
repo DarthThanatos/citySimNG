@@ -11,6 +11,7 @@ class DependenciesFileLoader(object):
         self.creator_view = creator_view
 
     def onLoadFileSelected(self, path):
+        self.creator_view.logArea.SetValue("")
         if not self.fileSuffixedCorrectly(path):
             self.creator_view.dependencyLoadFail()
             return
@@ -40,8 +41,8 @@ class DependenciesFileLoader(object):
 
     def onLoadedUncorrectContent(self, dependenciesCopy):
         self.restoreDependenciesCopy(dependenciesCopy)
-        errorMsg = "Error while loading file, previous dependency set still on board"
-        self.creator_view.logArea.SetValue(errorMsg)
+        errorMsg = "Error while loading file, previous dependency set still on board\n"
+        self.creator_view.logArea.AppendText(errorMsg)
 
     def onLoadedCorrectContent(self):
         self.creator_view.resetContents("Dependencies loaded successfully!")
@@ -52,4 +53,4 @@ class DependenciesFileLoader(object):
 
     def restoreDependenciesCopy(self, dependenciesCopy):
         self.creator_view.fillCurrentDependenciesWithValidContent(dependenciesCopy)  # here we restore previous state of subpanels
-        self.creator_view.resetContents(WELCOME_MSG)
+        self.creator_view.resetContents()

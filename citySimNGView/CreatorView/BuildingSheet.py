@@ -38,6 +38,9 @@ class BuildingSheet(SheetView):
     def submit(self, event):
         self.sheetChecker.onCheck(BuildingSheetChecker())
 
+    def getValidKeySet(self):
+        return [Consts.PREDECESSOR, Consts.SUCCESSOR, Consts.DESCRIPTION,Consts.PRODUCES, Consts.DWELLERS_AMOUNT, Consts.BUILDING_NAME, Consts.DWELLER_NAME, Consts.COST_IN_RESOURCES, Consts.TEXTURE_PATH, Consts.TYPE, Consts.CONSUMES]
+
     def addToViewWithSpaceAndLine(self, sizer, view):
         self.addToSizerWithSpace(sizer, view)
         self.addToSizerWithSpace(sizer, self.newLine(), alignment=wx.EXPAND)
@@ -106,7 +109,7 @@ class BuildingSheet(SheetView):
         return wx.StaticText(self, -1, "Type of building: ")
 
     def newBuildingTypeSelector(self):
-        self.type_of_building_selector =wx.ComboBox(self, choices=["Industrial", "Domestic"], style=wx.CB_READONLY, value = "Industrial")
+        self.type_of_building_selector =wx.ComboBox(self, choices=["Industrial", "Domestic", ""], style=wx.CB_READONLY, value = "Industrial")
         self.type_of_building_selector.Bind(wx.EVT_TEXT, self.onBuildingTypeChanged)
         self.restorableViews.append(RestorableTypeOfBuilding(self, self.type_of_building_selector))
         return self.type_of_building_selector

@@ -31,6 +31,9 @@ class ResourceSheet(SheetView):
     def getEntityChecker(self):
         return ResourceSheetChecker()
 
+    def getValidKeySet(self):
+        return [Consts.PREDECESSOR, Consts.SUCCESSOR, Consts.DESCRIPTION, Consts.TEXTURE_PATH, Consts.START_INCOME, Consts.RESOURCE_NAME]
+
     def getSheetName(self):
         return Consts.RESOURCES
 

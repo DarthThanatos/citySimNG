@@ -10,7 +10,7 @@ WELCOME_MSG = \
     "You can then load dependencies created at some point in the past by pressing \"Load dependencies from file\" button.\n" +\
     "To return to menu, click the menu button on the bottom of the screen."
 
-CHECKER_PANEL_ERROR_MSG = "-> Pick at least one element in the section \"{}\". If there is nothing to choose there, consider creating some elements in other panels\n"
+CHECKER_PANEL_ERROR_MSG = "-> Pick at least one VALID element in the section \"{}\"\n"
 
 LOADER_BTN_HINT = "Go to loader panel. Here you can load previously created dependencies and mount them into a game itself, selecting set from sets list and clicking appropriate button. " \
                   "\nHint: you can view dependencies graph by double clicking on a set name"

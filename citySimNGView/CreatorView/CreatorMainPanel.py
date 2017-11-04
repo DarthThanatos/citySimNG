@@ -3,7 +3,6 @@ import re
 import traceback
 from uuid import uuid4
 
-import os.path
 import wx
 from wx.lib.scrolledpanel import ScrolledPanel
 
@@ -13,6 +12,7 @@ from DependenciesSubPanel import DependenciesSubPanel
 from GraphsSpaces import GraphsSpaces
 from RelativePaths import relative_dependencies_path, relative_textures_path
 from utils import LogMessages
+from utils.FileExistanceChecker import FileExistanceChecker
 from utils.ButtonsFactory import ButtonsFactory
 from utils.JSONMonter import JSONMonter
 from utils.LogMessages import WELCOME_MSG
@@ -372,7 +372,6 @@ class CreatorMainPanel(ScrolledPanel):
                     Consts.RESOURCES:[]
                 }
             )
-
         if logMsg is not None: self.logArea.SetValue(logMsg)
 
     def getCurrentBuildingsNames(self):
@@ -389,26 +388,48 @@ class CreatorMainPanel(ScrolledPanel):
         validKeys = self.parent.newCurrentDependenciesKeys()
         contentKeys = content_dict.keys()
         for key in validKeys:
-            if key not in contentKeys: raise Exception
+            if key not in contentKeys:
+                self.logArea.AppendText("Selected .dep file misses record: " + key + "; further inspection of the file will not take place until this is fixed\n")
+                raise Exception
         for key in content_dict:
-            if key not in validKeys: raise Exception
+            if key not in validKeys:
+                self.logArea.AppendText("Selected .dep file has a not recognizable record: " + key + "; further inspection of the file will not take place until this is fixed\n")
+                raise Exception
             self.current_dependencies[key] = content_dict[key]
+
+    def checkEntityHasValidKeys(self, entity, dependencyPanelName):
+        has_valid_keys = True
+        for key in self.frame.views[dependencyPanelName].getValidKeySet():
+            if key not in self.current_dependencies[dependencyPanelName][entity].keys():
+                self.logArea.AppendText("Entity: " + entity + " misses record: " + key + "\n")
+                has_valid_keys = False
+        for key in self.current_dependencies[dependencyPanelName][entity].keys():
+            if key not in self.frame.views[dependencyPanelName].getValidKeySet():
+                self.logArea.AppendText("Entity: " + entity + " has a non-recognizable record: " + key + "\n")
+                has_valid_keys = False
+        return has_valid_keys
+
+    def entityCorrect(self, dependencyPanelName, entity):
+        self.frame.setupPanelEditMode(panelName = dependencyPanelName, editedElementName = entity)
+        panel = self.frame.views[dependencyPanelName]
+        editMode = EditModeSheetEntityChecker(panel)
+        result_struct = editMode.newResultStruct()
+        correct = panel.getEntityChecker().entityCorrect(editMode, result_struct)
+        if not correct:
+            self.logArea.AppendText((20 * "=") +  "\n" +  entity + " \n" + (20 * "=")  + "\n" + result_struct["ErrorMsg"] + "\n")
+        return correct
 
     def checkCorrectnessOf(self, dependencyPanelName):
         # checks if filling ends correctly and there is no exception
         correct = True
-        try:
-            for dependency in self.current_dependencies[dependencyPanelName]:
-                self.frame.setupPanelEditMode(panelName = dependencyPanelName, editedElementName = dependency)
-                panel = self.frame.views[dependencyPanelName]
-                correct &= panel.getEntityChecker().entityCorrect(EditModeSheetEntityChecker(panel))
-        except Exception:
-            traceback.print_exc()
-            return False
+        for entity in self.current_dependencies[dependencyPanelName]:
+            has_valid_keys = self.checkEntityHasValidKeys(entity, dependencyPanelName)
+            correct &= has_valid_keys
+            if has_valid_keys:
+                correct &= self.entityCorrect(dependencyPanelName, entity)
+            else:
+                self.logArea.AppendText("Entity: " + entity + " will not be inspected further until the errors listed above are corrected\n")
         return correct
-
-    def fileExists(self, path, dir = relative_textures_path):
-        return os.path.isfile(dir + path)
 
     def allEntitiesNotRedundant(self, entitiesType, redundancyChecker):
         res = True
@@ -430,10 +451,12 @@ class CreatorMainPanel(ScrolledPanel):
     def currentDependenciesCorrect(self, updateNameFromInput):
         input_correct = self.depsNotEmpty()
         input_correct &= self.dependenciesSetNameTypedCorrectly(updateNameFromInput=updateNameFromInput)
-        input_correct &= self.fileExists(self.current_dependencies[Consts.TEXTURE_ONE])
-        input_correct &= self.fileExists(self.current_dependencies[Consts.TEXTURE_TWO])
-        input_correct &= self.fileExists(self.current_dependencies[Consts.MP3], relative_music_path)
-        input_correct &= self.fileExists(self.current_dependencies[Consts.PANEL_TEXTURE])
+        input_correct &= FileExistanceChecker(self.logArea).checkIfGraphicalFileExists(self.current_dependencies[Consts.TEXTURE_ONE])
+        input_correct &= FileExistanceChecker(self.logArea).checkIfGraphicalFileExists(self.current_dependencies[Consts.TEXTURE_TWO])
+        input_correct &= FileExistanceChecker(self.logArea).checkIfFileWithExtentionExists(
+            relative_music_path, self.current_dependencies[Consts.MP3], ".mp3"
+        )
+        input_correct &= FileExistanceChecker(self.logArea).checkIfGraphicalFileExists(self.current_dependencies[Consts.PANEL_TEXTURE])
         input_correct &= self.checkCorrectnessOf(Consts.RESOURCES)
         input_correct &= self.checkCorrectnessOf(Consts.BUILDINGS)
         input_correct &= self.checkCorrectnessOf(Consts.DWELLERS)
@@ -447,8 +470,8 @@ class CreatorMainPanel(ScrolledPanel):
             self.current_dependencies[Consts.SET_NAME] = self.dependenciesSetNameInput.GetValue()
         setName = self.current_dependencies[Consts.SET_NAME]
         if re.sub(r'\s', "", setName) == "":
-            errorMsg = "Dependencies set name field not correct"
-            self.logArea.SetValue(errorMsg)
+            errorMsg = "Dependencies set name field not correct\n"
+            self.logArea.AppendText(errorMsg)
             return False
         return True
 

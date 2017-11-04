@@ -49,6 +49,9 @@ class SheetView(ScrolledPanel):
     def getEntityChecker(self):
         raise Exception("getEntityChecker not implemented")
 
+    def getValidKeySet(self):
+        raise Exception("getValidKeySet not implemented")
+
     def addToSizerWithSpace(self, sizer, view, space = 10, alignment = wx.CENTER):
         sizer.Add(view, 0, alignment)
         sizer.AddSpacer(space)

@@ -1,7 +1,8 @@
 from wx import wx
 
-from CreatorView import Consts
+from CreatorView import Consts, CreatorConfig
 from CreatorView.RelativePaths import relative_textures_path
+from utils.FileExistanceChecker import FileExistanceChecker
 from utils.SheetEntitiesUtils import SheetEntitiesUtils
 
 
@@ -54,9 +55,13 @@ class RestorableImageBmp(RestorableView):
         self.sheet_view.entityIconRelativePath  = \
             self.sheet_view.getDefaultIconRelativePath() if entity_name is None \
                 else self.entityUtils.getEntityCharacteristic(entity_name, Consts.TEXTURE_PATH)
+        actual_file_name =\
+            self.sheet_view.entityIconRelativePath \
+                if FileExistanceChecker().checkIfGraphicalFileExists(self.sheet_view.entityIconRelativePath) \
+                else CreatorConfig.PANEL_TEXURE_DEFAULT_NAME
         self.imageBitmap.SetBitmap(
             wx.BitmapFromImage(
-                self.newScaledImg(relative_textures_path + self.sheet_view.entityIconRelativePath)
+                self.newScaledImg(relative_textures_path + actual_file_name)
             )
         )
 
@@ -109,9 +114,12 @@ class RestorableStartIncomePicker(RestorableView):
         self.start_income_picker = start_income_picker
 
     def restoreView(self, entity_name=None):
-        startIncomePickerValue = \
-            int(self.entityUtils.getEntityCharacteristic(entity_name, Consts.START_INCOME)) \
-                if entity_name is not None else 0
+        try:
+            startIncomePickerValue = \
+                int(self.entityUtils.getEntityCharacteristic(entity_name, Consts.START_INCOME)) \
+                    if entity_name is not None else 0
+        except Exception:
+            startIncomePickerValue = 0
         self.start_income_picker.SetValue(startIncomePickerValue)
 
 class RestorableDwellersAmount(RestorableView):
@@ -136,4 +144,6 @@ class RestorableTypeOfBuilding(RestorableView):
         typeOfBuilding = \
             self.entityUtils.getEntityCharacteristic(entity_name, Consts.TYPE) \
                 if entity_name is not None else "Industrial"
+        print "setting", entity_name, " type to ", typeOfBuilding
+        if typeOfBuilding not in ["Industrial", "Domestic"]: typeOfBuilding = ""
         self.type_of_building_selector.SetStringSelection(typeOfBuilding)

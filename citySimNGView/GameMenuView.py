@@ -60,8 +60,6 @@ class GameMenuView(wx.Panel):
         self.buttons_vertical_sizer.Add(self.newGameButton(), 0, wx.CENTER | wx.ALL, 15)
         self.buttons_vertical_sizer.Add(self.newTutorialButton(), 0, wx.CENTER, 0)
         self.buttons_vertical_sizer.Add(self.newExchangeButton(), 0, wx.CENTER, 0)
-        self.buttons_vertical_sizer.Add(self.newLoadButton(), 0, wx.CENTER, 0)
-        self.buttons_vertical_sizer.Add(self.newSaveButton(), 0, wx.CENTER, 0)
         self.buttons_vertical_sizer.Add(self.newLoaderButton(), 0, wx.CENTER, 0)
         return self.buttons_vertical_sizer
 
