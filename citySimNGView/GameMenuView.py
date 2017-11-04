@@ -1,4 +1,5 @@
 import wx
+import wx.animate
 
 from CurrentPricesPanel import CurrentPricesPanel
 from utils import LogMessages
@@ -38,6 +39,7 @@ class GameMenuView(wx.Panel):
         rootSizer.Add(self.newCurrentPricesPanel(),  0, wx.CENTER)
         rootSizer.AddSpacer(50)
         rootSizer.Add(self.newButtonsSizer(), 0, wx.CENTER)
+        rootSizer.AddSpacer(50)
         self.SetSizer(rootSizer)
         rootSizer.SetDimension(0, 0, self.size[0], self.size[1])
 
@@ -62,6 +64,13 @@ class GameMenuView(wx.Panel):
         self.buttons_vertical_sizer.Add(self.newExchangeButton(), 0, wx.CENTER, 0)
         self.buttons_vertical_sizer.Add(self.newLoaderButton(), 0, wx.CENTER, 0)
         return self.buttons_vertical_sizer
+
+    def newGifCtrl(self):
+        gif_fname = "resources\\sysFiles\\images\\city.gif"
+        gif = wx.animate.GIFAnimationCtrl(self, wx.ID_ANY, gif_fname)
+        gif.GetPlayer().UseBackgroundColour(True)
+        gif.Play()
+        return gif
 
     def newGameButton(self):
         self.newgame_btn = ButtonsFactory().newButton(self, "Game", self.goToNewGame, hint = LogMessages.GAME_BTN_HINT, size=(100,-1))
