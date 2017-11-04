@@ -7,6 +7,68 @@ from TutorialPageView import TutorialPageView
 from utils.RelativePaths import relative_music_path, relative_textures_path, relative_fonts_path
 
 
+class MainTab(wx.Panel):
+    def __init__(self, parent, master):
+        wx.Panel.__init__(self, parent)
+        self.master = master
+        self.centerSizer = wx.BoxSizer(wx.VERTICAL)
+        self.SetSizer(self.centerSizer)
+
+        self.initContentList(self.centerSizer)
+
+    def addListElem(self, box, font, arrow, i):
+        elemField = wx.StaticText(self, label=self.master.content[i]['name'])
+        elemID = self.master.content[i]['id']
+        elemField.SetFont(font)
+        arrowButton = wx.Button(self, id=elemID, label="  ", 
+            size=(arrow.GetWidth()+10, arrow.GetHeight()+5))
+        arrowButton.SetBitmap(arrow)
+        self.Bind(wx.EVT_BUTTON, self.master.showPageView, arrowButton)
+        tmpBox = wx.BoxSizer(wx.HORIZONTAL)
+        tmpBox.Add(elemField, 0, wx.CENTER)
+        tmpBox.AddSpacer(10)
+        tmpBox.Add(arrowButton,0)
+        box.Add(tmpBox,0,wx.CENTER)
+        box.AddSpacer(20)
+
+
+    def initContentList(self, box):
+        """ This function creates content list and buttons, sets theirs positions and size and
+            binds logic to them."""
+        leftBox = wx.BoxSizer(wx.VERTICAL)
+        rightBox = wx.BoxSizer(wx.VERTICAL)
+        contentBox = wx.BoxSizer(wx.HORIZONTAL)
+
+        listFont = self.master.tutorialFont
+        listFont.SetPointSize(18)
+        arrow = wx.Bitmap(relative_textures_path+"new\\arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
+
+        contentSize = len(self.master.content)
+        contentHalf = contentSize - (contentSize // 2)
+        for i in range(contentHalf):
+            self.addListElem(leftBox, listFont, arrow, i)
+
+        for i in range(contentHalf, contentSize):
+            self.addListElem(rightBox, listFont, arrow, i)
+
+        contentBox.Add(leftBox,0)
+        contentBox.AddSpacer(50)
+        contentBox.Add(rightBox,0)
+        self.centerSizer.Add(contentBox, 0, wx.CENTER) 
+        self.centerSizer.AddSpacer(20)
+        self.centerSizer.Layout()
+
+    
+class EntitiesTab(wx.Panel): #sparametryzowac po listach bytow - zadac konkretnych indeksow
+    def __init__(self, parent, master):
+        wx.Panel.__init__(self, parent)
+        self.master = master
+        self.centerSizer = wx.BoxSizer(wx.VERTICAL)
+        self.SetSizer(self.centerSizer)
+        t = wx.StaticText(self, -1, "This is EntitiesTab", (20,20))
+        self.centerSizer.Add(t, 0, wx.CENTER)
+
+
 class TutorialView(wx.Panel):
     def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):
         #ScrolledPanel.__init__(self, size=size, parent=parent, style=wx.SIMPLE_BORDER)
@@ -64,16 +126,37 @@ class TutorialView(wx.Panel):
                 'id': 3
             }
         ]
+        tabs = wx.Notebook(self)
+        # Create the tab windows
+        tab1 = MainTab(tabs,self)
+        tab2 = EntitiesTab(tabs, self)
+        tab3 = EntitiesTab(tabs,self)
+        tab4 = EntitiesTab(tabs,self)
+ 
+        # Add the windows to tabs and name them.
+        tabs.AddPage(tab1, "MainTab")
+        tabs.AddPage(tab2, "Resources Tab`")
+        tabs.AddPage(tab3, "Dwellers Tab")
+        tabs.AddPage(tab4, "Buildings Tab")
+        self.centerSizer.Add(tabs, 0, wx.EXPAND)
+        ln = wx.StaticLine(self, -1)
+        self.centerSizer.Add(ln, 0, wx.EXPAND)
+
+        menu_btn = wx.Button(self, label="Menu")
+        self.centerSizer.AddSpacer(30)
+        self.centerSizer.Add(menu_btn, 0, wx.CENTER | wx.ALL, 5)
+        self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
 
         #page view
         self.pageView = TutorialPageView(self, size, "Tutorial Page")
         self.pageView.Hide()
         self.pageView.centerSizer.ShowItems(False)
-        self.initContentList()
         self.graphsSpaces = GraphsSpaces(self)
         self.centerSizer.Add(self.graphsSpaces,0,wx.CENTER)
         self.centerSizer.SetDimension(0, 0, self.size[0], self.size[1])
+        self.SetSizer(self.centerSizer)
         self.Bind(wx.EVT_SHOW, self.onShow, self)
+ 
 
     def showPageView(self, event):
         self.requestPage(event)
@@ -102,53 +185,6 @@ class TutorialView(wx.Panel):
         #         # print "menu: problem with pygame quit"
         #         pass
 
-    def addListElem(self, box, font, arrow, i):
-        elemField = wx.StaticText(self, label=self.content[i]['name'])
-        elemID = self.content[i]['id']
-        elemField.SetFont(font)
-        arrowButton = wx.Button(self, id=elemID, label="  ", 
-            size=(arrow.GetWidth()+10, arrow.GetHeight()+5))
-        arrowButton.SetBitmap(arrow)
-        self.Bind(wx.EVT_BUTTON, self.showPageView, arrowButton)
-        tmpBox = wx.BoxSizer(wx.HORIZONTAL)
-        tmpBox.Add(elemField, 0, wx.CENTER)
-        tmpBox.AddSpacer(10)
-        tmpBox.Add(arrowButton,0, wx.CENTER)
-        box.Add(tmpBox)
-        box.AddSpacer(20)
-
-
-    def initContentList(self):
-        """ This function creates content list and buttons, sets theirs positions and size and
-            binds logic to them."""
-        leftBox = wx.BoxSizer(wx.VERTICAL)
-        rightBox = wx.BoxSizer(wx.VERTICAL)
-        contentBox = wx.BoxSizer(wx.HORIZONTAL)
-
-        listFont = self.tutorialFont
-        listFont.SetPointSize(18)
-        arrow = wx.Bitmap(relative_textures_path+"new\\arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
-
-        contentSize = len(self.content)
-        contentHalf = contentSize - (contentSize // 2)
-        for i in range(contentHalf):
-            self.addListElem(leftBox, listFont, arrow, i)
-
-        for i in range(contentHalf, contentSize):
-            self.addListElem(rightBox, listFont, arrow, i)
-
-        contentBox.Add(leftBox)
-        contentBox.AddSpacer(50)
-        contentBox.Add(rightBox)
-        self.centerSizer.Add(contentBox, 0, wx.CENTER) 
-        self.centerSizer.AddSpacer(20)
-        ln = wx.StaticLine(self, -1)
-        self.centerSizer.Add(ln, 0, wx.EXPAND)
-
-        menu_btn = wx.Button(self, label="Menu")
-        self.centerSizer.AddSpacer(30)
-        self.centerSizer.Add(menu_btn, 0, wx.CENTER | wx.ALL, 5)
-        self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
 
     def requestPage(self, event):
         print "TutorialView: requestPage executed"
