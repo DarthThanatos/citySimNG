@@ -11,12 +11,15 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.chart.XYChart;
 import model.DependenciesRepresenter;
+
+import java.io.File;
 
 public class StockView extends Application {
 
@@ -74,7 +77,7 @@ public class StockView extends Application {
             stock.setWorkingStatus(true);
         });
 
-        Scene scene = new Scene(new Group());
+        Scene scene = new Scene(new Group(), Color.AZURE);
         ((Group) scene.getRoot()).getChildren().addAll(
                 StockViewUtils.createResourceTableLabel(),
                 StockViewUtils.createResourceComboBoxLabel(),
@@ -88,6 +91,10 @@ public class StockView extends Application {
                 resourceTable, lineChart, resourceAmountField, resourceComboBox,
                 pieChart);
 
+        File f = new File("controllerModules/ExchangeModule/resources/styles.css");
+        scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+        lineChart.applyCss();
+
         stage.setScene(scene);
         stage.hide();
     }
@@ -95,6 +102,7 @@ public class StockView extends Application {
     public static void initStockView(Stock stock, DependenciesRepresenter dependenciesRepresenter) {
         Stock tmpStock = StockView.stock;
         StockView.stock = stock;
+        launch();
         try {
             launch();
         } catch (Exception ex) {
@@ -128,7 +136,7 @@ public class StockView extends Application {
     private static void updateLineChart() {
         lineChart.getData().clear();
         for (Resource resource : stock.getStockResources()) {
-            XYChart.Series <String, Number> series = new XYChart.Series<>();
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
             series.setName(resource.getName());
             Double[] pricesHistory = stock.getPriceHistory().get(resource.getName());
             for (int i = 0; i < Stock.priceHistoryRange; i++) {

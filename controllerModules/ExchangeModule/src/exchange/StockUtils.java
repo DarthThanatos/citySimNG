@@ -5,6 +5,8 @@ import model.DependenciesRepresenter;
 import java.util.List;
 import java.util.Random;
 
+import static exchange.StockConfig.*;
+
 class StockUtils {
 
     private static Random random = new Random();
@@ -58,19 +60,19 @@ class StockUtils {
     }
 
     static String diceOperation(DependenciesRepresenter dependenciesRepresenter, List<Resource> resources) {
-        if (10 > dependenciesRepresenter.getMoney()) {
+        if (DICE_OPERATION_PRICE > dependenciesRepresenter.getMoney()) {
             return "WARNING - you need 10 money to roll the dice, you have "
                     + String.format("%.2f", dependenciesRepresenter.getMoney()) + " money";
         } else {
-            if (random.nextInt(10) % 2 == 0) {
-                dependenciesRepresenter.setMoney(dependenciesRepresenter.getMoney() - 10);
+            if (random.nextInt(100) + 1 >= DICE_OPERATION_WIN_CHANCE) {
+                dependenciesRepresenter.setMoney(dependenciesRepresenter.getMoney() - DICE_OPERATION_PRICE);
                 return "You won nothing, and now have " + String.format("%.2f", dependenciesRepresenter.getMoney()) + " money";
             }
-            Resource resource = resources.get(random.nextInt(resources.size() - 1));
-            int wonQuantity = (int) (random.nextInt(200) / resource.getPrice());
+            Resource resource = resources.get(random.nextInt(resources.size()));
+            int wonQuantity = 1 + random.nextInt(DICE_OPERATION_MAX_WIN_QUANTITY);
             dependenciesRepresenter.getStockPile().put(resource.getName(),
                     dependenciesRepresenter.getStockPile().get(resource.getName()) + wonQuantity);
-            dependenciesRepresenter.setMoney(dependenciesRepresenter.getMoney() - 10);
+            dependenciesRepresenter.setMoney(dependenciesRepresenter.getMoney() - DICE_OPERATION_PRICE);
             resource.setPlayerQuantity(dependenciesRepresenter.getStockPile().get(resource.getName()));
             return "You won " + wonQuantity + " of " + resource.getName() + ", and now have "
                     + dependenciesRepresenter.getStockPile().get(resource.getName()) + " " + resource.getName()

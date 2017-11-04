@@ -1,29 +1,24 @@
 package exchange;
 
 import java.util.Random;
+import java.util.logging.Logger;
+
+import static exchange.StockConfig.*;
 
 public class StockAlgorithm {
-
-    private static final double priceGrowFactor = 0.01;
-    private static final int quantityGrowFactor = 2;
-    private static final double quantityPriceRatioFactor = 2.5;
-    private static final int priceUpdateSpeed = 3000;
-    private static final int bearMarketLength = 10;
-    private static final int bullMarketLength = 10;
-    private static final double bearMarketGrowFactor = -0.01;
-    private static final double bullMarketGrowFactor = 0.01;
-    private static final int specialEventChance = 10;
 
     private Stock stock;
     private int bullMarketTurnsLeft;
     private int bearMarketTurnsLeft;
     private Random random;
+    private Logger logger;
 
     public StockAlgorithm(Stock stock) {
         this.stock = stock;
         random = new Random();
         bullMarketTurnsLeft = 0;
         bearMarketTurnsLeft = 0;
+        logger = Logger.getLogger("StockAlgorithm");
     }
 
     public void simulateStock() {
@@ -39,7 +34,7 @@ public class StockAlgorithm {
                 checkForBullMarket();
             }
             try {
-                Thread.sleep(priceUpdateSpeed);
+                Thread.sleep(PRICE_UPDATE_SPEED);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -58,19 +53,19 @@ public class StockAlgorithm {
     private void updateResourcePrice(Resource resource, double delta) {
         double newPrice = resource.getPrice() + resource.getPrice() * delta;
         resource.setPrice(newPrice);
-        resource.setStockQuantity(resource.getStockQuantity() + random.nextInt(quantityGrowFactor));
+        resource.setStockQuantity(resource.getStockQuantity() + random.nextInt(QUANTITY_GROW_FACTOR));
         stock.updatePriceHistory(newPrice, resource.getName());
     }
 
     private double calculateResourceDelta(Resource resource) {
 
         double averageQuantityPriceRatio = stock.getAverageQuantityPriceRatio();
-        double delta = (random.nextDouble() - 0.50) % priceGrowFactor;
+        double delta = (random.nextDouble() - 0.50) % PRICE_GROW_FACTOR;
 
-        if (resource.getQuantityPriceRatio() > quantityPriceRatioFactor * averageQuantityPriceRatio) {
-            delta = delta + priceGrowFactor;
-        } else if (resource.getQuantityPriceRatio() < averageQuantityPriceRatio / quantityPriceRatioFactor) {
-            delta = delta - priceGrowFactor;
+        if (resource.getQuantityPriceRatio() > QUANTITY_PRICE_RATIO_FACTOR * averageQuantityPriceRatio) {
+            delta = delta + PRICE_GROW_FACTOR;
+        } else if (resource.getQuantityPriceRatio() < averageQuantityPriceRatio / QUANTITY_PRICE_RATIO_FACTOR) {
+            delta = delta - PRICE_GROW_FACTOR;
         }
         return delta;
 
@@ -79,13 +74,13 @@ public class StockAlgorithm {
     private void drawForSpecialEvent() {
         if (bullMarketTurnsLeft == 0 && bearMarketTurnsLeft == 0) {
             int randomNumber = random.nextInt(100) + 1;
-            if (randomNumber <= specialEventChance) {
+            if (randomNumber <= SPECIAL_EVENT_CHANCE) {
                 if (randomNumber % 2 == 0) {
-                    System.out.println("Entering bear market");
-                    bearMarketTurnsLeft = bearMarketLength;
+                    logger.info("Entering bear market");
+                    bearMarketTurnsLeft = SPECIAL_EVENT_LENGTH;
                 } else {
-                    System.out.println("Entering bull market");
-                    bullMarketTurnsLeft = bullMarketLength;
+                    logger.info("Entering bull market");
+                    bullMarketTurnsLeft = SPECIAL_EVENT_LENGTH;
                 }
             }
         }
@@ -95,7 +90,7 @@ public class StockAlgorithm {
         if (bearMarketTurnsLeft > 0) {
             bearMarketTurnsLeft--;
             for (Resource resource : stock.getStockResources()) {
-                updateResourcePrice(resource, bearMarketGrowFactor);
+                updateResourcePrice(resource, -SPECIAL_EVENT_GROW_FACTOR);
             }
         }
     }
@@ -104,7 +99,7 @@ public class StockAlgorithm {
         if (bullMarketTurnsLeft > 0) {
             bullMarketTurnsLeft--;
             for (Resource resource : stock.getStockResources()) {
-                updateResourcePrice(resource, bullMarketGrowFactor);
+                updateResourcePrice(resource, SPECIAL_EVENT_GROW_FACTOR);
             }
         }
     }
