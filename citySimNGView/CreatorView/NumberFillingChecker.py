@@ -1,6 +1,7 @@
 import wx
 from wx.lib.scrolledpanel import ScrolledPanel
 
+from CreatorView import Consts
 from utils.LogMessages import CHECKER_PANEL_ERROR_MSG
 
 
@@ -44,7 +45,9 @@ class NumberFillingChecker(ScrolledPanel):
 
     def newChoicesValuesSpinners(self):
        self.choices_values = {choice:wx.SpinCtrl(self, value='0', size=(60, -1), min=0, max=5000) for choice in self.getChoicesList()}
-       for choice_value in self.choices_values.values():choice_value.Disable()
+       for choice_value in self.choices_values.values():
+           choice_value.Disable()
+           choice_value.SetForegroundColour((0,0,0))
        return self.choices_values
 
     def newChoicesCheckBoxes(self):
@@ -99,3 +102,22 @@ class NumberFillingChecker(ScrolledPanel):
         if edit_element_name is not None:
             for choice in self.getAlreadySelectedChoicesNames(edit_element_name):
                 self.onChoiceAlreadySelected(edit_element_name, choice)
+
+class BuildingProducedResourcesNFC(NumberFillingChecker):
+
+    def __init__(self, building_sheet_view):
+        NumberFillingChecker.__init__(
+            self,
+            parent_sheet_view=building_sheet_view,
+            key_label_txt = "Resource:",
+            value_desc_label_txt="Produced in quantity:",
+            intro_label_txt="Produced resources",
+            json_key=Consts.PRODUCES
+        )
+
+    def checkAndDumpCheckers(self, result_struct):
+        if self.parent_sheet_view.type_of_building_selector.GetValue() == "Domestic":
+            result_struct["Result"][self.json_key] = {}
+            return True
+        else:
+            return super(BuildingProducedResourcesNFC, self).checkAndDumpCheckers(result_struct)

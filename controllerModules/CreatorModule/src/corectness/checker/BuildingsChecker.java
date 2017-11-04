@@ -37,7 +37,6 @@ public class BuildingsChecker {
 	private void checkConsumedResourcesLowerEq(HashMap<String, Integer> resourcesLvls, HashMap<String, Integer> buildingsLvls) throws CheckException {
 		for(String buildingName : buildingsLvls.keySet()){
 			Building building = dr.getGraphsHolder().getBuildingNode(buildingName).getBuilding();
-			if(building.getType().equals("Domestic")) continue;
 			for (String consumedResource : building.getConsumes().keySet()){
 				if(building.getConsumes().get(consumedResource) == 0) continue;
 				if(resourcesLvls.get(consumedResource) > buildingsLvls.get(buildingName)){

@@ -51,5 +51,6 @@ class ResourceSheet(SheetView):
 
     def newStartIncomePicker(self):
         self.start_income_picker =  wx.SpinCtrl(self, value='0', size=(60, -1), min=0, max = 5000)
+        self.start_income_picker.SetForegroundColour((0,0,0))
         self.restorableViews.append(RestorableStartIncomePicker(self, self.start_income_picker))
         return self.start_income_picker

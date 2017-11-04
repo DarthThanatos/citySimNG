@@ -40,7 +40,6 @@
             "Description": "sad",
  
             "Produces": {
-                "Gold": 2
             },
  
             "Dwellers\namount": 2,
@@ -72,7 +71,6 @@
             "Description": "asd",
  
             "Produces": {
-                "Wood": 2
             },
  
             "Dwellers\namount": 3,
@@ -102,7 +100,6 @@
             "Description": "House",
  
             "Produces": {
-                "Gold": 1
             },
  
             "Dwellers\namount": 3,

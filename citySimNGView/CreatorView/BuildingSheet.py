@@ -1,9 +1,11 @@
 import wx
 
 import Consts
+from CreatorView.NumberFillingChecker import BuildingProducedResourcesNFC
 from CreatorView.RestorableView import  RestorableDwellersAmount, RestorableTypeOfBuilding, \
     RestorableDwellersNamesSelector
 from CreatorView.SheetView import SheetView
+from utils.OnShowUtil import OnShowUtil
 from viewmodel.SheetEntityChecker import BuildingSheetChecker
 
 
@@ -11,6 +13,12 @@ class BuildingSheet(SheetView):
     def __init__(self, parent, size, frame, currentDependencies):
         super(BuildingSheet, self).__init__(parent, size, frame, currentDependencies)
         self.initRootSizer(self.newBuildingCharacteristicsVerticalSizer(), topPadding=10)
+        self.Bind(wx.EVT_SHOW, self.onBuildingSheetShow, self)
+
+
+    def onBuildingSheetShow(self, event):
+        OnShowUtil().onCreatorSheetShow(self, event)
+        self.resourcesProducedChecker.Show(self.type_of_building_selector.GetValue() == "Industrial")
 
     def getDefaultIconRelativePath(self):
         return "house.png"
@@ -47,10 +55,8 @@ class BuildingSheet(SheetView):
 
 
     def newResourcesProducedChecker(self):
-        self.resourcesProducedChecker =  self.newNumberFillingChecker(
-            "Produced in quantity:",
-            "Produced resources",
-            Consts.PRODUCES)
+        self.resourcesProducedChecker =  BuildingProducedResourcesNFC(self)
+        self.childrenCheckers.append(self.resourcesProducedChecker)
         return self.resourcesProducedChecker
 
     def newCostInResourcesChecker(self):
@@ -86,6 +92,7 @@ class BuildingSheet(SheetView):
 
     def newDwellersAmountSpinner(self):
         self.dwellers_amount =  wx.SpinCtrl(self, value='0', size=(60, -1), min=0, max = 50)
+        self.dwellers_amount.SetForegroundColour((0,0,0))
         self.restorableViews.append(RestorableDwellersAmount(self, self.dwellers_amount))
         return self.dwellers_amount
 
