@@ -148,7 +148,6 @@ class StockViewUtils {
         lineChart.setLayoutX(primaryScreenBounds.getWidth() * 0.30);
         lineChart.setLayoutY(primaryScreenBounds.getHeight() * 0.05);
         lineChart.setPrefSize(primaryScreenBounds.getWidth() * 0.6, primaryScreenBounds.getHeight() * 0.7);
-        lineChart.setStyle("-fx-background-color: rgba(0, 168, 255, 0.05);");
         return lineChart;
     }
 
@@ -197,7 +196,7 @@ class StockViewUtils {
     }
 
     static Button createDiceButton() {
-        Button diceButton = new Button("ROLL THE DICE");
+        Button diceButton = new Button("ROLL (" + StockConfig.DICE_OPERATION_PRICE + " money)");
         diceButton.setPrefSize(primaryScreenBounds.getWidth() * 0.10, primaryScreenBounds.getHeight() * 0.04);
         diceButton.setLayoutX(primaryScreenBounds.getWidth() * 0.82);
         diceButton.setLayoutY(primaryScreenBounds.getHeight() * 0.82);
