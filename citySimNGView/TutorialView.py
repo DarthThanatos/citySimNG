@@ -14,7 +14,7 @@ class MainTab(wx.Panel):
         self.centerSizer = wx.BoxSizer(wx.VERTICAL)
         self.SetSizer(self.centerSizer)
 
-        self.initContentList(self.centerSizer)
+        self.initContentList()
 
     def addListElem(self, box, font, arrow, i):
         elemField = wx.StaticText(self, label=self.master.content[i]['name'])
@@ -32,7 +32,7 @@ class MainTab(wx.Panel):
         box.AddSpacer(20)
 
 
-    def initContentList(self, box):
+    def initContentList(self):
         """ This function creates content list and buttons, sets theirs positions and size and
             binds logic to them."""
         leftBox = wx.BoxSizer(wx.VERTICAL)

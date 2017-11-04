@@ -172,10 +172,10 @@ class TutorialPageView(wx.Panel):
             child.SetLabel("")
             child.SetId(-100)
         self.helperBitmap.SetBitmap(wx.BitmapFromImage(self.helperImg))
-        self.Bind(wx.EVT_BUTTON, self.parent.showPageView, self.leftArrowBtn)
-        self.Bind(wx.EVT_BUTTON, self.parent.showPageView, self.rightArrowBtn)
         self.rightArrowBtn.SetId(self.page +1)
         self.leftArrowBtn.SetId(self.page -1)
+        self.Bind(wx.EVT_BUTTON, self.parent.showPageView, self.leftArrowBtn)
+        self.Bind(wx.EVT_BUTTON, self.parent.showPageView, self.rightArrowBtn)
         self.centerSizer.Layout()
 
     def onShow(self, event):
