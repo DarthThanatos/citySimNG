@@ -144,6 +144,5 @@ class RestorableTypeOfBuilding(RestorableView):
         typeOfBuilding = \
             self.entityUtils.getEntityCharacteristic(entity_name, Consts.TYPE) \
                 if entity_name is not None else "Industrial"
-        print "setting", entity_name, " type to ", typeOfBuilding
         if typeOfBuilding not in ["Industrial", "Domestic"]: typeOfBuilding = ""
         self.type_of_building_selector.SetStringSelection(typeOfBuilding)

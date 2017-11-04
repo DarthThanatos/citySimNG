@@ -99,7 +99,6 @@ class SheetEntityChecker(object):
 
     def checkAndDumpTypeOfBuilding(self, result_struct):
         correct = self.getTypeOfBuilding() in ["Industrial", "Domestic"]
-        print "checker, type of ", self.getEntityName(), "is ", self.getTypeOfBuilding()
         if not correct:
             result_struct["ErrorMsg"] += "-> INVALID type of building, can be either Domestic or Industrial\n"
         else:
