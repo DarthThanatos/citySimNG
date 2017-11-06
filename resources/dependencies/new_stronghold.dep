@@ -339,7 +339,7 @@
  
             "Start income": "0",
  
-            "Texture path": "Grain.png",
+            "Texture path": "new\\klos3_small.png",
  
             "Resource\nName": "Crop",
  
@@ -353,7 +353,7 @@
  
             "Start income": "3",
  
-            "Texture path": "new\\drewno_small.png",
+            "Texture path": "new\\drewno2_small.png",
  
             "Resource\nName": "Wood",
  

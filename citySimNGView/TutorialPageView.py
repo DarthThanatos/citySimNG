@@ -28,7 +28,7 @@ class TutorialPageView(wx.Panel):
             style=wx.TE_MULTILINE | wx.TE_READONLY)
         self.contentField.SetValue(self.tutorialContent[self.subPage])
 
-        self.tutorialPageFont = wx.Font(20, wx.DECORATIVE, wx.NORMAL, wx.NORMAL, False, "resources\\Fonts\\18cents\\18cents.ttf")
+        self.tutorialPageFont = wx.Font(20, wx.DECORATIVE, wx.NORMAL, wx.NORMAL)
         self.contentField.SetFont(self.tutorialPageFont)
 
         self.maxNrOfHyperlinks = 10
