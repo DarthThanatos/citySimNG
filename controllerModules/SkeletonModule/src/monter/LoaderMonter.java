@@ -14,8 +14,8 @@ public class LoaderMonter extends BaseMonter{
 
 	private DependenciesRepresenter dr;
 	
-	public LoaderMonter(String filePath, String[] args, DispatchCenter dispatchCenter, DependenciesRepresenter dr) {
-		super(filePath, args, dispatchCenter);
+	public LoaderMonter(String filePath, DispatchCenter dispatchCenter, DependenciesRepresenter dr) {
+		super(filePath, dispatchCenter);
 		this.dr = dr; 
 	}
 	
@@ -26,14 +26,11 @@ public class LoaderMonter extends BaseMonter{
 		String nodeHashKey = nodeDesc[2];
 		modulesNames.add(nodeHashKey);
 		
-		URLClassLoader urlLoader = null; 
-		System.out.println("Read and create node " + nodeClassName + " with a hash key " + nodeHashKey);
+		URLClassLoader urlLoader = null;
      	try {
      		/*Using java reflection to dynamically load Node instances from other modules(which are set up as separate projects)*/
 			String currentLocation = System.getProperty("user.dir");
-			System.out.println("Current location: " + currentLocation);
 			String urlStr = "file:///" + currentLocation + "/" +  projectName + "/bin/"; //+ nodeClassName + ".class";//"MenuModule\\bin\\menunode\\MenuNode.class";
-			System.out.println("Url: " + urlStr);
 			URL[] urls = {new URL (urlStr)};
 			urlLoader = new URLClassLoader(urls);
 			Class<?> nodeClass = urlLoader.loadClass(nodeClassName);
@@ -46,6 +43,7 @@ public class LoaderMonter extends BaseMonter{
 		} 
      	finally{
      		try {
+				assert urlLoader != null;
 				urlLoader.close();
 			} catch (IOException e) {
 				e.printStackTrace();

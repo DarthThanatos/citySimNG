@@ -18,7 +18,6 @@ public class Dwellers {
 	
 	Dwellers(DependenciesRepresenter dr){
 		allDwellers = (List<Dweller>) dr.getModuleData("allDwellers");
-		System.out.println("Dwellers: " + CollectionConcatenationUtils.listToString(allDwellers));
 	}
 
 	public void updateDwellersWorkingInBuilding(Building building,

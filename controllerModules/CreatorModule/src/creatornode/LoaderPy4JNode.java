@@ -14,8 +14,8 @@ public class LoaderPy4JNode extends Py4JNode implements LoaderPresenter.OnLoader
 
 	private Node currentGameMenuNode = null;
 
-	public LoaderPy4JNode(DependenciesRepresenter dr,
-			DispatchCenter dispatchCenter, String nodeName) {
+	private LoaderPy4JNode(DependenciesRepresenter dr,
+						   DispatchCenter dispatchCenter, String nodeName) {
 		super(dr, dispatchCenter, nodeName);
 	}
 
@@ -70,7 +70,7 @@ public class LoaderPy4JNode extends Py4JNode implements LoaderPresenter.OnLoader
 	}
 	
 	private Node mountGraph(DependenciesRepresenter chosenDR){
-		LoaderMonter monter = new LoaderMonter("resources\\injectFiles\\loaderInject.txt", new String[]{}, dispatchCenter, chosenDR);
+		LoaderMonter monter = new LoaderMonter("resources\\injectFiles\\loaderInject.txt", dispatchCenter, chosenDR);
 		return monter.mount(new ArrayList<String>());	
 	}
 	

@@ -38,7 +38,6 @@ public class CyclesChecker implements CorrectnessChecker{
 	    	  if(!successorName.equals("None")) g.addEdge(entityName, successorName);
 	      }
 
-	      System.out.println(g.toString());
 
 	      // Are there cycles in the dependencies.
 	      cycleDetector = new CycleDetector<String, DefaultEdge>(g);

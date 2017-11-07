@@ -28,12 +28,10 @@ public abstract class Py4JNode implements Node{
 	public void setParent(String parentName, Node parent){
 		this.parent = parent;
 		neighbors.put(parentName, parent);
-		System.out.println(nodeName + "py4j: put " + parentName + " as parent");
 	}
 	
 	public void addNeighbour(String hashKey, Node neighbor){
 		neighbors.put(hashKey, neighbor);
-		System.out.println(nodeName + " py4j: put " + hashKey + " as neighbour");
 	}
 	
 	protected void moveTo(String targetName){
@@ -64,7 +62,6 @@ public abstract class Py4JNode implements Node{
 
 	@Override
 	public void atUnload() {
-		System.out.println("Calling atUnload of: " + nodeName);
 		for (Node neighbor : neighbors.values()){
 			if (neighbor != parent){
 				neighbor.atUnload();

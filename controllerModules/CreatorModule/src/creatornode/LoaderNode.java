@@ -40,7 +40,7 @@ public class LoaderNode extends SocketNode{
 			DependenciesRepresenter dr = representers.get(chosenSet);
 			
 			//dynamically mount new set of rules
-			LoaderMonter monter = new LoaderMonter("resources\\injectFiles\\loaderInject.txt", new String[]{}, dispatchCenter, dr);
+			LoaderMonter monter = new LoaderMonter("resources\\injectFiles\\loaderInject.txt", dispatchCenter, dr);
 			Node menu = monter.mount(new ArrayList<String>());
 			menu.setParent(nodeName, this);
 			neighbors = new HashMap<>();

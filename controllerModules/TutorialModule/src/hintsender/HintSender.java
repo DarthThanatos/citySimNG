@@ -29,13 +29,11 @@ public class HintSender {
     }
 
     private boolean notInterrupted(Long aLong) {
-        System.out.println("Sending event to map module");
         eventBus.post(new TutorialHintEvent(tutorialNode.getHints()));
         return true;
     }
 
     public void atUnload(){
-        System.out.println("stopping sending hints");
         DisposingUtils.dispose(hintsSendingDisposable);
     }
 }

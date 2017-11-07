@@ -22,7 +22,6 @@ def receiver_func(viewSetter):
             data, server = sock.recvfrom(1000000)
         except Exception:
             traceback.print_exc()
-            print "Hold on, Jesus, not so fast"
         wx.CallAfter(viewSetter.passMsgToCurrentView, data)
         try:
             jsonObj = json.loads(data)
@@ -86,7 +85,7 @@ def main():
     try:
         app.MainLoop()
     finally:
-        print >>sys.stderr, 'closing sockets'
+        logging.info("closing sockets")
         sock.close()
         gateway.close()
         javagateway.close()

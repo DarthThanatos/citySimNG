@@ -8,7 +8,7 @@ import controlnode.Py4JNode;
 
 public class MenuPy4JNode extends Py4JNode implements MainMenuPresenter.OnMenuPresenterCalled{
 
-	public MenuPy4JNode(DependenciesRepresenter dr,	DispatchCenter dispatchCenter, String nodeName) {
+	private MenuPy4JNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
 		super(dr, dispatchCenter, nodeName);
 	}
 		

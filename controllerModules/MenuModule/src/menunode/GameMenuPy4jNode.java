@@ -18,7 +18,6 @@ public class GameMenuPy4jNode extends Py4JNode implements GameMenuPresenter.OnGa
 
 	@Subscribe
 	public void onCurrentPricesEvent(ExchangeCurrentPricesEvent exchangeCurrentPricesEvent){
-		System.out.println("Game menu module got current prices: " + CollectionConcatenationUtils.mapToString(exchangeCurrentPricesEvent.getCurrentPrices()));
 		Presenter.getInstance().getGameMenuPresenter().animateCurrentPrices(exchangeCurrentPricesEvent.getCurrentPrices());
 	}
 
@@ -58,7 +57,6 @@ public class GameMenuPy4jNode extends Py4JNode implements GameMenuPresenter.OnGa
 		GameMenuPresenter gameMenuPresenter = Presenter.getInstance().getGameMenuPresenter();
 		gameMenuPresenter.setOnGameMenuPresenterCalled(this);
 		gameMenuPresenter.displayGameMenu();
-		System.out.println("atStart gamemenu");
 		registerEvBus();
 		
 	}

@@ -91,10 +91,9 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
                     try {
                         Thread.sleep(3000);
                     } catch (Exception e) {
-                        System.out.println("Map timer exited while loop");
+
                     }
                 }
-                System.out.println("Map timer exited while loop");
             }
         };
         resourcesThread.start();
@@ -104,7 +103,6 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
     @Subscribe
     public void onTutotialHintEvent(TutorialHintEvent tutorialHintEvent){
         //TODO - implementing reaction on tutorialHintEvent receipt
-        System.out.println("Map module got hint event with details: " + tutorialHintEvent.getHints());
     }
 
     @Override

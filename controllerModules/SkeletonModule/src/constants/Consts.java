@@ -1,6 +1,9 @@
 package constants;
 
+import java.util.logging.Level;
+
 public class Consts {
+	public static final Level DEBUG_LEVEL = Level.INFO;
 	//=======================================================
 	//for ResourceMonter
 	public static final String RESOURCE_NAME = "Resource\nName";
@@ -42,7 +45,6 @@ public class Consts {
 	//=======================================================
 	//for envelopes
 	public static final String TO = "To";
-	public static final String FROM = "From";
 	public static final String ARGS = "Args";
 	public static final String OPERATION = "Operation";
 	public static final String UUID = "UUID";

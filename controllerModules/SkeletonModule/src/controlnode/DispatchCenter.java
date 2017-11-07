@@ -84,7 +84,6 @@ public class DispatchCenter{
 	
 	public void createDB(List<String> modulesNamesList){
 		for (String moduleName : modulesNamesList){
-			System.out.println("\t-> Created entry for " + moduleName);
 			dispatchData.put(moduleName, new HashMap<>());
 		}
 	}

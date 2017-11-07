@@ -83,7 +83,6 @@ public class CreatorPy4JNode extends Py4JNode implements CreatorPresenter.OnCrea
 		JSONArray buildings = retrieveArrayFromObj(dependencies.getJSONObject("Buildings"));
 		JSONArray dwellers = retrieveArrayFromObj(dependencies.getJSONObject("Dwellers"));
 
-		System.out.println("BUILDINGS: " + buildings);
 		
 		ResourcesMonter rm = new ResourcesMonter(resources, dr);
 		BuildingsMonter bm = new BuildingsMonter(buildings, dr);

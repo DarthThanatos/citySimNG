@@ -21,7 +21,7 @@ public class Buildings {
 	private Map<String, Building> notFullyOccupiedBuildings;
 	private Map<String, Building> unprovidedBuildings;
 
-	public Buildings(DependenciesRepresenter dr){
+	Buildings(DependenciesRepresenter dr){
 		allBuildings = (List<Building>) dr.getModuleData("allBuildings");
 
 		for(Building building: allBuildings){
@@ -42,8 +42,9 @@ public class Buildings {
 		unprovidedBuildings= new LinkedHashMap<>();
 	}
 	
-	public boolean canAffordOnBuilding(String buildingName, Map<String, Integer> actualResourcesValues){
+	boolean canAffordOnBuilding(String buildingName, Map<String, Integer> actualResourcesValues){
 		Building building = findBuildingWithName(buildingName);
+		assert building != null;
 		Map<String, Integer> buildingCost = building.getResourcesCost();
 		
 		for(String resource: buildingCost.keySet()) {
@@ -54,14 +55,13 @@ public class Buildings {
 		return true;
 	}
 	
-	public PlaceBuildingResponse placeBuilding(String buildingName, String buildingId, Resources resources,
-											   Dwellers dwellers){
+	PlaceBuildingResponse placeBuilding(String buildingName, String buildingId, Resources resources,
+										Dwellers dwellers){
 		Building building = findBuildingWithName(buildingName);
 		Building newBuilding = new Building(building);
+		assert building != null;
 		String buildingType = building.getType().toLowerCase();
 		newBuilding.setId(buildingId);
-
-		System.out.println("Placing building");
 
 		// update resources
 		resources.subBuildingsCost(newBuilding);
@@ -96,9 +96,10 @@ public class Buildings {
 				getWorkingDwellers(newBuilding.getId()));
 	}
 	
-	public DeleteBuildingResponse deleteBuilding(String buildingId, Resources resources,
-												 Dwellers dwellers){
+	DeleteBuildingResponse deleteBuilding(String buildingId, Resources resources,
+										  Dwellers dwellers){
 		Building building = findBuildingWithId(buildingId);
+		assert building != null;
 		String buildingType = building.getType().toLowerCase();
 
 		resources.addResourcesFromBuildingDestruction(building);
@@ -153,10 +154,11 @@ public class Buildings {
 				dwellers.getAvailableDwellers());
 	}
 
-	public StopProductionResponse stopProduction(String buildingId, Resources resources, Dwellers dwellers){
+	StopProductionResponse stopProduction(String buildingId, Resources resources, Dwellers dwellers){
 		Building building = findBuildingWithId(buildingId);
 
 		System.out.println("STOP PROD IN building");
+		assert building != null;
 		if(building.isRunning())
 			stopProductionInBuilding(building, resources, dwellers);
 		else
@@ -172,8 +174,8 @@ public class Buildings {
 				building.isRunning());
 	}
 
-	public void stopProductionInBuilding(Building building, Resources resources,
-										 Dwellers dwellers){
+	private void stopProductionInBuilding(Building building, Resources resources,
+										  Dwellers dwellers){
 		String buildingType = building.getType().toLowerCase();
 
 		// for domestic building we have to change available dwellers and
@@ -217,8 +219,8 @@ public class Buildings {
 
 	}
 
-	public void resumeProductionInBuilding(Building building, Resources resources,
-										   Dwellers dwellers){
+	private void resumeProductionInBuilding(Building building, Resources resources,
+											Dwellers dwellers){
 		String buildingType = building.getType().toLowerCase();
 
 		building.setRunning(true);
@@ -240,7 +242,7 @@ public class Buildings {
 
 	}
 	
-	public Building findBuildingWithId(String buildingId){
+	private Building findBuildingWithId(String buildingId){
 		for(String id: playerIndustrialBuildings.keySet()){
 			if(id.equals(buildingId)){
 				return playerIndustrialBuildings.get(id);
@@ -278,9 +280,10 @@ public class Buildings {
 		return unlockedBuildings;
 	}
 
-	public Integer getWorkingDwellers(String buildingId){
+	Integer getWorkingDwellers(String buildingId){
 		Building building = findBuildingWithId(buildingId);
 
+		assert building != null;
 		return building.getWorkingDwellers();
 	}
 
@@ -333,35 +336,35 @@ public class Buildings {
 		return allBuildings;
 	}
 
-	public Map<String, Building> getPlayerIndustrialBuildings() {
+	Map<String, Building> getPlayerIndustrialBuildings() {
 		return playerIndustrialBuildings;
 	}
 
-	public Map<String, Building> getNotFullyOccupiedBuildings() {
+	Map<String, Building> getNotFullyOccupiedBuildings() {
 		return notFullyOccupiedBuildings;
 	}
-	public void setNotFullyOccupiedBuildings(Map<String, Building> notFullyOccupiedBuildings) {
+	void setNotFullyOccupiedBuildings(Map<String, Building> notFullyOccupiedBuildings) {
 		this.notFullyOccupiedBuildings = notFullyOccupiedBuildings;
 	}
 
 
-	public Map<String, Building> getPlayerDomesticBuildings() {
+	Map<String, Building> getPlayerDomesticBuildings() {
 		return playerDomesticBuildings;
 	}
 
-	public Map<String, Building> getUnprovidedBuildings() {
+	Map<String, Building> getUnprovidedBuildings() {
 		return unprovidedBuildings;
 	}
 
-	public void setUnprovidedBuildings(Map<String, Building> unprovidedBuildings) {
+	void setUnprovidedBuildings(Map<String, Building> unprovidedBuildings) {
 		this.unprovidedBuildings = unprovidedBuildings;
 	}
 
-	public List<Building> getDomesticBuildings() {
+	List<Building> getDomesticBuildings() {
 		return domesticBuildings;
 	}
 
-	public List<Building> getIndustrialBuildings() {
+	List<Building> getIndustrialBuildings() {
 		return industrialBuildings;
 	}
 }

@@ -40,11 +40,6 @@ public class Stock {
     }
 
     public void setWorkingStatus(boolean working) {
-        if (working) {
-            System.out.println("Stock is working");
-        } else {
-            System.out.println("Stock is stopped");
-        }
         this.workingStatus = working;
     }
 

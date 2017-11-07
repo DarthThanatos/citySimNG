@@ -28,7 +28,7 @@ public class Presenter {
     public static Presenter getInstance(){
     	if(presenter != null) return presenter;
     	
-    	presenter = presenter == null ? new Presenter() : presenter;
+    	presenter =  new Presenter();
     	gatewayServer = new GatewayServer(presenter,25335);
     	gatewayServer.start();
     	return presenter;

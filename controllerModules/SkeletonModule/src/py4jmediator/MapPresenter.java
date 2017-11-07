@@ -1,19 +1,26 @@
 package py4jmediator;
 
+import constants.Consts;
 import entities.Building;
 import entities.Dweller;
 import entities.Resource;
-import javafx.scene.paint.Stop;
 import py4jmediator.MapResponses.DeleteBuildingResponse;
 import py4jmediator.MapResponses.PlaceBuildingResponse;
 import py4jmediator.MapResponses.StopProductionResponse;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MapPresenter {
     private OnMapPresenterCalled onMapPresenterCalled;
+    private static final Logger logger = Logger.getLogger( MapPresenter.class.getName() );
+
+
+    MapPresenter(){
+        logger.setLevel(Consts.DEBUG_LEVEL);
+    }
 
     public interface OnMapPresenterCalled{
         void onGoToMenu();
@@ -30,54 +37,63 @@ public class MapPresenter {
     }
 
     public void goToMenu(){
-    	System.out.println("Going to menu");
         if(onMapPresenterCalled != null){
-        	System.out.println("map presenter not null");
+            logger.log(Level.INFO, "Going to menu");
             onMapPresenterCalled.onGoToMenu();
         }
     }
 
     public PlaceBuildingResponse placeBuilding(String buildingName, String buildingId){
-        if(onMapPresenterCalled != null)
+        if(onMapPresenterCalled != null) {
+            logger.log(Level.INFO, "Ordering to place building");
             return onMapPresenterCalled.onPlaceBuilding(buildingName, buildingId);
+        }
         return null;
     }
 
     public boolean checkIfCanAffordOnBuilding(String buildingName){
-    	System.out.println("Checking if can afford");
+        logger.log(Level.INFO, "Checking if can afford");
         if(onMapPresenterCalled != null){
-        	System.out.println("mapPresenter not null");
             boolean canAfford =  onMapPresenterCalled.onCheckIfCanAffordOnBuilding(buildingName);
-        	System.out.println("Can afford: " + canAfford);
+            logger.log(Level.INFO, "Can afford: " + canAfford);
             return canAfford;
         }
         return false;
     }
 
     public DeleteBuildingResponse deleteBuilding(String buildingId){
-        if(onMapPresenterCalled != null)
+        if(onMapPresenterCalled != null) {
+            logger.log(Level.INFO, "Ordering to delete building");
             return onMapPresenterCalled.onDeleteBuilding(buildingId);
+        }
         return null;
     }
 
     public StopProductionResponse stopProduction(String buildingId){
-        if(onMapPresenterCalled != null)
+        if(onMapPresenterCalled != null) {
+            logger.log(Level.INFO, "Ordering to stop production in a building");
             return onMapPresenterCalled.onStopProduction(buildingId);
+        }
         return null;
     }
 
     public Integer getWorkingDwellers(String buildingId){
-        if(onMapPresenterCalled != null)
+        if(onMapPresenterCalled != null) {
+            logger.log(Level.INFO, "Getting working dwellers in a building");
             return onMapPresenterCalled.onGetWorkingDwellers(buildingId);
+        }
         return -1;
     }
 
     public void viewInitialized(){
-        if(onMapPresenterCalled != null)
+        if(onMapPresenterCalled != null) {
+            logger.log(Level.INFO, "Acting upon Map View initialization");
             onMapPresenterCalled.onViewInitialized();
+        }
     }
 
     public void displayMap(){
+        logger.log(Level.INFO, "Calling Map View Model, displaying map");
         Presenter.getInstance().getViewModel().getMapViewModel().displayMap();
     }
 
@@ -89,6 +105,7 @@ public class MapPresenter {
                      Map<String, Integer> initialResourcesConsumption,
                      Map<String, Integer> initialResourcesBalance,
                      int availableDwellers){
+        logger.log(Level.INFO, "Calling Map View Model, init map");
         Presenter.getInstance().getViewModel().getMapViewModel().init(
                 resources,
                 domesticBuildings,
@@ -111,6 +128,7 @@ public class MapPresenter {
                                      Map<String, Integer> resourcesBalance,
                                      Integer neededDwellers,
                                      Integer availableDwellers){
+        logger.log(Level.INFO, "Calling Map View Model, updating map");
         Presenter.getInstance().getViewModel().getMapViewModel().updateValuesForCycle(
                 actualResourcesValues,
                 actualResourcesIncomes,
@@ -121,6 +139,7 @@ public class MapPresenter {
     }
 
     public void resumeGame(){
+        logger.log(Level.INFO, "Calling Map View Model, resuming game");
         Presenter.getInstance().getViewModel().getMapViewModel().resumeGame();
     }
 }

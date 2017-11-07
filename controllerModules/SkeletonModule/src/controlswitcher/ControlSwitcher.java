@@ -1,32 +1,31 @@
 package controlswitcher;
 
-import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.net.Socket;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import constants.Consts;
 import py4j.GatewayServer;
 import py4jmediator.Presenter;
 import controlnode.Node;
-import model.DependenciesRepresenter;
 import monter.BaseMonter;
 import monter.SystemMonter;
 
 public class ControlSwitcher {
 
-	private static Presenter presenter;
-	
+	private static final Logger logger = Logger.getLogger( ControlSwitcher.class.getName() );
+
 	public static void main(String[] args)throws Exception{
+		logger.setLevel(Consts.DEBUG_LEVEL);
 		for(String arg: args) {
 			if(arg.equals("--d") || arg.equals("--debug")) {
 				GatewayServer.turnLoggingOn();
 			}
 		}
-		presenter = Presenter.getInstance(); 
+		Presenter.getInstance();
 		checkIfViewReady();
-		Node currentNode = mountGraph(args);
+		Node currentNode = mountGraph();
 		mainLoop(currentNode);
 		cleanup();
 	}	
@@ -37,27 +36,21 @@ public class ControlSwitcher {
 		System.exit(0);
 	}
 	
-	private static Node mountGraph(String[] args){
-
-		/*
-		 * possible args values:
-		 * -noide
-		 */
-		
-		SystemMonter monter  = new BaseMonter("resources\\injectFiles\\mainInject.txt",args);
+	private static Node mountGraph(){
+		SystemMonter monter  = new BaseMonter("resources\\injectFiles\\mainInject.txt");
 		ArrayList<String> modulesNamesList = new ArrayList<>();
 		return monter.mount(modulesNamesList);
 	}
 	
 	private static void mainLoop(Node currentNode){
-		presenter.initViewModel();
+		Presenter.initViewModel();
 		/*
 		 * this trick lets switch control in just one code line and smoothly execute the logic
 		 * of a freshly selected Node instance
 		 */
 		
 		while (currentNode != null){
-			System.out.println("Current node: " + currentNode.getNodeName());
+			logger.log(Level.INFO, "Current node: " + currentNode.getNodeName());
 			currentNode = currentNode.nodeLoop();
 		}
 	}
@@ -71,9 +64,9 @@ public class ControlSwitcher {
 				break;
 			}
 			catch(Exception e){
-				System.out.println("One more trial");
+				logger.log(Level.INFO, "one more trial");
 			}
 		}
-		System.out.println("Connected, view layer active");			
+		logger.log(Level.INFO, "Connected with the view layer");
 	}
 }
