@@ -52,7 +52,6 @@ public class MapPresenter {
     }
 
     public boolean checkIfCanAffordOnBuilding(String buildingName){
-        logger.log(Level.INFO, "Checking if can afford");
         if(onMapPresenterCalled != null){
             boolean canAfford =  onMapPresenterCalled.onCheckIfCanAffordOnBuilding(buildingName);
             logger.log(Level.INFO, "Can afford: " + canAfford);
@@ -128,7 +127,6 @@ public class MapPresenter {
                                      Map<String, Integer> resourcesBalance,
                                      Integer neededDwellers,
                                      Integer availableDwellers){
-        logger.log(Level.INFO, "Calling Map View Model, updating map");
         Presenter.getInstance().getViewModel().getMapViewModel().updateValuesForCycle(
                 actualResourcesValues,
                 actualResourcesIncomes,

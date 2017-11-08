@@ -3,6 +3,7 @@ import os
 import threading
 import traceback
 import pygame
+import thread
 
 import wx
 from CreatorView.RelativePaths import relative_music_path, relative_textures_path
@@ -204,22 +205,33 @@ class MapView(wx.Panel):
             available_dwellers)
         self.sender.entry_point.getMapPresenter().viewInitialized()
 
-    def update_values_for_cycle(self, actual_resources_values,
+    def update_values_for_cycle_thread(self, actual_resources_values,
                                 actual_resources_incomes,
                                 actual_resources_consumption,
                                 resources_balance, needed_dwellers,
                                 available_dwellers):
         """ Update resources values """
-        self.game.resources_panel.resources_values = \
-            Converter().convertJavaMapToDict(actual_resources_values)
-        self.game.resources_panel.resources_incomes = \
-            Converter().convertJavaMapToDict(actual_resources_incomes)
-        self.game.resources_panel.resources_consumption = \
-            Converter().convertJavaMapToDict(actual_resources_consumption)
-        self.game.resources_panel.resources_balance = \
-            Converter().convertJavaMapToDict(resources_balance)
+        res_vals = Converter().convertJavaMapToDict(actual_resources_values)
+        self.game.resources_panel.resources_values = res_vals
+        res_incomes = Converter().convertJavaMapToDict(actual_resources_incomes)
+        self.game.resources_panel.resources_incomes = res_incomes
+        res_consumption = Converter().convertJavaMapToDict(actual_resources_consumption)
+        self.game.resources_panel.resources_consumption = res_consumption
+        res_balance = Converter().convertJavaMapToDict(resources_balance)
+        self.game.resources_panel.resources_balance = res_balance
         self.game.resources_panel.curr_dwellers_amount = needed_dwellers
         self.game.resources_panel.curr_max_dwellers_amount = available_dwellers
+
+    def update_values_for_cycle(self, actual_resources_values,
+                                actual_resources_incomes,
+                                actual_resources_consumption,
+                                resources_balance, needed_dwellers,
+                                available_dwellers):
+        thread.start_new_thread(self.update_values_for_cycle_thread, ( actual_resources_values,
+                                actual_resources_incomes,
+                                actual_resources_consumption,
+                                resources_balance, needed_dwellers,
+                                available_dwellers))
 
     def resume_game(self):
         """ Resume game. """

@@ -7,8 +7,16 @@ class Converter(object):
         self.javaGateway = javaGateway
 
     def convertJavaMapToDict(self, map):
-        if type(map )!= dict:  return {entry.getKey() : entry.getValue() for entry in map.entrySet() }
-        else: return map
+        if type(map) == dict: return map
+        res = {}
+        keys = map.keySet().toArray()
+        for i in range(map.keySet().size()):
+            key = keys[i]
+            value = map.get(key)
+            res[key] = value
+        # if type(map )!= dict:  return {entry.getKey() : entry.getValue() for entry in map.entrySet() }
+        # else: return map
+        return res
 
     def convertDictToMap(self, dictToConvert):
         return MapConverter().convert(dictToConvert, self.javaGateway._gateway_client)

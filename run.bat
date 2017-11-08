@@ -16,4 +16,4 @@ controllerModules\SkeletonModule\lib\guava.jar;^
 controllerModules\SkeletonModule\lib\reactive-streams.jar;^
 controllerModules\SkeletonModule\lib\rxjava.jar^
  controlswitcher.ControlSwitcher > javaLog.txt
-python citySimNGView/Mediator.py
+python citySimNGView/Mediator.py 

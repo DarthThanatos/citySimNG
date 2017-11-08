@@ -231,11 +231,11 @@ public class Resources {
 	}
 	/* Getters and setters */
 	public Map<String, Integer> getActualResourcesValues(){
-		return this.actualResourcesValues;
+		return new HashMap<>(this.actualResourcesValues);
 	}
 
 	public Map<String, Integer> getActualResourcesIncomes(){
-		return this.actualResourcesIncomes;
+		return  new HashMap<>(this.actualResourcesIncomes);
 	}
 
 	public List<String> getResourcesNames(){
@@ -256,11 +256,11 @@ public class Resources {
 	}
 
 	public Map<String, Integer> getResourcesBalance() {
-		return resourcesBalance;
+		return  new HashMap<>(resourcesBalance);
 	}
 
 	public Map<String, Integer> getActualResourcesConsumption() {
-		return actualResourcesConsumption;
+		return  new HashMap<>(actualResourcesConsumption);
 	}
 
 }
