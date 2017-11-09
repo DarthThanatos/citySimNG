@@ -1,6 +1,7 @@
 import json
 #import traceback
 import wx
+from py4j.java_collections import JavaList, JavaArray
 
 from CreatorView.GraphsSpaces import GraphsSpaces
 from TutorialPageView import TutorialPageView
@@ -14,11 +15,11 @@ class MainTab(wx.Panel):
         self.centerSizer = wx.BoxSizer(wx.VERTICAL)
         self.SetSizer(self.centerSizer)
 
-        self.initContentList()
+#        self.initContentList()
 
     def addListElem(self, box, font, arrow, i):
-        elemField = wx.StaticText(self, label=self.master.content[i]['name'])
-        elemID = self.master.content[i]['id']
+        elemField = wx.StaticText(self, label=self.master.content[i])
+        elemID = i
         elemField.SetFont(font)
         arrowButton = wx.Button(self, id=elemID, label="  ", 
             size=(arrow.GetWidth()+10, arrow.GetHeight()+5))
@@ -43,13 +44,13 @@ class MainTab(wx.Panel):
         listFont.SetPointSize(18)
         arrow = wx.Bitmap(relative_textures_path+"new\\arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
 
-        contentSize = len(self.master.content)
+        contentSize = len(self.master.content)-1
         contentHalf = contentSize - (contentSize // 2)
         for i in range(contentHalf):
-            self.addListElem(leftBox, listFont, arrow, i)
+            self.addListElem(leftBox, listFont, arrow, i+1)
 
         for i in range(contentHalf, contentSize):
-            self.addListElem(rightBox, listFont, arrow, i)
+            self.addListElem(rightBox, listFont, arrow, i+1)
 
         contentBox.Add(leftBox,0)
         contentBox.AddSpacer(50)
@@ -81,7 +82,7 @@ class TutorialView(wx.Panel):
 
         #self.SetBackgroundColour((255, 255, 255))
         self.pageID = 0
-        self.nrOfPages = 6
+        self.nrOfPages = 0
         self.tutorialInfo = "Welcome to our tutorial! If you'd like to find out what are all the functionalities of this cutting-edge game engine, you're in the right place :)"
         self.welcomeField = wx.StaticText(self, label=self.tutorialInfo)
         self.tutorialFont = wx.Font(20, wx.FONTFAMILY_DECORATIVE, 
@@ -100,44 +101,19 @@ class TutorialView(wx.Panel):
         self.centerSizer.AddSpacer(30)
         self.centerSizer.Add(self.welcomeField, 0, wx.CENTER)
         self.centerSizer.AddSpacer(10)
-        self.content = [
-            {
-                'name': 'Map - overview',
-                'id': 4
-            },
-            {
-                'name': 'Map - settlement panel',
-                'id': 5
-            },
-            {
-                'name': 'Map - resources panel',
-                'id': 6
-            },
-            {
-                'name': 'Exchange - overview',
-                'id': 1
-            },
-            {
-                'name': 'Exchange - transactions',
-                'id': 2
-            },
-            {
-                'name': 'Exchange - lottery',
-                'id': 3
-            }
-        ]
+        self.content = None
         tabs = wx.Notebook(self)
         # Create the tab windows
-        tab1 = MainTab(tabs,self)
-        tab2 = EntitiesTab(tabs, self)
-        tab3 = EntitiesTab(tabs,self)
-        tab4 = EntitiesTab(tabs,self)
+        self.tab1 = MainTab(tabs,self)
+        self.tab2 = EntitiesTab(tabs, self)
+        self.tab3 = EntitiesTab(tabs,self)
+        self.tab4 = EntitiesTab(tabs,self)
  
         # Add the windows to tabs and name them.
-        tabs.AddPage(tab1, "MainTab")
-        tabs.AddPage(tab2, "Resources Tab`")
-        tabs.AddPage(tab3, "Dwellers Tab")
-        tabs.AddPage(tab4, "Buildings Tab")
+        tabs.AddPage(self.tab1, "MainTab")
+        tabs.AddPage(self.tab2, "Resources Tab`")
+        tabs.AddPage(self.tab3, "Dwellers Tab")
+        tabs.AddPage(self.tab4, "Buildings Tab")
         self.centerSizer.Add(tabs, 0, wx.EXPAND)
         ln = wx.StaticLine(self, -1)
         self.centerSizer.Add(ln, 0, wx.EXPAND)
@@ -235,5 +211,38 @@ class TutorialView(wx.Panel):
         self.pageView.nrOfSubpages = len(pageContentString) - 3
         self.pageView.page = pageContentString["nr"]
         self.pageView.updateHyperlinksAndImg()
+
+    def fetchTutorialIndex(self, index):
+        # for x in jsonPage.keys():
+        #     self.content.append(x)
+        self.nrOfPages = len(index)-1
+        if self.content is None:
+            self.content = index
+            print "Print index"
+            if self.content is not None:
+                for x in self.content:
+                    print x
+                    print type(x)
+            self.tab1.initContentList()
+            self.centerSizer.Layout()
+        else:
+            print "len(self.content):"
+            print len(self.content)
+
+    def fetchNodes(self, buildingsList, resourcesList, dwellersList):
+        print "Print buildingsList"
+        if buildingsList is not None:
+            for x in buildingsList:
+                print x
+        print "Print resourcesList"
+        if resourcesList is not None:
+            for x in resourcesList:
+                print x
+        print "Print dwellersList"
+        if dwellersList is not None:
+            for x in dwellersList:
+                print x
+                print type(x)
+
 
     

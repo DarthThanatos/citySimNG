@@ -3,6 +3,7 @@ package tutorialnode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Iterator;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -24,15 +25,16 @@ import py4jmediator.*;
 public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTutorialPresenterCalled{
 
 	private JSONObject readPage;
+	private String[] tutorialIndex;
 	private BufferedReader tutorialReader;
 	private HintSender hintSender;
-	private Map<Integer, String> tutorialIndex;
+	//private Map<Integer, String> tutorialIndex;
 
 	public TutorialPy4JNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
 		super(dr, dispatchCenter, nodeName);
 		readPage = new JSONObject("{}");
 		hintSender = new HintSender(this, dispatchCenter.getEventBus());
-		tutorialIndex = new HashMap<Integer, String>();
+		//tutorialIndex = new HashMap<Integer, String>();
 	}
 
 
@@ -82,18 +84,36 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 		//fetch tutorialIndex
 		String line;
 		String page = "";
-			tutorialIndexReader = new BufferedReader(new FileReader ("resources\\Tutorial\\tutorialIndex.json"));
-			while ((line = tutorialIndexReader.readLine()) != null) {
-				System.out.println("line = " + line);
-				page = page.concat(line); 
+			try {
+				tutorialReader = new BufferedReader(new FileReader ("resources\\Tutorial\\tutorialIndex.json"));
+				while ((line = tutorialReader.readLine()) != null) {
+					System.out.println("line = " + line);
+					page = page.concat(line); 
+				}
+				tutorialReader.close();
+			}catch (IOException e){
+				e.printStackTrace();
 			}
-			tutorialIndexReader.close();
 
 			page = page.replaceAll("[\\p{Cc}\\p{Cf}\\p{Co}\\p{Cn}]", "?");
 			System.out.println("Pure string: " + page);
 			readPage = new JSONObject(page);
 			System.out.println("Read page:" + readPage.toString());
+			tutorialIndex = new String[readPage.length()+1];
+			int nr;
+			String keyName;
+			for (Iterator<String> key = readPage.keys(); key.hasNext();){//for (String key : readPage.keys()) {
+				keyName = key.next();
+				nr = readPage.getInt(keyName);
+				tutorialIndex[nr] = keyName;
+			}
+
+		//fetch buildings
+
 		//handle tutorialIndex to python view
+		Presenter.getInstance().getTutorialPresenter().fetchTutorialIndex(tutorialIndex);
+		Presenter.getInstance().getTutorialPresenter().fetchNodes(dr.getBuildingsNames(), 
+			dr.getResourcesNames(), dr.getDwellersNames());
 	}
 
 	@Override
@@ -123,7 +143,6 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 		try {
 				readPage(pageNr);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			JSONObject envelope = new JSONObject();
