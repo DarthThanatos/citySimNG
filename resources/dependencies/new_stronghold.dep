@@ -351,7 +351,7 @@
  
             "Start income": "3",
  
-            "Texture path": "new\\drewno2_small.png",
+            "Texture path": "new\\drewno5_small.png",
  
             "Resource\nName": "Wood",
  
@@ -365,7 +365,7 @@
  
             "Start income": "3",
  
-            "Texture path": "Rock.png",
+            "Texture path": "new\\kamien.png",
  
             "Resource\nName": "Rock",
  
