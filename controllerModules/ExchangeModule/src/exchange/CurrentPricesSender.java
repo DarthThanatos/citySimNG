@@ -35,7 +35,7 @@ public class CurrentPricesSender {
     }
 
     private void sendPeriodically(){
-        curPricesSendingDisposable = Observable.interval(2, TimeUnit.MINUTES)
+        curPricesSendingDisposable = Observable.interval(40, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.newThread())
                 .forEachWhile(this::notInterrupted, Throwable::printStackTrace);
     }

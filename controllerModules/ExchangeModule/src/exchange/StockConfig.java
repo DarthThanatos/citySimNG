@@ -63,16 +63,16 @@ class StockConfig {
     }
 
     private static void createDefaultPropertiesMap() {
-        propertiesDefaultValues.put(propertiesNames[0], "0.01");
-        propertiesDefaultValues.put(propertiesNames[1], "2");
-        propertiesDefaultValues.put(propertiesNames[2], "2.5");
-        propertiesDefaultValues.put(propertiesNames[3], "2000");
-        propertiesDefaultValues.put(propertiesNames[4], "5");
-        propertiesDefaultValues.put(propertiesNames[5], "0.05");
-        propertiesDefaultValues.put(propertiesNames[6], "5");
-        propertiesDefaultValues.put(propertiesNames[7], "10.0");
-        propertiesDefaultValues.put(propertiesNames[8], "50");
-        propertiesDefaultValues.put(propertiesNames[9], "30");
+        propertiesDefaultValues.put(propertiesNames[0], "0.01"); // PRICE_GROW_FACTOR_IN_PERCENT
+        propertiesDefaultValues.put(propertiesNames[1], "2");    // QUANTITY_GROW_FACTOR_APIECE
+        propertiesDefaultValues.put(propertiesNames[2], "2.5");  // QUANTITY_PRICE_RATIO_FACTOR
+        propertiesDefaultValues.put(propertiesNames[3], "2000"); // PRICE_UPDATE_SPEED_IN_MILLIS
+        propertiesDefaultValues.put(propertiesNames[4], "3");    // SPECIAL_EVENT_LENGTH_IN_UPDATES
+        propertiesDefaultValues.put(propertiesNames[5], "0.10"); // SPECIAL_EVENT_GROW_FACTOR_IN_PERCENT
+        propertiesDefaultValues.put(propertiesNames[6], "1");    // SPECIAL_EVENT_CHANCE_IN_PERCENT
+        propertiesDefaultValues.put(propertiesNames[7], "10.0"); // DICE_OPERATION_PRICE
+        propertiesDefaultValues.put(propertiesNames[8], "50");   // DICE_OPERATION_MAX_WIN_QUANTITY_APIECE
+        propertiesDefaultValues.put(propertiesNames[9], "30");   // DICE_OPERATION_WIN_CHANCE_IN_PERCENT
 
     }
 

@@ -2,8 +2,7 @@ package exchange;
 
 import model.DependenciesRepresenter;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static exchange.StockConfig.*;
 
@@ -78,5 +77,29 @@ class StockUtils {
                     + dependenciesRepresenter.getStockPile().get(resource.getName()) + " " + resource.getName()
                     + " and " + String.format("%.2f", dependenciesRepresenter.getMoney()) + " money";
         }
+    }
+
+    static void updateCurrentPrices(Map<String, Double> currentPrices, List<Resource> stockResources) {
+        if (currentPrices.isEmpty()) {
+            for (Resource resource : stockResources) {
+                currentPrices.put(resource.getName(), resource.getPrice());
+            }
+        } else {
+            for (Resource resource : stockResources) {
+                double currentPrice = resource.getPrice().intValue();
+                if (currentPrices.get(resource.getName()) > currentPrice) {
+                    currentPrice = -currentPrice;
+                }
+                currentPrices.put(resource.getName(), currentPrice);
+            }
+        }
+    }
+
+    static HashMap<String, Integer> getIntMapFromDouble(Map<String, Double> currentPrices) {
+        HashMap<String, Integer> currentPricesInt = new HashMap<>();
+        for (String resourceName : currentPrices.keySet()) {
+            currentPricesInt.put(resourceName, currentPrices.get(resourceName).intValue());
+        }
+        return currentPricesInt;
     }
 }

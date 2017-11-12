@@ -5,8 +5,8 @@ import java.util.*;
 import exchange.*;
 import model.DependenciesRepresenter;
 
-// this class is only for testing purposes
-public class Test {
+// this class is only for manual testing purposes
+public class StockMain {
 
     public static void main(String[] args) {
 

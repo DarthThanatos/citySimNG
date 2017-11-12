@@ -46,7 +46,6 @@ public class StockAlgorithm {
         for (Resource resource : stock.getStockResources()) {
             double delta = calculateResourceDelta(resource);
             updateResourcePrice(resource, delta);
-
         }
     }
 
@@ -63,6 +62,7 @@ public class StockAlgorithm {
         double delta = (random.nextDouble() - 0.50) % PRICE_GROW_FACTOR;
 
         if (resource.getQuantityPriceRatio() > QUANTITY_PRICE_RATIO_FACTOR * averageQuantityPriceRatio) {
+            //logger.info("quantity price ratio "+resource.getName()+" :" + resource.getQuantityPriceRatio() + ", > " + QUANTITY_PRICE_RATIO_FACTOR + " * " + averageQuantityPriceRatio);
             delta = delta + PRICE_GROW_FACTOR;
         } else if (resource.getQuantityPriceRatio() < averageQuantityPriceRatio / QUANTITY_PRICE_RATIO_FACTOR) {
             delta = delta - PRICE_GROW_FACTOR;

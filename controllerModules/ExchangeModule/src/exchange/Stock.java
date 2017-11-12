@@ -13,6 +13,7 @@ public class Stock {
     private boolean workingStatus;
     private Map<String, Double[]> priceHistory;
     private Random random;
+    private Map<String, Double> currentPrices;
 
     public Stock() {
         random = new Random();
@@ -51,6 +52,7 @@ public class Stock {
         this.stockResourcesNames = dependenciesRepresenter.getResourcesNames();
         stockResources = new ArrayList<>();
         priceHistory = new HashMap<>();
+        currentPrices = new HashMap<>();
         for (String resourceName : this.stockResourcesNames) {
             stockResources.add(new Resource(resourceName, (random.nextDouble() + 1) * 10, random.nextInt(10)));
             Double[] history;
@@ -74,7 +76,7 @@ public class Stock {
     double getAverageQuantityPriceRatio() {
         double ratio = 0.0;
         for (Resource resource : stockResources) {
-            ratio = resource.getStockQuantity() / resource.getPrice();
+            ratio = ratio + resource.getQuantityPriceRatio();
         }
         return ratio / stockResources.size();
     }
@@ -104,5 +106,13 @@ public class Stock {
 
     String diceOperation() {
         return StockUtils.diceOperation(dependenciesRepresenter, stockResources);
+    }
+
+    public HashMap<String, Integer> updateAndGetCurrentPrices() {
+        synchronized (this) {
+            setWorkingStatus(false);
+            StockUtils.updateCurrentPrices(currentPrices, stockResources);
+        }
+        return StockUtils.getIntMapFromDouble(currentPrices);
     }
 }
