@@ -1,0 +1,51 @@
+import exchange.Resource;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
+public class ResourceUnitTest {
+
+    @Test
+    public void ResourceInitTest() {
+        // given
+        Resource resource = new Resource("Gold", 20.0, 9);
+
+        // then
+        assertEquals(resource.getName(), "Gold");
+        assertEquals(resource.getStockQuantity(), 9);
+        assertEquals(resource.getPrice(), 20.0, 0.0);
+        assertEquals(resource.getPlayerQuantity(), 0);
+    }
+
+    @Test
+    public void ResourceSettersTest() {
+        // given
+        Resource resource = new Resource("", 0.0, 0);
+
+        // when
+        resource.setName("Gold");
+        resource.setStockQuantity(10);
+        resource.setPlayerQuantity(10);
+        resource.setPrice(10.0);
+
+        // then
+        assertEquals(resource.getName(), "Gold");
+        assertEquals(resource.getStockQuantity(), 10);
+        assertEquals(resource.getPrice(), 10.0, 0.0);
+        assertEquals(resource.getPlayerQuantity(), 10);
+    }
+
+    @Test
+    public void ResourceUtilsTest() {
+        // given
+        Resource resource = new Resource("Gold", 3.1234, 10);
+
+        // when
+        String priceString = resource.getPriceString();
+        double quantityPriceRatio = resource.getQuantityPriceRatio();
+
+        // then
+        assertEquals(priceString, "3.12");
+        assertEquals(quantityPriceRatio, 3.20163, 0.00001);
+    }
+}

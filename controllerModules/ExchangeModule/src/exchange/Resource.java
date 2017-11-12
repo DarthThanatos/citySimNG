@@ -1,6 +1,5 @@
 package exchange;
 
-@SuppressWarnings("ALL")
 public class Resource {
 
     private String name;
@@ -8,7 +7,7 @@ public class Resource {
     private int playerQuantity;
     private double price;
 
-    Resource(String name, double price, int stockQuantity) {
+    public Resource(String name, double price, int stockQuantity) {
         super();
         this.name = name;
         this.stockQuantity = stockQuantity;
@@ -20,7 +19,7 @@ public class Resource {
         return this.name;
     }
 
-    void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -28,7 +27,7 @@ public class Resource {
         return this.stockQuantity;
     }
 
-    void setStockQuantity(int stockQuantity) {
+    public void setStockQuantity(int stockQuantity) {
         this.stockQuantity = stockQuantity;
     }
 
@@ -36,7 +35,7 @@ public class Resource {
         return this.playerQuantity;
     }
 
-    void setPlayerQuantity(int playerQuantity) {
+    public void setPlayerQuantity(int playerQuantity) {
         this.playerQuantity = playerQuantity;
     }
 
@@ -44,7 +43,7 @@ public class Resource {
         return this.price;
     }
 
-    void setPrice(double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

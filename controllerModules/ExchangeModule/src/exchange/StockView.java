@@ -102,7 +102,6 @@ public class StockView extends Application {
     public static void initStockView(Stock stock, DependenciesRepresenter dependenciesRepresenter) {
         Stock tmpStock = StockView.stock;
         StockView.stock = stock;
-        launch();
         try {
             launch();
         } catch (Exception ex) {
