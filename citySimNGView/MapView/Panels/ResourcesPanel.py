@@ -62,7 +62,7 @@ class ResourcesPanel(Panel):
         self.dweller_sprite = BasicSprite(self.pos_x, center_image_y_pos(DWELLER_ICON_HEIGHT * self.height,
                                                                          self.pos_y, self.height),
                                           DWELLER_ICON_WIDTH * self.width, DWELLER_ICON_HEIGHT * self.height,
-                                          relative_textures_path + "dweller.jpg", "Working dwellers / All dwellers")
+                                          relative_textures_path + "new\\mieszkaniec2.png", "Working dwellers / All dwellers")
         self.all_sprites.add(self.dweller_sprite)
 
     def draw(self):

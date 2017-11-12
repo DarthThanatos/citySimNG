@@ -269,7 +269,7 @@
  
             "Dweller\nName": "Worker",
  
-            "Texture path": "dweller.jpg",
+            "Texture path": "new\\mieszkaniec2.png",
  
             "Consumes": {
                 "Gold": 2
@@ -285,7 +285,7 @@
  
             "Dweller\nName": "Dweller",
  
-            "Texture path": "dweller.jpg",
+            "Texture path": "new\\mieszkaniec2.png",
  
             "Consumes": {
                 "Gold": 2
@@ -309,7 +309,7 @@
  
             "Start income": "3",
  
-            "Texture path": "Gold2.png",
+            "Texture path": "new\\zloto.png",
  
             "Resource\nName": "Gold",
  
@@ -323,7 +323,7 @@
  
             "Start income": "0",
  
-            "Texture path": "new\\maka_small.png",
+            "Texture path": "new\\maka.png",
  
             "Resource\nName": "Flour",
  
@@ -337,7 +337,7 @@
  
             "Start income": "0",
  
-            "Texture path": "new\\klos3_small.png",
+            "Texture path": "new\\klos.png",
  
             "Resource\nName": "Crop",
  
@@ -351,7 +351,7 @@
  
             "Start income": "3",
  
-            "Texture path": "new\\drewno5_small.png",
+            "Texture path": "new\\drewno.png",
  
             "Resource\nName": "Wood",
  
@@ -379,7 +379,7 @@
  
             "Start income": "0",
  
-            "Texture path": "new\\chleb2_small.png",
+            "Texture path": "new\\chleb.png",
  
             "Resource\nName": "Bread",
  
