@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 public class ResourceUnitTest {
 
     @Test
-    public void ResourceInitTest() {
+    public void testResourceCreation() {
         // given
         Resource resource = new Resource("Gold", 20.0, 9);
 
@@ -18,7 +18,7 @@ public class ResourceUnitTest {
     }
 
     @Test
-    public void ResourceSettersTest() {
+    public void testResourceSetters() {
         // given
         Resource resource = new Resource("", 0.0, 0);
 
@@ -36,7 +36,7 @@ public class ResourceUnitTest {
     }
 
     @Test
-    public void ResourceUtilsTest() {
+    public void testResourceUtils() {
         // given
         Resource resource = new Resource("Gold", 3.1234, 10);
 

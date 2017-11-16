@@ -60,7 +60,7 @@ class StockUtils {
 
     static String diceOperation(DependenciesRepresenter dependenciesRepresenter, List<Resource> resources) {
         if (DICE_OPERATION_PRICE > dependenciesRepresenter.getMoney()) {
-            return "WARNING - you need 10 money to roll the dice, you have "
+            return "WARNING - you need " + DICE_OPERATION_PRICE + " money to roll the dice, you have "
                     + String.format("%.2f", dependenciesRepresenter.getMoney()) + " money";
         } else {
             if (random.nextInt(100) + 1 >= DICE_OPERATION_WIN_CHANCE) {

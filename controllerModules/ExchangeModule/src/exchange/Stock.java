@@ -6,7 +6,7 @@ import model.DependenciesRepresenter;
 
 public class Stock {
 
-    static final int priceHistoryRange = 15;
+    public static final int priceHistoryRange = 15;
     private DependenciesRepresenter dependenciesRepresenter;
     private List<Resource> stockResources;
     private List<String> stockResourcesNames;
@@ -24,19 +24,19 @@ public class Stock {
         this.dependenciesRepresenter = dependenciesRepresenter;
     }
 
-    DependenciesRepresenter getDependenciesRepresenter() {
+    public DependenciesRepresenter getDependenciesRepresenter() {
         return dependenciesRepresenter;
     }
 
-    List<Resource> getStockResources() {
+    public List<Resource> getStockResources() {
         return stockResources;
     }
 
-    List<String> getStockResourcesNames() {
+    public List<String> getStockResourcesNames() {
         return stockResourcesNames;
     }
 
-    boolean getWorkingStatus() {
+    public boolean getWorkingStatus() {
         return workingStatus;
     }
 
@@ -44,7 +44,7 @@ public class Stock {
         this.workingStatus = working;
     }
 
-    Map<String, Double[]> getPriceHistory() {
+    public Map<String, Double[]> getPriceHistory() {
         return priceHistory;
     }
 
@@ -54,7 +54,7 @@ public class Stock {
         priceHistory = new HashMap<>();
         currentPrices = new HashMap<>();
         for (String resourceName : this.stockResourcesNames) {
-            stockResources.add(new Resource(resourceName, (random.nextDouble() + 1) * 10, random.nextInt(10)));
+            stockResources.add(new Resource(resourceName, (random.nextDouble() + 1) * 10, random.nextInt(10) + 1));
             Double[] history;
             history = new Double[priceHistoryRange];
             for (int i = 0; i < priceHistoryRange; i++) {
@@ -64,7 +64,7 @@ public class Stock {
         }
     }
 
-    Resource getResource(String name) {
+    public Resource getResource(String name) {
         for (Resource resource : stockResources) {
             if (resource.getName().equals(name)) {
                 return resource;
@@ -73,7 +73,7 @@ public class Stock {
         return null;
     }
 
-    double getAverageQuantityPriceRatio() {
+    public double getAverageQuantityPriceRatio() {
         double ratio = 0.0;
         for (Resource resource : stockResources) {
             ratio = ratio + resource.getQuantityPriceRatio();
@@ -81,30 +81,30 @@ public class Stock {
         return ratio / stockResources.size();
     }
 
-    void updatePriceHistory(double newPrice, String resourceName) {
+    public void updatePriceHistory(double newPrice, String resourceName) {
         Double[] historyTable = priceHistory.get(resourceName);
         System.arraycopy(historyTable, 1, historyTable, 0, priceHistoryRange - 1);
         historyTable[priceHistoryRange - 1] = newPrice;
     }
 
-    void updatePlayerResource() {
+    public void updatePlayerResource() {
         for (Resource resource : stockResources) {
             resource.setPlayerQuantity(dependenciesRepresenter.getStockPile().get(resource.getName()));
         }
 
     }
 
-    String buyOperation(String resourceName, String stringQuantity) {
+    public String buyOperation(String resourceName, String stringQuantity) {
         Resource resource = getResource(resourceName);
         return StockUtils.buyOperation(resource, stringQuantity, dependenciesRepresenter);
     }
 
-    String sellOperation(String resourceName, String stringQuantity) {
+    public String sellOperation(String resourceName, String stringQuantity) {
         Resource resource = getResource(resourceName);
         return StockUtils.sellOperation(resource, stringQuantity, dependenciesRepresenter);
     }
 
-    String diceOperation() {
+    public String diceOperation() {
         return StockUtils.diceOperation(dependenciesRepresenter, stockResources);
     }
 
