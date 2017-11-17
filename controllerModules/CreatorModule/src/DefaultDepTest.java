@@ -33,8 +33,8 @@ public class DefaultDepTest {
 				dependenciesString += line + "\n";
 			}
 			br.close();
-			String textureOneName = "resources\\Textures\\Grass2.png";
-			String textureTwoName = "resources\\Textures\\Grass3.jpg";
+			String textureOneName = "resources\\Textures\\new\\meadow1.jpg";;
+			String textureTwoName = "resources\\Textures\\new\\meadow2.jpg";
 			
 			JSONObject dependencies = new JSONObject(dependenciesString);
 			System.out.println("Creator node received following dependencies package:\n" + dependencies);

@@ -1,5 +1,5 @@
 {
-    "Texture One": "Grass.png",
+    "Texture One": "new\\meadow1.jpg",
  
     "MP3": "TwoMandolins.mp3",
  
@@ -297,7 +297,7 @@
  
     "Set Name": "New Stronghold",
  
-    "Texture Two": "Grass2.jpg",
+    "Texture Two": "new\\meadow2.jpg",
  
     "Panel Texture": "DefaultBuilding.jpg",
  
