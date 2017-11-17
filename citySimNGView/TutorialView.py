@@ -14,11 +14,12 @@ class MainTab(wx.Panel):
         self.master = master
         self.centerSizer = wx.BoxSizer(wx.VERTICAL)
         self.SetSizer(self.centerSizer)
+        self.listCtrls =[]
 
-#        self.initContentList()
+        self.initContentList()
 
     def addListElem(self, box, font, arrow, i):
-        elemField = wx.StaticText(self, label=self.master.content[i])
+        elemField = wx.StaticText(self, label=" ") #elemField = wx.StaticText(self, label=self.master.content[i])
         elemID = i
         elemField.SetFont(font)
         arrowButton = wx.Button(self, id=elemID, label="  ", 
@@ -29,6 +30,9 @@ class MainTab(wx.Panel):
         tmpBox.Add(elemField, 0, wx.CENTER)
         tmpBox.AddSpacer(10)
         tmpBox.Add(arrowButton,0)
+
+        listItem = {'elemField': elemField, 'arrowButton': arrowButton}
+        self.listCtrls.insert(i, listItem)
         box.Add(tmpBox,0,wx.CENTER)
         box.AddSpacer(20)
 
@@ -44,19 +48,35 @@ class MainTab(wx.Panel):
         listFont.SetPointSize(18)
         arrow = wx.Bitmap(relative_textures_path+"new\\arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
 
-        contentSize = len(self.master.content)-1
+        #contentSize = len(self.master.content)-1
+        contentSize = self.master.maxNrOfItemsOnList-1
         contentHalf = contentSize - (contentSize // 2)
         for i in range(contentHalf):
-            self.addListElem(leftBox, listFont, arrow, i+1)
+            self.addListElem(leftBox, listFont, arrow, i)
 
         for i in range(contentHalf, contentSize):
-            self.addListElem(rightBox, listFont, arrow, i+1)
+            self.addListElem(rightBox, listFont, arrow, i)
 
         contentBox.Add(leftBox,0)
         contentBox.AddSpacer(50)
         contentBox.Add(rightBox,0)
         self.centerSizer.Add(contentBox, 0, wx.CENTER) 
         self.centerSizer.AddSpacer(20)
+        self.centerSizer.Layout()
+
+    def fillListItem(self, i):
+        listItem = self.listCtrls[i]
+        listItem['elemField'].SetLabel = self.master.content[i]
+        listItem['arrowButton'].SetId = i
+
+    def fillContentList(self):
+        contentSize = len(self.master.content)-1
+        contentHalf = contentSize - (contentSize // 2)
+        for i in range(contentHalf):
+            self.fillListItem(i)
+
+        for i in range(contentHalf, contentSize):
+            self.fillListItem(i)
         self.centerSizer.Layout()
 
     
@@ -83,6 +103,7 @@ class TutorialView(wx.Panel):
         #self.SetBackgroundColour((255, 255, 255))
         self.pageID = 0
         self.nrOfPages = 0
+        self.maxNrOfItemsOnList = 12
         self.tutorialInfo = "Welcome to our tutorial! If you'd like to find out what are all the functionalities of this cutting-edge game engine, you're in the right place :)"
         self.welcomeField = wx.StaticText(self, label=self.tutorialInfo)
         self.tutorialFont = wx.Font(20, wx.FONTFAMILY_DECORATIVE, 
@@ -223,7 +244,7 @@ class TutorialView(wx.Panel):
                 for x in self.content:
                     print x
                     print type(x)
-            self.tab1.initContentList()
+            self.tab1.fillContentList()
             self.centerSizer.Layout()
         else:
             print "len(self.content):"
