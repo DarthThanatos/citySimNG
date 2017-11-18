@@ -34,7 +34,6 @@ class MapViewModel(object):
                              actual_resources_incomes,
                              actual_resources_consumption, resources_balance,
                              needed_dwellers, available_dwellers):
-
         wx.CallAfter(self.viewSetter.getView('Map').update_values_for_cycle,
                      actual_resources_values,
                      actual_resources_incomes,
@@ -46,6 +45,9 @@ class MapViewModel(object):
     def resumeGame(self):
         logging.warning("resuming map")
         wx.CallAfter(self.viewSetter.getView('Map').resume_game)
+
+    def sendTutorialHints(self, hints):
+        wx.CallAfter(self.viewSetter.getView('Map').handle_hints, hints)
 
     class Java:
         implements = ["py4jmediator.ViewModel$MapViewModel"]

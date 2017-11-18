@@ -67,8 +67,8 @@ NAV_PANEL_TEX = relative_textures_path + 'BuildingsPanelTexture.jpg'
 # =================================================================================================================== #
 # TEXT PANEL CONSTS #
 # =================================================================================================================== #
-TEXT_PANEL_HEIGHT = 0.1
-TEXT_PANEL_WIDTH = 0.25
+TEXT_PANEL_HEIGHT = 0.15
+TEXT_PANEL_WIDTH = 1 - NAVIGATION_PANEL_WIDTH - INFO_PANEL_WIDTH - BUILDINGS_PANEL_SIZE 
 TEXT_PANEL_FONT_SIZE = 10
 
 # =================================================================================================================== #

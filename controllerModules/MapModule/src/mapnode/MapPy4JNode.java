@@ -3,14 +3,17 @@ package mapnode;
 import com.google.common.eventbus.Subscribe;
 import controlnode.DispatchCenter;
 import controlnode.Py4JNode;
+import entities.Building;
 import model.DependenciesRepresenter;
 import model.TutorialHintEvent;
 import py4jmediator.MapPresenter;
 import py4jmediator.MapResponses.DeleteBuildingResponse;
+import py4jmediator.MapResponses.EndGameResponse;
 import py4jmediator.MapResponses.PlaceBuildingResponse;
 import py4jmediator.MapResponses.StopProductionResponse;
 import py4jmediator.Presenter;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -30,6 +33,8 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
     private final Condition viewNotInitialized = lock.newCondition();
     private boolean viewInitialized = false;
 
+    private MapPresenter mapPresenter;
+
     public MapPy4JNode(DependenciesRepresenter dependenciesRepresenter, DispatchCenter dispatchCenter, String nodeName){
         super(dependenciesRepresenter, dispatchCenter, nodeName);
         resources = new Resources(dr);
@@ -39,7 +44,7 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
 
     @Override
     public void atStart(){
-        MapPresenter mapPresenter = Presenter.getInstance().getMapPresenter();
+        mapPresenter = Presenter.getInstance().getMapPresenter();
         mapPresenter.setOnMapPresenterCalled(this);
         mapPresenter.displayMap();
 
@@ -102,7 +107,7 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
 
     @Subscribe
     public void onTutotialHintEvent(TutorialHintEvent tutorialHintEvent){
-        //TODO - implementing reaction on tutorialHintEvent receipt
+        mapPresenter.sendTutorialHints(tutorialHintEvent.getHints());
     }
 
     @Override
@@ -182,6 +187,34 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
         viewInitialized = true;
         viewNotInitialized.signal();
         lock.unlock();
+    }
+
+    @Override
+    public EndGameResponse onEndGame(){
+        resourcesThread.interrupt();
+        updateResources = false;
+        startNewGame = true;
+
+        Map<String, Integer> domesticBuildingsSummary = new HashMap<>();
+        Map<String, Integer> industrialBuildingsSummary = new HashMap<>();
+
+        for(Building building: buildings.getDomesticBuildings())
+            domesticBuildingsSummary.put(building.getName(), 0);
+
+
+        for(Building building: buildings.getIndustrialBuildings())
+            industrialBuildingsSummary.put(building.getName(), 0);
+
+
+        for(Building building: buildings.getPlayerDomesticBuildings().values())
+            domesticBuildingsSummary.put(building.getName(), domesticBuildingsSummary.get(building.getName()) + 1);
+
+
+        for(Building building: buildings.getPlayerIndustrialBuildings().values())
+            industrialBuildingsSummary.put(building.getName(), industrialBuildingsSummary.get(building.getName()) + 1);
+
+        System.out.println(domesticBuildingsSummary);
+        return new EndGameResponse(domesticBuildingsSummary, industrialBuildingsSummary);
     }
 
     private void waitForViewInit(){
