@@ -11,30 +11,30 @@ import java.util.logging.Logger;
 
 public class StockConfig {
 
-    public static final double PRICE_GROW_FACTOR;
-    public static final int QUANTITY_GROW_FACTOR;
-    public static final double QUANTITY_PRICE_RATIO_FACTOR;
-    public static final int PRICE_UPDATE_SPEED;
-    public static final int SPECIAL_EVENT_LENGTH;
-    public static final double SPECIAL_EVENT_GROW_FACTOR;
-    public static final int SPECIAL_EVENT_CHANCE;
-    public static final double DICE_OPERATION_PRICE;
-    public static final int DICE_OPERATION_MAX_WIN_QUANTITY;
-    public static final int DICE_OPERATION_WIN_CHANCE;
+    public static double PRICE_GROW_FACTOR;
+    public static int QUANTITY_GROW_FACTOR;
+    public static double QUANTITY_PRICE_RATIO_FACTOR;
+    public static int PRICE_UPDATE_SPEED;
+    public static int SPECIAL_EVENT_LENGTH;
+    public static double SPECIAL_EVENT_GROW_FACTOR;
+    public static int SPECIAL_EVENT_CHANCE;
+    public static double DICE_OPERATION_PRICE;
+    public static int DICE_OPERATION_MAX_WIN_QUANTITY;
+    public static int DICE_OPERATION_WIN_CHANCE;
 
     private static Properties stockProperties;
     private static String basePropertiesPath = FileSystemView.getFileSystemView().getDefaultDirectory().getPath();
     private static Logger logger = Logger.getLogger("StockConfig");
-    private static String[] propertiesNames = {"PRICE_GROW_FACTOR_IN_PERCENT",
-            "QUANTITY_GROW_FACTOR_APIECE",
+    private static String[] propertiesNames = {"PRICE_GROW_FACTOR",
+            "QUANTITY_GROW_FACTOR",
             "QUANTITY_PRICE_RATIO_FACTOR",
-            "PRICE_UPDATE_SPEED_IN_MILLIS",
-            "SPECIAL_EVENT_LENGTH_IN_UPDATES",
-            "SPECIAL_EVENT_GROW_FACTOR_IN_PERCENT",
-            "SPECIAL_EVENT_CHANCE_IN_PERCENT",
+            "PRICE_UPDATE_SPEED",
+            "SPECIAL_EVENT_LENGTH",
+            "SPECIAL_EVENT_GROW_FACTOR",
+            "SPECIAL_EVENT_CHANCE",
             "DICE_OPERATION_PRICE",
-            "DICE_OPERATION_MAX_WIN_QUANTITY_APIECE",
-            "DICE_OPERATION_WIN_CHANCE_IN_PERCENT"};
+            "DICE_OPERATION_MAX_WIN_QUANTITY",
+            "DICE_OPERATION_WIN_CHANCE"};
     private static HashMap<String, String> propertiesDefaultValues = new HashMap<>();
 
     static {
@@ -52,22 +52,52 @@ public class StockConfig {
                 e1.printStackTrace();
             }
         }
-
-        PRICE_GROW_FACTOR = Double.parseDouble(stockProperties.getProperty(propertiesNames[0]));
-        QUANTITY_GROW_FACTOR = Integer.parseInt(stockProperties.getProperty(propertiesNames[1]));
-        QUANTITY_PRICE_RATIO_FACTOR = Double.parseDouble(stockProperties.getProperty(propertiesNames[2]));
-        PRICE_UPDATE_SPEED = Integer.parseInt(stockProperties.getProperty(propertiesNames[3]));
-        SPECIAL_EVENT_LENGTH = Integer.parseInt(stockProperties.getProperty(propertiesNames[4]));
-        SPECIAL_EVENT_GROW_FACTOR = Double.parseDouble(stockProperties.getProperty(propertiesNames[5]));
-        SPECIAL_EVENT_CHANCE = Integer.parseInt(stockProperties.getProperty(propertiesNames[6]));
-        DICE_OPERATION_PRICE = Double.parseDouble(stockProperties.getProperty(propertiesNames[7]));
-        DICE_OPERATION_MAX_WIN_QUANTITY = Integer.parseInt(stockProperties.getProperty(propertiesNames[8]));
-        DICE_OPERATION_WIN_CHANCE = Integer.parseInt(stockProperties.getProperty(propertiesNames[9]));
-
+        loadProperties();
     }
 
     private StockConfig() {
 
+    }
+
+    public static void loadProperties() {
+        for (String propertyName : stockProperties.stringPropertyNames()) {
+            setPropertyValue(propertyName, stockProperties.getProperty(propertyName));
+        }
+    }
+
+    public static void setPropertyValue(String name, String value) {
+        switch (name) {
+            case "PRICE_GROW_FACTOR":
+                PRICE_GROW_FACTOR = Double.parseDouble(value);
+                break;
+            case "QUANTITY_PRICE_RATIO_FACTOR":
+                QUANTITY_PRICE_RATIO_FACTOR = Double.parseDouble(value);
+                break;
+            case "SPECIAL_EVENT_GROW_FACTOR":
+                SPECIAL_EVENT_GROW_FACTOR = Double.parseDouble(value);
+                break;
+            case "DICE_OPERATION_PRICE":
+                DICE_OPERATION_PRICE = Double.parseDouble(value);
+                break;
+            case "QUANTITY_GROW_FACTOR":
+                QUANTITY_GROW_FACTOR = Integer.parseInt(value);
+                break;
+            case "PRICE_UPDATE_SPEED":
+                PRICE_UPDATE_SPEED = Integer.parseInt(value);
+                break;
+            case "SPECIAL_EVENT_LENGTH":
+                SPECIAL_EVENT_LENGTH = Integer.parseInt(value);
+                break;
+            case "SPECIAL_EVENT_CHANCE":
+                SPECIAL_EVENT_CHANCE = Integer.parseInt(value);
+                break;
+            case "DICE_OPERATION_MAX_WIN_QUANTITY":
+                DICE_OPERATION_MAX_WIN_QUANTITY = Integer.parseInt(value);
+                break;
+            case "DICE_OPERATION_WIN_CHANCE":
+                DICE_OPERATION_WIN_CHANCE = Integer.parseInt(value);
+                break;
+        }
     }
 
     private static void createDefaultPropertiesMap() {

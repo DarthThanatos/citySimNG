@@ -2,6 +2,7 @@ import exchange.Stock;
 import exchange.StockAlgorithm;
 import exchange.StockConfig;
 import model.DependenciesRepresenter;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -29,6 +30,8 @@ public class StockAlgorithmUnitTest {
         resourcesNames.add(RESOURCE_1);
         resourcesNames.add(RESOURCE_2);
         when(dependenciesRepresenter.getResourcesNames()).thenReturn(resourcesNames);
+
+        StockConfig.setPropertyValue("PRICE_UPDATE_SPEED", "100");
     }
 
     @Test
@@ -85,5 +88,10 @@ public class StockAlgorithmUnitTest {
         double priceAfter = stock.getResource(RESOURCE_1).getPrice();
 
         assertNotEquals(priceBefore, priceAfter);
+    }
+
+    @After
+    public void cleanUp() {
+        StockConfig.loadProperties();
     }
 }
