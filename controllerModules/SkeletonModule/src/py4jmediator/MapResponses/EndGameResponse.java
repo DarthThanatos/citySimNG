@@ -11,13 +11,36 @@ public class EndGameResponse {
         return industrialBuildingsSummary;
     }
 
+    public Map<String, Integer> getResourcesSummary() {
+        return resourcesSummary;
+    }
+
+    Map<String, Integer> resourcesSummary;
     Map<String, Integer> domesticBuildingsSummary;
     Map<String, Integer> industrialBuildingsSummary;
 
-    public EndGameResponse(Map<String, Integer> domesticBuildingsSummary,
-                           Map<String, Integer> industrialBuildingsSummary){
+    public Map<String, Integer> getDwellersSummary() {
+        return dwellersSummary;
+    }
+
+    Map<String, Integer> dwellersSummary;
+
+    public int getScore() {
+        return score;
+    }
+
+    int score;
+
+    public EndGameResponse(Map<String, Integer> resourcesSummary,
+                           Map<String, Integer> domesticBuildingsSummary,
+                           Map<String, Integer> industrialBuildingsSummary,
+                           Map<String, Integer> dwellersSummary,
+                           int score){
+        this.resourcesSummary = resourcesSummary;
         this.domesticBuildingsSummary = domesticBuildingsSummary;
         this.industrialBuildingsSummary = industrialBuildingsSummary;
+        this.dwellersSummary = dwellersSummary;
+        this.score = score;
     }
 
 }

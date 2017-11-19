@@ -10,8 +10,12 @@ import entities.Resource;
 import java.util.logging.*;
 
 public class Resources {
-	private List<Resource> resources;
-	private List<String> resourcesNames;
+	public static int getScoreMultiplier() {
+		return SCORE_MULTIPLIER;
+	}
+
+	private final static int SCORE_MULTIPLIER = 1;
+	private Map<String, Resource> resources;
 	private Map<String, Integer> basicResourcesIncomes = new HashMap<>();
 	private Map<String, Integer> actualResourcesIncomes = new HashMap<>();
 	private Map<String, Integer> actualResourcesConsumption = new HashMap<>();
@@ -21,13 +25,15 @@ public class Resources {
 			Resources.class.getName());
 
 	public Resources(DependenciesRepresenter dr){
-		resources = (List<Resource>) dr.getModuleData("resourcesList");
-		resourcesNames = (List<String>) dr.getModuleData("resourcesNames");
+		resources = new HashMap<>();
+		for(Resource resource: (List<Resource>) dr.getModuleData("resourcesList")){
+			resources.put(resource.getName(), resource);
+		}
 		basicResourcesIncomes = (Map<String, Integer>) dr.getModuleData("incomes");
 		actualResourcesIncomes = new HashMap<>(basicResourcesIncomes);
 		resourcesBalance = new HashMap<>(basicResourcesIncomes);
 
-		for (String resourceName : resourcesNames){
+		for (String resourceName : resources.keySet()){
 			actualResourcesValues.put(resourceName, 0);
 			actualResourcesConsumption.put(resourceName, 0);
 		}
@@ -41,7 +47,7 @@ public class Resources {
 				new Object[]{actualResourcesValues, actualResourcesIncomes});
 
 		// First update current resources values according to actual incomes
-		for(String resource : resourcesNames){
+		for(String resource : resources.keySet()){
 			actualResourcesValues.put(resource,
 					actualResourcesValues.get(resource) +
 							actualResourcesIncomes.get(resource));
@@ -229,6 +235,7 @@ public class Resources {
 					- (int)Math.ceil(dwellersFactor * buildingConsumption.get(resource)));
 		}
 	}
+
 	/* Getters and setters */
 	public Map<String, Integer> getActualResourcesValues(){
 		return new HashMap<>(this.actualResourcesValues);
@@ -238,11 +245,8 @@ public class Resources {
 		return  new HashMap<>(this.actualResourcesIncomes);
 	}
 
-	public List<String> getResourcesNames(){
-		return this.resourcesNames;
-	}
 
-	public List<Resource> getResources(){
+	public Map<String, Resource> getResources(){
 		return this.resources;
 	}
 

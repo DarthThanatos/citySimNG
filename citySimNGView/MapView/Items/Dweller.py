@@ -1,4 +1,3 @@
-from CreatorView.RelativePaths import relative_textures_path
 from MapView.CustomSprites.BasicSprite import BasicSprite
 
 

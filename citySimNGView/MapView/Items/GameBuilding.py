@@ -11,7 +11,8 @@ class GameBuilding(Building):
         :param name: building's name
         :param id: building's unique id
         :param texture_path: path to building's texture
-        :param resource_cost: amount of resources needed to construct this building
+        :param resource_cost: amount of resources needed to construct this
+        building
         :param consumes: amount of resources this building consumes
         :param produces: amount of resources this building produces
         :param dwellers_amount: map containing type and amount of dwellers that

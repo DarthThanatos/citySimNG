@@ -42,7 +42,8 @@ class BasicSprite(pygame.sprite.DirtySprite):
             self.image = pygame.image.load(self.texture_path)
         self.image.set_colorkey(WHITE)
         self.image = pygame.transform.rotate(self.image, texture_rotation)
-        self.image = pygame.transform.scale(self.image, (self.width, self.height))
+        self.image = pygame.transform.scale(self.image,
+                                            (self.width, self.height))
 
     def set_rect(self, rect_point='topleft'):
         kw = {rect_point: (self.pos_x, self.pos_y)}

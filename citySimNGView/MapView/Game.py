@@ -4,7 +4,7 @@ import pygame
 from Converter import Converter
 from CreatorView.RelativePaths import relative_textures_path
 
-from Consts import (LEFT, RIGHT, RED, RESOURCES_PANEL_SIZE, BUILDINGS_PANEL_SIZE, NAVIGATION_PANEL_HEIGHT,
+from Consts import (LEFT, RIGHT, RED, RESOURCES_PANEL_HEIGHT, BUILDINGS_PANEL_WIDTH, NAVIGATION_PANEL_HEIGHT,
                     NAVIGATION_PANEL_WIDTH, TEXT_PANEL_HEIGHT, GREEN, INFO_PANEL_WIDTH, INFO_PANEL_HEIGHT)
 from GameThread import GameThread
 from Items.GameBuilding import GameBuilding
@@ -22,7 +22,7 @@ from Modals.ClosedHintModal import HINT_HEIGHT, HINT_WIDTH
 import time
 
 
-POPUP_WIDTH, POPUP_HEIGHT = 0.2, 0.1
+POPUP_WIDTH, POPUP_HEIGHT = 0.3, 0.3
 
 
 class Game(object):
@@ -32,7 +32,7 @@ class Game(object):
                  industrial_buildings_data, resources_data, dwellers_data,
                  initial_resources_values, initial_resources_incomes,
                  initial_resources_consumption, initial_resources_balance, map_view,
-                 available_dwellers):
+                 available_dwellers, panel_texture):
         """ Constructor. Initialize the game.
 
         :param width: board width
@@ -68,6 +68,8 @@ class Game(object):
         # textures for map tiles
         self.texture_one = texture_one
         self.texture_two = texture_two
+
+        self.panel_texture = relative_textures_path + panel_texture
 
         # set texture for first map tile
         self.image = self.choose_map_tile_texture()
@@ -181,7 +183,7 @@ class Game(object):
     def init_panels(self, domestic_buildings_data, industrial_buildings_data,
                     initial_resources_values, initial_resources_incomes,
                     initial_resources_consumption, initial_resources_balance,
-                    resources_data, available_dwellers):
+                    resources_data, available_dwellers, ):
         """ Create and initialize all game panels. Add panels to appropriate sprite group.
 
         :param buildings_data: information about buildings available in game
@@ -191,20 +193,21 @@ class Game(object):
         name, texture path, predecessor and successor.
         """
         # Create resources panel
-        self.resources_panel = ResourcesPanel(0, 0, self.board_width - BUILDINGS_PANEL_SIZE * self.board_width,
-                                              RESOURCES_PANEL_SIZE * self.board_height, self.game_board,
-                                              initial_resources_values, initial_resources_incomes,
-                                              initial_resources_consumption, initial_resources_balance, resources_data,
-                                              available_dwellers)
+        self.resources_panel = ResourcesPanel(
+            0, 0, self.board_width - BUILDINGS_PANEL_WIDTH * self.board_width,
+                  RESOURCES_PANEL_HEIGHT * self.board_height, self.panel_texture,
+            self.game_board, initial_resources_values, initial_resources_incomes,
+            initial_resources_consumption, initial_resources_balance,
+            resources_data, available_dwellers)
         self.panels_sprites.add(self.resources_panel)
         self.all_sprites.add(self.resources_panel)
 
         # Create buildings panel
         self.buildings_panel = BuildingsPanel(
-            self.board_width - BUILDINGS_PANEL_SIZE * self.board_width,
-            0,
-            BUILDINGS_PANEL_SIZE * self.board_width,
+            self.board_width - BUILDINGS_PANEL_WIDTH * self.board_width, 0,
+            BUILDINGS_PANEL_WIDTH * self.board_width,
             self.board_height - TEXT_PANEL_HEIGHT * self.board_height,
+            self.panel_texture,
             self.game_board,
             domestic_buildings_data,
             industrial_buildings_data,
@@ -215,18 +218,21 @@ class Game(object):
         self.all_sprites.add(self.buildings_panel)
 
         # Create navigation panel
-        self.navigation_panel = NavigationPanel(0, self.board_height - NAVIGATION_PANEL_HEIGHT * self.board_height,
-                                                NAVIGATION_PANEL_WIDTH * self.board_width,
-                                                NAVIGATION_PANEL_HEIGHT * self.board_height, self.game_board,
-                                                self.switch_game_tile)
+        self.navigation_panel = NavigationPanel(
+            0, self.board_height - NAVIGATION_PANEL_HEIGHT * self.board_height,
+            NAVIGATION_PANEL_WIDTH * self.board_width,
+            NAVIGATION_PANEL_HEIGHT * self.board_height, self.panel_texture,
+            self.game_board, self.switch_game_tile)
         self.panels_sprites.add(self.navigation_panel)
         self.all_sprites.add(self.navigation_panel)
 
         # Create info panel
-        self.info_panel = InfoPanel(NAVIGATION_PANEL_WIDTH * self.board_width,
-                                    self.board_height - INFO_PANEL_HEIGHT * self.board_height,
-                                    INFO_PANEL_WIDTH * self.board_width, INFO_PANEL_HEIGHT * self.board_height,
-                                    self.game_board, self.delete_building, self.map_view.stop_production)
+        self.info_panel = InfoPanel(
+            NAVIGATION_PANEL_WIDTH * self.board_width,
+            self.board_height - INFO_PANEL_HEIGHT * self.board_height,
+            INFO_PANEL_WIDTH * self.board_width, INFO_PANEL_HEIGHT * self.board_height,
+            self.panel_texture, self.game_board, self.delete_building,
+            self.map_view.stop_production)
         self.panels_sprites.add(self.info_panel)
         self.all_sprites.add(self.info_panel)
 
@@ -352,9 +358,10 @@ class Game(object):
     def expand_hint_modal(self, hint_modal):
         self.modal = ExpandedHintModal(
             (HINT_WIDTH + HINT_MODAL_X) * self.board_width,
-            (RESOURCES_PANEL_SIZE + HINT_MODAL_Y) * self.board_height,
+            (RESOURCES_PANEL_HEIGHT + HINT_MODAL_Y) * self.board_height,
             HINT_MODAL_WIDTH * self.board_width,
             HINT_MODAL_HEIGHT * self.board_height,
+            self.panel_texture,
             hint_modal.hints, hint_modal.game_board,
             self.close_modal,
             hint_modal.id)
@@ -504,6 +511,7 @@ class Game(object):
                 else:
                     self.popup = Popup(mouse_pos[0], mouse_pos[1] +
                                        pygame.mouse.get_cursor()[0][1],
+                                       self.panel_texture,
                                        sprite, POPUP_WIDTH * self.board_width,
                                        POPUP_HEIGHT * self.board_height,
                                        self.game_board)

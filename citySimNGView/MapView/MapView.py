@@ -8,10 +8,10 @@ import wx
 
 from CreatorView.RelativePaths import relative_music_path, relative_textures_path
 
-from Consts import RESOURCES_PANEL_SIZE, PURPLE, FONT, TEXT_PANEL_HEIGHT, \
+from Consts import RESOURCES_PANEL_HEIGHT, PURPLE, FONT, TEXT_PANEL_HEIGHT, \
     TEXT_PANEL_WIDTH, MENU_BUTTON_WIDTH, NAVIGATION_PANEL_WIDTH, \
-    INFO_PANEL_WIDTH, TEXT_PANEL_FONT_SIZE, BUILDINGS_PANEL_TEXTURE, GREEN, \
-    BUILDINGS_PANEL_SIZE
+    INFO_PANEL_WIDTH, TEXT_PANEL_FONT_SIZE, GREEN, \
+    BUILDINGS_PANEL_WIDTH, HINT_TEXTURE
 from Game import Game
 from GameThread import GameThread
 from Utils import draw_text, draw_text_with_wrapping_and_centering
@@ -74,15 +74,15 @@ class MapView(wx.Panel):
         """ Function initializing buttons. """
         menu_btn = wx.Button(
             self, label="Menu", pos=(
-                self.width - BUILDINGS_PANEL_SIZE/2 * self.width,
+                self.width - BUILDINGS_PANEL_WIDTH / 2 * self.width,
                 self.screen_height - self.screen_height * TEXT_PANEL_HEIGHT),
-            size=(BUILDINGS_PANEL_SIZE/2 * self.width,
+            size=(BUILDINGS_PANEL_WIDTH / 2 * self.width,
                   self.screen_height * TEXT_PANEL_HEIGHT))
 
         end_game_btn = wx.Button(self, label="End game", pos=(
-            self.width - 2 * BUILDINGS_PANEL_SIZE/2 * self.width,
+            self.width - 2 * BUILDINGS_PANEL_WIDTH / 2 * self.width,
             self.screen_height - self.screen_height * TEXT_PANEL_HEIGHT),
-            size=(BUILDINGS_PANEL_SIZE/2 * self.width,
+            size=(BUILDINGS_PANEL_WIDTH / 2 * self.width,
                   self.screen_height * TEXT_PANEL_HEIGHT))
 
         self.sizer.Add(menu_btn)
@@ -144,51 +144,66 @@ class MapView(wx.Panel):
         self.game.listener_thread.join()
         [self.remove_button(elem) for elem in self.sizer_elements]
         self.init_btns_in_end_game_screen()
-        image = pygame.image.load(BUILDINGS_PANEL_TEXTURE)
+        image = pygame.image.load(self.game.panel_texture)
         image = pygame.transform.scale(image,
                                        (self.game.board_width,
                                         self.game.board_height))
         self.game.game_board.blit(image, (0, 0))
 
         res = self.sender.entry_point.getMapPresenter().endGame()
+        resources = Converter().convertJavaMapToDict(res.getResourcesSummary())
         domestic = Converter().convertJavaMapToDict(res.getDomesticBuildingsSummary())
         industrial = Converter().convertJavaMapToDict(res.getIndustrialBuildingsSummary())
+        dwellers = Converter().convertJavaMapToDict(res.getDwellersSummary())
+        score = res.getScore()
 
-        self.draw_summary(domestic, industrial)
+        self.draw_summary(resources, domestic, industrial, dwellers, score)
         self.game.background.blit(self.game.game_board, (0, 0))
 
         pygame.display.flip()
 
-    def draw_summary(self, domestic, industrial):
+    def draw_summary(self, resources, domestic, industrial, dwellers, score):
         curr_y = 0
+        max_y = 0
+
+        curr_y = draw_text_with_wrapping_and_centering(
+            0, 0, self.width, "Game Summary\n\n ", self.game.game_board, GREEN,
+        40)
 
         mes = ' '.join(['{} {}\n'.format(key, val) for key, val in
-               self.game.resources_panel.resources_values.iteritems()])
-        mes = 'Resources\n\n ' + mes
-        curr_y = max(curr_y, draw_text_with_wrapping_and_centering(
-            0, 0, self.width / 3, mes, self.game.game_board, GREEN, 40, True))
+               resources.iteritems()])
+        mes = 'Resources summary\n\n ' + mes
+        max_y = max(max_y, draw_text_with_wrapping_and_centering(
+            0, curr_y, self.width / 4, mes, self.game.game_board, GREEN, 40, True))
 
         mes = ' '.join(['{} {}\n'.format(key, val) for key, val in
                         domestic.iteritems()])
-        mes = 'Domestic buildings\n\n ' + mes
-        curr_y = max(curr_y, draw_text_with_wrapping_and_centering(
-            self.width / 3, 0, 2 * self.width / 3, mes,
+        mes = 'Domestic buildings summary\n\n ' + mes
+        max_y = max(max_y, draw_text_with_wrapping_and_centering(
+            self.width / 4, curr_y, 2 * self.width / 4, mes,
             self.game.game_board, GREEN, 40, True))
 
         mes = ' '.join(['{} {}\n'.format(key, val) for key, val in
                         industrial.iteritems()])
-        mes = 'Industrial buildings\n\n ' + mes
-        curr_y = max(curr_y, draw_text_with_wrapping_and_centering(
-            2 * self.width / 3, 0, self.width, mes, self.game.game_board,
+        mes = 'Industrial buildings summary\n\n ' + mes
+        max_y = max(max_y, draw_text_with_wrapping_and_centering(
+            2 * self.width / 4, curr_y, 3 * self.width / 4, mes, self.game.game_board,
             GREEN, 40, True))
 
-        curr_y = max(curr_y, int(0.8 * self.height))
-        mes = "Score: 100000000"
+        mes = ' '.join(['{} {}\n'.format(key, val) for key, val in
+                        dwellers.iteritems()])
+        mes = 'Dwellers summary\n\n ' + mes
+        max_y = max(max_y, draw_text_with_wrapping_and_centering(
+            3 * self.width / 4, curr_y, self.width, mes, self.game.game_board,
+            GREEN, 40, True))
+
+        curr_y = max(max_y, int(0.8 * self.height))
+        mes = "Score: {}".format(score)
         draw_text_with_wrapping_and_centering(0, curr_y, self.width, mes,
                                               self.game.game_board, GREEN,
                                               40)
 
-    # =================================================================================================================== #
+# =================================================================================================================== #
 # Communication with model
 # =================================================================================================================== #
 
@@ -280,7 +295,7 @@ class MapView(wx.Panel):
         """ Initialize game -> create game instance. After creating game instance send acknowledgement to model. """
         self.music_path = relative_music_path + mp3
         pygame.mixer.music.load(self.music_path)
-        # pygame.mixer.music.play()
+        pygame.mixer.music.play()
         self.game = Game(
             self.width,
             self.height,
@@ -295,7 +310,8 @@ class MapView(wx.Panel):
             initial_resources_consumption,
             initial_resources_balance,
             self,
-            available_dwellers)
+            available_dwellers,
+            panelTexture)
         self.sender.entry_point.getMapPresenter().viewInitialized()
 
     def update_values_for_cycle_thread(self, actual_resources_values,
@@ -335,8 +351,10 @@ class MapView(wx.Panel):
 
     def handle_hints(self, hints):
         print hints[:5]
-        hint_modal_sprite = ClosedHintModal(HINT_WIDTH * self.game.board_width,
+        hint_modal_sprite = ClosedHintModal(self.game.board_height,
+                                            HINT_WIDTH * self.game.board_width,
                                             HINT_HEIGHT * self.game.board_height,
+                                            HINT_TEXTURE,
                                             self.game.game_board, hints,
                                             self.game.expand_hint_modal,
                                             min(4, len(self.game.hint_modals_sprites)))
