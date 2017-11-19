@@ -4,7 +4,7 @@ import pygame
 from Converter import Converter
 from CreatorView.RelativePaths import relative_textures_path
 
-from Consts import (LEFT, RIGHT, RED, RESOURCES_PANEL_SIZE, BUILDINGS_PANEL_SIZE, NAVIGATION_PANEL_HEIGHT,
+from Consts import (LEFT, RIGHT, RED, RESOURCES_PANEL_HEIGHT, BUILDINGS_PANEL_WIDTH, NAVIGATION_PANEL_HEIGHT,
                     NAVIGATION_PANEL_WIDTH, TEXT_PANEL_HEIGHT, GREEN, INFO_PANEL_WIDTH, INFO_PANEL_HEIGHT)
 from GameThread import GameThread
 from Items.GameBuilding import GameBuilding
@@ -16,10 +16,13 @@ from Panels.InfoPanel import InfoPanel
 from Panels.NavigationPanel import NavigationPanel
 from Panels.ResourcesPanel import ResourcesPanel
 from Popups.Popup import Popup
+from Modals.ExpandedHintModal import ExpandedHintModal, HINT_MODAL_X, HINT_MODAL_Y, \
+    HINT_MODAL_WIDTH, HINT_MODAL_HEIGHT
+from Modals.ClosedHintModal import HINT_HEIGHT, HINT_WIDTH
 import time
 
 
-POPUP_WIDTH, POPUP_HEIGHT = 0.2, 0.1
+POPUP_WIDTH, POPUP_HEIGHT = 0.3, 0.3
 
 
 class Game(object):
@@ -29,7 +32,7 @@ class Game(object):
                  industrial_buildings_data, resources_data, dwellers_data,
                  initial_resources_values, initial_resources_incomes,
                  initial_resources_consumption, initial_resources_balance, map_view,
-                 available_dwellers):
+                 available_dwellers, panel_texture):
         """ Constructor. Initialize the game.
 
         :param width: board width
@@ -66,15 +69,20 @@ class Game(object):
         self.texture_one = texture_one
         self.texture_two = texture_two
 
+        self.panel_texture = relative_textures_path + panel_texture
+
         # set texture for first map tile
         self.image = self.choose_map_tile_texture()
-        self.image = pygame.transform.scale(self.image, (self.board_width, self.board_height))
+        self.image = pygame.transform.scale(self.image, (
+            self.board_width, self.board_height))
         self.game_board = self.image
 
         # set current player position on map to tile (0,0)
-        self.current_tile = MapTile(pygame.Surface.copy(self.game_board), self.game_board, self.all_sprites,
+        self.current_tile = MapTile(pygame.Surface.copy(self.game_board),
+                                    self.game_board, self.all_sprites,
                                     self.buildings_sprites)
-        self.tiles["{}:{}".format(self.map_position_x, self.map_position_y)] = self.current_tile
+        self.tiles["{}:{}".format(self.map_position_x, self.map_position_y)] = \
+            self.current_tile
 
         # parse resources and dwellers data
         parse_resources_data(resources_data)
@@ -91,7 +99,7 @@ class Game(object):
                          initial_resources_consumption, initial_resources_balance,
                          resources_data, available_dwellers)
 
-        # # TODO: probably should get this from model
+        # TODO: probably should get this from model
         self.resources_panel.curr_dwellers_amount = 0
 
         # initialize variables needed to process events
@@ -101,6 +109,9 @@ class Game(object):
 
         self.time = 0
         self.popup = None
+        self.hint_modals_sprites = pygame.sprite.LayeredUpdates()
+        self.hint_list = []
+        self.modal = None
 
         # start new thread that will be responsible for running game
         self.game_on = True
@@ -112,136 +123,21 @@ class Game(object):
 
     def process_events(self):
         """ Process all of the events. """
-
         for event in pygame.event.get():
             mouse_pos = pygame.mouse.get_pos()
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
-
-                # player has selected building and tries to place it
-                if self.shadow is not None:
-                    self.shadow.rect.center = mouse_pos
-                    self.place_building(self.shadow, self.shadow.rect.left, self.shadow.rect.top)
-                    self.shadow = None
-                    break
-
-                # player clicked on building in buildings panel ->
-                # check if he can afford for it if yes start displaying shadow if no print appropriate info
-                clicked_buildings = [b for b in self.buildings_panel.buildings_sprites
-                                     if b.rect.collidepoint(mouse_pos)]
-                if clicked_buildings:
-                    building = clicked_buildings[0]
-                    if self.map_view.check_if_can_afford(building) and building.is_enabled:
-                        self.shadow = GameBuilding(building.name,
-                                                   uuid.uuid4().__str__(),
-                                                   building.texture_path,
-                                                   building.type,
-                                                   building.resources_cost,
-                                                   building.consumes,
-                                                   building.produces,
-                                                   building.required_dwellers,
-                                                   building.dwellers_name,
-                                                   mouse_pos[0],
-                                                   mouse_pos[1],
-                                                   building.width,
-                                                   building.height)
-                    elif not building.is_enabled:
-                        self.map_view.log.AppendText(
-                            "You have to built all successor first\n")
-                    else:
-                        self.map_view.log.AppendText(
-                            "You don't have enough resources to build {}\n".format(building.name))
-
-                # TODO: find better way to deal with button texture change
-                # player clicked on building in map ->
-                # display information about building in info panel
-                clicked_buildings = [b for b in self.buildings_sprites if b.rect.collidepoint(mouse_pos)]
-                if clicked_buildings:
-                    self.info_panel.curr_building = clicked_buildings[0]
-                    self.set_working_dwellers_for_building(clicked_buildings[0])
-                    self.info_panel.prepare_dwellers_info()
-                    self.info_panel.create_sprites_for_current_building()
-                    self.info_panel.set_stop_production_button_texture()
-
-                clicked_info_panel_buttons = [b for b in self.info_panel.buttons_sprites if
-                                              b.rect.collidepoint(mouse_pos)]
-                if clicked_info_panel_buttons:
-
-                    # player clicked delete building button in info panel ->
-                    # delete current selected building
-                    if self.info_panel.del_building_button is not None and \
-                            clicked_info_panel_buttons[0] == self.info_panel.del_building_button:
-                        self.clicked_button = self.info_panel.del_building_button
-                        self.clicked_button.click_button(self.info_panel.curr_building)
-
-                    # player clicked stop production button in info panel ->
-                    # stop production in current selected building
-                    if self.info_panel.stop_production_button is not None and \
-                            clicked_info_panel_buttons[0] == self.info_panel.stop_production_button:
-                        self.clicked_button = self.info_panel.stop_production_button
-                        self.clicked_button.click_button(self.info_panel.curr_building.id)
-
-                # player clicked arrow in buildings panel ->
-                # scroll building panel
-                if self.buildings_panel.left_arrow.rect.collidepoint(mouse_pos):
-                    self.clicked_button = self.buildings_panel.left_arrow
-                    self.clicked_button.click_button()
-                if self.buildings_panel.right_arrow.rect.collidepoint(mouse_pos):
-                    self.clicked_button = self.buildings_panel.right_arrow
-                    self.clicked_button.click_button()
-
-                # player clicked arrow in resources panel ->
-                # scroll resources panel
-                if self.resources_panel.left_arrow.rect.collidepoint(mouse_pos):
-                    self.clicked_button = self.resources_panel.left_arrow
-                    self.clicked_button.click_button()
-                if self.resources_panel.right_arrow.rect.collidepoint(mouse_pos):
-                    self.clicked_button = self.resources_panel.right_arrow
-                    self.clicked_button.click_button()
-
-                # player clicked navigation arrow in navigation panel ->
-                # go to new map tile
-                clicked_nav_arrows = [na for na in self.navigation_panel.navigation_arrows_sprites if
-                                      na.rect.collidepoint(mouse_pos)]
-                if clicked_nav_arrows:
-                    self.clicked_button = clicked_nav_arrows[0]
-                    self.clicked_button.click_button(clicked_nav_arrows[0])
+                self.left_mouse_button_clicked(mouse_pos)
 
             # user released left mouse button
             if event.type == pygame.MOUSEBUTTONUP and event.button == LEFT:
-                if self.clicked_button is not None:
-                    self.clicked_button.release_button()
-                    self.clicked_button = None
+                self.left_mouse_button_released()
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == RIGHT:
-                if self.shadow is not None:
-                    self.shadow = None
+                self.right_mouse_button_clicked()
 
             if event.type == pygame.MOUSEMOTION:
-                sprites = [s for s in self.all_sprites.sprites() if s.rect.collidepoint(mouse_pos)]
-                if sprites:
-                    # get the sprite that was last added to all_sprites
-                    sprite = sprites[-1]
-                    try:
-                        inner_sprites = [s for s in sprite.all_sprites.sprites() if s.rect.collidepoint(mouse_pos)]
-                    except AttributeError:
-                        pass
-                    else:
-                        if inner_sprites:
-                            sprite = inner_sprites[-1]
-
-                    if not self.popup or sprite != self.popup.sprite:
-                        if sprite in self.buildings_panel.buildings_sprites:
-                            self.popup = sprite.popup
-                        else:
-                            self.popup = Popup(mouse_pos[0], mouse_pos[1] + pygame.mouse.get_cursor()[0][1],
-                                               sprite, POPUP_WIDTH * self.board_width, POPUP_HEIGHT * self.board_height,
-                                               self.game_board)
-                    elif self.popup and sprite == self.popup.sprite and sprite not in self.buildings_panel.buildings_sprites:
-                        self.popup.pos_x, self.popup.pos_y = mouse_pos[0], mouse_pos[1] + pygame.mouse.get_cursor()[0][1]
-                        self.popup.timer = time.time()
-                else:
-                    self.popup = None
+                self.mouse_moved(mouse_pos)
 
     def update(self):
         """ Update all elements before they will be drawn. """
@@ -271,9 +167,15 @@ class Game(object):
         if self.popup and self.shadow is None:
             self.popup.draw()
 
+        for hint_modal in self.hint_modals_sprites:
+            hint_modal.draw()
+
         # draw building's shadow
         if self.shadow is not None:
             self.game_board.blit(self.shadow.image, (self.shadow.rect.left, self.shadow.rect.top))
+
+        if self.modal is not None:
+            self.modal.draw()
 
         # draw game board
         self.background.blit(self.game_board, (0, 0))
@@ -281,7 +183,7 @@ class Game(object):
     def init_panels(self, domestic_buildings_data, industrial_buildings_data,
                     initial_resources_values, initial_resources_incomes,
                     initial_resources_consumption, initial_resources_balance,
-                    resources_data, available_dwellers):
+                    resources_data, available_dwellers, ):
         """ Create and initialize all game panels. Add panels to appropriate sprite group.
 
         :param buildings_data: information about buildings available in game
@@ -291,20 +193,21 @@ class Game(object):
         name, texture path, predecessor and successor.
         """
         # Create resources panel
-        self.resources_panel = ResourcesPanel(0, 0, self.board_width - BUILDINGS_PANEL_SIZE * self.board_width,
-                                              RESOURCES_PANEL_SIZE * self.board_height, self.game_board,
-                                              initial_resources_values, initial_resources_incomes,
-                                              initial_resources_consumption, initial_resources_balance, resources_data,
-                                              available_dwellers)
+        self.resources_panel = ResourcesPanel(
+            0, 0, self.board_width - BUILDINGS_PANEL_WIDTH * self.board_width,
+                  RESOURCES_PANEL_HEIGHT * self.board_height, self.panel_texture,
+            self.game_board, initial_resources_values, initial_resources_incomes,
+            initial_resources_consumption, initial_resources_balance,
+            resources_data, available_dwellers)
         self.panels_sprites.add(self.resources_panel)
         self.all_sprites.add(self.resources_panel)
 
         # Create buildings panel
         self.buildings_panel = BuildingsPanel(
-            self.board_width - BUILDINGS_PANEL_SIZE * self.board_width,
-            0,
-            BUILDINGS_PANEL_SIZE * self.board_width,
+            self.board_width - BUILDINGS_PANEL_WIDTH * self.board_width, 0,
+            BUILDINGS_PANEL_WIDTH * self.board_width,
             self.board_height - TEXT_PANEL_HEIGHT * self.board_height,
+            self.panel_texture,
             self.game_board,
             domestic_buildings_data,
             industrial_buildings_data,
@@ -315,18 +218,21 @@ class Game(object):
         self.all_sprites.add(self.buildings_panel)
 
         # Create navigation panel
-        self.navigation_panel = NavigationPanel(0, self.board_height - NAVIGATION_PANEL_HEIGHT * self.board_height,
-                                                NAVIGATION_PANEL_WIDTH * self.board_width,
-                                                NAVIGATION_PANEL_HEIGHT * self.board_height, self.game_board,
-                                                self.switch_game_tile)
+        self.navigation_panel = NavigationPanel(
+            0, self.board_height - NAVIGATION_PANEL_HEIGHT * self.board_height,
+            NAVIGATION_PANEL_WIDTH * self.board_width,
+            NAVIGATION_PANEL_HEIGHT * self.board_height, self.panel_texture,
+            self.game_board, self.switch_game_tile)
         self.panels_sprites.add(self.navigation_panel)
         self.all_sprites.add(self.navigation_panel)
 
         # Create info panel
-        self.info_panel = InfoPanel(NAVIGATION_PANEL_WIDTH * self.board_width,
-                                    self.board_height - INFO_PANEL_HEIGHT * self.board_height,
-                                    INFO_PANEL_WIDTH * self.board_width, INFO_PANEL_HEIGHT * self.board_height,
-                                    self.game_board, self.delete_building, self.map_view.stop_production)
+        self.info_panel = InfoPanel(
+            NAVIGATION_PANEL_WIDTH * self.board_width,
+            self.board_height - INFO_PANEL_HEIGHT * self.board_height,
+            INFO_PANEL_WIDTH * self.board_width, INFO_PANEL_HEIGHT * self.board_height,
+            self.panel_texture, self.game_board, self.delete_building,
+            self.map_view.stop_production)
         self.panels_sprites.add(self.info_panel)
         self.all_sprites.add(self.info_panel)
 
@@ -448,3 +354,179 @@ class Game(object):
 
     def set_working_dwellers_for_building(self, building):
         self.map_view.set_dwellers_working_in_building(building.id)
+
+    def expand_hint_modal(self, hint_modal):
+        self.modal = ExpandedHintModal(
+            (HINT_WIDTH + HINT_MODAL_X) * self.board_width,
+            (RESOURCES_PANEL_HEIGHT + HINT_MODAL_Y) * self.board_height,
+            HINT_MODAL_WIDTH * self.board_width,
+            HINT_MODAL_HEIGHT * self.board_height,
+            self.panel_texture,
+            hint_modal.hints, hint_modal.game_board,
+            self.close_modal,
+            hint_modal.id)
+
+    def close_modal(self):
+        for hint_modal_id in range(self.modal.id + 1, len(self.hint_modals_sprites)):
+            self.hint_modals_sprites.get_sprite(hint_modal_id).update()
+        self.hint_modals_sprites.get_sprite(self.modal.id).kill()
+        self.modal = None
+        if len(self.hint_list) > 0:
+            hint_modal_sprite = self.hint_list[0]
+            self.hint_list = self.hint_list[1:]
+            self.hint_modals_sprites.add(hint_modal_sprite)
+
+    def left_mouse_button_clicked(self, mouse_pos):
+        # player has selected building and tries to place it
+        if self.shadow is not None:
+            self.shadow.rect.center = mouse_pos
+            self.place_building(self.shadow, self.shadow.rect.left,
+                                self.shadow.rect.top)
+            self.shadow = None
+            return
+
+        # player clicked on building in buildings panel ->
+        # check if he can afford for it if yes start displaying shadow if no print appropriate info
+        clicked_buildings = [b for b in self.buildings_panel.buildings_sprites
+                             if b.rect.collidepoint(mouse_pos)]
+        if clicked_buildings:
+            building = clicked_buildings[0]
+            if self.map_view.check_if_can_afford(
+                    building) and building.is_enabled:
+                self.shadow = GameBuilding(building.name,
+                                           uuid.uuid4().__str__(),
+                                           building.texture_path,
+                                           building.type,
+                                           building.resources_cost,
+                                           building.consumes,
+                                           building.produces,
+                                           building.required_dwellers,
+                                           building.dwellers_name,
+                                           mouse_pos[0],
+                                           mouse_pos[1],
+                                           building.width,
+                                           building.height)
+            elif not building.is_enabled:
+                self.map_view.log.AppendText(
+                    "You have to built all successor first\n")
+            else:
+                self.map_view.log.AppendText(
+                    "You don't have enough resources to build {}\n".format(
+                        building.name))
+
+        # TODO: find better way to deal with button texture change
+        # player clicked on building in map ->
+        # display information about building in info panel
+        clicked_buildings = [b for b in self.buildings_sprites if
+                             b.rect.collidepoint(mouse_pos)]
+        if clicked_buildings:
+            self.info_panel.curr_building = clicked_buildings[0]
+            self.set_working_dwellers_for_building(clicked_buildings[0])
+            self.info_panel.prepare_dwellers_info()
+            self.info_panel.create_sprites_for_current_building()
+            self.info_panel.set_stop_production_button_texture()
+
+        # TODO: merge all panels?
+        clicked_info_panel_buttons = [b for b in
+                                      self.info_panel.buttons_sprites if
+                                      b.rect.collidepoint(mouse_pos)]
+        if clicked_info_panel_buttons:
+
+            # player clicked delete building button in info panel ->
+            # delete current selected building
+            if self.info_panel.del_building_button is not None and \
+                            clicked_info_panel_buttons[
+                                0] == self.info_panel.del_building_button:
+                self.clicked_button = self.info_panel.del_building_button
+                self.clicked_button.click_button(self.info_panel.curr_building)
+
+            # player clicked stop production button in info panel ->
+            # stop production in current selected building
+            if self.info_panel.stop_production_button is not None and \
+                            clicked_info_panel_buttons[
+                                0] == self.info_panel.stop_production_button:
+                self.clicked_button = self.info_panel.stop_production_button
+                self.clicked_button.click_button(
+                    self.info_panel.curr_building.id)
+
+        if self.modal:
+            clicked_modal_buttons = [b for b in self.modal.buttons_sprites
+                                     if b.rect.collidepoint(mouse_pos)]
+            if clicked_modal_buttons:
+                self.clicked_button = clicked_modal_buttons[0]
+                self.clicked_button.click_button()
+
+        # player clicked arrow in buildings panel ->
+        # scroll building panel
+        if self.buildings_panel.left_arrow.rect.collidepoint(mouse_pos):
+            self.clicked_button = self.buildings_panel.left_arrow
+            self.clicked_button.click_button()
+        if self.buildings_panel.right_arrow.rect.collidepoint(mouse_pos):
+            self.clicked_button = self.buildings_panel.right_arrow
+            self.clicked_button.click_button()
+
+        # player clicked arrow in resources panel ->
+        # scroll resources panel
+        if self.resources_panel.left_arrow.rect.collidepoint(mouse_pos):
+            self.clicked_button = self.resources_panel.left_arrow
+            self.clicked_button.click_button()
+        if self.resources_panel.right_arrow.rect.collidepoint(mouse_pos):
+            self.clicked_button = self.resources_panel.right_arrow
+            self.clicked_button.click_button()
+
+        # player clicked navigation arrow in navigation panel ->
+        # go to new map tile
+        clicked_nav_arrows = [na for na in
+                              self.navigation_panel.navigation_arrows_sprites
+                              if
+                              na.rect.collidepoint(mouse_pos)]
+        if clicked_nav_arrows:
+            self.clicked_button = clicked_nav_arrows[0]
+            self.clicked_button.click_button(clicked_nav_arrows[0])
+
+        clicked_hint_modals = [hm for hm in self.hint_modals_sprites
+                               if hm.rect.collidepoint(mouse_pos)]
+        if clicked_hint_modals:
+            self.clicked_button = clicked_hint_modals[0]
+            self.clicked_button.click_button(self.clicked_button)
+
+    def mouse_moved(self, mouse_pos):
+        sprites = [s for s in self.all_sprites.sprites() if
+                   s.rect.collidepoint(mouse_pos)]
+        if sprites:
+            # get the sprite that was last added to all_sprites
+            sprite = sprites[-1]
+            try:
+                inner_sprites = [s for s in sprite.all_sprites.sprites() if
+                                 s.rect.collidepoint(mouse_pos)]
+            except AttributeError:
+                pass
+            else:
+                if inner_sprites:
+                    sprite = inner_sprites[-1]
+
+            if not self.popup or sprite != self.popup.sprite:
+                if sprite in self.buildings_panel.buildings_sprites:
+                    self.popup = sprite.popup
+                else:
+                    self.popup = Popup(mouse_pos[0], mouse_pos[1] +
+                                       pygame.mouse.get_cursor()[0][1],
+                                       self.panel_texture,
+                                       sprite, POPUP_WIDTH * self.board_width,
+                                       POPUP_HEIGHT * self.board_height,
+                                       self.game_board)
+            elif self.popup and sprite == self.popup.sprite and sprite not in self.buildings_panel.buildings_sprites:
+                self.popup.pos_x, self.popup.pos_y = mouse_pos[0], mouse_pos[
+                    1] + pygame.mouse.get_cursor()[0][1]
+                self.popup.timer = time.time()
+        else:
+            self.popup = None
+
+    def left_mouse_button_released(self):
+        if self.clicked_button is not None:
+            self.clicked_button.release_button()
+            self.clicked_button = None
+
+    def right_mouse_button_clicked(self):
+        if self.shadow is not None:
+            self.shadow = None

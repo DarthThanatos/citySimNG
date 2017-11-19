@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Gradle: :py4j:">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/SkeletonModule/lib/py4j.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

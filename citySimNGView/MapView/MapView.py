@@ -4,17 +4,19 @@ import threading
 import traceback
 import pygame
 import thread
-
 import wx
+
 from CreatorView.RelativePaths import relative_music_path, relative_textures_path
 
-from Consts import RESOURCES_PANEL_SIZE, PURPLE, FONT, TEXT_PANEL_HEIGHT, \
-    TEXT_PANEL_WIDTH, MENU_BUTTON_WIDTH, NAVIGATION_PANEL_WIDTH, INFO_PANEL_WIDTH, TEXT_PANEL_FONT_SIZE
+from Consts import RESOURCES_PANEL_HEIGHT, PURPLE, FONT, TEXT_PANEL_HEIGHT, \
+    TEXT_PANEL_WIDTH, MENU_BUTTON_WIDTH, NAVIGATION_PANEL_WIDTH, \
+    INFO_PANEL_WIDTH, TEXT_PANEL_FONT_SIZE, GREEN, \
+    BUILDINGS_PANEL_WIDTH, HINT_TEXTURE
 from Game import Game
 from GameThread import GameThread
-from Utils import draw_text
+from Utils import draw_text, draw_text_with_wrapping_and_centering
 from Converter import Converter
-
+from Modals.ClosedHintModal import ClosedHintModal, HINT_WIDTH, HINT_HEIGHT
 
 class MapView(wx.Panel):
     """ This class represents an instance of map view. It is responsible for communication with model. """
@@ -44,29 +46,67 @@ class MapView(wx.Panel):
         self.sender = sender
         self.music_path = music_path
 
+        self.sizer_elements = []
+
         # bind EVT_SHOW to onShow() function
         self.Bind(wx.EVT_SHOW, self.on_show, self)
 
-        # add buttons
-        self.init_buttons()
-
-        style = wx.TE_MULTILINE | wx.TE_READONLY
-        self.log = wx.TextCtrl(self, wx.ID_ANY, size=(size[0] * TEXT_PANEL_WIDTH, TEXT_PANEL_HEIGHT * size[1]),
-                               style=style, pos=(self.width * NAVIGATION_PANEL_WIDTH + self.width * INFO_PANEL_WIDTH,
-                                                 int(size[1] - TEXT_PANEL_HEIGHT * size[1])))
-        font = wx.Font(TEXT_PANEL_FONT_SIZE, wx.MODERN, wx.NORMAL, wx.NORMAL, False, FONT)
-        self.log.SetFont(font)
-
         self.sizer = wx.BoxSizer(wx.VERTICAL)
-        self.sizer.Add(self.log, 1, wx.ALL | wx.EXPAND, 5)
         self.SetSizer(self.sizer)
 
-    def init_buttons(self):
+    def add_log_panel(self):
+        style = wx.TE_MULTILINE | wx.TE_READONLY
+        self.log = wx.TextCtrl(self, wx.ID_ANY,
+                               size=(self.width * TEXT_PANEL_WIDTH,
+                                     TEXT_PANEL_HEIGHT * self.height),
+                               style=style,
+                               pos=(self.width * NAVIGATION_PANEL_WIDTH +
+                                    self.width * INFO_PANEL_WIDTH,
+                                    int(self.height - TEXT_PANEL_HEIGHT *
+                                        self.height)))
+        font = wx.Font(TEXT_PANEL_FONT_SIZE, wx.MODERN, wx.NORMAL, wx.NORMAL,
+                       False, FONT)
+        self.log.SetFont(font)
+        self.sizer.Add(self.log, 1, wx.ALL | wx.EXPAND, 5)
+        self.sizer_elements.append(self.log)
+
+    def init_btns_in_game_screen(self):
         """ Function initializing buttons. """
-        menu_btn = wx.Button(self, label="Menu", pos=(self.width - MENU_BUTTON_WIDTH * self.width,
-                                                      self.screen_height - self.screen_height * TEXT_PANEL_HEIGHT),
-                             size=(MENU_BUTTON_WIDTH * self.width, self.screen_height * TEXT_PANEL_HEIGHT))
+        menu_btn = wx.Button(
+            self, label="Menu", pos=(
+                self.width - BUILDINGS_PANEL_WIDTH / 2 * self.width,
+                self.screen_height - self.screen_height * TEXT_PANEL_HEIGHT),
+            size=(BUILDINGS_PANEL_WIDTH / 2 * self.width,
+                  self.screen_height * TEXT_PANEL_HEIGHT))
+
+        end_game_btn = wx.Button(self, label="End game", pos=(
+            self.width - 2 * BUILDINGS_PANEL_WIDTH / 2 * self.width,
+            self.screen_height - self.screen_height * TEXT_PANEL_HEIGHT),
+            size=(BUILDINGS_PANEL_WIDTH / 2 * self.width,
+                  self.screen_height * TEXT_PANEL_HEIGHT))
+
+        self.sizer.Add(menu_btn)
+        self.sizer.Add(end_game_btn)
         self.Bind(wx.EVT_BUTTON, self.ret_to_menu, menu_btn)
+        self.Bind(wx.EVT_BUTTON, self.end_game, end_game_btn)
+        self.sizer_elements.append(menu_btn)
+        self.sizer_elements.append(end_game_btn)
+
+    def init_btns_in_end_game_screen(self):
+        menu_btn = wx.Button(
+            self, label="Menu", pos=(
+                self.width/2 - MENU_BUTTON_WIDTH * self.width/2,
+                self.screen_height - self.screen_height * TEXT_PANEL_HEIGHT),
+            size=(MENU_BUTTON_WIDTH * self.width,
+                  self.screen_height * TEXT_PANEL_HEIGHT))
+        self.sizer.Add(menu_btn)
+        self.Bind(wx.EVT_BUTTON, self.ret_to_menu, menu_btn)
+        self.sizer_elements.append(menu_btn)
+
+    def remove_button(self, btn):
+        """"""
+        self.sizer.Hide(btn)
+        self.sizer.Remove(btn)
 
     def on_show(self, event):
         """ Function receiving events sent to map view. """
@@ -84,6 +124,8 @@ class MapView(wx.Panel):
 
     def init_view(self):
         """ Function initializing map view. """
+        self.add_log_panel()
+        self.init_btns_in_game_screen()
         self.hackPygame()
         pygame.init()
         pygame.display.init()
@@ -96,6 +138,71 @@ class MapView(wx.Panel):
         import pygame  # this has to happen after setting the environment variables.
         pygame.init()
         pygame.quit()
+
+    def end_game(self, event):
+        self.game.game_on = False
+        self.game.listener_thread.join()
+        [self.remove_button(elem) for elem in self.sizer_elements]
+        self.init_btns_in_end_game_screen()
+        image = pygame.image.load(self.game.panel_texture)
+        image = pygame.transform.scale(image,
+                                       (self.game.board_width,
+                                        self.game.board_height))
+        self.game.game_board.blit(image, (0, 0))
+
+        res = self.sender.entry_point.getMapPresenter().endGame()
+        resources = Converter().convertJavaMapToDict(res.getResourcesSummary())
+        domestic = Converter().convertJavaMapToDict(res.getDomesticBuildingsSummary())
+        industrial = Converter().convertJavaMapToDict(res.getIndustrialBuildingsSummary())
+        dwellers = Converter().convertJavaMapToDict(res.getDwellersSummary())
+        score = res.getScore()
+
+        self.draw_summary(resources, domestic, industrial, dwellers, score)
+        self.game.background.blit(self.game.game_board, (0, 0))
+
+        pygame.display.flip()
+
+    def draw_summary(self, resources, domestic, industrial, dwellers, score):
+        curr_y = 0
+        max_y = 0
+
+        curr_y = draw_text_with_wrapping_and_centering(
+            0, 0, self.width, "Game Summary\n\n ", self.game.game_board, GREEN,
+        40)
+
+        mes = ' '.join(['{} {}\n'.format(key, val) for key, val in
+               resources.iteritems()])
+        mes = 'Resources summary\n\n ' + mes
+        max_y = max(max_y, draw_text_with_wrapping_and_centering(
+            0, curr_y, self.width / 4, mes, self.game.game_board, GREEN, 40, True))
+
+        mes = ' '.join(['{} {}\n'.format(key, val) for key, val in
+                        domestic.iteritems()])
+        mes = 'Domestic buildings summary\n\n ' + mes
+        max_y = max(max_y, draw_text_with_wrapping_and_centering(
+            self.width / 4, curr_y, 2 * self.width / 4, mes,
+            self.game.game_board, GREEN, 40, True))
+
+        mes = ' '.join(['{} {}\n'.format(key, val) for key, val in
+                        industrial.iteritems()])
+        mes = 'Industrial buildings summary\n\n ' + mes
+        max_y = max(max_y, draw_text_with_wrapping_and_centering(
+            2 * self.width / 4, curr_y, 3 * self.width / 4, mes, self.game.game_board,
+            GREEN, 40, True))
+
+        mes = ' '.join(['{} {}\n'.format(key, val) for key, val in
+                        dwellers.iteritems()])
+        mes = 'Dwellers summary\n\n ' + mes
+        max_y = max(max_y, draw_text_with_wrapping_and_centering(
+            3 * self.width / 4, curr_y, self.width, mes, self.game.game_board,
+            GREEN, 40, True))
+
+        curr_y = max(max_y, int(0.8 * self.height))
+        mes = "Score: {}".format(score)
+        draw_text_with_wrapping_and_centering(0, curr_y, self.width, mes,
+                                              self.game.game_board, GREEN,
+                                              40)
+
 # =================================================================================================================== #
 # Communication with model
 # =================================================================================================================== #
@@ -106,6 +213,7 @@ class MapView(wx.Panel):
 
     def ret_to_menu(self, event):
         """ Send node change message to model. """
+        [self.remove_button(elem) for elem in self.sizer_elements]
         self.game.game_on = False
         self.game.listener_thread.join()
         self.map_view_initialized = False
@@ -177,7 +285,7 @@ class MapView(wx.Panel):
         result = self.sender.entry_point.getMapPresenter().getWorkingDwellers(building_id)
         self.game.info_panel.curr_building.working_dwellers = result
 
-    # =================================================================================================================== #
+# =================================================================================================================== #
 # Reading messages from model
 # =================================================================================================================== #
     def init(self, resources, domestic_buildings, industrial_buildings, dwellers,
@@ -202,7 +310,8 @@ class MapView(wx.Panel):
             initial_resources_consumption,
             initial_resources_balance,
             self,
-            available_dwellers)
+            available_dwellers,
+            panelTexture)
         self.sender.entry_point.getMapPresenter().viewInitialized()
 
     def update_values_for_cycle_thread(self, actual_resources_values,
@@ -239,4 +348,18 @@ class MapView(wx.Panel):
         self.game.game_on = True
         self.game.listener_thread = GameThread(self.game)
         self.game.listener_thread.start()
+
+    def handle_hints(self, hints):
+        print hints[:5]
+        hint_modal_sprite = ClosedHintModal(self.game.board_height,
+                                            HINT_WIDTH * self.game.board_width,
+                                            HINT_HEIGHT * self.game.board_height,
+                                            HINT_TEXTURE,
+                                            self.game.game_board, hints,
+                                            self.game.expand_hint_modal,
+                                            min(4, len(self.game.hint_modals_sprites)))
+        if len(self.game.hint_modals_sprites) >= 5:
+            self.game.hint_list.append(hint_modal_sprite)
+        else:
+            self.game.hint_modals_sprites.add(hint_modal_sprite)
 

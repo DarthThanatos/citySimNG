@@ -11,11 +11,16 @@ import py4jmediator.MapResponses.PlaceBuildingResponse;
 import py4jmediator.MapResponses.StopProductionResponse;
 
 public class Buildings {
+	public static int getScoreMultiplier() {
+		return SCORE_MULTIPLIER;
+	}
+
+	private final static int SCORE_MULTIPLIER = 10;
 	private String domestic = "domestic";
 	private String industrial = "industrial";
 	private List<Building> allBuildings;
-	private List<Building> domesticBuildings = new ArrayList<>();
-	private List<Building> industrialBuildings = new ArrayList<>();
+	private Map<String, Building> domesticBuildings = new HashMap<>();
+	private Map<String, Building> industrialBuildings = new HashMap<>();
 	private Map<String, Building> playerIndustrialBuildings;
 	private Map<String, Building> playerDomesticBuildings;
 	private Map<String, Building> notFullyOccupiedBuildings;
@@ -26,9 +31,9 @@ public class Buildings {
 
 		for(Building building: allBuildings){
 			if(building.getType().toLowerCase().equals(domestic))
-				domesticBuildings.add(building);
+				domesticBuildings.put(building.getName(), building);
 			else
-				industrialBuildings.add(building);
+				industrialBuildings.put(building.getName(), building);
 		}
 
 		for(Building building: allBuildings){
@@ -360,11 +365,11 @@ public class Buildings {
 		this.unprovidedBuildings = unprovidedBuildings;
 	}
 
-	List<Building> getDomesticBuildings() {
+	Map<String, Building> getDomesticBuildings() {
 		return domesticBuildings;
 	}
 
-	List<Building> getIndustrialBuildings() {
+	Map<String, Building> getIndustrialBuildings() {
 		return industrialBuildings;
 	}
 }

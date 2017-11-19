@@ -36,6 +36,7 @@ public interface ViewModel {
 										 Map<String, Integer> resourcesBalance,
 										 Integer neededDwellers,
 										 Integer availableDwellers);
+		public void sendTutorialHints(String hints);
 		public void resumeGame();
 	}
 

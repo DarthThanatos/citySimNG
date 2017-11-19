@@ -3,23 +3,26 @@ import uuid
 import pygame
 from CreatorView.RelativePaths import relative_textures_path
 
-from MapView.Consts import BUILDINGS_PANEL_TEXTURE, ARROW_BUTTON_WIDTH, ARROW_BUTTON_HEIGHT, SPACE, GREEN
+from MapView.Consts import ARROW_BUTTON_WIDTH, ARROW_BUTTON_HEIGHT, \
+    GREEN
 from MapView.Items.PanelBuilding import PanelBuilding
 from MapView.Items.Button import Button
 from MapView.Panels.Panel import Panel
 from MapView.Utils import draw_text_with_wrapping_and_centering
 
-
 BUILDING_HEIGHT = 0.15
-BUILDING_WIDTH = 0.4
+BUILDING_WIDTH = 0.45
+SPACE = 0.1
 ARROW_Y = 0.85
 LEFT_ARROW_X = 0.1
 RIGHT_ARROW_X = 0.6
+BUILDINGS_POPUP_WIDTH = 0.7
 
 
 class BuildingsPanel(Panel):
     """ This class represents an instance of panel containing buildings. """
-    def __init__(self, pos_x, pos_y, width, height, blit_surface,
+
+    def __init__(self, pos_x, pos_y, width, height, texture_path, blit_surface,
                  domestic_buildings_data, industrial_buildings_data,
                  resources_panel_pos_y, resources_panel_height):
         """ Constructor.
@@ -31,7 +34,7 @@ class BuildingsPanel(Panel):
         :param blit_surface: surface on which panel should be drawn
         :param buildings_data: information about buildings available in game
         """
-        Panel.__init__(self, pos_x, pos_y, width, height, BUILDINGS_PANEL_TEXTURE,
+        Panel.__init__(self, pos_x, pos_y, width, height, texture_path,
                        blit_surface, 'Buildings Panel')
         self.domestic_buildings_data = domestic_buildings_data
         self.industrial_buildings_data = industrial_buildings_data
@@ -48,17 +51,26 @@ class BuildingsPanel(Panel):
                                   industrial_buildings_data)
 
     def draw(self):
-        """ Draw buildings panel with arrows for changing pages and buildings from current page.
-        Before drawing in panel it is being cleaned. """
+        """ Draw buildings panel with arrows for changing pages and buildings
+        from current page. Before drawing in panel it is being cleaned. """
         self.clean()
-        self.surface.blit(self.right_arrow.image, (self.right_arrow.rect[0] - self.pos_x,
-                                                          self.right_arrow.rect[1] - self.pos_y))
-        self.surface.blit(self.left_arrow.image, (self.left_arrow.rect[0] - self.pos_x,
-                                                         self.left_arrow.rect[1] - self.pos_y))
+
+        # draw arrows
+        self.surface.blit(self.right_arrow.image,
+                          (self.right_arrow.rect[0] - self.pos_x,
+                           self.right_arrow.rect[1] - self.pos_y))
+        self.surface.blit(self.left_arrow.image,
+                          (self.left_arrow.rect[0] - self.pos_x,
+                           self.left_arrow.rect[1] - self.pos_y))
+
+        # draw buildngs
         self.draw_buildings_in_buildings_panel()
+
+        # blit panel
         self.blit_surface.blit(self.surface, (self.pos_x, self.pos_y))
 
-    def parse_buildings_data(self, resources_panel_pos_y, resources_panel_height,
+    def parse_buildings_data(self, resources_panel_pos_y,
+                             resources_panel_height,
                              buildings_data, buildings_type):
         """ Parse information about buildings available in game sent by model
         - split buildings into pages and create sprite for each building. """
@@ -67,7 +79,8 @@ class BuildingsPanel(Panel):
             # we have to go to next line
             if curr_x + BUILDING_WIDTH * self.width > self.width:
                 curr_x = 0
-                curr_y = curr_y + BUILDING_HEIGHT * self.height + SPACE
+                curr_y = curr_y + BUILDING_HEIGHT * self.height + \
+                         SPACE * self.width
 
             # we have to go to next page
             if curr_y + BUILDING_HEIGHT * self.height > ARROW_Y * self.height:
@@ -95,14 +108,16 @@ class BuildingsPanel(Panel):
             building_sprite.popup = building_sprite.create_popup(
                 self.pos_x,
                 resources_panel_pos_y + resources_panel_height,
-                0.7 * self.width,
+                BUILDINGS_POPUP_WIDTH * self.width,
                 self.height,
+                self.texture_path,
                 self.blit_surface)
 
-            curr_x += BUILDING_WIDTH * self.width + SPACE
+            curr_x += BUILDING_WIDTH * self.width + SPACE * self.width
 
             if str(self.curr_page) in self.page_buildings:
-                self.page_buildings[str(self.curr_page)].append(building_sprite)
+                self.page_buildings[str(self.curr_page)].append(
+                    building_sprite)
             else:
                 self.page_buildings[str(self.curr_page)] = [building_sprite]
 

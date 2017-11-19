@@ -4,7 +4,9 @@ import constants.Consts;
 import entities.Building;
 import entities.Dweller;
 import entities.Resource;
+import model.TutorialHintEvent;
 import py4jmediator.MapResponses.DeleteBuildingResponse;
+import py4jmediator.MapResponses.EndGameResponse;
 import py4jmediator.MapResponses.PlaceBuildingResponse;
 import py4jmediator.MapResponses.StopProductionResponse;
 
@@ -30,6 +32,7 @@ public class MapPresenter {
         DeleteBuildingResponse onDeleteBuilding(String buildingId);
         StopProductionResponse onStopProduction(String buildingId);
         Integer onGetWorkingDwellers(String buildingId);
+        EndGameResponse onEndGame();
     }
 
     public void setOnMapPresenterCalled(OnMapPresenterCalled onMapPresenterCalled){
@@ -91,6 +94,13 @@ public class MapPresenter {
         }
     }
 
+    public EndGameResponse endGame(){
+        if(onMapPresenterCalled != null){
+            return onMapPresenterCalled.onEndGame();
+        }
+        return null;
+    }
+
     public void displayMap(){
         logger.log(Level.INFO, "Calling Map View Model, displaying map");
         Presenter.getInstance().getViewModel().getMapViewModel().displayMap();
@@ -134,6 +144,10 @@ public class MapPresenter {
                 resourcesBalance,
                 neededDwellers,
                 availableDwellers);
+    }
+
+    public void sendTutorialHints(String hints){
+        Presenter.getInstance().getViewModel().getMapViewModel().sendTutorialHints(hints);
     }
 
     public void resumeGame(){

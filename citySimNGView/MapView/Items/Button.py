@@ -1,10 +1,12 @@
 import pygame
 from MapView.CustomSprites.BasicSprite import BasicSprite
 
+CHANGE_TEXTURE_SIZE_FACTOR = 2
 
 class Button(BasicSprite):
     """ This class represents an instance of button. """
-    def __init__(self, pos_x, pos_y, width, height, texture, action, panel, popup_text, texture_rotation=0):
+    def __init__(self, pos_x, pos_y, width, height, texture, action, panel,
+                 popup_text, texture_rotation=0):
         """ Constructor.
 
         :param pos_x: x position [px]
@@ -17,18 +19,23 @@ class Button(BasicSprite):
         :param popup_text: text displayed in popup
         :param texture_rotation: angle of texture rotation
         """
-        BasicSprite.__init__(self, pos_x, pos_y, width, height, texture, popup_text, texture_rotation=texture_rotation)
+        BasicSprite.__init__(self, pos_x, pos_y, width, height, texture,
+                             popup_text, texture_rotation=texture_rotation)
         self.action = action
         self.panel = panel
 
         self.args = None
 
     def click_button(self, *args):
-        """ Change button size to look like it is pushed and store arguments for later action.
+        """ Change button size to look like it is pushed and store arguments
+        for later action.
 
-        :param args: arguments stored to perform action when player will release button.
+        :param args: arguments stored to perform action when player will
+        release button.
         """
-        self.image = pygame.transform.scale(self.image, (self.width/2, self.height/2))
+        self.image = pygame.transform.scale(
+            self.image, (self.width / CHANGE_TEXTURE_SIZE_FACTOR,
+                         self.height / CHANGE_TEXTURE_SIZE_FACTOR))
         self.rect = self.image.get_rect(center=self.rect.center)
         self.args = args
 
@@ -37,11 +44,13 @@ class Button(BasicSprite):
         self.action(*self.args)
         self.image = pygame.image.load(self.texture_path)
         self.image = pygame.transform.rotate(self.image, self.texture_rotation)
-        self.image = pygame.transform.scale(self.image, (self.width, self.height))
+        self.image = pygame.transform.scale(self.image,
+                                            (self.width, self.height))
         self.rect = self.image.get_rect(topleft=(self.pos_x, self.pos_y))
 
     def set_texture(self, texture):
-        """ Set texture for button. Load texture from file, scale it and get it's rect.
+        """ Set texture for button. Load texture from file, scale it
+        and get it's rect.
 
         :param texture: path to button's texture
         """

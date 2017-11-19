@@ -1,6 +1,7 @@
 package mapnode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,14 +11,23 @@ import model.DependenciesRepresenter;
 import utils.CollectionConcatenationUtils;
 
 public class Dwellers {
+	public static int getScoreMultiplier() {
+		return SCORE_MULTIPLIER;
+	}
+
+	private final static int SCORE_MULTIPLIER = 5;
 	private int neededDwellers = 0;
 	private int availableDwellers = 5;
 	private int workingDwellers = 0;
-	private List<Dweller> allDwellers = new ArrayList();
+	private Map<String, Dweller> allDwellers;
 	private final String relativeTexturesPath = "resources\\Textures\\";
 	
 	Dwellers(DependenciesRepresenter dr){
-		allDwellers = (List<Dweller>) dr.getModuleData("allDwellers");
+
+		allDwellers = new HashMap<>();
+		for(Dweller dweller: (List<Dweller>) dr.getModuleData("allDwellers")){
+			allDwellers.put(dweller.getName(), dweller);
+		}
 	}
 
 	public void updateDwellersWorkingInBuilding(Building building,
@@ -59,11 +69,11 @@ public class Dwellers {
 		this.availableDwellers = availableDwellers;
 	}
 
-	public List<Dweller> getAllDewellers() {
+	public Map<String, Dweller> getAllDewellers() {
 		return allDwellers;
 	}
 
-	public void setAllDewellers(List<Dweller> allDewellers) {
+	public void setAllDewellers(Map<String, Dweller> allDewellers) {
 		this.allDwellers = allDewellers;
 	}
 

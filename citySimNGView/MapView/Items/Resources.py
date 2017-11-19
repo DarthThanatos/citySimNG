@@ -1,11 +1,10 @@
 """
-    This module contains dictionary mapping resource name to resource object and functions facilitating operations
-    on resources.
+    This module contains dictionary mapping resource name to resource object
+    and functions facilitating operations on resources.
 """
 from MapView.Items.Resource import Resource
 from MapView.Utils import calculate_text_size, draw_text
 from MapView.Consts import GREEN, RESOURCES_SPACE
-import pygame
 
 resources = dict()
 
@@ -23,8 +22,10 @@ def parse_resources_data(resources_data):
         }
 
 
-def draw_items_info(items_info, start_x, start_y, max_x, container, items_sprites=None,
-                   items_sprites_group=None, image_width=0, image_height=0):
+def draw_items_info(items_info, start_x, start_y, max_x, container,
+                    items_sprites=None, items_sprites_group=None,
+                    image_width=0, image_height=0, color=GREEN,
+                    space=RESOURCES_SPACE):
     """ Draw item info with wrapping so that it does not exceed given x value.
     For each item this function draw first image and then value.
 
@@ -46,10 +47,11 @@ def draw_items_info(items_info, start_x, start_y, max_x, container, items_sprite
         if items_sprites:
             item_sprite = items_sprites[item_name]
         else:
-            item_sprite = Resource(item_name, resources[item_name]['texture_path'], image_width, image_height)
+            item_sprite = Resource(item_name,
+                                   resources[item_name]['texture_path'],
+                                   image_width, image_height)
 
         # skip if value is 0
-        # TODO: we have to take care of this in logic
         if value == 0:
             continue
 
@@ -63,19 +65,21 @@ def draw_items_info(items_info, start_x, start_y, max_x, container, items_sprite
 
         # update sprite rect
         if items_sprites:
-            item_sprite.rect = item_sprite.image.get_rect(topleft=(curr_x + container.rect.left,
-                                                                   curr_y + container.rect.top))
+            item_sprite.rect = item_sprite.image.get_rect(
+                topleft=(curr_x + container.rect.left,
+                         curr_y + container.rect.top))
             items_sprites_group.add(item_sprite)
 
         container.surface.blit(item_sprite.image, (curr_x, curr_y))
-        draw_text(curr_x + item_sprite.image.get_size()[0], curr_y, '{}'.format(items_info[item_name]), GREEN,
+        draw_text(curr_x + item_sprite.image.get_size()[0], curr_y,
+                  '{}'.format(items_info[item_name]), color,
                   container.surface)
 
-        curr_x += info_width + RESOURCES_SPACE
+        curr_x += info_width + space
 
     if curr_x == start_x and curr_y == start_y:
-        text_size = draw_text(curr_x, curr_y, '-', GREEN, container.surface)
+        text_size = draw_text(curr_x, curr_y, '-', color, container.surface)
 
-    return curr_x + RESOURCES_SPACE, curr_y + max(text_size[1], image_height)
+    return curr_x + space, curr_y + max(text_size[1], image_height)
 
 

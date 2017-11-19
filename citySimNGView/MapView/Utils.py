@@ -34,7 +34,8 @@ def calculate_text_size(msg):
 
 
 # TODO: better dealing with newlines
-def draw_text_with_wrapping(pos_x, pos_y, max_x, msg, color, surface, font_size=FONT_SIZE):
+def draw_text_with_wrapping(pos_x, pos_y, max_x, msg, color, surface, font_size=FONT_SIZE,
+                            max_pos_y=None, msg_split=False):
     """ Draw text with wrapping so that it does not exceed given x value.
 
     :param pos_x: initial x position
@@ -46,36 +47,49 @@ def draw_text_with_wrapping(pos_x, pos_y, max_x, msg, color, surface, font_size=
     :param font_size: size of font
     """
     widest_line = 0
+    remaining_words = []
+    drawn_whole_message = True
     font = pygame.font.Font(FONT, font_size)
     space_width = font.size(' ')[0]  # get space width
     curr_x, curr_y = pos_x, pos_y
     text_size = (0, 0)
+    split_message = msg if msg_split else msg.split(" ")
 
-    def _go_to_next_line(curr_x, curr_y, widest_line):
-        widest_line = max(curr_x, widest_line)
-        curr_x = pos_x  # Reset the x.
-        curr_y += word_height  # Start on new row.
-        return curr_x, curr_y, widest_line
-
-    for word in msg.split(" "):
+    for i, word in enumerate(split_message):
         draw_new_line = False
+
         if len(word) > 0 and word[-1] == '\n':
             word = word[:-1]
             draw_new_line = True
+
         word_surface = font.render(word, True, color)
         text_size = word_width, word_height = word_surface.get_size()
 
         if curr_x + word_width >= max_x:
-            curr_x, curr_y, widest_line = _go_to_next_line(curr_x, curr_y, widest_line)
+            widest_line = max(curr_x, widest_line)
+            curr_x = pos_x  # Reset the x.
+            curr_y += word_height  # Start on new row.
+            if max_pos_y and max_pos_y < curr_y + word_height:
+                drawn_whole_message = False
+                remaining_words = split_message[i:]
+                break
 
-        surface.blit(word_surface, (curr_x, curr_y))
+        if drawn_whole_message:
+            surface.blit(word_surface, (curr_x, curr_y))
 
         if draw_new_line:
-            curr_x, curr_y, widest_line = _go_to_next_line(curr_x + word_width, curr_y, widest_line)
+            widest_line = max(curr_x, widest_line)
+            curr_x = pos_x  # Reset the x.
+            curr_y += word_height  # Start on new row.
+            if max_pos_y and max_pos_y < curr_y + word_height:
+                drawn_whole_message = False
+                remaining_words = split_message[i:]
+                break
         else:
             curr_x += word_width + space_width
 
-    return curr_y + text_size[1], max(widest_line, curr_x)
+    return curr_y + text_size[1], max(widest_line, curr_x), drawn_whole_message, \
+           remaining_words
 
 
 def center_image_y_pos(height, y_min, y_max):
@@ -93,7 +107,7 @@ def draw_text_with_wrapping_and_centering(pos_x, pos_y, max_x, msg, surface,
                                           color, font_size=FONT_SIZE,
                                           blit=True):
     font = pygame.font.Font(FONT, font_size)
-    # space_width = font.size(' ')[0]  # get space width
+    space_width = font.size(' ')[0]  # get space width
     curr_x, curr_y = pos_x, pos_y
     lines_text_width = 0
     curr_line_words = []
@@ -104,9 +118,16 @@ def draw_text_with_wrapping_and_centering(pos_x, pos_y, max_x, msg, surface,
         for w in curr_line_words:
             word_surface = font.render(w, True, color)
             surface.blit(word_surface, (int(curr_line_pos_x), curr_y))
-            curr_line_pos_x += word_surface.get_size()[0]
+            curr_line_pos_x += word_surface.get_size()[0] + space_width
 
     for word in msg.split(" "):
+        draw_new_line = 0
+
+        # TODO: remove while?
+        while len(word) > 0 and word[-1] == '\n':
+            word = word[:-1]
+            draw_new_line += 1
+
         # get word dimensions
         word_width, word_height = font.render(word, True, color).get_size()
 
@@ -119,8 +140,14 @@ def draw_text_with_wrapping_and_centering(pos_x, pos_y, max_x, msg, surface,
             lines_text_width = 0
             curr_y += word_height
 
-        curr_line_words += word
-        lines_text_width += word_width
+        curr_line_words += [word]
+        lines_text_width += word_width + space_width
+
+        if draw_new_line:
+            _blit_current_line()
+            curr_line_words = []
+            lines_text_width = 0
+            curr_y += draw_new_line * word_height
 
     # blit rest of the message
     if curr_line_words:

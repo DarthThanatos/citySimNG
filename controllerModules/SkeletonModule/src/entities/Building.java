@@ -4,14 +4,10 @@ import utils.CollectionConcatenationUtils;
 
 import java.util.Map;
 
-public class Building {
-	private String name;
-	private String predecessor;
-	private String successor;
+public class Building extends Entity {
 	private Map<String, Integer> produces;
 	private Map<String, Integer> consumes;
 	private Map<String, Integer> resourcesCost;
-	private String texturePath;
 	private String type;
 	private String dwellersName;
 	private Integer dwellersAmount;
@@ -62,17 +58,18 @@ public class Building {
 	}
 
 	public Building(Building b){
-		this.name = b.name;
-		this.predecessor = b.predecessor;
+		this.setName(b.getName());
+		this.setPredecessor(b.getPredecessor());
 		this.dwellersAmount = b.dwellersAmount;
-		this.successor = b.successor;
+		this.setSuccessor(b.getSuccessor());
 		this.produces = b.produces;
 		this.consumes = b.consumes;
 		this.resourcesCost = b.resourcesCost;
-		this.texturePath = b.texturePath;
+		this.setTexturePath(b.getTexturePath());
 		this.type = b.type;
 		this.description = b.description;
 		this.workingDwellers = 0;
+		this.dwellersName = b.getDwellersName();
 	}
 
 	public String getDwellersName() {
@@ -89,22 +86,6 @@ public class Building {
 
 	public void setDwellersAmount(Integer dwellersAmount) {
 		this.dwellersAmount = dwellersAmount;
-	}
-
-	public String getTexturePath() {
-		return texturePath;
-	}
-	
-	public void setTexturePath(String texturePath) {
-		this.texturePath = texturePath;
-	}
-
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public Map<String, Integer> getResourcesCost() {
@@ -139,22 +120,6 @@ public class Building {
 		this.type = type;
 	}
 
-	public String getSuccessor() {
-		return successor;
-	}
-
-	public void setSuccessor(String successor) {
-		this.successor = successor;
-	}
-
-	public String getPredecessor() {
-		return predecessor;
-	}
-
-	public void setPredecessor(String predecessor) {
-		this.predecessor = predecessor;
-	}
-
 	public Integer getWorkingDwellers() {
 		return workingDwellers;
 	}
@@ -173,7 +138,7 @@ public class Building {
 	
 	@Override
 	public String toString(){
-		return "Building name: " + name + "\n"
+		return "Building name: " + getName() + "\n"
 				+ "\n=====================\n"
 				+ "Type: " + type + "\n"
 				+ "\n=====================\n"

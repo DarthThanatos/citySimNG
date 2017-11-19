@@ -5,7 +5,8 @@ from MapView.CustomSprites.ContainerSprite import ContainerSprite
 
 class Panel(ContainerSprite):
     """ Base class for panels """
-    def __init__(self, pos_x, pos_y, width, height, texture_path, blit_surface, name):
+    def __init__(self, pos_x, pos_y, width, height, texture_path, blit_surface,
+                 name):
         """ Constructor. Initialize panel.
 
         :param pos_x: panel's x position
@@ -15,18 +16,8 @@ class Panel(ContainerSprite):
         :param texture_path: path to panel's texture
         :param blit_surface: surface on which panel should be drawn
         """
-        ContainerSprite.__init__(self, pos_x, pos_y, width, height, texture_path, name)
+        ContainerSprite.__init__(self, pos_x, pos_y, width, height,
+                                 texture_path, name, blit_surface)
         self.name = name
-        self.pos_x = pos_x
-        self.pos_y = pos_y
-        self.width = int(width)
-        self.height = int(height)
-        self.blit_surface = blit_surface
-
         self.all_sprites = pygame.sprite.Group()
-
-        self.surface = pygame.Surface.copy(self.image)
-
-    def clean(self):
-        """ Clean panel surface. """
         self.surface = pygame.Surface.copy(self.image)
