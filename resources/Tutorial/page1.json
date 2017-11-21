@@ -2,22 +2,15 @@
   "page": {
     "nr": 1,
     "sub0": [
-      "Game sub0",
-     ],
-    "sub1":[
-      "Game sub1",
+  "W panelu gieldy mozna takze wziac udzial w loterii - za oplaceniem 10zl bierze sie udzial w losowaniu w ktorym mozna wygrac pewna ilosc surowcow lub nic.",
+  ],
+    "sub1": [
+      "Po nacisnieciu przycisku (rool the dice) wyswietlana jest odpowiednia informacja o wygranej lub przegranej.",
     ],
-    "sub2": [
-      "Game sub2",
-    ],
-  "img": "resources\\Tutorial\\img1.jpg",
+  "img": "resources\\Tutorial\\img3.jpg",
     "link": [{
-      "id": 2,
-      "label": "Map - overview",
-      },
-    {
-      "id": 5,
-      "label": "Exchange - overview",
-    }]
+      "id":5,
+      "label": "Gielda",
+      }]
   }
 }

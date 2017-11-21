@@ -14,6 +14,11 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import model.DependenciesRepresenter;
+import graph.GraphsHolder;
+import graph.BuildingNode;
+import graph.DwellerNode;
+import graph.ResourceNode;
+
 import controlnode.DispatchCenter;
 import controlnode.SocketNode;
 import utils.DisposingUtils;
@@ -25,15 +30,22 @@ import py4jmediator.*;
 public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTutorialPresenterCalled{
 
 	private JSONObject readPage;
-	private String[] tutorialIndex;
 	private BufferedReader tutorialReader;
 	private HintSender hintSender;
-	//private Map<Integer, String> tutorialIndex;
+	private String[] tutorialIndex;
+	private List<String> buildingsIndex;
+	private List<String> resourcesIndex;
+	private List<String> dwellersIndex;
 
 	public TutorialPy4JNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
 		super(dr, dispatchCenter, nodeName);
 		readPage = new JSONObject("{}");
 		hintSender = new HintSender(this, dispatchCenter.getEventBus());
+
+		//tutorialIndex = new ArrayList<String>();
+		buildingsIndex = new ArrayList<String>();
+		resourcesIndex = new ArrayList<String>();
+		dwellersIndex = new ArrayList<String>();
 		//tutorialIndex = new HashMap<Integer, String>();
 	}
 
@@ -69,11 +81,12 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 
 	@Override
 	public void atStart() { //raczej ok
+		GraphsHolder graphsHolder = dr.getGraphsHolder();
 		TutorialPresenter tutorialPresenter = Presenter.getInstance().getTutorialPresenter();
 		tutorialPresenter.setOnTutorialPresenterCalled(this);
 		tutorialPresenter.displayTutorial();
 
-		JSONObject graphs = dr.getGraphsHolder().displayAllGraphs();
+		JSONObject graphs = graphsHolder.displayAllGraphs();
 		JSONObject envelope = new JSONObject();
 			envelope.put("To","Tutorial");
 			envelope.put("Operation","FetchGraphs");
@@ -102,18 +115,27 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 			tutorialIndex = new String[readPage.length()+1];
 			int nr;
 			String keyName;
-			for (Iterator<String> key = readPage.keys(); key.hasNext();){//for (String key : readPage.keys()) {
+			for (Iterator<String> key = readPage.keys(); key.hasNext();){
 				keyName = key.next();
 				nr = readPage.getInt(keyName);
+				//tutorialIndex.add(nr, keyName);
 				tutorialIndex[nr] = keyName;
 			}
 
-		//fetch buildings
+		//fetch buildings, dwellers, etc/
+		for (BuildingNode n : graphsHolder.getBuildingsGraphs()) {
+			buildingsIndex.add(n.getName());
+		}
+		for (ResourceNode n : graphsHolder.getResourcesGraphs()) {
+			resourcesIndex.add(n.getName());
+		}
+		for (DwellerNode n : graphsHolder.getDwellersGraphs()) {
+			dwellersIndex.add(n.getName());
+		}
 
 		//handle tutorialIndex to python view
 		Presenter.getInstance().getTutorialPresenter().fetchTutorialIndex(tutorialIndex);
-		Presenter.getInstance().getTutorialPresenter().fetchNodes(dr.getBuildingsNames(), 
-			dr.getResourcesNames(), dr.getDwellersNames());
+		Presenter.getInstance().getTutorialPresenter().fetchNodes(buildingsIndex, resourcesIndex, dwellersIndex);
 	}
 
 	@Override

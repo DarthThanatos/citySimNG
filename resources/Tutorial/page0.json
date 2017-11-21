@@ -1,0 +1,23 @@
+{
+  "page": {
+    "nr": 0,
+    "sub0": [
+      "Game sub0",
+     ],
+    "sub1":[
+      "Game sub1",
+    ],
+    "sub2": [
+      "Game sub2",
+    ],
+  "img": "resources\\Tutorial\\img1.jpg",
+    "link": [{
+      "id": 2,
+      "label": "Map - overview",
+      },
+    {
+      "id": 5,
+      "label": "Exchange - overview",
+    }]
+  }
+}

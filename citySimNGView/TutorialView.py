@@ -1,7 +1,7 @@
 import json
 #import traceback
 import wx
-from py4j.java_collections import JavaList, JavaArray
+#from py4j.java_collections import JavaList, JavaArray
 
 from CreatorView.GraphsSpaces import GraphsSpaces
 from TutorialPageView import TutorialPageView
@@ -9,12 +9,16 @@ from utils.RelativePaths import relative_music_path, relative_textures_path, rel
 
 
 class MainTab(wx.Panel):
-    def __init__(self, parent, master):
+    def __init__(self, parent, master, tabID):
         wx.Panel.__init__(self, parent)
+        self.parent = parent
         self.master = master
         self.centerSizer = wx.BoxSizer(wx.VERTICAL)
         self.SetSizer(self.centerSizer)
         self.listCtrls =[]
+        self.indexList = {}
+        self.tabID = tabID
+        self.isInitialized = False
 
         self.initContentList()
 
@@ -31,7 +35,7 @@ class MainTab(wx.Panel):
         tmpBox.AddSpacer(10)
         tmpBox.Add(arrowButton,0)
 
-        listItem = {'elemField': elemField, 'arrowButton': arrowButton}
+        listItem = {'elemField': elemField, 'arrowButton': arrowButton, 'box': tmpBox}
         self.listCtrls.insert(i, listItem)
         box.Add(tmpBox,0,wx.CENTER)
         box.AddSpacer(20)
@@ -40,43 +44,57 @@ class MainTab(wx.Panel):
     def initContentList(self):
         """ This function creates content list and buttons, sets theirs positions and size and
             binds logic to them."""
-        leftBox = wx.BoxSizer(wx.VERTICAL)
-        rightBox = wx.BoxSizer(wx.VERTICAL)
-        contentBox = wx.BoxSizer(wx.HORIZONTAL)
+        self.leftBox = wx.BoxSizer(wx.VERTICAL)
+        self.rightBox = wx.BoxSizer(wx.VERTICAL)
+        self.contentBox = wx.BoxSizer(wx.HORIZONTAL)
 
         listFont = self.master.tutorialFont
         listFont.SetPointSize(18)
         arrow = wx.Bitmap(relative_textures_path+"new\\arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
 
         #contentSize = len(self.master.content)-1
-        contentSize = self.master.maxNrOfItemsOnList-1
+        contentSize = self.master.maxNrOfItemsOnList
         contentHalf = contentSize - (contentSize // 2)
         for i in range(contentHalf):
-            self.addListElem(leftBox, listFont, arrow, i)
+            self.addListElem(self.leftBox, listFont, arrow, i)
 
         for i in range(contentHalf, contentSize):
-            self.addListElem(rightBox, listFont, arrow, i)
+            self.addListElem(self.rightBox, listFont, arrow, i)
 
-        contentBox.Add(leftBox,0)
-        contentBox.AddSpacer(50)
-        contentBox.Add(rightBox,0)
-        self.centerSizer.Add(contentBox, 0, wx.CENTER) 
+        self.contentBox.Add(self.leftBox,0)
+        self.contentBox.AddSpacer(50)
+        self.contentBox.Add(self.rightBox,0)
+        self.centerSizer.Add(self.contentBox, 0, wx.CENTER) 
         self.centerSizer.AddSpacer(20)
         self.centerSizer.Layout()
 
     def fillListItem(self, i):
+        print "Filling listItem"
         listItem = self.listCtrls[i]
-        listItem['elemField'].SetLabel = self.master.content[i]
-        listItem['arrowButton'].SetId = i
+        if self.indexList[i] is not None:
+            print "Lable type: " + str(type(self.indexList[i]))
+            print "Lable : " + str(self.indexList[i]) + "\n"
+            listItem['elemField'].SetLabel(self.indexList[i])
+            listItem['arrowButton'].SetId(i + 10*self.tabID)
+            listItem['box'].Layout()
+        else:
+            listItem['box'].ShowItems(False)
+            listItem['box'].Layout()
+            #listItem['box'].Hide()
 
-    def fillContentList(self):
-        contentSize = len(self.master.content)-1
+    def fillContentList(self, indexList):
+        print "\nFilling content list"
+        self.indexList = indexList
+        contentSize = len(indexList)
         contentHalf = contentSize - (contentSize // 2)
         for i in range(contentHalf):
             self.fillListItem(i)
 
         for i in range(contentHalf, contentSize):
             self.fillListItem(i)
+        self.leftBox.Layout()
+        self.rightBox.Layout()
+        self.contentBox.Layout()
         self.centerSizer.Layout()
 
     
@@ -103,7 +121,8 @@ class TutorialView(wx.Panel):
         #self.SetBackgroundColour((255, 255, 255))
         self.pageID = 0
         self.nrOfPages = 0
-        self.maxNrOfItemsOnList = 12
+        self.maxNrOfItemsOnList = 8
+
         self.tutorialInfo = "Welcome to our tutorial! If you'd like to find out what are all the functionalities of this cutting-edge game engine, you're in the right place :)"
         self.welcomeField = wx.StaticText(self, label=self.tutorialInfo)
         self.tutorialFont = wx.Font(20, wx.FONTFAMILY_DECORATIVE, 
@@ -125,16 +144,16 @@ class TutorialView(wx.Panel):
         self.content = None
         tabs = wx.Notebook(self)
         # Create the tab windows
-        self.tab1 = MainTab(tabs,self)
-        self.tab2 = EntitiesTab(tabs, self)
-        self.tab3 = EntitiesTab(tabs,self)
-        self.tab4 = EntitiesTab(tabs,self)
+        self.tab1 = MainTab(tabs,self, 1)
+        self.tab2 = MainTab(tabs, self, 2)
+        self.tab3 = MainTab(tabs,self, 3)
+        self.tab4 = MainTab(tabs,self, 4)
  
         # Add the windows to tabs and name them.
         tabs.AddPage(self.tab1, "MainTab")
-        tabs.AddPage(self.tab2, "Resources Tab`")
-        tabs.AddPage(self.tab3, "Dwellers Tab")
-        tabs.AddPage(self.tab4, "Buildings Tab")
+        tabs.AddPage(self.tab2, "Buildings Tab`")
+        tabs.AddPage(self.tab3, "Resources Tab")
+        tabs.AddPage(self.tab4, "Dwellers Tab")
         self.centerSizer.Add(tabs, 0, wx.EXPAND)
         ln = wx.StaticLine(self, -1)
         self.centerSizer.Add(ln, 0, wx.EXPAND)
@@ -186,12 +205,23 @@ class TutorialView(wx.Panel):
     def requestPage(self, event):
         print "TutorialView: requestPage executed"
         print "PageID: " + str(event.GetId())
-        realPageID = event.GetId()
-        if realPageID > self.nrOfPages:
-            realPageID = 1
-        elif realPageID <= 0:
-            realPageID = self.nrOfPages
-        self.sender.entry_point.getTutorialPresenter().fetchTutorialPage(realPageID)
+        tabID = event.GetId() // 10
+        if tabID is 1:
+            print "Tutorial index request"
+            realPageID = event.GetId() % self.nrOfPages
+            self.sender.entry_point.getTutorialPresenter().fetchTutorialPage(realPageID)
+        elif tabID is 2:
+            print "Buildings index request"
+        elif tabID is 3:
+            print "Resources index request"
+        elif tabID is 4:
+            print "Dwellers index request"
+        # if realPageID > self.nrOfPages:
+        #     realPageID = 1
+        # elif realPageID < 0:
+        #     realPageID = self.nrOfPages-1
+        #potem dodac parsowanie nr
+        
 
     def retToMenu(self, event):
         """ This function returns to Menu view """
@@ -233,37 +263,42 @@ class TutorialView(wx.Panel):
         self.pageView.page = pageContentString["nr"]
         self.pageView.updateHyperlinksAndImg()
 
+    def useFetchedIndex(self, index, tab):
+        if index is not None:
+            for x in index:
+                print x
+            tab.fillContentList(index)
+            tab.isInitialized = True
+        self.centerSizer.Layout()
+
     def fetchTutorialIndex(self, index):
-        # for x in jsonPage.keys():
-        #     self.content.append(x)
         self.nrOfPages = len(index)-1
-        if self.content is None:
-            self.content = index
+        print "self.nrOfPages = " + str(self.nrOfPages)
+        if self.tab1.isInitialized is False:
             print "Print index"
-            if self.content is not None:
-                for x in self.content:
-                    print x
-                    print type(x)
-            self.tab1.fillContentList()
-            self.centerSizer.Layout()
+            self.useFetchedIndex(index, self.tab1)
+            if self.tab1.isInitialized is False:
+                print "Sth went wrong with tutorial indexList!!!!"
         else:
             print "len(self.content):"
             print len(self.content)
 
     def fetchNodes(self, buildingsList, resourcesList, dwellersList):
         print "Print buildingsList"
-        if buildingsList is not None:
-            for x in buildingsList:
-                print x
+        if self.tab2.isInitialized is False:
+            self.useFetchedIndex(buildingsList, self.tab2)
+            if self.tab2.isInitialized is False:
+                print "Sth went wrong with buildings!!!"
         print "Print resourcesList"
-        if resourcesList is not None:
-            for x in resourcesList:
-                print x
+        if self.tab3.isInitialized is False:
+            self.useFetchedIndex(resourcesList, self.tab3)
+            if self.tab3.isInitialized is False:
+                print "Sth went wrong with resources!!!"
         print "Print dwellersList"
-        if dwellersList is not None:
-            for x in dwellersList:
-                print x
-                print type(x)
+        if self.tab4.isInitialized is False:
+            self.useFetchedIndex(dwellersList, self.tab4)
+            if self.tab4.isInitialized is False:
+                print "Sth went wrong with Dwellers!!!"
 
 
     
