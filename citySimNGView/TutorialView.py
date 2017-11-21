@@ -29,7 +29,6 @@ class MainTab(wx.Panel):
         arrowButton = wx.Button(self, id=elemID, label="  ", 
             size=(arrow.GetWidth()+10, arrow.GetHeight()+5))
         arrowButton.SetBitmap(arrow)
-        self.Bind(wx.EVT_BUTTON, self.master.showPageView, arrowButton)
         tmpBox = wx.BoxSizer(wx.HORIZONTAL)
         tmpBox.Add(elemField, 0, wx.CENTER)
         tmpBox.AddSpacer(10)
@@ -76,11 +75,13 @@ class MainTab(wx.Panel):
             print "Lable : " + str(self.indexList[i]) + "\n"
             listItem['elemField'].SetLabel(self.indexList[i])
             listItem['arrowButton'].SetId(i + 10*self.tabID)
+            self.Bind(wx.EVT_BUTTON, self.master.showPageView, listItem['arrowButton'])
             listItem['box'].Layout()
         else:
-            listItem['box'].ShowItems(False)
+            #listItem['box'].ShowItems(False)
+            #listItem['box'].Layout()
+            listItem['arrowButton'].Hide()
             listItem['box'].Layout()
-            #listItem['box'].Hide()
 
     def fillContentList(self, indexList):
         print "\nFilling content list"
@@ -175,11 +176,8 @@ class TutorialView(wx.Panel):
  
 
     def showPageView(self, event):
+        print "\nshowPageView"
         self.requestPage(event)
-        self.centerSizer.ShowItems(False)
-        self.pageView.Show()
-        self.pageView.centerSizer.ShowItems(True)
-
 
     def onShow(self, event):
         # print "Menu on show"
@@ -260,8 +258,14 @@ class TutorialView(wx.Panel):
         self.pageView.helperImg = image
         self.pageView.subPage = 0
         self.pageView.nrOfSubpages = len(pageContentString) - 3
-        self.pageView.page = pageContentString["nr"]
+        self.pageView.page = pageContentString["nr"] + 10
+        self.pageView.tabID = 1
         self.pageView.updateHyperlinksAndImg()
+
+        self.centerSizer.ShowItems(False)
+        self.pageView.Show()
+        self.pageView.centerSizer.ShowItems(True)
+
 
     def useFetchedIndex(self, index, tab):
         if index is not None:

@@ -16,6 +16,7 @@ class TutorialPageView(wx.Panel):
         self.page = 0
         self.subPage = 0
         self.nrOfSubpages = 3
+        self.tabID = 0
 
 
         self.tutorialContent = [
@@ -165,7 +166,7 @@ class TutorialPageView(wx.Panel):
         for i in range(len(self.hyperlinks)):
             child = self.hyperlinkCtrls[i]
             child.SetLabel(self.hyperlinks[i]['label'])
-            child.SetId(self.hyperlinks[i]['id'])
+            child.SetId(self.hyperlinks[i]['id'] + 10*self.tabID)
             self.Bind(wx.EVT_HYPERLINK, self.moveToPage, child)
         for i in range (len(self.hyperlinks), self.maxNrOfHyperlinks):
             child = self.hyperlinkCtrls[i]
