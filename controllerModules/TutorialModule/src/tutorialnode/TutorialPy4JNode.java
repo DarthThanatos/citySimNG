@@ -41,12 +41,10 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 		super(dr, dispatchCenter, nodeName);
 		readPage = new JSONObject("{}");
 		hintSender = new HintSender(this, dispatchCenter.getEventBus());
-
-		//tutorialIndex = new ArrayList<String>();
+		
 		buildingsIndex = new ArrayList<String>();
 		resourcesIndex = new ArrayList<String>();
 		dwellersIndex = new ArrayList<String>();
-		//tutorialIndex = new HashMap<Integer, String>();
 	}
 
 
@@ -80,7 +78,7 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 
 
 	@Override
-	public void atStart() { //raczej ok
+	public void atStart() {
 		GraphsHolder graphsHolder = dr.getGraphsHolder();
 		TutorialPresenter tutorialPresenter = Presenter.getInstance().getTutorialPresenter();
 		tutorialPresenter.setOnTutorialPresenterCalled(this);
@@ -88,10 +86,7 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 
 		JSONObject graphs = graphsHolder.displayAllGraphs();
 		JSONObject envelope = new JSONObject();
-			envelope.put("To","Tutorial");
-			envelope.put("Operation","FetchGraphs");
 			envelope.put("Args", graphs);
-			//sender.pushStream(envelope);
 		Presenter.getInstance().getTutorialPresenter().displayDependenciesGraph(envelope);
 
 		//fetch tutorialIndex
@@ -118,7 +113,6 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 			for (Iterator<String> key = readPage.keys(); key.hasNext();){
 				keyName = key.next();
 				nr = readPage.getInt(keyName);
-				//tutorialIndex.add(nr, keyName);
 				tutorialIndex[nr] = keyName;
 			}
 
@@ -145,35 +139,30 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 
 
 	@Override
-	public void atExit() { //ok
+	public void atExit() {
 		Presenter.getInstance().getTutorialPresenter().setOnTutorialPresenterCalled(null);	
 	}
 
 
 	@Override
-	public void atUnload() { //ok
+	public void atUnload() { 
 		hintSender.atUnload();
 	}
 
 	@Override
-	public void onReturnToMenu(){ //??
+	public void onReturnToMenu(){ 
 		moveTo("GameMenuNode");
 	}
 
 	@Override
-	public void onFetchTutorialPage(int pageNr){ //ok
+	public void onFetchTutorialPage(int pageNr){ 
 		try {
 				readPage(pageNr);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			JSONObject envelope = new JSONObject();
-			envelope.put("To","Tutorial");
-			envelope.put("Operation","FetchPage");
-			JSONObject json = new JSONObject();
-			json.put("Page", readPage);
-			envelope.put("Args", json);
-	//		return envelope.toString();
+			envelope.put("Args", readPage);
 			Presenter.getInstance().getTutorialPresenter().displayTutorialPage(envelope);
 	}
 

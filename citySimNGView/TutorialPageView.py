@@ -173,8 +173,20 @@ class TutorialPageView(wx.Panel):
             child.SetLabel("")
             child.SetId(-100)
         self.helperBitmap.SetBitmap(wx.BitmapFromImage(self.helperImg))
-        self.rightArrowBtn.SetId(self.page +1)
-        self.leftArrowBtn.SetId(self.page -1)
+
+        #be careful - maximun nr of topics per page is 10 - more currently wouldn't work 
+        leftID = self.page -1
+        if (leftID//10) != (self.tabID):
+            leftID = self.parent.nrOfPages-1 + 10*(self.tabID)
+        self.leftArrowBtn.SetId(leftID)
+
+        rightID = self.page + 1
+        if (rightID//10) != (self.tabID):
+            print ("rightID//10: "+ str(rightID//10)+"; self.tabID " + str(self.tabID))
+            rightID = 10*(self.tabID)
+            print("rightID: " + rightID)
+        self.rightArrowBtn.SetId(rightID)
+
         self.Bind(wx.EVT_BUTTON, self.parent.showPageView, self.leftArrowBtn)
         self.Bind(wx.EVT_BUTTON, self.parent.showPageView, self.rightArrowBtn)
         self.centerSizer.Layout()

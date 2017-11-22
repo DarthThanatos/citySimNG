@@ -16,7 +16,7 @@ class MainTab(wx.Panel):
         self.centerSizer = wx.BoxSizer(wx.VERTICAL)
         self.SetSizer(self.centerSizer)
         self.listCtrls =[]
-        self.indexList = {}
+        self.indexList = []
         self.tabID = tabID
         self.isInitialized = False
 
@@ -35,7 +35,7 @@ class MainTab(wx.Panel):
         tmpBox.Add(arrowButton,0)
 
         listItem = {'elemField': elemField, 'arrowButton': arrowButton, 'box': tmpBox}
-        self.listCtrls.insert(i, listItem)
+        self.listCtrls.append(listItem)
         box.Add(tmpBox,0,wx.CENTER)
         box.AddSpacer(20)
 
@@ -97,6 +97,7 @@ class MainTab(wx.Panel):
         self.rightBox.Layout()
         self.contentBox.Layout()
         self.centerSizer.Layout()
+        self.Layout()
 
     
 class EntitiesTab(wx.Panel): #sparametryzowac po listach bytow - zadac konkretnych indeksow
@@ -142,7 +143,7 @@ class TutorialView(wx.Panel):
         self.centerSizer.AddSpacer(30)
         self.centerSizer.Add(self.welcomeField, 0, wx.CENTER)
         self.centerSizer.AddSpacer(10)
-        self.content = None
+        #self.content = None
         tabs = wx.Notebook(self)
         # Create the tab windows
         self.tab1 = MainTab(tabs,self, 1)
@@ -206,7 +207,13 @@ class TutorialView(wx.Panel):
         tabID = event.GetId() // 10
         if tabID is 1:
             print "Tutorial index request"
-            realPageID = event.GetId() % self.nrOfPages
+            realPageID = event.GetId() % 10
+            if realPageID > self.nrOfPages-1:
+                realPageID = 0
+            elif realPageID < 0:
+                realPageID = self.nrOfPages-1 
+            print("realPageID: " +str(realPageID) + "; self.nrOfPages: " + str(self.nrOfPages))
+
             self.sender.entry_point.getTutorialPresenter().fetchTutorialPage(realPageID)
         elif tabID is 2:
             print "Buildings index request"
@@ -214,11 +221,6 @@ class TutorialView(wx.Panel):
             print "Resources index request"
         elif tabID is 4:
             print "Dwellers index request"
-        # if realPageID > self.nrOfPages:
-        #     realPageID = 1
-        # elif realPageID < 0:
-        #     realPageID = self.nrOfPages-1
-        #potem dodac parsowanie nr
         
 
     def retToMenu(self, event):
@@ -230,7 +232,7 @@ class TutorialView(wx.Panel):
         self.centerSizer.Layout()
 
     def displayTutorialPage(self, jsonPage):
-        pageContentString = jsonPage["Args"]["Page"]["page"]
+        pageContentString = jsonPage["Args"]
         self.pageView.tutorialContent = pageContentString
         firstSubPage = pageContentString["sub0"]
         firstSubPageContent = ""
@@ -240,7 +242,16 @@ class TutorialView(wx.Panel):
         self.pageView.contentField.SetValue(firstSubPageContent)
 
         hyperlinks = pageContentString["link"]
-        self.pageView.hyperlinks = hyperlinks
+        #tu przejrzec hyperlinks, stworzyc nowy slownik na podstawie danych z tab1\
+        hyperlinksWithLabels = []
+        for x in hyperlinks:
+            if x >=0 and x <= self.nrOfPages-1:
+                link = {'label': self.tab1.indexList[x], 'id': x}
+                print ("Link: " + str(link))
+                hyperlinksWithLabels.append(link)
+        self.pageView.hyperlinks = hyperlinksWithLabels
+        print "hyperlinksWithLabels:"
+        print hyperlinksWithLabels
 
         image = wx.Image(pageContentString["img"], wx.BITMAP_TYPE_ANY)
         imgWidth = self.size[0] //2
@@ -284,8 +295,8 @@ class TutorialView(wx.Panel):
             if self.tab1.isInitialized is False:
                 print "Sth went wrong with tutorial indexList!!!!"
         else:
-            print "len(self.content):"
-            print len(self.content)
+            print "len(self.tab1.indexList):"
+            print len(self.tab1.indexList)
 
     def fetchNodes(self, buildingsList, resourcesList, dwellersList):
         print "Print buildingsList"

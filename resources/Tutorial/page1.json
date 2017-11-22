@@ -1,5 +1,4 @@
 {
-  "page": {
     "nr": 1,
     "sub0": [
   "W panelu gieldy mozna takze wziac udzial w loterii - za oplaceniem 10zl bierze sie udzial w losowaniu w ktorym mozna wygrac pewna ilosc surowcow lub nic.",
@@ -8,9 +7,5 @@
       "Po nacisnieciu przycisku (rool the dice) wyswietlana jest odpowiednia informacja o wygranej lub przegranej.",
     ],
   "img": "resources\\Tutorial\\img3.jpg",
-    "link": [{
-      "id":5,
-      "label": "Gielda",
-      }]
-  }
+    "link": [5]
 }

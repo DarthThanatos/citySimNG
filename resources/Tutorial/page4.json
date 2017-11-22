@@ -1,5 +1,4 @@
 {
-  "page": {
     "nr": 4,
     "sub0": [
       "Map5 sub0",
@@ -11,13 +10,5 @@
       "Map5 sub2",
     ],
   "img": "resources\\Tutorial\\img1.jpg",
-    "link": [{
-      "id": 2,
-      "label": "Map - overview",
-      },
-    {
-    "id": 3,
-    "label": "Map - settlement panel",
-    }]
-  }
+    "link": [2,3]
 }
