@@ -16,9 +16,9 @@ public class TutorialPresenter {
 			onTutorialPresenterCalled.onReturnToMenu();
 	}
 
-	public void fetchTutorialPage(int pageNr){
+	public void fetchPage(int pageNr){
 		if(onTutorialPresenterCalled != null)
-			onTutorialPresenterCalled.onFetchTutorialPage(pageNr);
+			onTutorialPresenterCalled.onFetchPage(pageNr);
 	}
 	
 	public void displayTutorial(){
@@ -46,6 +46,6 @@ public class TutorialPresenter {
 	
 	public interface OnTutorialPresenterCalled{
 		public void onReturnToMenu();
-		public void onFetchTutorialPage(int pageNr);
+		public void onFetchPage(int pageNr);
 	}
 }

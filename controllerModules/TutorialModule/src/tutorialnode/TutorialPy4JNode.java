@@ -18,6 +18,7 @@ import graph.GraphsHolder;
 import graph.BuildingNode;
 import graph.DwellerNode;
 import graph.ResourceNode;
+import graph.GraphNode;
 
 import controlnode.DispatchCenter;
 import controlnode.SocketNode;
@@ -33,15 +34,17 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 	private BufferedReader tutorialReader;
 	private HintSender hintSender;
 	private String[] tutorialIndex;
+	private int tutorialIndexEntries;
 	private List<String> buildingsIndex;
 	private List<String> resourcesIndex;
 	private List<String> dwellersIndex;
+	private GraphsHolder graphsHolder;
 
 	public TutorialPy4JNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
 		super(dr, dispatchCenter, nodeName);
 		readPage = new JSONObject("{}");
 		hintSender = new HintSender(this, dispatchCenter.getEventBus());
-		
+
 		buildingsIndex = new ArrayList<String>();
 		resourcesIndex = new ArrayList<String>();
 		dwellersIndex = new ArrayList<String>();
@@ -79,7 +82,7 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 
 	@Override
 	public void atStart() {
-		GraphsHolder graphsHolder = dr.getGraphsHolder();
+		graphsHolder = dr.getGraphsHolder();
 		TutorialPresenter tutorialPresenter = Presenter.getInstance().getTutorialPresenter();
 		tutorialPresenter.setOnTutorialPresenterCalled(this);
 		tutorialPresenter.displayTutorial();
@@ -107,6 +110,7 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 			System.out.println("Pure string: " + page);
 			readPage = new JSONObject(page);
 			System.out.println("Read page:" + readPage.toString());
+			tutorialIndexEntries = readPage.length()-1;
 			tutorialIndex = new String[readPage.length()+1];
 			int nr;
 			String keyName;
@@ -155,15 +159,70 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 	}
 
 	@Override
-	public void onFetchTutorialPage(int pageNr){ 
+	public void onFetchPage(int pageNr){
+		int tabID = (int)(pageNr/10);
+        if (tabID == 1)
+        	onFetchTutorialPage(pageNr);
+		else if (tabID == 2)
+			onFetchBuildingPage(pageNr);
+		else if (tabID == 3) 
+			onFetchResourcePage(pageNr);
+		else if (tabID == 4)
+			onFetchDwellerPage(pageNr);
+		else
+			System.out.println("Something went wrong! (java, onFetchPage()");
+	}
+
+	public void onFetchTutorialPage(int pageNr){
+		System.out.println("tutorialIndexEntries " + tutorialIndexEntries);
+		int realPageID = pageNr%10;
+		if (realPageID > tutorialIndexEntries)
+            realPageID = 0;
+        else if (realPageID < 0)
+            realPageID = tutorialIndexEntries;
+
 		try {
-				readPage(pageNr);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			JSONObject envelope = new JSONObject();
-			envelope.put("Args", readPage);
-			Presenter.getInstance().getTutorialPresenter().displayTutorialPage(envelope);
+			readPage(realPageID);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		JSONObject envelope = new JSONObject();
+		envelope.put("Args", readPage);
+		Presenter.getInstance().getTutorialPresenter().displayTutorialPage(envelope);
+	}
+
+	public void onFetchBuildingPage(int pageNr){
+		int realPageID = pageNr%10;
+		if (realPageID > buildingsIndex.size())
+            realPageID = 0;
+        else if (realPageID < 0)
+            realPageID = buildingsIndex.size();
+
+		String name = buildingsIndex.get(realPageID);
+		GraphNode node = graphsHolder.getBuildingNode(name);
+		System.out.println(node.getConcatenatedDescription());
+	}
+	public void onFetchResourcePage(int pageNr){
+		int realPageID = pageNr%10;
+		if (realPageID > resourcesIndex.size())
+            realPageID = 0;
+        else if (realPageID < 0)
+            realPageID = resourcesIndex.size();
+
+		String name = resourcesIndex.get(realPageID);
+		GraphNode node = graphsHolder.getResourceNode(name);
+		System.out.println(node.getConcatenatedDescription());
+	}
+	public void onFetchDwellerPage(int pageNr){
+		int realPageID = pageNr%10;
+		if (realPageID > dwellersIndex.size())
+            realPageID = 0;
+        else if (realPageID < 0)
+            realPageID = dwellersIndex.size();
+
+		String name = dwellersIndex.get(realPageID);
+		GraphNode node = graphsHolder.getDwellerNode(name);
+		System.out.println(node.getConcatenatedDescription());
 	}
 
 }

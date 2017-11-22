@@ -1,7 +1,6 @@
 import json
 #import traceback
 import wx
-#from py4j.java_collections import JavaList, JavaArray
 
 from CreatorView.GraphsSpaces import GraphsSpaces
 from TutorialPageView import TutorialPageView
@@ -51,7 +50,6 @@ class MainTab(wx.Panel):
         listFont.SetPointSize(18)
         arrow = wx.Bitmap(relative_textures_path+"new\\arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
 
-        #contentSize = len(self.master.content)-1
         contentSize = self.master.maxNrOfItemsOnList
         contentHalf = contentSize - (contentSize // 2)
         for i in range(contentHalf):
@@ -204,24 +202,7 @@ class TutorialView(wx.Panel):
     def requestPage(self, event):
         print "TutorialView: requestPage executed"
         print "PageID: " + str(event.GetId())
-        tabID = event.GetId() // 10
-        if tabID is 1:
-            print "Tutorial index request"
-            realPageID = event.GetId() % 10
-            if realPageID > self.nrOfPages-1:
-                realPageID = 0
-            elif realPageID < 0:
-                realPageID = self.nrOfPages-1 
-            print("realPageID: " +str(realPageID) + "; self.nrOfPages: " + str(self.nrOfPages))
-
-            self.sender.entry_point.getTutorialPresenter().fetchTutorialPage(realPageID)
-        elif tabID is 2:
-            print "Buildings index request"
-        elif tabID is 3:
-            print "Resources index request"
-        elif tabID is 4:
-            print "Dwellers index request"
-        
+        self.sender.entry_point.getTutorialPresenter().fetchPage(event.GetId())
 
     def retToMenu(self, event):
         """ This function returns to Menu view """
