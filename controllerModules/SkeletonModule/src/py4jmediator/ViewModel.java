@@ -65,5 +65,8 @@ public interface ViewModel {
 		public void displayTutorial();
 		public void displayTutorialPage(JSONObject jsonPage);
 		public void displayDependenciesGraph(JSONObject jsonGraph);
+		public void fetchTutorialIndex(String[] index);
+		public void fetchNodes(List<String> buildingsList, 
+		List<String> resourcesList, List<String> dwellersList );
 	}
 }

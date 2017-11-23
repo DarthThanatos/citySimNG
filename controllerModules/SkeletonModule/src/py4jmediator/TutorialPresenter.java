@@ -1,6 +1,7 @@
 package py4jmediator;
 
 import org.json.JSONObject;
+import java.util.List;
 
 public class TutorialPresenter {
 	
@@ -15,9 +16,9 @@ public class TutorialPresenter {
 			onTutorialPresenterCalled.onReturnToMenu();
 	}
 
-	public void fetchTutorialPage(int pageNr){
+	public void fetchPage(int pageNr){
 		if(onTutorialPresenterCalled != null)
-			onTutorialPresenterCalled.onFetchTutorialPage(pageNr);
+			onTutorialPresenterCalled.onFetchPage(pageNr);
 	}
 	
 	public void displayTutorial(){
@@ -31,10 +32,20 @@ public class TutorialPresenter {
 	public void displayDependenciesGraph(JSONObject jsonGraph){
 		Presenter.getInstance().getViewModel().getTutorialViewModel().displayDependenciesGraph(jsonGraph);
 	}
+
+	public void fetchTutorialIndex(String[] index){
+		Presenter.getInstance().getViewModel().getTutorialViewModel().fetchTutorialIndex(index);
+	}
+
+	public void fetchNodes(List<String> buildingsList, 
+		List<String> resourcesList, List<String> dwellersList){
+		Presenter.getInstance().getViewModel().getTutorialViewModel().fetchNodes(buildingsList,
+			resourcesList, dwellersList);
+	}
 	
 	
 	public interface OnTutorialPresenterCalled{
 		public void onReturnToMenu();
-		public void onFetchTutorialPage(int pageNr);
+		public void onFetchPage(int pageNr);
 	}
 }

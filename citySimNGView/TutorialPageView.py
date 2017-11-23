@@ -16,6 +16,7 @@ class TutorialPageView(wx.Panel):
         self.page = 0
         self.subPage = 0
         self.nrOfSubpages = 3
+        self.tabID = 0
 
 
         self.tutorialContent = [
@@ -172,8 +173,32 @@ class TutorialPageView(wx.Panel):
             child.SetLabel("")
             child.SetId(-100)
         self.helperBitmap.SetBitmap(wx.BitmapFromImage(self.helperImg))
-        self.rightArrowBtn.SetId(self.page +1)
-        self.leftArrowBtn.SetId(self.page -1)
+
+        #be careful - maximun nr of topics per page is 10 - more currently wouldn't work 
+        self.nrOfPages = 0
+        if self.tabID == 1:
+            self.nrOfPages = len(self.parent.tab1.indexList)
+        elif self.tabID == 2:
+            self.nrOfPages = len(self.parent.tab2.indexList)
+        elif self.tabID == 3:
+            self.nrOfPages = len(self.parent.tab3.indexList)
+        elif self.tabID == 4:
+            self.nrOfPages = len(self.parent.tab4.indexList)
+
+        leftID = self.page -1
+        if (leftID//10) != (self.tabID):
+            print ("leftID//10: "+ str(leftID//10)+"; self.tabID " + str(self.tabID))
+            leftID = self.nrOfPages-1 + 10*(self.tabID)
+            print("leftID: " + str(leftID))
+        self.leftArrowBtn.SetId(leftID)
+
+        rightID = self.page + 1
+        if (rightID//10) != (self.tabID):
+            print ("rightID//10: "+ str(rightID//10)+"; self.tabID " + str(self.tabID))
+            rightID = 10*(self.tabID)
+            print("rightID: " + str(rightID))
+        self.rightArrowBtn.SetId(rightID)
+
         self.Bind(wx.EVT_BUTTON, self.parent.showPageView, self.leftArrowBtn)
         self.Bind(wx.EVT_BUTTON, self.parent.showPageView, self.rightArrowBtn)
         self.centerSizer.Layout()

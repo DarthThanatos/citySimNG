@@ -21,5 +21,13 @@ class TutorialViewModel(object):
         wx.CallAfter(self.viewSetter.getView("Tutorial").displayTutorialPage,
             json.loads(jsonPage.toString()))
 
+    def fetchTutorialIndex(self, index):
+        wx.CallAfter(self.viewSetter.getView("Tutorial").fetchTutorialIndex,
+            index)
+
+    def fetchNodes(self, buildingsList, resourcesList, dwellersList):
+        wx.CallAfter(self.viewSetter.getView("Tutorial").fetchNodes,
+            buildingsList, resourcesList, dwellersList)
+
     class Java:
         implements = ["py4jmediator.ViewModel$TutorialViewModel"]

@@ -2,7 +2,9 @@ package tutorialnode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
+import java.util.Iterator;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,9 +12,16 @@ import java.io.IOException;
 
 import hintsender.HintSender;
 import org.json.JSONObject;
+import org.json.JSONArray;
 import org.json.JSONTokener;
 
 import model.DependenciesRepresenter;
+import graph.GraphsHolder;
+import graph.BuildingNode;
+import graph.DwellerNode;
+import graph.ResourceNode;
+import graph.GraphNode;
+
 import controlnode.DispatchCenter;
 import controlnode.SocketNode;
 import utils.DisposingUtils;
@@ -26,11 +35,21 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 	private JSONObject readPage;
 	private BufferedReader tutorialReader;
 	private HintSender hintSender;
+	private String[] tutorialIndex;
+	private int tutorialIndexEntries;
+	private List<String> buildingsIndex;
+	private List<String> resourcesIndex;
+	private List<String> dwellersIndex;
+	private GraphsHolder graphsHolder;
 
 	public TutorialPy4JNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
 		super(dr, dispatchCenter, nodeName);
 		readPage = new JSONObject("{}");
 		hintSender = new HintSender(this, dispatchCenter.getEventBus());
+
+		buildingsIndex = new ArrayList<String>();
+		resourcesIndex = new ArrayList<String>();
+		dwellersIndex = new ArrayList<String>();
 	}
 
 
@@ -39,31 +58,6 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 	 * @see controlnode.Node#parseCommand(java.lang.String, java.lang.String[])
 	 * returns - output stream understandable to the current entity in the view layer (here TutorialView)
 	 */
-	/*@Override
-	public String parseCommand(String command, JSONObject args) {
-		if (command.equals("RequestPage")){
-			System.out.println("Tutorial: Received RequestPage");
-			int pageID = args.getInt("PageID");
-			System.out.println("Tutorial: PageID = " + pageID);
-			try {
-				readPage(pageID);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			JSONObject envelope = new JSONObject();
-			envelope.put("To","Tutorial");
-			envelope.put("Operation","FetchPage");
-			JSONObject json = new JSONObject();
-			json.put("Page", readPage);
-			envelope.put("Args", json);
-			return envelope.toString();
-		}
-		else{
-			System.out.println("Tutorial: Received unknown message");
-			return "{}";//tu otrzymuje wezwanie wyslania strony i podstrony(?)
-		} 
-	}*/
 
 	public String getHints(){
 		//TODO, actual hints and synchronized block
@@ -84,29 +78,92 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 			page = page.replaceAll("[\\p{Cc}\\p{Cf}\\p{Co}\\p{Cn}]", "?");
 			System.out.println("Pure string: " + page);
 			readPage = new JSONObject(page);
-			/*JSONObject readPage = (JSONObject) new JSONTokener(page).nextValue();
-			String readPageString = readPage.toString();
-			if (readPageString == null){
-				System.out.println("Something went wrong!");
-				throw new NullPointerException();
-			}*/
 			System.out.println("Read page:" + readPage.toString());
 	}
 
 
 	@Override
-	public void atStart() { //raczej ok
+	public void atStart() {
+		graphsHolder = dr.getGraphsHolder();
 		TutorialPresenter tutorialPresenter = Presenter.getInstance().getTutorialPresenter();
 		tutorialPresenter.setOnTutorialPresenterCalled(this);
 		tutorialPresenter.displayTutorial();
 
-		JSONObject graphs = dr.getGraphsHolder().displayAllGraphs();
+		JSONObject graphs = graphsHolder.displayAllGraphs();
 		JSONObject envelope = new JSONObject();
-			envelope.put("To","Tutorial");
-			envelope.put("Operation","FetchGraphs");
 			envelope.put("Args", graphs);
-			//sender.pushStream(envelope);
 		Presenter.getInstance().getTutorialPresenter().displayDependenciesGraph(envelope);
+
+		//fetch tutorialIndex
+		String line;
+		String page = "";
+			try {
+				tutorialReader = new BufferedReader(new FileReader ("resources\\Tutorial\\tutorialIndex.json"));
+				while ((line = tutorialReader.readLine()) != null) {
+					System.out.println("line = " + line);
+					page = page.concat(line); 
+				}
+				tutorialReader.close();
+			}catch (IOException e){
+				e.printStackTrace();
+			}
+
+			page = page.replaceAll("[\\p{Cc}\\p{Cf}\\p{Co}\\p{Cn}]", "?");
+			System.out.println("Pure string: " + page);
+			readPage = new JSONObject(page);
+			System.out.println("Read page:" + readPage.toString());
+			tutorialIndexEntries = readPage.length()-1;
+			tutorialIndex = new String[readPage.length()+1];
+			int nr;
+			String keyName;
+			for (Iterator<String> key = readPage.keys(); key.hasNext();){
+				keyName = key.next();
+				nr = readPage.getInt(keyName);
+				tutorialIndex[nr] = keyName;
+			}
+
+		//fetch buildings, dwellers, etc/
+		System.out.println("PROCESS BUILDINGS");
+		for (BuildingNode n : graphsHolder.getBuildingsGraphs()) {
+			buildingsIndex.add(n.getName());
+			getAllNodes(buildingsIndex, n, 'b');
+		}
+		System.out.println("PROCESS RESOURCES");
+		for (ResourceNode n : graphsHolder.getResourcesGraphs()) {
+			resourcesIndex.add(n.getName());
+			getAllNodes(resourcesIndex, n, 'r');
+		}
+		System.out.println("PROCESS DWELLERS");
+		for (DwellerNode n : graphsHolder.getDwellersGraphs()) {
+			dwellersIndex.add(n.getName());
+			getAllNodes(dwellersIndex, n , 'd');
+		}
+
+		//handle tutorialIndex to python view
+		Presenter.getInstance().getTutorialPresenter().fetchTutorialIndex(tutorialIndex);
+		Presenter.getInstance().getTutorialPresenter().fetchNodes(buildingsIndex, resourcesIndex, dwellersIndex);
+	}
+
+	private void getAllNodes(List<String> nodesIndex, GraphNode node, char type){
+		Map<String, GraphNode> children = node.getChildren();
+		for (String nextName : children.keySet()) {
+				System.out.println("got " + nextName);
+				nodesIndex.add(nextName);
+				if (type == 'b'){
+					BuildingNode successor = graphsHolder.getBuildingNode(nextName);
+					getAllNodes(nodesIndex, successor, 'b');
+				}
+				else if (type == 'r'){
+					ResourceNode successor = graphsHolder.getResourceNode(nextName);
+					getAllNodes(nodesIndex, successor, 'r');
+				}
+				else if (type == 'd'){
+					DwellerNode successor = graphsHolder.getDwellerNode(nextName);
+					getAllNodes(nodesIndex, successor, 'd');
+				}
+				else
+					System.out.println("Something went wrong (java, getAllNodes");
+		}
 	}
 
 	@Override
@@ -116,37 +173,112 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 
 
 	@Override
-	public void atExit() { //ok
+	public void atExit() {
 		Presenter.getInstance().getTutorialPresenter().setOnTutorialPresenterCalled(null);	
 	}
 
 
 	@Override
-	public void atUnload() { //ok
+	public void atUnload() { 
 		hintSender.atUnload();
 	}
 
 	@Override
-	public void onReturnToMenu(){ //??
+	public void onReturnToMenu(){ 
 		moveTo("GameMenuNode");
 	}
 
 	@Override
-	public void onFetchTutorialPage(int pageNr){ //ok
+	public void onFetchPage(int pageNr){
+		int tabID = (int)(pageNr/10);
+		System.out.println("JAVAAAAA tabID: "+ tabID);
+        if (tabID == 1)
+        	onFetchTutorialPage(pageNr);
+		else if (tabID == 2)
+			onFetchBuildingPage(pageNr);
+		else if (tabID == 3) 
+			onFetchResourcePage(pageNr);
+		else if (tabID == 4)
+			onFetchDwellerPage(pageNr);
+		else
+			System.out.println("Something went wrong! (java, onFetchPage()");
+	}
+
+	public void onFetchTutorialPage(int pageNr){
+		System.out.println("tutorialIndexEntries " + tutorialIndexEntries);
+		int realPageID = pageNr%10;
+		if (realPageID > tutorialIndexEntries)
+            realPageID = 0;
+        else if (realPageID < 0)
+            realPageID = tutorialIndexEntries;
+
 		try {
-				readPage(pageNr);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			JSONObject envelope = new JSONObject();
-			envelope.put("To","Tutorial");
-			envelope.put("Operation","FetchPage");
-			JSONObject json = new JSONObject();
-			json.put("Page", readPage);
-			envelope.put("Args", json);
-	//		return envelope.toString();
-			Presenter.getInstance().getTutorialPresenter().displayTutorialPage(envelope);
+			readPage(realPageID);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		JSONObject envelope = new JSONObject();
+		envelope.put("Args", readPage);
+		Presenter.getInstance().getTutorialPresenter().displayTutorialPage(envelope);
+	}
+
+	public void onFetchNodePage(int pageNr, GraphNode node){
+		String succesorInfo = "", predeccessorInfo = "";
+		if (node.getSucceessor() != null)
+			succesorInfo = "Successor: " + node.getSuccessorName();
+		if (node.getPredecessor() != null)
+			predeccessorInfo = "Predecessor: " + node.getPredeccessorName();
+
+		JSONObject envelope = new JSONObject();
+		JSONObject data = new JSONObject();
+		data.put("nr", pageNr);
+		data.put("sub0", new JSONArray().put(node.getConcatenatedDescription()));
+
+		if ((!succesorInfo.equals("")) || (!predeccessorInfo.equals(""))) {
+			data.put("sub1", new JSONArray().
+				put(predeccessorInfo).put(succesorInfo));
+		}
+		data.put("img", node.getTexturePath());
+		data.put("link", new JSONArray());
+		envelope.put("Args", data);
+		Presenter.getInstance().getTutorialPresenter().displayTutorialPage(envelope);
+	}
+
+	public void onFetchBuildingPage(int pageNr){
+		int realPageID = pageNr%10;
+		if (realPageID > buildingsIndex.size()-1)
+            realPageID = 0;
+        else if (realPageID < 0)
+            realPageID = buildingsIndex.size()-1;
+
+		String name = buildingsIndex.get(realPageID);
+		GraphNode node = graphsHolder.getBuildingNode(name);
+		System.out.println("["+node.getConcatenatedDescription()+"]");
+		onFetchNodePage(pageNr, node);	
+	}
+	public void onFetchResourcePage(int pageNr){
+		int realPageID = pageNr%10;
+		if (realPageID > resourcesIndex.size()-1)
+            realPageID = 0;
+        else if (realPageID < 0)
+            realPageID = resourcesIndex.size()-1;
+
+		String name = resourcesIndex.get(realPageID);
+		GraphNode node = graphsHolder.getResourceNode(name);
+		System.out.println(node.getConcatenatedDescription());
+		onFetchNodePage(pageNr, node);
+	}
+	public void onFetchDwellerPage(int pageNr){
+		int realPageID = pageNr%10;
+		if (realPageID > dwellersIndex.size()-1)
+            realPageID = 0;
+        else if (realPageID < 0)
+            realPageID = dwellersIndex.size()-1;
+
+		String name = dwellersIndex.get(realPageID);
+		GraphNode node = graphsHolder.getDwellerNode(name);
+		System.out.println(node.getConcatenatedDescription());
+		onFetchNodePage(pageNr, node);
 	}
 
 }

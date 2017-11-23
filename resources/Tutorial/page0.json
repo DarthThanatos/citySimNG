@@ -1,14 +1,14 @@
 {
-    "nr": 12,
+    "nr": 10,
     "sub0": [
-      "Map sub0",
+      "Game sub0",
      ],
     "sub1":[
-      "Map sub1",
+      "Game sub1",
     ],
     "sub2": [
-      "Map sub2",
+      "Game sub2",
     ],
   "img": "resources\\Tutorial\\img1.jpg",
-    "link": [13,14]
+    "link": [12,15]
 }

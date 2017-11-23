@@ -8,26 +8,33 @@ from utils.RelativePaths import relative_music_path, relative_textures_path, rel
 
 
 class MainTab(wx.Panel):
-    def __init__(self, parent, master):
+    def __init__(self, parent, master, tabID):
         wx.Panel.__init__(self, parent)
+        self.parent = parent
         self.master = master
         self.centerSizer = wx.BoxSizer(wx.VERTICAL)
         self.SetSizer(self.centerSizer)
+        self.listCtrls =[]
+        self.indexList = []
+        self.tabID = tabID
+        self.isInitialized = False
 
         self.initContentList()
 
     def addListElem(self, box, font, arrow, i):
-        elemField = wx.StaticText(self, label=self.master.content[i]['name'])
-        elemID = self.master.content[i]['id']
+        elemField = wx.StaticText(self, label=" ") #elemField = wx.StaticText(self, label=self.master.content[i])
+        elemID = i
         elemField.SetFont(font)
         arrowButton = wx.Button(self, id=elemID, label="  ", 
             size=(arrow.GetWidth()+10, arrow.GetHeight()+5))
         arrowButton.SetBitmap(arrow)
-        self.Bind(wx.EVT_BUTTON, self.master.showPageView, arrowButton)
         tmpBox = wx.BoxSizer(wx.HORIZONTAL)
         tmpBox.Add(elemField, 0, wx.CENTER)
         tmpBox.AddSpacer(10)
         tmpBox.Add(arrowButton,0)
+
+        listItem = {'elemField': elemField, 'arrowButton': arrowButton, 'box': tmpBox}
+        self.listCtrls.append(listItem)
         box.Add(tmpBox,0,wx.CENTER)
         box.AddSpacer(20)
 
@@ -35,39 +42,60 @@ class MainTab(wx.Panel):
     def initContentList(self):
         """ This function creates content list and buttons, sets theirs positions and size and
             binds logic to them."""
-        leftBox = wx.BoxSizer(wx.VERTICAL)
-        rightBox = wx.BoxSizer(wx.VERTICAL)
-        contentBox = wx.BoxSizer(wx.HORIZONTAL)
+        self.leftBox = wx.BoxSizer(wx.VERTICAL)
+        self.rightBox = wx.BoxSizer(wx.VERTICAL)
+        self.contentBox = wx.BoxSizer(wx.HORIZONTAL)
 
         listFont = self.master.tutorialFont
         listFont.SetPointSize(18)
         arrow = wx.Bitmap(relative_textures_path+"new\\arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
 
-        contentSize = len(self.master.content)
+        contentSize = self.master.maxNrOfItemsOnList
         contentHalf = contentSize - (contentSize // 2)
         for i in range(contentHalf):
-            self.addListElem(leftBox, listFont, arrow, i)
+            self.addListElem(self.leftBox, listFont, arrow, i)
 
         for i in range(contentHalf, contentSize):
-            self.addListElem(rightBox, listFont, arrow, i)
+            self.addListElem(self.rightBox, listFont, arrow, i)
 
-        contentBox.Add(leftBox,0)
-        contentBox.AddSpacer(50)
-        contentBox.Add(rightBox,0)
-        self.centerSizer.Add(contentBox, 0, wx.CENTER) 
+        self.contentBox.Add(self.leftBox,0)
+        self.contentBox.AddSpacer(50)
+        self.contentBox.Add(self.rightBox,0)
+        self.centerSizer.Add(self.contentBox, 0, wx.CENTER) 
         self.centerSizer.AddSpacer(20)
         self.centerSizer.Layout()
 
-    
-class EntitiesTab(wx.Panel): #sparametryzowac po listach bytow - zadac konkretnych indeksow
-    def __init__(self, parent, master):
-        wx.Panel.__init__(self, parent)
-        self.master = master
-        self.centerSizer = wx.BoxSizer(wx.VERTICAL)
-        self.SetSizer(self.centerSizer)
-        t = wx.StaticText(self, -1, "This is EntitiesTab", (20,20))
-        self.centerSizer.Add(t, 0, wx.CENTER)
+    def fillListItem(self, i):
+        print "Filling listItem"
+        listItem = self.listCtrls[i]
+        if self.indexList[i] is not None:
+            print "Lable type: " + str(type(self.indexList[i]))
+            print "Lable : " + str(self.indexList[i]) + "\n"
+            listItem['elemField'].SetLabel(self.indexList[i])
+            listItem['arrowButton'].SetId(i + 10*self.tabID)
+            self.Bind(wx.EVT_BUTTON, self.master.showPageView, listItem['arrowButton'])
+            listItem['box'].Layout()
+        else:
+            #listItem['box'].ShowItems(False)
+            #listItem['box'].Layout()
+            listItem['arrowButton'].Hide()
+            listItem['box'].Layout()
 
+    def fillContentList(self, indexList):
+        print "\nFilling content list"
+        self.indexList = indexList
+        contentSize = len(indexList)
+        contentHalf = contentSize - (contentSize // 2)
+        for i in range(contentHalf):
+            self.fillListItem(i)
+
+        for i in range(contentHalf, contentSize):
+            self.fillListItem(i)
+        self.leftBox.Layout()
+        self.rightBox.Layout()
+        self.contentBox.Layout()
+        self.centerSizer.Layout()
+        self.Layout()
 
 class TutorialView(wx.Panel):
     def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):
@@ -81,7 +109,9 @@ class TutorialView(wx.Panel):
 
         #self.SetBackgroundColour((255, 255, 255))
         self.pageID = 0
-        self.nrOfPages = 6
+        self.nrOfPages = 0
+        self.maxNrOfItemsOnList = 8
+
         self.tutorialInfo = "Welcome to our tutorial! If you'd like to find out what are all the functionalities of this cutting-edge game engine, you're in the right place :)"
         self.welcomeField = wx.StaticText(self, label=self.tutorialInfo)
         self.tutorialFont = wx.Font(20, wx.FONTFAMILY_DECORATIVE, 
@@ -100,44 +130,24 @@ class TutorialView(wx.Panel):
         self.centerSizer.AddSpacer(30)
         self.centerSizer.Add(self.welcomeField, 0, wx.CENTER)
         self.centerSizer.AddSpacer(10)
-        self.content = [
-            {
-                'name': 'Map - overview',
-                'id': 4
-            },
-            {
-                'name': 'Map - settlement panel',
-                'id': 5
-            },
-            {
-                'name': 'Map - resources panel',
-                'id': 6
-            },
-            {
-                'name': 'Exchange - overview',
-                'id': 1
-            },
-            {
-                'name': 'Exchange - transactions',
-                'id': 2
-            },
-            {
-                'name': 'Exchange - lottery',
-                'id': 3
-            }
-        ]
+        #self.content = None
         tabs = wx.Notebook(self)
         # Create the tab windows
-        tab1 = MainTab(tabs,self)
-        tab2 = EntitiesTab(tabs, self)
-        tab3 = EntitiesTab(tabs,self)
-        tab4 = EntitiesTab(tabs,self)
+        self.tab=[]
+        self.tab1 = MainTab(tabs,self, 1)
+        self.tab2 = MainTab(tabs, self, 2)
+        self.tab3 = MainTab(tabs,self, 3)
+        self.tab4 = MainTab(tabs,self, 4)
+        # tab[0]=tab1
+        # tab[1]=tab2
+        # tab[2]=tab3
+        # tab[3]=tab4
  
         # Add the windows to tabs and name them.
-        tabs.AddPage(tab1, "MainTab")
-        tabs.AddPage(tab2, "Resources Tab`")
-        tabs.AddPage(tab3, "Dwellers Tab")
-        tabs.AddPage(tab4, "Buildings Tab")
+        tabs.AddPage(self.tab1, "MainTab")
+        tabs.AddPage(self.tab2, "Buildings Tab`")
+        tabs.AddPage(self.tab3, "Resources Tab")
+        tabs.AddPage(self.tab4, "Dwellers Tab")
         self.centerSizer.Add(tabs, 0, wx.EXPAND)
         ln = wx.StaticLine(self, -1)
         self.centerSizer.Add(ln, 0, wx.EXPAND)
@@ -159,11 +169,8 @@ class TutorialView(wx.Panel):
  
 
     def showPageView(self, event):
+        print "\nshowPageView"
         self.requestPage(event)
-        self.centerSizer.ShowItems(False)
-        self.pageView.Show()
-        self.pageView.centerSizer.ShowItems(True)
-
 
     def onShow(self, event):
         # print "Menu on show"
@@ -189,12 +196,7 @@ class TutorialView(wx.Panel):
     def requestPage(self, event):
         print "TutorialView: requestPage executed"
         print "PageID: " + str(event.GetId())
-        realPageID = event.GetId()
-        if realPageID > self.nrOfPages:
-            realPageID = 1
-        elif realPageID <= 0:
-            realPageID = self.nrOfPages
-        self.sender.entry_point.getTutorialPresenter().fetchTutorialPage(realPageID)
+        self.sender.entry_point.getTutorialPresenter().fetchPage(event.GetId())
 
     def retToMenu(self, event):
         """ This function returns to Menu view """
@@ -205,7 +207,7 @@ class TutorialView(wx.Panel):
         self.centerSizer.Layout()
 
     def displayTutorialPage(self, jsonPage):
-        pageContentString = jsonPage["Args"]["Page"]["page"]
+        pageContentString = jsonPage["Args"]
         self.pageView.tutorialContent = pageContentString
         firstSubPage = pageContentString["sub0"]
         firstSubPageContent = ""
@@ -215,7 +217,35 @@ class TutorialView(wx.Panel):
         self.pageView.contentField.SetValue(firstSubPageContent)
 
         hyperlinks = pageContentString["link"]
-        self.pageView.hyperlinks = hyperlinks
+        #tu przejrzec hyperlinks, stworzyc nowy slownik na podstawie danych z tab1\
+        hyperlinksWithLabels = []
+        for x in hyperlinks:
+            hyperlinkTab = x//10
+            hyperlinkID = x%10
+            if hyperlinkTab == 1:
+                if hyperlinkID >=0 and hyperlinkID <= len(self.tab1.indexList)-1:
+                    link = {'label': self.tab1.indexList[hyperlinkID], 'id': x}
+                    print ("Link: " + str(link))
+                    hyperlinksWithLabels.append(link)
+            elif hyperlinkTab == 2:
+                if hyperlinkID >=0 and hyperlinkID <= len(self.tab2.indexList)-1:
+                    link = {'label': self.tab2.indexList[hyperlinkID], 'id': x}
+                    print ("Link: " + str(link))
+                    hyperlinksWithLabels.append(link)
+            elif hyperlinkTab == 3:
+                if hyperlinkID >=0 and hyperlinkID <= len(self.tab3.indexList)-1:
+                    link = {'label': self.tab3.indexList[hyperlinkID], 'id': x}
+                    print ("Link: " + str(link))
+                    hyperlinksWithLabels.append(link)
+            elif hyperlinkTab == 4:
+                if hyperlinkID >=0 and hyperlinkID <= len(self.tab4.indexList)-1:
+                    link = {'label': self.tab4.indexList[hyperlinkID], 'id':x }
+                    print ("Link: " + str(link))
+                    hyperlinksWithLabels.append(link)
+
+        self.pageView.hyperlinks = hyperlinksWithLabels
+        print "hyperlinksWithLabels:"
+        print hyperlinksWithLabels
 
         image = wx.Image(pageContentString["img"], wx.BITMAP_TYPE_ANY)
         imgWidth = self.size[0] //2
@@ -234,6 +264,50 @@ class TutorialView(wx.Panel):
         self.pageView.subPage = 0
         self.pageView.nrOfSubpages = len(pageContentString) - 3
         self.pageView.page = pageContentString["nr"]
+        self.pageView.tabID = pageContentString["nr"]//10
         self.pageView.updateHyperlinksAndImg()
+
+        self.centerSizer.ShowItems(False)
+        self.pageView.Show()
+        self.pageView.centerSizer.ShowItems(True)
+
+
+    def useFetchedIndex(self, index, tab):
+        if index is not None:
+            for x in index:
+                print x
+            tab.fillContentList(index)
+            tab.isInitialized = True
+        self.centerSizer.Layout()
+
+    def fetchTutorialIndex(self, index):
+        self.nrOfPages = len(index)-1
+        print "self.nrOfPages = " + str(self.nrOfPages)
+        if self.tab1.isInitialized is False:
+            print "Print index"
+            self.useFetchedIndex(index, self.tab1)
+            if self.tab1.isInitialized is False:
+                print "Sth went wrong with tutorial indexList!!!!"
+        else:
+            print "len(self.tab1.indexList):"
+            print len(self.tab1.indexList)
+
+    def fetchNodes(self, buildingsList, resourcesList, dwellersList):
+        print "Print buildingsList"
+        if self.tab2.isInitialized is False:
+            self.useFetchedIndex(buildingsList, self.tab2)
+            if self.tab2.isInitialized is False:
+                print "Sth went wrong with buildings!!!"
+        print "Print resourcesList"
+        if self.tab3.isInitialized is False:
+            self.useFetchedIndex(resourcesList, self.tab3)
+            if self.tab3.isInitialized is False:
+                print "Sth went wrong with resources!!!"
+        print "Print dwellersList"
+        if self.tab4.isInitialized is False:
+            self.useFetchedIndex(dwellersList, self.tab4)
+            if self.tab4.isInitialized is False:
+                print "Sth went wrong with Dwellers!!!"
+
 
     
