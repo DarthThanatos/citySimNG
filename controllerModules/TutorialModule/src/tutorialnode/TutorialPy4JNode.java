@@ -2,6 +2,7 @@ package tutorialnode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.Iterator;
 import java.io.BufferedReader;
@@ -11,6 +12,7 @@ import java.io.IOException;
 
 import hintsender.HintSender;
 import org.json.JSONObject;
+import org.json.JSONArray;
 import org.json.JSONTokener;
 
 import model.DependenciesRepresenter;
@@ -121,19 +123,47 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 			}
 
 		//fetch buildings, dwellers, etc/
+		System.out.println("PROCESS BUILDINGS");
 		for (BuildingNode n : graphsHolder.getBuildingsGraphs()) {
 			buildingsIndex.add(n.getName());
+			getAllNodes(buildingsIndex, n, 'b');
 		}
+		System.out.println("PROCESS RESOURCES");
 		for (ResourceNode n : graphsHolder.getResourcesGraphs()) {
 			resourcesIndex.add(n.getName());
+			getAllNodes(resourcesIndex, n, 'r');
 		}
+		System.out.println("PROCESS DWELLERS");
 		for (DwellerNode n : graphsHolder.getDwellersGraphs()) {
 			dwellersIndex.add(n.getName());
+			getAllNodes(dwellersIndex, n , 'd');
 		}
 
 		//handle tutorialIndex to python view
 		Presenter.getInstance().getTutorialPresenter().fetchTutorialIndex(tutorialIndex);
 		Presenter.getInstance().getTutorialPresenter().fetchNodes(buildingsIndex, resourcesIndex, dwellersIndex);
+	}
+
+	private void getAllNodes(List<String> nodesIndex, GraphNode node, char type){
+		Map<String, GraphNode> children = node.getChildren();
+		for (String nextName : children.keySet()) {
+				System.out.println("got " + nextName);
+				nodesIndex.add(nextName);
+				if (type == 'b'){
+					BuildingNode successor = graphsHolder.getBuildingNode(nextName);
+					getAllNodes(nodesIndex, successor, 'b');
+				}
+				else if (type == 'r'){
+					ResourceNode successor = graphsHolder.getResourceNode(nextName);
+					getAllNodes(nodesIndex, successor, 'r');
+				}
+				else if (type == 'd'){
+					DwellerNode successor = graphsHolder.getDwellerNode(nextName);
+					getAllNodes(nodesIndex, successor, 'd');
+				}
+				else
+					System.out.println("Something went wrong (java, getAllNodes");
+		}
 	}
 
 	@Override
@@ -161,6 +191,7 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 	@Override
 	public void onFetchPage(int pageNr){
 		int tabID = (int)(pageNr/10);
+		System.out.println("JAVAAAAA tabID: "+ tabID);
         if (tabID == 1)
         	onFetchTutorialPage(pageNr);
 		else if (tabID == 2)
@@ -191,38 +222,63 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 		Presenter.getInstance().getTutorialPresenter().displayTutorialPage(envelope);
 	}
 
+	public void onFetchNodePage(int pageNr, GraphNode node){
+		String succesorInfo = "", predeccessorInfo = "";
+		if (node.getSucceessor() != null)
+			succesorInfo = "Successor: " + node.getSuccessorName();
+		if (node.getPredecessor() != null)
+			predeccessorInfo = "Predecessor: " + node.getPredeccessorName();
+
+		JSONObject envelope = new JSONObject();
+		JSONObject data = new JSONObject();
+		data.put("nr", pageNr);
+		data.put("sub0", new JSONArray().put(node.getConcatenatedDescription()));
+
+		if ((!succesorInfo.equals("")) || (!predeccessorInfo.equals(""))) {
+			data.put("sub1", new JSONArray().
+				put(predeccessorInfo).put(succesorInfo));
+		}
+		data.put("img", node.getTexturePath());
+		data.put("link", new JSONArray());
+		envelope.put("Args", data);
+		Presenter.getInstance().getTutorialPresenter().displayTutorialPage(envelope);
+	}
+
 	public void onFetchBuildingPage(int pageNr){
 		int realPageID = pageNr%10;
-		if (realPageID > buildingsIndex.size())
+		if (realPageID > buildingsIndex.size()-1)
             realPageID = 0;
         else if (realPageID < 0)
-            realPageID = buildingsIndex.size();
+            realPageID = buildingsIndex.size()-1;
 
 		String name = buildingsIndex.get(realPageID);
 		GraphNode node = graphsHolder.getBuildingNode(name);
-		System.out.println(node.getConcatenatedDescription());
+		System.out.println("["+node.getConcatenatedDescription()+"]");
+		onFetchNodePage(pageNr, node);	
 	}
 	public void onFetchResourcePage(int pageNr){
 		int realPageID = pageNr%10;
-		if (realPageID > resourcesIndex.size())
+		if (realPageID > resourcesIndex.size()-1)
             realPageID = 0;
         else if (realPageID < 0)
-            realPageID = resourcesIndex.size();
+            realPageID = resourcesIndex.size()-1;
 
 		String name = resourcesIndex.get(realPageID);
 		GraphNode node = graphsHolder.getResourceNode(name);
 		System.out.println(node.getConcatenatedDescription());
+		onFetchNodePage(pageNr, node);
 	}
 	public void onFetchDwellerPage(int pageNr){
 		int realPageID = pageNr%10;
-		if (realPageID > dwellersIndex.size())
+		if (realPageID > dwellersIndex.size()-1)
             realPageID = 0;
         else if (realPageID < 0)
-            realPageID = dwellersIndex.size();
+            realPageID = dwellersIndex.size()-1;
 
 		String name = dwellersIndex.get(realPageID);
 		GraphNode node = graphsHolder.getDwellerNode(name);
 		System.out.println(node.getConcatenatedDescription());
+		onFetchNodePage(pageNr, node);
 	}
 
 }

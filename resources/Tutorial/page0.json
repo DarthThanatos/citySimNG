@@ -1,5 +1,5 @@
 {
-    "nr": 0,
+    "nr": 10,
     "sub0": [
       "Game sub0",
      ],
@@ -10,5 +10,5 @@
       "Game sub2",
     ],
   "img": "resources\\Tutorial\\img1.jpg",
-    "link": [2,5]
+    "link": [12,15]
 }

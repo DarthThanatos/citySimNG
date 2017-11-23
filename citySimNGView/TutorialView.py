@@ -97,17 +97,6 @@ class MainTab(wx.Panel):
         self.centerSizer.Layout()
         self.Layout()
 
-    
-class EntitiesTab(wx.Panel): #sparametryzowac po listach bytow - zadac konkretnych indeksow
-    def __init__(self, parent, master):
-        wx.Panel.__init__(self, parent)
-        self.master = master
-        self.centerSizer = wx.BoxSizer(wx.VERTICAL)
-        self.SetSizer(self.centerSizer)
-        t = wx.StaticText(self, -1, "This is EntitiesTab", (20,20))
-        self.centerSizer.Add(t, 0, wx.CENTER)
-
-
 class TutorialView(wx.Panel):
     def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):
         #ScrolledPanel.__init__(self, size=size, parent=parent, style=wx.SIMPLE_BORDER)
@@ -144,10 +133,15 @@ class TutorialView(wx.Panel):
         #self.content = None
         tabs = wx.Notebook(self)
         # Create the tab windows
+        self.tab=[]
         self.tab1 = MainTab(tabs,self, 1)
         self.tab2 = MainTab(tabs, self, 2)
         self.tab3 = MainTab(tabs,self, 3)
         self.tab4 = MainTab(tabs,self, 4)
+        # tab[0]=tab1
+        # tab[1]=tab2
+        # tab[2]=tab3
+        # tab[3]=tab4
  
         # Add the windows to tabs and name them.
         tabs.AddPage(self.tab1, "MainTab")
@@ -226,10 +220,29 @@ class TutorialView(wx.Panel):
         #tu przejrzec hyperlinks, stworzyc nowy slownik na podstawie danych z tab1\
         hyperlinksWithLabels = []
         for x in hyperlinks:
-            if x >=0 and x <= self.nrOfPages-1:
-                link = {'label': self.tab1.indexList[x], 'id': x}
-                print ("Link: " + str(link))
-                hyperlinksWithLabels.append(link)
+            hyperlinkTab = x//10
+            hyperlinkID = x%10
+            if hyperlinkTab == 1:
+                if hyperlinkID >=0 and hyperlinkID <= len(self.tab1.indexList)-1:
+                    link = {'label': self.tab1.indexList[hyperlinkID], 'id': x}
+                    print ("Link: " + str(link))
+                    hyperlinksWithLabels.append(link)
+            elif hyperlinkTab == 2:
+                if hyperlinkID >=0 and hyperlinkID <= len(self.tab2.indexList)-1:
+                    link = {'label': self.tab2.indexList[hyperlinkID], 'id': x}
+                    print ("Link: " + str(link))
+                    hyperlinksWithLabels.append(link)
+            elif hyperlinkTab == 3:
+                if hyperlinkID >=0 and hyperlinkID <= len(self.tab3.indexList)-1:
+                    link = {'label': self.tab3.indexList[hyperlinkID], 'id': x}
+                    print ("Link: " + str(link))
+                    hyperlinksWithLabels.append(link)
+            elif hyperlinkTab == 4:
+                if hyperlinkID >=0 and hyperlinkID <= len(self.tab4.indexList)-1:
+                    link = {'label': self.tab4.indexList[hyperlinkID], 'id':x }
+                    print ("Link: " + str(link))
+                    hyperlinksWithLabels.append(link)
+
         self.pageView.hyperlinks = hyperlinksWithLabels
         print "hyperlinksWithLabels:"
         print hyperlinksWithLabels
@@ -250,8 +263,8 @@ class TutorialView(wx.Panel):
         self.pageView.helperImg = image
         self.pageView.subPage = 0
         self.pageView.nrOfSubpages = len(pageContentString) - 3
-        self.pageView.page = pageContentString["nr"] + 10
-        self.pageView.tabID = 1
+        self.pageView.page = pageContentString["nr"]
+        self.pageView.tabID = pageContentString["nr"]//10
         self.pageView.updateHyperlinksAndImg()
 
         self.centerSizer.ShowItems(False)
