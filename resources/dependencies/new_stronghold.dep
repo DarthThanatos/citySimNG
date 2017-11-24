@@ -109,7 +109,7 @@
                 "Rock": 1
             },
  
-            "Texture path": "house.png",
+            "Texture path": "new\\chata.png",
  
             "Type": "Domestic",
  
@@ -203,7 +203,7 @@
                 "Rock": 2
             },
  
-            "Texture path": "Mill.png",
+            "Texture path": "new\\wiatrak.png",
  
             "Type": "Industrial",
  
