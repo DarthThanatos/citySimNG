@@ -23,7 +23,7 @@
                 "Wood": 20
             },
  
-            "Texture path": "Quarry.png",
+            "Texture path": "new\\kamieniolom.png",
  
             "Type": "Industrial",
  
@@ -139,7 +139,7 @@
                 "Flour": 2
             },
  
-            "Texture path": "house.png",
+            "Texture path": "new\\zamek.png",
  
             "Type": "Domestic",
  
