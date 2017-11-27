@@ -1,3 +1,5 @@
 .gradle/*
 /out/
+/exeout/*
+/build/
 citySimController.jar
