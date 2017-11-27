@@ -108,7 +108,6 @@ class SheetEntityChecker(object):
 
     def startIncomeCorrect(self):
         try:
-            # income_str = self.sheet_view.currentDependencies[self.sheet_view.getSheetName()][self.getEntityName()][Consts.START_INCOME]
             income_str = self.getStartIncome()
             income = int(income_str)
             return income >= 0

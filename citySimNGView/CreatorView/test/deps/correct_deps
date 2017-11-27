@@ -1,0 +1,389 @@
+{
+    "Texture One": "new\\meadow1.jpg",
+
+    "MP3": "TwoMandolins.mp3",
+
+    "Buildings": {
+        "kamieniolom": {
+            "Predecessor": "None",
+
+            "Description": "-",
+
+            "Produces": {
+                "Rock": 2
+            },
+
+            "Dwellers\namount": 4,
+
+            "Building\nName": "kamieniolom",
+
+            "Dweller\nName": "Dweller",
+
+            "Cost\nin\nresources": {
+                "Wood": 20
+            },
+
+            "Texture path": "new\\kamieniolom.png",
+
+            "Type": "Industrial",
+
+            "Consumes": {
+                "Gold": 10
+            },
+
+            "Successor": "None"
+        },
+
+        "Field": {
+            "Predecessor": "None",
+
+            "Description": "-",
+
+            "Produces": {
+                "Flour": 2
+            },
+
+            "Dwellers\namount": 1,
+
+            "Building\nName": "Field",
+
+            "Dweller\nName": "Dweller",
+
+            "Consumes": {
+                "Crop": 2
+            },
+
+            "Texture path": "CiderFarm.png",
+
+            "Type": "Industrial",
+
+            "Cost\nin\nresources": {
+                "Wood": 10
+            },
+
+            "Successor": "None"
+        },
+
+        "Bigger House": {
+            "Predecessor": "House",
+
+            "Description": "asd",
+
+            "Produces": {},
+
+            "Dwellers\namount": 3,
+
+            "Building\nName": "Bigger House",
+
+            "Dweller\nName": "Worker",
+
+            "Consumes": {
+                "Flour": 2
+            },
+
+            "Texture path": "house.png",
+
+            "Type": "Domestic",
+
+            "Cost\nin\nresources": {
+                "Gold": 2
+            },
+
+            "Successor": "None"
+        },
+
+        "House": {
+            "Predecessor": "None",
+
+            "Description": "House",
+
+            "Produces": {},
+
+            "Dwellers\namount": 3,
+
+            "Building\nName": "House",
+
+            "Dweller\nName": "Dweller",
+
+            "Consumes": {
+                "Rock": 1
+            },
+
+            "Texture path": "new\\chata.png",
+
+            "Type": "Domestic",
+
+            "Cost\nin\nresources": {
+                "Wood": 2,
+
+                "Rock": 1
+            },
+
+            "Successor": "None"
+        },
+
+        "Largest house": {
+            "Predecessor": "Bigger House",
+
+            "Description": "sad",
+
+            "Produces": {},
+
+            "Dwellers\namount": 2,
+
+            "Building\nName": "Largest house",
+
+            "Dweller\nName": "Nobleman",
+
+            "Consumes": {
+                "Flour": 2
+            },
+
+            "Texture path": "new\\zamek.png",
+
+            "Type": "Domestic",
+
+            "Cost\nin\nresources": {
+                "Rock": 2,
+
+                "Bread": 2
+            },
+
+            "Successor": "None"
+        },
+
+        "Bakery": {
+            "Predecessor": "Mill",
+
+            "Description": "-",
+
+            "Produces": {
+                "Bread": 4
+            },
+
+            "Dwellers\namount": 1,
+
+            "Building\nName": "Bakery",
+
+            "Dweller\nName": "Nobleman",
+
+            "Consumes": {
+                "Flour": 3
+            },
+
+            "Texture path": "Bakery2.png",
+
+            "Type": "Industrial",
+
+            "Cost\nin\nresources": {
+                "Gold": 2
+            },
+
+            "Successor": "None"
+        },
+
+        "Mill": {
+            "Predecessor": "Field",
+
+            "Description": "-",
+
+            "Produces": {
+                "Flour": 3
+            },
+
+            "Dwellers\namount": 3,
+
+            "Building\nName": "Mill",
+
+            "Dweller\nName": "Worker",
+
+            "Cost\nin\nresources": {
+                "Wood": 2,
+
+                "Rock": 2
+            },
+
+            "Texture path": "new\\wiatrak.png",
+
+            "Type": "Industrial",
+
+            "Consumes": {
+                "Crop": 2
+            },
+
+            "Successor": "None"
+        },
+
+        "Tartak": {
+            "Predecessor": "None",
+
+            "Description": "-",
+
+            "Produces": {
+                "Wood": 5
+            },
+
+            "Dwellers\namount": 1,
+
+            "Building\nName": "Tartak",
+
+            "Dweller\nName": "Dweller",
+
+            "Consumes": {
+                "Gold": 10
+            },
+
+            "Texture path": "Lunmbermill2.png",
+
+            "Type": "Industrial",
+
+            "Cost\nin\nresources": {
+                "Gold": 3
+            },
+
+            "Successor": "None"
+        }
+    },
+
+    "Dwellers": {
+        "Nobleman": {
+            "Predecessor": "Worker",
+
+            "Description": "asdsd",
+
+            "Dweller\nName": "Nobleman",
+
+            "Texture path": "Dweller2.PNG",
+
+            "Consumes": {
+                "Bread": 2
+            },
+
+            "Successor": "None"
+        },
+
+        "Worker": {
+            "Predecessor": "Dweller",
+
+            "Description": "asd",
+
+            "Dweller\nName": "Worker",
+
+            "Texture path": "new\\mieszkaniec2.png",
+
+            "Consumes": {
+                "Gold": 2
+            },
+
+            "Successor": "None"
+        },
+
+        "Dweller": {
+            "Predecessor": "None",
+
+            "Description": "-",
+
+            "Dweller\nName": "Dweller",
+
+            "Texture path": "new\\mieszkaniec2.png",
+
+            "Consumes": {
+                "Gold": 2
+            },
+
+            "Successor": "None"
+        }
+    },
+
+    "Set Name": "New Stronghold",
+
+    "Texture Two": "new\\meadow2.jpg",
+
+    "Panel Texture": "DefaultBuilding.jpg",
+
+    "Resources": {
+        "Gold": {
+            "Predecessor": "None",
+
+            "Description": "-",
+
+            "Start income": "3",
+
+            "Texture path": "new\\zloto.png",
+
+            "Resource\nName": "Gold",
+
+            "Successor": "None"
+        },
+
+        "Flour": {
+            "Predecessor": "Crop",
+
+            "Description": "-",
+
+            "Start income": "0",
+
+            "Texture path": "new\\maka.png",
+
+            "Resource\nName": "Flour",
+
+            "Successor": "Bread"
+        },
+
+        "Crop": {
+            "Predecessor": "None",
+
+            "Description": "-",
+
+            "Start income": "0",
+
+            "Texture path": "new\\klos.png",
+
+            "Resource\nName": "Crop",
+
+            "Successor": "Flour"
+        },
+
+        "Wood": {
+            "Predecessor": "None",
+
+            "Description": "-",
+
+            "Start income": "3",
+
+            "Texture path": "new\\drewno.png",
+
+            "Resource\nName": "Wood",
+
+            "Successor": "None"
+        },
+
+        "Rock": {
+            "Predecessor": "None",
+
+            "Description": "-",
+
+            "Start income": "3",
+
+            "Texture path": "new\\kamien.png",
+
+            "Resource\nName": "Rock",
+
+            "Successor": "None"
+        },
+
+        "Bread": {
+            "Predecessor": "Flour",
+
+            "Description": "-",
+
+            "Start income": "0",
+
+            "Texture path": "new\\chleb.png",
+
+            "Resource\nName": "Bread",
+
+            "Successor": "None"
+        }
+    }
+}
