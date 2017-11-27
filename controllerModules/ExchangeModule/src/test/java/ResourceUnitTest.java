@@ -45,7 +45,8 @@ public class ResourceUnitTest {
         double quantityPriceRatio = resource.getQuantityPriceRatio();
 
         // then
-        assertEquals(priceString, "3.12");
+        String floatStr = "3%s12";
+        assert(priceString.equals(String.format(floatStr, ".")) || priceString.equals(String.format(floatStr, ",")));
         assertEquals(quantityPriceRatio, 3.20163, 0.00001);
     }
 }

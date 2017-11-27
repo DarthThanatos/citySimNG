@@ -143,7 +143,8 @@ public class StockUnitTest {
         String response3 = stock.buyOperation(RESOURCE_2, "1");
 
         // then
-        assertEquals("You bought 1 of Gold, and now have 16 Gold and 10000.00 money", response1);
+        String expectedAnswer = "You bought 1 of Gold, and now have 16 Gold and 10000%s00 money";
+        assert(response1.equals(String.format(expectedAnswer, ".")) || response1.equals(String.format(expectedAnswer, ",")));
         assertEquals("WARNING - not enough resources in stock", response2);
         assertEquals("WARNING - you don't have enough money", response3);
     }
@@ -167,7 +168,8 @@ public class StockUnitTest {
         String response2 = stock.sellOperation(RESOURCE_2, "100");
 
         // then
-        assertEquals("You sold 1 of Gold, and now have 14 Gold and 10000.00 money", response1);
+        String expectedAnswer = "You sold 1 of Gold, and now have 14 Gold and 10000%s00 money";
+        assert(response1.equals(String.format(expectedAnswer, ".")) || response1.equals(String.format(expectedAnswer, ",")));
         assertEquals("WARNING - you don't have enough resources to sell", response2);
     }
 

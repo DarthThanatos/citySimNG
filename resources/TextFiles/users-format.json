@@ -1,0 +1,12 @@
+[
+  {
+    "userName": "aaaa",
+    "money": 1234,
+    "nrOfGames": 12,
+  },
+  {
+    "userName": "bbbb",
+    "money": 5678,
+    "nrOfGames": 34,
+  }
+]
