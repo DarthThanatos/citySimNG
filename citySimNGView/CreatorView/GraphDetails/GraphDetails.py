@@ -157,8 +157,11 @@ class NetworkPanel(wx.Panel):
         nx.draw_networkx_nodes(self.G, self.pos, node_color='w')
         self.main_axis = plt.gca()
         xlim_neg, xlim_pos = self.main_axis.get_xlim()
+        ylim_neg, ylim_pos = self.main_axis.get_ylim()
         if(xlim_pos - xlim_neg < 5):
-            self.main_axis.set_xlim((40,200))
+            center = (xlim_pos - xlim_neg)/2 + xlim_pos
+            margin = 150
+            self.main_axis.set_xlim(center - margin, center + margin)
 
     def performLabelsDrawingFillingAxisDict(self):
         labelsPosDict = self.drawNodesYieldingNewPos(self.G)

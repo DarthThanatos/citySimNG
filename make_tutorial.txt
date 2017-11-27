@@ -5,7 +5,7 @@ Otwieramy okienko konsoli w folderze citySimNG/controllerModules i klepiemy: gra
 Komenda odpala malutki kawałek skryptu który dopisałem w citySimNG/controllerModules/build.gradle. 
 Wynikiem jest plik citySimController.jar. 
 Ściągamy archiwum z https://sourceforge.net/projects/launch4j/files/launch4j-3/3.11/launch4j-3.11-win32.zip/download 
-Rozpakowujemy je na pulpicie i odpalamy launch4j.jar. Przysięgam, że nie ma tam żadnych exploitów windowsa :p
+Rozpakowujemy je na pulpicie i odpalamy launch4j.jar.
 Pojawia się okienko, w którym klikamy na ikonkę folderu (druga od lewej na górze).
 W okienku selektora wybieramy pliczek citySimNG/controllerModules/citySim_relative_paths.xml - poustawiałem już tam najważniejsze
 rzeczy, trzeba tylko w zakładce Basic wybrać bezwzględną ścieżkę do output file oraz jar.

@@ -119,7 +119,7 @@ class RestorableStartIncomePicker(RestorableView):
                 int(self.entityUtils.getEntityCharacteristic(entity_name, Consts.START_INCOME)) \
                     if entity_name is not None else 0
         except Exception:
-            startIncomePickerValue = 0
+            startIncomePickerValue = -1
         self.start_income_picker.SetValue(startIncomePickerValue)
 
 class RestorableDwellersAmount(RestorableView):

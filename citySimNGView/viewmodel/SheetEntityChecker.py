@@ -1,6 +1,4 @@
 import re
-import traceback
-
 from CreatorView import Consts
 from utils.FileExistanceChecker import FileExistanceChecker
 
@@ -105,9 +103,13 @@ class SheetEntityChecker(object):
             result_struct["Result"][Consts.TYPE] = self.getTypeOfBuilding()
         return correct
 
+    def getStartIncome(self):
+        return self.sheet_view.start_income_picker.GetValue()
+
     def startIncomeCorrect(self):
         try:
-            income_str = self.sheet_view.currentDependencies[self.sheet_view.getSheetName()][self.getEntityName()][Consts.START_INCOME]
+            # income_str = self.sheet_view.currentDependencies[self.sheet_view.getSheetName()][self.getEntityName()][Consts.START_INCOME]
+            income_str = self.getStartIncome()
             income = int(income_str)
             return income >= 0
         except Exception:
