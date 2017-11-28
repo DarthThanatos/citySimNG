@@ -1,4 +1,4 @@
-{
+
 
 {
 
@@ -12,7 +12,8 @@
     "Dwellers": {
         "Dweller": {
 
-            "Description": "asd",
+            "Predeccessor": "None",
+
 
             "Dweller\nName": "Dweller",
 
@@ -25,5 +26,4 @@
             "Successor": "None"
         }
     }
-}
 }

@@ -1,13 +1,13 @@
 {
 
     "Resources": {
-        "NoPredeccessor": {
+        "NoTexturePath": {
+            "Predeccessor": "None",
 
             "Description": "asd",
 
             "Start income": "0",
 
-            "Texture path": "new\\kamien.png",
 
             "Resource\nName": "NoPredeccessor",
 
