@@ -1,0 +1,27 @@
+{
+
+    "Resources":{
+        "ToConsumeByD":{
+
+        }
+
+    },
+
+    "Dwellers": {
+        "InvalidTexture": {
+            "Predecessor": "None",
+
+            "Description": "asd",
+
+            "Dweller\nName": "InvalidTexture",
+
+            "Texture path": "no_such_file",
+
+            "Consumes": {
+                "ToConsumeByD": 4
+            },
+
+            "Successor": "None"
+        }
+    }
+}

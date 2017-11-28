@@ -4,21 +4,21 @@ import unittest
 import wx
 import os
 
-from CreatorView.BuildingSheet import BuildingSheet
+from CreatorView.DwellersSheet import DwellersSheet
 from CreatorView.CreatorSwitcher import CreatorSwitcher
 from ViewSetter import CreatorHolder
 from viewmodel.SheetEntityChecker import AddModeSheetEntityChecker, EditModeSheetEntityChecker
 
-DIR_TO_TEST_DEPS = "citySimNGView\\CreatorView\\test\\deps\\building_sheet_test_deps\\"
+DIR_TO_TEST_DEPS = "citySimNGView\\CreatorView\\test\\deps\\dweller_sheet_test_deps\\"
 DEBUG = False
 
-class BuildingSheetTest(unittest.TestCase):
+class DwellerSheetTest(unittest.TestCase):
 
     def setUp(self):
         self.app = wx.App(False)
         os.chdir("..")
         ch = CreatorHolder( parent = None , tplSize = (0,0), sender = None, gateway = None)
-        self.buidlingSheetView = BuildingSheet(
+        self.dwellerSheetView = DwellersSheet(
             parent = ch,
             size = (0, 0),
             frame = None,
@@ -26,8 +26,8 @@ class BuildingSheetTest(unittest.TestCase):
                 parent = ch, size=(0,0), name="", musicPath= "TwoMandolins.mp3", sender=None
             ).newCurrentDependencies()
         )
-        self.addMode = AddModeSheetEntityChecker(self.buidlingSheetView)
-        self.editMode = EditModeSheetEntityChecker(self.buidlingSheetView)
+        self.addMode = AddModeSheetEntityChecker(self.dwellerSheetView)
+        self.editMode = EditModeSheetEntityChecker(self.dwellerSheetView)
 
     def tearDown(self):
         os.chdir("citySimNGView")
@@ -37,13 +37,13 @@ class BuildingSheetTest(unittest.TestCase):
             content = f.read()
             currentDependencies = json.loads(content)
             for key in currentDependencies.keys():
-                self.buidlingSheetView.currentDependencies[key] = currentDependencies[key]
+                self.dwellerSheetView.currentDependencies[key] = currentDependencies[key]
             try:
-                self.buidlingSheetView.setUpEditMode(edit_element_name = entityName)
+                self.dwellerSheetView.setUpEditMode(edit_element_name = entityName)
             except Exception as e:
                 print e.message
             result_struct = self.editMode.newResultStruct()
-            correct = self.buidlingSheetView.getEntityChecker().entityCorrect(self.editMode, result_struct)
+            correct = self.dwellerSheetView.getEntityChecker().entityCorrect(self.editMode, result_struct)
             if shouldAssertCorrect: self.assertTrue(correct)
             else:
                 if DEBUG:
@@ -65,14 +65,14 @@ class BuildingSheetTest(unittest.TestCase):
     def test_that_correct(self):
         self.expect(
             path_to_dep="correct_deps",
-            entityName="ProducingBuilding",
+            entityName="Dweller",
             shouldAssertCorrect=True
         )
 
     def test_that_white_space_name_invalid(self):
         if DEBUG: print "white space"
         self.expect(
-            path_to_dep="incorrect_building_name",
+            path_to_dep="incorrect_dweller_name",
             entityName=" ",
             shouldAssertCorrect=False,
             expectedMsgs = [
@@ -84,12 +84,13 @@ class BuildingSheetTest(unittest.TestCase):
         if DEBUG: print "name discrepancies"
         self.expect(
             path_to_dep="name-key-differs-from-name-record",
-            entityName="Building",
+            entityName="Dweller",
             shouldAssertCorrect=False,
             expectedMsgs = [
-                "Building name is different than the name record: NotBuilding"
+                "Dweller name is different than the name record: NotDweller"
             ]
         )
+
 
     def test_that_invalid_paths_detected(self):
         if DEBUG: print "invalid paths"
@@ -106,14 +107,11 @@ class BuildingSheetTest(unittest.TestCase):
         if DEBUG: print "invalid fields"
         self.expect(
             path_to_dep="invalid-multiple-fields",
-            entityName="InvalidBuilding",
+            entityName="InvalidDweller",
             shouldAssertCorrect=False,
             expectedMsgs=[
-                "Please enter description of this Building",
-                "Dwellers amount should be bigger than 0",
-                "INVALID type of building, can be either Domestic or Industrial",
-                "Pick at least one VALID element in the section \"Cost of placing a building in resources\"",
-                "Pick at least one VALID element in the section \"Produced resources\""
+                "Please enter description of this Dweller",
+                "Pick at least one VALID element in the section \"Consumed resources\""
             ]
         )
 

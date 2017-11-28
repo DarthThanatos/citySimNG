@@ -1,0 +1,27 @@
+{
+
+    "Resources":{
+        "ToConsumeByD":{
+
+        }
+
+    },
+
+    "Dwellers": {
+        " ": {
+            "Predecessor": "None",
+
+            "Description": "asd",
+
+            "Dweller\nName": " ",
+
+            "Texture path": "new\\mieszkaniec2.png",
+
+            "Consumes": {
+                "ToConsumeByD": 4
+            },
+
+            "Successor": "None"
+        }
+    }
+}

@@ -9,7 +9,7 @@ from ViewSetter import CreatorHolder
 from viewmodel.SheetEntityChecker import AddModeSheetEntityChecker, EditModeSheetEntityChecker
 
 DIR_TO_TEST_DEPS = "citySimNGView\\CreatorView\\test\\deps\\resource_sheet_test_deps\\"
-
+DEBUG = False
 class ResourceSheetTest(unittest.TestCase):
 
     def setUp(self):
@@ -35,7 +35,10 @@ class ResourceSheetTest(unittest.TestCase):
             result_struct = self.editMode.newResultStruct()
             correct = self.resourceSheetView.getEntityChecker().entityCorrect(self.editMode, result_struct)
             if shouldAssertCorrect: self.assertTrue(correct)
-            else: self.assertFalse(correct)
+            else:
+                if DEBUG:
+                    print result_struct["ErrorMsg"]
+                self.assertFalse(correct)
             if expectedMsgs is not None:
                 for expectedMsg in expectedMsgs:
                     self.assertTrue(
@@ -57,6 +60,7 @@ class ResourceSheetTest(unittest.TestCase):
         )
 
     def test_that_white_space_name_invalid(self):
+        if DEBUG: print "white space"
         self.expect(
             path_to_dep="incorrect_resource_name",
             entityName=" ",
@@ -67,6 +71,7 @@ class ResourceSheetTest(unittest.TestCase):
         )
 
     def test_that_name_discrepancies_detected(self):
+        if DEBUG: print "name discrepancies"
         self.expect(
             path_to_dep="name-key-differs-from-name-record",
             entityName="Resource",
@@ -78,7 +83,7 @@ class ResourceSheetTest(unittest.TestCase):
 
     # def test_that_missings_keys_detected(self):
     #     self.expect(
-    #         path_to_dep="resources-lacking-keys",
+    #         path_to_dep="buildings-lacking-keys",
     #         entityName="NoPredeccessor",
     #         shouldAssertCorrect=False,
     #         expectedMsgs=[
@@ -87,6 +92,7 @@ class ResourceSheetTest(unittest.TestCase):
     #     )
 
     def test_that_invalid_paths_detected(self):
+        if DEBUG: print "invalid paths"
         self.expect(
             path_to_dep="invalid-textures",
             entityName="InvalidTextureResource",
@@ -97,6 +103,7 @@ class ResourceSheetTest(unittest.TestCase):
         )
 
     def test_that_multiple_invalid_fields_detected(self):
+        if DEBUG: print "invalid fields"
         self.expect(
             path_to_dep="invalid-multiple-fields",
             entityName="InvalidResource",
