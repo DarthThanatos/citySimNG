@@ -218,8 +218,13 @@ class SheetView(ScrolledPanel):
 
     def onImageSelected(self, dlg):
         if dlg.ShowModal() == wx.ID_OK:
+            import os
+            abs_path_to_res = os.path.abspath(relative_textures_path)
+            abs_path_to_img = os.path.abspath(dlg.GetPath())
+            path_relative_to_resdir =  os.path.relpath(abs_path_to_img, abs_path_to_res)
             path = dlg.GetPath()
-            self.entityIconRelativePath = dlg.GetFilename()
+            # self.entityIconRelativePath = dlg.GetFilename()
+            self.entityIconRelativePath = path_relative_to_resdir
             self.imageBitmap.SetBitmap(wx.BitmapFromImage(self.newScaledImg(path)))
 
     def moveToMainPanel(self,event):

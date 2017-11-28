@@ -1,5 +1,6 @@
 import re
 from CreatorView import Consts
+from extra.GraphPanel import relative_textures_path
 from utils.FileExistanceChecker import FileExistanceChecker
 
 ADD_MODE = "Add mode"
@@ -90,7 +91,7 @@ class SheetEntityChecker(object):
     def checkAndDumpTexture(self, result_struct):
         correct = FileExistanceChecker().graphicalFileExists(self.sheet_view.entityIconRelativePath)
         if not correct:
-            result_struct["ErrorMsg"] += "-> Icon path does not contain a valid graphical file\n"
+            result_struct["ErrorMsg"] += "-> Icon path: " + relative_textures_path + self.sheet_view.entityIconRelativePath + " does not contain a valid graphical file\n"
         else:
             result_struct["Result"][Consts.TEXTURE_PATH] = self.sheet_view.entityIconRelativePath
         return correct

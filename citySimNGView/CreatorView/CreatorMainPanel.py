@@ -1,6 +1,5 @@
 import json
 import re
-import traceback
 from uuid import uuid4
 
 import wx
@@ -181,13 +180,18 @@ class CreatorMainPanel(ScrolledPanel):
             dir=relative_music_path, msg="Choose an MP3 file", wildcard="*.mp3"
         )
         if dlg.ShowModal() == wx.ID_OK:
-            self.current_dependencies[Consts.MP3] = dlg.GetFilename()
-            self.musicNameST.SetLabelText(dlg.GetFilename())
+            relative_path_to_resdir = self.getRelativePathToResdir(dlg, relative_music_path)
+            # self.current_dependencies[Consts.MP3] = dlg.GetFilename()
+            # self.musicNameST.SetLabelText(dlg.GetFilename())
+            self.current_dependencies[Consts.MP3] = relative_path_to_resdir
+            self.musicNameST.SetLabelText(relative_path_to_resdir)
 
     def onMapPanelTextureSelected(self, ev):
         dlg = self.createFileSelectionDialog()
         self.onImageSelected(dlg, self.mapPanelTexture)
-        self.current_dependencies[Consts.PANEL_TEXTURE] = dlg.GetFilename()
+        relative_path_to_resdir = self.getRelativePathToResdir(dlg)
+        # self.current_dependencies[Consts.PANEL_TEXTURE] = dlg.GetFilename()
+        self.current_dependencies[Consts.PANEL_TEXTURE] = relative_path_to_resdir
 
     def newBgTexturesVerticalSizer(self):
         texturesVerticalSizer = wx.BoxSizer(wx.VERTICAL)
@@ -282,12 +286,16 @@ class CreatorMainPanel(ScrolledPanel):
     def onSelectImageOne(self, event):
         dlg = self.createFileSelectionDialog()
         self.onImageSelected(dlg, self.imageBitmapOne)
-        self.current_dependencies[Consts.TEXTURE_ONE] = dlg.GetFilename()
+        relative_path_to_resdir = self.getRelativePathToResdir(dlg)
+        # self.current_dependencies[Consts.TEXTURE_ONE] = dlg.GetFilename()
+        self.current_dependencies[Consts.TEXTURE_ONE] = relative_path_to_resdir
 
     def onSelectImageTwo(self, event):
         dlg = self.createFileSelectionDialog()
         self.onImageSelected(dlg, self.imageBitmapTwo)
-        self.current_dependencies[Consts.TEXTURE_TWO] = dlg.GetFilename()
+        relative_path_to_resdir = self.getRelativePathToResdir(dlg)
+        # self.current_dependencies[Consts.TEXTURE_TWO] = dlg.GetFilename()
+        self.current_dependencies[Consts.TEXTURE_TWO] = relative_path_to_resdir
 
     def retToMenu(self, event):
         self.sender.entry_point.getCreatorPresenter().returnToMenu()
@@ -324,6 +332,12 @@ class CreatorMainPanel(ScrolledPanel):
         self.current_dependencies[Consts.RESOURCES] = {}
         self.current_dependencies[Consts.DWELLERS] = {}
 
+    def getRelativePathToResdir(self,dlg, relative_path = relative_textures_path):
+        import os
+        abs_path_to_res = os.path.abspath(relative_path)
+        abs_path_to_img = os.path.abspath(dlg.GetPath())
+        path_relative_to_resdir = os.path.relpath(abs_path_to_img, abs_path_to_res)
+        return path_relative_to_resdir
 
     def createScaledBitmap(self, bmp, img_path):
         image = wx.Image(img_path)
@@ -449,8 +463,7 @@ class CreatorMainPanel(ScrolledPanel):
         return self.allEntitiesNotRedundant(Consts.BUILDINGS, self.buildingsDependenciesSubPanel.redundancyChecker)
 
     def currentDependenciesCorrect(self, updateNameFromInput):
-        input_correct = self.depsNotEmpty()
-        input_correct &= self.dependenciesSetNameTypedCorrectly(updateNameFromInput=updateNameFromInput)
+        input_correct = self.dependenciesSetNameTypedCorrectly(updateNameFromInput=updateNameFromInput)
         input_correct &= FileExistanceChecker(self.logArea).checkIfGraphicalFileExists(self.current_dependencies[Consts.TEXTURE_ONE])
         input_correct &= FileExistanceChecker(self.logArea).checkIfGraphicalFileExists(self.current_dependencies[Consts.TEXTURE_TWO])
         input_correct &= FileExistanceChecker(self.logArea).checkIfFileWithExtentionExists(
@@ -460,9 +473,6 @@ class CreatorMainPanel(ScrolledPanel):
         input_correct &= self.checkCorrectnessOf(Consts.RESOURCES)
         input_correct &= self.checkCorrectnessOf(Consts.BUILDINGS)
         input_correct &= self.checkCorrectnessOf(Consts.DWELLERS)
-        input_correct &= self.allResourcesNotRedundant()
-        input_correct &= self.allDwellersNotRedundant()
-        input_correct &= self.allBuildingsNotRedundant()
         return input_correct
 
     def dependenciesSetNameTypedCorrectly(self, updateNameFromInput):
@@ -490,7 +500,12 @@ class CreatorMainPanel(ScrolledPanel):
 
 
     def createDependencies(self, event):
-        if not self.currentDependenciesCorrect(updateNameFromInput=True): return
+        input_correct = self.depsNotEmpty()
+        input_correct &= self.currentDependenciesCorrect(updateNameFromInput=True)
+        input_correct &= self.allResourcesNotRedundant()
+        input_correct &= self.allDwellersNotRedundant()
+        input_correct &= self.allBuildingsNotRedundant()
+        if not input_correct: return
         dependencies = self.fetchDependenciesDictStrippedOfEntitiesNameKeys()
         self.logArea.SetLabelText(LogMessages.DEPENDENCIES_SENT_MSG)
         self.sendDependenciesPy4J(dependencies)
