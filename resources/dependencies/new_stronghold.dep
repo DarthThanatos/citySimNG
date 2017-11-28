@@ -81,7 +81,7 @@
                 "Flour": 2
             },
  
-            "Texture path": "house.png",
+            "Texture path": "new\\dom.png",
  
             "Type": "Domestic",
  
@@ -253,7 +253,7 @@
  
             "Dweller\nName": "Nobleman",
  
-            "Texture path": "Dweller2.PNG",
+            "Texture path": "new\\szlachcic.png",
  
             "Consumes": {
                 "Bread": 2
@@ -285,7 +285,7 @@
  
             "Dweller\nName": "Dweller",
  
-            "Texture path": "new\\mieszkaniec2.png",
+            "Texture path": "new\\chlop.png",
  
             "Consumes": {
                 "Gold": 2
