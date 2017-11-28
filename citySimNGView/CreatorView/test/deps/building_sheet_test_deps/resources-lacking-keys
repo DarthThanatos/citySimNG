@@ -1,0 +1,33 @@
+{
+
+    "Buildings": {
+            "Building": {
+
+                "Description": "asd",
+
+                "Produces": {
+                    "ToProduceByB": 2
+                },
+
+                "Dwellers\namount": 1,
+
+                "Building\nName": "Building",
+
+                "Dweller\nName": "Dweller",
+
+                "Cost\nin\nresources": {
+                    "toConsumeByB": 2
+                },
+
+                "Texture path": "new\\zamek.png",
+
+                "Type": "Industrial",
+
+                "Consumes": {
+                    "toConsumeByB": 2
+                },
+
+                "Successor": "None"
+            }
+    }
+}

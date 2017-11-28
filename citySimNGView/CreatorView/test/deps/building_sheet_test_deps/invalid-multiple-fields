@@ -1,0 +1,50 @@
+{
+
+    "Resources":{
+        "toConsumeByB":{
+
+        },
+        "ToProduceByB":{
+
+        }
+
+    },
+
+    "Dwellers":{
+        "Dweller":{
+
+        }
+    },
+
+    "Buildings": {
+            "InvalidBuilding": {
+                "Predecessor": "None",
+
+                "Description": "    ",
+
+                "Produces": {
+                    "ToProduceByB": -2
+                },
+
+                "Dwellers\namount": -1,
+
+                "Building\nName": "InvalidBuilding",
+
+                "Dweller\nName": "Dweller",
+
+                "Cost\nin\nresources": {
+                    "toConsumeByB": -2
+                },
+
+                "Texture path": "new\\zamek.png",
+
+                "Type": "Industriala",
+
+                "Consumes": {
+                    "toConsumeByB": 2
+                },
+
+                "Successor": "None"
+            }
+    }
+}
