@@ -1,0 +1,22 @@
+{
+
+    "Texture One": "new\\meadow1.jpg",
+
+    "MP3": "TwoMandolins.mp3",
+
+    "Resources": {
+        "Resource": {
+            "Predecessor": "None",
+
+            "Description": "asd",
+
+            "Start income": "0",
+
+            "Texture path": "new\\kamien.png",
+
+            "Resource\nName": "NotResource",
+
+            "Successor": "None"
+        }
+    }
+}

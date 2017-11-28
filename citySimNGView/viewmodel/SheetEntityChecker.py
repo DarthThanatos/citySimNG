@@ -163,6 +163,15 @@ class SheetEntityChecker(object):
             correct &= child.checkAndDumpCheckers(result_struct)
         return correct
 
+    def entityNameNotEmpty(self, result_struct):
+        if  re.sub(r'\s', "", self.getEntityName()) == "":
+            error_msg =  "-> Not a valid name\n"
+            result_struct["ErrorMsg"] += error_msg
+            return False
+        return True
+
+
+
 class AddModeSheetEntityChecker(SheetEntityChecker):
 
     def checkAndDumpName(self, result_struct):
@@ -181,13 +190,6 @@ class AddModeSheetEntityChecker(SheetEntityChecker):
             return False
         return True
 
-    def entityNameNotEmpty(self, result_struct):
-        if  re.sub(r'\s', "", self.getEntityName()) == "":
-            error_msg =  "-> Not a valid name\n"
-            result_struct["ErrorMsg"] += error_msg
-            return False
-        return True
-
     def getMode(self):
         return ADD_MODE
 
@@ -197,8 +199,20 @@ class AddModeSheetEntityChecker(SheetEntityChecker):
 class EditModeSheetEntityChecker(SheetEntityChecker):
 
     def checkAndDumpName(self, result_struct):
-        result_struct["Result"][self.sheet_view.getEntityNameKey()] = self.getEntityName()
-        return True # for now, nothing can go wrong here
+        correct = self.entityNameNotEmpty(result_struct)
+        correct &= self.entityKeyNameEqNameAttr(result_struct)
+        if correct: result_struct["Result"][self.sheet_view.getEntityNameKey()] = self.getEntityName()
+        return correct # for now, nothing can go wrong here
+
+
+    def entityKeyNameEqNameAttr(self, result_struct):
+        name_record = self.sheet_view.currentDependencies[self.sheet_view.sheet_name][self.getEntityName()][self.sheet_view.getEntityNameKey()]
+        if self.getEntityName() != name_record:
+            error_msg ="-> {} name is different than the name record: {}\n".format(self.getEntityName(), name_record)
+            result_struct["ErrorMsg"] += error_msg
+            return False
+        return True
+
 
     def getMode(self):
         return EDIT_MODE
