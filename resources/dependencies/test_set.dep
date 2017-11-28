@@ -89,6 +89,7 @@
  
     "Resources": {
         "ToProduceByB": {
+            "Predecessor": "None",
  
             "Description": "asd",
  
