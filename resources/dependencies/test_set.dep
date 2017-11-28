@@ -15,7 +15,7 @@
  
             "Dwellers\namount": 1,
  
-            "Building\nName": "ProducingBuilding1",
+            "Building\nName": "ProducingBuilding",
  
             "Dweller\nName": "Dweller",
  
@@ -93,7 +93,7 @@
  
             "Description": "asd",
  
-            "Start income": "0",
+            "Start income": "0asd",
  
             "Texture path": "new\\kamien.png",
  

@@ -1,20 +1,16 @@
 {
 
-    "Texture One": "new\\meadow1.jpg",
-
-    "MP3": "TwoMandolins.mp3",
-
     "Resources": {
-        " ": {
+        "InvalidTextureResource": {
             "Predecessor": "None",
 
             "Description": "asd",
 
             "Start income": "0",
 
-            "Texture path": "new\\kamien.png",
+            "Texture path": "not_such_file",
 
-            "Resource\nName": " ",
+            "Resource\nName": "Resource",
 
             "Successor": "None"
         }

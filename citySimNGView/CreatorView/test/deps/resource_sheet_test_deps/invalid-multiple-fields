@@ -1,0 +1,18 @@
+{
+
+    "Resources": {
+        "InvalidResource": {
+            "Predecessor": "None",
+
+            "Description": "            ",
+
+            "Start income": "0asd",
+
+            "Texture path": "new\\kamien.png",
+
+            "Resource\nName": "InvalidResource",
+
+            "Successor": "None"
+        }
+    }
+}

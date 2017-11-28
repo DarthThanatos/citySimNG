@@ -1,0 +1,17 @@
+{
+
+    "Resources": {
+        "NoPredeccessor": {
+
+            "Description": "asd",
+
+            "Start income": "0",
+
+            "Texture path": "new\\kamien.png",
+
+            "Resource\nName": "NoPredeccessor",
+
+            "Successor": "None"
+        }
+    }
+}
