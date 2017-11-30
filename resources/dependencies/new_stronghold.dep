@@ -53,7 +53,7 @@
                 "Crop": 2
             },
  
-            "Texture path": "CiderFarm.png",
+            "Texture path": "new\\pole.png",
  
             "Type": "Industrial",
  
@@ -171,7 +171,7 @@
                 "Flour": 3
             },
  
-            "Texture path": "Bakery2.png",
+            "Texture path": "new\\piekarnia.png",
  
             "Type": "Industrial",
  
@@ -233,7 +233,7 @@
                 "Gold": 10
             },
  
-            "Texture path": "Lunmbermill2.png",
+            "Texture path": "new\\tartak.png",
  
             "Type": "Industrial",
  
