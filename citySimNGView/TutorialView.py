@@ -22,7 +22,7 @@ class MainTab(wx.Panel):
         self.initContentList()
 
     def addListElem(self, box, font, arrow, i):
-        elemField = wx.StaticText(self, label=" ") #elemField = wx.StaticText(self, label=self.master.content[i])
+        elemField = wx.StaticText(self, label="                                          ") #elemField = wx.StaticText(self, label=self.master.content[i])
         elemID = i
         elemField.SetFont(font)
         arrowButton = wx.Button(self, id=elemID, label="  ", 
@@ -67,10 +67,11 @@ class MainTab(wx.Panel):
 
     def fillListItem(self, i):
         print "Filling listItem"
+        print "i: " + str(i)
         listItem = self.listCtrls[i]
         if self.indexList[i] is not None:
-            print "Lable type: " + str(type(self.indexList[i]))
-            print "Lable : " + str(self.indexList[i]) + "\n"
+            #print "Lable type: " + str(type(self.indexList[i]))
+           # print "Lable : " + str(self.indexList[i]) + "\n"
             listItem['elemField'].SetLabel(self.indexList[i])
             listItem['arrowButton'].SetId(i + 10*self.tabID)
             self.Bind(wx.EVT_BUTTON, self.master.showPageView, listItem['arrowButton'])
@@ -78,6 +79,8 @@ class MainTab(wx.Panel):
         else:
             #listItem['box'].ShowItems(False)
             #listItem['box'].Layout()
+            listItem['elemField'].SetLabel("")
+            listItem['arrowButton'].SetLabel("")
             listItem['arrowButton'].Hide()
             listItem['box'].Layout()
 
@@ -170,7 +173,9 @@ class TutorialView(wx.Panel):
 
     def showPageView(self, event):
         print "\nshowPageView"
-        self.requestPage(event)
+        print "TutorialView: requestPage executed"
+        print "PageID: " + str(event.GetId())
+        self.sender.entry_point.getTutorialPresenter().fetchPage(event.GetId())
 
     def onShow(self, event):
         # print "Menu on show"
@@ -192,11 +197,6 @@ class TutorialView(wx.Panel):
         #         # print "menu: problem with pygame quit"
         #         pass
 
-
-    def requestPage(self, event):
-        print "TutorialView: requestPage executed"
-        print "PageID: " + str(event.GetId())
-        self.sender.entry_point.getTutorialPresenter().fetchPage(event.GetId())
 
     def retToMenu(self, event):
         """ This function returns to Menu view """
@@ -274,8 +274,8 @@ class TutorialView(wx.Panel):
 
     def useFetchedIndex(self, index, tab):
         if index is not None:
-            for x in index:
-                print x
+            #for x in index:
+            #    print x
             tab.fillContentList(index)
             tab.isInitialized = True
         self.centerSizer.Layout()
@@ -284,26 +284,26 @@ class TutorialView(wx.Panel):
         self.nrOfPages = len(index)-1
         print "self.nrOfPages = " + str(self.nrOfPages)
         if self.tab1.isInitialized is False:
-            print "Print index"
-            self.useFetchedIndex(index, self.tab1)
+           # print "Print index"
+            self.useFetchedIndex(index[:-1], self.tab1)
             if self.tab1.isInitialized is False:
-                print "Sth went wrong with tutorial indexList!!!!"
+               print "Sth went wrong with tutorial indexList!!!!"
         else:
             print "len(self.tab1.indexList):"
             print len(self.tab1.indexList)
 
     def fetchNodes(self, buildingsList, resourcesList, dwellersList):
-        print "Print buildingsList"
+        #print "Print buildingsList"
         if self.tab2.isInitialized is False:
             self.useFetchedIndex(buildingsList, self.tab2)
             if self.tab2.isInitialized is False:
                 print "Sth went wrong with buildings!!!"
-        print "Print resourcesList"
+       # print "Print resourcesList"
         if self.tab3.isInitialized is False:
             self.useFetchedIndex(resourcesList, self.tab3)
             if self.tab3.isInitialized is False:
                 print "Sth went wrong with resources!!!"
-        print "Print dwellersList"
+       # print "Print dwellersList"
         if self.tab4.isInitialized is False:
             self.useFetchedIndex(dwellersList, self.tab4)
             if self.tab4.isInitialized is False:
