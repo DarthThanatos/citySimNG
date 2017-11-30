@@ -1,14 +1,16 @@
 {
     "nr": 10,
     "sub0": [
-      "Game sub0",
+      "CitySimNG is a cutting-edge game engine that enables you to discover new worlds, where you can build your own village and maintain it. Every set of rules gives you different opportunities. So LET'S START!",
      ],
     "sub1":[
-      "Game sub1",
+      "To build your village, you need to use Map Module. You can choose from many different buildings. Industrial buildings produce new resources for you. Each industrial building has a given number of workers. Domestic buildings are houses for your workers. Placing appropriate buildings help you keep balance of everything.",
     ],
     "sub2": [
-      "Game sub2",
+      "But what if you run out of one resource, but you've got plenty of another? Here Exchange Module comes in handy! You can also try to play the market here. Be careful - you do it at your own risk!",
+      "To gain some more knowledge, move to other tutorial topics. ",
+      "Enjoy gaming! Good luck!",
     ],
   "img": "resources\\Tutorial\\img1.jpg",
-    "link": [12,15]
+    "link": [11,12,15]
 }

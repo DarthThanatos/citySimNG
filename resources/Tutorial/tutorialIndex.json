@@ -1,9 +1,10 @@
 {
   "Game - overview": 0,
+  "Tutorial - how to use": 1,
   "Map - overview": 2,
   "Map - settlement panel": 3,
   "Map - resources panel": 4,
   "Exchange - overview": 5,
   "Exchange - transactions": 6,
-  "Exchange - lottery": 1,
+  "Exchange - lottery": 7,
 }

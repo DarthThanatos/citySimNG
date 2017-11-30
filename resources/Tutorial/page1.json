@@ -1,10 +1,19 @@
 {
     "nr": 11,
     "sub0": [
-  "W panelu gieldy mozna takze wziac udzial w loterii - za oplaceniem 10zl bierze sie udzial w losowaniu w ktorym mozna wygrac pewna ilosc surowcow lub nic.",
+  		"How to navigate tutorial page:",
+ 		"- move to previous/next topic (from the same category)",
+ 		"- move to another subpage of tutorial topic",
+		"- go back to tutorial main menu",
+		"- get more information about given topic",
   ],
     "sub1": [
-      "Po nacisnieciu przycisku (rool the dice) wyswietlana jest odpowiednia informacja o wygranej lub przegranej.",
+      "Tutorial is a module which helps you get your feet wet. Here you can find information about every single thing that appears in game modules.",
+      "All information is divided into topics. And all topics are divided into categories. ",
+      "The easiest way to browse topics is Main Tutorial View. You can see some tabs with categorie's names there. To choose one, just click on it.",
+    ],
+    "sub2": [
+    	"Every tab has a list of some topics. To read one, click a green arrow (next to the topic title). Then you see Tutorial Page View which you can see now ;) As you've already seen, here you can navigate subpages of given topic and move to adjacent topics from the same category.",
     ],
   "img": "resources\\Tutorial\\img3.jpg",
     "link": [15]
