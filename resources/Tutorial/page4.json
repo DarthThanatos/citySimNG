@@ -1,14 +1,16 @@
 {
     "nr": 14,
     "sub0": [
-      "Map5 sub0",
+      "On the top there's resources and dwellers panel. Here you can see what amount of each resource you have. You can also see if their amount increases or decreases - it's placed on the right of resource icon. For example: 9 + 5 means that you currently have 9 pieces of given resource  and you get 5 more every second. This rate depends on the buildings, that are placed on the map and not have been snoozed. ",
+      "Be careful: if one of resource rates is below 0 - it can lead you to bankruptcy!",
      ],
     "sub1":[
-      "Map5 sub1",
+      "If you need to quickly remedy your resources state, Exchange Module can help you (see: Exchange - overview). ",
+      "In the top-left corner you can see dweller rate. For example 8/10 means, that currently 8 workers are in all industrial buildings and you have 10 places in houses available for them. If some workers don't have their house, the rate is brown. If all of them have accommodation - the rate is green. Be careful - you're responsible for your workers - build appropriate houses for them!",
     ],
     "sub2": [
-      "Map5 sub2",
+      "It's possible that some resources are hidden on other pages. To see them, click arrow on the right.",
     ],
-  "img": "resources\\Tutorial\\img1.jpg",
+  "img": "resources\\Tutorial\\img7.jpg",
     "link": [12,13]
 }

@@ -1,15 +1,19 @@
 {
     "nr": 13,
     "sub0": [
-      "Map5 sub0",
+      "In the center you can see a board where you can place your buildings. On the right there's the buildings panel - here you can browse all available buildings. Some of them may be hidden on other subpages. To see them, click one of the arrows at the bottom of the panel.",
      ],
     "sub1":[
-      "Map5 sub1",
+      "When you move cursor on one of buildings from the panel, you see small tooltip with basic information (cost of placing, used and produced resources, number of dwellers, etc.) To place it on the map, click the desired building. Then you see a square attached to cursor. When the cursor is above an unoccupied place, your square becomes green. Then you can click to place your building.",
     ],
     "sub2": [
-      "Map5 sub2",
+      "It's possible, that most of space is already taken. If so, you can navigate to another place of the map. Just use one of your arrows (in the bottom-left corner).",
+      "Sometimes it's not possible to use the desired building. (see: Buildings - overview).",
     ],
-  "img": "resources\\Tutorial\\img1.jpg",
+    "sub3": [
+      "On the bottom there's another panel that helps you manage your buildings. After you click one of the buildings on the map, you see it's details. You may decide that you want to remove building. To perform it, click \"Delete\" button. If you want to turn off the building, but not to remove it, click \"ZZZ\" button. You can later wake this building  up by clicking on the building and choosing \"Play\" button."
+    ],
+  "img": "resources\\Tutorial\\img8.jpg",
     "link": [12,14]
 }
 

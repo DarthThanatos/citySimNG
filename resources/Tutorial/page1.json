@@ -1,11 +1,15 @@
 {
     "nr": 11,
     "sub0": [
-  "W panelu gieldy mozna takze wziac udzial w loterii - za oplaceniem 10zl bierze sie udzial w losowaniu w ktorym mozna wygrac pewna ilosc surowcow lub nic.",
-  ],
-    "sub1": [
-      "Po nacisnieciu przycisku (rool the dice) wyswietlana jest odpowiednia informacja o wygranej lub przegranej.",
+      "",
+     ],
+    "sub1":[
+      "If you need to quickly remedy your resources state, Exchange Module can help you (see: Exchange - overview). ",
+      "In the top-left corner you can see dweller rate. For example 8/10 means, that currently 8 workers are in all industrial buildings and you have 10 places in houses available for them. If some workers don't have their house, the rate is brown. If all of them have accommodation - the rate is green. Be careful - you're responsible for your workers - build appropriate houses for them!",
     ],
-  "img": "resources\\Tutorial\\img3.jpg",
-    "link": [15]
+    "sub2": [
+      "It's possible that some resources are hidden on other pages. To see them, click arrow on the right.",
+    ],
+  "img": "resources\\Tutorial\\img7.jpg",
+    "link": [12,13]
 }

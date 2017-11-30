@@ -1,14 +1,11 @@
 {
     "nr": 12,
     "sub0": [
-      "Map sub0",
+      "Map Module is the heart of the whole game. This is the place where you make the most important decisions. The most important places of Map Module are: map, buildings panel and resources panel. To learn how to use them, visit one of the links below.",
      ],
     "sub1":[
-      "Map sub1",
+      "When you want to leave the Map Module, you need to use one of buttons in bottom-right corner. If you'd like to move to another game module (Exchange or Tutorial), click \"Main Menu\" button. If you'd like to finish game permanently, click \"End game\" button.",
     ],
-    "sub2": [
-      "Map sub2",
-    ],
-  "img": "resources\\Tutorial\\img1.jpg",
+  "img": "resources\\Tutorial\\img6.jpg",
     "link": [13,14]
 }
