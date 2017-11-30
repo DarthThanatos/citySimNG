@@ -86,7 +86,7 @@ class StockUtils {
             }
         } else {
             for (Resource resource : stockResources) {
-                double currentPrice = resource.getPrice().intValue();
+                double currentPrice = resource.getPrice();
                 if (currentPrices.get(resource.getName()) > currentPrice) {
                     currentPrice = -currentPrice;
                 }
