@@ -8,7 +8,7 @@ public class Stock {
 
     public static final int priceHistoryRange = 15;
     private DependenciesRepresenter dependenciesRepresenter;
-    private List<Resource> stockResources;
+    public List<Resource> stockResources;
     private List<String> stockResourcesNames;
     private boolean workingStatus;
     private Map<String, Double[]> priceHistory;
@@ -79,6 +79,22 @@ public class Stock {
             ratio = ratio + resource.getQuantityPriceRatio();
         }
         return ratio / stockResources.size();
+    }
+
+    public double getAverageQuantity() {
+        double qunatity = 0.0;
+        for (Resource resource : stockResources) {
+            qunatity = qunatity + resource.getStockQuantity();
+        }
+        return qunatity / stockResources.size();
+    }
+
+    public double getAveragePrice() {
+        double price = 0.0;
+        for (Resource resource : stockResources) {
+            price = price + resource.getPrice();
+        }
+        return price / stockResources.size();
     }
 
     public void updatePriceHistory(double newPrice, String resourceName) {
