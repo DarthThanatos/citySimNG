@@ -91,7 +91,7 @@ public class StockView extends Application {
                 resourceTable, lineChart, resourceAmountField, resourceComboBox,
                 pieChart);
 
-        File f = new File("controllerModules/ExchangeModule/resources/styles.css");
+        File f = new File("resources/TextFiles/stock_view_styles.css");
         scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
         lineChart.applyCss();
 
