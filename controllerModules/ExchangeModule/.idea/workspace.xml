@@ -71,8 +71,8 @@
       <file leaf-file-name="StockView.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/exchange/StockView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="594">
-              <caret line="93" column="58" lean-forward="false" selection-start-line="93" selection-start-column="58" selection-end-line="93" selection-end-column="58" />
+            <state relative-caret-position="81">
+              <caret line="89" column="62" lean-forward="true" selection-start-line="89" selection-start-column="62" selection-end-line="89" selection-end-column="62" />
               <folding />
             </state>
           </provider>
@@ -1323,12 +1323,6 @@
               <item name="ExchangeModule" type="b2602c69:ProjectViewProjectNode" />
               <item name="controllerModules" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="ExchangeModule" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ExchangeModule" type="b2602c69:ProjectViewProjectNode" />
-              <item name="controllerModules" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="ExchangeModule" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
             <path>
@@ -1620,7 +1614,7 @@
       <workItem from="1512032447638" duration="5129000" />
       <workItem from="1512040437580" duration="1015000" />
       <workItem from="1512059979808" duration="75000" />
-      <workItem from="1513023614999" duration="389000" />
+      <workItem from="1513023614999" duration="483000" />
     </task>
     <servers />
   </component>
@@ -1657,7 +1651,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28702000" />
+    <option name="totallyTimeSpent" value="28796000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1064" extended-state="6" />
@@ -2110,8 +2104,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/exchange/StockView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="93" column="58" lean-forward="false" selection-start-line="93" selection-start-column="58" selection-end-line="93" selection-end-column="58" />
+        <state relative-caret-position="81">
+          <caret line="89" column="62" lean-forward="true" selection-start-line="89" selection-start-column="62" selection-end-line="89" selection-end-column="62" />
           <folding />
         </state>
       </provider>
