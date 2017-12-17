@@ -54,8 +54,8 @@ public class CreatorPy4JNode extends Py4JNode implements CreatorPresenter.OnCrea
 		Presenter.getInstance().getCreatorPresenter().setOnCreatorPresenterCalled(null);	
 	}
 	
-	private String loadDefaultDependenciesString() throws IOException{
-		BufferedReader br = new BufferedReader(new FileReader(new File("resources\\dependencies\\new_stronghold.dep")));
+	private String loadDefaultDependenciesString(String fileName) throws IOException{
+		BufferedReader br = new BufferedReader(new FileReader(new File(fileName)));
 		String dependenciesString = "", line;
 		while( (line = br.readLine()) != null ){
 			dependenciesString += line + "\n";
@@ -73,10 +73,10 @@ public class CreatorPy4JNode extends Py4JNode implements CreatorPresenter.OnCrea
 		return resArray;
 	}
 	
-	private DependenciesRepresenter initDefaultDependenciesRepresenter() throws IOException{
+	private DependenciesRepresenter initDefaultDependenciesRepresenter(String fileName) throws IOException{
 		DependenciesRepresenter dr = new DependenciesRepresenter();
 		
-		String dependenciesString = loadDefaultDependenciesString();
+		String dependenciesString = loadDefaultDependenciesString(fileName);
 		JSONObject dependencies = new JSONObject(dependenciesString);
 		
 		JSONArray resources = retrieveArrayFromObj(dependencies.getJSONObject("Resources"));		
@@ -117,9 +117,11 @@ public class CreatorPy4JNode extends Py4JNode implements CreatorPresenter.OnCrea
 	
 	private void createDefaultDependencies(){
 		try {
-			DependenciesRepresenter dr = initDefaultDependenciesRepresenter();
 			HashMap<String, DependenciesRepresenter> representers = fetchRepresentersMap();
-			representers.put(CreatorConfig.DEPENDENCIES_DEFAULT_SET_NAME, dr);
+			DependenciesRepresenter dr = initDefaultDependenciesRepresenter("resources\\dependencies\\new_stronghold.dep");
+			representers.put(CreatorConfig.DEPENDENCIES_DEFAULT_SET_NAME_ONE, dr);
+			dr = initDefaultDependenciesRepresenter("resources\\dependencies\\moon.dep");
+			representers.put(CreatorConfig.DEPENDENCIES_DEFAULT_SET_NAME_TWO, dr);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 

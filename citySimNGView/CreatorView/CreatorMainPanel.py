@@ -316,7 +316,7 @@ class CreatorMainPanel(ScrolledPanel):
         if dlg.ShowModal() == wx.ID_OK:
             path = dlg.GetPath()
             with open(path, "wb+") as f:
-                f.write(json.dumps(self.current_dependencies, indent=4).replace(",",",\n"))
+                f.write(json.dumps(self.current_dependencies, indent=4)) # .replace(",",",\n"))
                 self.logArea.SetValue("Dependencies successfully saved")
 
     def save(self, event):

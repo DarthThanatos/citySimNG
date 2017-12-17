@@ -76,7 +76,9 @@ def main():
     screenDims = wx.GetDisplaySize()
 
     javagateway = JavaGateway(gateway_parameters=GatewayParameters(port=25335))
+    logging.info("creating frame")
     frame = MyFrame(None, wx.ID_ANY, "SDL Frame", screenDims, sender, javagateway)
+    logging.info("created frame")
     # thread.start_new_thread(receiver_func, (frame,))
     gateway = startViewModelListener(frame)
 
