@@ -1,15 +1,16 @@
 {
     "nr": 11,
     "sub0": [
-      "",
+      "Here you can find out, how to use tutorial module.",
+      "To read a topic related to the current one, click one of the hyperlinks at the bottom of this view.",
+      "To read one of neighbouring topics, click one of the blue arrows at the top of this view.",
+      "To go back to the list of topics, click the notepad icon at the top.",
+      "Some topics have more than one page. To see them, click one of the small green arrows right below the page main content.",
      ],
     "sub1":[
-      "If you need to quickly remedy your resources state, Exchange Module can help you (see: Exchange - overview). ",
-      "In the top-left corner you can see dweller rate. For example 8/10 means, that currently 8 workers are in all industrial buildings and you have 10 places in houses available for them. If some workers don't have their house, the rate is brown. If all of them have accommodation - the rate is green. Be careful - you're responsible for your workers - build appropriate houses for them!",
+      "Tutorial topics are divdided into several categories. To see topics concerning desired category, click on its name in tutorial main menu.",
+      "You can also check what current dependencies are. To do it, look at the graph at the bottom of tutorial main view."
     ],
-    "sub2": [
-      "It's possible that some resources are hidden on other pages. To see them, click arrow on the right.",
-    ],
-  "img": "resources\\Tutorial\\img7.jpg",
-    "link": [12,13]
+  "img": "resources\\Tutorial\\img4.jpg",
+    "link": [10]
 }

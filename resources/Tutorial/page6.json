@@ -1,15 +1,15 @@
-
 {
     "nr": 16,
     "sub0": [
-  "W samym panelu gieldy mozna dokonac transakcji posiadanych zasobow. Mozna sprzedac swoje zasoby za okreslona cene, lub je kupic. Aby dokonac transakcji nalezy posiadac wystarczajaca ilosc zasobow lub pieniedzy. Aby dokonac transakcji nalezy podjac nastepujace kroki:",
-   "- z rozwijanego panelu wybrac zasob (choose resource type)",
-   "- wpisac ilosc, ktora chce sprzedac lub kupic (enter resource quantity)",
-   "- nacisnac odpowiedni przycisk kupna (BUY) lub sprzedazy (SELL)",
+      "In exchange module you can sell or buy resources for the current exchange price. To conduct a transaction, you need to have enough resources or money. How to conduct transaction:",
+      "-select a desired resource from list",
+      "-enter resource quantity",
+      "-press \"BUY\" button or \"SELL\" button",
   ],
   "sub1": [
-    "W przypadku niewystarczajacej ilosci zasobow lub pieniedzy jest wyswietlony stosowny komunikat. W tym wypadku nalezy sprawdzic, czy dokonanie danej transakcji jest mozliwe, lub czy nie popelniono jakiegos bledu przy wpisywaniu.", 
-    "W przypadku pomyslnego dokonania transakcji, wyswietlany jest stosowny komunikat.",],
+    "If you have insuficient amount of resources or money, you'll be prompted with an error message. In such case check the fields you have earlier filled.",
+    "Otherwise you'll be prompted that the transaction has been successful.",
+  ],
   "img": "resources\\Tutorial\\img2.jpg",
     "link": [15]
 }

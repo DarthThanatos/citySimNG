@@ -1,15 +1,15 @@
 {
     "nr": 15,
     "sub0": [
-      "W celu wywolania gieldy z glownego menu gry wciskamy przycisk gielda. Zostanie wywolany glowny widok gieldy.",
-      "W tabeli (Resource table detailed info) znajduja sie informacje na temat nazwy dostepnych surowcow, ich ceny, dostepnej ilosci na gieldzie oraz ilosci posiadanej przez uzytkownika. Jest to glowny element z ktorego uzytkownik czerpie informacje na temat tego co sie dzieje na gieldzie. ",
+      "Exchange module can help you totally change your economic situation and give you quite new possibilities. To enter this module, click \"Exhange\" button in the Game Menu.",
+      "\"Resource table detailed info\" is the most important place where you can find out what's going on the Exchange. Here you can see information concerning all resources in the current game: its price, available amount and amount possessed you now have.",
      ],
     "sub1":[
-      "Oprocz informacji w tabeli oraz przyciskow wyswietlane sa takze dwa wykresy - kolowy informujacy o dostepnych na gieldzie zasobach (Stock resources chart) oraz klasyczny wykres ilustrujacy zmiany cen zasobow w czasie (Stock monitoring).",
+      "Tou can also see two charts. \"Stock resources chart\", circle one, shows amount of resources available on the stock. \"Stock monitoring chart\" shows how resources' prices has been changing so far."
     ],
     "sub2": [
-      "Uzywajac panel gieldy mozemy dokonac transakcji posiadanych zasobow. Mamy takze mozliwosc wziac udzial w loterii.",
-    "W celu wyjscia z gieldy nalezy wcisnac przycisk \"exit\".",],
+      "In Exchange module, you can conduct transactions or take part in a lottery. To read more about them, read one of the links below",
+    "To leave the module, click \"exit\" button.",],
   "img": "resources\\Tutorial\\img1.jpg",
-    "link": [10,11,16]
+    "link": [10,14,16,17]
 }

@@ -1,11 +1,9 @@
 {
-    "nr": 11,
+    "nr": 17,
     "sub0": [
-  "W panelu gieldy mozna takze wziac udzial w loterii - za oplaceniem 10zl bierze sie udzial w losowaniu w ktorym mozna wygrac pewna ilosc surowcow lub nic.",
+  "In exchange module you can take part in a lottery. If you pay 10 zlotys, you may win some amout of one resource. Try to press \"Roll the dice\" button!",
+  "Then you'll be prompted about the lottery result. Good luck!",
   ],
-    "sub1": [
-      "Po nacisnieciu przycisku (rool the dice) wyswietlana jest odpowiednia informacja o wygranej lub przegranej.",
-    ],
   "img": "resources\\Tutorial\\img3.jpg",
     "link": [15]
 }
