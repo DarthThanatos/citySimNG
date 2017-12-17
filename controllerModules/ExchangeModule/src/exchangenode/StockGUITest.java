@@ -6,7 +6,7 @@ import exchange.*;
 import model.DependenciesRepresenter;
 
 // this class is only for manual testing purposes
-public class StockMain {
+public class StockGUITest {
 
     public static void main(String[] args) {
 
@@ -27,7 +27,10 @@ public class StockMain {
         Stock stock = new Stock();
         stock.setDependenciesRepresenter(dependenciesRepresenter);
         stock.init();
-        stock.stockResources.get(1).setPrice(1000);
+        stock.stockResources.get(0).setStockQuantity(100);
+        stock.stockResources.get(1).setStockQuantity(100);
+        stock.stockResources.get(2).setStockQuantity(100);
+        stock.stockResources.get(0).setPrice(1);
 
         Thread stockAlgorithmThread = new Thread(() -> new StockAlgorithm(stock).simulateStock());
         stockAlgorithmThread.start();

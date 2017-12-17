@@ -67,21 +67,17 @@ public class StockAlgorithm {
         if (resource.getQuantityPriceRatio() > QUANTITY_PRICE_RATIO_FACTOR * averageQuantityPriceRatio) {
             // too big quantity or too small price
             if (resource.getStockQuantity() > averageQuantity * QUANTITY_PRICE_RATIO_FACTOR) {
-                logger.info("here quantity "+resource.getName());
                 resource.setStockQuantity(resource.getStockQuantity() - 2 * QUANTITY_GROW_FACTOR);
             }
             if (resource.getPrice() < averagePrice / QUANTITY_PRICE_RATIO_FACTOR) {
-                logger.info("here price "+resource.getName());
                 delta = delta + 2 * PRICE_GROW_FACTOR;
             }
         } else if (resource.getQuantityPriceRatio() < averageQuantityPriceRatio / QUANTITY_PRICE_RATIO_FACTOR) {
             // too small quantity or too big price
             if (resource.getStockQuantity() < averageQuantity / QUANTITY_PRICE_RATIO_FACTOR) {
-                logger.info("there quanity "+resource.getName());
                 resource.setStockQuantity(resource.getStockQuantity() + 2 * QUANTITY_GROW_FACTOR);
             }
             if (resource.getPrice() > averagePrice * QUANTITY_PRICE_RATIO_FACTOR) {
-                logger.info("there price"+resource.getName());
                 delta = delta - 2 * PRICE_GROW_FACTOR;
             }
         }
