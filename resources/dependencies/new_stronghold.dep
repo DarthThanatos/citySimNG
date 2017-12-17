@@ -40,7 +40,7 @@
             "Description": "-",
  
             "Produces": {
-                "Flour": 2
+                "Crop": 2
             },
  
             "Dwellers\namount": 1,
@@ -50,7 +50,7 @@
             "Dweller\nName": "Dweller",
  
             "Consumes": {
-                "Crop": 2
+                "Gold": 2
             },
  
             "Texture path": "new\\pole.png",
@@ -299,7 +299,7 @@
  
     "Texture Two": "new\\meadow2.jpg",
  
-    "Panel Texture": "DefaultBuilding.jpg",
+    "Panel Texture": "new\\drewno.jpg",
  
     "Resources": {
         "Gold": {
