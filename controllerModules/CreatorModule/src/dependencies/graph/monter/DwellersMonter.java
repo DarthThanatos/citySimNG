@@ -60,7 +60,9 @@ public class DwellersMonter extends GraphMonter{
 			JSONObject dwellerDesc = (JSONObject)dwellersGraphDesc.get(i);
 			Dweller dweller = new Dweller();
 			String dwellerName = dwellerDesc.getString(Consts.DWELLER_NAME);
+			String description = dwellerDesc.getString(Consts.DESCRIPTION);
 			dweller.setName(dwellerName);
+			dweller.setDescription(description);
 			dweller.setTexturePath(relativeTexturesPath + dwellerDesc.getString(Consts.TEXTURE_PATH));
 			HashMap<String, Integer> consumes = new HashMap<>();
 			JSONObject consumedResources = dwellerDesc.getJSONObject(Consts.CONSUMES);

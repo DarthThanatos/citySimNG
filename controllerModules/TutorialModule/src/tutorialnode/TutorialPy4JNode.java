@@ -1,19 +1,15 @@
 package tutorialnode;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-import java.util.Iterator;
+import java.util.*;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import entities.Building;
+import entities.Entity;
 import hintsender.HintSender;
 import org.json.JSONObject;
 import org.json.JSONArray;
-import org.json.JSONTokener;
 
 import model.DependenciesRepresenter;
 import graph.GraphsHolder;
@@ -23,8 +19,6 @@ import graph.ResourceNode;
 import graph.GraphNode;
 
 import controlnode.DispatchCenter;
-import controlnode.SocketNode;
-import utils.DisposingUtils;
 
 import py4jmediator.Presenter;
 import controlnode.Py4JNode;
@@ -58,10 +52,36 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 	 * @see controlnode.Node#parseCommand(java.lang.String, java.lang.String[])
 	 * returns - output stream understandable to the current entity in the view layer (here TutorialView)
 	 */
+	private enum ENTITY_ENUM {
+		BUILDING_HINT_CODE, RESOURCE_HINT_CODE, DWELLER__HINT_CODE
+	};
+
+	private <E extends Entity> String getOneDescSentence(E entity){
+		String[] descSentences = entity.getDescription().split("\\.");
+		return descSentences[Math.abs(new Random().nextInt()) % descSentences.length];
+	}
+
+	private<E extends Entity> String getHintFromEntityDescription(E entity){
+//		return getOneDescSentence(entity);
+		return entity.getDescription();
+	}
 
 	public String getHints(){
 		//TODO, actual hints and synchronized block
-		return "hints";
+		ENTITY_ENUM entityToHintAbout =  ENTITY_ENUM.values()[Math.abs(new Random().nextInt()) % 3];
+		String result = "";
+		switch(entityToHintAbout){
+			case BUILDING_HINT_CODE:
+				result += getHintFromEntityDescription(dr.getGraphsHolder().getRandomBuilding());
+				break;
+			case RESOURCE_HINT_CODE:
+				result += getHintFromEntityDescription(dr.getGraphsHolder().getRandomResource());
+				break;
+			case DWELLER__HINT_CODE:
+				result += getHintFromEntityDescription(dr.getGraphsHolder().getRandomDweller());
+				break;
+		}
+		return result + ".";
 	}
 
 

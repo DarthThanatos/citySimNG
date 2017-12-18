@@ -6,15 +6,7 @@ import java.util.Map;
 
 public class Dweller extends Entity{
 	private Map<String, Integer> consumes;
-	private String description;
-	
-	public String getDescription(){
-		return description;
-	}
-	
-	public void setDescription(String description){
-		this.description = description;
-	}
+
 	
 	public Dweller(){
 		

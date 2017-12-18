@@ -35,15 +35,7 @@ public class Building extends Entity {
 	}
 
 	private boolean producing = false;
-	private String description;
-	
-	public String getDescription(){
-		return description;
-	}
-	
-	public void setDescription(String description){
-		this.description = description;
-	}
+
 	
 	public String getId() {
 		return id;

@@ -1,388 +1,392 @@
 {
-    "Texture One": "new\\meadow1.jpg",
- 
-    "MP3": "TwoMandolins.mp3",
- 
+    "Texture One": "new\\meadow1.jpg", 
+    "MP3": "TwoMandolins.mp3", 
     "Buildings": {
-        "kamieniolom": {
-            "Predecessor": "None",
- 
-            "Description": "-",
- 
+        "Siedziba Plateau": {
+            "Predecessor": "Siedziba szlachty", 
+            "Description": "Duza siedziba przeznaczona jednemu osobnikowi z najzamozniejszej klasy spolecznej. Siedziba plateau charakteryzuje sie kamiennymi fundamentami, drewnianymi podporami sklepienia posiadlosci i ogolnym przepychem w urzadzonym wnetrzu. Siedziba plateau wymaga poswiecenia sporej ilosci surowcow na wybudowanie , jednak w po ukonczeniu tego cudu architektury kazdy zaangazowany wie, ze warto bylo je zgromadzic. ", 
+            "Produces": {}, 
+            "Dwellers\namount": 1, 
+            "Building\nName": "Siedziba Plateau", 
+            "Dweller\nName": "Plateau", 
+            "Cost\nin\nresources": {
+                "Kamien": 3
+            }, 
+            "Texture path": "AlmondFarm.png", 
+            "Type": "Domestic", 
+            "Consumes": {
+                "Zloto": 2
+            }, 
+            "Successor": "None"
+        }, 
+        "Mennica": {
+            "Predecessor": "None", 
+            "Description": "Mennica jest miejscem przez ktore przebiega zloto w swej surowej postaci. Przetopione w sztabki, ktorych ilosc jest scisle kontrolowana, zloto zostaje wypuszczone do obiegu w Twoim miescie by sluzylo jako waluta do zaplaty sile roboczej za wykonana prace, i dla sluzby za starania w utrzymaniu siedzib miszkalnych Twoich obywateli. ", 
             "Produces": {
-                "Rock": 2
-            },
- 
-            "Dwellers\namount": 4,
- 
-            "Building\nName": "kamieniolom",
- 
-            "Dweller\nName": "Dweller",
- 
+                "Zloto": 11
+            }, 
+            "Dwellers\namount": 1, 
+            "Building\nName": "Mennica", 
+            "Dweller\nName": "Rolnik", 
             "Cost\nin\nresources": {
-                "Wood": 20
-            },
- 
-            "Texture path": "new\\kamieniolom.png",
- 
-            "Type": "Industrial",
- 
+                "Zloto": 20
+            }, 
+            "Texture path": "medievalStructure_19.png", 
+            "Type": "Industrial", 
             "Consumes": {
-                "Gold": 10
-            },
- 
+                "Zloto": 1
+            }, 
             "Successor": "None"
-        },
- 
-        "Field": {
-            "Predecessor": "None",
- 
-            "Description": "-",
- 
+        }, 
+        "Kamieniolom": {
+            "Predecessor": "None", 
+            "Description": "Kamieniolom jest obszarem na ktorym dokonano odkrycia zloz bogatych w zdatna do wykorzystania jako budulec odmiane kamieni. Do wydobywania kamienia w kamieniiolomie zostaje oddelegowana grupa silnych i sprawnych fizycznie rolnikow. Pomimo, ze nie jest to wymagane w poczatkowych fazach rozwoju miasta, kiedy Twoja gospodarka jeszcze raczkuje, powinien nadejsc moment, w ktorym zaczynasz myslec o postawieniu kilku Kamieniolomow, by mozna bylo zajac sie budowa bardziej wytrzymalych budowli na terenie Twojego miasta. ", 
             "Produces": {
-                "Crop": 2
-            },
- 
-            "Dwellers\namount": 1,
- 
-            "Building\nName": "Field",
- 
-            "Dweller\nName": "Dweller",
- 
-            "Consumes": {
-                "Gold": 2
-            },
- 
-            "Texture path": "new\\pole.png",
- 
-            "Type": "Industrial",
- 
+                "Kamien": 2
+            }, 
+            "Dwellers\namount": 4, 
+            "Building\nName": "Kamieniolom", 
+            "Dweller\nName": "Rolnik", 
             "Cost\nin\nresources": {
-                "Wood": 10
-            },
- 
-            "Successor": "None"
-        },
- 
-        "Bigger House": {
-            "Predecessor": "House",
- 
-            "Description": "asd",
- 
-            "Produces": {},
- 
-            "Dwellers\namount": 3,
- 
-            "Building\nName": "Bigger House",
- 
-            "Dweller\nName": "Worker",
- 
+                "Drewno": 20
+            }, 
+            "Texture path": "new\\kamieniolom.png", 
+            "Type": "Industrial", 
             "Consumes": {
-                "Flour": 2
-            },
- 
-            "Texture path": "new\\dom.png",
- 
-            "Type": "Domestic",
- 
-            "Cost\nin\nresources": {
-                "Gold": 2
-            },
- 
+                "Zloto": 10
+            }, 
             "Successor": "None"
-        },
- 
-        "House": {
-            "Predecessor": "None",
- 
-            "Description": "House",
- 
-            "Produces": {},
- 
-            "Dwellers\namount": 3,
- 
-            "Building\nName": "House",
- 
-            "Dweller\nName": "Dweller",
- 
-            "Consumes": {
-                "Rock": 1
-            },
- 
-            "Texture path": "new\\chata.png",
- 
-            "Type": "Domestic",
- 
-            "Cost\nin\nresources": {
-                "Wood": 2,
- 
-                "Rock": 1
-            },
- 
-            "Successor": "None"
-        },
- 
-        "Largest house": {
-            "Predecessor": "Bigger House",
- 
-            "Description": "sad",
- 
-            "Produces": {},
- 
-            "Dwellers\namount": 2,
- 
-            "Building\nName": "Largest house",
- 
-            "Dweller\nName": "Nobleman",
- 
-            "Consumes": {
-                "Flour": 2
-            },
- 
-            "Texture path": "new\\zamek.png",
- 
-            "Type": "Domestic",
- 
-            "Cost\nin\nresources": {
-                "Rock": 2,
- 
-                "Bread": 2
-            },
- 
-            "Successor": "None"
-        },
- 
-        "Bakery": {
-            "Predecessor": "Mill",
- 
-            "Description": "-",
- 
+        }, 
+        "Pole uprawne": {
+            "Predecessor": "None", 
+            "Description": "Pola uprawne sa domena rolnikow, pracuje tutaj zazwyczaj jeden chlop zaangazowany w dogladanie rosnacego zboza. Na polu uprawnym rosnie zboze, proces trwa do momentu zniw. Cykl dojrzewania plonow i dostarczania scietych zboz do Twojego magazynu powinien przebiegac bez zgrzytow, gdyz zboze jest pierwszym ogniwem w przemysle piekarniczym. Zainwestuj w postawienie wielu budynkow pol uprawnych, by mlyny mielace ziarno nie zaznaly nigdy przerwy. ", 
             "Produces": {
-                "Bread": 4
-            },
- 
-            "Dwellers\namount": 1,
- 
-            "Building\nName": "Bakery",
- 
-            "Dweller\nName": "Nobleman",
- 
-            "Consumes": {
-                "Flour": 3
-            },
- 
-            "Texture path": "new\\piekarnia.png",
- 
-            "Type": "Industrial",
- 
+                "Zboze": 2
+            }, 
+            "Dwellers\namount": 1, 
+            "Building\nName": "Pole uprawne", 
+            "Dweller\nName": "Rolnik", 
             "Cost\nin\nresources": {
-                "Gold": 2
-            },
- 
+                "Drewno": 10
+            }, 
+            "Texture path": "new\\pole.png", 
+            "Type": "Industrial", 
+            "Consumes": {
+                "Zloto": 2
+            }, 
             "Successor": "None"
-        },
- 
-        "Mill": {
-            "Predecessor": "Field",
- 
-            "Description": "-",
- 
+        }, 
+        "Pola chmielu": {
+            "Predecessor": "None", 
+            "Description": "Na polu chmielu rosna krzewy ziola, z ktorego  pozniej dojrzewa gorzki trunek wymagany przez szlachte do normalnej pracy. Do pola chmielu deleguje sie chlopow dogladajacych wzrostu ziola i scinajacych go, gdy nabierze odpowiednich charakterystyk. Nie mozesz postawic budynku browarowni w swoim miescie przed postawieniem co najmniej jednej parceli przeznaczonej na pole chmielu. ", 
             "Produces": {
-                "Flour": 3
-            },
- 
-            "Dwellers\namount": 3,
- 
-            "Building\nName": "Mill",
- 
-            "Dweller\nName": "Worker",
- 
+                "Chmiel": 4
+            }, 
+            "Dwellers\namount": 2, 
+            "Building\nName": "Pola chmielu", 
+            "Dweller\nName": "Rolnik", 
             "Cost\nin\nresources": {
-                "Wood": 2,
- 
-                "Rock": 2
-            },
- 
-            "Texture path": "new\\wiatrak.png",
- 
-            "Type": "Industrial",
- 
+                "Drewno": 5
+            }, 
+            "Texture path": "LuberMill.png", 
+            "Type": "Industrial", 
             "Consumes": {
-                "Crop": 2
-            },
- 
+                "Zloto": 1
+            }, 
             "Successor": "None"
-        },
- 
+        }, 
+        "Siedziba mieszczan": {
+            "Predecessor": "Siedziba rolnikow", 
+            "Description": "Siedziba mieszczan charakteryzuje sie nieco wiekszym przepychem niz kwatera rolnika, wymaga jednak inwestycji w przemysl kamieniarski, by mozna bylo postawic budynek tego typu. Nie mozesz postawic siedziby mieszczan przed postawieniem co najmniej jednej parceli kwatery rolnikow. ", 
+            "Produces": {}, 
+            "Dwellers\namount": 3, 
+            "Building\nName": "Siedziba mieszczan", 
+            "Dweller\nName": "Mieszczanin", 
+            "Cost\nin\nresources": {
+                "Drewno": 2
+            }, 
+            "Texture path": "new\\dom.png", 
+            "Type": "Domestic", 
+            "Consumes": {
+                "Zloto": 2
+            }, 
+            "Successor": "None"
+        }, 
+        "Siedziba rolnikow": {
+            "Predecessor": "None", 
+            "Description": "Kwatera rolnikow jest biedna chata, w ktorej mieszka rodzina rolnicza. Nie zawierajaca zadnych zbednych przyrzadow procz lozek, krzesel czy stolow, kwatere rolnikow mozna postawic niskim kosztem inwestujac czesc drewna z magazynu Twojego miasta. ", 
+            "Produces": {}, 
+            "Dwellers\namount": 3, 
+            "Building\nName": "Siedziba rolnikow", 
+            "Dweller\nName": "Rolnik", 
+            "Cost\nin\nresources": {
+                "Drewno": 2, 
+                "Kamien": 1
+            }, 
+            "Texture path": "new\\chata.png", 
+            "Type": "Domestic", 
+            "Consumes": {
+                "Kamien": 1
+            }, 
+            "Successor": "None"
+        }, 
+        "Sad": {
+            "Predecessor": "None", 
+            "Description": "Sad jest obszarem, w ktorym na kilku drzewach jabloni dojrzewaja owoce gotowe w odpowiednim czasie byc dostarczone do magazynu Twojego miasta i rozdystrybuowana pomiedzy innych rolnkow. Dojrzewania owocow w sadzie pilnuje jeden z robotnikow. Jest niesamowicie istotne postawic kilka sadow przed podjeciem dalszych dzialan wprowadzajacych Twoja gospodarke na wyzsze poziomy rozwoju. Sady sa parcelami bedacymi absolutna podstawa Twojego miasta, madrze rozplanuj infrastrukture ogrodow. ", 
+            "Produces": {
+                "Jablka": 10
+            }, 
+            "Dwellers\namount": 1, 
+            "Building\nName": "Sad", 
+            "Dweller\nName": "Rolnik", 
+            "Cost\nin\nresources": {
+                "Drewno": 5
+            }, 
+            "Texture path": "farma.JPG", 
+            "Type": "Industrial", 
+            "Consumes": {
+                "Zloto": 1
+            }, 
+            "Successor": "None"
+        }, 
+        "Siedziba szlachty": {
+            "Predecessor": "Siedziba mieszczan", 
+            "Description": "Siedziba szlachty jest barwnym budynkiem, juz z oddali dobiegaja przypadkowego przechodnia gwar biesiadujacej tutaj nieustannie bogatszej czesci spoleczenstwa w Twoim miescie. Budynek siedziby szlachty nie mozesz postawic przed momentem postawienia kwatery mieszczan. Przed umiejscowieniem na terenie swojego miasta kilku parcel siedzib szlacheckich, nalezy zainwestowac w infrastrukture przemyslu kamieniarskiego i miec odpowiednia ilosc drewna w miejskim magazynie.  ", 
+            "Produces": {}, 
+            "Dwellers\namount": 2, 
+            "Building\nName": "Siedziba szlachty", 
+            "Dweller\nName": "Szlachcic", 
+            "Cost\nin\nresources": {
+                "Kamien": 5
+            }, 
+            "Texture path": "new\\zamek.png", 
+            "Type": "Domestic", 
+            "Consumes": {
+                "Zloto": 4
+            }, 
+            "Successor": "None"
+        }, 
+        "Piekarnia": {
+            "Predecessor": "Mlyn", 
+            "Description": "Piekarnia jest miejscem z ktorego dochodza smakowite zapachy pieczonego pieczywa. W piekarni pracuje szlachcic obyty w sztuce piekarniczej, dostarczajacy do magazynu Twojego miasta chleb bedacy podstawowym pozywieniem plateau. Niemozliwe jest postawienie budynku piekarni przed wybudowaniem co najmniej jednego mlynu mielacego ziarno zboza.  ", 
+            "Produces": {
+                "Chleb": 4
+            }, 
+            "Dwellers\namount": 1, 
+            "Building\nName": "Piekarnia", 
+            "Dweller\nName": "Szlachcic", 
+            "Cost\nin\nresources": {
+                "Zloto": 2
+            }, 
+            "Texture path": "new\\piekarnia.png", 
+            "Type": "Industrial", 
+            "Consumes": {
+                "Maka": 3
+            }, 
+            "Successor": "None"
+        }, 
+        "Mleczarnia": {
+            "Predecessor": "None", 
+            "Description": "Mleczarnia produkuje zywnosc nabialowa niezbedna do sprowadzenia mieszczanstwa do Twojego miasta. W mleczarni pracuje kilku rolnikow oddelegowanych do dbania o wypas krow, ich dojenia, robienia przetworow i dostarczania gotowych przetworow mlecznych do Twojego magazynu. ", 
+            "Produces": {
+                "Mleko": 5
+            }, 
+            "Dwellers\namount": 3, 
+            "Building\nName": "Mleczarnia", 
+            "Dweller\nName": "Rolnik", 
+            "Cost\nin\nresources": {
+                "Drewno": 10
+            }, 
+            "Texture path": "medievalStructure_21.png", 
+            "Type": "Industrial", 
+            "Consumes": {
+                "Zloto": 2
+            }, 
+            "Successor": "None"
+        }, 
+        "Browar": {
+            "Predecessor": "Pola chmielu", 
+            "Description": "W zimnych piwnicach browaru dojrzewaja beczki piwa dostarczanego do magazynu Twojego miasta. Trunek produkowany w browarze jest niezbedny do przyciagniecia osobnikow z klasy szlacheckiej do Twojego miasta. Nie mozesz wybudowac browaru przed postawieniem co najmniej jednego pola chmielu. W browarze pracuje kilku osobnikow z klasy mieszczanskiej, do poprawnego funkcjonowania browaru potrzebne jest zadowolenie tej grupy spolecznej.", 
+            "Produces": {
+                "Piwo": 3
+            }, 
+            "Dwellers\namount": 3, 
+            "Building\nName": "Browar", 
+            "Dweller\nName": "Mieszczanin", 
+            "Cost\nin\nresources": {
+                "Kamien": 3
+            }, 
+            "Texture path": "House.png", 
+            "Type": "Industrial", 
+            "Consumes": {
+                "Chmiel": 2
+            }, 
+            "Successor": "None"
+        }, 
+        "Mlyn": {
+            "Predecessor": "Pole uprawne", 
+            "Description": "Mlyn jest obiektem, w ktorym grupa mieszczan mieli ziarno zboz z miejskiego magazynu na make. Nie mozesz postawic obiektu mlynu przed wybudowaniem co najmniej jednego przybytku farmy zboza. Co najmniej jeden mlyn jest niezbedny przed postawieniem piekarni w Twoim miescie. ", 
+            "Produces": {
+                "Maka": 3
+            }, 
+            "Dwellers\namount": 3, 
+            "Building\nName": "Mlyn", 
+            "Dweller\nName": "Mieszczanin", 
+            "Cost\nin\nresources": {
+                "Drewno": 2, 
+                "Kamien": 2
+            }, 
+            "Texture path": "new\\wiatrak.png", 
+            "Type": "Industrial", 
+            "Consumes": {
+                "Zboze": 2
+            }, 
+            "Successor": "None"
+        }, 
         "Tartak": {
-            "Predecessor": "None",
- 
-            "Description": "-",
- 
+            "Predecessor": "None", 
+            "Description": "Obeznany za mlodu ze sztuka wycinki drzew, odziedziczyles w spadku po wuju ogromny tartak dostarczacemu Twojemu miejskiemu magazynowi drewna koniecznego do budowy tych podstawowych i tych bardziej rozwinietych obiektow. Mozesz stawiac w swoim miescie wlasne tartaki by przyspieszyc proces otrzymywania drewna. ", 
             "Produces": {
-                "Wood": 5
-            },
- 
-            "Dwellers\namount": 1,
- 
-            "Building\nName": "Tartak",
- 
-            "Dweller\nName": "Dweller",
- 
-            "Consumes": {
-                "Gold": 10
-            },
- 
-            "Texture path": "new\\tartak.png",
- 
-            "Type": "Industrial",
- 
+                "Drewno": 25
+            }, 
+            "Dwellers\namount": 1, 
+            "Building\nName": "Tartak", 
+            "Dweller\nName": "Rolnik", 
             "Cost\nin\nresources": {
-                "Gold": 3
-            },
- 
+                "Drewno": 20
+            }, 
+            "Texture path": "new\\tartak.png", 
+            "Type": "Industrial", 
+            "Consumes": {
+                "Zloto": 10
+            }, 
             "Successor": "None"
         }
-    },
- 
+    }, 
     "Dwellers": {
-        "Nobleman": {
-            "Predecessor": "Worker",
- 
-            "Description": "asdsd",
- 
-            "Dweller\nName": "Nobleman",
- 
-            "Texture path": "new\\szlachcic.png",
- 
+        "Szlachcic": {
+            "Predecessor": "Mieszczanin", 
+            "Description": "Szlachta nie stroni od bitki i napitkow. Powinienes dostarczac szlachcie ciaglych dostaw alkoholu, gdyz nie chcesz ich miec przeciwko sobie. Zdolni do wypiekow chleba, do nich naleza instytucje piekarni, ktore ustawiasz w swoim miescie. ", 
+            "Dweller\nName": "Szlachcic", 
+            "Texture path": "new\\szlachcic.png", 
             "Consumes": {
-                "Bread": 2
-            },
- 
+                "Piwo": 2
+            }, 
             "Successor": "None"
-        },
- 
-        "Worker": {
-            "Predecessor": "Dweller",
- 
-            "Description": "asd",
- 
-            "Dweller\nName": "Worker",
- 
-            "Texture path": "new\\mieszkaniec2.png",
- 
+        }, 
+        "Plateau": {
+            "Predecessor": "Szlachcic", 
+            "Description": "Najwyzej postawiony czlonek spoleczenstwa, zabiegasz o to, by jak najwiecej osobnikow tej klasy przybylo do Twojego miasta. Wraz z Plateau przychodzi rozwoj kultury i nauki. ", 
+            "Dweller\nName": "Plateau", 
+            "Texture path": "Dweller.jpg", 
             "Consumes": {
-                "Gold": 2
-            },
- 
+                "Chleb": 2
+            }, 
             "Successor": "None"
-        },
- 
-        "Dweller": {
-            "Predecessor": "None",
- 
-            "Description": "-",
- 
-            "Dweller\nName": "Dweller",
- 
-            "Texture path": "new\\chlop.png",
- 
+        }, 
+        "Mieszczanin": {
+            "Predecessor": "Rolnik", 
+            "Description": "Mieszczanie sa szczebel wyzej od zwyklych rolnikow w hierarchii spolecznej. Dostatecznie wyksztalceni by zrozumiec jak dziala mechanizm mlynow,  mieszczanie zajmuja sie mieleniem ziarna zboz skladowanego w magazynie. By pracowac plynnie, mieszczanom nalezy dostarczac regularnie mleka i jego przetworow.", 
+            "Dweller\nName": "Mieszczanin", 
+            "Texture path": "new\\mieszkaniec2.png", 
             "Consumes": {
-                "Gold": 2
-            },
- 
+                "Mleko": 2
+            }, 
+            "Successor": "None"
+        }, 
+        "Rolnik": {
+            "Predecessor": "None", 
+            "Description": "Rolnicy sa podstawowa sila robocza Twojej gospodarki. Rolnicy zajmuja swoje stanowiska na polach uprawnych, gdzie dogladaja zboz i przeprowadzaja zniwa, gdy te zostana uznane za wystarczajaco dorodne i dojrzale. Rolnicy uprawiaja owocowe sady, ktorych owoce, po zebraniu, sa dostarczane do magazynu i spozywane przez reszte chlopstwa. Rolnicy sa tez odpowiedzialni za utrzymywanie mleczarni, z ktorych Mleko i przetwory mleczne stanowia glowna diete mieszczanstwa. Pamietaj o dogadzaniu rolnikom - dbaj razem z nimi o ich plony, sady i mleczarnie, gdyz bez tych fundamentow nie jestes w stanie rozwinac preznej gospodarki. ", 
+            "Dweller\nName": "Rolnik", 
+            "Texture path": "new\\chlop.png", 
+            "Consumes": {
+                "Jablka": 2
+            }, 
             "Successor": "None"
         }
-    },
- 
-    "Set Name": "New Stronghold",
- 
-    "Texture Two": "new\\meadow2.jpg",
- 
-    "Panel Texture": "new\\drewno.jpg",
- 
+    }, 
+    "Set Name": "New Stronghold", 
+    "Texture Two": "new\\meadow2.jpg", 
+    "Panel Texture": "new\\drewno.jpg", 
     "Resources": {
-        "Gold": {
-            "Predecessor": "None",
- 
-            "Description": "-",
- 
-            "Start income": "3",
- 
-            "Texture path": "new\\zloto.png",
- 
-            "Resource\nName": "Gold",
- 
+        "Chleb": {
+            "Predecessor": "Maka", 
+            "Description": "Ostatnie ogniwo przemyslu gospodarczego. Biale pieczywo z chrupiaca skorka lepi sie z maki i piecze w ogniu pieca piekarniczego. Dbaj o budowanie piekarn produkujacych chleb, aby zaspokoic potrzeby Plateau przebywajacych w Twoim miescie. ", 
+            "Start income": "0", 
+            "Texture path": "new\\chleb.png", 
+            "Resource\nName": "Chleb", 
             "Successor": "None"
-        },
- 
-        "Flour": {
-            "Predecessor": "Crop",
- 
-            "Description": "-",
- 
-            "Start income": "0",
- 
-            "Texture path": "new\\maka.png",
- 
-            "Resource\nName": "Flour",
- 
-            "Successor": "Bread"
-        },
- 
-        "Crop": {
-            "Predecessor": "None",
- 
-            "Description": "-",
- 
-            "Start income": "0",
- 
-            "Texture path": "new\\klos.png",
- 
-            "Resource\nName": "Crop",
- 
-            "Successor": "Flour"
-        },
- 
-        "Wood": {
-            "Predecessor": "None",
- 
-            "Description": "-",
- 
-            "Start income": "3",
- 
-            "Texture path": "new\\drewno.png",
- 
-            "Resource\nName": "Wood",
- 
+        }, 
+        "Zloto": {
+            "Predecessor": "None", 
+            "Description": "Niezwykle cenny surowiec, uzywany do oplacania sluzby utrzymujacej kwatery Twojej sily roboczej. Wydobywany w kopalniach, jest potem dostarczany do magazynu Twojego miasta i dystrybuowany jako zaplata dla Twojej sily roboczej za jej prace. Ciagle dostawy tego surowca sa niezbedne, aby zapewnic, ze stan kwater obywateli jest zadbany.", 
+            "Start income": "5", 
+            "Texture path": "new\\zloto.png", 
+            "Resource\nName": "Zloto", 
             "Successor": "None"
-        },
- 
-        "Rock": {
-            "Predecessor": "None",
- 
-            "Description": "-",
- 
-            "Start income": "3",
- 
-            "Texture path": "new\\kamien.png",
- 
-            "Resource\nName": "Rock",
- 
+        }, 
+        "Maka": {
+            "Predecessor": "Zboze", 
+            "Description": "Zmielone ziarna zlotych klosow zboz, dojrzewajacych niegdys na szczerym polu trafiaja do szczelnych workow i zapelniaja przestrzen Twojego magazynu. Dbaj o to, aby maka byla produkowana w odpowiednich ilosciach w Twoim miescie, gdyz jej niedostatki sprawia opoznienia w dostarczaniu chleba Twojej szlachcie. ", 
+            "Start income": "0", 
+            "Texture path": "new\\maka.png", 
+            "Resource\nName": "Maka", 
+            "Successor": "Chleb"
+        }, 
+        "Zboze": {
+            "Predecessor": "None", 
+            "Description": "Zlote klosy zboz dojrzewaja w swietle slonca pod okiem farmera na jego polu uprawnym. Zboze jest podstawowym ogniwem przemyslu piekarniczego w Twoim miescie, dbaj o to, aby dostarczac jego ciagle dostawy do magazynu miasta, gdyz niedostatki zboza zaburza lancuch pokarmowy Twojego miasta i sprawia, ze szlachta zacznie Cie opuszczac. ", 
+            "Start income": "0", 
+            "Texture path": "new\\klos.png", 
+            "Resource\nName": "Zboze", 
+            "Successor": "Maka"
+        }, 
+        "Jablka": {
+            "Predecessor": "None", 
+            "Description": "Roznokolorowe odmiany jablek dojrzewaja na galeziach jabloni posadzonych na terenie sadu. Dogladaja ich rolnicy, jablka sa ich glownym pozywieniem w Twoim miescie. Pelne witami, jablka sa niezbedne by utrzymac rolnikow przy sobie. ", 
+            "Start income": "0", 
+            "Texture path": "NavPanelTex.png", 
+            "Resource\nName": "Jablka", 
             "Successor": "None"
-        },
- 
-        "Bread": {
-            "Predecessor": "Flour",
- 
-            "Description": "-",
- 
-            "Start income": "0",
- 
-            "Texture path": "new\\chleb.png",
- 
-            "Resource\nName": "Bread",
- 
+        }, 
+        "Drewno": {
+            "Predecessor": "None", 
+            "Description": "Surowiec budowlany, z ktorego stawia sie przewazajaca czesc budowli w Twoim miescie. Pewna pule tego zasobu otrzymujesz jako spadek po swoim zamoznym wuju - wlascicielu najwiekszego tartaku na kontynencie. Stale naplywy mozesz zwiekszyc stawiajac kolejne tartaki w swoim miescie. ", 
+            "Start income": "15", 
+            "Texture path": "new\\drewno.png", 
+            "Resource\nName": "Drewno", 
+            "Successor": "None"
+        }, 
+        "Chmiel": {
+            "Predecessor": "None", 
+            "Description": "Krzewy chmielu dojrzewaja na specjalnych plantacjach. Do uprawy chmielu oddelegowani sa wybrani rolnicy. Chmiel jest niezbedny do produkcji piwa, musisz wiec upewnic sie, ze rolnicy posiadaja odpowiednia motywacje do uprawy tych krzewow. ", 
+            "Start income": "0", 
+            "Texture path": "pszenica.JPG", 
+            "Resource\nName": "Chmiel", 
+            "Successor": "None"
+        }, 
+        "Kamien": {
+            "Predecessor": "None", 
+            "Description": "Naturalne zloza kamienia sa obiektem zainteresowania kazdego, kto ma w interesie rozwoj gospodarczy swego miasta. Kamienne budowle, czy to przemyslowe czy mieszkalne, sa bardziej wytrzymale i atrakcyjne dla bogatszych klas Twojej sily roboczej. Jesli chcesz przyciagnac szlachte, zadbaj o ciagle dostawy kamienia do swojego magazynu", 
+            "Start income": "0", 
+            "Texture path": "new\\kamien.png", 
+            "Resource\nName": "Kamien", 
+            "Successor": "None"
+        }, 
+        "Piwo": {
+            "Predecessor": "Chmiel", 
+            "Description": "Zlocisto-brazowy trunek dojrzewajacy w debowych beczkach w chlodnych piwnicach browarowni. Alkohol jest glowna sila trzymajaca klase szlachty w Twoim miescie, wiec dopilnuj, by jego strumien lal sie nieprzerwanie jesli lezy Ci na sercu rozwoj swojej gospodarki. Procesu wytwarzania piwa dogladaja mieszczanie.", 
+            "Start income": "0", 
+            "Texture path": "piwo.JPG", 
+            "Resource\nName": "Piwo", 
+            "Successor": "None"
+        }, 
+        "Mleko": {
+            "Predecessor": "None", 
+            "Description": "Mleko i jego przetwory sa glownym zrodlem pozywienia mieszczanstwa. Nabial jest produkowany w mleczarni i dystrybuowany  do Twojego magazynu co regularny okres czasu. Duza wartosc odzywcza mleka sprawia, ze Twoi mieszczanie maja wiecej sily i checi do pracy, dlatego tez dbaj o infrastukture drogi mlecznej swojego miasta.", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Mleko", 
             "Successor": "None"
         }
     }

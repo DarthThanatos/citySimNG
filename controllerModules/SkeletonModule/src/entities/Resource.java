@@ -2,25 +2,18 @@ package entities;
 
 public class Resource extends Entity {
 	private int startingIncome;
-	private String description;
 	
-	public String getDescription(){
-		return description;
-	}
-	
-	public void setDescription(String description){
-		this.description = description;
-	}
-	
+
 	public Resource(){
 		
 	}
 	
-	public Resource(String name, String predecessor, String successor, String texturePath){
+	public Resource(String name, String predecessor, String successor, String texturePath, String description){
 		setName(name);
 		setPredecessor(predecessor);
 		setSuccessor(successor);
 		setTexturePath(texturePath);
+		setDescription(description);
 	}
 	
 	public void setStartingIncome(int startingIncome){

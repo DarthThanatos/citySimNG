@@ -14,7 +14,8 @@ public class Consts {
 	public static final String RESOURCES = "Resources";
 	public static final String BUILDINGS = "Buildings";
 	public static final String DWELLERS = "Dwellers";
-	
+
+	public static final String DESCRIPTION = "Description";
 	public static final String TEXTURE_PATH  = "Texture path";
 	public static final String RELATIVE_TEXTURES_PATH = "resources\\Textures\\";
 	public static final String TEXTURE_ONE = "Texture One";

@@ -23,7 +23,7 @@ public class HintSender {
 
     private void startSending(){
         //TODO - more sophisticated algorithm of calculating when hint should be sent needed
-        hintsSendingDisposable = Observable.interval(5, TimeUnit.SECONDS)
+        hintsSendingDisposable = Observable.interval(10, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.newThread())
                 .forEachWhile(this::notInterrupted, Throwable::printStackTrace);
     }

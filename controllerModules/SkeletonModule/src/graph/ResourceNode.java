@@ -19,6 +19,10 @@ public class ResourceNode extends GraphNode{
 		//assignedBuilding = assignedBuildingName;
 	}
 
+	public Resource getResource(){
+		return resource;
+	}
+
 	@Override
 	public String getSuccessorName() {
 		return resource.getSuccessor();

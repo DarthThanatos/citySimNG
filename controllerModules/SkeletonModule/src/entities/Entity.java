@@ -7,7 +7,15 @@ public class Entity {
     private String predecessor;
     private String successor;
     private String texturePath;
+    protected String description;
 
+    public String getDescription(){
+        return description;
+    }
+
+    public void setDescription(String description){
+        this.description = description;
+    }
 
     public String getName() {
         return name;
