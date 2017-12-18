@@ -26,7 +26,7 @@ public class Buildings {
 	private Map<String, Building> notFullyOccupiedBuildings;
 	private Map<String, Building> unprovidedBuildings;
 
-	Buildings(DependenciesRepresenter dr){
+	public Buildings(DependenciesRepresenter dr){
 		allBuildings = (List<Building>) dr.getModuleData("allBuildings");
 
 		for(Building building: allBuildings){
@@ -47,7 +47,7 @@ public class Buildings {
 		unprovidedBuildings= new LinkedHashMap<>();
 	}
 	
-	boolean canAffordOnBuilding(String buildingName, Map<String, Integer> actualResourcesValues){
+	public boolean canAffordOnBuilding(String buildingName, Map<String, Integer> actualResourcesValues){
 		Building building = findBuildingWithName(buildingName);
 		assert building != null;
 		Map<String, Integer> buildingCost = building.getResourcesCost();

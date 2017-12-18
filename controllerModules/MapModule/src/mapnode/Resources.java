@@ -177,17 +177,13 @@ public class Resources {
 	}
 
 	public void subBuildingsBalance(Building building) {
-		System.out.println("Sub building balancw");
 		Map<String, Integer> consumes = building.getConsumes();
 		Map<String, Integer> produces = building.getProduces();
 
 		Double dwellersFactor = (double) building.getWorkingDwellers() /
 				building.getDwellersAmount();
 
-		System.out.println("DW FACTOR " + dwellersFactor);
-
 		for (String resource : building.getResourcesCost().keySet()) {
-			System.out.println("PRODUCING + " + building.isProducing());
 			if (building.isProducing()) {
 				actualResourcesIncomes.put(resource, actualResourcesIncomes.get(resource)
 						- (int)Math.floor(dwellersFactor * produces.get(resource)));
@@ -201,7 +197,6 @@ public class Resources {
 	}
 
 	public void subBuildingsCost(Building building){
-		System.out.println("Sub building cost");
 		Map<String, Integer> buildingCost = building.getResourcesCost();
 
 		for(String resource: buildingCost.keySet()) {
@@ -211,7 +206,6 @@ public class Resources {
 	}
 
 	public void addBuildingConsumption(Building building){
-		System.out.println("Add b consum");
 		Map<String, Integer> buildingConsumption = building.getConsumes();
 
 		Double dwellersFactor = (double) building.getWorkingDwellers() /
@@ -224,7 +218,6 @@ public class Resources {
 	}
 
 	public void subBuildingConsumption(Building building){
-		System.out.println("sub b consum");
 		Map<String, Integer> buildingConsumption = building.getConsumes();
 
 		Double dwellersFactor = (double) building.getWorkingDwellers() /
