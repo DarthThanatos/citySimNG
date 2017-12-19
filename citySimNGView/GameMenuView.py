@@ -24,6 +24,7 @@ class GameMenuView(wx.Panel):
         self.sender.entry_point.getGameMenuPresenter().goToExchange()
 
     def goToNewGame(self, event):
+        self.parent.parent.turnLoadingScreenOn()
         self.sender.entry_point.getGameMenuPresenter().goToNewGame()
 
     def goToTutorial(self, event):

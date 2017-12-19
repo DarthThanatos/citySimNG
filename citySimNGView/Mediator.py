@@ -1,7 +1,7 @@
 import socket
 import sys
 import json
-import thread
+import threading
 import traceback
 
 import wx
@@ -9,13 +9,12 @@ from py4j.clientserver import ClientServer, JavaParameters, PythonParameters
 from py4j.java_gateway import JavaGateway, GatewayParameters
 import logging
 
+from LoadingScreen import LoadingScreen
 from ViewSetter import MyFrame
 from viewmodel.ViewModel import ViewModel
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind(('', 12345))
-
 def receiver_func(viewSetter):
+    global sock
     while True:
         # Receive response from model
         try:
@@ -43,7 +42,12 @@ class Sender:
         self.sock.sendto(msg, ("127.0.0.1", 1234))
         print "Sender: sent",msg
 
-def wait_for_controller():
+def wait_for_controller(loading_screen):
+    print "waiting for logic to connect..."
+    global sender, sock
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sender = Sender(sock)
+    sock.bind(('', 12345))
     TCP_IP = '127.0.0.1'
     TCP_PORT = 2468
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -51,6 +55,7 @@ def wait_for_controller():
     s.listen(1)
     conn, addr = s.accept()
     conn.close()
+    wx.CallAfter(loading_screen.closeWindow)
 
 def startViewModelListener(viewSetter):
     viewModel = ViewModel(viewSetter)
@@ -64,6 +69,58 @@ def turn_on_debug():
     logger.setLevel(logging.DEBUG)
     logger.addHandler(logging.StreamHandler())
 
+class EngineApp(wx.App):
+    def __init__(self):
+        wx.App.__init__(self, redirect=False)
+
+    def OnInit(self):  #called by wx.Python
+
+        print "on init"
+        # turn on debug mode
+        if '--d' in sys.argv or '--debug' in sys.argv:
+            turn_on_debug()
+
+        loading_screen = LoadingScreen("resources\\sysFiles\\images\\loading.gif")
+        loading_screen.Show()
+        print "loading screen shown"
+
+        t = InitializingThread(loading_screen)
+        t.start()  #calls t.run()
+        return True
+
+
+class InitializingThread(threading.Thread):
+    def __init__(self, loading_screen):
+        threading.Thread.__init__(self)
+        self.loading_screen = loading_screen
+
+    def run(self):
+        global javagateway, sender
+        javagateway = JavaGateway(gateway_parameters=GatewayParameters(port=25335))
+        wx.CallAfter(self.init_frame, None, javagateway)
+
+    def init_frame(self, sender, javagateway):
+        global gateway
+        screenDims = wx.GetDisplaySize()
+        frame = MyFrame(None, wx.ID_ANY, "Engine Frame", screenDims, sender, javagateway)
+        gateway = startViewModelListener(frame)
+        threading._start_new_thread(wait_for_controller,(self.loading_screen,))
+
+def customAppMain():
+    print "initializing app"
+    app = EngineApp()
+
+    try:
+        app.MainLoop()
+    finally:
+        global gateway, javagateway, sock
+        logging.info("closing sockets")
+        sock.close()
+        javagateway.close()
+        gateway.close()
+        sys.exit()
+
+
 def main():
     sender = Sender(sock)
 
@@ -71,14 +128,15 @@ def main():
     if '--d' in sys.argv or '--debug' in sys.argv:
         turn_on_debug()
 
+    javagateway = JavaGateway(gateway_parameters=GatewayParameters(port=25335))
+
     # app = wx.PySimpleApp()
     app = wx.App(False)
     screenDims = wx.GetDisplaySize()
 
-    javagateway = JavaGateway(gateway_parameters=GatewayParameters(port=25335))
-    logging.info("creating frame")
+    loading_screen = LoadingScreen("resources\\sysFiles\\images\\loading.gif")
     frame = MyFrame(None, wx.ID_ANY, "SDL Frame", screenDims, sender, javagateway)
-    logging.info("created frame")
+
     # thread.start_new_thread(receiver_func, (frame,))
     gateway = startViewModelListener(frame)
 
@@ -93,4 +151,6 @@ def main():
         javagateway.close()
         sys.exit()
 
-main()
+
+# main()
+customAppMain()
