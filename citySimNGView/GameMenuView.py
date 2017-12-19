@@ -74,7 +74,7 @@ class GameMenuView(wx.Panel):
         return gif
 
     def newGameButton(self):
-        self.newgame_btn = ButtonsFactory().newButton(self, "Game", self.goToNewGame, hint = LogMessages.GAME_BTN_HINT, size=(100,-1))
+        self.newgame_btn = ButtonsFactory().newButton(self, "Game", self.goToNewGame, size=(100,-1))
         return self.newgame_btn
 
     def newTutorialButton(self):
