@@ -33,7 +33,6 @@ public class ControlSwitcher {
 		cleanup();
 	}	
 
-	
 	private static void cleanup(){
 		Presenter.cleanup();
 		System.exit(0);

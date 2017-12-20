@@ -83,7 +83,10 @@ class MainMenuView(wx.Panel):
         self.sender.entry_point.getMainMenuPresenter().goToCreator()
 
     def onExitSystem(self, event):
-        self.sender.entry_point.getMainMenuPresenter().exitSystem()
+        try:
+            self.sender.entry_point.getMainMenuPresenter().exitSystem()
+        except Exception as e:
+            print "exiting exception:", e.message
         self.Close(True)
         self.parent.closeWindow(None)
 

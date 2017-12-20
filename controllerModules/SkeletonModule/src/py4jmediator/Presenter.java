@@ -60,6 +60,7 @@ public class Presenter {
 
     public static void cleanup(){
     	clientServer.shutdown();
-    	gatewayServer.shutdown(true);
+        while(gatewayServer.getListeners().size() != 0);
+    	gatewayServer.shutdown();
     }
 }
