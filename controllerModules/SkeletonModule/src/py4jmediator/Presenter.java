@@ -60,6 +60,6 @@ public class Presenter {
 
     public static void cleanup(){
     	clientServer.shutdown();
-    	gatewayServer.shutdown();
+    	gatewayServer.shutdown(true);
     }
 }

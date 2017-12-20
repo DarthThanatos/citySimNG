@@ -15,7 +15,7 @@ public class TutorialHintEvent {
             "\n" +
             "Donec cursus consectetur viverra. Donec elementum lacinia elit quis pharetra. Nunc et gravida tortor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Curabitur in ante at odio consectetur scelerisque. Praesent.";
     public TutorialHintEvent(String hints){
-        this.hints = id + hints;
+        this.hints = id + ". " + hints;
         id ++;
     }
 

@@ -45,11 +45,6 @@ public class CreatorPy4JNode extends Py4JNode implements CreatorPresenter.OnCrea
 	}
 
 	@Override
-	protected void onLoop() {
-		
-	}
-
-	@Override
 	protected void atExit() {
 		Presenter.getInstance().getCreatorPresenter().setOnCreatorPresenterCalled(null);	
 	}

@@ -58,7 +58,7 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 
 	private <E extends Entity> String getOneDescSentence(E entity){
 		String[] descSentences = entity.getDescription().split("\\.");
-		return descSentences[Math.abs(new Random().nextInt()) % descSentences.length];
+		return descSentences[Math.abs(new Random().nextInt()) % descSentences.length] + ".";
 	}
 
 	private<E extends Entity> String getHintFromEntityDescription(E entity){
@@ -81,7 +81,7 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 				result += getHintFromEntityDescription(dr.getGraphsHolder().getRandomDweller());
 				break;
 		}
-		return result + ".";
+		return result;
 	}
 
 
@@ -184,11 +184,6 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 				else
 					System.out.println("Something went wrong (java, getAllNodes");
 		}
-	}
-
-	@Override
-	protected void onLoop() {
-
 	}
 
 

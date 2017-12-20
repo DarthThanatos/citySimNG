@@ -114,7 +114,7 @@ def customAppMain():
         app.MainLoop()
     finally:
         global gateway, javagateway, sock
-        logging.info("closing sockets")
+        print "closing sockets"
         sock.close()
         javagateway.close()
         gateway.close()

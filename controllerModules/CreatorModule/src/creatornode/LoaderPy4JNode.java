@@ -29,10 +29,6 @@ public class LoaderPy4JNode extends Py4JNode implements LoaderPresenter.OnLoader
 	}
 
 
-	@Override
-	protected void onLoop() {
-		
-	}
 	
 	@Override
 	protected void atStart() {

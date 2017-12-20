@@ -86,28 +86,31 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
             mapPresenter.resumeGame();
         }
 
-        updateResources = true;
-        resourcesThread = new Thread() {
-            public void run() {
-                while (updateResources) {
-                    resources.calculateCurrentCycle(dwellers, buildings);
-                    mapPresenter.updateValuesForCycle(
-                            resources.getActualResourcesValues(),
-                            resources.getActualResourcesIncomes(),
-                            resources.getActualResourcesConsumption(),
-                            resources.getResourcesBalance(),
-                            dwellers.getNeededDwellers(),
-                            dwellers.getAvailableDwellers());
-                    try {
-                        Thread.sleep(3000);
-                    } catch (Exception e) {
+        startResourcesThread();
+        registerEvBus();
+    }
 
-                    }
+    private void startResourcesThread(){
+        updateResources = true;
+        resourcesThread = new Thread(() -> {
+            while (updateResources) {
+                resources.calculateCurrentCycle(dwellers, buildings);
+                mapPresenter.updateValuesForCycle(
+                        resources.getActualResourcesValues(),
+                        resources.getActualResourcesIncomes(),
+                        resources.getActualResourcesConsumption(),
+                        resources.getResourcesBalance(),
+                        dwellers.getNeededDwellers(),
+                        dwellers.getAvailableDwellers());
+                try {
+                    Thread.sleep(3000);
+                } catch (Exception e) {
+
                 }
             }
-        };
+        });
         resourcesThread.start();
-        registerEvBus();
+
     }
 
     @Subscribe
@@ -115,10 +118,6 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
         mapPresenter.sendTutorialHints(tutorialHintEvent.getHints());
     }
 
-    @Override
-    public void onLoop(){
-
-    }
 
     private void unregisterEvBus(){
         try{

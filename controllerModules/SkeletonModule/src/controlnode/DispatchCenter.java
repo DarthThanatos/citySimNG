@@ -44,7 +44,7 @@ public class DispatchCenter{
 	public DispatchCenter(){
 		dispatchData = new HashMap<>();
 		eventBus = new EventBus();
-		new AcknowledgementWaiter().start();
+//		new AcknowledgementWaiter().start();
 	}
 
 	public EventBus getEventBus() {

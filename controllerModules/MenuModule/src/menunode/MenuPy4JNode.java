@@ -21,10 +21,6 @@ public class MenuPy4JNode extends Py4JNode implements MainMenuPresenter.OnMenuPr
 		
 	}
 
-	@Override
-	protected void onLoop() {
-		
-	}
 
 	@Override
 	protected void atStart() {
