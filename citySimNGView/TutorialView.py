@@ -88,6 +88,8 @@ class MainTab(wx.Panel):
         print "\nFilling content list"
         self.indexList = indexList
         contentSize = len(indexList)
+        if contentSize > self.master.maxNrOfItemsOnList:
+            contentSize = self.master.maxNrOfItemsOnList
         contentHalf = contentSize - (contentSize // 2)
         for i in range(contentHalf):
             self.fillListItem(i)
@@ -113,7 +115,7 @@ class TutorialView(wx.Panel):
         #self.SetBackgroundColour((255, 255, 255))
         self.pageID = 0
         self.nrOfPages = 0
-        self.maxNrOfItemsOnList = 8
+        self.maxNrOfItemsOnList = 10
 
         self.tutorialInfo = "Welcome to our tutorial! If you'd like to find out what are all the functionalities of this cutting-edge game engine, you're in the right place :)"
         self.welcomeField = wx.StaticText(self, label=self.tutorialInfo)

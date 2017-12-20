@@ -1,5 +1,5 @@
 {
-    "Texture One": "new\\meadow1.jpg", 
+    "Texture One": "new\\moon_bg.jpg", 
     "MP3": "TwoMandolins.mp3", 
     "Buildings": {
         "Zrodlo gizmo": {
@@ -49,7 +49,7 @@
             "Consumes": {
                 "Dropsy energetyczne": 10
             }, 
-            "Texture path": "house.png", 
+            "Texture path": "new\\m_xenogenetyka.png", 
             "Type": "Domestic", 
             "Cost\nin\nresources": {
                 "Syntetyczne kadluby": 5, 
@@ -145,7 +145,7 @@
             "Consumes": {
                 "Dropsy energetyczne": 4
             }, 
-            "Texture path": "house.png", 
+            "Texture path": "new\\m_naukowcow.png", 
             "Type": "Domestic", 
             "Cost\nin\nresources": {
                 "Plastyczny egzoszkielet": 5, 
@@ -163,7 +163,7 @@
             "Consumes": {
                 "Dropsy energetyczne": 2
             }, 
-            "Texture path": "house.png", 
+            "Texture path": "new\\m_inwestorow.png", 
             "Type": "Domestic", 
             "Cost\nin\nresources": {
                 "Plastyczny egzoszkielet": 3, 
@@ -348,8 +348,8 @@
         }
     }, 
     "Set Name": "Moon", 
-    "Texture Two": "new\\meadow2.jpg", 
-    "Panel Texture": "BuildingsPanelTexture.jpg", 
+    "Texture Two": "new\\moon_bg2.jpg", 
+    "Panel Texture": "new\\panel.jpg", 
     "Resources": {
         "Owoce": {
             "Predecessor": "None", 
