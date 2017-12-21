@@ -188,10 +188,11 @@ class CreatorMainPanel(ScrolledPanel):
 
     def onMapPanelTextureSelected(self, ev):
         dlg = self.createFileSelectionDialog()
-        self.onImageSelected(dlg, self.mapPanelTexture)
-        relative_path_to_resdir = self.getRelativePathToResdir(dlg)
-        # self.current_dependencies[Consts.PANEL_TEXTURE] = dlg.GetFilename()
-        self.current_dependencies[Consts.PANEL_TEXTURE] = relative_path_to_resdir
+        ok_selected = self.onImageSelected(dlg, self.mapPanelTexture)
+        if ok_selected:
+            relative_path_to_resdir = self.getRelativePathToResdir(dlg)
+            # self.current_dependencies[Consts.PANEL_TEXTURE] = dlg.GetFilename()
+            self.current_dependencies[Consts.PANEL_TEXTURE] = relative_path_to_resdir
 
     def newBgTexturesVerticalSizer(self):
         texturesVerticalSizer = wx.BoxSizer(wx.VERTICAL)
@@ -282,20 +283,24 @@ class CreatorMainPanel(ScrolledPanel):
             image = wx.Image(path)
             image = image.Scale(32,32)
             imageBitmap.SetBitmap(wx.BitmapFromImage(image))
+            return True
+        return False
 
     def onSelectImageOne(self, event):
         dlg = self.createFileSelectionDialog()
-        self.onImageSelected(dlg, self.imageBitmapOne)
-        relative_path_to_resdir = self.getRelativePathToResdir(dlg)
-        # self.current_dependencies[Consts.TEXTURE_ONE] = dlg.GetFilename()
-        self.current_dependencies[Consts.TEXTURE_ONE] = relative_path_to_resdir
+        ok_selected = self.onImageSelected(dlg, self.imageBitmapOne)
+        if ok_selected:
+            relative_path_to_resdir = self.getRelativePathToResdir(dlg)
+            # self.current_dependencies[Consts.TEXTURE_ONE] = dlg.GetFilename()
+            self.current_dependencies[Consts.TEXTURE_ONE] = relative_path_to_resdir
 
     def onSelectImageTwo(self, event):
         dlg = self.createFileSelectionDialog()
-        self.onImageSelected(dlg, self.imageBitmapTwo)
-        relative_path_to_resdir = self.getRelativePathToResdir(dlg)
-        # self.current_dependencies[Consts.TEXTURE_TWO] = dlg.GetFilename()
-        self.current_dependencies[Consts.TEXTURE_TWO] = relative_path_to_resdir
+        ok_selected = self.onImageSelected(dlg, self.imageBitmapTwo)
+        if ok_selected:
+            relative_path_to_resdir = self.getRelativePathToResdir(dlg)
+            # self.current_dependencies[Consts.TEXTURE_TWO] = dlg.GetFilename()
+            self.current_dependencies[Consts.TEXTURE_TWO] = relative_path_to_resdir
 
     def retToMenu(self, event):
         self.sender.entry_point.getCreatorPresenter().returnToMenu()
