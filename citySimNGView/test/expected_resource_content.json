@@ -10,7 +10,7 @@
         "Resource": {
             "Predecessor": "None",
             "Description": "Description",
-            "Start income": "1",
+            "Start income": "2",
             "Texture path": "DefaultBuilding.jpg",
             "Resource\nName": "Resource",
             "Successor": "None"

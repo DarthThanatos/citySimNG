@@ -1,7 +1,27 @@
 {
     "Texture One": "new\\meadow1.jpg",
     "MP3": "TwoMandolins.mp3",
-    "Buildings": {},
+    "Buildings": {
+        "Building": {
+            "Predecessor": "None",
+            "Description": "Description",
+            "Produces": {
+                "Resource": 1
+            },
+            "Dwellers\namount": 10,
+            "Building\nName": "Building",
+            "Dweller\nName": "Dweller",
+            "Cost\nin\nresources": {
+                "Resource": 1
+            },
+            "Texture path": "house.png",
+            "Type": "Industrial",
+            "Consumes": {
+                "Resource": 10
+            },
+            "Successor": "None"
+        }
+    },
     "Dwellers": {
         "Dweller": {
             "Predecessor": "None",
@@ -9,7 +29,7 @@
             "Dweller\nName": "Dweller",
             "Texture path": "dweller.jpg",
             "Consumes": {
-                "Resource": 30
+                "Resource": 15
             },
             "Successor": "None"
         }

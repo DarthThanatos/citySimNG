@@ -13,7 +13,6 @@ def preTest():
 def testShowDetailsBeforeShown(app):
     # at this point nothing should be displayed on "graph details" panel
     show_details_btns = app[""].children(title = "Show Details")
-    # app.top_window().print_control_identifiers()
     for button_title in ["Show details1", "Show Details2", "Show Details3"]:
         print "checking if ", button_title, "is not enabled...",
         if not app[""][button_title].IsEnabled(): print "PASSED"
@@ -25,7 +24,6 @@ def testListBox(app):
     app[""].ListBox.select("Moon")
     app[""]["Show graphs"].Click()
     sleep(1)
-    # app[""].print_control_identifiers()
     app[""].ListBox.select("Stronghold")
     app[""]["Show graphs"].Click()
     sleep(1)
@@ -40,7 +38,6 @@ def testShowDetailsAfterShown(app):
         except Exception:
             pass
         app.Window_(title = details_map[button_title]).Wait("enabled", timeout = 30)
-        # app[""].print_control_identifiers()
         if not app[""][button_title].IsEnabled():
             print "PASSED"
         else:

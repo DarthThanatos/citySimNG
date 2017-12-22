@@ -18,7 +18,6 @@ def clickOnButton(app, btn_title, n = None):
 
 def preTest():
     app = application.Application().connect(path="Mediator.exe")
-    # clickOnButton(app, "Creator",2)
     app.top_window()["Creator"].DoubleClick(button="left")
     app.top_window().Wait("enabled")
     print "creator ready"
@@ -26,14 +25,9 @@ def preTest():
     app.top_window()["add to Resources"].DoubleClick()
     app.top_window().Wait("ready")
     print "resources sheet ready"
-    # here we assume that view is switched to ResourceSheet panel
     app[""]["Description of Resourcefor Tutorial moduleEdit1"].TypeKeys("Description")
-    sleep(1)
     app[""]["StartIncome: Edit"].set_text("1")
-    sleep(1)
-    # clickOnButton(app, "Submit0")
     app.top_window()["Submit"].DoubleClick()
-    sleep(1)
     print "submitted resource"
 
     app[""].dump_tree()
@@ -56,18 +50,22 @@ def compareJSONOutputWithExpected():
     else: print "failed"
 
 def testInput(app):
-
-    # here we assume that view is switched to ResourceSheet panel
     app[""]["Description of Dwellerfor Tutorial moduleEdit1"].TypeKeys("Description")
-    sleep(1)
-    app.top_window()['Resource'].click()
-    sleep(1)
+    app.top_window()['Resource'].Click()
     app.top_window()['Consumed in quantity:Edit'].set_text("15")
-    # clickOnButton(app, "Submit0")
     app.top_window()["Submit"].DoubleClick()
-    sleep(1)
     print "submitted dweller"
     app.top_window().Wait("ready")
+
+    # check edit mode - if no key exception is raised, everything was added correctly previously
+    app.top_window().DwellersListBox.select("Dweller")
+    app[""]["eid selected Dweller"].Click()
+    app.top_window().Wait("ready")
+    app.top_window()['Consumed in quantity:Edit'].set_text("30")
+    app.top_window()["Submit"].DoubleClick()
+    app.top_window().Wait("ready")
+    print "submitted"
+
     while not app.Window_(title = "Choose a file to save").Exists():
         app.top_window()["Save these dependencies to file"].Click()
     print "window ", "Choose a file to save", "Exists"

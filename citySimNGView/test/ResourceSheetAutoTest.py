@@ -16,7 +16,6 @@ def clickOnButton(app, btn_title, n = None):
 
 def preTest():
     app = application.Application().connect(path="Mediator.exe")
-    # clickOnButton(app, "Creator",2)
     app.top_window()["Creator"].DoubleClick(button="left")
     app.top_window().Wait("enabled")
     print "creator ready"
@@ -44,10 +43,18 @@ def testInput(app):
     # here we assume that view is switched to ResourceSheet panel
     app[""]["Description of Resourcefor Tutorial moduleEdit1"].TypeKeys("Description")
     app[""]["StartIncome: Edit"].set_text("1")
-    # clickOnButton(app, "Submit0")
     app.top_window()["Submit"].DoubleClick()
     print "submitted"
     app.top_window().Wait("ready")
+
+    # check edit mode - if no key exception is raised, everything was added correctly previously
+    app.top_window().ResourcesListBox.select("Resource")
+    app[""]["eid selected Resource"].Click()
+    app.top_window().Wait("ready")
+    app[""]["StartIncome: Edit"].set_text("2")
+    app.top_window()["Submit"].DoubleClick()
+    app.top_window().Wait("ready")
+    print "submitted"
 
     while not app.Window_(title = "Choose a file to save").Exists():
         app.top_window()["Save these dependencies to file"].Click()
