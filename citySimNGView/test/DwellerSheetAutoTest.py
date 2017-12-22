@@ -1,4 +1,6 @@
 import json
+from time import sleep
+
 from pywinauto import application
 
 
@@ -24,6 +26,19 @@ def preTest():
     app.top_window()["add to Resources"].DoubleClick()
     app.top_window().Wait("ready")
     print "resources sheet ready"
+    # here we assume that view is switched to ResourceSheet panel
+    app[""]["Description of Resourcefor Tutorial moduleEdit1"].TypeKeys("Description")
+    sleep(1)
+    app[""]["StartIncome: Edit"].set_text("1")
+    sleep(1)
+    # clickOnButton(app, "Submit0")
+    app.top_window()["Submit"].DoubleClick()
+    sleep(1)
+    print "submitted resource"
+
+    app[""].dump_tree()
+    app.top_window()["add to Dwellers"].DoubleClick()
+    sleep(1)
     return app
     # it is important to have the app already running in ResourceSheeto panel at this point
 
@@ -35,20 +50,24 @@ def parseJSON(path):
 
 def compareJSONOutputWithExpected():
     got = parseJSON("tmp.dep")
-    expected = parseJSON("expected_resource_content.json")
+    expected = parseJSON("expected_dweller_content.json")
     print "Checking if expected json agrees with the result...",
     if got == expected: print "passed"
     else: print "failed"
 
 def testInput(app):
+
     # here we assume that view is switched to ResourceSheet panel
-    app[""]["Description of Resourcefor Tutorial moduleEdit1"].TypeKeys("Description")
-    app[""]["StartIncome: Edit"].set_text("1")
+    app[""]["Description of Dwellerfor Tutorial moduleEdit1"].TypeKeys("Description")
+    sleep(1)
+    app.top_window()['Resource'].click()
+    sleep(1)
+    app.top_window()['Consumed in quantity:Edit'].set_text("15")
     # clickOnButton(app, "Submit0")
     app.top_window()["Submit"].DoubleClick()
-    print "submitted"
+    sleep(1)
+    print "submitted dweller"
     app.top_window().Wait("ready")
-
     while not app.Window_(title = "Choose a file to save").Exists():
         app.top_window()["Save these dependencies to file"].Click()
     print "window ", "Choose a file to save", "Exists"
