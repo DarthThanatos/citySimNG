@@ -17,9 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 public class CreatorPy4JNodeTest {
     private static Logger log = Logger.getLogger(CreatorPy4JNode.class.getName());
@@ -133,6 +132,13 @@ public class CreatorPy4JNodeTest {
         assertEquals(createdDependenciesRepresenter.getBuildingsNames().size(), 1);
         assertEquals(createdDependenciesRepresenter.getResourcesNames().size(),1);
         assertEquals(createdDependenciesRepresenter.getDwellersNames().size(), 1);
+    }
 
+    @Test
+    public void testLoaderNode(){
+        CreatorPy4JNode creatorPy4JNode = new CreatorPy4JNode(dispatchCenter, "Creator","..\\..\\resources\\sysFiles\\defaultDependencies\\");
+        verify(dispatchCenter, times(1)).getDispatchData("LoaderModule","DependenciesRepresenters");
+        LoaderPy4JNode loaderPy4JNode = new LoaderPy4JNode(dispatchCenter, "Loader");
+        verify(dispatchCenter, times(1)).getDispatchData("LoaderModule","DependenciesRepresenters");
     }
 }
