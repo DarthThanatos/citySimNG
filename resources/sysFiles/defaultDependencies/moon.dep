@@ -1,6 +1,6 @@
 {
     "Texture One": "new\\moon_bg.jpg", 
-    "MP3": "TwoMandolins.mp3", 
+    "MP3": "TidesMain.mp3", 
     "Buildings": {
         "Zrodlo gizmo": {
             "Predecessor": "None", 

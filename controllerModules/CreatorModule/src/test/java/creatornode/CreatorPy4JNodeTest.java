@@ -32,17 +32,17 @@ public class CreatorPy4JNodeTest {
     private void testMoonMetaData(DependenciesRepresenter moonDependenciesRepresenter){
         assertEquals(moonDependenciesRepresenter.getTextureAt(0), "new\\moon_bg.jpg");
         assertEquals(moonDependenciesRepresenter.getTextureAt(1), "new\\moon_bg2.jpg");
-        assertEquals(moonDependenciesRepresenter.getMp3(), "TwoMandolins.mp3");
+        assertEquals(moonDependenciesRepresenter.getMp3(), "TidesMain.mp3");
         assertEquals(moonDependenciesRepresenter.getPanelTexture(), "new\\panel.jpg");
-        assertEquals(moonDependenciesRepresenter.getBuildingsNames().size(), 16);
-        assertEquals(moonDependenciesRepresenter.getResourcesNames().size(),13);
-        assertEquals(moonDependenciesRepresenter.getDwellersNames().size(), 4);
     }
 
     private void testMoonDeps(){
         DependenciesRepresenter moonDependenciesRepresenter = representers.get("Moon");
         assertNotNull(moonDependenciesRepresenter);
         testMoonMetaData(moonDependenciesRepresenter);
+        assertEquals(moonDependenciesRepresenter.getBuildingsNames().size(), 16);
+        assertEquals(moonDependenciesRepresenter.getResourcesNames().size(),13);
+        assertEquals(moonDependenciesRepresenter.getDwellersNames().size(), 4);
     }
 
     private void testStrongholdDeps(){
