@@ -1,0 +1,459 @@
+{
+    "Texture One": "new\\moon_bg.jpg", 
+    "MP3": "TwoMandolins.mp3", 
+    "Buildings": {
+        "Zrodlo gizmo": {
+            "Predecessor": "None", 
+            "Description": "Gleboko w kraterach ksiezyca bije zrodlo cennego budowlanego surowca. Po ustaleniu miejsca najobficiej wyposazonego w gizmo, nalezy rozstawic drony wydobywcze, otoczyc i zabezpieczyc obszar wydobywczy i zachecic sile robocza do pracy. \nZrodlo gizmo wyglada jak rozkopany krater ksiezyca, obszar wydobywczy jest otoczony barierkami, wglab krateru siega dron z dlugim wiertlem.", 
+            "Produces": {
+                "Gizmo": 5
+            }, 
+            "Dwellers\namount": 1, 
+            "Building\nName": "Zrodlo gizmo", 
+            "Dweller\nName": "Robotnik", 
+            "Consumes": {
+                "Dropsy energetyczne": 1
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Industrial", 
+            "Cost\nin\nresources": {
+                "Nanoplastik": 3
+            }, 
+            "Successor": "None"
+        }, 
+        "Dormitorium robotnikow": {
+            "Predecessor": "None", 
+            "Description": "Ogrzewane osiedla robotnicze sa budowane w oparciu o wspolczesne standardy architektoniczne. Zapewniaja stabilnosc, wytrzymalosc i bezpieczenstwo w warunkach poza atmosfera ziemska przebywajacych w nich mieszkancow.  Wygladaja jak enklawa bunkrow, z dachami w ksztalcie kopul, o szarym kolorze scian. ", 
+            "Produces": {}, 
+            "Dwellers\namount": 5, 
+            "Building\nName": "Dormitorium robotnikow", 
+            "Dweller\nName": "Robotnik", 
+            "Consumes": {
+                "Dropsy energetyczne": 2
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Domestic", 
+            "Cost\nin\nresources": {
+                "Plastyczny egzoszkielet": 3, 
+                "Gizmo": 3
+            }, 
+            "Successor": "None"
+        }, 
+        "Palac Xenogenetyka": {
+            "Predecessor": "Kwatery naukowcow", 
+            "Description": "Ze wzgledu na swoja role w spoleczenstwie, xenogenetycy mieszcza swoje kwatery w budynkach przeznaczonych do dyspozycji tylko im. Palac Xenogenetyka jest jeszcze szczuplejszy i jeszcze wyzszy niz w przypadku kwatery naukowcow, zas dach kwatery posiada bardzo wymyslny ksztalt, sciany budynku sa \"jasnoszare\". ", 
+            "Produces": {}, 
+            "Dwellers\namount": 1, 
+            "Building\nName": "Palac Xenogenetyka", 
+            "Dweller\nName": "Xenogenetyk", 
+            "Consumes": {
+                "Dropsy energetyczne": 10
+            }, 
+            "Texture path": "new\\m_xenogenetyka.png", 
+            "Type": "Domestic", 
+            "Cost\nin\nresources": {
+                "Syntetyczne kadluby": 5, 
+                "Nanoplastik": 5, 
+                "Plastyczny egzoszkielet": 5, 
+                "Gizmo": 5
+            }, 
+            "Successor": "None"
+        }, 
+        "Kopalnia studni przyciagania": {
+            "Predecessor": "Kopalnia gleju", 
+            "Description": "Przeznaczeniem tego budynku jest zaopatrywanie Twojej gospodarki w ciagle dostawy studni przyciagania. Aby ta cialosc zostala zaspokojona, nalezy dostarczac gleju w odpowiednich ilosciach. wtedy mozna rozpoczac produkcje studni, na tasmie produkcyjnej tocza sie tutaj nieuaktywnione jeszcze rekojesci promieni. Kopalnia wyglada jak miniatura studni, promien energii bijacy z wnetrza kopalni - przypominajacy beben betoniarki - w kierunku gwiazd.", 
+            "Produces": {
+                "Studnia przyciagania": 3
+            }, 
+            "Dwellers\namount": 2, 
+            "Building\nName": "Kopalnia studni przyciagania", 
+            "Dweller\nName": "Inwestor", 
+            "Consumes": {
+                "Glej": 4
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Industrial", 
+            "Cost\nin\nresources": {
+                "Gizmo": 4
+            }, 
+            "Successor": "None"
+        }, 
+        "Kopalnia gleju": {
+            "Predecessor": "None", 
+            "Description": "Obszary wydobywcze na terenie kopalni zostaly dobrane w ten sposob, aby koncentrowaly w sobie jak najgestsza koncentracje gleju. Obszar ma wyglad rozkopanego bagna z wejsciem do podziemi, przy ktorym stoi mala kubiczna strozowka z jedna antena i szarymi scianami.", 
+            "Produces": {
+                "Glej": 4
+            }, 
+            "Dwellers\namount": 2, 
+            "Building\nName": "Kopalnia gleju", 
+            "Dweller\nName": "Robotnik", 
+            "Consumes": {
+                "Dropsy energetyczne": 1
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Industrial", 
+            "Cost\nin\nresources": {
+                "Gizmo": 2
+            }, 
+            "Successor": "None"
+        }, 
+        "Plantacja owocow": {
+            "Predecessor": "None", 
+            "Description": "Na zielonych galeziach drzew w kosmicznych szklarniach na ksiezycu rosna soczyste, genetycznie zmodyfikowane zrodla pokarmu Twoich robotnikow. Rozne odmiany owocow dojrzewaja w promieniach sztucznego naswietlenia, dogladaja ich wyselekcjonowani ludzi z klasy Robotnikow. Plantacja wyglada jak otoczony szklem ogrod, w ktorej na drzewach rosna kolorowe odmiany jablek, czeresni lub gruszy.", 
+            "Produces": {
+                "Owoce": 4
+            }, 
+            "Dwellers\namount": 2, 
+            "Building\nName": "Plantacja owocow", 
+            "Dweller\nName": "Robotnik", 
+            "Cost\nin\nresources": {
+                "Gizmo": 2
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Industrial", 
+            "Consumes": {
+                "Dropsy energetyczne": 1
+            }, 
+            "Successor": "None"
+        }, 
+        "Fabryka syntetycznych kadlubow": {
+            "Predecessor": "Wytwornia egzoszkieletow", 
+            "Description": "Moduly syntetycznych kadlubow musza powstawac na specjalnie przygotowanej hali produkcyjnej. Montazu tych materialow budowlanych dogladaja Twoi Robotnicy, najpierw jednak, aby produkcja mogla przebiegac sprawnie, powinienes rozwinac swoja gospodarke by bylo mozliwe dostarczenie do magazynu Twojego miasta odpowiedniej ilosci plastycznych egzoszkieletow. Fabryka przypomina nieco przystan w doku, na hakach na zewnatrz hali zwisaja gotowe kadluby przypominajace skrzydla samolotu; sama hala przypomina blaszany magazyn, z wrotami budynku otwartymi z tylu i przodu parceli. ", 
+            "Produces": {
+                "Syntetyczne kadluby": 5
+            }, 
+            "Dwellers\namount": 1, 
+            "Building\nName": "Fabryka syntetycznych kadlubow", 
+            "Dweller\nName": "Inwestor", 
+            "Cost\nin\nresources": {
+                "Nanoplastik": 3
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Industrial", 
+            "Consumes": {
+                "Dropsy energetyczne": 1
+            }, 
+            "Successor": "None"
+        }, 
+        "Kwatery naukowcow": {
+            "Predecessor": "Kompleks inwestorow", 
+            "Description": "Kwatery naukowcow posiadaja te same cechy co kompleksy inwestorow, ale oprocz tego wyposaza sie je w dodatkowe moduly. Im bardziej wykwalifikowana sila robocza, tym wiecej udogodnien potrzebuje, wiec w kwaterach naukowcow znajduje sie potezna ilosc usprawnien w postaci rekonfigurowalnych mebli, lazienek czy kuchni z przyrzadami obslugiwanymi przez inteligentne oprogramowanie. Kwatera naukowcow jest jeszcze szczuplejsza niz kompleks inwestorow, posiada dachy w ksztalcie kopul z jeszcze wieksza iloscia anten niz mialo to miejsce w przypadku siedziby inwestorow. ", 
+            "Produces": {}, 
+            "Dwellers\namount": 2, 
+            "Building\nName": "Kwatery naukowcow", 
+            "Dweller\nName": "Naukowiec", 
+            "Consumes": {
+                "Dropsy energetyczne": 4
+            }, 
+            "Texture path": "new\\m_naukowcow.png", 
+            "Type": "Domestic", 
+            "Cost\nin\nresources": {
+                "Plastyczny egzoszkielet": 5, 
+                "Syntetyczne kadluby": 5
+            }, 
+            "Successor": "None"
+        }, 
+        "Kompleks inwestorow": {
+            "Predecessor": "Dormitorium robotnikow", 
+            "Description": "Nieco bardziej rozwiniete niz dormitorium robotnikow, kompleks inwestorow jest enklawa oparta o wyzsze standardy budowlane, ktore oprocz praktycznosci architektury gwarantuja takze wieksza przestronnosc pomieszczen oraz wygodniejsze apartamenty. Sa szczuplejsze i wyzsze od enklaw robotniczych, maja jasniejszy kolor scian; na ich (plaskich) dachach znajduje sie duzo anten.", 
+            "Produces": {}, 
+            "Dwellers\namount": 4, 
+            "Building\nName": "Kompleks inwestorow", 
+            "Dweller\nName": "Inwestor", 
+            "Consumes": {
+                "Dropsy energetyczne": 2
+            }, 
+            "Texture path": "new\\m_inwestorow.png", 
+            "Type": "Domestic", 
+            "Cost\nin\nresources": {
+                "Plastyczny egzoszkielet": 3, 
+                "Syntetyczne kadluby": 3
+            }, 
+            "Successor": "None"
+        }, 
+        "Browar": {
+            "Predecessor": "Wytwornia witamin", 
+            "Description": "W tym miejscu przeprowadzany jest proces odzyskiwania z paczek witamin wybornego likieru, w ktorym rozkoszuja sie Twoi Naukowcy. By proces mogl przebiegac sprawnie, powinienes posiadac rozwinieta galaz przemyslu witaminowego. Budynek przypomina prostokatna lodowke, z modulami wentylatorow wystajacymi w rogach parceli", 
+            "Produces": {
+                "Zdrowy likier": 6
+            }, 
+            "Dwellers\namount": 1, 
+            "Building\nName": "Browar", 
+            "Dweller\nName": "Naukowiec", 
+            "Cost\nin\nresources": {
+                "Gizmo": 5
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Industrial", 
+            "Consumes": {
+                "Witaminy": 5
+            }, 
+            "Successor": "None"
+        }, 
+        "Wytwornia witamin": {
+            "Predecessor": "Plantacja owocow", 
+            "Description": "Wytwornia witamin jest miejscem, gdzie przebiega proces farmaceutyczny, kt\u00f3rego wynikiem sa paczki tabletek gotowe do dystrybucji pomiedzy Twoich Inwestorow. Aby jednak procedura przebiegala sprawnie, musisz dopilnowac, by Inwestorzy pracujacy tutaj otrzymywali regularne dostawy owocow. Budynek, ze wzgledu na penilona role, przypomina nieco apteke - kopulasty dach przyozdabia czerwony krzyz, na zewnatrz budynku stoja osoby w fartuchach aptekarzy, zas w oknach stoja buteleczki z witaminami.", 
+            "Produces": {
+                "Witaminy": 5
+            }, 
+            "Dwellers\namount": 2, 
+            "Building\nName": "Wytwornia witamin", 
+            "Dweller\nName": "Inwestor", 
+            "Cost\nin\nresources": {
+                "Plastyczny egzoszkielet": 3
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Industrial", 
+            "Consumes": {
+                "Owoce": 4
+            }, 
+            "Successor": "None"
+        }, 
+        "Rzezbiarnia lacz": {
+            "Predecessor": "Polaryzator grawitacyjny", 
+            "Description": "Miejsce przeznaczone do produkcji medium komunikacji omijajacego problem ograniczenia predkosci swiatla, gdy rozmowy odbywaja sie z dystansem setek tysiecy kilometrow. Typowe miejsce pracy Xenogenetyka. Przy przechodzeniu obok wytworni, czuc przemozny wplyw grawitacji odpychajacy przypadkowych przechodniow od  wejscia do parceli. Praktyki przeprowadzane w tym miejscu - dobieranie konfiguracji krysztalow efektu masy by osiagnac najlepsze parametry lacz - odcisnely swoje pietno na najblizszej okolicy budynku - kratery wokol sa niesamowicie wyzlobione, powierzchnia gesto popekana. Budynek stoi na spekanej powierzchni ksiezyca, jest obwieszony girlandami przezroczystych kabli o blyszczacych koncowkach. ", 
+            "Produces": {
+                "lacza nadgrawitacyjne": 2
+            }, 
+            "Dwellers\namount": 2, 
+            "Building\nName": "Rzezbiarnia lacz", 
+            "Dweller\nName": "Xenogenetyk", 
+            "Cost\nin\nresources": {
+                "Gizmo": 4
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Industrial", 
+            "Consumes": {
+                "Krysztaly efektu masy": 3
+            }, 
+            "Successor": "None"
+        }, 
+        "Cukiernia": {
+            "Predecessor": "Browar", 
+            "Description": "Miejsce deserami i alkoholem plynace. O to drugie powinienes zadbac sam - do momentu postawienia cukierni, Twoja gospodarka powinna oferowac infrastrukture chlodni browarowych w roznych sektorach Twojego ksiezycowego miasta. Xenogenetyk pracujacy tutaj pelni zaszytna role produkcji likierowych deserow dostarczanych reszcie swego bractwa. Budynek przywoluje usmiech na twarz: gradient grawitacji w tym miejscu jest ustawione tak, by wykrzywiac sztuczne swiatlo latarni ulicznych w ten sposob, ze przypadkowy przechodzien widzi go jakby zbudowanego z obsypanego rozowym lukrem piernika. Budynek posiada rozowe sciany, zas z okien zwisaja lukrowe laseczki, cukierki i lizaki.", 
+            "Produces": {
+                "Alkoholowe desery": 5
+            }, 
+            "Dwellers\namount": 1, 
+            "Building\nName": "Cukiernia", 
+            "Dweller\nName": "Xenogenetyk", 
+            "Cost\nin\nresources": {
+                "Dropsy energetyczne": 1
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Industrial", 
+            "Consumes": {
+                "Zdrowy likier": 4
+            }, 
+            "Successor": "None"
+        }, 
+        "Wytwornia egzoszkieletow": {
+            "Predecessor": "None", 
+            "Description": "Aby wzniesc budynek wytworni egzoszkieletow, musisz posiadac odpowiednia ilosc nanoplastiku, miec do dyspozycji jednego dostepnego Robotnika i dostarczac regularne dostawy dropsow energetycznych. W mrocznych zakamarkach wytworni wznosza sie okrzyki i odglosy obijania metalu o egzoszkielety. Swiatlo odbija sie od nanoplastikowych scian zakladu produkcyjnego, zabarwione podwojnym blekitem sciany i tego, co zwisa pekami wzdluz nich.  Breloki egzoszkieletow sa powieszone wzdluz okien, budynek jest barwiony na ciemny blekit.", 
+            "Produces": {
+                "Krysztaly efektu masy": 6
+            }, 
+            "Dwellers\namount": 1, 
+            "Building\nName": "Wytwornia egzoszkieletow", 
+            "Dweller\nName": "Robotnik", 
+            "Cost\nin\nresources": {
+                "Nanoplastik": 5
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Industrial", 
+            "Consumes": {
+                "Plastyczny egzoszkielet": 1
+            }, 
+            "Successor": "None"
+        }, 
+        "Polaryzator grawitacyjny": {
+            "Predecessor": "Kopalnia studni przyciagania", 
+            "Description": "Przypadkowi przechodnie slysza gluche odglosy dochodzace z wnetrza jaskrawo oswietlonego od wewnatrz budynku Polaryzatora. Para Naukowcow oddelegowanych do pracy na tym stanowisku doprowadza do regularnych kolizji czasoprzestrzeni wewnatrz parceli przy pomocy dostarczonych im przez Ciebie studni grawitacyjnych. Artefakty powstale w wyniku wstrzasow sa pieczolowicie zbierane przez pracownikow polaryzatora, gromadzone w jednym miejscu i szlifowane na swej krysztalowej powierzchni, by w koncu, zlozone w czelusciach szczelnych pojemnikow grawitacyjnych, zostac spolaryzowane odpowiednio dobrana dawka gleju. Polaryzator ma na dachu przezroczysta spirale, z wnetrza bije zolty blask, na wejsciu wisza breloczki czarno-bialych krysztalow.", 
+            "Produces": {
+                "Krysztaly efektu masy": 3
+            }, 
+            "Dwellers\namount": 2, 
+            "Building\nName": "Polaryzator grawitacyjny", 
+            "Dweller\nName": "Naukowiec", 
+            "Cost\nin\nresources": {
+                "Gizmo": 4
+            }, 
+            "Texture path": "new\\piekarnia.png", 
+            "Type": "Industrial", 
+            "Consumes": {
+                "Studnia przyciagania": 4
+            }, 
+            "Successor": "None"
+        }, 
+        "Fabryka energodropsow": {
+            "Predecessor": "None", 
+            "Description": "Wytwornia pelni role elektrowni dostarczajacej energie Twojemu  ksiezycowemu miastu - jednak zamiast slupow transmisyjnych i transformatorow, zasilanie jest gromadzone w wysokokalorycznych kapsulkach bedacymi efektem destylacji przeprowadzanej w tym miejscu. Dystrybuowane do magazynu miasta, dropsy sa w nastepnej kolejnosci dostarczane w paczkach do Twoich obywateli i uzywane analogicznie do baterii litowo-jonowych. Roznica w porownianiu z bateriami jest jednak taka, ze zrodlo uwalnianej energii nie wyczerpuje sie przez wiele tygodni, jesli zasila pojedyncze urzadzenie, a pojedynczy drops jes w stanie utrzymac nieprzerwane dzialanie calego  gospodarstwa przez caly cykl obrotowy ksiezyca. By zapewnic plynne dzialanie Twojego miasta, musisz zadbac o postawienie i nieprzerwane dzialanie przynajmniej kilku tego typu budynkow. Budynek fabryki energodropsow przypomina zwykla elektrownie, z jego kopuly wyrasta kilka kominow, ktorymi ulatuja szare opary, zas u wejscia lezy kupka niebieskich dropsow-diamencikow; pod kopula fabryki zwisa symbol blyskawicy przypominajacy tablice \"uwaga, wysokie napiecie\". ", 
+            "Produces": {
+                "Dropsy energetyczne": 6
+            }, 
+            "Dwellers\namount": 1, 
+            "Building\nName": "Fabryka energodropsow", 
+            "Dweller\nName": "Robotnik", 
+            "Cost\nin\nresources": {
+                "Nanoplastik": 3
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Industrial", 
+            "Consumes": {
+                "Dropsy energetyczne": 1
+            }, 
+            "Successor": "None"
+        }
+    }, 
+    "Dwellers": {
+        "Robotnik": {
+            "Predecessor": "None", 
+            "Description": "Podstawa sily roboczej w Twojej gospodarce. Wyksztalceni pod katem budowlanym, z podstawowym kursem fizyki glejowej sa w stanie bezpiecznie wydobywac glej z kopalni, produkowac owoce, ktore pozniej sa dostarczane reszcie tej klasy spolecznej. Nie zapomnij o nich, gdyz tylko duza liczba tych robotnikow pozwoli Ci rozwijac swoja gospodarke na kolejne etapy. Robotnicy sa wyposazeni w okulary  ochronne, pomaranczowe kombinezony, i - ze wzgledu na kontakt z glejem - fioletowe wlosy.", 
+            "Dweller\nName": "Robotnik", 
+            "Texture path": "dweller.jpg", 
+            "Consumes": {
+                "Owoce": 5
+            }, 
+            "Successor": "None"
+        }, 
+        "Naukowiec": {
+            "Predecessor": "Inwestor", 
+            "Description": "Do modelowania warunkow koniecznych, aby z impaktu wywolanego dzialaniem studni grawitacyjnej wygenerowane zostaly krysztaly efektu masy, potrzeba wysoce wykwalifikowanych matematykow, fizykow, inzynierow - slowem, naukowcow. Naukowcy nie przybeda do miasta jesli nie dostarczysz im odpowiednich warunkow pracy i materialow do generowania krysztalow. Silnie uzaleznieni od zdrowego likieru. Naukowcy sa ubrani w biale uniformy, trzymaja notatnik ze skomplikowanymi obliczeniami, Polacy.  ", 
+            "Dweller\nName": "Naukowiec", 
+            "Texture path": "dweller.jpg", 
+            "Consumes": {
+                "Zdrowy likier": 2
+            }, 
+            "Successor": "None"
+        }, 
+        "Xenogenetyk": {
+            "Predecessor": "Naukowiec", 
+            "Description": "Xenogenetycy sa w Twojej gospodarce nadludzmi - platenau ludzkosci. Ich obecnosc w Twoim miescie jest zdecydowanie pozadana. W okresie dorastania zostali napromieniowani kontrolowanymi dawkami gleju. Posiadaja scisle umysly, lecz ich najwazniejszym atrybutem jest zrozumienie istoty gleju do stopnia pozwalajacego swobodnie manipulowac przestrzenia, dostosowujac parametry krysztalow efektu masy. Utworzyli z tego sztuke, kulture i nauke. Sa w stanie zmodernizowac Twoja gospodarke, produkujac lacza nadgrawitacyjne. Uzaleznieni od alkoholowych deserow, ktorych musisz im koniecznie dostarczac, aby patrzyli na Ciebie przychylnym okiem. Xenogenetycy maja nieco ekstrawagancki styl. Ubieraja sie w dlugie, szare szaty ceremonialne, lubia wyszukana bizuterie - zlote lancuchy na piersi, kolczyki w uszach. Zapuszczaja dlugie wlosy wiazane w konski ogon. Karnacja blada.", 
+            "Dweller\nName": "Xenogenetyk", 
+            "Texture path": "dweller.jpg", 
+            "Consumes": {
+                "Alkoholowe desery": 1
+            }, 
+            "Successor": "None"
+        }, 
+        "Inwestor": {
+            "Predecessor": "Robotnik", 
+            "Description": "Inwestorzy sa grupa spoleczna, ktora laskawym okiem spoglada jedynie na gospodarke rozwinieta na tyle, ze zdolala przyciagnac sile robocza zdolna wydobywac glej w odpowiednich ilosciach, a takze wybudowala wystarczajaca infrastrukture dla przemyslu witaminowego, od ktorego inwestorzy sa uzaleznieni finansowo i zdrowotnie. Inwestorzy sponsoruja zaklady produkujace studnie przyciagania i maja wklad w produkcje witamin. Inwestorzy sa powazna grupa spoleczna ubrana w nienaganne smokingi, najczesciej latynosi wyposazeni w sluzbowe nesesery.", 
+            "Dweller\nName": "Inwestor", 
+            "Texture path": "dweller.jpg", 
+            "Consumes": {
+                "Witaminy": 4
+            }, 
+            "Successor": "None"
+        }
+    }, 
+    "Set Name": "Moon", 
+    "Texture Two": "new\\moon_bg2.jpg", 
+    "Panel Texture": "new\\panel.jpg", 
+    "Resources": {
+        "Owoce": {
+            "Predecessor": "None", 
+            "Description": "Podstawa diety sily roboczej  w Twoim miescie, owoce zostaly genetycznie zoptymalizowane pod katem dodatkowego pobudzania osrodka przyjemnosci i nagrody w mozgu czlowieka. Sa przy tym niesamowicie odzywcze. Wygladaja jak typowe, rodzime owoce - przykladowo, poziomki, truskawki, czeresnie.", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Owoce", 
+            "Successor": "None"
+        }, 
+        "Krysztaly efektu masy": {
+            "Predecessor": "Studnia przyciagania", 
+            "Description": "Krysztaly efektu masy sa para mineralow o identycznych modulach wektorow promieniowania, lecz przeciwnych znakach. Powstaja jako efekt uboczny \"sklejenia\" kawalka przestrzeni ze studnia grawitacyjna. By powstaly, musi zostac wywolany odpowiedni impakt przy sklejeniu przestrzeni. Krysztaly, stanowiace slabsza, ale o wiele bardziej kompaktowa forme studni grawitacyjnej, nadaja sie do wykorzystania w przemysle teleinformatycznym do rzezbienia niewielkich objetosciowo lejow przestrzennych, po ktorych fala elektromagnetyczna swiatla przebywa skrocona droge co powoduje zerowe opoznienia w komunikacji. Jeden krysztal jest bialy, drugi czarny, ich wyglady sa odbiciem lustrzanym siebie nawzajem. ", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Krysztaly efektu masy", 
+            "Successor": "None"
+        }, 
+        "Glej": {
+            "Predecessor": "None", 
+            "Description": "Osobnicy poddani na lekkie oddzialywanie podniesionej radioaktywnosci oparow bagien glejowych wykazuja zmieniajaca sie sinusoidalnie w czasie funkcje ciezaru w ich organizmach. Wektory grawitacji wykrzywiaja sie zgodnie z ich wola, zas przy odpowiednim skupieniu napromieniowani ludzie sa w stanie rzezbic strukture  grawitacyjna przestrzeni - skrecac ja,mieszac i zapetlac. Badania substancji ujawnily szereg wlasciwosci majacy szereg aplikacji w przemysle. Gram substancji zapakowanej w przezroczysta fiolke bije fioletowym blaskiem;  pojemniki, w ktorych zapakowuje sie glej opatrzone sa dodatkowa maszyneria zabezpieczajaca na spodzie fiolki.", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Glej", 
+            "Successor": "None"
+        }, 
+        "lacza nadgrawitacyjne": {
+            "Predecessor": "Krysztaly efektu masy", 
+            "Description": "Oparte na krysztalach efektu masy o scisle okreslonych wlasciwosciach fizycznych, lacza nadgrawitacyjne sa standardem medium wymiany informacji w nowoczesnym przemysle teleinformatycznym. Lej przestrzenny jest przezroczysty, na jego koncach widac: na jednym czarny krysztal, na drugim bialy krysztal. \nLej moze emitowac fioletowe swiatlo. ", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "lacza nadgrawitacyjne", 
+            "Successor": "None"
+        }, 
+        "Nanoplastik": {
+            "Predecessor": "None", 
+            "Description": "Nanoplastik jest przyczyna rozwiniecia technologicznego ludzkosci do stopnia pozwalajacego tworzenia osiedli mieszkalnych na ksiezycu. Jest podstawowym budulcem, wytrwalym w warunkach atmosferycznych, a nawet - co bardziej istotne - idealnym do budowlanki w warunkach bez atmosfery, na przyklad w prozni. Jego ciagle doplywy na ksiezyc sa podstawa rozwoju miast poza Ziemia. Nanoplastic jest blokiem ciemno-niebieskiego materialu o nieregularnej powierzchni.", 
+            "Start income": "20", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Nanoplastik", 
+            "Successor": "None"
+        }, 
+        "Dropsy energetyczne": {
+            "Predecessor": "None", 
+            "Description": "Material zasilajacy przyrzady domowe. Jest calkowicie ekologicznym zrodlem energii, wytwarzanym w hurtowych ilosciach w zakladach produkcyjnych. Niezbedny, aby domy Twoich obywateli nadawaly sie do uzytku, tak wiec wytwarzanie go jest calkowicie obowiazkowe jesli lezy Ci na sercu rozwoj gospodarczy. Dropsy energetyczne przypominaja niebieskie diamenty.", 
+            "Start income": "3", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Dropsy energetyczne", 
+            "Successor": "None"
+        }, 
+        "Studnia przyciagania": {
+            "Predecessor": "Glej", 
+            "Description": "Opierajac sie na efekcie wplywania gleju na strukture przestrzeni, studnie przyciagania staly sie standardem technologicznym istotnie skracajacym fizyczne ograniczenia wywolane stala Plancka. Odpowiednia rzezba pozwala istotnie skrocic czasy transportu i komunikacji na duzych odleglosciach, wykorzystujac polaryzacje grawitacyjna - kawalek przestrzeni, odpowiednio \"nasmarowany\" glejem wypelnionym ujemnym promieniowaniem, zawija sie do miejsca w ktorym znajduje sie studnia przyciagania, emitujaca promieniowanie o identycznej wartosci modulu, lecz dodatnim znakiem. Studnia przypomina lej traby powietrznej, ktorej srodek  przewija wstega maszynerii; sama studnia wyplywa z czarnej plyty emitujacej na dole i wplywa do identycznej na gorze.", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Studnia przyciagania", 
+            "Successor": "None"
+        }, 
+        "Plastyczny egzoszkielet": {
+            "Predecessor": "None", 
+            "Description": "Mimo popularnosci nanoplastiku, dokonuje sie wciaz nowych odkryc w dziedzinach budownictwa oraz chemii. Plastyczny egzoszkielet jest materialem powstalym w wyniku fuzji obu dziedzin. Lekki i wytrzymaly, jego struktura jest konfigurowalna poprzez wyladowania energii elektrycznej.  Egzoszkielet wyglada jak szkielet szescianu, ktorego wierzcholki przypominaja stawy niebieskich kosci.", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Plastyczny egzoszkielet", 
+            "Successor": "None"
+        }, 
+        "Syntetyczne kadluby": {
+            "Predecessor": "Plastyczny egzoszkielet", 
+            "Description": "Pomimo tego, ze plastyczne egzoszkielety nadaja sie do bardzo wielu zastosowan, satanowia jedynie zestaw elementow, z ktorych dopiero  moze powstac cos praktycznego. Syntetyczne kadluby oparte o egzoszkielety sa w praktyce gotowymi modulami o uniwersalnym przeznaczeniu:  sluzacym jako tasmy produkcyjne, stoly jadalne itd. Posiadaja oplywowy ksztalt, wiele szczelin zlobiacych powierzchnie w skomplikowane wzory, sugerujace latwosc rekonfiguracji wygladu, a takze ekran miniterminala z klawiatura, za pomoca ktorej mozna wprowadzac oczekiwany koncowy ksztalt modulu. ", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Syntetyczne kadluby", 
+            "Successor": "None"
+        }, 
+        "Alkoholowe desery": {
+            "Predecessor": "Zdrowy likier", 
+            "Description": "Po wynalezieniu zdrowego likieru nastapila faza gwaltownego  rozwoju przemyslu  deserowego. Dzisiaj nie mozna sobie wrecz wyobrazic spotkania elit spolecznych bez kilku tacek likierowego deseru ulozonych przy stole rozmow. laczace w sobie wartosc odzywcza owocow, zdrowotnosc witamin. upojenie likierowe oraz deserowy smak wypiekow wprost z dziecinstwa, produkt ten rozkochal w sobie rzesze xenogenetykow. Deser likierowy podaje sie na krysztalowej, przezroczystej salaterce w estetycznej kompozycji czerwieni, fioletu i zlota, czesto uformowanych w ksztalty krzewow kwiatowych.", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Alkoholowe desery", 
+            "Successor": "None"
+        }, 
+        "Zdrowy likier": {
+            "Predecessor": "Witaminy", 
+            "Description": "Kilka lat temu, calkowicie przypadkowo, odkryto sposob generacji tzw. zdrowego alkoholu z witamin odzywczych. Witaminy, rozpuszczane w wysokich temeraturach, stopniowo schladzane coraz bardziej ekstremalnymi srodkami gasniczymi z cieklym azotem wlacznie, utrzymywane potem w warunkach prozniowych sa w stanie, wystawione na kazdym etapie chlodzenia na oddzialywanie gleju w rosnacych ilosciach, wytworzyc niesamowicie zdrowy, a przy tym smaczny niczym dojrzewajace przez setki lat wino produkt alkoholowy. Zdrowy likier jest wydawany w ozdobnej, purpurowej karafce. ", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Zdrowy likier", 
+            "Successor": "None"
+        }, 
+        "Witaminy": {
+            "Predecessor": "Owoce", 
+            "Description": "Wytwarzane z owocow witaminy, dodatkowo domieszkowane mineralami i bialkami, wzmacniaja sile osobnikow, a takze pozytywnie oddzialowuja na psyche uzytkownika. Wydaje sie je w postaci tabletek, kapsulek o roznych ksztaltach i kolorach.", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Witaminy", 
+            "Successor": "None"
+        }, 
+        "Gizmo": {
+            "Predecessor": "None", 
+            "Description": "Gizmo jest materialem budowlanym suplementujacym nanoplastik. Jest wymagany do stabilnej konstrukcji wielu budynkow od ktorych zalezy Twoja gospodarka, jednak ma jedna wade - jej plastyczne wlasciwosci zanikaja blyskawicznie w warunkach ziemskiej atmosfery, dlatego produkcja na Ziemi i transport na ksiezyc nie jest oplacalny. Zdecydowanie dluzej da sie go formowac w prozni. Ze wzgledu na latwosc produkcji, ksiezyc jest idealnym miejscem do otwarcia zakladow produkcyjnych wytwarzajacych ten zasob. Gizmo posiada prostokatny ksztalt, sklada sie z kolorowych warstw koncentrycznych prostokatow, kazdy o innym kolorze. ", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Gizmo", 
+            "Successor": "None"
+        }
+    }
+}

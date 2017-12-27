@@ -109,19 +109,21 @@ public class CreatorPy4JNode extends Py4JNode implements CreatorPresenter.OnCrea
 		}
 		return representers;
 	}
-	
+
 	private void createDefaultDependencies(){
 		try {
+			String DEFAULT_DEPS_PATH_PREFIX = "resources\\sysFiles\\defaultDependencies\\";
 			HashMap<String, DependenciesRepresenter> representers = fetchRepresentersMap();
-			DependenciesRepresenter dr = initDefaultDependenciesRepresenter("resources\\dependencies\\new_stronghold.dep");
+			DependenciesRepresenter dr = initDefaultDependenciesRepresenter(DEFAULT_DEPS_PATH_PREFIX + "new_stronghold.dep");
 			representers.put(CreatorConfig.DEPENDENCIES_DEFAULT_SET_NAME_ONE, dr);
-			dr = initDefaultDependenciesRepresenter("resources\\dependencies\\moon.dep");
+			dr = initDefaultDependenciesRepresenter(DEFAULT_DEPS_PATH_PREFIX + "moon.dep");
 			representers.put(CreatorConfig.DEPENDENCIES_DEFAULT_SET_NAME_TWO, dr);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		}
 	}
-	
+
+
 	private DependenciesRepresenter initDependenciesRepresenter(CreatorData creatorData) throws CheckException{
 		DependenciesRepresenter dr = new DependenciesRepresenter();
 		ResourcesMonter rm = new ResourcesMonter(creatorData.getResources(), dr);
