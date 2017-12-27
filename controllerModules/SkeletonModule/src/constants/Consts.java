@@ -35,7 +35,10 @@ public class Consts {
 	
 	public static final String DEPENDENCIES = "Dependencies";
 	public static final String DEPENDENCIES_SET_NAME = "DependenciesSetName";
-	
+
+	public static final String PANEL_TEXTURE=  "Panel Texture";
+	public static final String MP3 = "MP3";
+
 	public static final String DEPENDENCIES_REPRESENTERS = "DependenciesRepresenters";
 	//=======================================================
 	//for DependenciesRepresenter

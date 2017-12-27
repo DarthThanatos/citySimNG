@@ -63,7 +63,7 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 
 	private<E extends Entity> String getHintFromEntityDescription(E entity){
 //		return getOneDescSentence(entity);
-		return entity.getDescription();
+		return entity.getName() + ": " + entity.getDescription();
 	}
 
 	public String getHints(){

@@ -27,7 +27,12 @@ public class CreatorPy4JNode extends Py4JNode implements CreatorPresenter.OnCrea
 
 	public CreatorPy4JNode(DispatchCenter dispatchCenter, String nodeName) {
 		super(null, dispatchCenter, nodeName);
-		createDefaultDependencies();
+		createDefaultDependencies( "resources\\sysFiles\\defaultDependencies\\");
+	}
+
+	public CreatorPy4JNode(DispatchCenter dispatchCenter, String nodeName, String defaultFilesPrefix){
+		super(null, dispatchCenter, nodeName);
+		createDefaultDependencies(defaultFilesPrefix);
 	}
 
 	@Override
@@ -78,7 +83,11 @@ public class CreatorPy4JNode extends Py4JNode implements CreatorPresenter.OnCrea
 		JSONArray buildings = retrieveArrayFromObj(dependencies.getJSONObject("Buildings"));
 		JSONArray dwellers = retrieveArrayFromObj(dependencies.getJSONObject("Dwellers"));
 
-		
+		dr.setPanelTexture(dependencies.getString(Consts.PANEL_TEXTURE));
+		dr.setTextureAt(0, dependencies.getString(Consts.TEXTURE_ONE));
+		dr.setTextureAt(1, dependencies.getString(Consts.TEXTURE_TWO));
+		dr.setMp3(dependencies.getString(Consts.MP3));
+
 		ResourcesMonter rm = new ResourcesMonter(resources, dr);
 		BuildingsMonter bm = new BuildingsMonter(buildings, dr);
 		DwellersMonter dm = new DwellersMonter(dwellers, dr);
@@ -110,13 +119,12 @@ public class CreatorPy4JNode extends Py4JNode implements CreatorPresenter.OnCrea
 		return representers;
 	}
 
-	private void createDefaultDependencies(){
+	private void createDefaultDependencies(String defaultDepsPathPrefix){
 		try {
-			String DEFAULT_DEPS_PATH_PREFIX = "resources\\sysFiles\\defaultDependencies\\";
 			HashMap<String, DependenciesRepresenter> representers = fetchRepresentersMap();
-			DependenciesRepresenter dr = initDefaultDependenciesRepresenter(DEFAULT_DEPS_PATH_PREFIX + "new_stronghold.dep");
+			DependenciesRepresenter dr = initDefaultDependenciesRepresenter(defaultDepsPathPrefix + "new_stronghold.dep");
 			representers.put(CreatorConfig.DEPENDENCIES_DEFAULT_SET_NAME_ONE, dr);
-			dr = initDefaultDependenciesRepresenter(DEFAULT_DEPS_PATH_PREFIX + "moon.dep");
+			dr = initDefaultDependenciesRepresenter(defaultDepsPathPrefix + "moon.dep");
 			representers.put(CreatorConfig.DEPENDENCIES_DEFAULT_SET_NAME_TWO, dr);
 		} catch (Exception e) {
 			e.printStackTrace();

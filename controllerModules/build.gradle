@@ -17,6 +17,9 @@ subprojects {
 	dependencies {
 	   compile name: 'json'
 	}
+	test {
+	  testLogging.showStandardStreams = true
+	}
 }
 
 // Create a list of subprojects that you wish to include in the jar.  
