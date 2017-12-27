@@ -1,7 +1,9 @@
 package entities;
 
+import constants.CreatorConfig;
 import utils.CollectionConcatenationUtils;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Dweller extends Entity{
@@ -9,7 +11,12 @@ public class Dweller extends Entity{
 
 	
 	public Dweller(){
-		
+		setName("Dweller");
+		setConsumes(new HashMap<String, Integer>(){{put("Resource",1);}});
+		setDescription("Description");
+		setPredecessor("None");
+		setSuccessor("None");
+		setTexturePath(CreatorConfig.TEXTURE_ONE_DEFAULT_NAME);
 	}
 
 	public Map<String, Integer> getConsumes() {
