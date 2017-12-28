@@ -29,8 +29,7 @@
             "Building\nName": "Dormitorium robotnikow", 
             "Dweller\nName": "Robotnik", 
             "Cost\nin\nresources": {
-                "Plastyczny egzoszkielet": 3, 
-                "Gizmo": 3
+                "Nanoplastik": 15
             }, 
             "Texture path": "new\\dormitorium.png", 
             "Type": "Domestic", 
@@ -133,42 +132,40 @@
             }, 
             "Successor": "None"
         }, 
-        "Kopalnia gleju": {
-            "Predecessor": "None", 
-            "Description": "Obszary wydobywcze na terenie kopalni zostaly dobrane w ten sposob, aby koncentrowaly w sobie jak najgestsza koncentracje gleju. Obszar ma wyglad rozkopanego bagna z wejsciem do podziemi, przy ktorym stoi mala kubiczna strozowka z jedna antena i szarymi scianami.", 
-            "Produces": {
-                "Glej": 4
-            }, 
-            "Dwellers\namount": 2, 
-            "Building\nName": "Kopalnia gleju", 
-            "Dweller\nName": "Robotnik", 
+        "Kompleks inwestorow": {
+            "Predecessor": "Dormitorium robotnikow", 
+            "Description": "Nieco bardziej rozwiniete niz dormitorium robotnikow, kompleks inwestorow jest enklawa oparta o wyzsze standardy budowlane, ktore oprocz praktycznosci architektury gwarantuja takze wieksza przestronnosc pomieszczen oraz wygodniejsze apartamenty. Sa szczuplejsze i wyzsze od enklaw robotniczych, maja jasniejszy kolor scian; na ich (plaskich) dachach znajduje sie duzo anten.", 
+            "Produces": {}, 
+            "Dwellers\namount": 4, 
+            "Building\nName": "Kompleks inwestorow", 
+            "Dweller\nName": "Inwestor", 
             "Cost\nin\nresources": {
-                "Gizmo": 2
+                "Plastyczny egzoszkielet": 3, 
+                "Syntetyczne kadluby": 3
             }, 
-            "Texture path": "house.png", 
-            "Type": "Industrial", 
+            "Texture path": "new\\m_inwestorow.png", 
+            "Type": "Domestic", 
             "Consumes": {
-                "Dropsy energetyczne": 1
+                "Dropsy energetyczne": 2
             }, 
             "Successor": "None"
         }, 
-        "Palac Xenogenetyka": {
-            "Predecessor": "Kwatery naukowcow", 
-            "Description": "Ze wzgledu na swoja role w spoleczenstwie, xenogenetycy mieszcza swoje kwatery w budynkach przeznaczonych do dyspozycji tylko im. Palac Xenogenetyka jest jeszcze szczuplejszy i jeszcze wyzszy niz w przypadku kwatery naukowcow, zas dach kwatery posiada bardzo wymyslny ksztalt, sciany budynku sa \"jasnoszare\". ", 
-            "Produces": {}, 
-            "Dwellers\namount": 1, 
-            "Building\nName": "Palac Xenogenetyka", 
-            "Dweller\nName": "Xenogenetyk", 
-            "Cost\nin\nresources": {
-                "Gizmo": 5, 
-                "Nanoplastik": 5, 
-                "Plastyczny egzoszkielet": 5, 
-                "Syntetyczne kadluby": 5
+        "Browar": {
+            "Predecessor": "Wytwornia witamin", 
+            "Description": "W tym miejscu przeprowadzany jest proces odzyskiwania z paczek witamin wybornego likieru, w ktorym rozkoszuja sie Twoi Naukowcy. By proces mogl przebiegac sprawnie, powinienes posiadac rozwinieta galaz przemyslu witaminowego. Budynek przypomina prostokatna lodowke, z modulami wentylatorow wystajacymi w rogach parceli", 
+            "Produces": {
+                "Zdrowy likier": 6
             }, 
-            "Texture path": "new\\m_xenogenetyka.png", 
-            "Type": "Domestic", 
+            "Dwellers\namount": 1, 
+            "Building\nName": "Browar", 
+            "Dweller\nName": "Naukowiec", 
             "Consumes": {
-                "Dropsy energetyczne": 10
+                "Witaminy": 5
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Industrial", 
+            "Cost\nin\nresources": {
+                "Gizmo": 5
             }, 
             "Successor": "None"
         }, 
@@ -191,40 +188,41 @@
             }, 
             "Successor": "None"
         }, 
-        "Kompleks inwestorow": {
-            "Predecessor": "Dormitorium robotnikow", 
-            "Description": "Nieco bardziej rozwiniete niz dormitorium robotnikow, kompleks inwestorow jest enklawa oparta o wyzsze standardy budowlane, ktore oprocz praktycznosci architektury gwarantuja takze wieksza przestronnosc pomieszczen oraz wygodniejsze apartamenty. Sa szczuplejsze i wyzsze od enklaw robotniczych, maja jasniejszy kolor scian; na ich (plaskich) dachach znajduje sie duzo anten.", 
-            "Produces": {}, 
-            "Dwellers\namount": 4, 
-            "Building\nName": "Kompleks inwestorow", 
-            "Dweller\nName": "Inwestor", 
-            "Cost\nin\nresources": {
-                "Plastyczny egzoszkielet": 3, 
-                "Syntetyczne kadluby": 3
+        "Kopalnia gleju": {
+            "Predecessor": "None", 
+            "Description": "Obszary wydobywcze na terenie kopalni zostaly dobrane w ten sposob, aby koncentrowaly w sobie jak najgestsza koncentracje gleju. Obszar ma wyglad rozkopanego bagna z wejsciem do podziemi, przy ktorym stoi mala kubiczna strozowka z jedna antena i szarymi scianami.", 
+            "Produces": {
+                "Glej": 4
             }, 
-            "Texture path": "new\\m_inwestorow.png", 
-            "Type": "Domestic", 
+            "Dwellers\namount": 2, 
+            "Building\nName": "Kopalnia gleju", 
+            "Dweller\nName": "Robotnik", 
+            "Cost\nin\nresources": {
+                "Gizmo": 2
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Industrial", 
             "Consumes": {
-                "Dropsy energetyczne": 2
+                "Dropsy energetyczne": 1
             }, 
             "Successor": "None"
         }, 
-        "Wytwornia witamin": {
-            "Predecessor": "Plantacja owocow", 
-            "Description": "Wytwornia witamin jest miejscem, gdzie przebiega proces farmaceutyczny, kt\u00f3rego wynikiem sa paczki tabletek gotowe do dystrybucji pomiedzy Twoich Inwestorow. Aby jednak procedura przebiegala sprawnie, musisz dopilnowac, by Inwestorzy pracujacy tutaj otrzymywali regularne dostawy owocow. Budynek, ze wzgledu na penilona role, przypomina nieco apteke - kopulasty dach przyozdabia czerwony krzyz, na zewnatrz budynku stoja osoby w fartuchach aptekarzy, zas w oknach stoja buteleczki z witaminami.", 
+        "Cukiernia": {
+            "Predecessor": "Browar", 
+            "Description": "Miejsce deserami i alkoholem plynace. O to drugie powinienes zadbac sam - do momentu postawienia cukierni, Twoja gospodarka powinna oferowac infrastrukture chlodni browarowych w roznych sektorach Twojego ksiezycowego miasta. Xenogenetyk pracujacy tutaj pelni zaszytna role produkcji likierowych deserow dostarczanych reszcie swego bractwa. Budynek przywoluje usmiech na twarz: gradient grawitacji w tym miejscu jest ustawione tak, by wykrzywiac sztuczne swiatlo latarni ulicznych w ten sposob, ze przypadkowy przechodzien widzi go jakby zbudowanego z obsypanego rozowym lukrem piernika. Budynek posiada rozowe sciany, zas z okien zwisaja lukrowe laseczki, cukierki i lizaki.", 
             "Produces": {
-                "Witaminy": 5
+                "Alkoholowe desery": 5
             }, 
-            "Dwellers\namount": 2, 
-            "Building\nName": "Wytwornia witamin", 
-            "Dweller\nName": "Inwestor", 
+            "Dwellers\namount": 1, 
+            "Building\nName": "Cukiernia", 
+            "Dweller\nName": "Xenogenetyk", 
             "Consumes": {
-                "Owoce": 4
+                "Zdrowy likier": 4
             }, 
             "Texture path": "house.png", 
             "Type": "Industrial", 
             "Cost\nin\nresources": {
-                "Plastyczny egzoszkielet": 3
+                "Dropsy energetyczne": 1
             }, 
             "Successor": "None"
         }, 
@@ -266,41 +264,42 @@
             }, 
             "Successor": "None"
         }, 
-        "Cukiernia": {
-            "Predecessor": "Browar", 
-            "Description": "Miejsce deserami i alkoholem plynace. O to drugie powinienes zadbac sam - do momentu postawienia cukierni, Twoja gospodarka powinna oferowac infrastrukture chlodni browarowych w roznych sektorach Twojego ksiezycowego miasta. Xenogenetyk pracujacy tutaj pelni zaszytna role produkcji likierowych deserow dostarczanych reszcie swego bractwa. Budynek przywoluje usmiech na twarz: gradient grawitacji w tym miejscu jest ustawione tak, by wykrzywiac sztuczne swiatlo latarni ulicznych w ten sposob, ze przypadkowy przechodzien widzi go jakby zbudowanego z obsypanego rozowym lukrem piernika. Budynek posiada rozowe sciany, zas z okien zwisaja lukrowe laseczki, cukierki i lizaki.", 
+        "Wytwornia witamin": {
+            "Predecessor": "Plantacja owocow", 
+            "Description": "Wytwornia witamin jest miejscem, gdzie przebiega proces farmaceutyczny, kt\u00f3rego wynikiem sa paczki tabletek gotowe do dystrybucji pomiedzy Twoich Inwestorow. Aby jednak procedura przebiegala sprawnie, musisz dopilnowac, by Inwestorzy pracujacy tutaj otrzymywali regularne dostawy owocow. Budynek, ze wzgledu na penilona role, przypomina nieco apteke - kopulasty dach przyozdabia czerwony krzyz, na zewnatrz budynku stoja osoby w fartuchach aptekarzy, zas w oknach stoja buteleczki z witaminami.", 
             "Produces": {
-                "Alkoholowe desery": 5
+                "Witaminy": 5
             }, 
-            "Dwellers\namount": 1, 
-            "Building\nName": "Cukiernia", 
-            "Dweller\nName": "Xenogenetyk", 
+            "Dwellers\namount": 2, 
+            "Building\nName": "Wytwornia witamin", 
+            "Dweller\nName": "Inwestor", 
             "Consumes": {
-                "Zdrowy likier": 4
+                "Owoce": 4
             }, 
             "Texture path": "house.png", 
             "Type": "Industrial", 
             "Cost\nin\nresources": {
-                "Dropsy energetyczne": 1
+                "Plastyczny egzoszkielet": 3
             }, 
             "Successor": "None"
         }, 
-        "Browar": {
-            "Predecessor": "Wytwornia witamin", 
-            "Description": "W tym miejscu przeprowadzany jest proces odzyskiwania z paczek witamin wybornego likieru, w ktorym rozkoszuja sie Twoi Naukowcy. By proces mogl przebiegac sprawnie, powinienes posiadac rozwinieta galaz przemyslu witaminowego. Budynek przypomina prostokatna lodowke, z modulami wentylatorow wystajacymi w rogach parceli", 
-            "Produces": {
-                "Zdrowy likier": 6
-            }, 
+        "Palac Xenogenetyka": {
+            "Predecessor": "Kwatery naukowcow", 
+            "Description": "Ze wzgledu na swoja role w spoleczenstwie, xenogenetycy mieszcza swoje kwatery w budynkach przeznaczonych do dyspozycji tylko im. Palac Xenogenetyka jest jeszcze szczuplejszy i jeszcze wyzszy niz w przypadku kwatery naukowcow, zas dach kwatery posiada bardzo wymyslny ksztalt, sciany budynku sa \"jasnoszare\". ", 
+            "Produces": {}, 
             "Dwellers\namount": 1, 
-            "Building\nName": "Browar", 
-            "Dweller\nName": "Naukowiec", 
-            "Consumes": {
-                "Witaminy": 5
-            }, 
-            "Texture path": "house.png", 
-            "Type": "Industrial", 
+            "Building\nName": "Palac Xenogenetyka", 
+            "Dweller\nName": "Xenogenetyk", 
             "Cost\nin\nresources": {
-                "Gizmo": 5
+                "Gizmo": 5, 
+                "Nanoplastik": 5, 
+                "Plastyczny egzoszkielet": 5, 
+                "Syntetyczne kadluby": 5
+            }, 
+            "Texture path": "new\\m_xenogenetyka.png", 
+            "Type": "Domestic", 
+            "Consumes": {
+                "Dropsy energetyczne": 10
             }, 
             "Successor": "None"
         }
@@ -367,6 +366,14 @@
             "Resource\nName": "Krysztaly efektu masy", 
             "Successor": "None"
         }, 
+        "Studnia przyciagania": {
+            "Predecessor": "Glej", 
+            "Description": "Opierajac sie na efekcie wplywania gleju na strukture przestrzeni, studnie przyciagania staly sie standardem technologicznym istotnie skracajacym fizyczne ograniczenia wywolane stala Plancka. Odpowiednia rzezba pozwala istotnie skrocic czasy transportu i komunikacji na duzych odleglosciach, wykorzystujac polaryzacje grawitacyjna - kawalek przestrzeni, odpowiednio \"nasmarowany\" glejem wypelnionym ujemnym promieniowaniem, zawija sie do miejsca w ktorym znajduje sie studnia przyciagania, emitujaca promieniowanie o identycznej wartosci modulu, lecz dodatnim znakiem. Studnia przypomina lej traby powietrznej, ktorej srodek  przewija wstega maszynerii; sama studnia wyplywa z czarnej plyty emitujacej na dole i wplywa do identycznej na gorze.", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Studnia przyciagania", 
+            "Successor": "None"
+        }, 
         "Glej": {
             "Predecessor": "None", 
             "Description": "Osobnicy poddani na lekkie oddzialywanie podniesionej radioaktywnosci oparow bagien glejowych wykazuja zmieniajaca sie sinusoidalnie w czasie funkcje ciezaru w ich organizmach. Wektory grawitacji wykrzywiaja sie zgodnie z ich wola, zas przy odpowiednim skupieniu napromieniowani ludzie sa w stanie rzezbic strukture  grawitacyjna przestrzeni - skrecac ja,mieszac i zapetlac. Badania substancji ujawnily szereg wlasciwosci majacy szereg aplikacji w przemysle. Gram substancji zapakowanej w przezroczysta fiolke bije fioletowym blaskiem;  pojemniki, w ktorych zapakowuje sie glej opatrzone sa dodatkowa maszyneria zabezpieczajaca na spodzie fiolki.", 
@@ -375,18 +382,10 @@
             "Resource\nName": "Glej", 
             "Successor": "None"
         }, 
-        "Alkoholowe desery": {
-            "Predecessor": "Zdrowy likier", 
-            "Description": "Po wynalezieniu zdrowego likieru nastapila faza gwaltownego  rozwoju przemyslu  deserowego. Dzisiaj nie mozna sobie wrecz wyobrazic spotkania elit spolecznych bez kilku tacek likierowego deseru ulozonych przy stole rozmow. laczace w sobie wartosc odzywcza owocow, zdrowotnosc witamin. upojenie likierowe oraz deserowy smak wypiekow wprost z dziecinstwa, produkt ten rozkochal w sobie rzesze xenogenetykow. Deser likierowy podaje sie na krysztalowej, przezroczystej salaterce w estetycznej kompozycji czerwieni, fioletu i zlota, czesto uformowanych w ksztalty krzewow kwiatowych.", 
-            "Start income": "0", 
-            "Texture path": "DefaultBuilding.jpg", 
-            "Resource\nName": "Alkoholowe desery", 
-            "Successor": "None"
-        }, 
         "Nanoplastik": {
             "Predecessor": "None", 
             "Description": "Nanoplastik jest przyczyna rozwiniecia technologicznego ludzkosci do stopnia pozwalajacego tworzenia osiedli mieszkalnych na ksiezycu. Jest podstawowym budulcem, wytrwalym w warunkach atmosferycznych, a nawet - co bardziej istotne - idealnym do budowlanki w warunkach bez atmosfery, na przyklad w prozni. Jego ciagle doplywy na ksiezyc sa podstawa rozwoju miast poza Ziemia. Nanoplastic jest blokiem ciemno-niebieskiego materialu o nieregularnej powierzchni.", 
-            "Start income": "20", 
+            "Start income": "10", 
             "Texture path": "DefaultBuilding.jpg", 
             "Resource\nName": "Nanoplastik", 
             "Successor": "None"
@@ -399,12 +398,12 @@
             "Resource\nName": "Dropsy energetyczne", 
             "Successor": "None"
         }, 
-        "Studnia przyciagania": {
-            "Predecessor": "Glej", 
-            "Description": "Opierajac sie na efekcie wplywania gleju na strukture przestrzeni, studnie przyciagania staly sie standardem technologicznym istotnie skracajacym fizyczne ograniczenia wywolane stala Plancka. Odpowiednia rzezba pozwala istotnie skrocic czasy transportu i komunikacji na duzych odleglosciach, wykorzystujac polaryzacje grawitacyjna - kawalek przestrzeni, odpowiednio \"nasmarowany\" glejem wypelnionym ujemnym promieniowaniem, zawija sie do miejsca w ktorym znajduje sie studnia przyciagania, emitujaca promieniowanie o identycznej wartosci modulu, lecz dodatnim znakiem. Studnia przypomina lej traby powietrznej, ktorej srodek  przewija wstega maszynerii; sama studnia wyplywa z czarnej plyty emitujacej na dole i wplywa do identycznej na gorze.", 
+        "Alkoholowe desery": {
+            "Predecessor": "Zdrowy likier", 
+            "Description": "Po wynalezieniu zdrowego likieru nastapila faza gwaltownego  rozwoju przemyslu  deserowego. Dzisiaj nie mozna sobie wrecz wyobrazic spotkania elit spolecznych bez kilku tacek likierowego deseru ulozonych przy stole rozmow. laczace w sobie wartosc odzywcza owocow, zdrowotnosc witamin. upojenie likierowe oraz deserowy smak wypiekow wprost z dziecinstwa, produkt ten rozkochal w sobie rzesze xenogenetykow. Deser likierowy podaje sie na krysztalowej, przezroczystej salaterce w estetycznej kompozycji czerwieni, fioletu i zlota, czesto uformowanych w ksztalty krzewow kwiatowych.", 
             "Start income": "0", 
             "Texture path": "DefaultBuilding.jpg", 
-            "Resource\nName": "Studnia przyciagania", 
+            "Resource\nName": "Alkoholowe desery", 
             "Successor": "None"
         }, 
         "Plastyczny egzoszkielet": {
