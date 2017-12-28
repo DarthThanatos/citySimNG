@@ -54,14 +54,15 @@ public class CreatorPy4JNode extends Py4JNode implements CreatorPresenter.OnCrea
 		Presenter.getInstance().getCreatorPresenter().setOnCreatorPresenterCalled(null);	
 	}
 	
-	private String loadDefaultDependenciesString(String fileName) throws IOException{
+	private static String loadDefaultDependenciesString(String fileName) throws IOException{
 		BufferedReader br = new BufferedReader(new FileReader(new File(fileName)));
-		String dependenciesString = "", line;
+		StringBuilder dependenciesString = new StringBuilder();
+		String line;
 		while( (line = br.readLine()) != null ){
-			dependenciesString += line + "\n";
+			dependenciesString.append(line).append("\n");
 		}
 		br.close();
-		return dependenciesString;
+		return dependenciesString.toString();
 	}
 	
 	private static JSONArray retrieveArrayFromObj(JSONObject obj){
@@ -72,7 +73,19 @@ public class CreatorPy4JNode extends Py4JNode implements CreatorPresenter.OnCrea
 		}
 		return resArray;
 	}
-	
+
+	public static JSONArray jsonDepsArrayFromFile(String path, String dependenciesType){
+		String depsJsonContent = null;
+		try {
+			depsJsonContent = loadDefaultDependenciesString(path);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		assert depsJsonContent != null;
+		JSONObject depsObject = new JSONObject(depsJsonContent);
+		return retrieveArrayFromObj(depsObject.getJSONObject(dependenciesType));
+	}
+
 	private DependenciesRepresenter initDefaultDependenciesRepresenter(String fileName) throws IOException{
 		DependenciesRepresenter dr = new DependenciesRepresenter();
 		
@@ -159,7 +172,7 @@ public class CreatorPy4JNode extends Py4JNode implements CreatorPresenter.OnCrea
 			HashMap<String, DependenciesRepresenter> representers = fetchRepresentersMap();
 			representers.put(creatorData.getDependenciesSetName(), dr);
 			creatorPresenter.displayDependenciesGraph( dr.getGraphsHolder().displayAllGraphs());
-			creatorPresenter.displayMsg("Dependencies created successfully, please go to the Loader menu now to mapLevels what was created");
+			creatorPresenter.displayMsg("Dependencies created successfully, please go to the Loader menu now to see what was created");
 		} catch (CheckException e) {
 			creatorPresenter.displayMsg(e.getMessage());
 		}
