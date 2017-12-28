@@ -18,6 +18,14 @@ public abstract class Py4JNode implements Node{
 	private Node nextNode;
 //	private volatile boolean looping = true;
 
+	public Node getParent(){
+		return parent;
+	}
+
+	public Node getNeighbour(String neighbourHash){
+		return neighbors.get(neighbourHash);
+	}
+
 	public Py4JNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName){
 		this.dr = dr;
 		this.nodeName = nodeName;

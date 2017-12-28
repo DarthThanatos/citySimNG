@@ -1,15 +1,13 @@
-repositories {
-   flatDir {
-       dirs '../lib'
-   }
-}
-
 dependencies {
-   compile name: 'json'
+   testCompile project(":CreatorModule")
+   testCompile project(":MapModule")
+   testCompile project(":ExchangeModule")
+   testCompile project(":TutorialModule")
+   testCompile project(":MenuModule")
+
    compile name: 'py4j'
-   compile name: 'jgrapht-core-1.0.1'
+   compile name: 'json'
    compile name: 'guava'
-   compile name: 'reactive-streams'
    compile name: 'rxjava'
 }
 
