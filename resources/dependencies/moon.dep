@@ -309,7 +309,7 @@
             "Predecessor": "None", 
             "Description": "Podstawa sily roboczej w Twojej gospodarce. Wyksztalceni pod katem budowlanym, z podstawowym kursem fizyki glejowej sa w stanie bezpiecznie wydobywac glej z kopalni, produkowac owoce, ktore pozniej sa dostarczane reszcie tej klasy spolecznej. Nie zapomnij o nich, gdyz tylko duza liczba tych robotnikow pozwoli Ci rozwijac swoja gospodarke na kolejne etapy. Robotnicy sa wyposazeni w okulary  ochronne, pomaranczowe kombinezony, i - ze wzgledu na kontakt z glejem - fioletowe wlosy.", 
             "Dweller\nName": "Robotnik", 
-            "Texture path": "dweller.jpg", 
+            "Texture path": "new\\robotnik.png", 
             "Consumes": {
                 "Owoce": 5
             }, 
@@ -319,7 +319,7 @@
             "Predecessor": "Inwestor", 
             "Description": "Do modelowania warunkow koniecznych, aby z impaktu wywolanego dzialaniem studni grawitacyjnej wygenerowane zostaly krysztaly efektu masy, potrzeba wysoce wykwalifikowanych matematykow, fizykow, inzynierow - slowem, naukowcow. Naukowcy nie przybeda do miasta jesli nie dostarczysz im odpowiednich warunkow pracy i materialow do generowania krysztalow. Silnie uzaleznieni od zdrowego likieru. Naukowcy sa ubrani w biale uniformy, trzymaja notatnik ze skomplikowanymi obliczeniami, Polacy.  ", 
             "Dweller\nName": "Naukowiec", 
-            "Texture path": "new\\robotnik.png", 
+            "Texture path": "new\\naukowiec.png", 
             "Consumes": {
                 "Zdrowy likier": 2
             }, 
