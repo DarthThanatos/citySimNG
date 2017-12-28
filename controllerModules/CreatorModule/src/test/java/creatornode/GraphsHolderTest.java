@@ -2,7 +2,8 @@ package creatornode;
 
 import constants.Consts;
 import controlnode.DispatchCenter;
-import graph.GraphsHolder;
+import entities.Dweller;
+import graph.*;
 import model.DependenciesRepresenter;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,6 +12,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -105,8 +107,6 @@ public class GraphsHolderTest {
         System.out.println(buildingsDispGraph.toString(4));
 
         assertNotNull(fetchEntityByName(buildingsDispGraph, "Zrodlo gizmo"));
-
-
         assertNotNull(
             fetchEntityByName(
                 fetchEntityByName(
@@ -136,7 +136,6 @@ public class GraphsHolderTest {
         System.out.println(resourcesDispGraph.toString(4));
         assertNotNull(fetchEntityByName(resourcesDispGraph, "Gizmo"));
         assertNotNull(fetchEntityByName(resourcesDispGraph, "Plastyczny egzoszkielet"));
-        assertNotNull(fetchEntityByName(resourcesDispGraph, "Owoce"));
         assertNotNull(
                 fetchEntityByName(
                         fetchEntityByName(
@@ -154,19 +153,58 @@ public class GraphsHolderTest {
         );
     }
 
+    private <E extends GraphNode> E fetchEntityNode(List<E> roots, String name){
+        for(E root: roots){
+            if (root.getName().equals(name)){
+                return root;
+            }
+        }
+        return null;
+
+    }
+
+    private BuildingNode fetchBuildingRoot(String name){
+        return fetchEntityNode( graphsHolder.getBuildingsGraphs(), name);
+    }
+
+    private ResourceNode fetchResourceRoot(String name){
+        return fetchEntityNode( graphsHolder.getResourcesGraphs(), name);
+
+    }
+
+    private DwellerNode fetchDwellerRoot(String name){
+        return fetchEntityNode(graphsHolder.getDwellersGraphs(), name);
+    }
+
     @Test
     public void testResourcesGraph(){
-
+        assertNotNull(fetchResourceRoot("Owoce"));
+        assertNotNull(fetchResourceRoot("Gizmo"));
+        assertNotNull(fetchResourceRoot("Plastyczny egzoszkielet"));
     }
 
     @Test
     public void testBuildingsGraph(){
-
+        assertNotNull(fetchBuildingRoot("Plantacja owocow"));
+        assertNotNull(fetchBuildingRoot("Dormitorium robotnikow"));
+        assertNotNull(fetchBuildingRoot("Fabryka energodropsow"));
+        assertNotNull(fetchBuildingRoot("Wytwornia egzoszkieletow"));
     }
 
     @Test
     public void testDwellersGraph(){
-
+        DwellerNode dwellerLeaf = graphsHolder.getDwellerNode("Robotnik");
+        assertNotNull(dwellerLeaf);
+        assertNotNull( dwellerLeaf.getChild("Inwestor").getName());
+        assertEquals("Inwestor", dwellerLeaf.getChild("Inwestor").getName());
+//        assertEquals("Naukowiec", dwellerLeaf.getPredeccessorName());
+//        assertEquals("Naukowiec", ((DwellerNode)dwellerLeaf.getPredecessor()).getDweller().getName());
+//        assertEquals("Inwestor", dwellerLeaf.getPredecessor().getPredecessor().getName());
+//        assertEquals("Inwestor", dwellerLeaf.getPredecessor().getPredeccessorName());
+//        assertEquals("Robotnik", dwellerLeaf.getPredecessor().getPredecessor().getPredecessor().getName());
+//        assertEquals("Robotnik", dwellerLeaf.getPredecessor().getPredecessor().getPredeccessorName());
+//        assertEquals(dwellerLeaf, dwellerLeaf.getPredecessor().getPredecessor().getPredecessor());
+//        assertNotNull(fetchDwellerRoot("Robotnik"));
     }
 
 }
