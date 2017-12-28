@@ -31,7 +31,7 @@
             "Consumes": {
                 "Dropsy energetyczne": 2
             }, 
-            "Texture path": "house.png", 
+            "Texture path": "new\\dormitorium.png", 
             "Type": "Domestic", 
             "Cost\nin\nresources": {
                 "Plastyczny egzoszkielet": 3, 
@@ -320,7 +320,7 @@
             "Predecessor": "Inwestor", 
             "Description": "Do modelowania warunkow koniecznych, aby z impaktu wywolanego dzialaniem studni grawitacyjnej wygenerowane zostaly krysztaly efektu masy, potrzeba wysoce wykwalifikowanych matematykow, fizykow, inzynierow - slowem, naukowcow. Naukowcy nie przybeda do miasta jesli nie dostarczysz im odpowiednich warunkow pracy i materialow do generowania krysztalow. Silnie uzaleznieni od zdrowego likieru. Naukowcy sa ubrani w biale uniformy, trzymaja notatnik ze skomplikowanymi obliczeniami, Polacy.  ", 
             "Dweller\nName": "Naukowiec", 
-            "Texture path": "dweller.jpg", 
+            "Texture path": "new\\robotnik.png", 
             "Consumes": {
                 "Zdrowy likier": 2
             }, 
@@ -330,7 +330,7 @@
             "Predecessor": "Naukowiec", 
             "Description": "Xenogenetycy sa w Twojej gospodarce nadludzmi - platenau ludzkosci. Ich obecnosc w Twoim miescie jest zdecydowanie pozadana. W okresie dorastania zostali napromieniowani kontrolowanymi dawkami gleju. Posiadaja scisle umysly, lecz ich najwazniejszym atrybutem jest zrozumienie istoty gleju do stopnia pozwalajacego swobodnie manipulowac przestrzenia, dostosowujac parametry krysztalow efektu masy. Utworzyli z tego sztuke, kulture i nauke. Sa w stanie zmodernizowac Twoja gospodarke, produkujac lacza nadgrawitacyjne. Uzaleznieni od alkoholowych deserow, ktorych musisz im koniecznie dostarczac, aby patrzyli na Ciebie przychylnym okiem. Xenogenetycy maja nieco ekstrawagancki styl. Ubieraja sie w dlugie, szare szaty ceremonialne, lubia wyszukana bizuterie - zlote lancuchy na piersi, kolczyki w uszach. Zapuszczaja dlugie wlosy wiazane w konski ogon. Karnacja blada.", 
             "Dweller\nName": "Xenogenetyk", 
-            "Texture path": "dweller.jpg", 
+            "Texture path": "new\\xenogenetyk.png", 
             "Consumes": {
                 "Alkoholowe desery": 1
             }, 
@@ -340,7 +340,7 @@
             "Predecessor": "Robotnik", 
             "Description": "Inwestorzy sa grupa spoleczna, ktora laskawym okiem spoglada jedynie na gospodarke rozwinieta na tyle, ze zdolala przyciagnac sile robocza zdolna wydobywac glej w odpowiednich ilosciach, a takze wybudowala wystarczajaca infrastrukture dla przemyslu witaminowego, od ktorego inwestorzy sa uzaleznieni finansowo i zdrowotnie. Inwestorzy sponsoruja zaklady produkujace studnie przyciagania i maja wklad w produkcje witamin. Inwestorzy sa powazna grupa spoleczna ubrana w nienaganne smokingi, najczesciej latynosi wyposazeni w sluzbowe nesesery.", 
             "Dweller\nName": "Inwestor", 
-            "Texture path": "dweller.jpg", 
+            "Texture path": "new\\inwestor.png", 
             "Consumes": {
                 "Witaminy": 4
             }, 

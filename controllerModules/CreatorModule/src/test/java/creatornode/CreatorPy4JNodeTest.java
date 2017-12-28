@@ -136,7 +136,7 @@ public class CreatorPy4JNodeTest {
 
     @Test
     public void testLoaderNode(){
-        CreatorPy4JNode creatorPy4JNode = new CreatorPy4JNode(dispatchCenter, "Creator","..\\..\\resources\\sysFiles\\defaultDependencies\\");
+        new CreatorPy4JNode(dispatchCenter, "Creator","..\\..\\resources\\sysFiles\\defaultDependencies\\");
         verify(dispatchCenter, times(1)).getDispatchData("LoaderModule","DependenciesRepresenters");
         LoaderPy4JNode loaderPy4JNode = new LoaderPy4JNode(dispatchCenter, "Loader");
         verify(dispatchCenter, times(1)).getDispatchData("LoaderModule","DependenciesRepresenters");
