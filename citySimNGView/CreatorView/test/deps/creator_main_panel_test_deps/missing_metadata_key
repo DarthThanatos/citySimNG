@@ -1,0 +1,19 @@
+{
+    "Texture One": "new\\meadow1.jpg",
+
+    "MP3": "TwoMandolins.mp3",
+
+    "Dwellers": {
+
+    },
+
+    "Set Name": "TestSet",
+
+    "Texture Two": "new\\meadow2.jpg",
+
+    "Panel Texture": "BuildingsPanelTexture.jpg",
+
+    "Resources": {
+
+    }
+}
