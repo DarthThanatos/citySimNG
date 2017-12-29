@@ -309,7 +309,7 @@
             "Predecessor": "None", 
             "Description": "Podstawa sily roboczej w Twojej gospodarce. Wyksztalceni pod katem budowlanym, z podstawowym kursem fizyki glejowej sa w stanie bezpiecznie wydobywac glej z kopalni, produkowac owoce, ktore pozniej sa dostarczane reszcie tej klasy spolecznej. Nie zapomnij o nich, gdyz tylko duza liczba tych robotnikow pozwoli Ci rozwijac swoja gospodarke na kolejne etapy. Robotnicy sa wyposazeni w okulary  ochronne, pomaranczowe kombinezony, i - ze wzgledu na kontakt z glejem - fioletowe wlosy.", 
             "Dweller\nName": "Robotnik", 
-            "Texture path": "dweller.jpg", 
+            "Texture path": "new\\robotnik.png", 
             "Consumes": {
                 "Owoce": 5
             }, 
@@ -319,7 +319,7 @@
             "Predecessor": "Inwestor", 
             "Description": "Do modelowania warunkow koniecznych, aby z impaktu wywolanego dzialaniem studni grawitacyjnej wygenerowane zostaly krysztaly efektu masy, potrzeba wysoce wykwalifikowanych matematykow, fizykow, inzynierow - slowem, naukowcow. Naukowcy nie przybeda do miasta jesli nie dostarczysz im odpowiednich warunkow pracy i materialow do generowania krysztalow. Silnie uzaleznieni od zdrowego likieru. Naukowcy sa ubrani w biale uniformy, trzymaja notatnik ze skomplikowanymi obliczeniami, Polacy.  ", 
             "Dweller\nName": "Naukowiec", 
-            "Texture path": "new\\robotnik.png", 
+            "Texture path": "new\\naukowiec.png", 
             "Consumes": {
                 "Zdrowy likier": 2
             }, 
@@ -362,7 +362,7 @@
             "Predecessor": "Studnia przyciagania", 
             "Description": "Krysztaly efektu masy sa para mineralow o identycznych modulach wektorow promieniowania, lecz przeciwnych znakach. Powstaja jako efekt uboczny \"sklejenia\" kawalka przestrzeni ze studnia grawitacyjna. By powstaly, musi zostac wywolany odpowiedni impakt przy sklejeniu przestrzeni. Krysztaly, stanowiace slabsza, ale o wiele bardziej kompaktowa forme studni grawitacyjnej, nadaja sie do wykorzystania w przemysle teleinformatycznym do rzezbienia niewielkich objetosciowo lejow przestrzennych, po ktorych fala elektromagnetyczna swiatla przebywa skrocona droge co powoduje zerowe opoznienia w komunikacji. Jeden krysztal jest bialy, drugi czarny, ich wyglady sa odbiciem lustrzanym siebie nawzajem. ", 
             "Start income": "0", 
-            "Texture path": "DefaultBuilding.jpg", 
+            "Texture path": "new\\krysztaly.png", 
             "Resource\nName": "Krysztaly efektu masy", 
             "Successor": "None"
         }, 
@@ -386,7 +386,7 @@
             "Predecessor": "None", 
             "Description": "Nanoplastik jest przyczyna rozwiniecia technologicznego ludzkosci do stopnia pozwalajacego tworzenia osiedli mieszkalnych na ksiezycu. Jest podstawowym budulcem, wytrwalym w warunkach atmosferycznych, a nawet - co bardziej istotne - idealnym do budowlanki w warunkach bez atmosfery, na przyklad w prozni. Jego ciagle doplywy na ksiezyc sa podstawa rozwoju miast poza Ziemia. Nanoplastic jest blokiem ciemno-niebieskiego materialu o nieregularnej powierzchni.", 
             "Start income": "10", 
-            "Texture path": "DefaultBuilding.jpg", 
+            "Texture path": "new\\nanoplastik.png", 
             "Resource\nName": "Nanoplastik", 
             "Successor": "None"
         }, 
@@ -394,7 +394,7 @@
             "Predecessor": "None", 
             "Description": "Material zasilajacy przyrzady domowe. Jest calkowicie ekologicznym zrodlem energii, wytwarzanym w hurtowych ilosciach w zakladach produkcyjnych. Niezbedny, aby domy Twoich obywateli nadawaly sie do uzytku, tak wiec wytwarzanie go jest calkowicie obowiazkowe jesli lezy Ci na sercu rozwoj gospodarczy. Dropsy energetyczne przypominaja niebieskie diamenty.", 
             "Start income": "3", 
-            "Texture path": "DefaultBuilding.jpg", 
+            "Texture path": "new\\dropsy.png", 
             "Resource\nName": "Dropsy energetyczne", 
             "Successor": "None"
         }, 
@@ -402,7 +402,7 @@
             "Predecessor": "Zdrowy likier", 
             "Description": "Po wynalezieniu zdrowego likieru nastapila faza gwaltownego  rozwoju przemyslu  deserowego. Dzisiaj nie mozna sobie wrecz wyobrazic spotkania elit spolecznych bez kilku tacek likierowego deseru ulozonych przy stole rozmow. laczace w sobie wartosc odzywcza owocow, zdrowotnosc witamin. upojenie likierowe oraz deserowy smak wypiekow wprost z dziecinstwa, produkt ten rozkochal w sobie rzesze xenogenetykow. Deser likierowy podaje sie na krysztalowej, przezroczystej salaterce w estetycznej kompozycji czerwieni, fioletu i zlota, czesto uformowanych w ksztalty krzewow kwiatowych.", 
             "Start income": "0", 
-            "Texture path": "DefaultBuilding.jpg", 
+            "Texture path": "new\\deser.png", 
             "Resource\nName": "Alkoholowe desery", 
             "Successor": "None"
         }, 
@@ -434,7 +434,7 @@
             "Predecessor": "Witaminy", 
             "Description": "Kilka lat temu, calkowicie przypadkowo, odkryto sposob generacji tzw. zdrowego alkoholu z witamin odzywczych. Witaminy, rozpuszczane w wysokich temeraturach, stopniowo schladzane coraz bardziej ekstremalnymi srodkami gasniczymi z cieklym azotem wlacznie, utrzymywane potem w warunkach prozniowych sa w stanie, wystawione na kazdym etapie chlodzenia na oddzialywanie gleju w rosnacych ilosciach, wytworzyc niesamowicie zdrowy, a przy tym smaczny niczym dojrzewajace przez setki lat wino produkt alkoholowy. Zdrowy likier jest wydawany w ozdobnej, purpurowej karafce. ", 
             "Start income": "0", 
-            "Texture path": "DefaultBuilding.jpg", 
+            "Texture path": "new\\likier.png", 
             "Resource\nName": "Zdrowy likier", 
             "Successor": "None"
         }, 
@@ -442,7 +442,7 @@
             "Predecessor": "Owoce", 
             "Description": "Wytwarzane z owocow witaminy, dodatkowo domieszkowane mineralami i bialkami, wzmacniaja sile osobnikow, a takze pozytywnie oddzialowuja na psyche uzytkownika. Wydaje sie je w postaci tabletek, kapsulek o roznych ksztaltach i kolorach.", 
             "Start income": "0", 
-            "Texture path": "DefaultBuilding.jpg", 
+            "Texture path": "new\\witaminy.png", 
             "Resource\nName": "Witaminy", 
             "Successor": "None"
         }, 
@@ -450,7 +450,7 @@
             "Predecessor": "None", 
             "Description": "Gizmo jest materialem budowlanym suplementujacym nanoplastik. Jest wymagany do stabilnej konstrukcji wielu budynkow od ktorych zalezy Twoja gospodarka, jednak ma jedna wade - jej plastyczne wlasciwosci zanikaja blyskawicznie w warunkach ziemskiej atmosfery, dlatego produkcja na Ziemi i transport na ksiezyc nie jest oplacalny. Zdecydowanie dluzej da sie go formowac w prozni. Ze wzgledu na latwosc produkcji, ksiezyc jest idealnym miejscem do otwarcia zakladow produkcyjnych wytwarzajacych ten zasob. Gizmo posiada prostokatny ksztalt, sklada sie z kolorowych warstw koncentrycznych prostokatow, kazdy o innym kolorze. ", 
             "Start income": "0", 
-            "Texture path": "DefaultBuilding.jpg", 
+            "Texture path": "new\\gizmo.png", 
             "Resource\nName": "Gizmo", 
             "Successor": "None"
         }
