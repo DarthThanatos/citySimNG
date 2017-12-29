@@ -1,5 +1,5 @@
 {
-    "Texture One": "new\\moon_bg.jpg", 
+    "Texture One": "Moon\\background\\moon_bg.jpg", 
     "MP3": "TidesMain.mp3", 
     "Buildings": {
         "Zrodlo gizmo": {
@@ -31,7 +31,7 @@
             "Cost\nin\nresources": {
                 "Nanoplastik": 15
             }, 
-            "Texture path": "new\\dormitorium.png", 
+            "Texture path": "Moon\\buildings\\dormitorium.png", 
             "Type": "Domestic", 
             "Consumes": {
                 "Dropsy energetyczne": 2
@@ -88,7 +88,7 @@
             "Consumes": {
                 "Studnia przyciagania": 4
             }, 
-            "Texture path": "new\\piekarnia.png", 
+            "Texture path": "Middleages\\buildings\\piekarnia.png", 
             "Type": "Industrial", 
             "Cost\nin\nresources": {
                 "Gizmo": 4
@@ -125,7 +125,7 @@
                 "Plastyczny egzoszkielet": 5, 
                 "Syntetyczne kadluby": 5
             }, 
-            "Texture path": "new\\m_naukowcow.png", 
+            "Texture path": "Moon\\buildings\\m_naukowcow.png", 
             "Type": "Domestic", 
             "Consumes": {
                 "Dropsy energetyczne": 4
@@ -143,7 +143,7 @@
                 "Plastyczny egzoszkielet": 3, 
                 "Syntetyczne kadluby": 3
             }, 
-            "Texture path": "new\\m_inwestorow.png", 
+            "Texture path": "Moon\\buildings\\m_inwestorow.png", 
             "Type": "Domestic", 
             "Consumes": {
                 "Dropsy energetyczne": 2
@@ -296,7 +296,7 @@
                 "Plastyczny egzoszkielet": 5, 
                 "Syntetyczne kadluby": 5
             }, 
-            "Texture path": "new\\m_xenogenetyka.png", 
+            "Texture path": "Moon\\buildings\\m_xenogenetyka.png", 
             "Type": "Domestic", 
             "Consumes": {
                 "Dropsy energetyczne": 10
@@ -309,7 +309,7 @@
             "Predecessor": "None", 
             "Description": "Podstawa sily roboczej w Twojej gospodarce. Wyksztalceni pod katem budowlanym, z podstawowym kursem fizyki glejowej sa w stanie bezpiecznie wydobywac glej z kopalni, produkowac owoce, ktore pozniej sa dostarczane reszcie tej klasy spolecznej. Nie zapomnij o nich, gdyz tylko duza liczba tych robotnikow pozwoli Ci rozwijac swoja gospodarke na kolejne etapy. Robotnicy sa wyposazeni w okulary  ochronne, pomaranczowe kombinezony, i - ze wzgledu na kontakt z glejem - fioletowe wlosy.", 
             "Dweller\nName": "Robotnik", 
-            "Texture path": "new\\robotnik.png", 
+            "Texture path": "Moon\\dwellers\\robotnik.png", 
             "Consumes": {
                 "Owoce": 5
             }, 
@@ -319,7 +319,7 @@
             "Predecessor": "Inwestor", 
             "Description": "Do modelowania warunkow koniecznych, aby z impaktu wywolanego dzialaniem studni grawitacyjnej wygenerowane zostaly krysztaly efektu masy, potrzeba wysoce wykwalifikowanych matematykow, fizykow, inzynierow - slowem, naukowcow. Naukowcy nie przybeda do miasta jesli nie dostarczysz im odpowiednich warunkow pracy i materialow do generowania krysztalow. Silnie uzaleznieni od zdrowego likieru. Naukowcy sa ubrani w biale uniformy, trzymaja notatnik ze skomplikowanymi obliczeniami, Polacy.  ", 
             "Dweller\nName": "Naukowiec", 
-            "Texture path": "new\\naukowiec.png", 
+            "Texture path": "Moon\\dwellers\\naukowiec.png", 
             "Consumes": {
                 "Zdrowy likier": 2
             }, 
@@ -329,7 +329,7 @@
             "Predecessor": "Naukowiec", 
             "Description": "Xenogenetycy sa w Twojej gospodarce nadludzmi - platenau ludzkosci. Ich obecnosc w Twoim miescie jest zdecydowanie pozadana. W okresie dorastania zostali napromieniowani kontrolowanymi dawkami gleju. Posiadaja scisle umysly, lecz ich najwazniejszym atrybutem jest zrozumienie istoty gleju do stopnia pozwalajacego swobodnie manipulowac przestrzenia, dostosowujac parametry krysztalow efektu masy. Utworzyli z tego sztuke, kulture i nauke. Sa w stanie zmodernizowac Twoja gospodarke, produkujac lacza nadgrawitacyjne. Uzaleznieni od alkoholowych deserow, ktorych musisz im koniecznie dostarczac, aby patrzyli na Ciebie przychylnym okiem. Xenogenetycy maja nieco ekstrawagancki styl. Ubieraja sie w dlugie, szare szaty ceremonialne, lubia wyszukana bizuterie - zlote lancuchy na piersi, kolczyki w uszach. Zapuszczaja dlugie wlosy wiazane w konski ogon. Karnacja blada.", 
             "Dweller\nName": "Xenogenetyk", 
-            "Texture path": "new\\xenogenetyk.png", 
+            "Texture path": "Moon\\dwellers\\xenogenetyk.png", 
             "Consumes": {
                 "Alkoholowe desery": 1
             }, 
@@ -339,7 +339,7 @@
             "Predecessor": "Robotnik", 
             "Description": "Inwestorzy sa grupa spoleczna, ktora laskawym okiem spoglada jedynie na gospodarke rozwinieta na tyle, ze zdolala przyciagnac sile robocza zdolna wydobywac glej w odpowiednich ilosciach, a takze wybudowala wystarczajaca infrastrukture dla przemyslu witaminowego, od ktorego inwestorzy sa uzaleznieni finansowo i zdrowotnie. Inwestorzy sponsoruja zaklady produkujace studnie przyciagania i maja wklad w produkcje witamin. Inwestorzy sa powazna grupa spoleczna ubrana w nienaganne smokingi, najczesciej latynosi wyposazeni w sluzbowe nesesery.", 
             "Dweller\nName": "Inwestor", 
-            "Texture path": "new\\inwestor.png", 
+            "Texture path": "Moon\\dwellers\\inwestor.png", 
             "Consumes": {
                 "Witaminy": 4
             }, 
@@ -347,8 +347,8 @@
         }
     }, 
     "Set Name": "Moon", 
-    "Texture Two": "new\\moon_bg2.jpg", 
-    "Panel Texture": "new\\panel.jpg", 
+    "Texture Two": "Moon\\background\\moon_bg2.jpg", 
+    "Panel Texture": "Moon\\background\\panel.jpg", 
     "Resources": {
         "Owoce": {
             "Predecessor": "None", 
@@ -362,7 +362,7 @@
             "Predecessor": "Studnia przyciagania", 
             "Description": "Krysztaly efektu masy sa para mineralow o identycznych modulach wektorow promieniowania, lecz przeciwnych znakach. Powstaja jako efekt uboczny \"sklejenia\" kawalka przestrzeni ze studnia grawitacyjna. By powstaly, musi zostac wywolany odpowiedni impakt przy sklejeniu przestrzeni. Krysztaly, stanowiace slabsza, ale o wiele bardziej kompaktowa forme studni grawitacyjnej, nadaja sie do wykorzystania w przemysle teleinformatycznym do rzezbienia niewielkich objetosciowo lejow przestrzennych, po ktorych fala elektromagnetyczna swiatla przebywa skrocona droge co powoduje zerowe opoznienia w komunikacji. Jeden krysztal jest bialy, drugi czarny, ich wyglady sa odbiciem lustrzanym siebie nawzajem. ", 
             "Start income": "0", 
-            "Texture path": "new\\krysztaly.png", 
+            "Texture path": "Moon\\resources\\krysztaly.png", 
             "Resource\nName": "Krysztaly efektu masy", 
             "Successor": "None"
         }, 
@@ -386,7 +386,7 @@
             "Predecessor": "None", 
             "Description": "Nanoplastik jest przyczyna rozwiniecia technologicznego ludzkosci do stopnia pozwalajacego tworzenia osiedli mieszkalnych na ksiezycu. Jest podstawowym budulcem, wytrwalym w warunkach atmosferycznych, a nawet - co bardziej istotne - idealnym do budowlanki w warunkach bez atmosfery, na przyklad w prozni. Jego ciagle doplywy na ksiezyc sa podstawa rozwoju miast poza Ziemia. Nanoplastic jest blokiem ciemno-niebieskiego materialu o nieregularnej powierzchni.", 
             "Start income": "10", 
-            "Texture path": "new\\nanoplastik.png", 
+            "Texture path": "Moon\\resources\\nanoplastik.png", 
             "Resource\nName": "Nanoplastik", 
             "Successor": "None"
         }, 
@@ -394,7 +394,7 @@
             "Predecessor": "None", 
             "Description": "Material zasilajacy przyrzady domowe. Jest calkowicie ekologicznym zrodlem energii, wytwarzanym w hurtowych ilosciach w zakladach produkcyjnych. Niezbedny, aby domy Twoich obywateli nadawaly sie do uzytku, tak wiec wytwarzanie go jest calkowicie obowiazkowe jesli lezy Ci na sercu rozwoj gospodarczy. Dropsy energetyczne przypominaja niebieskie diamenty.", 
             "Start income": "3", 
-            "Texture path": "new\\dropsy.png", 
+            "Texture path": "Moon\\resources\\dropsy.png", 
             "Resource\nName": "Dropsy energetyczne", 
             "Successor": "None"
         }, 
@@ -402,7 +402,7 @@
             "Predecessor": "Zdrowy likier", 
             "Description": "Po wynalezieniu zdrowego likieru nastapila faza gwaltownego  rozwoju przemyslu  deserowego. Dzisiaj nie mozna sobie wrecz wyobrazic spotkania elit spolecznych bez kilku tacek likierowego deseru ulozonych przy stole rozmow. laczace w sobie wartosc odzywcza owocow, zdrowotnosc witamin. upojenie likierowe oraz deserowy smak wypiekow wprost z dziecinstwa, produkt ten rozkochal w sobie rzesze xenogenetykow. Deser likierowy podaje sie na krysztalowej, przezroczystej salaterce w estetycznej kompozycji czerwieni, fioletu i zlota, czesto uformowanych w ksztalty krzewow kwiatowych.", 
             "Start income": "0", 
-            "Texture path": "new\\deser.png", 
+            "Texture path": "Moon\\resources\\deser.png", 
             "Resource\nName": "Alkoholowe desery", 
             "Successor": "None"
         }, 
@@ -434,7 +434,7 @@
             "Predecessor": "Witaminy", 
             "Description": "Kilka lat temu, calkowicie przypadkowo, odkryto sposob generacji tzw. zdrowego alkoholu z witamin odzywczych. Witaminy, rozpuszczane w wysokich temeraturach, stopniowo schladzane coraz bardziej ekstremalnymi srodkami gasniczymi z cieklym azotem wlacznie, utrzymywane potem w warunkach prozniowych sa w stanie, wystawione na kazdym etapie chlodzenia na oddzialywanie gleju w rosnacych ilosciach, wytworzyc niesamowicie zdrowy, a przy tym smaczny niczym dojrzewajace przez setki lat wino produkt alkoholowy. Zdrowy likier jest wydawany w ozdobnej, purpurowej karafce. ", 
             "Start income": "0", 
-            "Texture path": "new\\likier.png", 
+            "Texture path": "Moon\\resources\\likier.png", 
             "Resource\nName": "Zdrowy likier", 
             "Successor": "None"
         }, 
@@ -442,7 +442,7 @@
             "Predecessor": "Owoce", 
             "Description": "Wytwarzane z owocow witaminy, dodatkowo domieszkowane mineralami i bialkami, wzmacniaja sile osobnikow, a takze pozytywnie oddzialowuja na psyche uzytkownika. Wydaje sie je w postaci tabletek, kapsulek o roznych ksztaltach i kolorach.", 
             "Start income": "0", 
-            "Texture path": "new\\witaminy.png", 
+            "Texture path": "Moon\\resources\\witaminy.png", 
             "Resource\nName": "Witaminy", 
             "Successor": "None"
         }, 
@@ -450,7 +450,7 @@
             "Predecessor": "None", 
             "Description": "Gizmo jest materialem budowlanym suplementujacym nanoplastik. Jest wymagany do stabilnej konstrukcji wielu budynkow od ktorych zalezy Twoja gospodarka, jednak ma jedna wade - jej plastyczne wlasciwosci zanikaja blyskawicznie w warunkach ziemskiej atmosfery, dlatego produkcja na Ziemi i transport na ksiezyc nie jest oplacalny. Zdecydowanie dluzej da sie go formowac w prozni. Ze wzgledu na latwosc produkcji, ksiezyc jest idealnym miejscem do otwarcia zakladow produkcyjnych wytwarzajacych ten zasob. Gizmo posiada prostokatny ksztalt, sklada sie z kolorowych warstw koncentrycznych prostokatow, kazdy o innym kolorze. ", 
             "Start income": "0", 
-            "Texture path": "new\\gizmo.png", 
+            "Texture path": "Moon\\resources\\gizmo.png", 
             "Resource\nName": "Gizmo", 
             "Successor": "None"
         }
