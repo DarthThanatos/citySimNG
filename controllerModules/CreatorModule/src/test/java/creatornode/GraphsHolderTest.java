@@ -2,7 +2,9 @@ package creatornode;
 
 import constants.Consts;
 import controlnode.DispatchCenter;
+import entities.Building;
 import entities.Dweller;
+import entities.Resource;
 import graph.*;
 import model.DependenciesRepresenter;
 import org.json.JSONArray;
@@ -22,7 +24,7 @@ public class GraphsHolderTest {
 
     @Mock
     private DispatchCenter dispatchCenter;
-    GraphsHolder graphsHolder;
+    private GraphsHolder graphsHolder;
 
     @Before
     public void setUp() throws Exception {
@@ -176,35 +178,106 @@ public class GraphsHolderTest {
         return fetchEntityNode(graphsHolder.getDwellersGraphs(), name);
     }
 
+    private Resource getResourceChild(GraphNode node, String name){
+        return ((ResourceNode)node.getChild(name)).getResource();
+    }
+
     @Test
     public void testResourcesGraph(){
-        assertNotNull(fetchResourceRoot("Owoce"));
+        ResourceNode fruitsNode = fetchResourceRoot("Owoce");
+        assertNotNull(fruitsNode);
+        assertEquals("Owoce", fruitsNode.getResource().getName());
+        assertEquals(fruitsNode, graphsHolder.getResourceNode("Owoce"));
+
+        ResourceNode vitaminsNode = graphsHolder.getResourceNode("Witaminy");
+        Resource vitamins = getResourceChild(fruitsNode, "Witaminy");
+        assertNotNull(vitamins);
+        assertEquals("Witaminy", vitamins.getName());
+        assertEquals(vitaminsNode.getResource(), getResourceChild(fruitsNode, "Witaminy"));
+
+        ResourceNode vodkaNode = graphsHolder.getResourceNode("Zdrowy likier");
+        Resource vodka = getResourceChild(vitaminsNode, "Zdrowy likier");
+        assertNotNull(vodka);
+        assertEquals("Zdrowy likier", vodka.getName());
+        assertEquals(vodkaNode.getResource(), getResourceChild(vitaminsNode, "Zdrowy likier"));
+
+        ResourceNode alcoholDesertsNode = graphsHolder.getResourceNode("Alkoholowe desery");
+        Resource alcoholDeserts = getResourceChild(vodkaNode, "Alkoholowe desery");
+        assertNotNull(alcoholDeserts);
+        assertEquals("Alkoholowe desery", alcoholDeserts.getName());
+        assertEquals(alcoholDesertsNode.getResource(), getResourceChild(vodkaNode, "Alkoholowe desery"));
+
         assertNotNull(fetchResourceRoot("Gizmo"));
         assertNotNull(fetchResourceRoot("Plastyczny egzoszkielet"));
     }
 
+
+    private Building getBuildingChild(GraphNode node, String name){
+        return ((BuildingNode)node.getChild(name)).getBuilding();
+    }
+
     @Test
     public void testBuildingsGraph(){
-        assertNotNull(fetchBuildingRoot("Plantacja owocow"));
-        assertNotNull(fetchBuildingRoot("Dormitorium robotnikow"));
-        assertNotNull(fetchBuildingRoot("Fabryka energodropsow"));
+        BuildingNode plantationNode = fetchBuildingRoot("Plantacja owocow");
+        assertNotNull(plantationNode);
+        assertEquals(plantationNode, graphsHolder.getBuildingNode("Plantacja owocow"));
+
+        BuildingNode workersDormitoryNode = fetchBuildingRoot("Dormitorium robotnikow");
+        assertNotNull(workersDormitoryNode);
+        assertEquals("Dormitorium robotnikow", workersDormitoryNode.getBuilding().getName());
+
+        BuildingNode investorDormitoryNode = graphsHolder.getBuildingNode("Kompleks inwestorow");
+        Building investorDormitory =  getBuildingChild(workersDormitoryNode, "Kompleks inwestorow");
+        assertNotNull(investorDormitory);
+        assertEquals("Kompleks inwestorow",investorDormitory.getName());
+        assertEquals(investorDormitoryNode.getBuilding(), getBuildingChild(workersDormitoryNode, "Kompleks inwestorow"));
+
+        BuildingNode scientistDormitoryNode = graphsHolder.getBuildingNode("Kwatery naukowcow");
+        Building scientistDormitory = getBuildingChild(investorDormitoryNode, "Kwatery naukowcow");
+        assertNotNull(scientistDormitory);
+        assertEquals("Kwatery naukowcow", scientistDormitory.getName());
+        assertEquals(scientistDormitoryNode.getBuilding(), getBuildingChild(investorDormitoryNode, "Kwatery naukowcow"));
+
+        BuildingNode xenogenesisPalaceNode = graphsHolder.getBuildingNode("Palac Xenogenetyka");
+        Building xenogenesisPalace = getBuildingChild(scientistDormitoryNode, "Palac Xenogenetyka");
+        assertNotNull(xenogenesisPalace);
+        assertEquals("Palac Xenogenetyka", xenogenesisPalace.getName());
+        assertEquals(xenogenesisPalaceNode.getBuilding(), getBuildingChild(scientistDormitoryNode, "Palac Xenogenetyka"));
+
+        BuildingNode energyFactory = fetchBuildingRoot("Fabryka energodropsow");
+        assertNotNull(energyFactory);
+
         assertNotNull(fetchBuildingRoot("Wytwornia egzoszkieletow"));
+    }
+
+    private Dweller getDwellerChild(GraphNode node, String name){
+        return ((DwellerNode)node.getChild(name)).getDweller();
     }
 
     @Test
     public void testDwellersGraph(){
-        DwellerNode dwellerLeaf = graphsHolder.getDwellerNode("Robotnik");
-        assertNotNull(dwellerLeaf);
-        assertNotNull( dwellerLeaf.getChild("Inwestor").getName());
-        assertEquals("Inwestor", dwellerLeaf.getChild("Inwestor").getName());
-//        assertEquals("Naukowiec", dwellerLeaf.getPredeccessorName());
-//        assertEquals("Naukowiec", ((DwellerNode)dwellerLeaf.getPredecessor()).getDweller().getName());
-//        assertEquals("Inwestor", dwellerLeaf.getPredecessor().getPredecessor().getName());
-//        assertEquals("Inwestor", dwellerLeaf.getPredecessor().getPredeccessorName());
-//        assertEquals("Robotnik", dwellerLeaf.getPredecessor().getPredecessor().getPredecessor().getName());
-//        assertEquals("Robotnik", dwellerLeaf.getPredecessor().getPredecessor().getPredeccessorName());
-//        assertEquals(dwellerLeaf, dwellerLeaf.getPredecessor().getPredecessor().getPredecessor());
-//        assertNotNull(fetchDwellerRoot("Robotnik"));
+        DwellerNode workerNode = fetchDwellerRoot("Robotnik");
+        assertNotNull(workerNode);
+        assertEquals(workerNode,  graphsHolder.getDwellerNode("Robotnik"));
+        assertEquals("Robotnik", workerNode.getDweller().getName());
+
+        DwellerNode investorNode = graphsHolder.getDwellerNode("Inwestor");
+        Dweller investor =  getDwellerChild(workerNode, "Inwestor");
+        assertNotNull(investor);
+        assertEquals("Inwestor",investor.getName());
+        assertEquals(investorNode.getDweller(), getDwellerChild(workerNode, "Inwestor"));
+
+        DwellerNode scientistNode = graphsHolder.getDwellerNode("Naukowiec");
+        Dweller scientist =  getDwellerChild(investorNode, "Naukowiec");
+        assertNotNull(scientist);
+        assertEquals("Naukowiec", scientist.getName());
+        assertEquals(scientistNode.getDweller(), getDwellerChild(investorNode, "Naukowiec"));
+
+        DwellerNode xenogenesisNode = graphsHolder.getDwellerNode("Xenogenetyk");
+        Dweller xenogenesis =  getDwellerChild(scientistNode, "Xenogenetyk");
+        assertNotNull(xenogenesis);
+        assertEquals("Xenogenetyk", xenogenesis.getName());
+        assertEquals(xenogenesisNode.getDweller(), getDwellerChild(scientistNode, "Xenogenetyk"));
     }
 
 }
