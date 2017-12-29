@@ -1,5 +1,5 @@
 {
-    "Texture One": "new\\meadow1.jpg",
+    "Texture One": "Middleages\\background\\meadow1.jpg",
     "MP3": "TwoMandolins.mp3",
     "Buildings": {},
     "Dwellers": {
@@ -15,7 +15,7 @@
         }
     },
     "Set Name": "Default Set",
-    "Texture Two": "new\\meadow2.jpg",
+    "Texture Two": "Middleages\\background\\meadow2.jpg",
     "Panel Texture": "BuildingsPanelTexture.jpg",
     "Resources": {
         "Resource": {

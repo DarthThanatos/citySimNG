@@ -48,8 +48,8 @@ public class CreatorNode extends SocketNode{
 				dependenciesString += line + "\n";
 			}
 			br.close();
-			String textureOneName = "new\\meadow1.jpg";
-			String textureTwoName = "new\\meadow2.jpg";
+			String textureOneName = "Middleages\\background\\meadow1.jpg";
+			String textureTwoName = "Middleages\\background\\meadow2.jpg";
 			
 			JSONObject dependencies = new JSONObject(dependenciesString);
 			System.out.println("Creator node received following dependencies package:\n" + dependencies);

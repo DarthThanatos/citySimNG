@@ -69,10 +69,10 @@ public class CreatorPy4JNodeTest {
 
 
     private void testMoonMetaData(DependenciesRepresenter moonDependenciesRepresenter){
-        assertEquals(moonDependenciesRepresenter.getTextureAt(0), "new\\moon_bg.jpg");
-        assertEquals(moonDependenciesRepresenter.getTextureAt(1), "new\\moon_bg2.jpg");
+        assertEquals(moonDependenciesRepresenter.getTextureAt(0), "Moon\\background\\moon_bg.jpg");
+        assertEquals(moonDependenciesRepresenter.getTextureAt(1), "Moon\\background\\moon_bg2.jpg");
         assertEquals(moonDependenciesRepresenter.getMp3(), "TidesMain.mp3");
-        assertEquals(moonDependenciesRepresenter.getPanelTexture(), "new\\panel.jpg");
+        assertEquals(moonDependenciesRepresenter.getPanelTexture(), "Moon\\background\\panel.jpg");
     }
 
     private void testMoonDeps(){
@@ -86,10 +86,10 @@ public class CreatorPy4JNodeTest {
 
     private void testStrongholdMetadata(DependenciesRepresenter strongholdDependenciesRepresenter){
 
-        assertEquals( strongholdDependenciesRepresenter.getTextureAt(0), "new\\meadow1.jpg");
-        assertEquals( strongholdDependenciesRepresenter.getTextureAt(1), "new\\meadow2.jpg");
+        assertEquals( strongholdDependenciesRepresenter.getTextureAt(0), "Middleages\\background\\meadow1.jpg");
+        assertEquals( strongholdDependenciesRepresenter.getTextureAt(1), "Middleages\\background\\meadow2.jpg");
         assertEquals( strongholdDependenciesRepresenter.getMp3(), "TwoMandolins.mp3");
-        assertEquals( strongholdDependenciesRepresenter.getPanelTexture(), "new\\drewno.jpg");
+        assertEquals( strongholdDependenciesRepresenter.getPanelTexture(), "Middleages\\background\\drewno.jpg");
     }
 
     private void testStrongholdDeps(){

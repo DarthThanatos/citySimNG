@@ -1,5 +1,5 @@
 {
-    "Texture One": "new\\meadow1.jpg", 
+    "Texture One": "Middleages\\background\\meadow1.jpg",
     "MP3": "TwoMandolins.mp3", 
     "Buildings": {
         "Kompleks inwestor\u00f3w": {
@@ -157,7 +157,7 @@
         }
     }, 
     "Set Name": "Moon", 
-    "Texture Two": "new\\meadow2.jpg", 
+    "Texture Two": "Middleages\\background\\meadow2.jpg",
     "Panel Texture": "BuildingsPanelTexture.jpg", 
     "Resources": {
         "Studnia przyci\u0105gania": {

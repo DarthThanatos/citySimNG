@@ -1,5 +1,5 @@
 {
-    "Texture One": "new\\meadow1.jpg",
+    "Texture One": "Middleages\\background\\meadow1.jpg",
  
     "MP3": "TwoMandolins.mp3",
  
@@ -23,7 +23,7 @@
                 "toConsumeByB": 2
             },
  
-            "Texture path": "new\\zamek.png",
+            "Texture path": "Middleages\\buildings\\zamek.png",
  
             "Type": "Industrial",
  
@@ -71,7 +71,7 @@
  
             "Dweller\nName": "Dweller",
  
-            "Texture path": "new\\mieszkaniec2.png",
+            "Texture path": "Middleages\\dwellers\\mieszkaniec2.png",
  
             "Consumes": {
                 "ToConsumeByD": 4
@@ -83,7 +83,7 @@
  
     "Set Name": "TestSet",
  
-    "Texture Two": "new\\meadow2.jpg",
+    "Texture Two": "Middleages\\background\\meadow2.jpg",
  
     "Panel Texture": "BuildingsPanelTexture.jpg",
  
@@ -95,7 +95,7 @@
  
             "Start income": "0",
  
-            "Texture path": "new\\kamien.png",
+            "Texture path": "Middleages\\resources\\kamien.png",
  
             "Resource\nName": "ToProduceByB",
  
