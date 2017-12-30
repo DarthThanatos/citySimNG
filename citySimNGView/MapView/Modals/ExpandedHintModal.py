@@ -8,22 +8,22 @@ from CreatorView.RelativePaths import relative_textures_path
 from MapView.Modals.ClosedHintModal import HINT_WIDTH
 import pygame
 
-HINT_MODAL_X = 0.05
-HINT_MODAL_Y = 0.05
-HINT_MODAL_WIDTH = 1 - BUILDINGS_PANEL_WIDTH - HINT_WIDTH - 0.1
-HINT_MODAL_HEIGHT = 1 - RESOURCES_PANEL_HEIGHT - NAVIGATION_PANEL_HEIGHT - 0.1
+HINT_MODAL_X = 0.2
+HINT_MODAL_Y = 0.2
+HINT_MODAL_WIDTH = 1 - BUILDINGS_PANEL_WIDTH - HINT_WIDTH - 0.4
+HINT_MODAL_HEIGHT = 1 - RESOURCES_PANEL_HEIGHT - NAVIGATION_PANEL_HEIGHT - 0.4
 
-BUTTON_WIDTH = 0.05
-BUTTON_HEIGHT = 0.05
+BUTTON_WIDTH = 0.1
+BUTTON_HEIGHT = 0.1
 
-ARROW_BUTTON_WIDTH = 0.1
-ARROW_BUTTON_HEIGHT = 0.1
+ARROW_BUTTON_WIDTH = 0.15
+ARROW_BUTTON_HEIGHT = 0.12
 LEFT_ARROW_X = 0.25
 RIGHT_ARROW_X = 1 - LEFT_ARROW_X - ARROW_BUTTON_WIDTH
-ARROW_Y = 0.9
+ARROW_Y = 0.88
 
 TEXT_FONT_SIZE = 25
-
+MARGIN = 8
 
 class ExpandedHintModal(ContainerSprite):
     def __init__(self, pos_x, pos_y, width, height, texture_path, hints,
@@ -70,8 +70,8 @@ class ExpandedHintModal(ContainerSprite):
 
     def create_page(self, surface, words, msg_split=False):
         remaining_words = draw_text_with_wrapping(
-            0, BUTTON_HEIGHT * self.height, self.width, words, GREEN,
-            surface, TEXT_FONT_SIZE,
+            MARGIN, BUTTON_HEIGHT * self.height + MARGIN, self.width - MARGIN,
+            words, GREEN, surface, TEXT_FONT_SIZE,
             max_pos_y=self.right_arrow.rect[1] - self.pos_y,
             msg_split=msg_split)[3]
         return remaining_words

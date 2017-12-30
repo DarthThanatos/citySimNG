@@ -14,9 +14,10 @@ DELETE_BUILDING_BUTTON_HEIGHT = 0.25
 DELETE_BUILDING_BUTTON_WIDTH = 0.1
 STOP_PRODUCTION_BUTTON_WIDTH = 0.1
 STOP_PRODUCTION_BUTTON_HEIGHT = 0.25
-ITEM_IMAGE_WIDTH = 25
-ITEM_IMAGE_HEIGHT = 25
+ITEM_IMAGE_WIDTH = 35
+ITEM_IMAGE_HEIGHT = 35
 SPACE = 0.1
+FONT_SIZE = 25
 
 
 class InfoPanel(Panel):
@@ -73,29 +74,33 @@ class InfoPanel(Panel):
 
             # draw text
             curr_y = draw_text(0, 0, self.curr_building.name, GREEN,
-                               self.surface)[1]
+                               self.surface, FONT_SIZE)[1]
 
             curr_x, curr_y = draw_text(0, curr_y, 'Produces: ', GREEN,
-                                       self.surface)
+                                       self.surface, FONT_SIZE)
             curr_y = \
             draw_items_info(self.curr_building.produces, curr_x, curr_y,
                             self.width, self, self.produces,
-                            self.sprites_for_current_building)[1]
+                            self.sprites_for_current_building,
+                            font_size=FONT_SIZE)[1]
 
-            curr_x = draw_text(0, curr_y, 'Consumes: ', RED, self.surface)[0]
+            curr_x = draw_text(0, curr_y, 'Consumes: ', RED, self.surface,
+                               FONT_SIZE)[0]
             curr_y = \
             draw_items_info(self.curr_building.consumes, curr_x, curr_y,
                             self.width, self, self.consumes,
-                            self.sprites_for_current_building)[1]
+                            self.sprites_for_current_building, color=RED,
+                            font_size=FONT_SIZE)[1]
 
             curr_x = draw_text(0, curr_y, 'Dwellers: ', LIGHT_BLUE,
-                               self.surface)[0]
+                               self.surface, FONT_SIZE)[0]
             curr_x = draw_dwellers_info(self.curr_building.dwellers_name,
                                         '{} / {}'.format(
                                             self.curr_building.working_dwellers,
                                             self.curr_building.required_dwellers),
                                         curr_x, curr_y, self,
-                                        self.dweller_sprite, color=LIGHT_BLUE)
+                                        self.dweller_sprite, color=LIGHT_BLUE,
+                                        font_size=FONT_SIZE)
             self.sprites_for_current_building.add(self.dweller_sprite)
 
             self.all_sprites.add(self.sprites_for_current_building)

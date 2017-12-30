@@ -17,6 +17,7 @@ ARROW_Y = 0.85
 LEFT_ARROW_X = 0.1
 RIGHT_ARROW_X = 0.6
 BUILDINGS_POPUP_WIDTH = 0.7
+FONT_SIZE = 30
 
 
 class BuildingsPanel(Panel):
@@ -128,7 +129,8 @@ class BuildingsPanel(Panel):
             self.page_buildings[str(self.curr_page)][0].type)
         curr_y = draw_text_with_wrapping_and_centering(0, 0, self.width,
                                                        panel_header_message,
-                                                       self.surface, GREEN)
+                                                       self.surface, GREEN,
+                                                       font_size=FONT_SIZE)
 
         # blit buildings
         for building in self.page_buildings[str(self.curr_page)]:

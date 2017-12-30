@@ -1,7 +1,8 @@
 dependencies {
    compile project(":SkeletonModule")
    compile files('../SkeletonModule/bin')
-} 
+   compile group: 'pl.pragmatists', name: 'JUnitParams', version: '1.1.1'
+}
 
 
 clean.doFirst {

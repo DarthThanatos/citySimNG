@@ -13,39 +13,11 @@ public class Building extends Entity {
 	private String type;
 	private String dwellersName;
 	private Integer dwellersAmount;
-	
 	private Integer workingDwellers = 0;
 	private String id;
 	private boolean running = true;
-
-	public boolean isEnabled() {
-		return isEnabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		isEnabled = enabled;
-	}
-
 	private boolean isEnabled = false;
-
-	public boolean isProducing() {
-		return producing;
-	}
-
-	public void setProducing(boolean producing) {
-		this.producing = producing;
-	}
-
 	private boolean producing = false;
-
-	
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 	
 	public Building(){
 		setName("Building");
@@ -157,7 +129,31 @@ public class Building extends Entity {
 	public void setRunning(boolean running) {
 		this.running = running;
 	}
-	
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public boolean isProducing() {
+		return producing;
+	}
+
+	public void setProducing(boolean producing) {
+		this.producing = producing;
+	}
+
+	public boolean isEnabled() {
+		return isEnabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		isEnabled = enabled;
+	}
+
 	@Override
 	public String toString(){
 		return "Building name: " + getName() + "\n"
