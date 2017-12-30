@@ -1,19 +1,17 @@
-repositories {
-   flatDir {
-       dirs '../lib'
-   }
-}
-
 dependencies {
-	compile project(":MapModule")
-    compile files('../MapModule/bin')
-    compile files('../SkeletonModule/bin')
+    compile project(":SkeletonModule")
+
+    testCompile project(":MapModule")
+    testCompile project(":ExchangeModule")
+    testCompile project(":TutorialModule")
+    testCompile project(":MenuModule")
+
     compile name: 'json'
     compile name: 'jgrapht-core-1.0.1'
-} 
 
+}
 
 clean.doFirst {
-	delete "bin/"
-	println "CreatorModule/bin/ deleted"
+    delete "bin/"
+    println "CreatorModule/bin/ deleted"
 }

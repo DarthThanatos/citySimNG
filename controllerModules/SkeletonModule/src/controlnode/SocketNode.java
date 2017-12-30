@@ -28,7 +28,14 @@ public abstract class SocketNode implements Node{
 	protected SocketStreamSender sender = null;
 	protected BlockingQueue<String> receiveQueue = null;
 	protected DispatchCenter dispatchCenter;
-	
+
+	public Node getParent(){
+		return parent;
+	}
+
+	public Node getNeighbour(String neighbourHash){
+		return neighbors.get(neighbourHash);
+	}
 	public SocketNode(DispatchCenter dispatchCenter, String nodeName){
 		this(null, dispatchCenter, nodeName);
 	}

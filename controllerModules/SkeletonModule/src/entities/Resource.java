@@ -1,26 +1,28 @@
 package entities;
 
+import constants.Consts;
+import constants.CreatorConfig;
+
 public class Resource extends Entity {
 	private int startingIncome;
-	private String description;
 	
-	public String getDescription(){
-		return description;
-	}
-	
-	public void setDescription(String description){
-		this.description = description;
-	}
-	
+
 	public Resource(){
-		
+		setName("Resource");
+		setStartingIncome(0);
+		setPredecessor("None");
+		setSuccessor("None");
+		setTexturePath(CreatorConfig.TEXTURE_ONE_DEFAULT_NAME);
+		setDescription("Description");
 	}
 	
-	public Resource(String name, String predecessor, String successor, String texturePath){
+	public Resource(String name, String predecessor, String successor, String texturePath, String description, int startIncome){
 		setName(name);
+		setStartingIncome(startIncome);
 		setPredecessor(predecessor);
 		setSuccessor(successor);
 		setTexturePath(texturePath);
+		setDescription(description);
 	}
 	
 	public void setStartingIncome(int startingIncome){

@@ -1,7 +1,9 @@
 package entities;
 
+import constants.CreatorConfig;
 import utils.CollectionConcatenationUtils;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Building extends Entity {
@@ -35,15 +37,7 @@ public class Building extends Entity {
 	}
 
 	private boolean producing = false;
-	private String description;
-	
-	public String getDescription(){
-		return description;
-	}
-	
-	public void setDescription(String description){
-		this.description = description;
-	}
+
 	
 	public String getId() {
 		return id;
@@ -54,7 +48,19 @@ public class Building extends Entity {
 	}
 	
 	public Building(){
-		
+		setName("Building");
+		setDwellersAmount(1);
+		setDwellersName("Dweller");
+		setDescription("Description");
+		setType("Industrial");
+		setTexturePath(CreatorConfig.TEXTURE_ONE_DEFAULT_NAME);
+		workingDwellers = 0;
+		setPredecessor("None");
+		setSuccessor("None");
+		setProduces(new HashMap<String, Integer>(){{put("Resource",1);}});
+		setConsumes(new HashMap<String, Integer>(){{put("Resource",1);}});
+		setResourcesCost(new HashMap<String, Integer>(){{put("Resource",1);}});
+
 	}
 
 	public Building(Building b){

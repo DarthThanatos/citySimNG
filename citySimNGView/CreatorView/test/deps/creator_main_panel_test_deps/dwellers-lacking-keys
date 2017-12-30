@@ -2,17 +2,10 @@
 
 {
 
-    "Resources":{
-        "ToConsumeByD":{
-
-        }
-
-    },
-
     "Dwellers": {
         "Dweller": {
 
-            "Predeccessor": "None",
+            "Predecessor": "None",
 
 
             "Dweller\nName": "Dweller",
@@ -23,7 +16,7 @@
                 "ToConsumeByD": 4
             },
 
-            "Successor": "None"
+            "Succcessor": "None"
         }
     }
 }

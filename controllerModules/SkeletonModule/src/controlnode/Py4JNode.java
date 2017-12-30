@@ -1,9 +1,10 @@
 package controlnode;
 
 import java.util.HashMap;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
-import py4jmediator.Presenter;
 import model.DependenciesRepresenter;
 
 public abstract class Py4JNode implements Node{
@@ -15,7 +16,15 @@ public abstract class Py4JNode implements Node{
 	protected DispatchCenter dispatchCenter;
 	
 	private Node nextNode;
-	private volatile boolean shouldLooping = true;
+//	private volatile boolean looping = true;
+
+	public Node getParent(){
+		return parent;
+	}
+
+	public Node getNeighbour(String neighbourHash){
+		return neighbors.get(neighbourHash);
+	}
 
 	public Py4JNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName){
 		this.dr = dr;
@@ -36,25 +45,39 @@ public abstract class Py4JNode implements Node{
 	
 	protected void moveTo(String targetName){
 		nextNode = neighbors.get(targetName);
-		shouldLooping = false;
+//		looping = false;
+		lock.lock();
+		looping.signal();
+		lock.unlock();
 	}
 
 	
 	protected abstract void atStart();
-	protected abstract void onLoop();
 	protected abstract void atExit(); 	
 	
 	@Override
 	public String getNodeName() {
 		return nodeName;
 	}
-	
+
+	private final Lock lock = new ReentrantLock();
+	private Condition looping = lock.newCondition();
+
 	@Override
 	public Node nodeLoop() {
-		shouldLooping = true;
+//		looping = true;
 		atStart();
-		while(shouldLooping){
-			onLoop();
+//		while(looping){
+//			onLoop();
+//		}
+
+		lock.lock();
+		try{
+			looping.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally {
+			lock.unlock();
 		}
 		atExit();
 		return nextNode;

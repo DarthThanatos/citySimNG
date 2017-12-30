@@ -72,7 +72,7 @@ class ResourcesPanel(Panel):
             self.pos_y, self.height),
                                           DWELLER_ICON_WIDTH * self.width,
                                           DWELLER_ICON_HEIGHT * self.height,
-                                          relative_textures_path + "new\\mieszkaniec2.png",
+                                          relative_textures_path + "Middleages\\Dwellers\\mieszkaniec2.png",
                                           "Working dwellers / All dwellers")
         self.all_sprites.add(self.dweller_sprite)
 

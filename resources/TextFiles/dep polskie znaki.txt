@@ -1,0 +1,268 @@
+{
+    "Texture One": "Middleages\\background\\meadow1.jpg",
+    "MP3": "TwoMandolins.mp3", 
+    "Buildings": {
+        "Kompleks inwestor\u00f3w": {
+            "Predecessor": "Dormitorium robotnik\u00f3w", 
+            "Description": "Nieco bardziej rozwini\u0119te ni\u017c dormitorium robotnik\u00f3w, kompleks inwestor\u00f3w jest enklaw\u0105 opart\u0105 o wy\u017csze standardy budowlane, kt\u00f3re opr\u00f3cz praktyczno\u015bci architektury gwarantuj\u0105 tak\u017ce wi\u0119ksz\u0105 przestronno\u015b\u0107 pomieszcze\u0144 oraz wygodniejsze apartamenty. S\u0105 szczuplejsze i wy\u017csze od enklaw robotniczych, maj\u0105 ja\u015bniejszy kolor \u015bcian; na ich (p\u0142askich) dachach znajduje si\u0119 du\u017co anten.", 
+            "Produces": {}, 
+            "Dwellers\namount": 4, 
+            "Building\nName": "Kompleks inwestor\u00f3w", 
+            "Dweller\nName": "Inwestor", 
+            "Consumes": {
+                "Dropsy energetyczne": 2
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Domestic", 
+            "Cost\nin\nresources": {
+                "Syntetyczne kad\u0142uby": 3, 
+                "Plastyczny egzoszkielet": 3
+            }, 
+            "Successor": "None"
+        }, 
+        "Kwatery naukowc\u00f3w": {
+            "Predecessor": "Kompleks inwestor\u00f3w", 
+            "Description": "Kwatery naukowc\u00f3w posiadaj\u0105 te same cechy co kompleksy inwestor\u00f3w, ale opr\u00f3cz tego wyposa\u017ca si\u0119 je w dodatkowe modu\u0142y. Im bardziej wykwalifikowana si\u0142a robocza, tym wi\u0119cej udogodnie\u0144 potrzebuje, wi\u0119c w kwaterach naukowc\u00f3w znajduje si\u0119 pot\u0119\u017cna ilo\u015b\u0107 usprawnie\u0144 w postaci rekonfigurowalnych mebli, \u0142azienek czy kuchni z przyrz\u0105dami obs\u0142ugiwanymi przez inteligentne oprogramowanie. Kwatera naukowc\u00f3w jest jeszcze szczuplejsza ni\u017c kompleks inwestor\u00f3w, posiada dachy w kszta\u0142cie kopu\u0142 z jeszcze wi\u0119ksz\u0105 ilo\u015bci\u0105 anten ni\u017c mia\u0142o to miejsce w przypadku siedziby inwestor\u00f3w. ", 
+            "Produces": {}, 
+            "Dwellers\namount": 2, 
+            "Building\nName": "Kwatery naukowc\u00f3w", 
+            "Dweller\nName": "Naukowiec", 
+            "Consumes": {
+                "Dropsy energetyczne": 4
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Domestic", 
+            "Cost\nin\nresources": {
+                "Syntetyczne kad\u0142uby": 5, 
+                "Plastyczny egzoszkielet": 5
+            }, 
+            "Successor": "None"
+        }, 
+        "Pa\u0142ac Xenogenetyka": {
+            "Predecessor": "Kwatery naukowc\u00f3w", 
+            "Description": "Ze wzgl\u0119du na swoj\u0105 rol\u0119 w spo\u0142ecze\u0144stwie, xenogenetycy mieszcz\u0105 swoje kwatery w budynkach przeznaczonych do dyspozycji tylko im. Pa\u0142ac Xenogenetyka jest jeszcze szczuplejszy i jeszcze wy\u017cszy ni\u017c w przypadku kwatery naukowc\u00f3w, za\u015b dach kwatery posiada bardzo wymy\u015blny kszta\u0142t, \u015bciany budynku s\u0105 \"jasnoszare\". ", 
+            "Produces": {}, 
+            "Dwellers\namount": 1, 
+            "Building\nName": "Pa\u0142ac Xenogenetyka", 
+            "Dweller\nName": "Xenogenetyk", 
+            "Cost\nin\nresources": {
+                "Syntetyczne kad\u0142uby": 5, 
+                "Plastyczny egzoszkielet": 5, 
+                "Gizmo": 5
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Domestic", 
+            "Consumes": {
+                "Dropsy energetyczne": 10
+            }, 
+            "Successor": "None"
+        }, 
+        "Kopalnia gleju": {
+            "Predecessor": "None", 
+            "Description": "Obszary wydobywcze na terenie kopalni zosta\u0142y dobrane w ten spos\u00f3b, aby koncentrowa\u0142y w sobie jak najg\u0119stsz\u0105 koncentracj\u0119 gleju. Obszar ma wygl\u0105d rozkopanego bagna z wej\u015bciem do podziemi, przy kt\u00f3rym stoi ma\u0142a kubiczna str\u00f3\u017c\u00f3wka z jedn\u0105 anten\u0105 i szarymi \u015bcianami.", 
+            "Produces": {
+                "Glej": 4
+            }, 
+            "Dwellers\namount": 2, 
+            "Building\nName": "Kopalnia gleju", 
+            "Dweller\nName": "Robotnik", 
+            "Consumes": {
+                "Dropsy energetyczne": 1
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Industrial", 
+            "Cost\nin\nresources": {
+                "Gizmo": 2
+            }, 
+            "Successor": "None"
+        }, 
+        "Kopalnia studni przyci\u0105gania": {
+            "Predecessor": "Kopalnia gleju", 
+            "Description": "Przeznaczeniem tego budynku jest zaopatrywanie Twojej gospodarki w ci\u0105g\u0142e dostawy studni przyci\u0105gania. Aby ta ci\u0105\u0142o\u015b\u0107 zosta\u0142a zaspokojona, nale\u017cy dostarcza\u0107 gleju w odpowiednich ilo\u015bciach. ", 
+            "Produces": {
+                "Studnia przyci\u0105gania": 3
+            }, 
+            "Dwellers\namount": 2, 
+            "Building\nName": "Kopalnia studni przyci\u0105gania", 
+            "Dweller\nName": "Inwestor", 
+            "Cost\nin\nresources": {
+                "Gizmo": 4
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Industrial", 
+            "Consumes": {
+                "Glej": 4
+            }, 
+            "Successor": "None"
+        }, 
+        "Dormitorium robotnik\u00f3w": {
+            "Predecessor": "None", 
+            "Description": "Ogrzewane osiedla robotnicze s\u0105 budowane w oparciu o wsp\u00f3\u0142czesne standardy architektoniczne. Zapewniaj\u0105 stabilno\u015b\u0107, wytrzyma\u0142o\u015b\u0107 i bezpiecze\u0144stwo w warunkach poza atmosfer\u0105 ziemsk\u0105 przebywaj\u0105cych w nich mieszka\u0144c\u00f3w.  Wygl\u0105daj\u0105 jak enklawa bunkr\u00f3w, z dachami w kszta\u0142cie kopu\u0142, o szarym kolorze \u015bcian. ", 
+            "Produces": {}, 
+            "Dwellers\namount": 5, 
+            "Building\nName": "Dormitorium robotnik\u00f3w", 
+            "Dweller\nName": "Robotnik", 
+            "Consumes": {
+                "Dropsy energetyczne": 2
+            }, 
+            "Texture path": "house.png", 
+            "Type": "Domestic", 
+            "Cost\nin\nresources": {
+                "Plastyczny egzoszkielet": 3, 
+                "Gizmo": 3
+            }, 
+            "Successor": "None"
+        }
+    }, 
+    "Dwellers": {
+        "Robotnik": {
+            "Predecessor": "None", 
+            "Description": "Podstawa si\u0142y roboczej w Twojej gospodarce. Wykszta\u0142ceni pod k\u0105tem budowlanym, z podstawowym kursem fizyki glejowej s\u0105 w stanie bezpiecznie wydobywa\u0107 glej z kopalni, produkowa\u0107 owoce, kt\u00f3re p\u00f3\u017aniej s\u0105 dostarczane reszcie tej klasy spo\u0142ecznej. Nie zapomnij o nich, gdy\u017c tylko du\u017ca liczba tych robotnik\u00f3w pozwoli Ci rozwija\u0107 swoj\u0105 gospodark\u0119 na kolejne etapy. Robotnicy s\u0105 wyposa\u017ceni w okulary  ochronne, pomara\u0144czowe kombinezony, i - ze wzgl\u0119du na kontakt z glejem - fioletowe w\u0142osy.", 
+            "Dweller\nName": "Robotnik", 
+            "Texture path": "dweller.jpg", 
+            "Consumes": {
+                "Owoce": 5
+            }, 
+            "Successor": "None"
+        }, 
+        "Naukowiec": {
+            "Predecessor": "Inwestor", 
+            "Description": "Do modelowania warunk\u00f3w koniecznych, aby z impaktu wywo\u0142anego dzia\u0142aniem studni grawitacyjnej wygenerowane zosta\u0142y kryszta\u0142y efektu masy, potrzeba wysoce wykwalifikowanych matematyk\u00f3w, fizyk\u00f3w, in\u017cynier\u00f3w - s\u0142owem, naukowc\u00f3w. Naukowcy nie przyb\u0119d\u0105 do miasta je\u015bli nie dostarczysz im odpowiednich warunk\u00f3w pracy i materia\u0142\u00f3w do generowania kryszta\u0142\u00f3w. Silnie uzale\u017cnieni od zdrowego likieru. Naukowcy s\u0105 ubrani w bia\u0142e uniformy, trzymaj\u0105 notatnik ze skomplikowanymi obliczeniami, Polacy.  ", 
+            "Dweller\nName": "Naukowiec", 
+            "Texture path": "dweller.jpg", 
+            "Consumes": {
+                "Zdrowy likier": 2
+            }, 
+            "Successor": "None"
+        }, 
+        "Xenogenetyk": {
+            "Predecessor": "Naukowiec", 
+            "Description": "Xenogenetycy s\u0105 w Twojej gospodarce nadlud\u017ami - platenau ludzko\u015bci. Ich obecno\u015b\u0107 w Twoim mie\u015bcie jest zdecydowanie po\u017c\u0105dana. W okresie dorastania zostali napromieniowani kontrolowanymi dawkami gleju. Posiadaj\u0105 \u015bcis\u0142e umys\u0142y, lecz ich najwa\u017cniejszym atrybutem jest zrozumienie istoty gleju do stopnia pozwalaj\u0105cego swobodnie manipulowa\u0107 przestrzeni\u0105, dostosowuj\u0105c parametry kryszta\u0142\u00f3w efektu masy. Utworzyli z tego sztuk\u0119, kultur\u0119 i nauk\u0119. S\u0105 w stanie zmodernizowa\u0107 Twoj\u0105 gospodark\u0119, produkuj\u0105c \u0142\u0105cza nadgrawitacyjne. Uzale\u017cnieni od alkoholowych deser\u00f3w, kt\u00f3rych musisz im koniecznie dostarcza\u0107, aby patrzyli na Ciebie przychylnym okiem. Xenogenetycy maj\u0105 nieco ekstrawagancki styl. Ubieraj\u0105 si\u0119 w d\u0142ugie, szare szaty ceremonialne, lubi\u0105 wyszukan\u0105 bi\u017cuteri\u0119 - z\u0142ote \u0142a\u0144cuchy na piersi, kolczyki w uszach. Zapuszczaj\u0105 d\u0142ugie w\u0142osy wi\u0105zane w ko\u0144ski ogon. Karnacja blada.", 
+            "Dweller\nName": "Xenogenetyk", 
+            "Texture path": "dweller.jpg", 
+            "Consumes": {
+                "Alkoholowe desery": 1
+            }, 
+            "Successor": "None"
+        }, 
+        "Inwestor": {
+            "Predecessor": "Robotnik", 
+            "Description": "Inwestorzy s\u0105 grup\u0105 spo\u0142eczn\u0105, kt\u00f3ra \u0142askawym okiem spogl\u0105da jedynie na gospodark\u0119 rozwini\u0119t\u0105 na tyle, \u017ce zdo\u0142a\u0142a przyci\u0105gn\u0105\u0107 si\u0142\u0119 robocz\u0105 zdoln\u0105 wydobywa\u0107 glej w odpowiednich ilo\u015bciach, a tak\u017ce wybudowa\u0142a wystarczaj\u0105c\u0105 infrastruktur\u0119 dla przemys\u0142u witaminowego, od kt\u00f3rego inwestorzy s\u0105 uzale\u017cnieni finansowo i zdrowotnie. Inwestorzy sponsoruj\u0105 zak\u0142ady produkuj\u0105ce studnie przyci\u0105gania i maj\u0105 wk\u0142ad w produkcj\u0119 witamin. Inwestorzy s\u0105 powa\u017cn\u0105 grup\u0105 spo\u0142eczn\u0105 ubran\u0105 w nienaganne smokingi, najcz\u0119\u015bciej latynosi wyposa\u017ceni w s\u0142u\u017cbowe nesesery.", 
+            "Dweller\nName": "Inwestor", 
+            "Texture path": "dweller.jpg", 
+            "Consumes": {
+                "Witaminy": 4
+            }, 
+            "Successor": "None"
+        }
+    }, 
+    "Set Name": "Moon", 
+    "Texture Two": "Middleages\\background\\meadow2.jpg",
+    "Panel Texture": "BuildingsPanelTexture.jpg", 
+    "Resources": {
+        "Studnia przyci\u0105gania": {
+            "Predecessor": "Glej", 
+            "Description": "Opieraj\u0105c si\u0119 na efekcie wp\u0142ywania gleju na struktur\u0119 przestrzeni, studnie przyci\u0105gania sta\u0142y si\u0119 standardem technologicznym istotnie skracaj\u0105cym fizyczne ograniczenia wywo\u0142ane sta\u0142\u0105 Plancka. Odpowiednia rze\u017aba pozwala istotnie skr\u00f3ci\u0107 czasy transportu i komunikacji na du\u017cych odleg\u0142o\u015bciach, wykorzystuj\u0105c polaryzacj\u0119 grawitacyjn\u0105 - kawa\u0142ek przestrzeni, odpowiednio \"nasmarowany\" glejem wype\u0142nionym ujemnym promieniowaniem, zawija si\u0119 do miejsca w kt\u00f3rym znajduje si\u0119 studnia przyci\u0105gania, emituj\u0105ca promieniowanie o identycznej warto\u015bci modu\u0142u, lecz dodatnim znakiem. Studnia przypomina lej tr\u0105by powietrznej, kt\u00f3rej \u015brodek  przewija wst\u0119ga maszynerii; sama studnia wyp\u0142ywa z czarnej p\u0142yty emituj\u0105cej na dole i wp\u0142ywa do identycznej na g\u00f3rze.", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Studnia przyci\u0105gania", 
+            "Successor": "None"
+        }, 
+        "Owoce": {
+            "Predecessor": "None", 
+            "Description": "Podstawa diety si\u0142y roboczej  w Twoim mie\u015bcie, owoce zosta\u0142y genetycznie zoptymalizowane pod k\u0105tem dodatkowego pobudzania o\u015brodka przyjemno\u015bci i nagrody w m\u00f3zgu cz\u0142owieka. S\u0105 przy tym niesamowicie od\u017cywcze. Wygl\u0105daj\u0105 jak typowe, rodzime owoce - przyk\u0142adowo, poziomki, truskawki, czere\u015bnie.", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Owoce", 
+            "Successor": "None"
+        }, 
+        "Glej": {
+            "Predecessor": "None", 
+            "Description": "Osobnicy poddani na lekkie oddzia\u0142ywanie podniesionej radioaktywno\u015bci opar\u00f3w bagien glejowych wykazuj\u0105 zmieniaj\u0105ca si\u0119 sinusoidalnie w czasie funkcj\u0119 cie\u017caru w ich organizmach. Wektory grawitacji wykrzywiaj\u0105 si\u0119 zgodnie z ich wol\u0105, za\u015b przy odpowiednim skupieniu napromieniowani ludzie s\u0105 w stanie rzezbi\u0107 struktur\u0119  grawitacyjn\u0105 przestrzeni - skr\u0119ca\u0107 j\u0105,miesza\u0107 i zap\u0119tla\u0107. Badania substancji ujawni\u0142y szereg w\u0142a\u015bciwo\u015bci maj\u0105cy szereg aplikacji w przemy\u015ble. Gram substancji zapakowanej w przezroczyst\u0105 fiolk\u0119 bije fioletowym blaskiem;  pojemniki, w kt\u00f3rych zapakowuje si\u0119 glej opatrzone s\u0105 dodatkow\u0105 maszyneri\u0105 zabezpieczaj\u0105c\u0105 na spodzie fiolki.", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Glej", 
+            "Successor": "None"
+        }, 
+        "\u0141\u0105cza nadgrawitacyjne": {
+            "Predecessor": "Kryszta\u0142y efektu masy", 
+            "Description": "Oparte na kryszta\u0142ach efektu masy o \u015bci\u015ble okre\u015blonych w\u0142a\u015bciwo\u015bciach fizycznych, \u0142\u0105cza nadgrawitacyjne s\u0105 standardem medium wymiany informacji w nowoczesnym przemy\u015ble teleinformatycznym. Lej przestrzenny jest przezroczysty, na jego ko\u0144cach wida\u0107: na jednym czarny kryszta\u0142, na drugim bia\u0142y kryszta\u0142. \n\nLej mo\u017ce emitowa\u0107 fioletowe \u015bwiat\u0142o. ", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "\u0141\u0105cza nadgrawitacyjne", 
+            "Successor": "None"
+        }, 
+        "Kryszta\u0142y efektu masy": {
+            "Predecessor": "Studnia przyci\u0105gania", 
+            "Description": "Kryszta\u0142y efektu masy s\u0105 par\u0105 minera\u0142\u00f3w o identycznych modu\u0142ach wektor\u00f3w promieniowania, lecz przeciwnych znakach. Powstaj\u0105 jako efekt uboczny \"sklejenia\" kawa\u0142ka przestrzeni ze studni\u0105 grawitacyjn\u0105. By powsta\u0142y, musi zosta\u0107 wywo\u0142any odpowiedni impakt przy sklejeniu przestrzeni. Kryszta\u0142y, stanowi\u0105ce s\u0142absz\u0105, ale o wiele bardziej kompaktow\u0105 form\u0119 studni grawitacyjnej, nadaj\u0105 si\u0119 do wykorzystania w przemy\u015ble teleinformatycznym do rze\u017abienia niewielkich obj\u0119to\u015bciowo lej\u00f3w przestrzennych, po kt\u00f3rych fala elektromagnetyczna \u015bwiat\u0142a przebywa skr\u00f3con\u0105 drog\u0119 co powoduje zerowe op\u00f3\u017anienia w komunikacji. Jeden kryszta\u0142 jest bia\u0142y, drugi czarny, ich wygl\u0105dy s\u0105 odbiciem lustrzanym siebie nawzajem. ", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Kryszta\u0142y efektu masy", 
+            "Successor": "None"
+        }, 
+        "Nanoplastik": {
+            "Predecessor": "None", 
+            "Description": "Nanoplastik jest przyczyn\u0105 rozwini\u0119cia technologicznego ludzko\u015bci do stopnia pozwalaj\u0105cego tworzenia osiedli mieszkalnych na ksi\u0119\u017cycu. Jest podstawowym budulcem, wytrwa\u0142ym w warunkach atmosferycznych, a nawet - co bardziej istotne - idealnym do budowlanki w warunkach bez atmosfery, na przyk\u0142ad w pr\u00f3\u017cni. Jego ci\u0105g\u0142e dop\u0142ywy na ksi\u0119\u017cyc s\u0105 podstaw\u0105 rozwoju miast poza Ziemi\u0105. Nanoplastic jest blokiem ciemno-niebieskiego materia\u0142u o nieregularnej powierzchni.", 
+            "Start income": "20", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Nanoplastik", 
+            "Successor": "None"
+        }, 
+        "Dropsy energetyczne": {
+            "Predecessor": "None", 
+            "Description": "Materia\u0142 zasilaj\u0105cy przyrz\u0105dy domowe. Jest ca\u0142kowicie ekologicznym \u017ar\u00f3d\u0142em energii, wytwarzanym w hurtowych ilo\u015bciach w zak\u0142adach produkcyjnych. Niezb\u0119dny, aby domy Twoich obywateli nadawa\u0142y si\u0119 do u\u017cytku, tak wi\u0119c wytwarzanie go jest ca\u0142kowicie obowi\u0105zkowe je\u015bli le\u017cy Ci na sercu rozw\u00f3j gospodarczy. Dropsy energetyczne przypominaj\u0105 niebieskie diamenty.", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Dropsy energetyczne", 
+            "Successor": "None"
+        }, 
+        "Witaminy": {
+            "Predecessor": "Owoce", 
+            "Description": "Wytwarzane z owoc\u00f3w witaminy, dodatkowo domieszkowane minera\u0142ami i bia\u0142kami, wzmacniaj\u0105 si\u0142\u0119 osobnik\u00f3w, a tak\u017ce pozytywnie oddzia\u0142owuj\u0105 na psyche u\u017cytkownika. Wydaje si\u0119 je w postaci tabletek, kapsu\u0142ek o r\u00f3\u017cnych kszta\u0142tach i kolorach.", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Witaminy", 
+            "Successor": "None"
+        }, 
+        "Plastyczny egzoszkielet": {
+            "Predecessor": "None", 
+            "Description": "Mimo popularno\u015bci nanoplastiku, dokonuje si\u0119 wci\u0105\u017c nowych odkry\u0107 w dziedzinach budownictwa oraz chemii. Plastyczny egzoszkielet jest materia\u0142em powsta\u0142ym w wyniku fuzji obu dziedzin. Lekki i wytrzyma\u0142y, jego struktura jest konfigurowalna poprzez wy\u0142adowania energii elektrycznej.  Egzoszkielet wygl\u0105da jak szkielet sze\u015bcianu, kt\u00f3rego wierzcho\u0142ki przypominaj\u0105 stawy niebieskich ko\u015bci.", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Plastyczny egzoszkielet", 
+            "Successor": "None"
+        }, 
+        "Alkoholowe desery": {
+            "Predecessor": "Zdrowy likier", 
+            "Description": "Po wynalezieniu zdrowego likieru nast\u0105pi\u0142a faza gwa\u0142townego  rozwoju przemys\u0142u  deserowego. Dzisiaj nie mo\u017cna sobie wr\u0119cz wyobrazi\u0107 spotkania elit spo\u0142ecznych bez kilku tacek likierowego deseru u\u0142o\u017conych przy stole rozm\u00f3w. \u0141\u0105cz\u0105ce w sobie warto\u015b\u0107 od\u017cywcz\u0105 owoc\u00f3w, zdrowotno\u015b\u0107 witamin. upojenie likierowe oraz deserowy smak wypiek\u00f3w wprost z dzieci\u0144stwa, produkt ten rozkocha\u0142 w sobie rzesze xenogenetyk\u00f3w. Deser likierowy podaje si\u0119 na kryszta\u0142owej, przezroczystej salaterce w estetycznej kompozycji czerwieni, fioletu i z\u0142ota, cz\u0119sto uformowanych w kszta\u0142ty krzew\u00f3w kwiatowych.", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Alkoholowe desery", 
+            "Successor": "None"
+        }, 
+        "Zdrowy likier": {
+            "Predecessor": "Witaminy", 
+            "Description": "Kilka lat temu, ca\u0142kowicie przypadkowo, odkryto spos\u00f3b generacji tzw. zdrowego alkoholu z witamin od\u017cywczych. Witaminy, rozpuszczane w wysokich temeraturach, stopniowo sch\u0142adzane coraz bardziej ekstremalnymi \u015brodkami ga\u015bniczymi z ciek\u0142ym azotem w\u0142\u0105cznie, utrzymywane potem w warunkach pr\u00f3\u017cniowych s\u0105 w stanie, wystawione na ka\u017cdym etapie ch\u0142odzenia na oddzia\u0142ywanie gleju w rosn\u0105cych ilo\u015bciach, wytworzy\u0107 niesamowicie zdrowy, a przy tym smaczny niczym dojrzewaj\u0105ce przez setki lat wino produkt alkoholowy. Zdrowy likier jest wydawany w ozdobnej, purpurowej karafce. ", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Zdrowy likier", 
+            "Successor": "None"
+        }, 
+        "Syntetyczne kad\u0142uby": {
+            "Predecessor": "Plastyczny egzoszkielet", 
+            "Description": "Pomimo tego, \u017ce plastyczne egzoszkielety nadaj\u0105 si\u0119 do bardzo wielu zastosowa\u0144, satanowi\u0105 jedynie zestaw element\u00f3w, z kt\u00f3rych dopiero  mo\u017ce powsta\u0107 co\u015b praktycznego. Syntetyczne kad\u0142uby oparte o egzoszkielety s\u0105 w praktyce gotowymi modu\u0142ami o uniwersalnym przeznaczeniu:  s\u0142u\u017c\u0105cym jako ta\u015bmy produkcyjne, sto\u0142y jadalne itd. Posiadaj\u0105 op\u0142ywowy kszta\u0142t, wiele szczelin \u017c\u0142obi\u0105cych powierzchni\u0119 w skomplikowane wzory, sugeruj\u0105ce \u0142atwo\u015b\u0107 rekonfiguracji wygl\u0105du, a tak\u017ce ekran miniterminala z klawiatur\u0105, za pomoc\u0105 kt\u00f3rej mo\u017cna wprowadza\u0107 oczekiwany ko\u0144cowy kszta\u0142t modu\u0142u. ", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Syntetyczne kad\u0142uby", 
+            "Successor": "None"
+        }, 
+        "Gizmo": {
+            "Predecessor": "None", 
+            "Description": "Gizmo jest materia\u0142em budowlanym suplementuj\u0105cym nanoplastik. Jest wymagany do stabilnej konstrukcji wielu budynk\u00f3w od kt\u00f3rych zale\u017cy Twoja gospodarka, jednak ma jedn\u0105 wad\u0119 - jej plastyczne w\u0142a\u015bciwo\u015bci zanikaj\u0105 b\u0142yskawicznie w warunkach ziemskiej atmosfery, dlatego produkcja na Ziemi i transport na ksi\u0119\u017cyc nie jest op\u0142acalny. Zdecydowanie d\u0142u\u017cej da si\u0119 go formowa\u0107 w pr\u00f3\u017cni. Ze wzgl\u0119du na \u0142atwo\u015b\u0107 produkcji, ksi\u0119\u017cyc jest idealnym miejscem do otwarcia zak\u0142ad\u00f3w produkcyjnych wytwarzaj\u0105cych ten zas\u00f3b. Gizmo posiada prostok\u0105tny kszta\u0142t, sk\u0142ada si\u0119 z kolorowych warstw koncentrycznych prostok\u0105t\u00f3w, ka\u017cdy o innym kolorze. ", 
+            "Start income": "0", 
+            "Texture path": "DefaultBuilding.jpg", 
+            "Resource\nName": "Gizmo", 
+            "Successor": "None"
+        }
+    }
+}

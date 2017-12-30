@@ -1,23 +1,22 @@
 package entities;
 
+import constants.CreatorConfig;
 import utils.CollectionConcatenationUtils;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Dweller extends Entity{
 	private Map<String, Integer> consumes;
-	private String description;
-	
-	public String getDescription(){
-		return description;
-	}
-	
-	public void setDescription(String description){
-		this.description = description;
-	}
+
 	
 	public Dweller(){
-		
+		setName("Dweller");
+		setConsumes(new HashMap<String, Integer>(){{put("Resource",1);}});
+		setDescription("Description");
+		setPredecessor("None");
+		setSuccessor("None");
+		setTexturePath(CreatorConfig.TEXTURE_ONE_DEFAULT_NAME);
 	}
 
 	public Dweller(String name, String predecessor, String successor, String texturePath, String description){

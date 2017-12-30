@@ -25,7 +25,11 @@ public class CreatorPresenter {
 	}
 	
 	public void displayDependenciesGraph(JSONObject jsonGraph){
-		Presenter.getInstance().getViewModel().getCreatorViewModel().displayDependenciesGraph(jsonGraph);
+			Presenter
+					.getInstance()
+					.getViewModel()
+					.getCreatorViewModel()
+					.displayDependenciesGraph(jsonGraph);
 	}
 	
 	public void displayMsg(String msg){

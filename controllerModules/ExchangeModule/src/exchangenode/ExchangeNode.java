@@ -16,6 +16,15 @@ public class ExchangeNode implements Node {
     private final Stock stock;
     private CurrentPricesSender currentPricesSender;
 
+
+    public Node getParent(){
+        return parent;
+    }
+
+    public Node getNeighbour(String neighbourHash){
+        return neighbors.get(neighbourHash);
+    }
+
     public ExchangeNode(DependenciesRepresenter dependenciesRepresenter, DispatchCenter dispatchCenter,
                         String nodeName) {
 

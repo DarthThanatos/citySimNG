@@ -313,6 +313,7 @@ class MapView(wx.Panel):
             available_dwellers,
             panelTexture)
         self.sender.entry_point.getMapPresenter().viewInitialized()
+        self.parent.parent.turnLoadingScreenOff()
 
     def update_values_for_cycle_thread(self, actual_resources_values,
                                 actual_resources_incomes,
@@ -348,6 +349,7 @@ class MapView(wx.Panel):
         self.game.game_on = True
         self.game.listener_thread = GameThread(self.game)
         self.game.listener_thread.start()
+        self.parent.parent.turnLoadingScreenOff()
 
     def handle_hints(self, hints):
         print hints[:5]

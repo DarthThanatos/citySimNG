@@ -38,12 +38,14 @@ public class DwellersMonter extends GraphMonter{
 		this.dr = dr;
 		allDwellers = new ArrayList<Dweller>(dwellers);
 		dwellerVertices = new HashMap<>();
-//		List<String> dwellersNames = new ArrayList<String>();
+		List<String> dwellersNames = new ArrayList<String>();
 		for (Dweller dweller : dwellers){
 			String dwellerName = dweller.getName();
+			dwellersNames.add(dwellerName);
 			DwellerNode dwellerNode = new DwellerNode(dweller);
 			dwellerVertices.put(dwellerName, dwellerNode);
 		}
+		dr.setDwellersNames(dwellersNames);
 		dr.putModuleData(Consts.ALL_DWELLERS, dwellers);
 		
 	}
@@ -55,12 +57,16 @@ public class DwellersMonter extends GraphMonter{
 		dwellerVertices = new HashMap<>();
 		String relativeTexturesPath = Consts.RELATIVE_TEXTURES_PATH;
 		List<String> resourcesNames = dr.getResourcesNames();
+		List<String> dwellersNames = new ArrayList<>();
 		
 		for (int i = 0; i < dwellersGraphDesc.length(); i++){
 			JSONObject dwellerDesc = (JSONObject)dwellersGraphDesc.get(i);
 			Dweller dweller = new Dweller();
 			String dwellerName = dwellerDesc.getString(Consts.DWELLER_NAME);
+			dwellersNames.add(dwellerName);
+			String description = dwellerDesc.getString(Consts.DESCRIPTION);
 			dweller.setName(dwellerName);
+			dweller.setDescription(description);
 			dweller.setTexturePath(relativeTexturesPath + dwellerDesc.getString(Consts.TEXTURE_PATH));
 			HashMap<String, Integer> consumes = new HashMap<>();
 			JSONObject consumedResources = dwellerDesc.getJSONObject(Consts.CONSUMES);
@@ -84,7 +90,7 @@ public class DwellersMonter extends GraphMonter{
 
 			allDwellers.add(dweller);
 		}
-
+		dr.setDwellersNames(dwellersNames);
 		dr.putModuleData(Consts.ALL_DWELLERS, allDwellers);
 	}
 

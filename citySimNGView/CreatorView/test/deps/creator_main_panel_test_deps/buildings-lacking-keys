@@ -1,19 +1,5 @@
 {
-    "Resources":{
-        "toConsumeByB":{
 
-        },
-        "ToProduceByB":{
-
-        }
-
-    },
-
-    "Dwellers":{
-        "Dweller":{
-
-        }
-    },
 
     "Buildings": {
             "Building": {
@@ -42,7 +28,7 @@
                     "toConsumeByB": 2
                 },
 
-                "Successor": "None"
+                "Succcessor": "None"
             }
     }
 }

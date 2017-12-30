@@ -1,6 +1,10 @@
+
+start /B python citySimNGView/Mediator.py 
+
 cd controllerModules
 call gradle -q clean
-call gradle build
+call gradle  build
+call gradle --stop
 cd ..
 start /B java ^
 -cp controllerModules\CreatorModule\bin;^
@@ -16,4 +20,3 @@ controllerModules\SkeletonModule\lib\guava.jar;^
 controllerModules\SkeletonModule\lib\reactive-streams.jar;^
 controllerModules\SkeletonModule\lib\rxjava.jar^
  controlswitcher.ControlSwitcher > javaLog.txt
-python citySimNGView/Mediator.py 

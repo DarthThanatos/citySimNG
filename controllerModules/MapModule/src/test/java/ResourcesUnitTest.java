@@ -36,10 +36,10 @@ public class ResourcesUnitTest {
 
         List<Resource> resourcesList = new ArrayList<>();
 
-        Resource r1 = new Resource("Wood", "None", "None", "");
-        Resource r2 = new Resource("Grain", "None", "None", "");
-        Resource r3 = new Resource("Gold", "None", "None", "");
-        Resource r4 = new Resource("Bread", "None", "None", "");
+        Resource r1 = new Resource("Wood", "None", "None", "", "", 0);
+        Resource r2 = new Resource("Grain", "None", "None", "", "", 0);
+        Resource r3 = new Resource("Gold", "None", "None", "", "", 0);
+        Resource r4 = new Resource("Bread", "None", "None", "", "", 0);
 
         resourcesList.add(r1);
         resourcesList.add(r2);

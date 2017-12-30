@@ -69,11 +69,12 @@ public class ResourcesMonter extends GraphMonter{
 		for (int i = 0; i < resourceGraphDesc.length(); i++){
 			JSONObject resourceJSONRepresentation = (JSONObject)resourceGraphDesc.get(i);
 			String resourceName = resourceJSONRepresentation.getString(Consts.RESOURCE_NAME);
+			String description = resourceJSONRepresentation.getString(Consts.DESCRIPTION);
 			String texturePath = relativeTexturesPath + resourceJSONRepresentation.getString(Consts.TEXTURE_PATH);
 			String predecessor = resourceJSONRepresentation.getString(Consts.PREDECESSOR);
 			String successor = resourceJSONRepresentation.getString(Consts.SUCCESSOR);
 			int startIncome = Integer.parseInt(resourceJSONRepresentation.getString(Consts.START_INCOME));
-			Resource resource = new Resource(resourceName, predecessor, successor, texturePath);
+			Resource resource = new Resource(resourceName, predecessor, successor, texturePath, description, startIncome);
 			resourcesNames.add(resourceName);
 			resourcesList.add(resource);
 			incomes.put(resourceName, startIncome);

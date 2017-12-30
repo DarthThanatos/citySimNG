@@ -6,6 +6,7 @@ import wx
 from CreatorView.CreatorSwitcher import CreatorSwitcher
 from GameMenuView import GameMenuView
 from LoaderView import LoaderView
+from LoadingScreen import LoadingScreen
 from MainMenuView import MainMenuView
 from MapView.MapView import MapView
 from TutorialView import TutorialView
@@ -20,6 +21,7 @@ class MyFrame(wx.Frame):
         self.initViews()
         self.currentViewName = None
         self.previousViewName = None
+        self.loading_screen = None
 
     def initViews(self):
         self.initRawViews()
@@ -58,6 +60,14 @@ class MyFrame(wx.Frame):
     def hideAllRawViews(self):
         for name in self.rawViews:
             self.rawViews[name].Hide()
+
+    def turnLoadingScreenOn(self):
+        self.loading_screen = LoadingScreen("resources\\sysFiles\\images\\loading.gif")
+        self.loading_screen.Show()
+
+    def turnLoadingScreenOff(self):
+        if self.loading_screen:
+            self.loading_screen.closeWindow()
 
     def passMsgToCurrentView(self, msg):
         try:

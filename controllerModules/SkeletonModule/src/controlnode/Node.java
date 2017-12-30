@@ -47,4 +47,7 @@ public interface Node{
 	 * 
 	 */
 	public String getNodeName();
+
+	public Node getNeighbour(String neighbourHash);
+	public Node getParent();
 }

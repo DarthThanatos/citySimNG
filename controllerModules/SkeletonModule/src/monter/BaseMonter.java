@@ -21,7 +21,8 @@ public class BaseMonter implements SystemMonter{
 	private List<String> textDescriptions;
 	HashMap<String, Node> nodes;
 	protected DispatchCenter dispatchCenter;
-	
+	String currentLocation = System.getProperty("user.dir");;
+
 	BaseMonter(String filePath, DispatchCenter dispatchCenter){
 		logger.setLevel(Consts.DEBUG_LEVEL);
 		BufferedReader br = null;
@@ -49,10 +50,14 @@ public class BaseMonter implements SystemMonter{
 	}
 	
 	public BaseMonter(String filePath){
-		this(filePath,  null);
+		this(filePath,  (DispatchCenter)null);
 	}
 
-	
+	public BaseMonter(String filePath, String currentLocation){
+		this(filePath,  (DispatchCenter)null);
+		this.currentLocation = currentLocation;
+	}
+
 	protected void readNodes(String[] nodeDesc, ArrayList<String> modulesNames){
 		String projectName = nodeDesc[0];
 		String nodeClassName = nodeDesc[1];
@@ -63,8 +68,9 @@ public class BaseMonter implements SystemMonter{
 		logger.log(Level.INFO,"Read and create node " + nodeClassName + " with a hash key " + nodeHashKey );
      	try {
      		/*Using java reflection to dynamically load Node instances from other modules(which are set up as separate projects)*/
-			String currentLocation = System.getProperty("user.dir");
+//			String currentLocation = System.getProperty("user.dir");
 			String urlStr = "file:///" + currentLocation + "/" +  projectName + "/bin/"; //+ nodeClassName + ".class";//"MenuModule\\bin\\menunode\\MenuNode.class";
+			logger.info("using url: " + urlStr);
 			URL[] urls = {new URL (urlStr)};
 			urlLoader = new URLClassLoader(urls);
 			Class<?> nodeClass = urlLoader.loadClass(nodeClassName);

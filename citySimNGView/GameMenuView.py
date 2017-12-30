@@ -24,6 +24,7 @@ class GameMenuView(wx.Panel):
         self.sender.entry_point.getGameMenuPresenter().goToExchange()
 
     def goToNewGame(self, event):
+        self.parent.parent.turnLoadingScreenOn()
         self.sender.entry_point.getGameMenuPresenter().goToNewGame()
 
     def goToTutorial(self, event):
@@ -73,7 +74,7 @@ class GameMenuView(wx.Panel):
         return gif
 
     def newGameButton(self):
-        self.newgame_btn = ButtonsFactory().newButton(self, "Game", self.goToNewGame, hint = LogMessages.GAME_BTN_HINT, size=(100,-1))
+        self.newgame_btn = ButtonsFactory().newButton(self, "Game", self.goToNewGame, size=(100,-1))
         return self.newgame_btn
 
     def newTutorialButton(self):

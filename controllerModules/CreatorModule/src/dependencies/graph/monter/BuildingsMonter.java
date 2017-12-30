@@ -67,6 +67,8 @@ public class BuildingsMonter extends GraphMonter{
 			JSONObject buildingDesc = (JSONObject)buildingGraphDesc.get(i);
 			Building building = new Building();
 			String buildingName = buildingDesc.getString(Consts.BUILDING_NAME);
+			String description = buildingDesc.getString(Consts.DESCRIPTION);
+			building.setDescription(description);
 			building.setName(buildingName);
 			buildingsNames.add(buildingName);
 			building.setTexturePath(relativeTexturesPath + buildingDesc.getString(Consts.TEXTURE_PATH));

@@ -1,6 +1,5 @@
 dependencies {
-   compile files('../SkeletonModule/bin')
-   
+   compile project(":SkeletonModule")
    compile name: 'guava'
    compile name: 'reactive-streams'
    compile name: 'rxjava'

@@ -3,7 +3,11 @@ package graph;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
+import entities.Building;
+import entities.Dweller;
+import entities.Resource;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -23,6 +27,24 @@ public class GraphsHolder {
 		resourcesGraphs = new ArrayList<>();
 		buildingsGraphs = new ArrayList<>();
 		dwellersGraphs = new ArrayList<>();
+	}
+
+	private <E> E getRandomEntity(HashMap<String, E> map){
+		int randomIndex = Math.abs(new Random().nextInt()) % map.size();
+		String randomKey = map.keySet().toArray(new String[map.size()])[randomIndex];
+		return map.get(randomKey);
+	}
+
+	public Building getRandomBuilding(){
+		return getRandomEntity(buildingsVertices).getBuilding();
+	}
+
+	public Resource getRandomResource(){
+		return getRandomEntity(resourcesVertices).getResource();
+	}
+
+	public Dweller getRandomDweller(){
+		return getRandomEntity(dwellersVertices).getDweller();
 	}
 
 	public JSONObject displayAllGraphs(){
