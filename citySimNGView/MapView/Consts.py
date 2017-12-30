@@ -1,11 +1,18 @@
 from utils.RelativePaths import relative_textures_path, relative_fonts_path
-
+import pygame
 
 # =================================================================================================================== #
 # FONT CONSTS #
 # =================================================================================================================== #
 FONT_SIZE = 30
-FONT = relative_fonts_path + "OldLondon.ttf"
+
+def get_font():
+    fonts = pygame.font.get_fonts()
+    if "cambriamath" in fonts:
+        font = "cambriamath"
+    else:
+        font = fonts[0]
+    return font
 
 # =================================================================================================================== #
 # COLORS #
@@ -17,6 +24,7 @@ PURPLE = (200, 0, 200)
 WHITE = (255, 255, 255)
 GOLD = (153, 102, 0)
 LIGHT_BLUE = (102, 102, 255)
+BLACK = (0, 0, 0)
 
 # =================================================================================================================== #
 # PYGAME CONSTS #
@@ -48,7 +56,7 @@ BUILDINGS_PANEL_ARROW_Y = 0.85
 # INFO PANEL CONSTS #
 # =================================================================================================================== #
 INFO_PANEL_WIDTH = 0.5
-INFO_PANEL_HEIGHT = 0.15
+INFO_PANEL_HEIGHT = 0.2
 
 DELETE_BUILDING_WIDTH = 0.1
 DELETE_BUILDING_HEIGHT = 0.3
@@ -65,7 +73,7 @@ NAVIGATION_PANEL_WIDTH = 0.2
 # =================================================================================================================== #
 # TEXT PANEL CONSTS #
 # =================================================================================================================== #
-TEXT_PANEL_HEIGHT = 0.15
+TEXT_PANEL_HEIGHT = 0.2
 TEXT_PANEL_WIDTH = 1 - NAVIGATION_PANEL_WIDTH - INFO_PANEL_WIDTH - BUILDINGS_PANEL_WIDTH
 TEXT_PANEL_FONT_SIZE = 10
 

@@ -8,7 +8,7 @@ import wx
 
 from CreatorView.RelativePaths import relative_music_path, relative_textures_path
 
-from Consts import RESOURCES_PANEL_HEIGHT, PURPLE, FONT, TEXT_PANEL_HEIGHT, \
+from Consts import RESOURCES_PANEL_HEIGHT, PURPLE, get_font, TEXT_PANEL_HEIGHT, \
     TEXT_PANEL_WIDTH, MENU_BUTTON_WIDTH, NAVIGATION_PANEL_WIDTH, \
     INFO_PANEL_WIDTH, TEXT_PANEL_FONT_SIZE, GREEN, \
     BUILDINGS_PANEL_WIDTH, HINT_TEXTURE
@@ -17,6 +17,11 @@ from GameThread import GameThread
 from Utils import draw_text, draw_text_with_wrapping_and_centering
 from Converter import Converter
 from Modals.ClosedHintModal import ClosedHintModal, HINT_WIDTH, HINT_HEIGHT
+from Items.Resources import resources as game_resources
+from Items.Dwellers import dwellers as game_dwellers
+
+
+BUTTON_HEIGHT = 0.15
 
 class MapView(wx.Panel):
     """ This class represents an instance of map view. It is responsible for communication with model. """
@@ -65,7 +70,7 @@ class MapView(wx.Panel):
                                     int(self.height - TEXT_PANEL_HEIGHT *
                                         self.height)))
         font = wx.Font(TEXT_PANEL_FONT_SIZE, wx.MODERN, wx.NORMAL, wx.NORMAL,
-                       False, FONT)
+                       False, get_font())
         self.log.SetFont(font)
         self.sizer.Add(self.log, 1, wx.ALL | wx.EXPAND, 5)
         self.sizer_elements.append(self.log)
@@ -142,6 +147,7 @@ class MapView(wx.Panel):
     def end_game(self, event):
         self.game.game_on = False
         self.game.listener_thread.join()
+
         [self.remove_button(elem) for elem in self.sizer_elements]
         self.init_btns_in_end_game_screen()
         image = pygame.image.load(self.game.panel_texture)
@@ -296,6 +302,10 @@ class MapView(wx.Panel):
         self.music_path = relative_music_path + mp3
         pygame.mixer.music.load(self.music_path)
         pygame.mixer.music.play()
+
+        game_resources.clear()
+        game_dwellers.clear()
+
         self.game = Game(
             self.width,
             self.height,

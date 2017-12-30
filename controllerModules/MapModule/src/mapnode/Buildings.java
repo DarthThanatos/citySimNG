@@ -23,7 +23,11 @@ public class Buildings {
 	private Map<String, Building> unprovidedBuildings;
 
 	public Buildings(DependenciesRepresenter dr){
-		allBuildings = (List<Building>) dr.getModuleData("allBuildings");
+		allBuildings = new ArrayList<>();
+
+		for(Building building: (List<Building>) dr.getModuleData("allBuildings")){
+			allBuildings.add(new Building(building));
+		}
 
 		for(Building building: allBuildings){
 			if(building.getType().toLowerCase().equals(domestic))

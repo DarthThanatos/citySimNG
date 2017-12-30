@@ -210,8 +210,11 @@ public class MixedUnitTest {
         else
             assertTrue(buildings.getNotFullyOccupiedBuildings().containsKey(notFullyOccupiedBuildingId));
 
-        if(!unlockedBuilding.isEmpty())
-            assertTrue(buildingsMap.get(unlockedBuilding).isEnabled());
+        if(!unlockedBuilding.isEmpty()) {
+            for(Building building: buildings.getAllBuildings())
+                if(building.getName().equals(unlockedBuilding))
+                assertTrue(building.isEnabled());
+        }
     }
 
     private Object[] parametersForDeleteBuildingTest() {

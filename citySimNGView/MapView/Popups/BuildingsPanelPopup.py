@@ -8,8 +8,8 @@ from MapView.Utils import draw_text_with_wrapping
 from Popup import Popup
 
 FONT_SIZE = 25
-RESOURCE_IMAGE_WIDTH = 20
-RESOURCE_IMAGE_HEIGHT = 20
+RESOURCE_IMAGE_WIDTH = 40
+RESOURCE_IMAGE_HEIGHT = 40
 MARGIN = 2
 SPACE = 0.1
 
@@ -28,7 +28,7 @@ class BuildingsPanelPopup(Popup):
 
         # buildings name
         curr_y = draw_text_with_wrapping(curr_x, curr_y, max_message_width,
-                                         '{}\n'.format(self.sprite.name),
+                                         '{}'.format(self.sprite.name),
                                          GREEN, self.surface,
                                          FONT_SIZE)[0]
 
@@ -40,35 +40,38 @@ class BuildingsPanelPopup(Popup):
                                  max_message_width,
                                  self, image_width=RESOURCE_IMAGE_WIDTH,
                                  image_height=RESOURCE_IMAGE_HEIGHT,
-                                 color=GOLD, space=SPACE * self.width)[1]
+                                 color=GOLD, space=SPACE * self.width,
+                                 font_size=FONT_SIZE)[1]
 
         # produces
         curr_y = \
             draw_text_with_wrapping(curr_x, curr_y, max_message_width,
-                                    "\n Produces",
+                                    "Produces",
                                     GREEN, self.surface,
                                     FONT_SIZE)[0]
         curr_y = draw_items_info(self.sprite.produces, curr_x, curr_y,
                                  max_message_width, self,
                                  image_width=RESOURCE_IMAGE_WIDTH,
                                  image_height=RESOURCE_IMAGE_HEIGHT,
-                                 space=SPACE * self.width)[1]
+                                 space=SPACE * self.width,
+                                 font_size=FONT_SIZE)[1]
 
         # consumes
         curr_y = \
             draw_text_with_wrapping(0, curr_y, max_message_width,
-                                    "\n Consumes",
+                                    "Consumes",
                                     RED, self.surface,
                                     FONT_SIZE)[0]
         curr_y = draw_items_info(self.sprite.consumes, curr_x, curr_y,
                                  max_message_width, self,
                                  image_width=RESOURCE_IMAGE_WIDTH,
                                  image_height=RESOURCE_IMAGE_HEIGHT,
-                                 color=RED, space=SPACE * self.width)[1]
+                                 color=RED, space=SPACE * self.width,
+                                 font_size=FONT_SIZE)[1]
 
         # required dwellers
         curr_y = draw_text_with_wrapping(0, curr_y, max_message_width,
-                                         "\n Required dwellers",
+                                         "Required dwellers",
                                          LIGHT_BLUE, self.surface,
                                          FONT_SIZE)[0]
         curr_y = draw_dwellers_info(self.sprite.dwellers_name, '{}'.format(
@@ -76,7 +79,8 @@ class BuildingsPanelPopup(Popup):
                                     curr_x, curr_y, self,
                                     image_width=RESOURCE_IMAGE_WIDTH,
                                     image_height=RESOURCE_IMAGE_HEIGHT,
-                                    color=LIGHT_BLUE)
+                                    color=LIGHT_BLUE,
+                                    font_size=FONT_SIZE)
 
         self.surface = self.surface.subsurface(
             (0, 0, self.width, int(curr_y + MARGIN)))

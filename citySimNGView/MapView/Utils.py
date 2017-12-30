@@ -3,10 +3,10 @@
 """
 
 import pygame
-from Consts import FONT, FONT_SIZE, GREEN
+from Consts import get_font, FONT_SIZE, GREEN
 
 
-def draw_text(pos_x, pos_y, msg, color, surface):
+def draw_text(pos_x, pos_y, msg, color, surface, font_size=FONT_SIZE):
     """ Draw text in given location.
 
     :param pos_x: initial x position
@@ -16,26 +16,26 @@ def draw_text(pos_x, pos_y, msg, color, surface):
     :param surface: surface on which text should be drawn
     :return: dimensions of text after drawing
     """
-    font = pygame.font.Font(FONT, FONT_SIZE)
-    screen_text = font.render(str(msg), True, color)
+    font = pygame.font.SysFont(get_font(), font_size, True)
+    screen_text = font.render(msg, True, color)
     surface.blit(screen_text, [int(pos_x), int(pos_y)])
     return screen_text.get_size()
 
 
-def calculate_text_size(msg):
+def calculate_text_size(msg, font_size=FONT_SIZE):
     """ Calculate dimensions of text after drawing.
 
     :param msg: text for which dimensions will be calculated
     :return: dimensions of text after drawing
     """
-    font = pygame.font.Font(FONT, FONT_SIZE)
+    font = pygame.font.SysFont(get_font(), font_size, True)
     screen_text = font.render(msg, True, GREEN)
     return screen_text.get_size()
 
 
-# TODO: better dealing with newlines
-def draw_text_with_wrapping(pos_x, pos_y, max_x, msg, color, surface, font_size=FONT_SIZE,
-                            max_pos_y=None, msg_split=False):
+def draw_text_with_wrapping(pos_x, pos_y, max_x, msg, color, surface,
+                            font_size=FONT_SIZE, max_pos_y=None,
+                            msg_split=False):
     """ Draw text with wrapping so that it does not exceed given x value.
 
     :param pos_x: initial x position
@@ -49,7 +49,7 @@ def draw_text_with_wrapping(pos_x, pos_y, max_x, msg, color, surface, font_size=
     widest_line = 0
     remaining_words = []
     drawn_whole_message = True
-    font = pygame.font.Font(FONT, font_size)
+    font = pygame.font.SysFont(get_font(), font_size, True)
     space_width = font.size(' ')[0]  # get space width
     curr_x, curr_y = pos_x, pos_y
     text_size = (0, 0)
@@ -106,7 +106,7 @@ def center_image_y_pos(height, y_min, y_max):
 def draw_text_with_wrapping_and_centering(pos_x, pos_y, max_x, msg, surface,
                                           color, font_size=FONT_SIZE,
                                           blit=True):
-    font = pygame.font.Font(FONT, font_size)
+    font = pygame.font.SysFont(get_font(), font_size, True)
     space_width = font.size(' ')[0]  # get space width
     curr_x, curr_y = pos_x, pos_y
     lines_text_width = 0
@@ -123,7 +123,6 @@ def draw_text_with_wrapping_and_centering(pos_x, pos_y, max_x, msg, surface,
     for word in msg.split(" "):
         draw_new_line = 0
 
-        # TODO: remove while?
         while len(word) > 0 and word[-1] == '\n':
             word = word[:-1]
             draw_new_line += 1

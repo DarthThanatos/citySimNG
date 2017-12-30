@@ -21,9 +21,9 @@ from Modals.ExpandedHintModal import ExpandedHintModal, HINT_MODAL_X, HINT_MODAL
 from Modals.ClosedHintModal import HINT_HEIGHT, HINT_WIDTH
 import time
 
-
 POPUP_WIDTH, POPUP_HEIGHT = 0.3, 0.3
-
+GAME_BUILDING_WIDTH = 0.2
+GAME_BUILDING_HEIGHT = 0.2
 
 class Game(object):
     """ This class represents an instance of the game. If we need to restart the game we'd just
@@ -404,8 +404,8 @@ class Game(object):
                                            building.dwellers_name,
                                            mouse_pos[0],
                                            mouse_pos[1],
-                                           building.width,
-                                           building.height)
+                                           GAME_BUILDING_WIDTH * self.board_height,
+                                           GAME_BUILDING_HEIGHT * self.board_height)
             elif not building.is_enabled:
                 self.map_view.log.AppendText(
                     "You have to built all successor first\n")
