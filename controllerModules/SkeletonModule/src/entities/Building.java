@@ -78,6 +78,22 @@ public class Building extends Entity {
 		this.dwellersName = b.getDwellersName();
 	}
 
+	public Building(String name, String predecessor, String successor, int dwellersAmount, Map<String, Integer> produces,
+					Map<String, Integer> consumes, Map<String, Integer> resourcesCost, String texturePath, String type,
+					String description, String dwellersName){
+		this.setName(name);
+		this.setPredecessor(predecessor);
+		this.setSuccessor(successor);
+		this.setTexturePath(texturePath);
+		this.dwellersAmount = dwellersAmount;
+		this.produces = produces;
+		this.consumes = consumes;
+		this.resourcesCost = resourcesCost;
+		this.type = type;
+		this.description = description;
+		this.dwellersName = dwellersName;
+	}
+
 	public String getDwellersName() {
 		return dwellersName;
 	}

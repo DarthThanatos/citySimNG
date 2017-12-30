@@ -1,10 +1,7 @@
 package mapnode;
 
 import java.util.*;
-
-import entities.Resource;
 import model.DependenciesRepresenter;
-
 import entities.Building;
 import py4jmediator.MapResponses.DeleteBuildingResponse;
 import py4jmediator.MapResponses.PlaceBuildingResponse;
@@ -14,7 +11,6 @@ public class Buildings {
 	public static int getScoreMultiplier() {
 		return SCORE_MULTIPLIER;
 	}
-
 	private final static int SCORE_MULTIPLIER = 10;
 	private String domestic = "domestic";
 	private String industrial = "industrial";
@@ -26,7 +22,7 @@ public class Buildings {
 	private Map<String, Building> notFullyOccupiedBuildings;
 	private Map<String, Building> unprovidedBuildings;
 
-	Buildings(DependenciesRepresenter dr){
+	public Buildings(DependenciesRepresenter dr){
 		allBuildings = (List<Building>) dr.getModuleData("allBuildings");
 
 		for(Building building: allBuildings){
@@ -47,7 +43,7 @@ public class Buildings {
 		unprovidedBuildings= new LinkedHashMap<>();
 	}
 	
-	boolean canAffordOnBuilding(String buildingName, Map<String, Integer> actualResourcesValues){
+	public boolean canAffordOnBuilding(String buildingName, Map<String, Integer> actualResourcesValues){
 		Building building = findBuildingWithName(buildingName);
 		assert building != null;
 		Map<String, Integer> buildingCost = building.getResourcesCost();
@@ -60,7 +56,7 @@ public class Buildings {
 		return true;
 	}
 	
-	PlaceBuildingResponse placeBuilding(String buildingName, String buildingId, Resources resources,
+	public PlaceBuildingResponse placeBuilding(String buildingName, String buildingId, Resources resources,
 										Dwellers dwellers){
 		Building building = findBuildingWithName(buildingName);
 		Building newBuilding = new Building(building);
@@ -70,11 +66,10 @@ public class Buildings {
 
 		// update resources
 		resources.subBuildingsCost(newBuilding);
-		resources.addBuildingConsumption(newBuilding);
 		resources.addBuildingImpact(newBuilding, dwellers, this);
 
 		// for domestic building if its working update not fully occupied buildings
-		if(buildingType.equals(domestic) && building.isProducing()) {
+		if(buildingType.equals(domestic) && newBuilding.isProducing()) {
 			updateNotFullyOccupiedBuildings(dwellers, resources);
 		}
 
@@ -101,7 +96,7 @@ public class Buildings {
 				getWorkingDwellers(newBuilding.getId()));
 	}
 	
-	DeleteBuildingResponse deleteBuilding(String buildingId, Resources resources,
+	public DeleteBuildingResponse deleteBuilding(String buildingId, Resources resources,
 										  Dwellers dwellers){
 		Building building = findBuildingWithId(buildingId);
 		assert building != null;
@@ -128,7 +123,7 @@ public class Buildings {
 		if(buildingType.equals(domestic) && building.isProducing()){
 			dwellers.setAvailableDwellers(dwellers.getAvailableDwellers()
 					- building.getDwellersAmount());
-			updateWorkingBuildings(building.getDwellersAmount(), dwellers, resources);
+			updateWorkingBuildings(dwellers.getWorkingDwellers() - dwellers.getAvailableDwellers(), dwellers, resources);
 		}
 
 		if(buildingType.equals(industrial)){
@@ -139,7 +134,7 @@ public class Buildings {
 			updateNotFullyOccupiedBuildings(dwellers, resources);
 		}
 
-		resources.subBuildingConsumption(building);
+		// resources.subBuildingConsumption(building);
 		resources.subBuildingsBalance(building);
 		updateUnprovidedBuildings(resources, dwellers);
 
@@ -147,8 +142,6 @@ public class Buildings {
 			playerIndustrialBuildings.remove(buildingId);
 		else
 			playerDomesticBuildings.remove(buildingId);
-
-		System.out.println("ENd deleting in java. Balance: " + resources.getResourcesBalance());
 
 		return new DeleteBuildingResponse(
 				resources.getActualResourcesValues(),
@@ -159,10 +152,9 @@ public class Buildings {
 				dwellers.getAvailableDwellers());
 	}
 
-	StopProductionResponse stopProduction(String buildingId, Resources resources, Dwellers dwellers){
+	public StopProductionResponse stopProduction(String buildingId, Resources resources, Dwellers dwellers){
 		Building building = findBuildingWithId(buildingId);
 
-		System.out.println("STOP PROD IN building");
 		assert building != null;
 		if(building.isRunning())
 			stopProductionInBuilding(building, resources, dwellers);
@@ -188,12 +180,11 @@ public class Buildings {
 		if(buildingType.equals(domestic) && building.isProducing()) {
 			dwellers.setAvailableDwellers(dwellers.getAvailableDwellers()
 					- building.getDwellersAmount());
-			updateWorkingBuildings(building.getDwellersAmount(), dwellers, resources);
+			updateWorkingBuildings(dwellers.getWorkingDwellers() - dwellers.getAvailableDwellers(), dwellers, resources);
 		}
 
 		// update resources before setting dwellers in industrial building ->
 		// its important cause we need appropriate dwellers factor
-		resources.subBuildingConsumption(building);
 		resources.subBuildingsBalance(building);
 
 		// setting that building is not running here is important in case
@@ -224,13 +215,11 @@ public class Buildings {
 
 	}
 
-	private void resumeProductionInBuilding(Building building, Resources resources,
+	public void resumeProductionInBuilding(Building building, Resources resources,
 											Dwellers dwellers){
 		String buildingType = building.getType().toLowerCase();
 
 		building.setRunning(true);
-
-		resources.addBuildingConsumption(building);
 		resources.addBuildingImpact(building, dwellers, this);
 
 		// for domestic building if its working update not fully occupied buildings
@@ -243,11 +232,9 @@ public class Buildings {
 			dwellers.setNeededDwellers(dwellers.getNeededDwellers()
 					+ building.getDwellersAmount());
 		}
-
-
 	}
 	
-	private Building findBuildingWithId(String buildingId){
+	public Building findBuildingWithId(String buildingId){
 		for(String id: playerIndustrialBuildings.keySet()){
 			if(id.equals(buildingId)){
 				return playerIndustrialBuildings.get(id);
@@ -263,7 +250,7 @@ public class Buildings {
 		return null;
 	}
 	
-	private Building findBuildingWithName(String buildingName){
+	public Building findBuildingWithName(String buildingName){
 		for(Building b: allBuildings){
 			if(b.getName().equals(buildingName)){
 				return b;
@@ -272,7 +259,7 @@ public class Buildings {
 		return null;
 	}
 
-	private List<String> unlockSuccessors(Building predecessor){
+	public List<String> unlockSuccessors(Building predecessor){
 		List<String> unlockedBuildings = new ArrayList<>();
 
 		for(Building building: allBuildings){
@@ -285,21 +272,17 @@ public class Buildings {
 		return unlockedBuildings;
 	}
 
-	Integer getWorkingDwellers(String buildingId){
+	public Integer getWorkingDwellers(String buildingId){
 		Building building = findBuildingWithId(buildingId);
 
 		assert building != null;
 		return building.getWorkingDwellers();
 	}
 
-	private void updateNotFullyOccupiedBuildings(Dwellers dwellers,
+	public void updateNotFullyOccupiedBuildings(Dwellers dwellers,
 												 Resources resources){
-		System.out.println("Update not fully occupied");
 		for(Building building: notFullyOccupiedBuildings.values()) {
 			int idleDwellers = dwellers.getAvailableDwellers() - dwellers.getWorkingDwellers();
-
-			System.out.println("IDLE " + idleDwellers);
-
 			// if no more idle dwellers then stop
 			if (idleDwellers == 0)
 				break;
@@ -307,8 +290,8 @@ public class Buildings {
 			if (!building.isRunning())
 				continue;
 
-			notFullyOccupiedBuildings.remove(building);
-			resources.updateBuildingImpact(building, dwellers, this);
+			notFullyOccupiedBuildings.remove(building.getId());
+			resources.updateBuildingImpact(building, dwellers, this, true);
 		}
 	}
 
@@ -324,14 +307,14 @@ public class Buildings {
 				continue;
 			Integer dwellersDeletedFromBuilding = Integer.min(building.getWorkingDwellers(),
 					numberOfDwellersToDelete);
-			resources.updateBuildingImpact(building, dwellers, this);
+			resources.updateBuildingImpact(building, dwellers, this,false);
 			numberOfDwellersToDelete -= dwellersDeletedFromBuilding;
 		}
 	}
 
 	private void updateUnprovidedBuildings(Resources resources, Dwellers dwellers){
 		for(Building building: unprovidedBuildings.values()){
-			resources.addBuildingImpact(building, dwellers, this);
+			resources.updateBuildingImpact(building, dwellers, this, true);
 		}
 	}
 
@@ -341,35 +324,35 @@ public class Buildings {
 		return allBuildings;
 	}
 
-	Map<String, Building> getPlayerIndustrialBuildings() {
+	public Map<String, Building> getPlayerIndustrialBuildings() {
 		return playerIndustrialBuildings;
 	}
 
-	Map<String, Building> getNotFullyOccupiedBuildings() {
+	public Map<String, Building> getNotFullyOccupiedBuildings() {
 		return notFullyOccupiedBuildings;
 	}
-	void setNotFullyOccupiedBuildings(Map<String, Building> notFullyOccupiedBuildings) {
+	public void setNotFullyOccupiedBuildings(Map<String, Building> notFullyOccupiedBuildings) {
 		this.notFullyOccupiedBuildings = notFullyOccupiedBuildings;
 	}
 
 
-	Map<String, Building> getPlayerDomesticBuildings() {
+	public 	Map<String, Building> getPlayerDomesticBuildings() {
 		return playerDomesticBuildings;
 	}
 
-	Map<String, Building> getUnprovidedBuildings() {
+	public 	Map<String, Building> getUnprovidedBuildings() {
 		return unprovidedBuildings;
 	}
 
-	void setUnprovidedBuildings(Map<String, Building> unprovidedBuildings) {
+	public 	void setUnprovidedBuildings(Map<String, Building> unprovidedBuildings) {
 		this.unprovidedBuildings = unprovidedBuildings;
 	}
 
-	Map<String, Building> getDomesticBuildings() {
+	public 	Map<String, Building> getDomesticBuildings() {
 		return domesticBuildings;
 	}
 
-	Map<String, Building> getIndustrialBuildings() {
+	public 	Map<String, Building> getIndustrialBuildings() {
 		return industrialBuildings;
 	}
 }
