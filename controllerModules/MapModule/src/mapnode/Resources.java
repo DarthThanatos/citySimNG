@@ -59,6 +59,10 @@ public class Resources {
 		// Calculate incomes and balance for new cycle
 		actualResourcesIncomes = new HashMap<>(basicResourcesIncomes);
 		resourcesBalance = new HashMap<>(basicResourcesIncomes);
+		actualResourcesConsumption = new HashMap<>();
+		for(String resName: resources.keySet()) {
+			actualResourcesConsumption.put(resName, 0);
+		}
 		buildings.setNotFullyOccupiedBuildings(new LinkedHashMap<>());
 		buildings.setUnprovidedBuildings(new LinkedHashMap<>());
 		dwellers.setAvailableDwellers(5);
@@ -92,7 +96,7 @@ public class Resources {
 		// for industrial building update working dwellers and dwellers factor
 		if(!buildingType.equals("domestic")) {
 			building.setWorkingDwellers(0);
-			dwellers.updateDwellersWorkingInBuilding(building, buildings);
+			dwellers.updateDwellersWorkingInBuilding(building, buildings.getNotFullyOccupiedBuildings());
 			dwellersFactor = (double) building.getWorkingDwellers() /
 					building.getDwellersAmount();
 			if(dwellersFactor == 0)
@@ -103,6 +107,8 @@ public class Resources {
 		for(String resource : consumes.keySet()) {
 			// we should take dwellers factor in consideration here cause
 			// if we don't then in some cases we will print -3 and do -2
+			actualResourcesConsumption.put(resource, actualResourcesConsumption.get(resource)
+					+ (int)Math.ceil(dwellersFactor * consumes.get(resource)));
 			resourcesBalance.put(resource, resourcesBalance.get(resource)
 					- (int)Math.ceil(dwellersFactor * consumes.get(resource)));
 			if (actualResourcesValues.get(resource) <
@@ -129,13 +135,12 @@ public class Resources {
 				building.setWorkingDwellers(building.getDwellersAmount());
 			}
 		}
-
-		System.out.println("After update: Building " + building.getType() + " dwellers " + building.getWorkingDwellers());
 	}
 
 	public void updateBuildingImpact(Building building,
 									 Dwellers dwellers,
-									 Buildings buildings){
+									 Buildings buildings,
+									 boolean updateActualResValues){
 
 		Map<String, Integer> consumes = building.getConsumes();
 		Map<String, Integer> produces = building.getProduces();
@@ -144,14 +149,18 @@ public class Resources {
 				building.getDwellersAmount();
 
 		// rollback
-		for(String resource : consumes.keySet())
+		for(String resource : consumes.keySet()) {
+			actualResourcesConsumption.put(resource, actualResourcesConsumption.get(resource)
+					- (int)Math.ceil(dwellersFactor * consumes.get(resource)));
 			resourcesBalance.put(resource, resourcesBalance.get(resource)
-				+ (int)Math.ceil(dwellersFactor * consumes.get(resource)));
+					+ (int) Math.ceil(dwellersFactor * consumes.get(resource)));
+		}
 
 		if(building.isProducing()) {
 			for (String resource : building.getConsumes().keySet()) {
-				actualResourcesValues.put(resource, actualResourcesValues.get(resource)
-						+ (int)Math.ceil(dwellersFactor * consumes.get(resource)));
+				if(updateActualResValues)
+					actualResourcesValues.put(resource, actualResourcesValues.get(resource)
+							+ (int)Math.ceil(dwellersFactor * consumes.get(resource)));
 				actualResourcesIncomes.put(resource, actualResourcesIncomes.get(resource)
 						- (int)Math.floor(dwellersFactor * produces.get(resource)));
 				resourcesBalance.put(resource, resourcesBalance.get(resource)
@@ -191,6 +200,8 @@ public class Resources {
 						- (int)Math.floor(dwellersFactor * produces.get(resource)));
 			}
 
+			actualResourcesConsumption.put(resource, actualResourcesConsumption.get(resource)
+					- (int)Math.ceil(dwellersFactor * consumes.get(resource)));
 			resourcesBalance.put(resource, resourcesBalance.get(resource)
 					+ (int)Math.ceil(dwellersFactor * consumes.get(resource)));
 		}
@@ -208,7 +219,11 @@ public class Resources {
 	public void addBuildingConsumption(Building building){
 		Map<String, Integer> buildingConsumption = building.getConsumes();
 
-		Double dwellersFactor = (double) building.getWorkingDwellers() /
+		Double dwellersFactor;
+		if(building.getType().toLowerCase().equals("domestic"))
+			dwellersFactor = 1.0;
+		else
+		  	dwellersFactor = (double) building.getWorkingDwellers() /
 				building.getDwellersAmount();
 
 		for(String resource: buildingConsumption.keySet()) {
@@ -220,8 +235,12 @@ public class Resources {
 	public void subBuildingConsumption(Building building){
 		Map<String, Integer> buildingConsumption = building.getConsumes();
 
-		Double dwellersFactor = (double) building.getWorkingDwellers() /
-				building.getDwellersAmount();
+		Double dwellersFactor;
+		if(building.getType().toLowerCase().equals("domestic"))
+			dwellersFactor = 1.0;
+		else
+			dwellersFactor = (double) building.getWorkingDwellers() /
+					building.getDwellersAmount();
 
 		for(String resource: buildingConsumption.keySet()) {
 			actualResourcesConsumption.put(resource, actualResourcesConsumption.get(resource)
@@ -231,7 +250,7 @@ public class Resources {
 
 	/* Getters and setters */
 	public Map<String, Integer> getActualResourcesValues(){
-		return new HashMap<>(this.actualResourcesValues);
+		return this.actualResourcesValues;
 	}
 
 	public Map<String, Integer> getActualResourcesIncomes(){

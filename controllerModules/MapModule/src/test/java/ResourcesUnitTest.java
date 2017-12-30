@@ -1,6 +1,5 @@
 import entities.Building;
 import entities.Resource;
-
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import mapnode.Resources;
@@ -23,10 +22,16 @@ public class ResourcesUnitTest {
     @Mock
     private static DependenciesRepresenter dependenciesRepresenter;
 
-    private Map<String, Building> buildings = new HashMap<>();
+    private Map<String, Building> buildingsMap = new HashMap<>();
+    private static Map<String, Integer> resourcesMap = new HashMap<>();
 
     @BeforeClass
-    public static void initializeTestClass(){
+    public static void initializeClass(){
+        resourcesMap.put("Grain", 0);
+        resourcesMap.put("Wood", 0);
+        resourcesMap.put("Gold", 0);
+        resourcesMap.put("Bread", 0);
+
         dependenciesRepresenter = mock(DependenciesRepresenter.class);
 
         List<Resource> resourcesList = new ArrayList<>();
@@ -36,17 +41,13 @@ public class ResourcesUnitTest {
         Resource r3 = new Resource("Gold", "None", "None", "");
         Resource r4 = new Resource("Bread", "None", "None", "");
 
-
         resourcesList.add(r1);
         resourcesList.add(r2);
         resourcesList.add(r3);
         resourcesList.add(r4);
 
-        Map<String, Integer> basicResourcesIncome = new HashMap<>();
+        Map<String, Integer> basicResourcesIncome = new HashMap<>(resourcesMap);
         basicResourcesIncome.put("Wood", 3);
-        basicResourcesIncome.put("Grain", 0);
-        basicResourcesIncome.put("Gold", 0);
-        basicResourcesIncome.put("Bread", 0);
 
         when(dependenciesRepresenter.getModuleData("resourcesList")).thenReturn(resourcesList);
         when(dependenciesRepresenter.getModuleData("incomes")).thenReturn(basicResourcesIncome);
@@ -54,45 +55,27 @@ public class ResourcesUnitTest {
 
     @Before
     public void initializeTest() {
-        Map<String, Integer> fieldProduces = new HashMap<>();
+        Map<String, Integer> fieldProduces = new HashMap<>(resourcesMap);
         fieldProduces.put("Grain", 3);
-        fieldProduces.put("Wood", 0);
-        fieldProduces.put("Gold", 0);
-        fieldProduces.put("Bread", 0);
-        Map<String, Integer> fieldConsumes = new HashMap<>();
+        Map<String, Integer> fieldConsumes = new HashMap<>(resourcesMap);
         fieldConsumes.put("Wood", 3);
-        fieldConsumes.put("Grain", 0);
-        fieldConsumes.put("Gold", 0);
-        fieldConsumes.put("Bread", 0);
-        Map<String, Integer> fieldResourcesCost = new HashMap<>();
+        Map<String, Integer> fieldResourcesCost = new HashMap<>(resourcesMap);
         fieldResourcesCost.put("Wood", 10);
-        fieldResourcesCost.put("Grain", 0);
-        fieldResourcesCost.put("Gold", 0);
-        fieldResourcesCost.put("Bread", 0);
 
         Building field = new Building("Field", "None", "None", 2, fieldProduces,
                 fieldConsumes, fieldResourcesCost, "", "Industrial", "", "Worker");
-        buildings.put(field.getName(), field);
+        buildingsMap.put(field.getName(), field);
 
-        Map<String, Integer> houseProduces = new HashMap<>();
-        houseProduces.put("Grain", 0);
-        houseProduces.put("Wood", 0);
+        Map<String, Integer> houseProduces = new HashMap<>(resourcesMap);
         houseProduces.put("Gold", 1);
-        houseProduces.put("Bread", 0);
-        Map<String, Integer> houseConsumes = new HashMap<>();
-        houseConsumes.put("Wood", 0);
-        houseConsumes.put("Grain", 0);
+        Map<String, Integer> houseConsumes = new HashMap<>(resourcesMap);
         houseConsumes.put("Bread", 1);
-        houseConsumes.put("Gold", 0);
-        Map<String, Integer> houseResourcesCost = new HashMap<>();
+        Map<String, Integer> houseResourcesCost = new HashMap<>(resourcesMap);
         houseResourcesCost.put("Wood", 15);
-        houseResourcesCost.put("Grain", 0);
-        houseResourcesCost.put("Gold", 0);
-        houseResourcesCost.put("Bread", 0);
 
         Building house = new Building("House", "None", "None", 2, houseProduces,
                 houseConsumes, houseResourcesCost, "", "Domestic", "", "Worker");
-        buildings.put(house.getName(), house);
+        buildingsMap.put(house.getName(), house);
     }
 
     @Test
@@ -101,7 +84,7 @@ public class ResourcesUnitTest {
     public void addResourcesFromBuildingDestructionTest(String buildingName, String resourceName, int woodAmount){
         // given
         Resources resources = new Resources(dependenciesRepresenter);
-        Building building = buildings.get(buildingName);
+        Building building = buildingsMap.get(buildingName);
 
         // when
         resources.addResourcesFromBuildingDestruction(building);
@@ -121,7 +104,7 @@ public class ResourcesUnitTest {
                                         int income, String consumedResName, int balance){
         // given
         Resources resources = new Resources(dependenciesRepresenter);
-        Building building = buildings.get(buildingName);
+        Building building = buildingsMap.get(buildingName);
         building.setWorkingDwellers(workingDwellers);
         building.setProducing(isProducing);
 
@@ -140,7 +123,7 @@ public class ResourcesUnitTest {
     public void subBuildingCost(String buildingName, String resName, int expectedWoodAmount){
         // given
         Resources resources = new Resources(dependenciesRepresenter);
-        Building building = buildings.get(buildingName);
+        Building building = buildingsMap.get(buildingName);
 
         // when
         resources.subBuildingsCost(building);
@@ -159,7 +142,7 @@ public class ResourcesUnitTest {
                                            int expectedConsumption){
         // given
         Resources resources = new Resources(dependenciesRepresenter);
-        Building building = buildings.get(buildingName);
+        Building building = buildingsMap.get(buildingName);
         building.setWorkingDwellers(workingDwellers);
 
         // when
@@ -179,7 +162,7 @@ public class ResourcesUnitTest {
                                            int expectedConsumption){
         // given
         Resources resources = new Resources(dependenciesRepresenter);
-        Building building = buildings.get(buildingName);
+        Building building = buildingsMap.get(buildingName);
         building.setWorkingDwellers(workingDwellers);
 
         // when

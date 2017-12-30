@@ -135,7 +135,6 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
         catch(Exception e){
 
         }
-
     }
 
     @Override

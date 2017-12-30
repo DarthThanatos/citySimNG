@@ -20,6 +20,14 @@ public class Dweller extends Entity{
 		
 	}
 
+	public Dweller(String name, String predecessor, String successor, String texturePath, String description){
+		setName(name);
+		setPredecessor(predecessor);
+		setSuccessor(successor);
+		setTexturePath(texturePath);
+		this.description = description;
+	}
+
 	public Map<String, Integer> getConsumes() {
 		return consumes;
 	}

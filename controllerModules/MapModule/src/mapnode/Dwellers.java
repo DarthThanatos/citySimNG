@@ -1,6 +1,5 @@
 package mapnode;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,22 +7,16 @@ import java.util.Map;
 import entities.Building;
 import entities.Dweller;
 import model.DependenciesRepresenter;
-import utils.CollectionConcatenationUtils;
+
 
 public class Dwellers {
-	public static int getScoreMultiplier() {
-		return SCORE_MULTIPLIER;
-	}
-
-	private final static int SCORE_MULTIPLIER = 5;
+    private final static int SCORE_MULTIPLIER = 5;
 	private int neededDwellers = 0;
 	private int availableDwellers = 5;
 	private int workingDwellers = 0;
 	private Map<String, Dweller> allDwellers;
-	private final String relativeTexturesPath = "resources\\Textures\\";
 	
-	Dwellers(DependenciesRepresenter dr){
-
+	public Dwellers(DependenciesRepresenter dr){
 		allDwellers = new HashMap<>();
 		for(Dweller dweller: (List<Dweller>) dr.getModuleData("allDwellers")){
 			allDwellers.put(dweller.getName(), dweller);
@@ -31,15 +24,13 @@ public class Dwellers {
 	}
 
 	public void updateDwellersWorkingInBuilding(Building building,
-												Buildings buildings){
+												Map<String, Building> notFullyOccupiedBuildings){
 		Integer idleDwellers = availableDwellers - workingDwellers;
 
 		Integer dwellersNeededToFillBuilding = building.getDwellersAmount() -
 				building.getWorkingDwellers();
 		Integer dwellersDesignatedToWork = Integer.min(idleDwellers,
 				dwellersNeededToFillBuilding);
-		Map<String, Building> notFullyOccupiedBuildings =
-				buildings.getNotFullyOccupiedBuildings();
 
 		building.setWorkingDwellers(building.getWorkingDwellers() +
 				dwellersDesignatedToWork);
@@ -50,9 +41,9 @@ public class Dwellers {
 
 	}
 
-	/*
-	Getters and setters
-	 */
+
+	/* Getters and setters */
+
 	public int getNeededDwellers() {
 		return neededDwellers;
 	}
@@ -77,7 +68,6 @@ public class Dwellers {
 		this.allDwellers = allDewellers;
 	}
 
-
 	public int getWorkingDwellers() {
 		return workingDwellers;
 	}
@@ -85,4 +75,8 @@ public class Dwellers {
 	public void setWorkingDwellers(int workingDwellers) {
 		this.workingDwellers = workingDwellers;
 	}
+
+    public static int getScoreMultiplier() {
+        return SCORE_MULTIPLIER;
+    }
 }
