@@ -354,7 +354,7 @@
             "Predecessor": "None", 
             "Description": "Podstawa diety sily roboczej  w Twoim miescie, owoce zostaly genetycznie zoptymalizowane pod katem dodatkowego pobudzania osrodka przyjemnosci i nagrody w mozgu czlowieka. Sa przy tym niesamowicie odzywcze. Wygladaja jak typowe, rodzime owoce - przykladowo, poziomki, truskawki, czeresnie.", 
             "Start income": "0", 
-            "Texture path": "DefaultBuilding.jpg", 
+            "Texture path": "Moon\\resources\\owoce.png", 
             "Resource\nName": "Owoce", 
             "Successor": "None"
         }, 
@@ -370,7 +370,7 @@
             "Predecessor": "Glej", 
             "Description": "Opierajac sie na efekcie wplywania gleju na strukture przestrzeni, studnie przyciagania staly sie standardem technologicznym istotnie skracajacym fizyczne ograniczenia wywolane stala Plancka. Odpowiednia rzezba pozwala istotnie skrocic czasy transportu i komunikacji na duzych odleglosciach, wykorzystujac polaryzacje grawitacyjna - kawalek przestrzeni, odpowiednio \"nasmarowany\" glejem wypelnionym ujemnym promieniowaniem, zawija sie do miejsca w ktorym znajduje sie studnia przyciagania, emitujaca promieniowanie o identycznej wartosci modulu, lecz dodatnim znakiem. Studnia przypomina lej traby powietrznej, ktorej srodek  przewija wstega maszynerii; sama studnia wyplywa z czarnej plyty emitujacej na dole i wplywa do identycznej na gorze.", 
             "Start income": "0", 
-            "Texture path": "DefaultBuilding.jpg", 
+            "Texture path": "Moon\\resources\\studnia_przyciagania.png", 
             "Resource\nName": "Studnia przyciagania", 
             "Successor": "None"
         }, 
@@ -378,7 +378,7 @@
             "Predecessor": "None", 
             "Description": "Osobnicy poddani na lekkie oddzialywanie podniesionej radioaktywnosci oparow bagien glejowych wykazuja zmieniajaca sie sinusoidalnie w czasie funkcje ciezaru w ich organizmach. Wektory grawitacji wykrzywiaja sie zgodnie z ich wola, zas przy odpowiednim skupieniu napromieniowani ludzie sa w stanie rzezbic strukture  grawitacyjna przestrzeni - skrecac ja,mieszac i zapetlac. Badania substancji ujawnily szereg wlasciwosci majacy szereg aplikacji w przemysle. Gram substancji zapakowanej w przezroczysta fiolke bije fioletowym blaskiem;  pojemniki, w ktorych zapakowuje sie glej opatrzone sa dodatkowa maszyneria zabezpieczajaca na spodzie fiolki.", 
             "Start income": "0", 
-            "Texture path": "DefaultBuilding.jpg", 
+            "Texture path": "Moon\\resources\\glej.png", 
             "Resource\nName": "Glej", 
             "Successor": "None"
         }, 
@@ -410,7 +410,7 @@
             "Predecessor": "None", 
             "Description": "Mimo popularnosci nanoplastiku, dokonuje sie wciaz nowych odkryc w dziedzinach budownictwa oraz chemii. Plastyczny egzoszkielet jest materialem powstalym w wyniku fuzji obu dziedzin. Lekki i wytrzymaly, jego struktura jest konfigurowalna poprzez wyladowania energii elektrycznej.  Egzoszkielet wyglada jak szkielet szescianu, ktorego wierzcholki przypominaja stawy niebieskich kosci.", 
             "Start income": "0", 
-            "Texture path": "DefaultBuilding.jpg", 
+            "Texture path": "Moon\\resources\\egzoszkielet.png", 
             "Resource\nName": "Plastyczny egzoszkielet", 
             "Successor": "None"
         }, 
@@ -418,7 +418,7 @@
             "Predecessor": "Plastyczny egzoszkielet", 
             "Description": "Pomimo tego, ze plastyczne egzoszkielety nadaja sie do bardzo wielu zastosowan, satanowia jedynie zestaw elementow, z ktorych dopiero  moze powstac cos praktycznego. Syntetyczne kadluby oparte o egzoszkielety sa w praktyce gotowymi modulami o uniwersalnym przeznaczeniu:  sluzacym jako tasmy produkcyjne, stoly jadalne itd. Posiadaja oplywowy ksztalt, wiele szczelin zlobiacych powierzchnie w skomplikowane wzory, sugerujace latwosc rekonfiguracji wygladu, a takze ekran miniterminala z klawiatura, za pomoca ktorej mozna wprowadzac oczekiwany koncowy ksztalt modulu. ", 
             "Start income": "0", 
-            "Texture path": "DefaultBuilding.jpg", 
+            "Texture path": "Moon\\resources\\kadluby.png", 
             "Resource\nName": "Syntetyczne kadluby", 
             "Successor": "None"
         }, 
@@ -426,7 +426,7 @@
             "Predecessor": "Krysztaly efektu masy", 
             "Description": "Oparte na krysztalach efektu masy o scisle okreslonych wlasciwosciach fizycznych, lacza nadgrawitacyjne sa standardem medium wymiany informacji w nowoczesnym przemysle teleinformatycznym. Lej przestrzenny jest przezroczysty, na jego koncach widac: na jednym czarny krysztal, na drugim bialy krysztal. \nLej moze emitowac fioletowe swiatlo. ", 
             "Start income": "0", 
-            "Texture path": "DefaultBuilding.jpg", 
+            "Texture path": "Moon\\resources\\lacze.png", 
             "Resource\nName": "lacza nadgrawitacyjne", 
             "Successor": "None"
         }, 
