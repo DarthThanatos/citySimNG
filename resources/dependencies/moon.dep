@@ -69,7 +69,8 @@
             "Consumes": {
                 "Dropsy energetyczne": 1
             }, 
-            "Texture path": "house.png", 
+            "Texture path": "Moon\\buildings\\plantacja_owocow.png", 
+
             "Type": "Industrial", 
             "Cost\nin\nresources": {
                 "Gizmo": 2
@@ -107,7 +108,7 @@
             "Consumes": {
                 "Dropsy energetyczne": 1
             }, 
-            "Texture path": "house.png", 
+            "Texture path": "Moon\\buildings\\fabryka_syn_kadlubow.png",  
             "Type": "Industrial", 
             "Cost\nin\nresources": {
                 "Nanoplastik": 3
@@ -162,7 +163,7 @@
             "Consumes": {
                 "Witaminy": 5
             }, 
-            "Texture path": "house.png", 
+            "Texture path": "Moon\\buildings\\browar.png",   
             "Type": "Industrial", 
             "Cost\nin\nresources": {
                 "Gizmo": 5
