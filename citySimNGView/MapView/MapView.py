@@ -22,6 +22,9 @@ from Items.Dwellers import dwellers as game_dwellers
 
 
 BUTTON_HEIGHT = 0.15
+SUMMARY_MENU_BUTTON_HEIGHT = 0.1
+SUMMARY_MENU_BUTTON_WIDTH = 0.1
+FONT_SIZE = 25
 
 class MapView(wx.Panel):
     """ This class represents an instance of map view. It is responsible for communication with model. """
@@ -100,10 +103,10 @@ class MapView(wx.Panel):
     def init_btns_in_end_game_screen(self):
         menu_btn = wx.Button(
             self, label="Menu", pos=(
-                self.width/2 - MENU_BUTTON_WIDTH * self.width/2,
-                self.screen_height - self.screen_height * TEXT_PANEL_HEIGHT),
-            size=(MENU_BUTTON_WIDTH * self.width,
-                  self.screen_height * TEXT_PANEL_HEIGHT))
+                self.width/2 - SUMMARY_MENU_BUTTON_WIDTH * self.screen_height/2,
+                self.screen_height - self.screen_height * SUMMARY_MENU_BUTTON_HEIGHT),
+            size=(SUMMARY_MENU_BUTTON_WIDTH * self.screen_height,
+                  self.screen_height * SUMMARY_MENU_BUTTON_HEIGHT))
         self.sizer.Add(menu_btn)
         self.Bind(wx.EVT_BUTTON, self.ret_to_menu, menu_btn)
         self.sizer_elements.append(menu_btn)
@@ -173,41 +176,42 @@ class MapView(wx.Panel):
         max_y = 0
 
         curr_y = draw_text_with_wrapping_and_centering(
-            0, 0, self.width, "Game Summary\n\n ", self.game.game_board, GREEN,
-        40)
+            0, 0, self.width, "Game Summary\n ", self.game.game_board, GREEN,
+        FONT_SIZE + 10)
 
         mes = ' '.join(['{} {}\n'.format(key, val) for key, val in
                resources.iteritems()])
         mes = 'Resources summary\n\n ' + mes
         max_y = max(max_y, draw_text_with_wrapping_and_centering(
-            0, curr_y, self.width / 4, mes, self.game.game_board, GREEN, 40, True))
+            0, curr_y, self.width / 4, mes, self.game.game_board, GREEN,
+            FONT_SIZE, True))
 
         mes = ' '.join(['{} {}\n'.format(key, val) for key, val in
                         domestic.iteritems()])
-        mes = 'Domestic buildings summary\n\n ' + mes
+        mes = 'Domestic buildings\n summary\n\n ' + mes
         max_y = max(max_y, draw_text_with_wrapping_and_centering(
             self.width / 4, curr_y, 2 * self.width / 4, mes,
-            self.game.game_board, GREEN, 40, True))
+            self.game.game_board, GREEN, FONT_SIZE, True))
 
         mes = ' '.join(['{} {}\n'.format(key, val) for key, val in
                         industrial.iteritems()])
-        mes = 'Industrial buildings summary\n\n ' + mes
+        mes = 'Industrial buildings\n summary\n\n ' + mes
         max_y = max(max_y, draw_text_with_wrapping_and_centering(
             2 * self.width / 4, curr_y, 3 * self.width / 4, mes, self.game.game_board,
-            GREEN, 40, True))
+            GREEN, FONT_SIZE, True))
 
         mes = ' '.join(['{} {}\n'.format(key, val) for key, val in
                         dwellers.iteritems()])
         mes = 'Dwellers summary\n\n ' + mes
         max_y = max(max_y, draw_text_with_wrapping_and_centering(
             3 * self.width / 4, curr_y, self.width, mes, self.game.game_board,
-            GREEN, 40, True))
+            GREEN, FONT_SIZE, True))
 
-        curr_y = max(max_y, int(0.8 * self.height))
+        curr_y = max(max_y, int(0.85 * self.height))
         mes = "Score: {}".format(score)
         draw_text_with_wrapping_and_centering(0, curr_y, self.width, mes,
                                               self.game.game_board, GREEN,
-                                              40)
+                                              FONT_SIZE + 10)
 
 # =================================================================================================================== #
 # Communication with model
