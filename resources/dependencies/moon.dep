@@ -14,7 +14,7 @@
             "Cost\nin\nresources": {
                 "Nanoplastik": 3
             }, 
-            "Texture path": "house.png", 
+            "Texture path": "Moon\\buildings\\zrodlo_gizmo.png", 
             "Type": "Industrial", 
             "Consumes": {
                 "Dropsy energetyczne": 1
@@ -50,7 +50,7 @@
             "Cost\nin\nresources": {
                 "Gizmo": 4
             }, 
-            "Texture path": "house.png", 
+            "Texture path": "Moon\\buildings\\kopalnia_studni.png", 
             "Type": "Industrial", 
             "Consumes": {
                 "Glej": 4
@@ -89,7 +89,7 @@
             "Consumes": {
                 "Studnia przyciagania": 4
             }, 
-            "Texture path": "Middleages\\buildings\\piekarnia.png", 
+            "Texture path": "Moon\\buildings\\polaryzator.png", 
             "Type": "Industrial", 
             "Cost\nin\nresources": {
                 "Gizmo": 4
@@ -182,7 +182,7 @@
             "Consumes": {
                 "Krysztaly efektu masy": 3
             }, 
-            "Texture path": "house.png", 
+            "Texture path": "Moon\\buildings\\rzezbiarnia.png", 
             "Type": "Industrial", 
             "Cost\nin\nresources": {
                 "Gizmo": 4
@@ -201,7 +201,7 @@
             "Cost\nin\nresources": {
                 "Gizmo": 2
             }, 
-            "Texture path": "house.png", 
+            "Texture path": "Moon\\buildings\\kopalnia_gleju.png", 
             "Type": "Industrial", 
             "Consumes": {
                 "Dropsy energetyczne": 1
@@ -220,7 +220,7 @@
             "Consumes": {
                 "Zdrowy likier": 4
             }, 
-            "Texture path": "house.png", 
+            "Texture path": "Moon\\buildings\\cukiernia.png", 
             "Type": "Industrial", 
             "Cost\nin\nresources": {
                 "Dropsy energetyczne": 1
@@ -239,7 +239,7 @@
             "Consumes": {
                 "Dropsy energetyczne": 1
             }, 
-            "Texture path": "house.png", 
+            "Texture path": "Moon\\buildings\\fabryka_energodropsow.png",  
             "Type": "Industrial", 
             "Cost\nin\nresources": {
                 "Nanoplastik": 3
@@ -250,15 +250,15 @@
             "Predecessor": "None", 
             "Description": "Aby wzniesc budynek wytworni egzoszkieletow, musisz posiadac odpowiednia ilosc nanoplastiku, miec do dyspozycji jednego dostepnego Robotnika i dostarczac regularne dostawy dropsow energetycznych. W mrocznych zakamarkach wytworni wznosza sie okrzyki i odglosy obijania metalu o egzoszkielety. Swiatlo odbija sie od nanoplastikowych scian zakladu produkcyjnego, zabarwione podwojnym blekitem sciany i tego, co zwisa pekami wzdluz nich.  Breloki egzoszkieletow sa powieszone wzdluz okien, budynek jest barwiony na ciemny blekit.", 
             "Produces": {
-                "Krysztaly efektu masy": 6
+                "Plastyczny egzoszkielet": 1
             }, 
             "Dwellers\namount": 1, 
             "Building\nName": "Wytwornia egzoszkieletow", 
             "Dweller\nName": "Robotnik", 
             "Consumes": {
-                "Plastyczny egzoszkielet": 1
+                "Dropsy energetyczne": 6
             }, 
-            "Texture path": "house.png", 
+            "Texture path": "Moon\\buildings\\wytwornia_egz.png", 
             "Type": "Industrial", 
             "Cost\nin\nresources": {
                 "Nanoplastik": 5
@@ -277,7 +277,7 @@
             "Consumes": {
                 "Owoce": 4
             }, 
-            "Texture path": "house.png", 
+            "Texture path": "Moon\\buildings\\wytwornia_witamin.png", 
             "Type": "Industrial", 
             "Cost\nin\nresources": {
                 "Plastyczny egzoszkielet": 3
