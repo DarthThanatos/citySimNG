@@ -1,7 +1,6 @@
 package exchange;
 
 import java.util.Random;
-import java.util.logging.Logger;
 
 import static exchange.StockConfig.*;
 
@@ -11,14 +10,12 @@ public class StockAlgorithm {
     private int bullMarketTurnsLeft;
     private int bearMarketTurnsLeft;
     private Random random;
-    private Logger logger;
 
     public StockAlgorithm(Stock stock) {
         this.stock = stock;
         random = new Random();
         bullMarketTurnsLeft = 0;
         bearMarketTurnsLeft = 0;
-        logger = Logger.getLogger("StockAlgorithm");
     }
 
     public void simulateStock() {
@@ -90,10 +87,8 @@ public class StockAlgorithm {
             int randomNumber = random.nextInt(100) + 1;
             if (randomNumber <= SPECIAL_EVENT_CHANCE) {
                 if (randomNumber % 2 == 0) {
-                    logger.info("Entering bear market");
                     bearMarketTurnsLeft = SPECIAL_EVENT_LENGTH;
                 } else {
-                    logger.info("Entering bull market");
                     bullMarketTurnsLeft = SPECIAL_EVENT_LENGTH;
                 }
             }

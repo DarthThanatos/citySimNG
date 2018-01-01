@@ -58,10 +58,10 @@ public class IntegrationTests {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        // then
         double priceAfter = stock.getResource(RESOURCE_1).getPrice();
         double factor = priceAfter / priceBefore;
+
+        // then
         assertTrue("factor = " + factor, factor > 1.5 || factor < 0.15);
     }
 
@@ -83,10 +83,10 @@ public class IntegrationTests {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        // then
         double priceAfter = stock.getResource(RESOURCE_1).getPrice();
         double factor = priceAfter / priceBefore;
+
+        // then
         assertTrue("factor = " + factor, factor > 0.5 || factor < 1.5);
     }
 
@@ -108,9 +108,9 @@ public class IntegrationTests {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        int quantityAfter = stock.getResource(RESOURCE_1).getStockQuantity();
 
         // then
-        int quantityAfter = stock.getResource(RESOURCE_1).getStockQuantity();
         assertNotEquals(quantityBefore, quantityAfter);
     }
 
@@ -161,9 +161,9 @@ public class IntegrationTests {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        int quantityAfter = stock.getResource(RESOURCE_1).getStockQuantity();
 
         // then
-        int quantityAfter = stock.getResource(RESOURCE_1).getStockQuantity();
         assertTrue(quantityAfter < quantityBefore);
     }
 
@@ -213,9 +213,9 @@ public class IntegrationTests {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        int quantityAfter = stock.getResource(RESOURCE_2).getStockQuantity();
 
         // then
-        int quantityAfter = stock.getResource(RESOURCE_2).getStockQuantity();
         assertTrue(quantityAfter > quantityBefore);
     }
 
