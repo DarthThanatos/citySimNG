@@ -275,41 +275,41 @@ class TutorialView(wx.Panel):
 
 
     def useFetchedIndex(self, index, tab):
-        if index is not None:
+        #if index is not None:
             #for x in index:
             #    print x
-            tab.fillContentList(index)
-            tab.isInitialized = True
+        tab.fillContentList(index)
+        tab.isInitialized = True
         self.centerSizer.Layout()
 
     def fetchTutorialIndex(self, index):
         self.nrOfPages = len(index)-1
         print "self.nrOfPages = " + str(self.nrOfPages)
-        if self.tab1.isInitialized is False:
+        #if self.tab1.isInitialized is False:
            # print "Print index"
-            self.useFetchedIndex(index[:-1], self.tab1)
-            if self.tab1.isInitialized is False:
-               print "Sth went wrong with tutorial indexList!!!!"
-        else:
-            print "len(self.tab1.indexList):"
-            print len(self.tab1.indexList)
+        self.useFetchedIndex(index[:-1], self.tab1)
+        if self.tab1.isInitialized is False:
+           print "Sth went wrong with tutorial indexList!!!!"
+        # else:
+        #     print "len(self.tab1.indexList):"
+        #     print len(self.tab1.indexList)
 
     def fetchNodes(self, buildingsList, resourcesList, dwellersList):
         #print "Print buildingsList"
+        #if self.tab2.isInitialized is False:
+        self.useFetchedIndex(buildingsList, self.tab2)
         if self.tab2.isInitialized is False:
-            self.useFetchedIndex(buildingsList, self.tab2)
-            if self.tab2.isInitialized is False:
-                print "Sth went wrong with buildings!!!"
+            print "Sth went wrong with buildings!!!"
        # print "Print resourcesList"
+       # if self.tab3.isInitialized is False:
+        self.useFetchedIndex(resourcesList, self.tab3)
         if self.tab3.isInitialized is False:
-            self.useFetchedIndex(resourcesList, self.tab3)
-            if self.tab3.isInitialized is False:
-                print "Sth went wrong with resources!!!"
+            print "Sth went wrong with resources!!!"
        # print "Print dwellersList"
+       # if self.tab4.isInitialized is False:
+        self.useFetchedIndex(dwellersList, self.tab4)
         if self.tab4.isInitialized is False:
-            self.useFetchedIndex(dwellersList, self.tab4)
-            if self.tab4.isInitialized is False:
-                print "Sth went wrong with Dwellers!!!"
+            print "Sth went wrong with Dwellers!!!"
 
 
     
