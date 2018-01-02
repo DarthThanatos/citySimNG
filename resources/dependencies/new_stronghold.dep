@@ -12,7 +12,7 @@
             "Cost\nin\nresources": {
                 "Kamien": 3
             }, 
-            "Texture path": "AlmondFarm.png", 
+            "Texture path": "Middleages\\buildings\\zamek.png", 
             "Type": "Domestic", 
             "Consumes": {
                 "Zloto": 2
@@ -105,7 +105,7 @@
             "Cost\nin\nresources": {
                 "Drewno": 2
             }, 
-            "Texture path": "Middleages\\buildings\\dom.png", 
+            "Texture path": "Middleages\\buildings\\dom_mieszczanina.png", 
             "Type": "Domestic", 
             "Consumes": {
                 "Zloto": 2
@@ -159,7 +159,7 @@
             "Cost\nin\nresources": {
                 "Kamien": 5
             }, 
-            "Texture path": "Middleages\\buildings\\zamek.png", 
+            "Texture path": "Middleages\\buildings\\dom.png", 
             "Type": "Domestic", 
             "Consumes": {
                 "Zloto": 4
@@ -216,7 +216,7 @@
             "Cost\nin\nresources": {
                 "Kamien": 3
             }, 
-            "Texture path": "House.png", 
+            "Texture path": "Middleages\\buildings\\browar.png", 
             "Type": "Industrial", 
             "Consumes": {
                 "Chmiel": 2
@@ -345,7 +345,7 @@
             "Predecessor": "None", 
             "Description": "Roznokolorowe odmiany jablek dojrzewaja na galeziach jabloni posadzonych na terenie sadu. Dogladaja ich rolnicy, jablka sa ich glownym pozywieniem w Twoim miescie. Pelne witami, jablka sa niezbedne by utrzymac rolnikow przy sobie. ", 
             "Start income": "0", 
-            "Texture path": "NavPanelTex.png", 
+            "Texture path": "Middleages\\resources\\jablka.png", 
             "Resource\nName": "Jablka", 
             "Successor": "None"
         }, 
@@ -361,7 +361,7 @@
             "Predecessor": "None", 
             "Description": "Krzewy chmielu dojrzewaja na specjalnych plantacjach. Do uprawy chmielu oddelegowani sa wybrani rolnicy. Chmiel jest niezbedny do produkcji piwa, musisz wiec upewnic sie, ze rolnicy posiadaja odpowiednia motywacje do uprawy tych krzewow. ", 
             "Start income": "0", 
-            "Texture path": "pszenica.JPG", 
+            "Texture path": "Middleages\\resources\\chmiel.png", 
             "Resource\nName": "Chmiel", 
             "Successor": "None"
         }, 
@@ -377,7 +377,7 @@
             "Predecessor": "Chmiel", 
             "Description": "Zlocisto-brazowy trunek dojrzewajacy w debowych beczkach w chlodnych piwnicach browarowni. Alkohol jest glowna sila trzymajaca klase szlachty w Twoim miescie, wiec dopilnuj, by jego strumien lal sie nieprzerwanie jesli lezy Ci na sercu rozwoj swojej gospodarki. Procesu wytwarzania piwa dogladaja mieszczanie.", 
             "Start income": "0", 
-            "Texture path": "piwo.JPG", 
+            "Texture path": "Middleages\\resources\\piwo.png", 
             "Resource\nName": "Piwo", 
             "Successor": "None"
         }, 
@@ -385,7 +385,7 @@
             "Predecessor": "None", 
             "Description": "Mleko i jego przetwory sa glownym zrodlem pozywienia mieszczanstwa. Nabial jest produkowany w mleczarni i dystrybuowany  do Twojego magazynu co regularny okres czasu. Duza wartosc odzywcza mleka sprawia, ze Twoi mieszczanie maja wiecej sily i checi do pracy, dlatego tez dbaj o infrastukture drogi mlecznej swojego miasta.", 
             "Start income": "0", 
-            "Texture path": "DefaultBuilding.jpg", 
+            "Texture path": "Middleages\\resources\\mleko.png", 
             "Resource\nName": "Mleko", 
             "Successor": "None"
         }
