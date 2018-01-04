@@ -1,7 +1,7 @@
 import pygame
 from CreatorView.RelativePaths import relative_textures_path
 
-from MapView.Consts import GREEN, RESOURCES_SPACE, \
+from MapView.Consts import YELLOW, RESOURCES_SPACE, \
     DWELLER_ICON_WIDTH, DWELLER_ICON_HEIGHT, RED
 from MapView.Items.Button import Button
 from MapView.Panels.Panel import Panel
@@ -72,7 +72,7 @@ class ResourcesPanel(Panel):
             self.pos_y, self.height),
                                           DWELLER_ICON_WIDTH * self.width,
                                           DWELLER_ICON_HEIGHT * self.height,
-                                          relative_textures_path + "Middleages\\Dwellers\\mieszkaniec2.png",
+                                          relative_textures_path + "Middleages\\dwellers\\mieszczanin.png",
                                           "Working dwellers / All dwellers")
         self.all_sprites.add(self.dweller_sprite)
 
@@ -135,7 +135,7 @@ class ResourcesPanel(Panel):
                       "{} {} {}".format(self.resources_values[resource_name],
                                         sign,
                                         self.resources_balance[resource_name]),
-                      GREEN,
+                      YELLOW,
                       self.surface)
 
             # update current x position
@@ -170,7 +170,7 @@ class ResourcesPanel(Panel):
                              self.curr_max_dwellers_amount))[1]
         text_x_pos = self.dweller_sprite.image.get_size()[0] + RESOURCES_SPACE
 
-        color = GREEN if self.curr_dwellers_amount < self.curr_max_dwellers_amount else RED
+        color = YELLOW if self.curr_dwellers_amount < self.curr_max_dwellers_amount else RED
 
         text_width = draw_text(text_x_pos,
                                center_image_y_pos(text_height, self.pos_y,

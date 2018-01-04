@@ -10,7 +10,7 @@ from CreatorView.RelativePaths import relative_music_path, relative_textures_pat
 
 from Consts import RESOURCES_PANEL_HEIGHT, PURPLE, get_font, TEXT_PANEL_HEIGHT, \
     TEXT_PANEL_WIDTH, MENU_BUTTON_WIDTH, NAVIGATION_PANEL_WIDTH, \
-    INFO_PANEL_WIDTH, TEXT_PANEL_FONT_SIZE, GREEN, \
+    INFO_PANEL_WIDTH, TEXT_PANEL_FONT_SIZE, YELLOW, \
     BUILDINGS_PANEL_WIDTH, HINT_TEXTURE
 from Game import Game
 from GameThread import GameThread
@@ -176,14 +176,14 @@ class MapView(wx.Panel):
         max_y = 0
 
         curr_y = draw_text_with_wrapping_and_centering(
-            0, 0, self.width, "Game Summary\n ", self.game.game_board, GREEN,
+            0, 0, self.width, "Game Summary\n ", self.game.game_board, YELLOW,
         FONT_SIZE + 10)
 
         mes = ' '.join(['{} {}\n'.format(key, val) for key, val in
                resources.iteritems()])
         mes = 'Resources summary\n\n ' + mes
         max_y = max(max_y, draw_text_with_wrapping_and_centering(
-            0, curr_y, self.width / 4, mes, self.game.game_board, GREEN,
+            0, curr_y, self.width / 4, mes, self.game.game_board, YELLOW,
             FONT_SIZE, True))
 
         mes = ' '.join(['{} {}\n'.format(key, val) for key, val in
@@ -191,26 +191,26 @@ class MapView(wx.Panel):
         mes = 'Domestic buildings\n summary\n\n ' + mes
         max_y = max(max_y, draw_text_with_wrapping_and_centering(
             self.width / 4, curr_y, 2 * self.width / 4, mes,
-            self.game.game_board, GREEN, FONT_SIZE, True))
+            self.game.game_board, YELLOW, FONT_SIZE, True))
 
         mes = ' '.join(['{} {}\n'.format(key, val) for key, val in
                         industrial.iteritems()])
         mes = 'Industrial buildings\n summary\n\n ' + mes
         max_y = max(max_y, draw_text_with_wrapping_and_centering(
             2 * self.width / 4, curr_y, 3 * self.width / 4, mes, self.game.game_board,
-            GREEN, FONT_SIZE, True))
+            YELLOW, FONT_SIZE, True))
 
         mes = ' '.join(['{} {}\n'.format(key, val) for key, val in
                         dwellers.iteritems()])
         mes = 'Dwellers summary\n\n ' + mes
         max_y = max(max_y, draw_text_with_wrapping_and_centering(
             3 * self.width / 4, curr_y, self.width, mes, self.game.game_board,
-            GREEN, FONT_SIZE, True))
+            YELLOW, FONT_SIZE, True))
 
         curr_y = max(max_y, int(0.85 * self.height))
         mes = "Score: {}".format(score)
         draw_text_with_wrapping_and_centering(0, curr_y, self.width, mes,
-                                              self.game.game_board, GREEN,
+                                              self.game.game_board, YELLOW,
                                               FONT_SIZE + 10)
 
 # =================================================================================================================== #

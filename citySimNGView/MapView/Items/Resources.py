@@ -4,7 +4,7 @@
 """
 from MapView.Items.Resource import Resource
 from MapView.Utils import calculate_text_size, draw_text
-from MapView.Consts import GREEN, RESOURCES_SPACE, FONT_SIZE
+from MapView.Consts import YELLOW, RESOURCES_SPACE, FONT_SIZE
 
 resources = dict()
 
@@ -25,7 +25,7 @@ def parse_resources_data(resources_data):
 
 def draw_items_info(items_info, start_x, start_y, max_x, container,
                     items_sprites=None, items_sprites_group=None,
-                    image_width=0, image_height=0, color=GREEN,
+                    image_width=0, image_height=0, color=YELLOW,
                     space=RESOURCES_SPACE, font_size=FONT_SIZE):
     """ Draw item info with wrapping so that it does not exceed given x value.
     For each item this function draw first image and then value.

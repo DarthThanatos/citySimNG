@@ -103,7 +103,7 @@ public class StockConfig {
     private static void createDefaultPropertiesMap() {
         propertiesDefaultValues.put(propertiesNames[0], "0.01"); // PRICE_GROW_FACTOR_IN_PERCENT
         propertiesDefaultValues.put(propertiesNames[1], "2");    // QUANTITY_GROW_FACTOR_APIECE
-        propertiesDefaultValues.put(propertiesNames[2], "2.5");  // QUANTITY_PRICE_RATIO_FACTOR
+        propertiesDefaultValues.put(propertiesNames[2], "2.0");  // QUANTITY_PRICE_RATIO_FACTOR
         propertiesDefaultValues.put(propertiesNames[3], "1000"); // PRICE_UPDATE_SPEED_IN_MILLIS
         propertiesDefaultValues.put(propertiesNames[4], "3");    // SPECIAL_EVENT_LENGTH_IN_UPDATES
         propertiesDefaultValues.put(propertiesNames[5], "0.10"); // SPECIAL_EVENT_GROW_FACTOR_IN_PERCENT

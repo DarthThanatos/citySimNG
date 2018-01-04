@@ -1,6 +1,6 @@
 import pygame
 import time
-from MapView.Consts import GREEN, WHITE
+from MapView.Consts import YELLOW, WHITE
 from MapView.Utils import draw_text_with_wrapping
 from MapView.CustomSprites.ContainerSprite import ContainerSprite
 
@@ -25,7 +25,7 @@ class Popup(ContainerSprite):
         max_message_width = self.width - 2 * MARGIN * self.width
         draw_result = draw_text_with_wrapping(
             curr_x, curr_y, max_message_width, self.sprite.popup_text,
-            GREEN, self.surface, FONT_SIZE)
+            YELLOW, self.surface, FONT_SIZE)
         curr_y, widest_line = draw_result[0], draw_result[1]
 
         # cut popup

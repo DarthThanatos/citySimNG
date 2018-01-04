@@ -3,7 +3,7 @@
 """
 
 import pygame
-from Consts import get_font, FONT_SIZE, GREEN
+from Consts import get_font, FONT_SIZE, YELLOW
 
 
 def draw_text(pos_x, pos_y, msg, color, surface, font_size=FONT_SIZE):
@@ -29,7 +29,7 @@ def calculate_text_size(msg, font_size=FONT_SIZE):
     :return: dimensions of text after drawing
     """
     font = pygame.font.SysFont(get_font(), font_size, True)
-    screen_text = font.render(msg, True, GREEN)
+    screen_text = font.render(msg, True, YELLOW)
     return screen_text.get_size()
 
 

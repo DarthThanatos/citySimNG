@@ -31,7 +31,7 @@ public class StockAlgorithmUnitTest {
         resourcesNames.add(RESOURCE_2);
         when(dependenciesRepresenter.getResourcesNames()).thenReturn(resourcesNames);
 
-        StockConfig.setPropertyValue("PRICE_UPDATE_SPEED", "100");
+        StockConfig.setPropertyValue("PRICE_UPDATE_SPEED", "10");
     }
 
     @Test
@@ -46,19 +46,20 @@ public class StockAlgorithmUnitTest {
         stock.setWorkingStatus(true);
         stockAlgorithmThread.start();
         try {
-            Thread.sleep(StockConfig.PRICE_UPDATE_SPEED + 100);
+            Thread.sleep(StockConfig.PRICE_UPDATE_SPEED + 10);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         stock.setWorkingStatus(false);
         double priceBefore = stock.getResource(RESOURCE_1).getPrice();
         try {
-            Thread.sleep(StockConfig.PRICE_UPDATE_SPEED + 100);
+            Thread.sleep(StockConfig.PRICE_UPDATE_SPEED + 10);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        double priceAfter = stock.getResource(RESOURCE_1).getPrice();
 
+        // then
+        double priceAfter = stock.getResource(RESOURCE_1).getPrice();
         assertEquals(priceBefore, priceAfter, 0.0);
     }
 
@@ -74,19 +75,20 @@ public class StockAlgorithmUnitTest {
         stock.setWorkingStatus(true);
         stockAlgorithmThread.start();
         try {
-            Thread.sleep(StockConfig.PRICE_UPDATE_SPEED + 100);
+            Thread.sleep(StockConfig.PRICE_UPDATE_SPEED + 10);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         double priceBefore = stock.getResource(RESOURCE_1).getPrice();
         try {
-            Thread.sleep(StockConfig.PRICE_UPDATE_SPEED + 100);
+            Thread.sleep(StockConfig.PRICE_UPDATE_SPEED + 10);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        double priceAfter = stock.getResource(RESOURCE_1).getPrice();
 
+        // then
+        double priceAfter = stock.getResource(RESOURCE_1).getPrice();
         assertNotEquals(priceBefore, priceAfter);
     }
 
