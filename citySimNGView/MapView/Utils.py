@@ -78,7 +78,7 @@ def draw_text_with_wrapping(pos_x, pos_y, max_x, msg, color, surface,
             surface.blit(word_surface, (curr_x, curr_y))
 
         if draw_new_line:
-            widest_line = max(curr_x, widest_line)
+            widest_line = max(curr_x + word_width, widest_line)
             curr_x = pos_x  # Reset the x.
             curr_y += word_height  # Start on new row.
             if max_pos_y and max_pos_y < curr_y + word_height:
