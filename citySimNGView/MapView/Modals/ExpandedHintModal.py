@@ -1,7 +1,7 @@
 from MapView.CustomSprites.ContainerSprite import ContainerSprite
 from MapView.Utils import draw_text_with_wrapping, draw_text, \
     draw_text_with_wrapping_and_centering
-from MapView.Consts import GREEN, BUILDINGS_PANEL_WIDTH, \
+from MapView.Consts import YELLOW, BUILDINGS_PANEL_WIDTH, \
     RESOURCES_PANEL_HEIGHT, NAVIGATION_PANEL_HEIGHT
 from MapView.Items.Button import Button
 from CreatorView.RelativePaths import relative_textures_path
@@ -63,7 +63,7 @@ class ExpandedHintModal(ContainerSprite):
             ARROW_Y * self.height,
             self.right_arrow.pos_x - self.pos_x,
             "{}/{}".format(self.curr_page, self.last_page),
-            self.surface, GREEN)
+            self.surface, YELLOW)
 
         # blit surface
         self.blit_surface.blit(self.surface, self.rect)
@@ -71,7 +71,7 @@ class ExpandedHintModal(ContainerSprite):
     def create_page(self, surface, words, msg_split=False):
         remaining_words = draw_text_with_wrapping(
             MARGIN, BUTTON_HEIGHT * self.height + MARGIN, self.width - MARGIN,
-            words, GREEN, surface, TEXT_FONT_SIZE,
+            words, YELLOW, surface, TEXT_FONT_SIZE,
             max_pos_y=self.right_arrow.rect[1] - self.pos_y,
             msg_split=msg_split)[3]
         return remaining_words

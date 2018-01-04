@@ -1,6 +1,6 @@
 import pygame
 import time
-from MapView.Consts import GREEN, RED, GOLD, LIGHT_BLUE
+from MapView.Consts import YELLOW, RED, GOLD, LIGHT_BLUE
 from MapView.Items.Resources import draw_items_info, resources
 from MapView.Items.Dwellers import draw_dwellers_info
 from MapView.Items.Resource import Resource
@@ -29,7 +29,7 @@ class BuildingsPanelPopup(Popup):
         # buildings name
         curr_y = draw_text_with_wrapping(curr_x, curr_y, max_message_width,
                                          '{}'.format(self.sprite.name),
-                                         GREEN, self.surface,
+                                         YELLOW, self.surface,
                                          FONT_SIZE)[0]
 
         # cost
@@ -47,7 +47,7 @@ class BuildingsPanelPopup(Popup):
         curr_y = \
             draw_text_with_wrapping(curr_x, curr_y, max_message_width,
                                     "Produces",
-                                    GREEN, self.surface,
+                                    YELLOW, self.surface,
                                     FONT_SIZE)[0]
         curr_y = draw_items_info(self.sprite.produces, curr_x, curr_y,
                                  max_message_width, self,

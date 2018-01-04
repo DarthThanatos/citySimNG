@@ -4,7 +4,7 @@ import pygame
 from CreatorView.RelativePaths import relative_textures_path
 
 from MapView.Consts import ARROW_BUTTON_WIDTH, ARROW_BUTTON_HEIGHT, \
-    GREEN
+    YELLOW
 from MapView.Items.PanelBuilding import PanelBuilding
 from MapView.Items.Button import Button
 from MapView.Panels.Panel import Panel
@@ -129,7 +129,7 @@ class BuildingsPanel(Panel):
             self.page_buildings[str(self.curr_page)][0].type)
         curr_y = draw_text_with_wrapping_and_centering(0, 0, self.width,
                                                        panel_header_message,
-                                                       self.surface, GREEN,
+                                                       self.surface, YELLOW,
                                                        font_size=FONT_SIZE)
 
         # blit buildings
@@ -157,7 +157,7 @@ class BuildingsPanel(Panel):
         header_message = '{} buildings'.format(buildings_type)
         return draw_text_with_wrapping_and_centering(0, 0, self.width,
                                                      header_message,
-                                                     self.surface, GREEN,
+                                                     self.surface, YELLOW,
                                                      blit=False)
 
     def create_scrolling_arrows(self):

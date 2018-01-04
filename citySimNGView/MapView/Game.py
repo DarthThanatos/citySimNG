@@ -5,7 +5,7 @@ from Converter import Converter
 from CreatorView.RelativePaths import relative_textures_path
 
 from Consts import (LEFT, RIGHT, RED, RESOURCES_PANEL_HEIGHT, BUILDINGS_PANEL_WIDTH, NAVIGATION_PANEL_HEIGHT,
-                    NAVIGATION_PANEL_WIDTH, TEXT_PANEL_HEIGHT, GREEN, INFO_PANEL_WIDTH, INFO_PANEL_HEIGHT)
+                    NAVIGATION_PANEL_WIDTH, TEXT_PANEL_HEIGHT, YELLOW, INFO_PANEL_WIDTH, INFO_PANEL_HEIGHT)
 from GameThread import GameThread
 from Items.GameBuilding import GameBuilding
 from Items.Resources import parse_resources_data
@@ -146,7 +146,7 @@ class Game(object):
         if self.shadow is not None:
             self.shadow.rect.center = pygame.mouse.get_pos()
             if self.is_building_position_valid(self.shadow):
-                self.shadow.image.fill(GREEN)
+                self.shadow.image.fill(YELLOW)
             else:
                 self.shadow.image.fill(RED)
 

@@ -1,4 +1,4 @@
-from MapView.Consts import GREEN, RESOURCES_SPACE, FONT_SIZE
+from MapView.Consts import YELLOW, RESOURCES_SPACE, FONT_SIZE
 from MapView.Utils import calculate_text_size, draw_text
 
 from MapView.Items.Dweller import Dweller
@@ -21,7 +21,7 @@ def parse_dwellers_data(dwellers_data):
 
 def draw_dwellers_info(dwellers_name, dwellers_info, start_x, start_y,
                        container, dweller_sprite=None, image_width=0,
-                       image_height=0, color=GREEN, font_size=FONT_SIZE):
+                       image_height=0, color=YELLOW, font_size=FONT_SIZE):
     curr_x, curr_y = start_x, start_y
 
     if not dweller_sprite:

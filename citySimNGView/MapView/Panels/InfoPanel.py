@@ -1,6 +1,6 @@
 from CreatorView.RelativePaths import relative_textures_path
 
-from MapView.Consts import GREEN, RED, LIGHT_BLUE
+from MapView.Consts import YELLOW, RED, LIGHT_BLUE
 from MapView.Items.Button import Button
 from MapView.Items.Resource import Resource
 from MapView.Items.Dweller import Dweller
@@ -73,10 +73,10 @@ class InfoPanel(Panel):
             self.all_sprites.add(self.buttons_sprites)
 
             # draw text
-            curr_y = draw_text(0, 0, self.curr_building.name, GREEN,
+            curr_y = draw_text(0, 0, self.curr_building.name, YELLOW,
                                self.surface, FONT_SIZE)[1]
 
-            curr_x, curr_y = draw_text(0, curr_y, 'Produces: ', GREEN,
+            curr_x, curr_y = draw_text(0, curr_y, 'Produces: ', YELLOW,
                                        self.surface, FONT_SIZE)
             curr_y = \
             draw_items_info(self.curr_building.produces, curr_x, curr_y,
