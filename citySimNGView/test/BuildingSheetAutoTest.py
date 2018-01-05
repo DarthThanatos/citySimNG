@@ -69,7 +69,7 @@ def testInput(app):
     app.top_window().Wait("ready")
     
     # check edit mode - if no key exception is raised, everything was added correctly previously
-    app.top_window().DwellersListBox.select("Building")
+    app.top_window().BuildingListBox.select("Building")
     app[""]["eid selected Building"].Click()
     app.top_window().Wait("ready")
     app.top_window()['Consumed in quantity:Edit'].set_text("10")
