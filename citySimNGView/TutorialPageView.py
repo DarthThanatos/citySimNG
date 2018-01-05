@@ -50,16 +50,21 @@ class TutorialPageView(wx.Panel):
         contentsIcon = wx.Bitmap(relative_textures_path + "small_notepad2.png", wx.BITMAP_TYPE_ANY)
         
         #all needed buttons
-        self.leftArrowBtn = wx.Button(self, label="  ", 
-            size=(leftArrow.GetWidth()+10, leftArrow.GetHeight()+5), id=0)
-        self.rightArrowBtn = wx.Button(self, label="  ", 
-            size=(rightArrow.GetWidth()+10, rightArrow.GetHeight()+5), id=0)
+        self.leftArrowBtn = wx.Button(self, label="  ", id=0,
+            size=(leftArrow.GetWidth()+10, leftArrow.GetHeight()+5), 
+            name="prevTopic")
+        self.rightArrowBtn = wx.Button(self, label="  ", id=0,
+            size=(rightArrow.GetWidth()+10, rightArrow.GetHeight()+5),
+            name="nextTopic")
         leftLittleArrowBtn = wx.Button(self, label="  ", 
-            size=(leftLittleArrow.GetWidth()+10, leftLittleArrow.GetHeight()+5))
+            size=(leftLittleArrow.GetWidth()+10, leftLittleArrow.GetHeight()+5),
+            name="prevSubpage")
         rightLittleArrowBtn = wx.Button(self, label="  ", 
-            size=(rightLittleArrow.GetWidth()+10, rightLittleArrow.GetHeight()+5))
+            size=(rightLittleArrow.GetWidth()+10, rightLittleArrow.GetHeight()+5),
+            name="nextSubpage")
         contentsBtn = wx.Button(self, label=" ",
-            size=(contentsIcon.GetWidth(), contentsIcon.GetHeight()))
+            size=(contentsIcon.GetWidth(), contentsIcon.GetHeight()),
+            name="contents")
         self.leftArrowBtn.SetBitmap(leftArrow)
         self.rightArrowBtn.SetBitmap(rightArrow)
         leftLittleArrowBtn.SetBitmap(leftLittleArrow)
