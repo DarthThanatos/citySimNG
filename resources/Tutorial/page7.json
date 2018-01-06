@@ -1,9 +1,9 @@
 {
-    "nr": 17,
+    "nr": 107,
     "sub0": [
   "In exchange module you can take part in a lottery. If you pay 10 zlotys, you may win some amout of one resource. Try to press \"Roll the dice\" button!",
   "Then you'll be prompted about the lottery result. Good luck!",
   ],
   "img": "resources\\Tutorial\\img3.jpg",
-    "link": [15]
+    "link": [105]
 }

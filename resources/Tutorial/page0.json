@@ -1,5 +1,5 @@
 {
-    "nr": 10,
+    "nr": 100,
     "sub0": [
       "CitySimNG is a cutting-edge game engine that enables you to discover new worlds, where you can build your own village and maintain it. Every set of rules gives you different opportunities. So LET'S START!",
      ],
@@ -12,5 +12,5 @@
       "Enjoy gaming! Good luck!",
     ],
   "img": "resources\\Tutorial\\img6.jpg",
-    "link": [11,12,15]
+    "link": [101,102,105]
 }

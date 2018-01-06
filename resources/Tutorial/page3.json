@@ -1,5 +1,5 @@
 {
-    "nr": 13,
+    "nr": 103,
     "sub0": [
       "In the center you can see a board where you can place your buildings. On the right there's the buildings panel - here you can browse all available buildings. Some of them may be hidden on other subpages. To see them, click one of the arrows at the bottom of the panel.",
      ],
@@ -14,6 +14,6 @@
       "On the bottom there's another panel that helps you manage your buildings. After you click one of the buildings on the map, you see it's details. You may decide that you want to remove building. To perform it, click \"Delete\" button. If you want to turn off the building, but not to remove it, click \"ZZZ\" button. You can later wake this building  up by clicking on the building and choosing \"Play\" button."
     ],
   "img": "resources\\Tutorial\\img8.jpg",
-    "link": [12,14]
+    "link": [102,104]
 }
 

@@ -1,5 +1,5 @@
 {
-    "nr": 16,
+    "nr": 106,
     "sub0": [
       "In exchange module you can sell or buy resources for the current exchange price. To conduct a transaction, you need to have enough resources or money. How to conduct transaction:",
       "-select a desired resource from list",
@@ -11,5 +11,5 @@
     "Otherwise you'll be prompted that the transaction has been successful.",
   ],
   "img": "resources\\Tutorial\\img2.jpg",
-    "link": [15]
+    "link": [105]
 }

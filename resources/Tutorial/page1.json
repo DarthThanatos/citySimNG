@@ -1,5 +1,5 @@
 {
-    "nr": 11,
+    "nr": 101,
     "sub0": [
       "Here you can find out, how to use tutorial module.",
       "To read a topic related to the current one, click one of the hyperlinks at the bottom of this view.",
@@ -12,5 +12,5 @@
       "You can also check what current dependencies are. To do it, look at the graph at the bottom of tutorial main view."
     ],
   "img": "resources\\Tutorial\\img4.jpg",
-    "link": [10]
+    "link": [100]
 }

@@ -205,7 +205,7 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 
 	@Override
 	public void onFetchPage(int pageNr){
-		int tabID = (int)(pageNr/10);
+		int tabID = (int)(pageNr/100);
 		System.out.println("JAVAAAAA tabID: "+ tabID);
         if (tabID == 1)
         	onFetchTutorialPage(pageNr);
@@ -221,7 +221,7 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 
 	public void onFetchTutorialPage(int pageNr){
 		System.out.println("tutorialIndexEntries " + tutorialIndexEntries);
-		int realPageID = pageNr%10;
+		int realPageID = pageNr%100;
 		if (realPageID > tutorialIndexEntries)
             realPageID = 0;
         else if (realPageID < 0)
@@ -260,7 +260,7 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 	}
 
 	public void onFetchBuildingPage(int pageNr){
-		int realPageID = pageNr%10;
+		int realPageID = pageNr%100;
 		if (realPageID > buildingsIndex.size()-1)
             realPageID = 0;
         else if (realPageID < 0)
@@ -272,7 +272,7 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 		onFetchNodePage(pageNr, node);	
 	}
 	public void onFetchResourcePage(int pageNr){
-		int realPageID = pageNr%10;
+		int realPageID = pageNr%100;
 		if (realPageID > resourcesIndex.size()-1)
             realPageID = 0;
         else if (realPageID < 0)
@@ -284,7 +284,7 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 		onFetchNodePage(pageNr, node);
 	}
 	public void onFetchDwellerPage(int pageNr){
-		int realPageID = pageNr%10;
+		int realPageID = pageNr%100;
 		if (realPageID > dwellersIndex.size()-1)
             realPageID = 0;
         else if (realPageID < 0)

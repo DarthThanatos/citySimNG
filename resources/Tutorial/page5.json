@@ -1,5 +1,5 @@
 {
-    "nr": 15,
+    "nr": 105,
     "sub0": [
       "Exchange module can help you totally change your economic situation and give you quite new possibilities. To enter this module, click \"Exhange\" button in the Game Menu.",
       "\"Resource table detailed info\" is the most important place where you can find out what's going on the Exchange. Here you can see information concerning all resources in the current game: its price, available amount and amount possessed you now have.",
@@ -11,5 +11,5 @@
       "In Exchange module, you can conduct transactions or take part in a lottery. To read more about them, read one of the links below",
     "To leave the module, click \"exit\" button.",],
   "img": "resources\\Tutorial\\img1.jpg",
-    "link": [10,14,16,17]
+    "link": [100,104,106,107]
 }

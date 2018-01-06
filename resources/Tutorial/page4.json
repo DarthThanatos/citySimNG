@@ -1,5 +1,5 @@
 {
-    "nr": 14,
+    "nr": 104,
     "sub0": [
       "On the top there's resources and dwellers panel. Here you can see what amount of each resource you have. You can also see if their amount increases or decreases - it's placed on the right of resource icon. For example: 9 + 5 means that you currently have 9 pieces of given resource  and you get 5 more every second. This rate depends on the buildings, that are placed on the map and not have been snoozed. ",
       "Be careful: if one of resource rates is below 0 - it can lead you to bankruptcy!",
@@ -12,5 +12,5 @@
       "It's possible that some resources are hidden on other pages. To see them, click arrow on the right.",
     ],
   "img": "resources\\Tutorial\\img7.jpg",
-    "link": [12,13,15]
+    "link": [102,103,105]
 }
