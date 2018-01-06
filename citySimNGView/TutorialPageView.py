@@ -191,16 +191,16 @@ class TutorialPageView(wx.Panel):
             self.nrOfPages = len(self.parent.tab4.indexList)
 
         leftID = self.page -1
-        if (leftID//10) != (self.tabID):
-            print ("leftID//10: "+ str(leftID//10)+"; self.tabID " + str(self.tabID))
-            leftID = self.nrOfPages-1 + 10*(self.tabID)
+        if (leftID//100) != (self.tabID):
+            print ("leftID//100: "+ str(leftID//100)+"; self.tabID " + str(self.tabID))
+            leftID = self.nrOfPages-1 + 100*(self.tabID)
             print("leftID: " + str(leftID))
         self.leftArrowBtn.SetId(leftID)
 
         rightID = self.page + 1
-        if (rightID//10) != (self.tabID):
-            print ("rightID//10: "+ str(rightID//10)+"; self.tabID " + str(self.tabID))
-            rightID = 10*(self.tabID)
+        if (rightID//100) != (self.tabID):
+            print ("rightID//100: "+ str(rightID//100)+"; self.tabID " + str(self.tabID))
+            rightID = 100*(self.tabID)
             print("rightID: " + str(rightID))
         self.rightArrowBtn.SetId(rightID)
 

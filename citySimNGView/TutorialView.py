@@ -2,26 +2,39 @@ import json
 #import traceback
 import wx
 
+from wx.lib.scrolledpanel import ScrolledPanel
 from CreatorView.GraphsSpaces import GraphsSpaces
 from TutorialPageView import TutorialPageView
 from MainTab import MainTab
 from utils.RelativePaths import relative_music_path, relative_textures_path, relative_fonts_path
 
-class TutorialView(wx.Panel):
+class TutorialView(ScrolledPanel):
     def __init__(self, parent, size, name, musicPath=relative_music_path + "TwoMandolins.mp3", sender = None):
-        #ScrolledPanel.__init__(self, size=size, parent=parent, style=wx.SIMPLE_BORDER)
-        wx.Panel.__init__(self, size=size, parent=parent)        
+        ScrolledPanel.__init__(self, size=size, parent=parent, style=wx.SIMPLE_BORDER)
+        #wx.Panel.__init__(self, size=size, parent=parent)        
         self.name = name
         self.sender = sender
 
         self.size = size
         self.musicPath = musicPath
 
-        #self.SetBackgroundColour((255, 255, 255))
         self.pageID = 0
         self.nrOfPages = 0
-        self.maxNrOfItemsOnList = 10
+        self.maxNrOfItemsOnList = 21
 
+        self.SetupScrolling()
+        self.initTutorialHeader()
+        self.initTutorialTabs()
+        self.initTutorialFooter()
+        self.initTutorialPageView()
+        self.centerSizer.Add(self.graphsSpaces,0,wx.CENTER)
+        self.SetSizer(self.centerSizer)
+        self.centerSizer.SetDimension(0, 0, self.size[0], self.size[1])
+        self.Bind(wx.EVT_SHOW, self.onShow, self)
+        self.centerSizer.Layout()
+
+
+    def initTutorialHeader(self):
         self.tutorialInfo = "Welcome to our tutorial! If you'd like to find out what are all the functionalities of this cutting-edge game engine, you're in the right place :)"
         self.welcomeField = wx.StaticText(self, label=self.tutorialInfo)
         self.tutorialFont = wx.Font(20, wx.FONTFAMILY_DECORATIVE, 
@@ -40,18 +53,14 @@ class TutorialView(wx.Panel):
         self.centerSizer.AddSpacer(30)
         self.centerSizer.Add(self.welcomeField, 0, wx.CENTER)
         self.centerSizer.AddSpacer(10)
-        #self.content = None
+
+    def initTutorialTabs(self):
         tabs = wx.Notebook(self)
         # Create the tab windows
-        self.tab=[]
         self.tab1 = MainTab(tabs,self, 1)
-        self.tab2 = MainTab(tabs, self, 2)
+        self.tab2 = MainTab(tabs,self, 2)
         self.tab3 = MainTab(tabs,self, 3)
         self.tab4 = MainTab(tabs,self, 4)
-        # tab[0]=tab1
-        # tab[1]=tab2
-        # tab[2]=tab3
-        # tab[3]=tab4
  
         # Add the windows to tabs and name them.
         tabs.AddPage(self.tab1, "MainTab")
@@ -59,6 +68,8 @@ class TutorialView(wx.Panel):
         tabs.AddPage(self.tab3, "Resources Tab")
         tabs.AddPage(self.tab4, "Dwellers Tab")
         self.centerSizer.Add(tabs, 0, wx.EXPAND)
+
+    def initTutorialFooter(self):
         ln = wx.StaticLine(self, -1)
         self.centerSizer.Add(ln, 0, wx.EXPAND)
 
@@ -67,16 +78,12 @@ class TutorialView(wx.Panel):
         self.centerSizer.Add(menu_btn, 0, wx.CENTER | wx.ALL, 5)
         self.Bind(wx.EVT_BUTTON, self.retToMenu, menu_btn)
 
-        #page view
-        self.pageView = TutorialPageView(self, size, "Tutorial Page")
+        self.graphsSpaces = GraphsSpaces(self)
+
+    def initTutorialPageView(self):
+        self.pageView = TutorialPageView(self, self.size, "Tutorial Page")
         self.pageView.Hide()
         self.pageView.centerSizer.ShowItems(False)
-        self.graphsSpaces = GraphsSpaces(self)
-        self.centerSizer.Add(self.graphsSpaces,0,wx.CENTER)
-        self.centerSizer.SetDimension(0, 0, self.size[0], self.size[1])
-        self.SetSizer(self.centerSizer)
-        self.Bind(wx.EVT_SHOW, self.onShow, self)
- 
 
     def showPageView(self, event):
         print "\nshowPageView"
@@ -124,35 +131,10 @@ class TutorialView(wx.Panel):
         self.pageView.contentField.SetValue(firstSubPageContent)
 
         hyperlinks = pageContentString["link"]
-        #tu przejrzec hyperlinks, stworzyc nowy slownik na podstawie danych z tab1\
-        hyperlinksWithLabels = []
-        for x in hyperlinks:
-            hyperlinkTab = x//10
-            hyperlinkID = x%10
-            if hyperlinkTab == 1:
-                if hyperlinkID >=0 and hyperlinkID <= len(self.tab1.indexList)-1:
-                    link = {'label': self.tab1.indexList[hyperlinkID], 'id': x}
-                    print ("Link: " + str(link))
-                    hyperlinksWithLabels.append(link)
-            elif hyperlinkTab == 2:
-                if hyperlinkID >=0 and hyperlinkID <= len(self.tab2.indexList)-1:
-                    link = {'label': self.tab2.indexList[hyperlinkID], 'id': x}
-                    print ("Link: " + str(link))
-                    hyperlinksWithLabels.append(link)
-            elif hyperlinkTab == 3:
-                if hyperlinkID >=0 and hyperlinkID <= len(self.tab3.indexList)-1:
-                    link = {'label': self.tab3.indexList[hyperlinkID], 'id': x}
-                    print ("Link: " + str(link))
-                    hyperlinksWithLabels.append(link)
-            elif hyperlinkTab == 4:
-                if hyperlinkID >=0 and hyperlinkID <= len(self.tab4.indexList)-1:
-                    link = {'label': self.tab4.indexList[hyperlinkID], 'id':x }
-                    print ("Link: " + str(link))
-                    hyperlinksWithLabels.append(link)
 
-        self.pageView.hyperlinks = hyperlinksWithLabels
-        print "hyperlinksWithLabels:"
-        print hyperlinksWithLabels
+        self.pageView.hyperlinks = self.initHyperlinks(hyperlinks)
+        # print "hyperlinksWithLabels:"
+        # print hyperlinksWithLabels
 
         image = wx.Image(pageContentString["img"], wx.BITMAP_TYPE_ANY)
         imgWidth = self.size[0] //2
@@ -171,12 +153,39 @@ class TutorialView(wx.Panel):
         self.pageView.subPage = 0
         self.pageView.nrOfSubpages = len(pageContentString) - 3
         self.pageView.page = pageContentString["nr"]
-        self.pageView.tabID = pageContentString["nr"]//10
+        self.pageView.tabID = pageContentString["nr"]//100
         self.pageView.updateHyperlinksAndImg()
 
         self.centerSizer.ShowItems(False)
         self.pageView.Show()
         self.pageView.centerSizer.ShowItems(True)
+
+    def initHyperlinks(self, hyperlinks):
+        hyperlinksWithLabels = []
+        for x in hyperlinks:
+            hyperlinkTab = x//100
+            hyperlinkID = x%100
+            if hyperlinkTab == 1:
+                if hyperlinkID >=0 and hyperlinkID <= len(self.tab1.indexList)-1:
+                    link = {'label': self.tab1.indexList[hyperlinkID], 'id': x}
+                    #print ("Link: " + str(link))
+                    hyperlinksWithLabels.append(link)
+            elif hyperlinkTab == 2:
+                if hyperlinkID >=0 and hyperlinkID <= len(self.tab2.indexList)-1:
+                    link = {'label': self.tab2.indexList[hyperlinkID], 'id': x}
+                    #print ("Link: " + str(link))
+                    hyperlinksWithLabels.append(link)
+            elif hyperlinkTab == 3:
+                if hyperlinkID >=0 and hyperlinkID <= len(self.tab3.indexList)-1:
+                    link = {'label': self.tab3.indexList[hyperlinkID], 'id': x}
+                    #print ("Link: " + str(link))
+                    hyperlinksWithLabels.append(link)
+            elif hyperlinkTab == 4:
+                if hyperlinkID >=0 and hyperlinkID <= len(self.tab4.indexList)-1:
+                    link = {'label': self.tab4.indexList[hyperlinkID], 'id':x }
+                    #print ("Link: " + str(link))
+                    hyperlinksWithLabels.append(link)
+        return hyperlinksWithLabels
 
 
     def useFetchedIndex(self, index, tab):

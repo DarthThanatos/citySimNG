@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['Mediator.py'],
-             pathex=['C:\\Users\\Admin\\Desktop\\citySimNG\\citySimNGView'],
+             pathex=['C:\\Users\\Admin\\Documents\\AGH\\2017-18\\citySimNG\\citySimNGView'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -18,16 +18,12 @@ pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 exe = EXE(pyz,
           a.scripts,
-          exclude_binaries=True,
+          a.binaries,
+          a.zipfiles,
+          a.datas,
           name='Mediator',
           debug=False,
           strip=False,
           upx=True,
+          runtime_tmpdir=None,
           console=True )
-coll = COLLECT(exe,
-               a.binaries,
-               a.zipfiles,
-               a.datas,
-               strip=False,
-               upx=True,
-               name='Mediator')
