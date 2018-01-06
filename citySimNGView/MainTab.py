@@ -39,13 +39,13 @@ class MainTab(wx.Panel):
         self.rightBox = wx.BoxSizer(wx.VERTICAL)
         self.contentBox = wx.BoxSizer(wx.HORIZONTAL)
 
-        listFont = self.master.tutorialFont
-        listFont.SetPointSize(18)
+        # listFont = self.master.tutorialFont
+        # listFont.SetPointSize(18)
 
-        contentSize = self.master.maxNrOfItemsOnList
+        # contentSize = self.master.maxNrOfItemsOnList
 
-        for i in range(contentSize):
-            self.addListElem(listFont, i)
+        # for i in range(contentSize):
+        #     self.addListElem(listFont, i)
 
         self.contentBox.Add(self.leftBox,0)
         self.contentBox.AddSpacer(50)
@@ -57,46 +57,48 @@ class MainTab(wx.Panel):
         self.centerSizer.AddSpacer(20)
         self.centerSizer.Layout()
 
-    def fillListItem(self, i, box):
-        listItem = self.listCtrls[i]
+    def fillListItem(self, i, font, box):
+      #  listItem = self.listCtrls[i]
         if self.indexList[i] is not None:
-            #print "Lable type: " + str(type(self.indexList[i]))
-           # print "Lable : " + str(self.indexList[i]) + "\n"
 
-            # print "Filling listItem"
-            # print "i: " + str(i)+", title = "+str(self.indexList[i])
-
-            listItem['elemField'].SetLabel(self.indexList[i])
-            listItem['arrowButton'].SetId(i + 100*self.tabID)
-            self.Bind(wx.EVT_BUTTON, self.master.showPageView, listItem['arrowButton'])
+            elemField = wx.StaticText(self, label=self.indexList[i]) #elemField = wx.StaticText(self, label=self.master.content[i])
+            elemID = i + 100*self.tabID
+            elemField.SetFont(font)
+            arrowNew = wx.Bitmap(relative_textures_path+"new\\arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
+            arrowButton = wx.Button(self, id=elemID, label="  ", 
+                size=(arrowNew.GetWidth()+10, arrowNew.GetHeight()+5),
+                name="Tab"+str(self.tabID)+"Button")
+            arrowButton.SetBitmap(arrowNew)
+            self.Bind(wx.EVT_BUTTON, self.master.showPageView, arrowButton)
 
             tmpBox = wx.BoxSizer(wx.HORIZONTAL)
-            tmpBox.Add(listItem['elemField'], 0, wx.CENTER)
+            tmpBox.Add(elemField, 0, wx.CENTER)
             tmpBox.AddSpacer(10)
-            tmpBox.Add(listItem['arrowButton'], 0, wx.CENTER)
+            tmpBox.Add(arrowButton, 0, wx.CENTER)
 
             box.Add(tmpBox,0,wx.ALIGN_RIGHT)
             box.AddSpacer(10)
 
     def fillContentList(self, indexList):
         # print "\nFilling content list"
-        self.leftBox.Clear()
-        self.middleBox.Clear()
-        self.rightBox.Clear()
-
-
         for i in range(len(self.leftBox.GetChildren())):
-            self.leftBox.Hide(child.Window)
-            self.leftBox.Detach(child.Window)
+            self.leftBox.Hide(0, recursive=True)
+            self.leftBox.Layout()
+            self.leftBox.Remove(0)
             self.leftBox.Layout()
         for i in range(len(self.middleBox.GetChildren())):
-            self.leftBox.Hide(child.Window)
-            self.leftBox.Detach(child.Window)
+            self.middleBox.Hide(0, recursive=True)
+            self.leftBox.Layout()
+            self.middleBox.Remove(0)
             self.middleBox.Layout()
         for i in range(len(self.rightBox.GetChildren())):
-            self.leftBox.Hide(child.Window)
-            self.leftBox.Detach(child.Window)
+            self.rightBox.Hide(0, recursive=True)
+            self.leftBox.Layout()
+            self.rightBox.Remove(0)
             self.rightBox.Layout()
+
+        listFont = self.master.tutorialFont
+        listFont.SetPointSize(18)
 
         self.indexList = indexList
         print("indexList:")
@@ -113,13 +115,13 @@ class MainTab(wx.Panel):
 
         #contentHalf = contentSize - (contentSize // 2)
         for i in range(contentOne):
-            self.fillListItem(i, self.leftBox)
+            self.fillListItem(i, listFont, self.leftBox)
 
         for i in range(contentOne, contentOne+contentTwo):
-            self.fillListItem(i, self.middleBox)
+            self.fillListItem(i, listFont, self.middleBox)
 
         for i in range(contentOne+contentTwo, contentSize):
-            self.fillListItem(i, self.rightBox)
+            self.fillListItem(i, listFont, self.rightBox)
 
         self.leftBox.Layout()
         self.middleBox.Layout()

@@ -143,6 +143,10 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 			}
 
 		//fetch buildings, dwellers, etc/
+		buildingsIndex.clear();
+		resourcesIndex.clear();
+		dwellersIndex.clear();
+		
 		System.out.println("PROCESS BUILDINGS");
 		for (BuildingNode n : graphsHolder.getBuildingsGraphs()) {
 			buildingsIndex.add(n.getName());
