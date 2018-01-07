@@ -42,7 +42,7 @@ class MainTab(wx.Panel):
             elemField = wx.StaticText(self, label=self.indexList[i]) #elemField = wx.StaticText(self, label=self.master.content[i])
             elemID = i + 100*self.tabID
             elemField.SetFont(font)
-            arrowNew = wx.Bitmap(relative_textures_path+"new\\arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
+            arrowNew = wx.Bitmap(relative_textures_path+"arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
             arrowButton = wx.Button(self, id=elemID, 
                 label="TabBtn"+str(elemID), 
                 size=(arrowNew.GetWidth()+10, arrowNew.GetHeight()+5),

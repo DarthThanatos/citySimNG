@@ -84,7 +84,7 @@ class GraphPanel(ScrolledPanel):
 
     def newArrowBmp(self, lvl_index):
         return self.newScaledBmp(
-            relative_textures_path + ("new\\arrow_green_small.png" if lvl_index % 2 == 0 else "new\\arrow_light_small.png")
+            relative_textures_path + ("arrow_green_small.png" if lvl_index % 2 == 0 else "arrow_light_small.png")
         )
 
     def newEntityBmp(self, tree_lvl_json_desc):

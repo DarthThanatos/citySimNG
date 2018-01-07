@@ -95,7 +95,7 @@ class ExpandedHintModal(ContainerSprite):
         self.close_button = Button(
             self.pos_x + self.width - BUTTON_WIDTH * self.width, self.pos_y,
             BUTTON_WIDTH * self.width, BUTTON_HEIGHT * self.height,
-            relative_textures_path + 'new\\delete.png', close_modal,
+            relative_textures_path + 'delete.png', close_modal,
             self.blit_surface, "Close")
         self.buttons_sprites.add(self.close_button)
 

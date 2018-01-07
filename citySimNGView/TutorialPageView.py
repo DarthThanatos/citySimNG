@@ -43,10 +43,10 @@ class TutorialPageView(wx.Panel):
         self.bottomBtnSizer = wx.BoxSizer(wx.HORIZONTAL)
 
         #all bitmaps for buttons
-        leftArrow = wx.Bitmap(relative_textures_path + "new\\arrow_light_small_r.png", wx.BITMAP_TYPE_ANY)
-        rightArrow = wx.Bitmap(relative_textures_path + "new\\arrow_light_small.png", wx.BITMAP_TYPE_ANY)
-        leftLittleArrow = wx.Bitmap(relative_textures_path + "new\\arrow_green_head_small_r.png", wx.BITMAP_TYPE_ANY)
-        rightLittleArrow = wx.Bitmap(relative_textures_path + "new\\arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
+        leftArrow = wx.Bitmap(relative_textures_path + "arrow_light_small_r.png", wx.BITMAP_TYPE_ANY)
+        rightArrow = wx.Bitmap(relative_textures_path + "arrow_light_small.png", wx.BITMAP_TYPE_ANY)
+        leftLittleArrow = wx.Bitmap(relative_textures_path + "arrow_green_head_small_r.png", wx.BITMAP_TYPE_ANY)
+        rightLittleArrow = wx.Bitmap(relative_textures_path + "arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
         contentsIcon = wx.Bitmap(relative_textures_path + "small_notepad2.png", wx.BITMAP_TYPE_ANY)
         
         #all needed buttons
@@ -204,18 +204,18 @@ class TutorialPageView(wx.Panel):
     def prevTopic(self, event):
         leftID = self.page -1
         if (leftID//100) != (self.tabID):
-            #print ("leftID//100: "+ str(leftID//100)+"; self.tabID " + str(self.tabID))
+            print ("leftID//100: "+ str(leftID//100)+"; self.tabID " + str(self.tabID))
             leftID = self.nrOfPages-1 + 100*(self.tabID)
-            #print("leftID: " + str(leftID))
+            print("leftID: " + str(leftID))
         event.SetId(leftID)
         self.parent.showPageView(event)
 
     def nextTopic(self, event):
         rightID = self.page + 1
         if (rightID//100) != (self.tabID):
-            #print ("rightID//100: "+ str(rightID//100)+"; self.tabID " + str(self.tabID))
+            print ("rightID//100: "+ str(rightID//100)+"; self.tabID " + str(self.tabID))
             rightID = 100*(self.tabID)
-            #print("rightID: " + str(rightID))
+            print("rightID: " + str(rightID))
         event.SetId(rightID)
         self.parent.showPageView(event)
 

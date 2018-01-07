@@ -4,7 +4,6 @@ start /B python citySimNGView/Mediator.py
 cd controllerModules
 call gradle -q clean
 call gradle  build
-call gradle --stop
 cd ..
 start /B java ^
 -cp controllerModules\CreatorModule\bin;^

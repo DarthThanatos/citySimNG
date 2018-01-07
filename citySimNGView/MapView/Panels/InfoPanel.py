@@ -112,7 +112,7 @@ class InfoPanel(Panel):
         """ Set texture for stop production button according to building state """
         if self.curr_building.is_running:
             self.stop_production_button.set_texture(
-                relative_textures_path + 'new\\stop.png')
+                relative_textures_path + 'stop.png')
         else:
             self.stop_production_button.set_texture(
                 relative_textures_path + 'Start.png')
@@ -151,7 +151,7 @@ class InfoPanel(Panel):
             self.pos_x + self.width - DELETE_BUILDING_BUTTON_WIDTH * self.width,
             self.pos_y, DELETE_BUILDING_BUTTON_WIDTH * self.width,
             DELETE_BUILDING_BUTTON_HEIGHT * self.height,
-            relative_textures_path + 'new\\delete.png', del_building_fun,
+            relative_textures_path + 'delete.png', del_building_fun,
             self, "Delete building")
 
         self.stop_production_button = Button(
@@ -159,5 +159,5 @@ class InfoPanel(Panel):
             self.pos_y + self.height * DELETE_BUILDING_BUTTON_HEIGHT + self.height * SPACE,
             STOP_PRODUCTION_BUTTON_WIDTH * self.width,
             STOP_PRODUCTION_BUTTON_HEIGHT * self.height,
-            relative_textures_path + 'new\\stop.png', stop_production_fun,
+            relative_textures_path + 'stop.png', stop_production_fun,
             self, "Stop production in building")
