@@ -50,21 +50,27 @@ class TutorialPageView(wx.Panel):
         contentsIcon = wx.Bitmap(relative_textures_path + "small_notepad2.png", wx.BITMAP_TYPE_ANY)
         
         #all needed buttons
-        self.leftArrowBtn = wx.Button(self, label="  ", id=0,
+        self.leftArrowBtn = wx.Button(self, 
+            label="prevTopic",
             size=(leftArrow.GetWidth()+10, leftArrow.GetHeight()+5), 
-            name="prevTopic")
-        self.rightArrowBtn = wx.Button(self, label="  ", id=0,
+            style=wx.BU_NOTEXT)
+        self.rightArrowBtn = wx.Button(self, 
+            label="nextTopic",
             size=(rightArrow.GetWidth()+10, rightArrow.GetHeight()+5),
-            name="nextTopic")
-        leftLittleArrowBtn = wx.Button(self, label="  ", 
+            style=wx.BU_NOTEXT)
+        leftLittleArrowBtn = wx.Button(self, 
+            label="prevSubpage", 
             size=(leftLittleArrow.GetWidth()+10, leftLittleArrow.GetHeight()+5),
-            name="prevSubpage")
-        rightLittleArrowBtn = wx.Button(self, label="  ", 
+            style=wx.BU_NOTEXT)
+        rightLittleArrowBtn = wx.Button(self, 
+            label="nextSubpage", 
             size=(rightLittleArrow.GetWidth()+10, rightLittleArrow.GetHeight()+5),
-            name="nextSubpage")
-        contentsBtn = wx.Button(self, label=" ",
+            style=wx.BU_NOTEXT)
+        contentsBtn = wx.Button(self, 
+            label="contents",
             size=(contentsIcon.GetWidth(), contentsIcon.GetHeight()),
-            name="contents")
+            style=wx.BU_NOTEXT)
+
         self.leftArrowBtn.SetBitmap(leftArrow)
         self.rightArrowBtn.SetBitmap(rightArrow)
         leftLittleArrowBtn.SetBitmap(leftLittleArrow)
@@ -73,6 +79,8 @@ class TutorialPageView(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self.showMainView, contentsBtn)
         self.Bind(wx.EVT_BUTTON, self.nextSubPage, rightLittleArrowBtn)
         self.Bind(wx.EVT_BUTTON, self.prevSubPage, leftLittleArrowBtn)
+        self.Bind(wx.EVT_BUTTON, self.prevTopic, self.leftArrowBtn)
+        self.Bind(wx.EVT_BUTTON, self.nextTopic, self.rightArrowBtn)
 
         self.rightArrowBtn.SetToolTip(wx.ToolTip("Next topic"))
         self.leftArrowBtn.SetToolTip(wx.ToolTip("Previous topic"))
@@ -173,6 +181,7 @@ class TutorialPageView(wx.Panel):
             child.SetLabel(self.hyperlinks[i]['label'])
             child.SetId(self.hyperlinks[i]['id'])
             self.Bind(wx.EVT_HYPERLINK, self.moveToPage, child)
+
         for i in range (len(self.hyperlinks), self.maxNrOfHyperlinks):
             child = self.hyperlinkCtrls[i]
             child.SetLabel("")
@@ -190,23 +199,25 @@ class TutorialPageView(wx.Panel):
         elif self.tabID == 4:
             self.nrOfPages = len(self.parent.tab4.indexList)
 
+        self.centerSizer.Layout()
+
+    def prevTopic(self, event):
         leftID = self.page -1
         if (leftID//100) != (self.tabID):
             print ("leftID//100: "+ str(leftID//100)+"; self.tabID " + str(self.tabID))
             leftID = self.nrOfPages-1 + 100*(self.tabID)
             print("leftID: " + str(leftID))
-        self.leftArrowBtn.SetId(leftID)
+        event.SetId(leftID)
+        self.parent.showPageView(event)
 
+    def nextTopic(self, event):
         rightID = self.page + 1
         if (rightID//100) != (self.tabID):
             print ("rightID//100: "+ str(rightID//100)+"; self.tabID " + str(self.tabID))
             rightID = 100*(self.tabID)
             print("rightID: " + str(rightID))
-        self.rightArrowBtn.SetId(rightID)
-
-        self.Bind(wx.EVT_BUTTON, self.parent.showPageView, self.leftArrowBtn)
-        self.Bind(wx.EVT_BUTTON, self.parent.showPageView, self.rightArrowBtn)
-        self.centerSizer.Layout()
+        event.SetId(rightID)
+        self.parent.showPageView(event)
 
     def onShow(self, event):
         # print "Menu on show"

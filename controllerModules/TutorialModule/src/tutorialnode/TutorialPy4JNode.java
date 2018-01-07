@@ -115,6 +115,16 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 		Presenter.getInstance().getTutorialPresenter().displayDependenciesGraph(envelope);
 
 		//fetch tutorialIndex
+		fetchTutorialIndex();
+
+		//fetch buildings, dwellers, etc/
+		
+		//handle tutorialIndex to python view
+		Presenter.getInstance().getTutorialPresenter().fetchTutorialIndex(tutorialIndex);
+		Presenter.getInstance().getTutorialPresenter().fetchNodes(buildingsIndex, resourcesIndex, dwellersIndex);
+	}
+
+	private void fetchTutorialIndex(){
 		String line;
 		String page = "";
 			try {
@@ -141,33 +151,35 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 				nr = readPage.getInt(keyName);
 				tutorialIndex[nr] = keyName;
 			}
+	}
 
-		//fetch buildings, dwellers, etc/
+	private void fetchBuildingsIndex(){
 		buildingsIndex.clear();
-		resourcesIndex.clear();
-		dwellersIndex.clear();
-		
 		System.out.println("PROCESS BUILDINGS");
 		for (BuildingNode n : graphsHolder.getBuildingsGraphs()) {
 			buildingsIndex.add(n.getName());
 			getAllNodes(buildingsIndex, n, 'b');
 		}
-		System.out.println("PROCESS RESOURCES");
-		for (ResourceNode n : graphsHolder.getResourcesGraphs()) {
-			resourcesIndex.add(n.getName());
-			getAllNodes(resourcesIndex, n, 'r');
-		}
+	}
+
+	private void fetchDwellersIndex(){
+		dwellersIndex.clear();
 		System.out.println("PROCESS DWELLERS");
 		for (DwellerNode n : graphsHolder.getDwellersGraphs()) {
 			dwellersIndex.add(n.getName());
 			getAllNodes(dwellersIndex, n , 'd');
 		}
-
-		//handle tutorialIndex to python view
-		Presenter.getInstance().getTutorialPresenter().fetchTutorialIndex(tutorialIndex);
-		Presenter.getInstance().getTutorialPresenter().fetchNodes(buildingsIndex, resourcesIndex, dwellersIndex);
 	}
 
+	private void fetchResourcesIndex(){
+		resourcesIndex.clear();
+		System.out.println("PROCESS RESOURCES");
+		for (ResourceNode n : graphsHolder.getResourcesGraphs()) {
+			resourcesIndex.add(n.getName());
+			getAllNodes(resourcesIndex, n, 'r');
+		}
+	}
+	
 	private void getAllNodes(List<String> nodesIndex, GraphNode node, char type){
 		Map<String, GraphNode> children = node.getChildren();
 		for (String nextName : children.keySet()) {
@@ -211,19 +223,32 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 	public void onFetchPage(int pageNr){
 		int tabID = (int)(pageNr/100);
 		System.out.println("JAVAAAAA tabID: "+ tabID);
-        if (tabID == 1)
-        	onFetchTutorialPage(pageNr);
-		else if (tabID == 2)
-			onFetchBuildingPage(pageNr);
-		else if (tabID == 3) 
-			onFetchResourcePage(pageNr);
-		else if (tabID == 4)
-			onFetchDwellerPage(pageNr);
-		else
+		if (tabID > 4){
 			System.out.println("Something went wrong! (java, onFetchPage()");
+		}
+		else {
+			JSONObject result = onCorrectTabID(pageNr);
+			Presenter.getInstance().getTutorialPresenter().displayTutorialPage(envelope);
+		}	
 	}
 
-	public void onFetchTutorialPage(int pageNr){
+	private JSONObject onCorrectTabID(int pageNr){
+        if (tabID == 1)
+        	return onFetchTutorialPage(pageNr);
+
+		else{
+			if (tabID == 2){
+				return onFetchBuildingPage(pageNr);	
+			}
+			else if (tabID == 3) {
+				return onFetchResourcePage(pageNr);
+			}
+			else{
+				return onFetchDwellerPage(pageNr);
+			}
+		}
+	}
+	private JSONObject onFetchTutorialPage(int pageNr){
 		System.out.println("tutorialIndexEntries " + tutorialIndexEntries);
 		int realPageID = pageNr%100;
 		if (realPageID > tutorialIndexEntries)
@@ -238,10 +263,11 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 		}
 		JSONObject envelope = new JSONObject();
 		envelope.put("Args", readPage);
-		Presenter.getInstance().getTutorialPresenter().displayTutorialPage(envelope);
+		return envelope;
+//		Presenter.getInstance().getTutorialPresenter().displayTutorialPage(envelope);
 	}
 
-	public void onFetchNodePage(int pageNr, GraphNode node){
+	private JSONObject onFetchNodePage(int pageNr, GraphNode node){
 		String succesorInfo = "", predeccessorInfo = "";
 		if (node.getSucceessor() != null)
 			succesorInfo = "Successor: " + node.getSuccessorName();
@@ -260,10 +286,11 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 		data.put("img", node.getTexturePath());
 		data.put("link", new JSONArray());
 		envelope.put("Args", data);
-		Presenter.getInstance().getTutorialPresenter().displayTutorialPage(envelope);
+		return envelope;
+//		Presenter.getInstance().getTutorialPresenter().displayTutorialPage(envelope);
 	}
 
-	public void onFetchBuildingPage(int pageNr){
+	private JSONObject onFetchBuildingPage(int pageNr){
 		int realPageID = pageNr%100;
 		if (realPageID > buildingsIndex.size()-1)
             realPageID = 0;
@@ -273,9 +300,9 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 		String name = buildingsIndex.get(realPageID);
 		GraphNode node = graphsHolder.getBuildingNode(name);
 		System.out.println("["+node.getConcatenatedDescription()+"]");
-		onFetchNodePage(pageNr, node);	
+		return onFetchNodePage(pageNr, node);	
 	}
-	public void onFetchResourcePage(int pageNr){
+	private JSONObject onFetchResourcePage(int pageNr){
 		int realPageID = pageNr%100;
 		if (realPageID > resourcesIndex.size()-1)
             realPageID = 0;
@@ -285,9 +312,9 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 		String name = resourcesIndex.get(realPageID);
 		GraphNode node = graphsHolder.getResourceNode(name);
 		System.out.println(node.getConcatenatedDescription());
-		onFetchNodePage(pageNr, node);
+		return onFetchNodePage(pageNr, node);
 	}
-	public void onFetchDwellerPage(int pageNr){
+	private JSONObject onFetchDwellerPage(int pageNr){
 		int realPageID = pageNr%100;
 		if (realPageID > dwellersIndex.size()-1)
             realPageID = 0;
@@ -297,7 +324,7 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 		String name = dwellersIndex.get(realPageID);
 		GraphNode node = graphsHolder.getDwellerNode(name);
 		System.out.println(node.getConcatenatedDescription());
-		onFetchNodePage(pageNr, node);
+		return onFetchNodePage(pageNr, node);
 	}
 
 }

@@ -5,7 +5,7 @@ from utils.RelativePaths import relative_textures_path
 
 class MainTab(wx.Panel):
     def __init__(self, parent, master, tabID):
-        wx.Panel.__init__(self, parent)
+        wx.Panel.__init__(self, parent, name="Tab"+str(tabID))
         self.parent = parent
         self.master = master
         self.centerSizer = wx.BoxSizer(wx.VERTICAL)
@@ -17,19 +17,19 @@ class MainTab(wx.Panel):
 
         self.initContentList()
 
-    def addListElem(self, font, i):
-        #print("Add list item: " + str(i))
-        elemField = wx.StaticText(self, label="                         ") #elemField = wx.StaticText(self, label=self.master.content[i])
-        elemID = i
-        elemField.SetFont(font)
-        arrowNew = wx.Bitmap(relative_textures_path+"new\\arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
-        arrowButton = wx.Button(self, id=elemID, label="  ", 
-            size=(arrowNew.GetWidth()+10, arrowNew.GetHeight()+5),
-            name="Tab"+str(self.tabID)+"Button")
-        arrowButton.SetBitmap(arrowNew)
+    # def addListElem(self, font, i):
+    #     #print("Add list item: " + str(i))
+    #     elemField = wx.StaticText(self, label="                         ") #elemField = wx.StaticText(self, label=self.master.content[i])
+    #     elemID = i
+    #     elemField.SetFont(font)
+    #     arrowNew = wx.Bitmap(relative_textures_path+"new\\arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
+    #     arrowButton = wx.Button(self, id=elemID, label="  ", 
+    #         size=(arrowNew.GetWidth()+10, arrowNew.GetHeight()+5),
+    #         name="Tab"+str(self.tabID)+"Button")
+    #     arrowButton.SetBitmap(arrowNew)
 
-        listItem = {'elemField': elemField, 'arrowButton': arrowButton}
-        self.listCtrls.append(listItem)
+    #     listItem = {'elemField': elemField, 'arrowButton': arrowButton}
+    #     self.listCtrls.append(listItem)
 
     def initContentList(self):
         """ This function creates content list and buttons, sets theirs positions and size and
@@ -65,9 +65,10 @@ class MainTab(wx.Panel):
             elemID = i + 100*self.tabID
             elemField.SetFont(font)
             arrowNew = wx.Bitmap(relative_textures_path+"new\\arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
-            arrowButton = wx.Button(self, id=elemID, label="  ", 
+            arrowButton = wx.Button(self, id=elemID, 
+                label="TabBtn"+str(elemID), 
                 size=(arrowNew.GetWidth()+10, arrowNew.GetHeight()+5),
-                name="Tab"+str(self.tabID)+"Button")
+                style=wx.BU_NOTEXT)
             arrowButton.SetBitmap(arrowNew)
             self.Bind(wx.EVT_BUTTON, self.master.showPageView, arrowButton)
 
@@ -88,12 +89,12 @@ class MainTab(wx.Panel):
             self.leftBox.Layout()
         for i in range(len(self.middleBox.GetChildren())):
             self.middleBox.Hide(0, recursive=True)
-            self.leftBox.Layout()
+            self.middleBox.Layout()
             self.middleBox.Remove(0)
             self.middleBox.Layout()
         for i in range(len(self.rightBox.GetChildren())):
             self.rightBox.Hide(0, recursive=True)
-            self.leftBox.Layout()
+            self.rightBox.Layout()
             self.rightBox.Remove(0)
             self.rightBox.Layout()
 
@@ -104,8 +105,8 @@ class MainTab(wx.Panel):
         print("indexList:")
         print(self.indexList)
         contentSize = len(indexList)
-        if contentSize > self.master.maxNrOfItemsOnList:
-            contentSize = self.master.maxNrOfItemsOnList
+        # if contentSize > self.master.maxNrOfItemsOnList:
+        #     contentSize = self.master.maxNrOfItemsOnList
 
         contentOne = contentTwo = contentSize//3
         if contentSize % 3 >= 1:

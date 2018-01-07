@@ -55,7 +55,7 @@ class TutorialView(ScrolledPanel):
         self.centerSizer.AddSpacer(10)
 
     def initTutorialTabs(self):
-        tabs = wx.Notebook(self)
+        tabs = wx.Notebook(parent=self, name="tutorialNotebook")
         # Create the tab windows
         self.tab1 = MainTab(tabs,self, 1)
         self.tab2 = MainTab(tabs,self, 2)
