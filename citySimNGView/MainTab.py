@@ -17,20 +17,6 @@ class MainTab(wx.Panel):
 
         self.initContentList()
 
-    # def addListElem(self, font, i):
-    #     #print("Add list item: " + str(i))
-    #     elemField = wx.StaticText(self, label="                         ") #elemField = wx.StaticText(self, label=self.master.content[i])
-    #     elemID = i
-    #     elemField.SetFont(font)
-    #     arrowNew = wx.Bitmap(relative_textures_path+"new\\arrow_green_head_small.png", wx.BITMAP_TYPE_ANY)
-    #     arrowButton = wx.Button(self, id=elemID, label="  ", 
-    #         size=(arrowNew.GetWidth()+10, arrowNew.GetHeight()+5),
-    #         name="Tab"+str(self.tabID)+"Button")
-    #     arrowButton.SetBitmap(arrowNew)
-
-    #     listItem = {'elemField': elemField, 'arrowButton': arrowButton}
-    #     self.listCtrls.append(listItem)
-
     def initContentList(self):
         """ This function creates content list and buttons, sets theirs positions and size and
             binds logic to them."""
@@ -38,14 +24,6 @@ class MainTab(wx.Panel):
         self.middleBox = wx.BoxSizer(wx.VERTICAL)
         self.rightBox = wx.BoxSizer(wx.VERTICAL)
         self.contentBox = wx.BoxSizer(wx.HORIZONTAL)
-
-        # listFont = self.master.tutorialFont
-        # listFont.SetPointSize(18)
-
-        # contentSize = self.master.maxNrOfItemsOnList
-
-        # for i in range(contentSize):
-        #     self.addListElem(listFont, i)
 
         self.contentBox.Add(self.leftBox,0)
         self.contentBox.AddSpacer(50)
@@ -81,7 +59,6 @@ class MainTab(wx.Panel):
             box.AddSpacer(10)
 
     def fillContentList(self, indexList):
-        # print "\nFilling content list"
         for i in range(len(self.leftBox.GetChildren())):
             self.leftBox.Hide(0, recursive=True)
             self.leftBox.Layout()
@@ -102,8 +79,6 @@ class MainTab(wx.Panel):
         listFont.SetPointSize(18)
 
         self.indexList = indexList
-        print("indexList:")
-        print(self.indexList)
         contentSize = len(indexList)
         # if contentSize > self.master.maxNrOfItemsOnList:
         #     contentSize = self.master.maxNrOfItemsOnList
@@ -114,7 +89,6 @@ class MainTab(wx.Panel):
         if contentSize % 3 == 2:
             contentTwo +=1
 
-        #contentHalf = contentSize - (contentSize // 2)
         for i in range(contentOne):
             self.fillListItem(i, listFont, self.leftBox)
 

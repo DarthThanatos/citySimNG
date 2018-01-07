@@ -86,8 +86,8 @@ class TutorialView(ScrolledPanel):
         self.pageView.centerSizer.ShowItems(False)
 
     def showPageView(self, event):
-        print "\nshowPageView"
-        print "TutorialView: requestPage executed"
+        # print "\nshowPageView"
+        # print "TutorialView: requestPage executed"
         print "PageID: " + str(event.GetId())
         self.sender.entry_point.getTutorialPresenter().fetchPage(event.GetId())
 

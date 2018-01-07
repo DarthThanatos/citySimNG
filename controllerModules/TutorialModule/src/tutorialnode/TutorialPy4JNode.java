@@ -118,6 +118,9 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 		fetchTutorialIndex();
 
 		//fetch buildings, dwellers, etc/
+		fetchBuildingsIndex();
+		fetchDwellersIndex();
+		fetchResourcesIndex();
 		
 		//handle tutorialIndex to python view
 		Presenter.getInstance().getTutorialPresenter().fetchTutorialIndex(tutorialIndex);
@@ -227,12 +230,13 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 			System.out.println("Something went wrong! (java, onFetchPage()");
 		}
 		else {
-			JSONObject result = onCorrectTabID(pageNr);
+			JSONObject envelope = onCorrectTabID(pageNr);
 			Presenter.getInstance().getTutorialPresenter().displayTutorialPage(envelope);
 		}	
 	}
 
 	private JSONObject onCorrectTabID(int pageNr){
+		int tabID = (int)(pageNr/100);
         if (tabID == 1)
         	return onFetchTutorialPage(pageNr);
 

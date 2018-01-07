@@ -204,18 +204,18 @@ class TutorialPageView(wx.Panel):
     def prevTopic(self, event):
         leftID = self.page -1
         if (leftID//100) != (self.tabID):
-            print ("leftID//100: "+ str(leftID//100)+"; self.tabID " + str(self.tabID))
+            #print ("leftID//100: "+ str(leftID//100)+"; self.tabID " + str(self.tabID))
             leftID = self.nrOfPages-1 + 100*(self.tabID)
-            print("leftID: " + str(leftID))
+            #print("leftID: " + str(leftID))
         event.SetId(leftID)
         self.parent.showPageView(event)
 
     def nextTopic(self, event):
         rightID = self.page + 1
         if (rightID//100) != (self.tabID):
-            print ("rightID//100: "+ str(rightID//100)+"; self.tabID " + str(self.tabID))
+            #print ("rightID//100: "+ str(rightID//100)+"; self.tabID " + str(self.tabID))
             rightID = 100*(self.tabID)
-            print("rightID: " + str(rightID))
+            #print("rightID: " + str(rightID))
         event.SetId(rightID)
         self.parent.showPageView(event)
 
