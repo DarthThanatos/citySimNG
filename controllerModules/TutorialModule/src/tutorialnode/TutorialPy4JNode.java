@@ -104,7 +104,7 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 
 	@Override
 	public void atStart() {
-		graphsHolder = dr.getGraphsHolder();
+		initGraphsHolder();
 		TutorialPresenter tutorialPresenter = Presenter.getInstance().getTutorialPresenter();
 		tutorialPresenter.setOnTutorialPresenterCalled(this);
 		tutorialPresenter.displayTutorial();
@@ -125,6 +125,10 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 		//handle tutorialIndex to python view
 		Presenter.getInstance().getTutorialPresenter().fetchTutorialIndex(tutorialIndex);
 		Presenter.getInstance().getTutorialPresenter().fetchNodes(buildingsIndex, resourcesIndex, dwellersIndex);
+	}
+
+	private void initGraphsHolder(){
+		graphsHolder = dr.getGraphsHolder();
 	}
 
 	private void fetchTutorialIndex(){
