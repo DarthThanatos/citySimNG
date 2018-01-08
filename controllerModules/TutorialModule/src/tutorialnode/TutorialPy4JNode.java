@@ -35,6 +35,7 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 	private List<String> resourcesIndex;
 	private List<String> dwellersIndex;
 	private GraphsHolder graphsHolder;
+	private String resourcesPath = "";
 
 	public TutorialPy4JNode(DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName) {
 		super(dr, dispatchCenter, nodeName);
@@ -44,6 +45,17 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 		buildingsIndex = new ArrayList<String>();
 		resourcesIndex = new ArrayList<String>();
 		dwellersIndex = new ArrayList<String>();
+	}
+
+	public TutorialPy4JNode (String resourcesPath, DependenciesRepresenter dr, DispatchCenter dispatchCenter, String nodeName){
+		super(dr, dispatchCenter, nodeName);
+		readPage = new JSONObject("{}");
+		hintSender = new HintSender(this, dispatchCenter.getEventBus());
+
+		buildingsIndex = new ArrayList<String>();
+		resourcesIndex = new ArrayList<String>();
+		dwellersIndex = new ArrayList<String>();
+		this.resourcesPath = resourcesPath;
 	}
 
 
@@ -88,7 +100,7 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 	public void readPage(int pageID) throws IOException{
 		String line;
 		String page = "";
-			tutorialReader = new BufferedReader(new FileReader ("resources\\Tutorial\\page"+pageID+".json"));
+			tutorialReader = new BufferedReader(new FileReader (resourcesPath + "resources\\Tutorial\\page"+pageID+".json"));
 			while ((line = tutorialReader.readLine()) != null) {
 				System.out.println("line = " + line);
 				page = page.concat(line); 
@@ -135,7 +147,7 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 		String line;
 		String page = "";
 			try {
-				tutorialReader = new BufferedReader(new FileReader ("resources\\Tutorial\\tutorialIndex.json"));
+				tutorialReader = new BufferedReader(new FileReader (resourcesPath + "resources\\Tutorial\\tutorialIndex.json"));
 				while ((line = tutorialReader.readLine()) != null) {
 					System.out.println("line = " + line);
 					page = page.concat(line); 

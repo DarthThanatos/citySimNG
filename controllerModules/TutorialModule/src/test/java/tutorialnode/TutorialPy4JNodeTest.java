@@ -60,18 +60,31 @@ public class TutorialPy4JNodeTest{
             "Exchange - transactions",
             "Exchange - lottery"
         };
+
+    private static final String RESOURCE_DESCRIPTION = "Resource description";
+    private static final String DWELLER_DESCRIPTION = "Dweller description";
+    private static final String BUILDING_DESCTIPTION = "Building description";
     private List<String> buildingsIndex;
     private List<String> resourcesIndex;
     private List<String> dwellersIndex;
     private ResourceNode resourceNode;
     private BuildingNode buildingNode;
     private DwellerNode dwellerNode;
+    private Resource resource;
+    private Building building;
+    private Dweller dweller;
+
+    private ArrayList<String> descriptionList;
 
 
     private void initIndexes(){
-        Resource resource = new Resource();
-        Building building = new Building();
-        Dweller dweller = new Dweller();
+        resource = new Resource();
+        building = new Building();
+        dweller = new Dweller();
+
+        resource.setDescription(RESOURCE_DESCRIPTION);
+        building.setDescription(BUILDING_DESCTIPTION);
+        dweller.setDescription(DWELLER_DESCRIPTION);
 
         resourceNode = new ResourceNode(resource);
         buildingNode = new BuildingNode(building);
@@ -80,6 +93,12 @@ public class TutorialPy4JNodeTest{
         dwellersIndex = new ArrayList(Arrays.asList(dwellerNode.getName()));
         buildingsIndex = new ArrayList(Arrays.asList(buildingNode.getName()));
         resourcesIndex = new ArrayList(Arrays.asList(resourceNode.getName()));
+
+        descriptionList = new ArrayList(Arrays.asList(
+            resourceNode.getName() + ": " + RESOURCE_DESCRIPTION,
+            dwellerNode.getName() + ": " + DWELLER_DESCRIPTION,
+            buildingNode.getName() + ": " + BUILDING_DESCTIPTION
+            ));
     }
 
     private void mockDispatchCenter(){
@@ -95,6 +114,10 @@ public class TutorialPy4JNodeTest{
         when(graphsHolder.getBuildingNode(buildingNode.getName())).thenReturn(buildingNode);
         when(graphsHolder.getResourceNode(resourceNode.getName())).thenReturn(resourceNode);
         when(graphsHolder.getDwellerNode(dwellerNode.getName())).thenReturn(dwellerNode);
+
+        when(graphsHolder.getRandomBuilding()).thenReturn(building);
+        when(graphsHolder.getRandomDweller()).thenReturn(dweller);
+        when(graphsHolder.getRandomResource()).thenReturn(resource);
     }
 
     private void mockDependenciesRepresenter(){
@@ -122,30 +145,24 @@ public class TutorialPy4JNodeTest{
         assertNotNull(dr.getGraphsHolder());
     }
 
-    // @Test
-    // public void testFetchIndexes() 
-    // throws NoSuchMethodException, IllegalAccessException, NoSuchFieldException, InvocationTargetException{
-    // 	TutorialPy4JNode tutorial = new TutorialPy4JNode(dr, dispatchCenter, "tutorial");
-    //     tutorial.atStart();
-    //     Method m = tutorial.getClass().getDeclaredMethod("at");
-    //     m.setAccessible(true);
-    //     m.invoke(tutorial);
+    @Test
+    public void testFetchTutorialIndex() 
+    throws NoSuchMethodException, IllegalAccessException, NoSuchFieldException, InvocationTargetException{
+    	TutorialPy4JNode tutorial = new TutorialPy4JNode("..\\..\\", dr, dispatchCenter, "tutorial");
+        Method m = tutorial.getClass().getDeclaredMethod("fetchTutorialIndex");
+        m.setAccessible(true);
+        m.invoke(tutorial);
 
-    //     Field f2 = tutorial.getClass().getDeclaredField("TMP_PAGE");
-    //     f2.setAccessible(true);
-    //     assertNotNull( (String)(f2.get(tutorial)));
-    //     assertFalse(("IOException").equals((String)(f2.get(tutorial))));
+        Field f = tutorial.getClass().getDeclaredField("tutorialIndex");
+        f.setAccessible(true);
+        String[] fValue = (String[])(f.get(tutorial));
 
-    //     Field f = tutorial.getClass().getDeclaredField("tutorialIndex");
-    //     f.setAccessible(true);
-    //     String[] fValue = (String[])(f.get(tutorial));
-
-    //     assertNotNull(fValue);
-    //     assertEquals(TUTORIAL_INDEX.length, fValue.length);
-    //     for (int i = 0; i < TUTORIAL_INDEX.length; i++) {
-    //         assertEquals(TUTORIAL_INDEX[i], fValue[i]);
-    //     }
-    // }
+        assertNotNull(fValue);
+        assertEquals(TUTORIAL_INDEX.length+1, fValue.length);
+        for (int i = 0; i < TUTORIAL_INDEX.length; i++) {
+            assertEquals(TUTORIAL_INDEX[i], fValue[i]);
+        }
+    }
 
     @Test
     public void testFetchBuildingsIndex() 
@@ -283,5 +300,18 @@ public class TutorialPy4JNodeTest{
         assertTrue(args.get("sub0") instanceof JSONArray);
         assertTrue(args.get("img") instanceof String);
         assertTrue(args.get("link") instanceof JSONArray);
+    }
+
+    @Test
+    public void onGetHints() 
+    throws NoSuchMethodException, IllegalAccessException, InvocationTargetException{
+        TutorialPy4JNode tutorial = new TutorialPy4JNode(dr, dispatchCenter, "tutorial");
+        Method m = tutorial.getClass().getDeclaredMethod("initGraphsHolder");
+        m.setAccessible(true);
+        m.invoke(tutorial);
+
+        String hint = tutorial.getHints();
+
+        assertTrue(descriptionList.contains(hint));
     }
 }
