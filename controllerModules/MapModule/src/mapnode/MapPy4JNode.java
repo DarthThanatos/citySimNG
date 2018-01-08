@@ -210,7 +210,6 @@ public class MapPy4JNode extends Py4JNode implements MapPresenter.OnMapPresenter
 
         for(Dweller dweller: dwellers.getAllDewellers().values())
             dwellersSummary.put(dweller.getName(), 0);
-        System.out.println(dwellersSummary);
 
         for(Building building: buildings.getPlayerDomesticBuildings().values())
             domesticBuildingsSummary.put(building.getName(), domesticBuildingsSummary.get(building.getName()) + 1);

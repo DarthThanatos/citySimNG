@@ -366,7 +366,6 @@ class MapView(wx.Panel):
         self.parent.parent.turnLoadingScreenOff()
 
     def handle_hints(self, hints):
-        print hints[:5]
         hint_modal_sprite = ClosedHintModal(self.game.board_height,
                                             HINT_WIDTH * self.game.board_width,
                                             HINT_HEIGHT * self.game.board_height,
