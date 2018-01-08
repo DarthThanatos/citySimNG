@@ -97,7 +97,7 @@ public class TutorialPy4JNode extends Py4JNode implements TutorialPresenter.OnTu
 	}
 
 
-	public void readPage(int pageID) throws IOException{
+	private void readPage(int pageID) throws IOException{
 		String line;
 		String page = "";
 			tutorialReader = new BufferedReader(new FileReader (resourcesPath + "resources\\Tutorial\\page"+pageID+".json"));

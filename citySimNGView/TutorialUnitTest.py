@@ -11,13 +11,13 @@ class TutorialUnitTest(unittest.TestCase):
     def setUp(self):
         self.app = wx.App(False)
         os.chdir("..")
-        holder = TutorialHolder( parent = None , tplSize = (0,0), sender = None, gateway = None)
+        holder = TutorialHolder( parent = None , tplSize = (100,100), sender = None, gateway = None)
         self.tutorial = holder.tutorialView
 
     def tearDown(self):
         os.chdir("citySimNGView")
 
-    def testDisplayTutorialIndex(self): #czy zgadza sie liczba na konkrentych kartach
+    def testDisplayTutorialIndex(self):
         TUTORIAL_INDEX = [
             "Game - overview",
             "Tutorial - how to use",
@@ -74,6 +74,28 @@ class TutorialUnitTest(unittest.TestCase):
         self.tutorial.fetchNodes([], [], DWELLER_INDEX)
         mySum2 = len(self.tutorial.tab4.leftBox.GetChildren()) + len(self.tutorial.tab4.middleBox.GetChildren()) + len(self.tutorial.tab4.rightBox.GetChildren())
         self.assertEqual(mySum2/2, len(DWELLER_INDEX))
+
+    def testTutorialPage(self):
+        nr = 315
+        sub0 = "CitySimNG"
+        img = "resources\\Tutorial\\img6.jpg";
+        page = {
+            "Args":
+                {
+                "nr": nr,
+                "sub0": [sub0,],
+                "sub1": ["Start!",],
+              "img": img,
+                "link": []
+            }}
+        self.tutorial.displayTutorialPage(page)
+        self.assertEqual(self.tutorial.pageView.contentField.GetValue(), sub0+"\n")
+        self.assertEqual(self.tutorial.pageView.subPage, 0)
+        self.assertEqual(self.tutorial.pageView.nrOfSubpages, 2)
+        self.assertEqual(self.tutorial.pageView.page, nr)
+        self.assertEqual(self.tutorial.pageView.tabID, 3)
+        # self.assertEqual(self.tutorial.pageView.hyperlinks[0]['label'], "")
+
 
 if __name__ == '__main__':
     unittest.main()

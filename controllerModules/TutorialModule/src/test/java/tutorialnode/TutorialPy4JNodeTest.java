@@ -224,10 +224,19 @@ public class TutorialPy4JNodeTest{
         assertEquals(dwellersIndex, fValue);    
     }
 
-    // @Test
-    // public void onFetchTutorialPage(){
+    @Test
+    public void onFetchTutorialPage()
+        throws NoSuchMethodException, IllegalAccessException, NoSuchFieldException, InvocationTargetException{
+        TutorialPy4JNode tutorial = new TutorialPy4JNode("..\\..\\", dr, dispatchCenter, "tutorial");
+        Method m = tutorial.getClass().getDeclaredMethod("fetchTutorialIndex");
+        m.setAccessible(true);
+        m.invoke(tutorial);
 
-    // }
+        m = tutorial.getClass().getDeclaredMethod("onCorrectTabID", int.class);
+        m.setAccessible(true);
+        JSONObject result = (JSONObject)(m.invoke(tutorial, 100));
+        checkResultCorrectness(result);
+    }
 
     @Test
     public void onFetchBuildingsPage()
